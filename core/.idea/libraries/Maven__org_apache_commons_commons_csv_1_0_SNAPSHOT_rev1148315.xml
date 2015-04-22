@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.apache.commons:commons-csv:1.0-SNAPSHOT-rev1148315">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-csv/1.0-SNAPSHOT-rev1148315/commons-csv-1.0-SNAPSHOT-rev1148315.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-csv/1.0-SNAPSHOT-rev1148315/commons-csv-1.0-SNAPSHOT-rev1148315-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-csv/1.0-SNAPSHOT-rev1148315/commons-csv-1.0-SNAPSHOT-rev1148315-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

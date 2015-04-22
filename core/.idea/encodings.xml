@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/../any23Extension" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../nlptools" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../sides" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../sindice4j-api3" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../test" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../triplesearch/src/main/java/uk/ac/shef/dcs/oak/triplesearch/Triple.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../websearch" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../xpath" charset="UTF-8" />
+  </component>
+</project>
+

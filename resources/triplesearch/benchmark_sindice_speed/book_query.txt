@@ -1,0 +1,14 @@
+#"http://api.sindice.com"
+
+# A list of sindice queries to test the speed of the Sindice server
+# Your query must be compliant with the Sindice V3 API. Failure to do so may cause the program to terminate
+# unexpectedly. 
+# FORTMAT:
+# 1 query per line. On each line you must specify the "keyword" query (q), the "ntriple" query (nq) and the "fitler"
+# (fq). If any of these paramters do not apply leave it empty. Each paramter must be "double quoted".
+#
+
+
+#1. Give me all instances of "Book"
+#"","* <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Book>","format:(RDF OR RDFA OR MICRODATA)"domain:www.goodreads.com
+"","* <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Book>","domain:www.goodreads.com"

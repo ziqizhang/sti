@@ -1,0 +1,159 @@
+                                    ------
+                                    Apache Any23 - Plugins
+                                    ------
+                              The Apache Software Foundation
+                                    ------
+                                     2011-2012
+
+~~  Licensed to the Apache Software Foundation (ASF) under one or more
+~~  contributor license agreements.  See the NOTICE file distributed with
+~~  this work for additional information regarding copyright ownership.
+~~  The ASF licenses this file to You under the Apache License, Version 2.0
+~~  (the "License"); you may not use this file except in compliance with
+~~  the License.  You may obtain a copy of the License at
+~~
+~~     http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~  Unless required by applicable law or agreed to in writing, software
+~~  distributed under the License is distributed on an "AS IS" BASIS,
+~~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~  See the License for the specific language governing permissions and
+~~  limitations under the License.
+
+Apache Any23 Plugins
+
+* Introduction
+
+    This section describes the <Apache Any23> plugins support.
+
+    <Apache Any23> comes with a set of predefined plugins.
+    Such plugins are located under the <any23-root>/<<plugins>> dir.
+
+    A plugin is a standard <Maven3> module containing any implementation of
+
+    * {{{./xref/org/apache/any23/plugin/ExtractorPlugin.html}ExtractorPlugin}}
+
+    * {{{./xref/org/apache/any23/cli/Tool.html}Tool}}
+
+* How to Register a Plugin
+
+   A plugin can be added to the <Apache Any23 CLI> interface by:
+
+   * adding its <JAR> to the <Apache Any23> <JVM classpath>;
+
+   * adding its <JAR> to the CLASSPATH_PREFIX environment variable as:
+
++-----------------------------------------------------------------------------------------------------------
+export CLASSPATH_PREFIX=../../../plugins/basic-crawler/target/any23-basic-crawler-VERSION.jar
++-----------------------------------------------------------------------------------------------------------
+
+   * adding its <JAR> to the <$HOME/.any23/plugins> directory.
+
+   A plugin can be added to the <Apache Any23 library API> by using the
+   {{{./xref/org/apache/any23/plugin/Any23PluginManager.html}Any23PluginManager}}#createInstance(Configuration configuration, File... pluginLocations)
+   method.
+
+   TODO: plugin support in Apache Any23 Service
+
+    Any implementation of <ExtractorPlugin> will automatically registered to the
+    {{{./xref/org/apache/any23/extractor/ExtractorRegistry.html}ExtractorRegistry}}.
+
+    Any detected implementation of <Tool> will be listed by the <ToolRunner>
+    command-line tool in <any23-root/><<bin/any23>> .
+
+* How to Build a Plugin
+
+   <Apache Any23> takes care to <test> and <package> plugins when distributed from its reactor <POM>.
+   It is aways possible to rebuild a plugin using the command:
+
++------------------------------------------
+<plugin-dir>$ mvn clean assembly:assembly
++------------------------------------------
+
+* How to Write an Extractor Plugin
+
+   An <Extractor Plugin> is a class:
+
+   * implementing the {{{./xref/org/apache/any23/plugin/ExtractorPlugin.html}ExtractorPlugin}} interface;
+
+   * packaged under <<org.apache.any23.plugin>> .
+
+   An example of plugin is defined below.
+
++--------------------------------------
+@Author(name="Michele Mostarda (mostarda@fbk.eu)")
+public class HTMLScraperPlugin implements ExtractorPlugin {
+
+    private static final Logger logger = LoggerFactory.getLogger(HTMLScraperPlugin.class);
+
+    @Init
+    public void init() {
+        logger.info("Plugin initialization.");
+    }
+
+    @Shutdown
+    public void shutdown() {
+        logger.info("Plugin shutdown.");
+    }
+
+    public ExtractorFactory getExtractorFactory() {
+        return HTMLScraperExtractor.factory;
+    }
+
+}
++--------------------------------------
+
+* How to Write a Tool Plugin
+
+   A <Tool Plugin> is a Java class that:
+
+   * implementing the {{{./xref/org/apache/any23/cli/Tool.html}Tool}} interface;
+
+   * CLI parameters are extracted by annotating the class members with {{{http://jcommander.org/}JCommander}} annotations.
+
+   * have to be found using the {{{http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html}ServiceLoader}}
+     (we usually plug the Kohsuke's {{{http://weblogs.java.net/blog/kohsuke/archive/2009/03/my_project_of_t.html}generator}})
+
+   An example of plugin is defined below.
+
++--------------------------------------
+@MetaInfServices
+@Parameters(commandNames = { "myexec" }, commandDescription = "Prints out XXX used by Any23.")
+public class MyExecutableTool implements Tool {
+
+    @Parameter(names = { "-u", "--urls" }, description = "URLs to process")
+    private List<URL> pairs;
+
+    public void run() throws Exception;
+        
+    }
+
+}
++--------------------------------------
+
+  So when executing <<<any23>>, the <<<myexec>>> will be available in the commands list.
+
+* Available Extractor Plugins
+
+  * HTML Scraper Plugin
+
+    The <HTMLScraperPlugin> is able to scrape plain text content from any HTML page
+    and transform it into statement literals.
+
+    This plugin is documented {{{./plugin-html-scraper.html}here}}.
+
+  * Office Scraper Plugins
+
+    The <Office Scraper Plugins> allow to extract semantic content from several
+    <Microsoft Office> document formats.
+
+    These plugins are documented {{{./plugin-office-scraper.html}here}}.
+
+* Available CLI Tool Plugins
+
+  * Crawler CLI Tool
+
+    The {{{./xref/org/apache/any23/cli/Crawler.html}Crawler CLI Tool}} is an extension of the
+    {{{./xref/org/apache/any23/cli/Rover.html}Rover CLI Tool}} to add site crawling basic
+    capabilities. More information about the <CLI> can be found at
+    {{{./getting-started.html#crawler-tool}Getting Started - Crawler Tool}} section.

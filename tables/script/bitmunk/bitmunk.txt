@@ -1,0 +1,4 @@
+#!/bin/bash 
+#$ -m bea -M a.gentile@shef.ac.uk -l h_rt=168:00:00 
+module add apps/java/1.6 
+java -Xmx2048m -Dlog4j.configuration=file:///fastdata/ac1ag/tables/log4j.properties -jar /fastdata/ac1ag/tables/lodie-tables-1.0-jar-with-dependencies.jar /fastdata/ac1ag/tables/bitmunk/bitmunk_query.txt /fastdata/ac1ag/tables/bitmunk/bitmunk_websites.txt 1000 

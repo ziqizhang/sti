@@ -1,0 +1,52 @@
+"http://api.sindice.com"
+
+# A list of sindice queries to test the speed of the Sindice server
+# Your query must be compliant with the Sindice V3 API. Failure to do so may cause the program to terminate
+# unexpectedly. 
+# FORTMAT:
+# 1 query per line. On each line you must specify the "keyword" query (q), the "ntriple" query (nq) and the "fitler"
+# (fq). If any of these paramters do not apply leave it empty. Each paramter must be "double quoted".
+#
+
+
+#1. Give me all instances of "Person"
+"","* <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> 'Person'","format:(RDF OR RDFA OR MICRODATA)"
+#2. Give me all instances of "Person"
+"","* <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> 'Animal'",""
+#3. Give me all instances of "Person"
+"","* <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> 'Airline'",""
+#4. Give me all instances of "Person"
+"","* <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> 'Company'",""
+#5. Give me all instances of "Person"
+"","* <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> 'Artist'",""
+#6. Give me all instances of "Person"
+"","* <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person>",""
+#7. Give me all instances of "Person"
+"","* <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Animal>",""
+#8. Give me all instances of "Person"
+"","* <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Airline>",""
+#9. Give me all instances of "Person"
+"","* <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Company>",""
+#10. Give me all instances of "Person"
+"","* <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>","format:(RDF OR RDFA OR MICRODATA)"
+#11. Give me all relation instances of <http://dbpedia.org/property/birthPlace>
+"","* <http://dbpedia.org/property/birthPlace> *",""
+#12. Give me all relation instances of 'birthDate'
+"","* <birthdate> *",""
+#13. Give me all relation instances of 'nationality'
+"","* <nationality> *",""
+#14. Give me all relation instances of 'name'
+"","* <name> *",""
+#15. Give me all instances whose <http://xmlns.com/foaf/0.1/givenName> contains 'Nick'
+"","* <http://xmlns.com/foaf/0.1/givenName> 'nick'",""
+#16. Give me all instances whose 'givenName' contains 'Nick'
+"","* <givenname> 'nick'",""
+#17. Give me all relation instances of '<chairperson>'
+"","* <chairperson> *",""
+#18. Give me all relation instances of '<product>'
+"","* <product> *",""
+#19. Give me all instances of "http://dbpedia.org/ontology/Airline" and that form a relation "http://dbpedia.org/property/alliance" with 
+#   any airline alliances whose name includes 'star'
+"","* <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Airline> AND * <http://dbpedia.org/property/alliance> 'star'",""
+#   any compnaies whose headquarter is in london
+"","* <type> 'company' AND * <headquarter> 'London'",""

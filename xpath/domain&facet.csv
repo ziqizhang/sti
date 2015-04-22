@@ -1,0 +1,16 @@
+university	collegeboard (4)	 collegenavigator (4)	 collegeprowler (4)	 collegetoolkit (3)	 ecampustours (4)	 embark (4)	 matchcollege (4)	 princetonreview (2)	 studentaid (4)	 usnews (4)	 
+	0.989375	1.0	0.999625	1.0	1.0	0.9097500000000001	0.9285	0.769105691	0.927875	1.0	
+camera	amazon (3)	 beachaudio (3)	 buy (3)	 compsource (3)	 ecost (3)	 jr (3)	 newegg (3)	 onsale (3)	 pcnation (3)	 thenerds (3)	 
+	0.5053763436666667	0.8002699053333333	0.4633333333333334	0.8054263566666666	0.8270133623333332	0.5731153496666667	0.793939394	1.0	0.8062678063333334	1.0	
+book	abebooks (5)	 amazon (5)	 barnesandnoble (5)	 bookdepository (5)	 booksamillion (5)	 borders (5)	 buy (4)	 christianbook (5)	 deepdiscount (5)	 waterstones (5)	 
+	0.9695	0.523	0.9181000000000001	0.9248999999999998	0.9982	0.9752000000000001	0.7095	0.6854	0.7779	0.9907999999999999	
+movie	allmovie (4)	 amctv (3)	 boxofficemojo (4)	 hollywood (4)	 iheartmovies (4)	 imdb (4)	 metacritic (4)	 msn (4)	 rottentomatoes (4)	 yahoo (4)	 
+	0.36012500000000003	0.9991666666666666	0.9045	0.990125	0.935875	0.803625	0.975625	0.940875	0.900625	0.853	
+job	careerbuilder (3)	 dice (4)	 hotjobs (4)	 job (4)	 jobcircle (3)	 jobtarget (4)	 monster (3)	 nettemps (4)	 rightitjobs (4)	 techcentric (4)	 
+	0.6215	1.0	0.761375	0.779875	0.42366666666666664	0.8481249999999999	0.9996666666666667	0.6545	1.0	1.0	
+auto	aol (3)	 autobytel (4)	 automotive (2)	 autoweb (4)	 carquotes (4)	 cars (3)	 kbb (4)	 motortrend (4)	 msn (4)	 yahoo (4)	 
+	0.9738333333333333	0.97625	0.9984992495	0.99975	1.0	0.68899036	0.9958750000000001	0.90370955	0.975625	0.875875	
+restaurant	fodors (3)	 frommers (4)	 gayot (4)	 opentable (4)	 pickarestaurant (2)	 restaurantica (4)	 tripadvisor (4)	 urbanspoon (4)	 usdiners (4)	 zagat (4)	 
+	0.7701666666666666	0.8975000000000001	0.75525	0.9053750000000002	1.0	0.9945	0.9656250000000001	0.7563749999999999	0.917125	0.999375	
+nbaplayer	espn (4)	 fanhouse (4)	 foxsports (2)	 msnca (4)	 nba (2)	 si (4)	 slam (4)	 usatoday (3)	 wiki (3)	 yahoo (4)	 
+	1.0	0.75896860975	1.0	1.0	1.0	0.727669903	1.0	1.0	0.5746031746666668	1.0	

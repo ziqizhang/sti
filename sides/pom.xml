@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>uk.ac.shef.oak</groupId>
+    <artifactId>lodie-sides</artifactId>
+    <version>1.0</version>
+
+    <developers>
+        <developer>
+            <id>nsi</id>
+            <name>Neil Ireson</name>
+            <email>n.ireson@dcs.shef.ac.uk</email>
+            <organization>University of Sheffield</organization>
+            <organizationUrl>http://oak.dcs.shef.ac.uk/</organizationUrl>
+            <url>http://www.dcs.shef.ac.uk/~nsi/</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <ant.version>1.8.4</ant.version>
+        <common.cli.version>1.2</common.cli.version>
+        <commons.io.version>2.4</commons.io.version>
+        <htmlunit.version>2.10</htmlunit.version>
+        <jaxb2.plugin.version>0.8.2</jaxb2.plugin.version>
+        <jaxb2.commons.version>0.6.4</jaxb2.commons.version>
+        <jersey.version>1.14</jersey.version>
+        <jetty.maven.plugin.version>8.1.4.v20120524</jetty.maven.plugin.version>
+        <jsoup.version>1.7.1</jsoup.version>
+        <jsr311.api.version>1.1</jsr311.api.version>
+        <lingpipe.version>4.1.0</lingpipe.version>
+        <lucene.version>4.0.0</lucene.version>
+        <maven.assembly.plugin.version>2.3</maven.assembly.plugin.version>
+        <nutch.version>2.1</nutch.version>
+        <slf4j.version>1.6.6</slf4j.version>
+        <slf4j.binding>slf4j-jdk14</slf4j.binding>
+        <tagsoup.version>1.2.1</tagsoup.version>
+        <xalan.version>2.7.1</xalan.version>
+    </properties>
+
+    <dependencies>
+
+        <!-- logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>${slf4j.binding}</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Apache Command Line Interface (CLI) -->
+
+        <dependency>
+            <groupId>commons-cli</groupId>
+            <artifactId>commons-cli</artifactId>
+            <version>${common.cli.version}</version>
+        </dependency>
+
+        <!-- Apache Commons IO -->
+
+        <dependency>
+        	<groupId>commons-io</groupId>
+        	<artifactId>commons-io</artifactId>
+        	<version>${commons.io.version}</version>
+        </dependency>
+
+        <dependency>
+        	<groupId>org.apache.nutch</groupId>
+        	<artifactId>nutch</artifactId>
+        	<version>${nutch.version}</version>
+        </dependency>
+
+        <!-- HTML Parsers to produce XML -->
+
+        <!-- jsoup HTML parser library @ http://jsoup.org/ does not produce w3c document -->
+        <!--<dependency>-->
+          <!--<groupId>org.jsoup</groupId>-->
+          <!--<artifactId>jsoup</artifactId>-->
+          <!--<version>${jsoup.version}</version>-->
+        <!--</dependency>-->
+
+        <!-- http://htmlunit.sourceforge.net/ has issues parsing "real-world" html -->
+        <!--<dependency>-->
+        	<!--<groupId>net.sourceforge.htmlunit</groupId>-->
+        	<!--<artifactId>htmlunit</artifactId>-->
+        	<!--<version>${htmlunit.version}</version>-->
+        <!--</dependency>-->
+
+        <!-- http://ccil.org/~cowan/XML/tagsoup/ -->
+
+        <!-- There is a dependency for this for XML Transformation -->
+        <dependency>
+        	<groupId>xalan</groupId>
+        	<artifactId>xalan</artifactId>
+        	<version>${xalan.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+        	<groupId>org.ccil.cowan.tagsoup</groupId>
+        	<artifactId>tagsoup</artifactId>
+        	<version>${tagsoup.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <defaultGoal>install</defaultGoal>
+        <finalName>sides</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <!--<configuration>-->
+                        <!--<tasks>-->
+                        <!--<copy file="${project.build.directory}/${project.build.finalName}.jar"-->
+                        <!--todir="${deploy.dir}" overwrite="true" verbose="true" failonerror="true"/>-->
+                        <!--</tasks>-->
+                        <!--</configuration>-->
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass/>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven.assembly.plugin.version}</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass/>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <!-- this is used for inheritance merges -->
+                        <phase>package</phase>
+                        <!-- append to the packaging phase. -->
+                        <goals>
+                            <goal>single</goal>
+                            <!-- goals == mojos -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <inherited>true</inherited>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jetty.maven.plugin.version}</version>
+                <configuration>
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <stopKey>foo</stopKey>
+                    <stopPort>9999</stopPort>
+                    <webAppSourceDirectory>${project.build.directory}/${project.build.finalName}</webAppSourceDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>xjc</id>
+
+            <activation>
+                <!--<activeByDefault>true</activeByDefault>-->
+                <file>
+                    <missing>${project.build.directory}/generated-sources/xjc</missing>
+                </file>
+            </activation>
+
+            <repositories>
+                <repository>
+                    <id>maven-repository.dev.java.net</id>
+                    <name>Java.net Maven 1 Repository (legacy)</name>
+                    <url>http://download.java.net/maven/1</url>
+                    <layout>legacy</layout>
+                </repository>
+                <repository>
+                    <id>maven2-repository.dev.java.net</id>
+                    <name>Java.net Repository for Maven 2</name>
+                    <url>http://download.java.net/maven/2/</url>
+                </repository>
+                <!-- Remove this repository as it causes problems -->
+                <repository>
+                    <id>java.net</id>
+                    <url>https://maven-repository.dev.java.net/nonav/repository/</url>
+                    <layout>legacy</layout>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                </repository>
+            </repositories>
+
+            <!--Add plugin repository information for the jaxws-maven-plugin-->
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>maven2-repository.dev.java.net</id>
+                    <name>Java.net Repository for Maven 2</name>
+                    <url>http://download.java.net/maven/2/</url>
+                </pluginRepository>
+                <!-- Remove this repository as it causes problems -->
+                <pluginRepository>
+                    <id>java.net</id>
+                    <url>https://maven-repository.dev.java.net/nonav/repository/</url>
+                    <layout>legacy</layout>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                </pluginRepository>
+            </pluginRepositories>
+
+            <dependencies>
+                <!-- ... -->
+                <dependency>
+                    <groupId>org.jvnet.jaxb2_commons</groupId>
+                    <artifactId>jaxb2-basics-runtime</artifactId>
+                    <version>${jaxb2.commons.version}</version>
+                </dependency>
+                <!-- ... -->
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <!-- http://confluence.highsource.org/display/MJIIP/Maven+JAXB2+Plugin -->
+                        <!--<groupId>com.sun.tools.xjc.maven2</groupId>-->
+                        <!--<artifactId>maven-jaxb-plugin</artifactId>-->
+
+                        <!-- uses jaxb2.1 which causes issue with @XmlSeeAlso under jdk1.5 -->
+                        <groupId>org.jvnet.jaxb2.maven2</groupId>
+                        <artifactId>maven-jaxb2-plugin</artifactId>
+                        <version>${jaxb2.plugin.version}</version>
+                        <executions>
+
+                            <execution>
+                                <id>xjc-multimatch</id>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                                <configuration>
+                                    <schemaDirectory>src/main/resources/schema/multimatch</schemaDirectory>
+                                    <generateDirectory>${project.build.directory}/generated-sources/xjc-multimatch
+                                    </generateDirectory>
+                                    <removeOldOutput>true</removeOldOutput>
+                                    <schemaIncludes>
+                                        <schemaInclude>**/*.xsd</schemaInclude>
+                                    </schemaIncludes>
+                                    <bindingIncludes>
+                                        <bindingInclude>bindings.xjb</bindingInclude>
+                                    </bindingIncludes>
+                                    <!--<extension>true</extension>-->
+                                    <!--<args>-->
+                                    <!--<arg>-XtoString</arg>-->
+                                    <!--<arg>-Xequals</arg>-->
+                                    <!--<arg>-XhashCode</arg>-->
+                                    <!--<arg>-Xcopyable</arg>-->
+                                    <!--<arg>-Xmergeable</arg>-->
+                                    <!--</args>-->
+                                    <plugins>
+                                        <plugin>
+                                            <groupId>org.jvnet.jaxb2_commons</groupId>
+                                            <artifactId>jaxb2-basics</artifactId>
+                                            <version>${jaxb2.commons.version}</version>
+                                        </plugin>
+                                    </plugins>
+                                </configuration>
+                            </execution>
+
+                        </executions>
+
+                    </plugin>
+
+                    <plugin>
+                        <inherited>true</inherited>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <source>1.6</source>
+                            <target>1.6</target>
+                            <encoding>UTF-8</encoding>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+</project>
