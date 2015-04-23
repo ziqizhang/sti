@@ -4,7 +4,10 @@ import cern.colt.matrix.ObjectMatrix1D;
 import cern.colt.matrix.ObjectMatrix2D;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.content.KBSearcher;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.misc.KB_InstanceFilter;
+import uk.ac.shef.dcs.oak.lodie.table.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.lodie.table.rep.HeaderAnnotation;
+import uk.ac.shef.dcs.oak.lodie.table.rep.LTable;
+import uk.ac.shef.dcs.oak.lodie.table.rep.LTableAnnotation;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 
@@ -22,14 +25,12 @@ public class ColumnClassifier {
         this.kbSearcher = kbSearcher;
     }
 
-    public List<ObjObj<String, Double>> rankColumnConcepts(int col, ObjectMatrix2D entityCandidates) throws IOException {
-        ObjectMatrix1D column = entityCandidates.viewColumn(col);
-
+    public List<ObjObj<String, Double>> rankColumnConcepts(LTableAnnotation tableAnnotation, LTable table, int col) throws IOException {
         Map<String, Double> votes = new HashMap<String, Double>();
-        for(int r=0; r<column.size(); r++){
-            List<ObjObj<EntityCandidate, Double>> neCandidates= (List<ObjObj<EntityCandidate, Double>>)column.get(r);
-            if(neCandidates!=null&&neCandidates.size()>0){
-                EntityCandidate e = neCandidates.get(0).getMainObject();
+        for(int r=0; r<table.getNumRows(); r++){
+            CellAnnotation[] cellAnnotations = tableAnnotation.getContentCellAnnotations(r, col);
+            if(cellAnnotations!=null&&cellAnnotations.length>0){
+                EntityCandidate e = cellAnnotations[0].getAnnotation();
                 List<String> types = e.getTypeIds();
                 for(String t: types){
                     if(KB_InstanceFilter.ignoreType(t, t))
@@ -44,7 +45,7 @@ public class ColumnClassifier {
 
         List<ObjObj<String, Double>> result = new ArrayList<ObjObj<String, Double>>();
         for(Map.Entry<String, Double> e: votes.entrySet()){
-            result.add(new ObjObj<String, Double>(e.getKey(), e.getValue()/column.size()));
+            result.add(new ObjObj<String, Double>(e.getKey(), e.getValue()/table.getNumRows()));
         }
         Collections.sort(result, new Comparator<ObjObj<String, Double>>() {
             @Override
@@ -77,6 +78,16 @@ public class ColumnClassifier {
                 return o2.getOtherObject().compareTo(o1.getOtherObject());
             }
         });
+
+        HeaderAnnotation[] headerAnnotations = new HeaderAnnotation[result.size()];
+        int i=0;
+        for(ObjObj<String, Double> oo: result){
+            HeaderAnnotation ha = new HeaderAnnotation(table.getColumnHeader(col).getHeaderText(),
+                    oo.getMainObject(),oo.getMainObject(), oo.getOtherObject());
+            headerAnnotations[i]=ha;
+            i++;
+        }
+        tableAnnotation.setHeaderAnnotation(col, headerAnnotations);
         return result;
     }
 }

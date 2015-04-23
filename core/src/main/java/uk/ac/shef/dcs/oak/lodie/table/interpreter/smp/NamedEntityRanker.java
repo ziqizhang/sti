@@ -3,6 +3,7 @@ package uk.ac.shef.dcs.oak.lodie.table.interpreter.smp;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.content.KBSearcher;
 import uk.ac.shef.dcs.oak.lodie.table.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.lodie.table.rep.LTable;
+import uk.ac.shef.dcs.oak.lodie.table.rep.LTableAnnotation;
 import uk.ac.shef.dcs.oak.lodie.table.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.ObjObj;
@@ -55,7 +56,8 @@ public class NamedEntityRanker {
         return disambiguationScores;
     }
 
-    public List<ObjObj<EntityCandidate, Double>> rankCandidateNamedEntities(LTable table,
+    public List<ObjObj<EntityCandidate, Double>> rankCandidateNamedEntities(
+            LTableAnnotation tableAnnotations, LTable table,
                                                                              int row, int column
     ) throws IOException {
         List<ObjObj<EntityCandidate, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
@@ -70,6 +72,16 @@ public class NamedEntityRanker {
                 return o2.getOtherObject().compareTo(o1.getOtherObject());
             }
         });
+
+        LTableContentCell tcc = table.getContentCell(row, column);
+        CellAnnotation[] annotations = new CellAnnotation[scores.size()];
+        int i=0;
+        for(ObjObj<EntityCandidate, Map<String, Double>> oo: scores){
+            CellAnnotation ca = new CellAnnotation(tcc.getText(), oo.getMainObject(), oo.getOtherObject().get(CellAnnotation.SCORE_FINAL), oo.getOtherObject());
+            annotations[i]=ca;
+            i++;
+        }
+        tableAnnotations.setContentCellAnnotations(row, column, annotations);
         return sorted;
     }
 }

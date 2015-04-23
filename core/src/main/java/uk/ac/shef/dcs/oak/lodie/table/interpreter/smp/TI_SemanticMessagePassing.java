@@ -28,12 +28,20 @@ public class TI_SemanticMessagePassing {
     private int[] forceInterpretColumn;
     private NamedEntityRanker neRanker;
     private ColumnClassifier columnClassifier;
+    private RelationLearner relationLearner;
+
+    public int halting_num_of_iterations_middlepoint=5;
+    public double mim_pc_of_change_messages_for_column_concept_update=0.5;
+    public double min_pc_of_change_messages_for_relation_update=0.5;
+    public int halting_num_of_iterations_max=10;
 
     public TI_SemanticMessagePassing(NamedEntityRanker neRanker,
                                      ColumnClassifier columnClassifier,
+                                     RelationLearner relationLearner,
                                      int[] ignoreColumns,
                                      int[] forceInterpretColumn
     ) {
+        this.relationLearner=relationLearner;
         this.columnClassifier=columnClassifier;
         this.neRanker = neRanker;
         this.ignoreColumns = ignoreColumns;
@@ -42,11 +50,13 @@ public class TI_SemanticMessagePassing {
 
     public TI_SemanticMessagePassing(MainColumnFinder main_col_finder,
                                      ColumnClassifier columnClassifier,
+                                     RelationLearner relationLearner,
                                      NamedEntityRanker neRanker,
                                      int[] ignoreColumns,
                                      int[] forceInterpretColumn
     ) {
         this.main_col_finder = main_col_finder;
+        this.relationLearner=relationLearner;
         this.columnClassifier=columnClassifier;
         this.neRanker = neRanker;
         this.ignoreColumns = ignoreColumns;
@@ -62,17 +72,7 @@ public class TI_SemanticMessagePassing {
             List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
             tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getMainObject());
         }
-        //ignore columns that are likely to be acronyms only, because they are highly ambiguous
-        /*if (candidate_main_NE_columns.size() > 1) {
-            Iterator<ObjObj<Integer, ObjObj<Double, Boolean>>> it = candidate_main_NE_columns.iterator();
-            while (it.hasNext()) {
-                ObjObj<Integer, ObjObj<Double, Boolean>> en = it.next();
-                if (en.getOtherObject().getOtherObject() == true)
-                    it.remove();
-            }
-        }*/
 
-        List<Integer> interpreted_columns = new ArrayList<Integer>();
         System.out.println(">\t INITIALIZATION");
         System.out.println(">\t\t NAMED ENTITY RANKER...");
         ObjectMatrix2D neFactors = new SparseObjectMatrix2D(table.getNumRows(), table.getNumCols());
@@ -81,9 +81,8 @@ public class TI_SemanticMessagePassing {
                 continue;*/
             if (forceInterpret(col)) {
                 System.out.println("\t\t>> Column=(forced)" + col);
-                interpreted_columns.add(col);
                 for(int r=0; r<table.getNumRows(); r++){
-                    List<ObjObj<EntityCandidate, Double>> candidates =neRanker.rankCandidateNamedEntities(table, r, col);
+                    List<ObjObj<EntityCandidate, Double>> candidates =neRanker.rankCandidateNamedEntities(tab_annotations,table, r, col);
                     neFactors.set(r, col, candidates);
                 }
             } else {
@@ -92,11 +91,10 @@ public class TI_SemanticMessagePassing {
                     continue;
                 /*if (table.getColumnHeader(col).getFeature().isCode_or_Acronym())
                     continue;*/
-                interpreted_columns.add(col);
                 //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
                 System.out.println("\t\t>> Column=" + col);
                 for(int r=0; r<table.getNumRows(); r++){
-                    List<ObjObj<EntityCandidate, Double>> candidates =neRanker.rankCandidateNamedEntities(table, r, col);
+                    List<ObjObj<EntityCandidate, Double>> candidates =neRanker.rankCandidateNamedEntities(tab_annotations,table, r, col);
                     neFactors.set(r, col, candidates);
                 }
             }
@@ -107,64 +105,47 @@ public class TI_SemanticMessagePassing {
         for (int col = 0; col < table.getNumCols(); col++) {
             if (forceInterpret(col)) {
                 System.out.println("\t\t>> Column=(forced)" + col);
-                columnClassifier.rankColumnConcepts(col, neFactors);
+                columnClassifier.rankColumnConcepts(tab_annotations,table,col);
             } else {
                 if (ignoreColumn(col)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 System.out.println("\t\t>> Column=" + col);
-                columnClassifier.rankColumnConcepts(col, neFactors);
+                columnClassifier.rankColumnConcepts(tab_annotations,table, col);
             }
         }
 
-        /*if (relationLearning) {
-            double best_solution_score = 0;
-            int main_subject_column = -1;
-            LTableAnnotation best_annotations = null;
-            for (ObjObj<Integer, ObjObj<Double, Boolean>> mainCol : candidate_main_NE_columns) {
-                //tab_annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
-                main_subject_column = mainCol.getMainObject();
-                if (ignoreColumn(main_subject_column)) continue;
+        if (relationLearning) {
+            System.out.println(">\t\t RELATION COMPUTING...");
+            relationLearner.inferRelation(tab_annotations, table);
 
-                System.out.println(">\t Interpret relations with the main column, =" + main_subject_column);
-                int columns_having_relations_with_main_col = interpreter_relation.interpret(tab_annotations, table, main_subject_column);
-                boolean interpretable = false;
-                if (columns_having_relations_with_main_col > 0) {
-                    interpretable = true;
-                }
-                if (interpretable) {
-                    tab_annotations.setSubjectColumn(main_subject_column);
-                    break;
-                } else {
-                    //the current subject column could be wrong, try differently
-                    double overall_score_of_current_solution = scoreSolution(tab_annotations, table, main_subject_column);
-                    if (overall_score_of_current_solution > best_solution_score) {
-                        tab_annotations.setSubjectColumn(main_subject_column);
-                        best_annotations = tab_annotations;
-                        best_solution_score = overall_score_of_current_solution;
-                    }
-                    tab_annotations.resetRelationAnnotations();
-                    System.err.println(">>\t Main column does not satisfy number of relations check, continue to the next main column...");
-                    continue;
-                }
+        }
+
+
+        System.out.println(">\t SEMANTIC MESSAGE PASSING");
+        create_copy_of_table_annotation
+        for(int i=0; i<halting_num_of_iterations_max; i++){
+            System.out.println("\t\t>> ITERATION "+(i+1));
+            //column concept and relation factors send message to entity factors
+            ObjectMatrix2D messages =  new ChangeMessageBroadcaster().computeChangeMessages(tab_annotations, table);
+            //check middle-point halting condition
+            boolean stop=false;
+            if(i==halting_num_of_iterations_middlepoint){
+                stop = middlePointHaltReached(messages, tab_annotations);
             }
-            if (tab_annotations == null && best_annotations != null) {
-                tab_annotations = best_annotations;
+            if(stop){
+                System.out.println("\t\t>> Halting condition (middle point) reached after "+halting_num_of_iterations_middlepoint+" iterations.");
+                break;
             }
 
-            if (TableMinerConstants.REVISE_HBR_BY_DC && backward_updater != null) {
-                List<String> domain_rep = backward_updater.construct_domain_represtation(table, tab_annotations, interpreted_columns);
-                revise_header_binary_relations(tab_annotations, domain_rep);
-            }
-
-            //4. consolidation-for columns that have relation with main subject column, if the column is
-            // entity column, do column typing and disambiguation; otherwise, simply create header annotation
-            System.out.println(">\t Classify columns (non-NE) in relation with main column");
-            interpreter_column_with_knownReltaions.interpret(table, tab_annotations, interpreted_columns.toArray(new Integer[0]));
-
-        }*/
+            //re-compute cell annotations based on messages
 
 
+            //re-compute header and relation annotations
+
+
+            //check stopping condition
+        }
         return tab_annotations;
     }
 

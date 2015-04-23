@@ -1,6 +1,5 @@
 package uk.ac.shef.dcs.oak.lodie.table.interpreter.smp;
 
-import org.openjena.atlas.iterator.Iter;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.lodie.table.rep.*;
@@ -13,10 +12,10 @@ import java.util.*;
  * Created by zqz on 20/04/2015.
  */
 public class RelationLearner {
-    private RelationMatcher matcher;
+    private RelationTextMatch_Scorer matcher;
 
-    public RelationLearner() {
-        matcher = new RelationMatcher();
+    public RelationLearner(RelationTextMatch_Scorer matcher) {
+        this.matcher = matcher;
     }
 
     public void inferRelation(LTableAnnotation annotations, LTable table) {
@@ -54,9 +53,15 @@ public class RelationLearner {
                     LTableContentCell objectCellText = table.getContentCell(r, objectColumn);
 
                     //compute relation
-                    List<ObjObj<String, Double>> relations = matcher.match(subjectCells, objectCells,subjectCellText, objectCellText, table);
-                    if(relations!=null && relations.size()>0)
+                    List<ObjObj<String, Double>> relations = matcher.match(subjectCells, objectCells, subjectCellText, objectCellText, colTypes.get(objectColumn));
+                    if (relations != null && relations.size() > 0) {
                         result.addRCBetweenColumnsOnRow(subjectColumn, objectColumn, r, relations);
+                        for(ObjObj<String, Double> rel: relations)
+                            annotations.addRelationAnnotation_per_row(new CellBinaryRelationAnnotation(
+                                    new Key_SubjectCol_ObjectCol(subjectColumn, objectColumn),r,rel.getMainObject(), rel.getMainObject(),
+                                    null, rel.getOtherObject()
+                            ));
+                    }
                 }
             }
         }
@@ -118,7 +123,7 @@ public class RelationLearner {
                     final_relation = objsub_relation_best;
                     final_relationKey = new Key_SubjectCol_ObjectCol(Integer.valueOf(parts[1]), Integer.valueOf(parts[0]));
                 }
-            }else{//no relation from reverse direction, todo
+            } else {//no relation from reverse direction, todo
                 final_relation = best_subobj.get(0);
                 final_relationKey = new Key_SubjectCol_ObjectCol(Integer.valueOf(parts[0]), Integer.valueOf(parts[1]));
             }
