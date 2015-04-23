@@ -26,7 +26,6 @@
         <processorPath useClasspath="true" />
         <module name="any23extension" />
         <module name="common-util" />
-        <module name="lodie-core" />
         <module name="lodie-sides" />
         <module name="lodie-xpathExperiment" />
         <module name="nlptools" />

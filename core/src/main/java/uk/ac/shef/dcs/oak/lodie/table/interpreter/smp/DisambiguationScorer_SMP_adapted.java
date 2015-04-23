@@ -78,7 +78,7 @@ public class DisambiguationScorer_SMP_adapted implements DisambiguationScorer {
             bag_of_words_for_entity = lemmatizer.lemmatize(bag_of_words_for_entity);
         bag_of_words_for_entity.removeAll(stopWords);
        /* BOW OF THE Row context*/
-        double totalScore = 0.0;
+        //double totalScore = 0.0;
         String headerText = table.getColumnHeader(entity_source_column).getHeaderText();
         List<String> bag_of_words_for_context = new ArrayList<String>();
         //context from the row
@@ -115,7 +115,7 @@ public class DisambiguationScorer_SMP_adapted implements DisambiguationScorer {
 
         for(String[] f: facts){
             if(f[0].equalsIgnoreCase("/common/topic/alias")&&f[f.length-1].equalsIgnoreCase("n")){
-                String v = f[2].trim();
+                String v = f[1].trim();
                 if(v.length()>0) {
                     double score = lev.getSimilarity(text, v);
                     totalScore+=score;

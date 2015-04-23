@@ -7,7 +7,6 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/../sindice4j-api3/pom.xml" />
         <option value="$PROJECT_DIR$/../triplesearch/pom.xml" />
         <option value="$PROJECT_DIR$/../util/pom.xml" />

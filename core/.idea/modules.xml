@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/../any23Extension/any23extension.iml" filepath="$PROJECT_DIR$/../any23Extension/any23extension.iml" />
       <module fileurl="file://$PROJECT_DIR$/../util/common-util.iml" filepath="$PROJECT_DIR$/../util/common-util.iml" />
       <module fileurl="file://$PROJECT_DIR$/core.iml" filepath="$PROJECT_DIR$/core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lodie-core.iml" filepath="$PROJECT_DIR$/lodie-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/../sides/lodie-sides.iml" filepath="$PROJECT_DIR$/../sides/lodie-sides.iml" />
       <module fileurl="file://$PROJECT_DIR$/../xpath/lodie-xpathExperiment.iml" filepath="$PROJECT_DIR$/../xpath/lodie-xpathExperiment.iml" />
       <module fileurl="file://$PROJECT_DIR$/../nlptools/nlptools.iml" filepath="$PROJECT_DIR$/../nlptools/nlptools.iml" />

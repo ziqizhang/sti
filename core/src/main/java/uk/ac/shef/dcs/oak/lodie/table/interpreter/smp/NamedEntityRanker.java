@@ -35,7 +35,7 @@ public class NamedEntityRanker {
                 cell);
         List<EntityCandidate> candidates = kbSearcher.find_matchingEntitiesForCell(cell);
         System.out.println(" candidates=" + candidates.size());
-
+        //each candidate will have a map containing multiple elements of scores. See DisambiguationScorer_SMP_adapted
         List<ObjObj<EntityCandidate, Map<String, Double>>> disambiguationScores = new ArrayList<ObjObj<EntityCandidate, Map<String, Double>>>();
         for (EntityCandidate c : candidates) {
             //find facts of each entity
