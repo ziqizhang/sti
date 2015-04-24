@@ -1,9 +1,7 @@
 package uk.ac.shef.dcs.oak.lodie.table.interpreter.smp;
 
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.oak.lodie.table.interpreter.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.lodie.table.rep.*;
-import uk.ac.shef.dcs.oak.lodie.test.TableMinerConstants;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 
 import java.util.*;
@@ -18,10 +16,10 @@ public class RelationLearner {
         this.matcher = matcher;
     }
 
-    public void inferRelation(LTableAnnotation annotations, LTable table) {
-        RelationDataStructure result = new RelationDataStructure();
+    public void inferRelation(LTableAnnotation tableAnnotations, LTable table) {
+        //RelationDataStructure result = new RelationDataStructure();
 
-        //mainColumnIndexes contains indexes of columns that are possile NEs
+        //mainColumnIndexes contains indexes of columns that are possible NEs
         Map<Integer, DataTypeClassifier.DataType> colTypes
                 = new HashMap<Integer, DataTypeClassifier.DataType>();
         for (int c = 0; c < table.getNumCols(); c++) {
@@ -35,137 +33,132 @@ public class RelationLearner {
         }
 
         //compute candidate relations between any pairs of columns
-        for (int subjectColumn = 0; subjectColumn < table.getNumCols(); subjectColumn++) {
+        for (int subjectColumn = 0; subjectColumn < table.getNumCols(); subjectColumn++) {  //choose a column to be subject column (must be NE column)
             if (!table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                 continue;
 
-            for (int objectColumn = 0; objectColumn < table.getNumCols() && objectColumn != subjectColumn; objectColumn++) {
+            for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
+                if(subjectColumn==objectColumn)
+                    continue;
                 DataTypeClassifier.DataType columnDataType = table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType();
                 if (columnDataType.equals(DataTypeClassifier.DataType.EMPTY) || columnDataType.equals(DataTypeClassifier.DataType.LONG_TEXT) ||
                         columnDataType.equals(DataTypeClassifier.DataType.ORDERED_NUMBER))
                     continue;
 
                 for (int r = 0; r < table.getNumRows(); r++) {
-                    //in SMP, only ONE (the disambiguated NE) is needed from each cell to compute candidate relation
-                    CellAnnotation[] subjectCells = annotations.getContentCellAnnotations(r, subjectColumn);
+                    //in SMP, only the highest ranked NE (the disambiguated NE) is needed from each cell to compute candidate relation
+                    List<CellAnnotation> subjectCells = tableAnnotations.getBestContentCellAnnotations(r, subjectColumn);
                     LTableContentCell subjectCellText = table.getContentCell(r, subjectColumn);
-                    CellAnnotation[] objectCells = annotations.getContentCellAnnotations(r, objectColumn);
+                    List<CellAnnotation>  objectCells = tableAnnotations.getBestContentCellAnnotations(r, objectColumn);
                     LTableContentCell objectCellText = table.getContentCell(r, objectColumn);
 
-                    //compute relation
-                    List<ObjObj<String, Double>> relations = matcher.match(subjectCells, objectCells, subjectCellText, objectCellText, colTypes.get(objectColumn));
-                    if (relations != null && relations.size() > 0) {
-                        result.addRCBetweenColumnsOnRow(subjectColumn, objectColumn, r, relations);
-                        for(ObjObj<String, Double> rel: relations)
-                            annotations.addRelationAnnotation_per_row(new CellBinaryRelationAnnotation(
-                                    new Key_SubjectCol_ObjectCol(subjectColumn, objectColumn),r,rel.getMainObject(), rel.getMainObject(),
-                                    null, rel.getOtherObject()
-                            ));
-                    }
+                    //compute relation on each row, between each pair of subject-object cells
+                    matcher.match(r, subjectCells, objectCells, subjectCellText, objectCellText, colTypes.get(objectColumn),
+                            tableAnnotations);
                 }
             }
         }
 
         //compute overall scores for relations on each column pairs and populate relation annotation object
-        Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> relationAnnotations
-                = new HashMap<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>>();
-        compute(relationAnnotations, result);
+        compute(tableAnnotations);
     }
 
     private void compute(
-            Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> relationAnnotations,
-            RelationDataStructure result) {
-        Map<String, Map<Integer, List<ObjObj<String, Double>>>>
-                data = result.getAllRelationCandidates();
+            LTableAnnotation tableAnnotation) {
 
-        Set<String> processed = new HashSet<String>();
-        for (Map.Entry<String, Map<Integer, List<ObjObj<String, Double>>>> e : data.entrySet()) {   //for each pair of column
-            Key_SubjectCol_ObjectCol final_relationKey = null;
-            RelationDataTriple final_relation = null;
+        List<Key_SubjectCol_ObjectCol> processed = new ArrayList<Key_SubjectCol_ObjectCol>();
+        for(Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> e:
+                tableAnnotation.getRelationAnnotations_per_row().entrySet()){
 
-            String key = e.getKey(); //the column id pair (e.g., subjectcol-objectcol)
-            if (processed.contains(key))
+            //firstly, check the directional relation where sub comes from sub col of the final_relationKey and ob comes from obj col of the ...
+            Key_SubjectCol_ObjectCol current_relationKey = e.getKey(); //key indicating the directional relationship (subject col, object col)
+            if (processed.contains(current_relationKey))
                 continue;
-
             Map<String, ObjObj<Integer, Double>> votes = new HashMap<String, ObjObj<Integer, Double>>();
 
-            processed.add(key);
-            Map<Integer, List<ObjObj<String, Double>>> relations = data.get(key);
-            collectVotes(relations, votes);
-            List<RelationDataTriple> best_subobj = selectBest(votes);   //subject-object relation
+            processed.add(current_relationKey);
+            Map<Integer, List<CellBinaryRelationAnnotation>> relations_on_rows = e.getValue(); //map object where key=row id, value=collection of binary relations between the sub col and obj col on this row
+            collectVotes(relations_on_rows, votes);//among all relations that apply to the direction subcol-objcol, collect votes
+            List<RelationDataTuple> best_subobj = selectBest(votes, current_relationKey);   //the highest scoring relation in the direction of subject-object
 
-            //reverse the column-column id to find relation from reverse direction
+            //next, reverse the relation direction
             votes.clear();
-            String[] parts = key.split(",");
-            String reverseKey = parts[1] + "," + parts[0];
-            Map<Integer, List<ObjObj<String, Double>>> reverseRelations = data.get(reverseKey);
-            if (reverseRelations != null) {
-                processed.add(reverseKey);
-                collectVotes(reverseRelations, votes);
-                List<RelationDataTriple> best_objsub = selectBest(votes);   //object-subject relation
+            Key_SubjectCol_ObjectCol reverse_relationKey = new Key_SubjectCol_ObjectCol(current_relationKey.getObjectCol(), current_relationKey.getSubjectCol());
+            relations_on_rows = tableAnnotation.getRelationAnnotations_per_row().get(reverse_relationKey);
+            if (relations_on_rows != null) {
+                processed.add(reverse_relationKey);
+                collectVotes(relations_on_rows, votes);
+                List<RelationDataTuple> best_objsub = selectBest(votes, reverse_relationKey);   //the highest scoring relation in the direction of object-subject relation
 
-                //for the current sub-obj or obj-sub key, find the best relation, and also direction (i.e., is it sub-obj, or obj-sub)
-                RelationDataTriple subobj_relation_best = best_subobj.get(0);
-                RelationDataTriple objsub_relation_best = best_objsub.get(0);
-
-                if (subobj_relation_best.votes > objsub_relation_best.votes) {
-                    final_relation = subobj_relation_best;
-                    final_relationKey = new Key_SubjectCol_ObjectCol(Integer.valueOf(parts[0]), Integer.valueOf(parts[1]));
-                } else if (subobj_relation_best.votes == objsub_relation_best.votes) {
-                    if (subobj_relation_best.score > objsub_relation_best.score) {
-                        final_relation = subobj_relation_best;
-                        final_relationKey = new Key_SubjectCol_ObjectCol(Integer.valueOf(parts[0]), Integer.valueOf(parts[1]));
-                    } else {
-                        final_relation = objsub_relation_best;
-                        final_relationKey = new Key_SubjectCol_ObjectCol(Integer.valueOf(parts[1]), Integer.valueOf(parts[0]));
-                    }
-                } else {
-                    final_relation = objsub_relation_best;
-                    final_relationKey = new Key_SubjectCol_ObjectCol(Integer.valueOf(parts[1]), Integer.valueOf(parts[0]));
-                }
+                integrateCreateHeaderBinaryRelationAnnotations(best_subobj, best_objsub, tableAnnotation);
             } else {//no relation from reverse direction, todo
-                final_relation = best_subobj.get(0);
-                final_relationKey = new Key_SubjectCol_ObjectCol(Integer.valueOf(parts[0]), Integer.valueOf(parts[1]));
+                integrateCreateHeaderBinaryRelationAnnotations(best_subobj, null, tableAnnotation);
             }
-            //populate tableannotation object
-            HeaderBinaryRelationAnnotation hbr = new HeaderBinaryRelationAnnotation(final_relationKey,
-                    final_relation.relationString,
-                    final_relation.relationString,
-                    final_relation.votes);
-            List<HeaderBinaryRelationAnnotation> res = new ArrayList<HeaderBinaryRelationAnnotation>();
-            res.add(hbr);
-            relationAnnotations.put(final_relationKey, res);
         }
     }
 
-    private List<RelationDataTriple> selectBest(Map<String, ObjObj<Integer, Double>> votes) {
-        List<RelationDataTriple> out = new ArrayList<RelationDataTriple>();
+    //need to resolve conflicts. between two directions (sub-ob, or ob-sub, we must choose only 1)
+    private void integrateCreateHeaderBinaryRelationAnnotations(
+            List<RelationDataTuple> best_subobj,
+            List<RelationDataTuple> best_objsub,
+            LTableAnnotation tableAnnotation) {
+        if(best_objsub!=null)
+            best_subobj.addAll(best_objsub);
+        Collections.sort(best_subobj);
+
+        RelationDataTuple template=best_subobj.get(0);
+        int maxVote = template.votes;
+        double maxScore = template.score;
+        Key_SubjectCol_ObjectCol relationDirection = template.relationDirection;
+
+        for(RelationDataTuple rdt: best_subobj){
+            if(rdt.votes==maxVote && rdt.score==maxScore &&rdt.relationDirection.getSubjectCol()==relationDirection.getSubjectCol() &&
+                    rdt.relationDirection.getObjectCol()==relationDirection.getObjectCol()){
+                HeaderBinaryRelationAnnotation hbr = new HeaderBinaryRelationAnnotation(relationDirection,
+                        template.relationString,
+                        template.relationString,
+                        maxVote);
+                tableAnnotation.addRelationAnnotation_across_column(hbr);
+            }
+            else{
+                break;
+            }
+        }
+
+    }
+
+    private List<RelationDataTuple> selectBest(Map<String, ObjObj<Integer, Double>> votes, Key_SubjectCol_ObjectCol relationDirectionKey) {
+        List<RelationDataTuple> out = new ArrayList<RelationDataTuple>();
         for (Map.Entry<String, ObjObj<Integer, Double>> e : votes.entrySet()) {
-            RelationDataTriple rdt = new RelationDataTriple();
+            RelationDataTuple rdt = new RelationDataTuple();
             rdt.relationString = e.getKey();
+            rdt.relationDirection=relationDirectionKey;
             rdt.votes = e.getValue().getMainObject();
             rdt.score = e.getValue().getOtherObject();
             out.add(rdt);
         }
         Collections.sort(out);
         int maxVote = out.get(0).votes;
-        Iterator<RelationDataTriple> it = out.iterator();
+        double maxScore = out.get(0).score;
+        Iterator<RelationDataTuple> it = out.iterator();
         while (it.hasNext()) {
-            RelationDataTriple rdt = it.next();
+            RelationDataTuple rdt = it.next();
             if (rdt.votes < maxVote)
+                it.remove();
+            else if(rdt.votes==maxVote &&rdt.score<maxScore)
                 it.remove();
         }
         return out;
     }
 
-    private void collectVotes(Map<Integer, List<ObjObj<String, Double>>> relations, Map<String, ObjObj<Integer, Double>> votes
+    private void collectVotes(Map<Integer, List<CellBinaryRelationAnnotation>> relations, Map<String, ObjObj<Integer, Double>> votes
     ) {
-        for (List<ObjObj<String, Double>> candidatesOnRow : relations.values()) {        //go thru each row
-            for (ObjObj<String, Double> candidate : candidatesOnRow) { //go thru each candidate of each row
-                String relationCandidate = candidate.getMainObject();
-                double score = candidate.getOtherObject();
+        for (List<CellBinaryRelationAnnotation> candidatesOnRow : relations.values()) {        //go thru each row
+            for (CellBinaryRelationAnnotation candidate : candidatesOnRow) { //go thru each candidate of each row
+                String relationCandidate = candidate.getAnnotation_url();
+                double score = candidate.getScore();
 
-                ObjObj<Integer, Double> votesAndScore = votes.get(relationCandidate);
+                ObjObj<Integer, Double> votesAndScore = votes.get(relationCandidate); //let's record both votes and score. so when there is a tie at votes, we resort to score
                 if (votesAndScore == null)
                     votesAndScore = new ObjObj<Integer, Double>(0, 0.0);
                 votesAndScore.setMainObject(votesAndScore.getMainObject() + 1);
@@ -176,7 +169,7 @@ public class RelationLearner {
         }
     }
 
-    private void removeIgnoreRelations(List<String[]> facts) {
+/*    private void removeIgnoreRelations(List<String[]> facts) {
         Iterator<String[]> it = facts.iterator();
         while (it.hasNext()) {
             String[] fact = it.next();
@@ -185,15 +178,16 @@ public class RelationLearner {
             else if (KB_InstanceFilter.ignoreRelation_from_relInterpreter(fact[0]))
                 it.remove();
         }
-    }
+    }*/
 
-    private class RelationDataTriple implements Comparable<RelationDataTriple> {
+    private class RelationDataTuple implements Comparable<RelationDataTuple> {
         protected String relationString;
+        protected Key_SubjectCol_ObjectCol relationDirection;
         protected int votes;
         protected double score;
 
         @Override
-        public int compareTo(RelationDataTriple o) {
+        public int compareTo(RelationDataTuple o) {
             int compare = Integer.valueOf(o.votes).compareTo(votes);
             if (compare == 0) {
                 return Double.valueOf(o.score).compareTo(score);

@@ -28,7 +28,7 @@ public class ColumnClassifier {
         this.kbSearcher = kbSearcher;
     }
 
-    public List<ObjObj<String, Double>> rankColumnConcepts(LTableAnnotation tableAnnotation, LTable table, int col) throws IOException {
+    public void rankColumnConcepts(LTableAnnotation tableAnnotation, LTable table, int col) throws IOException {
         Map<String, Double> votes = new HashMap<String, Double>();
         for (int r = 0; r < table.getNumRows(); r++) {
             //in case multiple NEs have the same score, we take them all
@@ -88,12 +88,13 @@ public class ColumnClassifier {
             HeaderAnnotation ha = new HeaderAnnotation(table.getColumnHeader(col).getHeaderText(),
                     oo.getMainObject(), oo.getMainObject(), oo.getOtherObject());
             ha.getScoreElements().put(SMP_SCORE_ENTITY_VOTE, oo.getOtherObject());
-            ha.getScoreElements().put(SMP_SCORE_GRANULARITY, result_granularity.get(oo.getMainObject()));
+            Double granularity_score = result_granularity.get(oo.getMainObject());
+            granularity_score=granularity_score==null?0:granularity_score;
+            ha.getScoreElements().put(SMP_SCORE_GRANULARITY, granularity_score);
             ha.getScoreElements().put(HeaderAnnotation.FINAL, oo.getOtherObject());
             headerAnnotations[i] = ha;
             i++;
         }
         tableAnnotation.setHeaderAnnotation(col, headerAnnotations);
-        return result_votes;
     }
 }
