@@ -10,6 +10,7 @@ import uk.ac.shef.dcs.oak.lodie.table.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.lodie.table.rep.CellBinaryRelationAnnotation;
 import uk.ac.shef.dcs.oak.lodie.table.rep.LTable;
 import uk.ac.shef.dcs.oak.lodie.table.rep.LTableAnnotation;
+import uk.ac.shef.dcs.oak.lodie.table.util.STIException;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
@@ -64,8 +65,8 @@ public class TI_SemanticMessagePassing {
         this.forceInterpretColumn = forceInterpretColumn;
     }
 
-    public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException {
-        LTableAnnotation tab_annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
+    public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
+        LTableAnnotation_SMP_Freebase tab_annotations = new LTableAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
 
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
@@ -105,10 +106,10 @@ public class TI_SemanticMessagePassing {
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t SEMANTIC MESSAGE PASSING");
-        LTableAnnotation copy;
+        LTableAnnotation_SMP_Freebase copy = new LTableAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
         CellAnnotationUpdater cellAnnotationUpdater = new CellAnnotationUpdater();
         for (int i = 1; i <= halting_num_of_iterations_max; i++) {
-            copy = LTableAnnotation.copy(tab_annotations, table.getNumRows(), table.getNumCols());
+            LTableAnnotation.copy(tab_annotations, copy);
             System.out.println("\t\t>> ITERATION " + (i));
             //column concept and relation factors send message to entity factors
             ObjectMatrix2D messages = new ChangeMessageBroadcaster().computeChangeMessages(tab_annotations, table);
@@ -136,9 +137,9 @@ public class TI_SemanticMessagePassing {
         return tab_annotations;
     }
 
-    private void computeClassesAndRelations(LTableAnnotation tab_annotations, LTable table, int iteration) throws IOException {
+    private void computeClassesAndRelations(LTableAnnotation_SMP_Freebase tab_annotations, LTable table, int iteration) throws IOException {
         System.out.println(">\t\t (itr=" + iteration + ") COLUMN SEMANTIC TYPE COMPUTING...");
-        ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
+       // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
             if (forceInterpret(col)) {
                 System.out.println("\t\t>> Column=(forced)" + col);

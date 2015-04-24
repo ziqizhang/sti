@@ -4,6 +4,7 @@ import cern.colt.matrix.ObjectMatrix1D;
 import cern.colt.matrix.ObjectMatrix2D;
 import cern.colt.matrix.impl.SparseObjectMatrix1D;
 import cern.colt.matrix.impl.SparseObjectMatrix2D;
+import uk.ac.shef.dcs.oak.lodie.table.util.STIException;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 
 import java.util.*;
@@ -12,6 +13,8 @@ import java.util.*;
  */
 public class LTableAnnotation {
 
+    private int rows;
+    private int cols;
     private int subjectColumn;
     private ObjectMatrix1D headerAnnotations; //each object in the matrix is an array of HeaderAnnotation
     private ObjectMatrix2D contentAnnotations; //each object in the matrix is an array of CellAnnotation
@@ -19,10 +22,19 @@ public class LTableAnnotation {
     private Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> relationAnnotations_across_columns;
 
     public LTableAnnotation(int rows, int cols){
+        this.rows=rows;
+        this.cols=cols;
         headerAnnotations=new SparseObjectMatrix1D(cols);
         contentAnnotations = new SparseObjectMatrix2D(rows, cols);
         relationAnnotations_per_row =new HashMap<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>();
         relationAnnotations_across_columns = new HashMap<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>>();
+    }
+
+    public int getRows(){
+        return rows;
+    }
+    public int getCols(){
+        return cols;
     }
 
     public void resetRelationAnnotations(){
@@ -30,10 +42,17 @@ public class LTableAnnotation {
         relationAnnotations_across_columns.clear();
     }
 
-    public static LTableAnnotation copy(LTableAnnotation source, int rows, int cols){
-        LTableAnnotation target = new LTableAnnotation(rows,cols);
+    /**
+     * Target and Source must have the same dimension!!!
+     * @param source
+     * @param target
+     * @return
+     */
+    public static void copy(LTableAnnotation source, LTableAnnotation target) throws STIException {
+        if(source.getCols()!=target.getCols() || source.getRows()!=target.rows)
+            throw new STIException("Source and target table annotation object has different dimensions!");
 
-        for(int col=0; col<cols; col++){
+        for(int col=0; col<source.getCols(); col++){
             HeaderAnnotation[] annotations = source.getHeaderAnnotation(col);
             if(annotations==null)
                 continue;
@@ -45,8 +64,8 @@ public class LTableAnnotation {
             target.setHeaderAnnotation(col, copy);
         }
 
-        for(int row=0; row<rows;row++){
-            for(int col=0; col<cols; col++){
+        for(int row=0; row<source.getRows();row++){
+            for(int col=0; col<source.getCols(); col++){
                 CellAnnotation[] annotations = source.getContentCellAnnotations(row, col);
                 if(annotations==null)
                     continue;
@@ -62,7 +81,6 @@ public class LTableAnnotation {
         target.relationAnnotations_across_columns = new HashMap<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>>(
                 source.getRelationAnnotations_across_columns()
         );
-        return target;
     }
 
     private ObjectMatrix1D getHeaderAnnotations(){
@@ -200,4 +218,7 @@ public class LTableAnnotation {
         relationAnnotations_across_columns.put(ra.getSubject_object_key(), annotations_for_columns);
     }
 
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
 }

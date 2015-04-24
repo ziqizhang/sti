@@ -1,8 +1,5 @@
 package uk.ac.shef.dcs.oak.lodietest;
 
-import org.apache.any23.Any23;
-import uk.ac.shef.oak.any23.extension.extractor.LAny23;
-
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)
  * Date: 25/10/12

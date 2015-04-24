@@ -555,7 +555,8 @@ public class FreebaseQueryHelper {
 
 
     public double find_granularityForType(String type) throws IOException {
-        if(type.startsWith("/m/"))
+        if(type.startsWith("/m/")) //if the type id starts with "/m/" in strict sense it is a topic representing a concept
+        //but is not listed as a type in freebase
             return 1.0;
         String url = properties.get("FREEBASE_HOMEPAGE").toString() +type+"?instances=";
         Date startTime = new Date();

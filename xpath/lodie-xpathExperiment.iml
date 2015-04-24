@@ -9,7 +9,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="core" />
     <orderEntry type="library" name="Maven: org.jsoup:jsoup:1.6.3" level="project" />
     <orderEntry type="library" name="Maven: org.apache.any23.plugins:apache-any23-basic-crawler:1.0.0-incubating" level="project" />
     <orderEntry type="library" name="Maven: edu.uci.ics:crawler4j:3.4" level="project" />
@@ -80,7 +79,7 @@
     <orderEntry type="library" name="Maven: com.google.oauth-client:google-oauth-client:1.17.0-rc" level="project" />
     <orderEntry type="library" name="Maven: com.google.http-client:google-http-client:1.17.0-rc" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:1.3.9" level="project" />
-    <orderEntry type="library" name="Maven: uk.ac.shef.oak:lodie-core:1.0" level="project" />
+    <orderEntry type="module" module-name="core" />
     <orderEntry type="module" module-name="any23extension" />
     <orderEntry type="library" name="Maven: org.apache.any23:apache-any23-core:0.7.0-incubating" level="project" />
     <orderEntry type="library" name="Maven: commons-httpclient:commons-httpclient:3.1" level="project" />

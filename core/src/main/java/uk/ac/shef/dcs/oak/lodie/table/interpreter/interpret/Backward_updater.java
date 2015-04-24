@@ -5,6 +5,7 @@ import uk.ac.shef.dcs.oak.lodie.table.interpreter.content.KBSearcher;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.selector.CellSelector;
 import uk.ac.shef.dcs.oak.lodie.table.rep.*;
+import uk.ac.shef.dcs.oak.lodie.table.util.STIException;
 import uk.ac.shef.dcs.oak.lodie.test.TableMinerConstants;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.ObjObj;
@@ -43,10 +44,12 @@ public class Backward_updater {
             List<Integer> interpreted_columns,
             LTable table,
             LTableAnnotation current_iteration_annotation
-    ) throws IOException {
+    ) throws IOException, STIException {
 
         int current_iteration = 0;
-        LTableAnnotation prev_iteration_annotation = LTableAnnotation.copy(current_iteration_annotation, table.getNumRows(), table.getNumCols());
+        LTableAnnotation prev_iteration_annotation = new LTableAnnotation(current_iteration_annotation.getRows(), current_iteration_annotation.getCols());
+
+                LTableAnnotation.copy(current_iteration_annotation, prev_iteration_annotation);
         List<String> domain_representation;
         Set<String> processed_entity_ids = new HashSet<String>();
         boolean converged;
@@ -79,7 +82,9 @@ public class Backward_updater {
             domain_representation = construct_domain_represtation(table, current_iteration_annotation, interpreted_columns);
             revise_header_annotation(current_iteration_annotation, domain_representation, interpreted_columns);
             //add dc scores to prev iteration's header annotations
-            prev_iteration_annotation = LTableAnnotation.copy(current_iteration_annotation, table.getNumRows(), table.getNumCols());
+            prev_iteration_annotation = new LTableAnnotation(current_iteration_annotation.getRows(),
+                    current_iteration_annotation.getCols());
+            LTableAnnotation.copy(current_iteration_annotation, prev_iteration_annotation);
 
             //scores will be reset, then recalculated. dc scores lost
             revise_cell_disambiguation_then_reannotate_cell_and_header(processed_entity_ids,
@@ -92,17 +97,23 @@ public class Backward_updater {
             //both prev and current iterations' header annotations do not have dc scores
             converged = checkConvergence(prev_iteration_annotation, current_iteration_annotation,
                     table.getNumRows(), interpreted_columns);
-            if (!converged)
-                prev_iteration_annotation = LTableAnnotation.copy(current_iteration_annotation,
-                        table.getNumRows(), table.getNumCols());
+            if (!converged) {
+                prev_iteration_annotation = new LTableAnnotation(current_iteration_annotation.getRows(),
+                        current_iteration_annotation.getCols());
+                LTableAnnotation.copy(current_iteration_annotation,
+                       prev_iteration_annotation);
+            }
             current_iteration++;
         } while (!converged && current_iteration < TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS);
 
         if (current_iteration >= TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS) {
             System.out.println("\t>> UPDATE CANNOT STABLIZE AFTER " + current_iteration + " ITERATIONS, Stopped");
-            if (prev_iteration_annotation != null)
-                current_iteration_annotation = LTableAnnotation.copy(prev_iteration_annotation,
-                        table.getNumRows(), table.getNumCols());
+            if (prev_iteration_annotation != null) {
+                current_iteration_annotation = new LTableAnnotation(prev_iteration_annotation.getRows(),
+                        prev_iteration_annotation.getCols());
+                LTableAnnotation.copy(prev_iteration_annotation,
+                        current_iteration_annotation);
+            }
         } else
             System.out.println("\t>> UPDATE STABLIZED AFTER " + current_iteration + " ITERATIONS");
 

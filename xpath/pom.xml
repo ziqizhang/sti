@@ -138,7 +138,6 @@
 
 
         <dependency>
-
             <groupId>uk.ac.shef.oak</groupId>
             <artifactId>triplesearch</artifactId>
             <version>1.0</version>
@@ -151,8 +150,6 @@
         </dependency>
 
         <dependency>
-
-
             <groupId>uk.ac.shef.oak</groupId>
             <artifactId>lodie-core</artifactId>
             <version>1.0</version>

@@ -4,6 +4,7 @@ import uk.ac.shef.dcs.oak.lodie.table.interpreter.maincol.ColumnFeature;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.maincol.MainColumnFinder;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.lodie.table.rep.*;
+import uk.ac.shef.dcs.oak.lodie.table.util.STIException;
 import uk.ac.shef.dcs.oak.lodie.test.TableMinerConstants;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
@@ -45,7 +46,7 @@ public class MainInterpreter_and_Forward_learner {
         this.hbr_scorer = hbr_scorer;
     }
 
-    public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException {
+    public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
         //1. find the main subject column of this table
         System.out.println(">\t Detecting main column...");
         List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);

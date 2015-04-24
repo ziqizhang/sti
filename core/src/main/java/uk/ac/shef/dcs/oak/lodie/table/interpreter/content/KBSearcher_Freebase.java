@@ -98,8 +98,8 @@ public class KBSearcher_Freebase extends KBSearcher {
         } catch (Exception e) {
         }
 */
-        if(TableMinerConstants.FORCE_SEARCHAPI_QUERY)
-            forceQuery=true;
+        if (TableMinerConstants.FORCE_SEARCHAPI_QUERY)
+            forceQuery = true;
 
         List<EntityCandidate> result = null;
         if (!forceQuery) {
@@ -188,9 +188,9 @@ public class KBSearcher_Freebase extends KBSearcher {
             }
         }
 
-        String id="|";
+        String id = "|";
         for (EntityCandidate ec : result) {
-            id = id+ec.getId()+",";
+            id = id + ec.getId() + ",";
             Iterator<String[]> it = ec.getTypes().iterator();
             while (it.hasNext()) {
                 String[] s = it.next();
@@ -199,7 +199,7 @@ public class KBSearcher_Freebase extends KBSearcher {
             }
         }
 
-        System.out.println("(QUERY_KB:" + beforeFiltering + " => " + result.size()+id);
+        System.out.println("(QUERY_KB:" + beforeFiltering + " => " + result.size() + id);
         return result;
     }
 
@@ -363,16 +363,16 @@ public class KBSearcher_Freebase extends KBSearcher {
 
     @Override
     public double find_granularityForType(String type) throws IOException {
-        Double result=null;
+        Double result = null;
 
-            try {
-                Object o = solrCache.retrieve(toSolrKey(type));
-                if(o!=null) {
-                    log.warning("QUERY (cache load)=" + toSolrKey(type) + "|" + type);
-                    return (Double) o;
-                }
-            } catch (Exception e) {
+        try {
+            Object o = solrCache.retrieve(toSolrKey(type));
+            if (o != null) {
+                log.warning("QUERY (cache load)=" + toSolrKey(type) + "|" + type);
+                return (Double) o;
             }
+        } catch (Exception e) {
+        }
 
         if (result == null) {
             try {
@@ -387,14 +387,14 @@ public class KBSearcher_Freebase extends KBSearcher {
                 }*/
                     log.warning("QUERY (cache save)=" + toSolrKey(type) + "|" + type);
                 } catch (Exception e) {
-                    System.out.println("FAILED:"+type);
+                    System.out.println("FAILED:" + type);
                     e.printStackTrace();
                 }
-            }catch (IOException ioe){
-                log.warning("ERROR(Instances of Type): Unable to fetch freebase page of instances of type: "+type);
+            } catch (IOException ioe) {
+                log.warning("ERROR(Instances of Type): Unable to fetch freebase page of instances of type: " + type);
             }
         }
-        if(result==null)
+        if (result == null)
             return -1.0;
         return result;
     }
