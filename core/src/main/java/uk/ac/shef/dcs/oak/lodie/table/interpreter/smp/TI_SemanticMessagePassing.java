@@ -75,7 +75,6 @@ public class TI_SemanticMessagePassing {
 
         System.out.println(">\t INITIALIZATION");
         System.out.println(">\t\t NAMED ENTITY RANKER...");
-        ObjectMatrix2D neFactors = new SparseObjectMatrix2D(table.getNumRows(), table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
             /*if(col!=1)
                 continue;*/
@@ -83,7 +82,6 @@ public class TI_SemanticMessagePassing {
                 System.out.println("\t\t>> Column=(forced)" + col);
                 for (int r = 0; r < table.getNumRows(); r++) {
                     List<ObjObj<EntityCandidate, Double>> candidates = neRanker.rankCandidateNamedEntities(tab_annotations, table, r, col);
-                    neFactors.set(r, col, candidates);
                 }
             } else {
                 if (ignoreColumn(col)) continue;
@@ -95,14 +93,12 @@ public class TI_SemanticMessagePassing {
                 System.out.println("\t\t>> Column=" + col);
                 for (int r = 0; r < table.getNumRows(); r++) {
                     List<ObjObj<EntityCandidate, Double>> candidates = neRanker.rankCandidateNamedEntities(tab_annotations, table, r, col);
-                    neFactors.set(r, col, candidates);
                 }
             }
         }
 
         System.out.println(">\t COMPUTING HEADER CLASSIFICATION AND COLUMN-COLUMN RELATION");
         computeClassesAndRelations(tab_annotations, table, 0);
-
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t SEMANTIC MESSAGE PASSING");

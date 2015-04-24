@@ -32,7 +32,7 @@ public class RelationLearner {
 
         }
 
-        //compute candidate relations between any pairs of columns
+        //aggregate candidate relations between any pairs of columns
         for (int subjectColumn = 0; subjectColumn < table.getNumCols(); subjectColumn++) {  //choose a column to be subject column (must be NE column)
             if (!table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                 continue;
@@ -46,24 +46,25 @@ public class RelationLearner {
                     continue;
 
                 for (int r = 0; r < table.getNumRows(); r++) {
-                    //in SMP, only the highest ranked NE (the disambiguated NE) is needed from each cell to compute candidate relation
+                    //in SMP, only the highest ranked NE (the disambiguated NE) is needed from each cell to aggregate candidate relation
                     List<CellAnnotation> subjectCells = tableAnnotations.getBestContentCellAnnotations(r, subjectColumn);
                     LTableContentCell subjectCellText = table.getContentCell(r, subjectColumn);
                     List<CellAnnotation>  objectCells = tableAnnotations.getBestContentCellAnnotations(r, objectColumn);
                     LTableContentCell objectCellText = table.getContentCell(r, objectColumn);
 
-                    //compute relation on each row, between each pair of subject-object cells
-                    matcher.match(r, subjectCells, objectCells, subjectCellText, objectCellText, colTypes.get(objectColumn),
+                    //aggregate relation on each row, between each pair of subject-object cells
+                    matcher.match(r, subjectCells,subjectColumn, objectCells,objectColumn,
+                            subjectCellText, objectCellText, colTypes.get(objectColumn),
                             tableAnnotations);
                 }
             }
         }
 
-        //compute overall scores for relations on each column pairs and populate relation annotation object
-        compute(tableAnnotations);
+        //aggregate overall scores for relations on each column pairs and populate relation annotation object
+        aggregate(tableAnnotations);
     }
 
-    private void compute(
+    private void aggregate(
             LTableAnnotation tableAnnotation) {
 
         List<Key_SubjectCol_ObjectCol> processed = new ArrayList<Key_SubjectCol_ObjectCol>();
@@ -193,6 +194,10 @@ public class RelationLearner {
                 return Double.valueOf(o.score).compareTo(score);
             }
             return compare;
+        }
+
+        public String toString(){
+            return relationString+","+votes+","+score;
         }
     }
 }
