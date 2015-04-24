@@ -37,7 +37,7 @@ public class LTableAnnotation_SMP_Freebase extends LTableAnnotation {
                 if(h.getAnnotation_url().startsWith("/m/"))
                     result.add(h);
                 else{
-                    result.add(h);
+                    tmp.add(h);
                 }
             }
         }

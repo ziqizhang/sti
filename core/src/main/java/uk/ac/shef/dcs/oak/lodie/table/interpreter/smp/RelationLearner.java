@@ -118,7 +118,7 @@ public class RelationLearner {
                 HeaderBinaryRelationAnnotation hbr = new HeaderBinaryRelationAnnotation(relationDirection,
                         template.relationString,
                         template.relationString,
-                        maxVote);
+                        (double)maxVote/tableAnnotation.getRows());
                 tableAnnotation.addRelationAnnotation_across_column(hbr);
             }
             else{

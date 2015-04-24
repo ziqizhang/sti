@@ -27,12 +27,23 @@ public class ChangeMessageBroadcaster {
                 if(cellAnnotations.size()==0)
                     continue;
 
-                List<HeaderAnnotation> copy = new ArrayList<HeaderAnnotation>(headerAnnotations);
-                copy.retainAll(cellAnnotations.get(0).getAnnotation().getTypeIds());
-                if(copy.size()==0){
+                List<String> headerAnnotationStrings = new ArrayList<String>();
+                for(HeaderAnnotation ha: headerAnnotations)
+                    headerAnnotationStrings.add(ha.getAnnotation_url());
+                boolean sendChange=false;
+                for(CellAnnotation best: cellAnnotations){ //this cell can have multiple annotations with the same highest score
+                    //we need to check everyone of them. if any one's type does not overlap with the header annotations, it need changing
+                    List<String> copy = new ArrayList<String>(headerAnnotationStrings);
+                    copy.retainAll(best.getAnnotation().getTypeIds());
+                    if(copy.size()==0) {
+                        sendChange = true;
+                        break;
+                    }
+                }
+                if(sendChange){
                     ChangeMessage m = new ChangeMessage();
                     m.setConfidence(headerAnnotations.get(0).getFinalScore());
-                    m.setLabel(headerAnnotations.get(0).getAnnotation_label());
+                    m.setLabel(headerAnnotations.get(0).getAnnotation_url());
                     updateMessageForCell(messages, row, col, m);
                 }
             }

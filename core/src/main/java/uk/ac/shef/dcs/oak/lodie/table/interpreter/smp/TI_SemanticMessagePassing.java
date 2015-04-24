@@ -102,9 +102,10 @@ public class TI_SemanticMessagePassing {
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t SEMANTIC MESSAGE PASSING");
-        LTableAnnotation_SMP_Freebase copy = new LTableAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
+        LTableAnnotation_SMP_Freebase copy;
         CellAnnotationUpdater cellAnnotationUpdater = new CellAnnotationUpdater();
         for (int i = 1; i <= halting_num_of_iterations_max; i++) {
+            copy= new LTableAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
             LTableAnnotation.copy(tab_annotations, copy);
             System.out.println("\t\t>> ITERATION " + (i));
             //column concept and relation factors send message to entity factors

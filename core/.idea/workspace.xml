@@ -2145,13 +2145,40 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TI_SemanticMessagePassing.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="TI_SemanticMessagePassing.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/TI_SemanticMessagePassing.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.43229166" vertical-offset="1810" max-vertical-offset="4408">
-              <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+            <state vertical-scroll-proportion="-5.12" vertical-offset="1867" max-vertical-offset="4427">
+              <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ChangeMessageBroadcaster.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/ChangeMessageBroadcaster.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.88997555" vertical-offset="358" max-vertical-offset="2109">
+              <caret line="45" column="75" selection-start-line="45" selection-start-column="75" selection-end-line="45" selection-end-column="75" />
+              <folding>
+                <element signature="e#1156#1164#0" expanded="true" />
+                <element signature="e#1663#1671#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LTableAnnotation_SMP_Freebase.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/LTableAnnotation_SMP_Freebase.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="263" max-vertical-offset="1254">
+              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1297#1315#0" expanded="true" />
+                <element signature="e#1665#1683#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2160,15 +2187,15 @@
       <file leaf-file-name="RelationLearner.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/RelationLearner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1597" max-vertical-offset="3933">
-              <caret line="93" column="0" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1977" max-vertical-offset="3933">
+              <caret line="120" column="32" selection-start-line="120" selection-start-column="32" selection-end-line="120" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#3553#3579#0" expanded="true" />
                 <element signature="e#4202#4235#0" expanded="true" />
-                <element signature="e#7267#7286#0" expanded="true" />
-                <element signature="e#10187#10188#0" expanded="true" />
-                <element signature="e#10252#10253#0" expanded="true" />
+                <element signature="e#7301#7320#0" expanded="true" />
+                <element signature="e#10221#10222#0" expanded="true" />
+                <element signature="e#10286#10287#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2190,23 +2217,6 @@
             <state vertical-scroll-proportion="0.0" vertical-offset="42" max-vertical-offset="2261">
               <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RelationTextMatch_Scorer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/RelationTextMatch_Scorer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2186" max-vertical-offset="2641">
-              <caret line="130" column="60" selection-start-line="130" selection-start-column="60" selection-end-line="130" selection-end-column="60" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1959#1983#0" expanded="true" />
-                <element signature="e#2995#3036#0" expanded="true" />
-                <element signature="e#3190#3228#0" expanded="true" />
-                <element signature="e#4227#4244#0" expanded="true" />
-                <element signature="e#5687#5696#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -2250,7 +2260,6 @@
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/MessageOfChange.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/ChangeMessageFromColumnHeader.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/ChangeMessageFromColumnsRelation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/ChangeMessageBroadcaster.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/ChangeMessage.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/CellAnnotationUpdater.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/test/TestTableInterpretation_LimayeDataset_SMP.java" />
@@ -2259,7 +2268,6 @@
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/content/KBSearcher_Freebase.java" />
         <option value="$PROJECT_DIR$/../triplesearch/src/main/java/uk/ac/shef/dcs/oak/triplesearch/freebase/FreebaseQueryHelper.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/LTableAnnotation_for_SMP.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/LTableAnnotation_SMP_Freebase.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/util/STIException.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/rep/LTableAnnotation.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/interpret/Backward_updater.java" />
@@ -2270,8 +2278,10 @@
         <option value="$PROJECT_DIR$/../test/src/main/java/uk/ac/shef/dcs/oak/lodietest/TestAny23.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/ColumnClassifier.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/RelationTextMatch_Scorer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/RelationLearner.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/TI_SemanticMessagePassing.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/LTableAnnotation_SMP_Freebase.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/ChangeMessageBroadcaster.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/RelationLearner.java" />
       </list>
     </option>
   </component>
@@ -4504,12 +4514,12 @@
       <workItem from="1429193534163" duration="7696000" />
       <workItem from="1429532847280" duration="33304000" />
       <workItem from="1429694012065" duration="589000" />
-      <workItem from="1429694850337" duration="39451000" />
+      <workItem from="1429694850337" duration="40875000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87131000" />
+    <option name="totallyTimeSpent" value="88555000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -5479,30 +5489,6 @@
           <option name="timeStamp" value="184" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/TI_SemanticMessagePassing.java</url>
-          <line>152</line>
-          <properties />
-          <option name="timeStamp" value="206" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/LTableAnnotation_SMP_Freebase.java</url>
-          <line>23</line>
-          <properties />
-          <option name="timeStamp" value="214" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/RelationLearner.java</url>
-          <line>63</line>
-          <properties />
-          <option name="timeStamp" value="226" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/RelationLearner.java</url>
-          <line>69</line>
-          <properties />
-          <option name="timeStamp" value="246" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/RelationLearner.java</url>
           <line>95</line>
           <properties />
@@ -5514,8 +5500,44 @@
           <properties />
           <option name="timeStamp" value="254" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/TI_SemanticMessagePassing.java</url>
+          <line>105</line>
+          <properties />
+          <option name="timeStamp" value="255" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/TI_SemanticMessagePassing.java</url>
+          <line>113</line>
+          <properties />
+          <option name="timeStamp" value="256" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/LTableAnnotation_SMP_Freebase.java</url>
+          <line>37</line>
+          <properties />
+          <option name="timeStamp" value="260" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/LTableAnnotation_SMP_Freebase.java</url>
+          <line>53</line>
+          <properties />
+          <option name="timeStamp" value="262" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/LTableAnnotation_SMP_Freebase.java</url>
+          <line>45</line>
+          <properties />
+          <option name="timeStamp" value="263" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/ChangeMessageBroadcaster.java</url>
+          <line>43</line>
+          <properties />
+          <option name="timeStamp" value="269" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="255" />
+      <option name="time" value="270" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -5657,18 +5679,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/ChangeMessageBroadcaster.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1049" max-vertical-offset="2033">
-          <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1147#1165#0" expanded="false" />
-            <element signature="e#2278#2286#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/CellAnnotationUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.22365591" vertical-offset="675" max-vertical-offset="3857">
@@ -5782,21 +5792,6 @@
           <folding>
             <element signature="e#172#173#0" expanded="true" />
             <element signature="e#202#203#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/LTableAnnotation_SMP_Freebase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="276" max-vertical-offset="1349">
-          <caret line="18" column="98" selection-start-line="18" selection-start-column="62" selection-end-line="18" selection-end-column="62" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1094#1095#0" expanded="true" />
-            <element signature="e#1297#1315#0" expanded="true" />
-            <element signature="e#1665#1683#0" expanded="true" />
-            <element signature="e#2085#2479#0" expanded="true" />
-            <element signature="e#2464#2465#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -5985,27 +5980,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/RelationLearner.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/TI_SemanticMessagePassing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1597" max-vertical-offset="3933">
-          <caret line="93" column="0" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+        <state vertical-scroll-proportion="-5.12" vertical-offset="1867" max-vertical-offset="4427">
+          <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3553#3579#0" expanded="true" />
-            <element signature="e#4202#4235#0" expanded="true" />
-            <element signature="e#7267#7286#0" expanded="true" />
-            <element signature="e#10187#10188#0" expanded="true" />
-            <element signature="e#10252#10253#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/TI_SemanticMessagePassing.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/LTableAnnotation_SMP_Freebase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43229166" vertical-offset="1810" max-vertical-offset="4408">
-          <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="263" max-vertical-offset="1254">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1297#1315#0" expanded="true" />
+            <element signature="e#1665#1683#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/RelationLearner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1977" max-vertical-offset="3933">
+          <caret line="120" column="32" selection-start-line="120" selection-start-column="32" selection-end-line="120" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3553#3579#0" expanded="true" />
+            <element signature="e#4202#4235#0" expanded="true" />
+            <element signature="e#7301#7320#0" expanded="true" />
+            <element signature="e#10221#10222#0" expanded="true" />
+            <element signature="e#10286#10287#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/lodie/table/interpreter/smp/ChangeMessageBroadcaster.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.88997555" vertical-offset="358" max-vertical-offset="2109">
+          <caret line="45" column="75" selection-start-line="45" selection-start-column="75" selection-end-line="45" selection-end-column="75" />
+          <folding>
+            <element signature="e#1156#1164#0" expanded="true" />
+            <element signature="e#1663#1671#0" expanded="true" />
           </folding>
         </state>
       </provider>
