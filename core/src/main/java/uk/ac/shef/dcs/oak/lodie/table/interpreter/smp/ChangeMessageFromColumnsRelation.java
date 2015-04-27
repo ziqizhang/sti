@@ -1,5 +1,7 @@
 package uk.ac.shef.dcs.oak.lodie.table.interpreter.smp;
 
+import java.util.List;
+
 /**
  * Created by zqz on 23/04/2015.
  */
@@ -13,5 +15,9 @@ public class ChangeMessageFromColumnsRelation extends ChangeMessage {
 
     public void setFlag_subOrObj(int flag_subOrObj) {
         this.flag_subOrObj = flag_subOrObj;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
     }
 }

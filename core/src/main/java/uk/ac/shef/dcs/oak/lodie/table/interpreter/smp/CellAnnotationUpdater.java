@@ -94,7 +94,7 @@ public class CellAnnotationUpdater {
             ChangeMessageFromColumnsRelation message = (ChangeMessageFromColumnsRelation) m;
             if (message.getFlag_subOrObj() == 0) { //the current cell's NE is the subject in the relation that sends the "change" message
                 List<String[]> facts = ca.getAnnotation().getFacts();
-                if (containsRelation(facts, message.getLabel()))
+                if (containsRelation(facts, message.getLabels()))
                     return true;
                 else return false;
             }else{
@@ -113,8 +113,10 @@ public class CellAnnotationUpdater {
                     }
                 }
             }
-        } else {
-            if (ca.getAnnotation().getTypes().contains(m.getLabel()))
+        } else {  //change message sent by header
+            List<String> legitHeaderLabels = m.getLabels();
+            legitHeaderLabels.retainAll(ca.getAnnotation().getTypeIds());
+            if (legitHeaderLabels.size()>0)
                 return true;
         }
         return false;
@@ -187,9 +189,9 @@ public class CellAnnotationUpdater {
         return rs;
     }
 
-    private boolean containsRelation(List<String[]> facts, String label) {
+    private boolean containsRelation(List<String[]> facts, List<String> labels) {
         for (String[] fact : facts) {
-            if (fact[0].equals(label))
+            if (labels.contains(fact[0]))
                 return true;
         }
         return false;
