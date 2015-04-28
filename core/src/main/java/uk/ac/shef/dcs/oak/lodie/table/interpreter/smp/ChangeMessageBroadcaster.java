@@ -53,26 +53,29 @@ public class ChangeMessageBroadcaster {
 
         //messages by relations
         Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> relations = tableAnnotation.getRelationAnnotations_across_columns();
+        //go thru every directional relations
         for (Map.Entry<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> e : relations.entrySet()) {
-            Key_SubjectCol_ObjectCol subobj_col_ids = e.getKey();
+            Key_SubjectCol_ObjectCol subobj_col_ids = e.getKey(); //sub-obj key tells us the subject column id, and the obj column id
             List<HeaderBinaryRelationAnnotation> relationAnnotations = e.getValue();
             Collections.sort(relationAnnotations);
-            double maxScore_of_relation_across_columns = relationAnnotations.get(0).getFinalScore();
+            double maxScore_of_relation_across_columns = relationAnnotations.get(0).getFinalScore(); //what is the top relation's score
             List<String> highestScoringRelationStrings = new ArrayList<String>();
-            for (HeaderBinaryRelationAnnotation hba : relationAnnotations) {
+            for (HeaderBinaryRelationAnnotation hba : relationAnnotations) {  //what are the top scoring relaions. these are the currently assigned relations for the two columns
                 if (hba.getFinalScore() == maxScore_of_relation_across_columns)
                     highestScoringRelationStrings.add(hba.getAnnotation_label());
             }
-
+            //next go thru every row and check if the current top scored relations apply
             Map<Integer, List<CellBinaryRelationAnnotation>>
                     relationAnnotations_per_row = tableAnnotation.getRelationAnnotations_per_row().get(subobj_col_ids);
 
             List<Integer> rows_annotated_with_relations = new ArrayList<Integer>(relationAnnotations_per_row.keySet());
             for (int row = 0; row < tableAnnotation.getRows(); row++) {
                 boolean hasMatch = false;
+                //do we know if this row is annotated with relations?
                 if (rows_annotated_with_relations.contains(row)) {
                     List<CellBinaryRelationAnnotation> relations_on_row = relationAnnotations_per_row.get(row);
-
+                    //if so, take the highest scoring relation for the current row, if it is the same as the one assigned
+                    //for the two columns, we are ok
                     if (relations_on_row.size() != 0) {
                         Collections.sort(relations_on_row);
                         double maxScore = relations_on_row.get(0).getScore();
@@ -84,7 +87,8 @@ public class ChangeMessageBroadcaster {
                         }
                     }
                 }
-
+                //if for this row no relation is present or no relation matches with the annotations for the two columns,
+                //we prepare change messages
                 if (!hasMatch) {
                     ChangeMessageFromColumnsRelation forSubjectCell = new ChangeMessageFromColumnsRelation();
                     forSubjectCell.setLabels(highestScoringRelationStrings);

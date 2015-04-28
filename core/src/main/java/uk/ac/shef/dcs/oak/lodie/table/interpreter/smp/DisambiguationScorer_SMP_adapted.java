@@ -8,12 +8,12 @@ import uk.ac.shef.dcs.oak.lodie.table.interpreter.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.lodie.table.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.lodie.table.rep.LTable;
 import uk.ac.shef.dcs.oak.lodie.table.rep.LTableContentCell;
+import uk.ac.shef.dcs.oak.lodie.table.util.DiceSimilarity;
 import uk.ac.shef.dcs.oak.lodie.test.TableMinerConstants;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.DiceSimilarity;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.io.IOException;

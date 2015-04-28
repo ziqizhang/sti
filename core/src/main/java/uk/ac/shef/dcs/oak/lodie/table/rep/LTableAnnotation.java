@@ -42,6 +42,10 @@ public class LTableAnnotation {
         relationAnnotations_across_columns.clear();
     }
 
+    public void resetHeaderAnnotations(){
+        headerAnnotations = new SparseObjectMatrix1D(headerAnnotations.size());
+    }
+
     /**
      * Target and Source must have the same dimension!!!
      * @param source
@@ -216,6 +220,24 @@ public class LTableAnnotation {
             System.err.println("hbr already contained");
         annotations_for_columns.add(ra);
         relationAnnotations_across_columns.put(ra.getSubject_object_key(), annotations_for_columns);
+    }
+
+    public List<HeaderBinaryRelationAnnotation> getBestRelationAnnotationsBetween(int subjectCol, int objectCol){
+        Key_SubjectCol_ObjectCol binary_key = new Key_SubjectCol_ObjectCol(subjectCol, objectCol);
+        return getBestRelationAnnotationsBetween(binary_key);
+    }
+
+    public List<HeaderBinaryRelationAnnotation> getBestRelationAnnotationsBetween(Key_SubjectCol_ObjectCol subobj){
+        List<HeaderBinaryRelationAnnotation> candidates = relationAnnotations_across_columns.get(subobj);
+        Collections.sort(candidates);
+
+        List<HeaderBinaryRelationAnnotation> result = new ArrayList<HeaderBinaryRelationAnnotation>();
+        double maxScore = candidates.get(0).getFinalScore();
+        for(HeaderBinaryRelationAnnotation hbr: candidates){
+            if(hbr.getFinalScore()==maxScore)
+                result.add(hbr);
+        }
+        return result;
     }
 
     public void setRows(int rows) {

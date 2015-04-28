@@ -20,4 +20,8 @@ public class ChangeMessageFromColumnsRelation extends ChangeMessage {
     public void setLabels(List<String> labels) {
         this.labels = labels;
     }
+
+    public String toString(){
+        return confidence+","+flag_subOrObj+","+labels;
+    }
 }

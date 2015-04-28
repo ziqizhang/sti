@@ -33,6 +33,8 @@ public class NamedEntityRanker {
         LTableContentCell cell = table.getContentCell(row, column);
         System.out.print("\t\t>> NamedEntityRanker, position at (" + row + "," + column + ") " +
                 cell);
+        if(row==11)
+            System.out.println();
         List<EntityCandidate> candidates = kbSearcher.find_matchingEntitiesForCell(cell);
         System.out.println(" candidates=" + candidates.size());
         //each candidate will have a map containing multiple elements of scores. See DisambiguationScorer_SMP_adapted
@@ -56,7 +58,7 @@ public class NamedEntityRanker {
         return disambiguationScores;
     }
 
-    public List<ObjObj<EntityCandidate, Double>> rankCandidateNamedEntities(
+    public void rankCandidateNamedEntities(
             LTableAnnotation tableAnnotations, LTable table,
                                                                              int row, int column
     ) throws IOException {
@@ -82,6 +84,6 @@ public class NamedEntityRanker {
             i++;
         }
         tableAnnotations.setContentCellAnnotations(row, column, annotations);
-        return sorted;
+        //return sorted;
     }
 }

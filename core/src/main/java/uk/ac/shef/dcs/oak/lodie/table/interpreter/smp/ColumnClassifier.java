@@ -61,6 +61,8 @@ public class ColumnClassifier {
         });
 
         //tie breaker based on granularity score of concepts
+        if(result_votes.size()==0)
+            System.out.println();
         double maxScore = result_votes.get(0).getOtherObject();
         //is there a tie?
         int count_same_max_score = 0;

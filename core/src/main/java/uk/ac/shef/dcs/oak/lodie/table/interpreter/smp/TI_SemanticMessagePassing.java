@@ -6,18 +6,14 @@ import cern.colt.matrix.impl.SparseObjectMatrix1D;
 import cern.colt.matrix.impl.SparseObjectMatrix2D;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.maincol.MainColumnFinder;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.oak.lodie.table.rep.CellAnnotation;
-import uk.ac.shef.dcs.oak.lodie.table.rep.CellBinaryRelationAnnotation;
-import uk.ac.shef.dcs.oak.lodie.table.rep.LTable;
-import uk.ac.shef.dcs.oak.lodie.table.rep.LTableAnnotation;
+import uk.ac.shef.dcs.oak.lodie.table.rep.*;
 import uk.ac.shef.dcs.oak.lodie.table.util.STIException;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by zqz on 20/04/2015.
@@ -81,7 +77,7 @@ public class TI_SemanticMessagePassing {
             if (forceInterpret(col)) {
                 System.out.println("\t\t>> Column=(forced)" + col);
                 for (int r = 0; r < table.getNumRows(); r++) {
-                    List<ObjObj<EntityCandidate, Double>> candidates = neRanker.rankCandidateNamedEntities(tab_annotations, table, r, col);
+                    neRanker.rankCandidateNamedEntities(tab_annotations, table, r, col);
                 }
             } else {
                 if (ignoreColumn(col)) continue;
@@ -92,23 +88,24 @@ public class TI_SemanticMessagePassing {
                 //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
                 System.out.println("\t\t>> Column=" + col);
                 for (int r = 0; r < table.getNumRows(); r++) {
-                    List<ObjObj<EntityCandidate, Double>> candidates = neRanker.rankCandidateNamedEntities(tab_annotations, table, r, col);
+                    neRanker.rankCandidateNamedEntities(tab_annotations, table, r, col);
                 }
             }
         }
 
-        System.out.println(">\t COMPUTING HEADER CLASSIFICATION AND COLUMN-COLUMN RELATION");
-        computeClassesAndRelations(tab_annotations, table, 0);
+        System.out.println(">\t\t COMPUTING HEADER CLASSIFICATION AND COLUMN-COLUMN RELATION");
+        computeClassesAndRelations(tab_annotations, table, 1);
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t SEMANTIC MESSAGE PASSING");
         LTableAnnotation_SMP_Freebase copy;
         CellAnnotationUpdater cellAnnotationUpdater = new CellAnnotationUpdater();
         for (int i = 1; i <= halting_num_of_iterations_max; i++) {
-            copy= new LTableAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
+            copy = new LTableAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
             LTableAnnotation.copy(tab_annotations, copy);
-            System.out.println("\t\t>> ITERATION " + (i));
+            System.out.println("\t>> ITERATION " + (i));
             //column concept and relation factors send message to entity factors
+            System.out.println("\t\t>> Computing messages");
             ObjectMatrix2D messages = new ChangeMessageBroadcaster().computeChangeMessages(tab_annotations, table);
             //check middle-point halting condition
             boolean stop = false;
@@ -121,22 +118,32 @@ public class TI_SemanticMessagePassing {
             }
 
             //re-compute cell annotations based on messages
-            cellAnnotationUpdater.update(messages, tab_annotations);
-            //re-compute header and relation annotations
-            computeClassesAndRelations(tab_annotations, table, i + 1);
+            System.out.println("\t\t>> (itr=" + i + ") Re-computing named entities");
+            int[] updateResult = cellAnnotationUpdater.update(messages, tab_annotations);
+            System.out.println("\t\t   (requiredUpdate=" + updateResult[1] + ", updated=" + updateResult[0]+")");
 
             //check stopping condition
             stop = haltingConditionReached(i, halting_num_of_iterations_max, copy, tab_annotations);
             if (stop) {
-                System.out.println("\t\t>> Halting condition reached, iteration=" + i);
+                System.out.println(">\t Halting condition reached, iteration=" + i);
+                break;
+            } else {
+                //re-compute header and relation annotations
+                resetClassesAndRelations(tab_annotations);
+                computeClassesAndRelations(tab_annotations, table, i + 1);
             }
         }
         return tab_annotations;
     }
 
+    private void resetClassesAndRelations(LTableAnnotation_SMP_Freebase tab_annotations) {
+        tab_annotations.resetHeaderAnnotations();
+        tab_annotations.resetRelationAnnotations();
+    }
+
     private void computeClassesAndRelations(LTableAnnotation_SMP_Freebase tab_annotations, LTable table, int iteration) throws IOException {
-        System.out.println(">\t\t (itr=" + iteration + ") COLUMN SEMANTIC TYPE COMPUTING...");
-       // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
+        System.out.println("\t\t>> (itr=" + iteration + ") COLUMN SEMANTIC TYPE COMPUTING...");
+        // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
             if (forceInterpret(col)) {
                 System.out.println("\t\t>> Column=(forced)" + col);
@@ -150,7 +157,7 @@ public class TI_SemanticMessagePassing {
             }
         }
 
-        System.out.println(">\t\t (itr=" + iteration + ") RELATION COMPUTING...");
+        System.out.println("\t\t>> (itr=" + iteration + ") RELATION COMPUTING...");
         relationLearner.inferRelation(tab_annotations, table);
     }
 
@@ -201,8 +208,68 @@ public class TI_SemanticMessagePassing {
         if (currentIteration == maxIterations)
             return true;
 
-        return false;
+        //check header annotations
+        int header_converged_count = 0;
+        boolean header_converged = false;
+        for (int c=0; c<previous.getCols(); c++) {
+            List<HeaderAnnotation> header_annotations_prev_iteration = previous.getBestHeaderAnnotations(c);
+            List<HeaderAnnotation> header_annotations_current_iteration = current.getBestHeaderAnnotations(c);
+            if(header_annotations_prev_iteration==null&&header_annotations_current_iteration==null) {
+                header_converged_count++;
+                continue;
+            }
+            if (header_annotations_current_iteration.size() == header_annotations_prev_iteration.size()) {
+                header_annotations_current_iteration.retainAll(header_annotations_prev_iteration);
+                if (header_annotations_current_iteration.size() == header_annotations_prev_iteration.size())
+                    header_converged_count++;
+                else
+                    return false;
+            } else
+                return false;
+        }
+        if (header_converged_count == previous.getCols()) {
+            header_converged = true;
+        }
+
+        //check cell annotations
+        boolean cell_converged = true;
+        for (int c=0; c<previous.getCols(); c++) {
+            for (int row = 0; row < previous.getRows(); row++) {
+                List<CellAnnotation> cell_prev_annotations = previous.getBestContentCellAnnotations(row, c);
+                List<CellAnnotation> cell_current_annotations = current.getBestContentCellAnnotations(row, c);
+                if (cell_current_annotations.size() == cell_prev_annotations.size()) {
+                    cell_current_annotations.retainAll(cell_prev_annotations);
+                    if (cell_current_annotations.size() != cell_prev_annotations.size())
+                        return false;
+                }
+            }
+        }
+
+        //check relation annotations
+        int relation_converged_count = 0;
+        boolean relation_converged = false;
+        Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> prev_relations=previous.getRelationAnnotations_across_columns();
+        Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> current_relation = current.getRelationAnnotations_across_columns();
+        Set<Key_SubjectCol_ObjectCol> tmp_keys = new HashSet<Key_SubjectCol_ObjectCol>(prev_relations.keySet());
+        tmp_keys.retainAll(current_relation.keySet());
+        if(tmp_keys.size()!=prev_relations.keySet().size()|| tmp_keys.size()!=current_relation.keySet().size())
+            return false;
+        for(Key_SubjectCol_ObjectCol subobj: tmp_keys){
+            List<HeaderBinaryRelationAnnotation> prev_candidates = previous.getBestRelationAnnotationsBetween(subobj);
+            List<HeaderBinaryRelationAnnotation> current_candidates = current.getBestRelationAnnotationsBetween(subobj);
+            List<HeaderBinaryRelationAnnotation> tmp = new ArrayList<HeaderBinaryRelationAnnotation>(prev_candidates);
+            tmp.retainAll(current_candidates);
+            if(tmp.size()==prev_candidates.size()&& tmp.size()==current_candidates.size()){
+                relation_converged_count++;
+            }
+        }
+        if(relation_converged_count == tmp_keys.size())
+            relation_converged=true;
+
+        return header_converged && cell_converged && relation_converged;
     }
+
+
 
     private boolean ignoreColumn(Integer i) {
         if (i != null) {

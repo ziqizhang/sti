@@ -108,4 +108,13 @@ public class HeaderBinaryRelationAnnotation implements Serializable, Comparable<
     public void setAnnotation_label(String annotation_label) {
         this.annotation_label = annotation_label;
     }
+
+    public boolean equals(Object o){
+        if(o instanceof HeaderBinaryRelationAnnotation){
+            HeaderBinaryRelationAnnotation hbr = (HeaderBinaryRelationAnnotation) o;
+            return hbr.getSubject_object_key().equals(getSubject_object_key()) &&
+                    hbr.getAnnotation_url().equals(getAnnotation_url());
+        }
+        return false;
+    }
 }
