@@ -1,11 +1,10 @@
 package uk.ac.shef.dcs.oak.lodie.table.interpreter.smp;
 
 import cern.colt.matrix.ObjectMatrix2D;
-import org.openjena.atlas.iterator.Iter;
 import uk.ac.shef.dcs.oak.lodie.table.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.lodie.table.rep.Key_SubjectCol_ObjectCol;
 import uk.ac.shef.dcs.oak.lodie.table.rep.LTableAnnotation;
-import uk.ac.shef.dcs.oak.lodie.table.util.CombinationGenerator;
+import uk.ac.shef.dcs.oak.lodie.table.util.SubsetGenerator;
 
 import java.util.*;
 
@@ -209,11 +208,11 @@ public class CellAnnotationUpdater {
     //factors. Here we compute different combinations of satisfied "change" messages ranked by preference (see Mulwad's papge
     // on page 12
     private List<String> createSortedPreferenceKeys(int totalMessages) {
-        String[] in = new String[totalMessages];
+        Set<String> in = new HashSet<String>(totalMessages);
         for (int i = 0; i < totalMessages; i++) {
-            in[i] = String.valueOf(i);
+            in.add(String.valueOf(i));
         }
-        List<String> rs = CombinationGenerator.generateCombinations(in);
+        List<String> rs = SubsetGenerator.generateSubsets(in);
         Collections.sort(rs, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {

@@ -92,7 +92,7 @@ public class RelationLearner {
                 List<RelationDataTuple> best_objsub = selectBest(votes, reverse_relationKey);   //the highest scoring relation in the direction of object-subject relation
 
                 integrateCreateHeaderBinaryRelationAnnotations(best_subobj, best_objsub, tableAnnotation);
-            } else {//no relation from reverse direction, todo
+            } else {//no relation from reverse direction,
                 integrateCreateHeaderBinaryRelationAnnotations(best_subobj, null, tableAnnotation);
             }
         }
