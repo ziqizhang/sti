@@ -40,8 +40,7 @@ public class RelationTextMatch_Scorer {
                       DataTypeClassifier.DataType object_column_type,
                       LTableAnnotation tableAnnotation
     ) {
-        if (subjectCellAnnotations.size() != 0 && objectCellAnnotations.size() != 0) {
-
+        if (subjectCellAnnotations.size() != 0) {
             List<ObjObj<String, Double>> result = new ArrayList<ObjObj<String, Double>>();
             if (subjectCellAnnotations.size() > 0 && UtilRelationMatcher.isValidType(object_column_type)) {
                 for (int s = 0; s < subjectCellAnnotations.size(); s++) {
@@ -56,8 +55,6 @@ public class RelationTextMatch_Scorer {
                         String objText = objectCellText.getText();
 
                         List<String[]> subject_entity_facts = subjectEntity.getAnnotation().getFacts();
-                        Map<Integer, List<ObjObj<String[], Double>>> matching_scores =
-                                new HashMap<Integer, List<ObjObj<String[], Double>>>();
 
                         //typing the objects of facts
                         Map<Integer, DataTypeClassifier.DataType> fact_data_types = new HashMap<Integer, DataTypeClassifier.DataType>();
@@ -115,7 +112,6 @@ public class RelationTextMatch_Scorer {
                                 result.add(new ObjObj<String, Double>(fact[0], score));
                             }
                         }
-
 
                         //sorting and selection for all and create annotations
                         Collections.sort(result, new Comparator<ObjObj<String, Double>>() {

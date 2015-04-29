@@ -25,11 +25,7 @@ public class RelationLearner {
         for (int c = 0; c < table.getNumCols(); c++) {
             DataTypeClassifier.DataType type =
                     table.getColumnHeader(c).getTypes().get(0).getCandidateType();
-            if (type.equals(DataTypeClassifier.DataType.ORDERED_NUMBER))
-                continue; //ordered numbered columns are not interesting
-            else
-                colTypes.put(c, type);
-
+            colTypes.put(c, type);
         }
 
         //aggregate candidate relations between any pairs of columns
@@ -38,7 +34,7 @@ public class RelationLearner {
                 continue;
 
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
-                if(subjectColumn==objectColumn)
+                if (subjectColumn == objectColumn)
                     continue;
                 DataTypeClassifier.DataType columnDataType = table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType();
                 if (columnDataType.equals(DataTypeClassifier.DataType.EMPTY) || columnDataType.equals(DataTypeClassifier.DataType.LONG_TEXT) ||
@@ -49,11 +45,11 @@ public class RelationLearner {
                     //in SMP, only the highest ranked NE (the disambiguated NE) is needed from each cell to aggregate candidate relation
                     List<CellAnnotation> subjectCells = tableAnnotations.getBestContentCellAnnotations(r, subjectColumn);
                     LTableContentCell subjectCellText = table.getContentCell(r, subjectColumn);
-                    List<CellAnnotation>  objectCells = tableAnnotations.getBestContentCellAnnotations(r, objectColumn);
+                    List<CellAnnotation> objectCells = tableAnnotations.getBestContentCellAnnotations(r, objectColumn);
                     LTableContentCell objectCellText = table.getContentCell(r, objectColumn);
 
                     //aggregate relation on each row, between each pair of subject-object cells
-                    matcher.match(r, subjectCells,subjectColumn, objectCells,objectColumn,
+                    matcher.match(r, subjectCells, subjectColumn, objectCells, objectColumn,
                             subjectCellText, objectCellText, colTypes.get(objectColumn),
                             tableAnnotations);
                 }
@@ -68,8 +64,8 @@ public class RelationLearner {
             LTableAnnotation tableAnnotation) {
 
         List<Key_SubjectCol_ObjectCol> processed = new ArrayList<Key_SubjectCol_ObjectCol>();
-        for(Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> e:
-                tableAnnotation.getRelationAnnotations_per_row().entrySet()){
+        for (Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> e :
+                tableAnnotation.getRelationAnnotations_per_row().entrySet()) {
 
             //firstly, check the directional relation where sub comes from sub col of the final_relationKey and ob comes from obj col of the ...
             Key_SubjectCol_ObjectCol current_relationKey = e.getKey(); //key indicating the directional relationship (subject col, object col)
@@ -103,25 +99,24 @@ public class RelationLearner {
             List<RelationDataTuple> best_subobj,
             List<RelationDataTuple> best_objsub,
             LTableAnnotation tableAnnotation) {
-        if(best_objsub!=null)
+        if (best_objsub != null)
             best_subobj.addAll(best_objsub);
         Collections.sort(best_subobj);
 
-        RelationDataTuple template=best_subobj.get(0);
+        RelationDataTuple template = best_subobj.get(0);
         int maxVote = template.votes;
         double maxScore = template.score;
         Key_SubjectCol_ObjectCol relationDirection = template.relationDirection;
 
-        for(RelationDataTuple rdt: best_subobj){
-            if(rdt.votes==maxVote && rdt.score==maxScore &&rdt.relationDirection.getSubjectCol()==relationDirection.getSubjectCol() &&
-                    rdt.relationDirection.getObjectCol()==relationDirection.getObjectCol()){
+        for (RelationDataTuple rdt : best_subobj) {
+            if (rdt.votes == maxVote && rdt.score == maxScore && rdt.relationDirection.getSubjectCol() == relationDirection.getSubjectCol() &&
+                    rdt.relationDirection.getObjectCol() == relationDirection.getObjectCol()) {
                 HeaderBinaryRelationAnnotation hbr = new HeaderBinaryRelationAnnotation(relationDirection,
                         rdt.relationString,
                         rdt.relationString,
-                        (double)maxVote/tableAnnotation.getRows());
+                        (double) maxVote / tableAnnotation.getRows());
                 tableAnnotation.addRelationAnnotation_across_column(hbr);
-            }
-            else{
+            } else {
                 break;
             }
         }
@@ -133,7 +128,7 @@ public class RelationLearner {
         for (Map.Entry<String, ObjObj<Integer, Double>> e : votes.entrySet()) {
             RelationDataTuple rdt = new RelationDataTuple();
             rdt.relationString = e.getKey();
-            rdt.relationDirection=relationDirectionKey;
+            rdt.relationDirection = relationDirectionKey;
             rdt.votes = e.getValue().getMainObject();
             rdt.score = e.getValue().getOtherObject();
             out.add(rdt);
@@ -146,7 +141,7 @@ public class RelationLearner {
             RelationDataTuple rdt = it.next();
             if (rdt.votes < maxVote)
                 it.remove();
-            else if(rdt.votes==maxVote &&rdt.score<maxScore)
+            else if (rdt.votes == maxVote && rdt.score < maxScore)
                 it.remove();
         }
         return out;
@@ -196,8 +191,8 @@ public class RelationLearner {
             return compare;
         }
 
-        public String toString(){
-            return relationString+","+votes+","+score;
+        public String toString() {
+            return relationString + "," + votes + "," + score;
         }
     }
 }

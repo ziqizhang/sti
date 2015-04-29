@@ -139,7 +139,10 @@ public class LTableAnnotation {
         contentAnnotations.set(row, col, annotations);
     }
     public CellAnnotation[] getContentCellAnnotations(int row, int col){
-        return (CellAnnotation[])contentAnnotations.get(row, col);
+        Object o = contentAnnotations.get(row, col);
+        if(o==null)
+            return new CellAnnotation[0];
+        return (CellAnnotation[])o;
     }
 
     public List<CellAnnotation> getBestContentCellAnnotations(int row, int col){

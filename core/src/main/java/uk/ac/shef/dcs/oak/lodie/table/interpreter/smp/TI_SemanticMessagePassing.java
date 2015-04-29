@@ -1,14 +1,10 @@
 package uk.ac.shef.dcs.oak.lodie.table.interpreter.smp;
 
-import cern.colt.matrix.ObjectMatrix1D;
 import cern.colt.matrix.ObjectMatrix2D;
-import cern.colt.matrix.impl.SparseObjectMatrix1D;
-import cern.colt.matrix.impl.SparseObjectMatrix2D;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.maincol.MainColumnFinder;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.lodie.table.rep.*;
 import uk.ac.shef.dcs.oak.lodie.table.util.STIException;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
 
@@ -20,8 +16,10 @@ import java.util.*;
  */
 public class TI_SemanticMessagePassing {
 
+    //main column finder is needed to generate data features of each column (e.g., data type in a column),
+    //even though we do not use it to find the main column in SMP
     private MainColumnFinder main_col_finder;
-    //private static Logger log = Logger.getLogger(MainInterpreter.class.getName());
+    //if there are any columns we want to ignore
     private int[] ignoreColumns;
     private int[] forceInterpretColumn;
     private NamedEntityRanker neRanker;
@@ -70,7 +68,7 @@ public class TI_SemanticMessagePassing {
         tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getMainObject());
 
         System.out.println(">\t INITIALIZATION");
-        System.out.println(">\t\t NAMED ENTITY RANKER...");
+        System.out.println(">\t\t NAMED ENTITY RANKER..."); //SMP begins with an initial NE ranker to rank candidate NEs for each cell
         for (int col = 0; col < table.getNumCols(); col++) {
             /*if(col!=1)
                 continue;*/
@@ -198,7 +196,7 @@ public class TI_SemanticMessagePassing {
         if ((double) count_change_messages_from_header / count_cells_with_ne_annotations <
                 min_pc_of_change_messages_for_column_concept_update)
             return true;
-        if ((double) count_change_messages_from_header / count_cell_pairs_with_relation <
+        if ((double) count_change_messages_from_relation / count_cell_pairs_with_relation <
                 min_pc_of_change_messages_for_relation_update)
             return true;
         return false;

@@ -25,6 +25,35 @@ public class NamedEntityRanker {
         this.disambScorer = disambScorer;
     }
 
+    public void rankCandidateNamedEntities(
+            LTableAnnotation tableAnnotations, LTable table,
+            int row, int column
+    ) throws IOException {
+        List<ObjObj<EntityCandidate, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
+        List<ObjObj<EntityCandidate, Double>> sorted = new ArrayList<ObjObj<EntityCandidate, Double>>();
+        for (ObjObj<EntityCandidate, Map<String, Double>> e : scores) {
+            double score = e.getOtherObject().get(CellAnnotation.SCORE_FINAL);
+            sorted.add(new ObjObj<EntityCandidate, Double>(e.getMainObject(), score));
+        }
+        Collections.sort(sorted, new Comparator<ObjObj<EntityCandidate, Double>>() {
+            @Override
+            public int compare(ObjObj<EntityCandidate, Double> o1, ObjObj<EntityCandidate, Double> o2) {
+                return o2.getOtherObject().compareTo(o1.getOtherObject());
+            }
+        });
+
+        LTableContentCell tcc = table.getContentCell(row, column);
+        CellAnnotation[] annotations = new CellAnnotation[scores.size()];
+        int i = 0;
+        for (ObjObj<EntityCandidate, Map<String, Double>> oo : scores) {
+            CellAnnotation ca = new CellAnnotation(tcc.getText(), oo.getMainObject(), oo.getOtherObject().get(CellAnnotation.SCORE_FINAL), oo.getOtherObject());
+            annotations[i] = ca;
+            i++;
+        }
+        tableAnnotations.setContentCellAnnotations(row, column, annotations);
+        //return sorted;
+    }
+
     public List<ObjObj<EntityCandidate, Map<String, Double>>> scoreCandidateNamedEntities(LTable table,
                                                                                           int row, int column
     ) throws IOException {
@@ -58,32 +87,5 @@ public class NamedEntityRanker {
         return disambiguationScores;
     }
 
-    public void rankCandidateNamedEntities(
-            LTableAnnotation tableAnnotations, LTable table,
-                                                                             int row, int column
-    ) throws IOException {
-        List<ObjObj<EntityCandidate, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
-        List<ObjObj<EntityCandidate, Double>> sorted = new ArrayList<ObjObj<EntityCandidate, Double>>();
-        for(ObjObj<EntityCandidate, Map<String, Double>> e: scores){
-            double score = e.getOtherObject().get(CellAnnotation.SCORE_FINAL);
-            sorted.add(new ObjObj<EntityCandidate, Double>(e.getMainObject(), score));
-        }
-        Collections.sort(sorted, new Comparator<ObjObj<EntityCandidate, Double>>() {
-            @Override
-            public int compare(ObjObj<EntityCandidate, Double> o1, ObjObj<EntityCandidate, Double> o2) {
-                return o2.getOtherObject().compareTo(o1.getOtherObject());
-            }
-        });
 
-        LTableContentCell tcc = table.getContentCell(row, column);
-        CellAnnotation[] annotations = new CellAnnotation[scores.size()];
-        int i=0;
-        for(ObjObj<EntityCandidate, Map<String, Double>> oo: scores){
-            CellAnnotation ca = new CellAnnotation(tcc.getText(), oo.getMainObject(), oo.getOtherObject().get(CellAnnotation.SCORE_FINAL), oo.getOtherObject());
-            annotations[i]=ca;
-            i++;
-        }
-        tableAnnotations.setContentCellAnnotations(row, column, annotations);
-        //return sorted;
-    }
 }
