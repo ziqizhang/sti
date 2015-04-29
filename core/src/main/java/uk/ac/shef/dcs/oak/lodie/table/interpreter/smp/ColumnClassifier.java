@@ -3,6 +3,7 @@ package uk.ac.shef.dcs.oak.lodie.table.interpreter.smp;
 import cern.colt.matrix.ObjectMatrix1D;
 import cern.colt.matrix.ObjectMatrix2D;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.content.KBSearcher;
+import uk.ac.shef.dcs.oak.lodie.table.interpreter.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.lodie.table.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.lodie.table.rep.HeaderAnnotation;
@@ -21,38 +22,42 @@ public class ColumnClassifier {
 
     private KBSearcher kbSearcher;
 
-    public static final String SMP_SCORE_ENTITY_VOTE ="smp_score_entity_vote";
-    public static final String SMP_SCORE_GRANULARITY="smp_score_granularity";
+    public static final String SMP_SCORE_ENTITY_VOTE = "smp_score_entity_vote";
+    public static final String SMP_SCORE_GRANULARITY = "smp_score_granularity";
 
     public ColumnClassifier(KBSearcher kbSearcher) {
         this.kbSearcher = kbSearcher;
     }
 
     public void rankColumnConcepts(LTableAnnotation tableAnnotation, LTable table, int col) throws IOException {
+        int totalNonEmpty = 0;
         Map<String, Double> votes = new HashMap<String, Double>();
         for (int r = 0; r < table.getNumRows(); r++) {
             //in case multiple NEs have the same score, we take them all
+            if (!table.getContentCell(r, col).getType().equals(DataTypeClassifier.DataType.EMPTY))
+                totalNonEmpty++;
             List<CellAnnotation> bestCellAnnotations = tableAnnotation.getBestContentCellAnnotations(r, col);
             if (bestCellAnnotations.size() > 0) {
+                Set<String> distinctTypes = new HashSet<String>();
                 for (CellAnnotation ca : bestCellAnnotations) {
                     EntityCandidate e = ca.getAnnotation();
-                    List<String> types = e.getTypeIds();
-                    for (String t : types) {
-                        if (KB_InstanceFilter.ignoreType(t, t))
-                            continue;
-                        Double v = votes.get(t);
-                        v = v == null ? 1.0 : v;
-                        v += 1.0;
-                        votes.put(t, v);
-                    }
+                    distinctTypes.addAll(e.getTypeIds());
+                }
+                for (String t : distinctTypes) {
+                    if (KB_InstanceFilter.ignoreType(t, t))
+                        continue;
+                    Double v = votes.get(t);
+                    v = v == null ? 1.0 : v;
+                    v += 1.0;
+                    votes.put(t, v);
                 }
             }
         }
 
-        if(votes.size()!=0) { //couuld be 0 if the column has not NE annotations at all
+        if (votes.size() != 0) { //couuld be 0 if the column has not NE annotations at all
             List<ObjObj<String, Double>> result_votes = new ArrayList<ObjObj<String, Double>>();
             for (Map.Entry<String, Double> e : votes.entrySet()) {
-                result_votes.add(new ObjObj<String, Double>(e.getKey(), e.getValue() / table.getNumRows()));
+                result_votes.add(new ObjObj<String, Double>(e.getKey(), e.getValue() / totalNonEmpty));
             }
             Collections.sort(result_votes, new Comparator<ObjObj<String, Double>>() {
                 @Override

@@ -13,12 +13,12 @@ import java.util.*;
  */
 public class LTableAnnotation {
 
-    private int rows;
-    private int cols;
-    private int subjectColumn;
-    private ObjectMatrix1D headerAnnotations; //each object in the matrix is an array of HeaderAnnotation
-    private ObjectMatrix2D contentAnnotations; //each object in the matrix is an array of CellAnnotation
-    private Map<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> relationAnnotations_per_row; //first key being the sub-obj column; second key is the row index
+    protected int rows;
+    protected int cols;
+    protected int subjectColumn;
+    protected ObjectMatrix1D headerAnnotations; //each object in the matrix is an array of HeaderAnnotation
+    protected ObjectMatrix2D contentAnnotations; //each object in the matrix is an array of CellAnnotation
+    protected Map<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> relationAnnotations_per_row; //first key being the sub-obj column; second key is the row index
     private Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> relationAnnotations_across_columns;
 
     public LTableAnnotation(int rows, int cols){
@@ -87,19 +87,6 @@ public class LTableAnnotation {
         );
     }
 
-    private ObjectMatrix1D getHeaderAnnotations(){
-        return headerAnnotations;
-    }
-    private void setHeaderAnnotations(ObjectMatrix1D headerAnnotations){
-        this.headerAnnotations=headerAnnotations;
-    }
-    private ObjectMatrix2D getContentAnnotations(){
-        return contentAnnotations;
-    }
-    private void setContentAnnotations(ObjectMatrix2D cellAnnotations){
-        this.contentAnnotations=cellAnnotations;
-    }
-
     public void setHeaderAnnotation(int headerCol, HeaderAnnotation[] annotations){
         Set<HeaderAnnotation> deduplicateCheck = new HashSet<HeaderAnnotation>(Arrays.asList(annotations));
         if(deduplicateCheck.size()!=annotations.length)
@@ -108,7 +95,13 @@ public class LTableAnnotation {
         headerAnnotations.set(headerCol, annotations);
     }
     public HeaderAnnotation[] getHeaderAnnotation(int headerCol){
-        return (HeaderAnnotation[])headerAnnotations.get(headerCol);
+        Object o=headerAnnotations.get(headerCol);
+        if(o==null)
+            return new HeaderAnnotation[0];
+        HeaderAnnotation[] ha = (HeaderAnnotation[]) o;
+        Arrays.sort(ha);
+
+        return ha;
     }
 
     public List<HeaderAnnotation> getBestHeaderAnnotations(int headerCol){
@@ -142,7 +135,9 @@ public class LTableAnnotation {
         Object o = contentAnnotations.get(row, col);
         if(o==null)
             return new CellAnnotation[0];
-        return (CellAnnotation[])o;
+        CellAnnotation[] ca = (CellAnnotation[]) o;
+        Arrays.sort(ca);
+        return ca;
     }
 
     public List<CellAnnotation> getBestContentCellAnnotations(int row, int col){

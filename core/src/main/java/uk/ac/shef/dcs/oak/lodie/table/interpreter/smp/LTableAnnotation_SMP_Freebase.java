@@ -20,6 +20,27 @@ public class LTableAnnotation_SMP_Freebase extends LTableAnnotation {
         super(rows, cols);
     }
 
+    public HeaderAnnotation[] getHeaderAnnotation(int headerCol){
+        Object o=headerAnnotations.get(headerCol);
+        if(o==null)
+            return new HeaderAnnotation[0];
+        HeaderAnnotation[] ha = (HeaderAnnotation[]) o;
+        Arrays.sort(ha, new Comparator<HeaderAnnotation>() {
+            @Override
+            public int compare(HeaderAnnotation o1, HeaderAnnotation o2) {
+                int compared = ((Double) o2.getFinalScore()).compareTo(o1.getFinalScore());
+                if (compared == 0) {
+                    Double o1_granularity = o1.getScoreElements().get(ColumnClassifier.SMP_SCORE_GRANULARITY);
+                    Double o2_granularity = o2.getScoreElements().get(ColumnClassifier.SMP_SCORE_GRANULARITY);
+                    return o1_granularity.compareTo(o2_granularity);
+                }
+                return compared;
+            }
+        });
+
+        return ha;
+    }
+
     public List<HeaderAnnotation> getBestHeaderAnnotations(int headerCol){
         HeaderAnnotation[] annotations =getHeaderAnnotation(headerCol);
         List<HeaderAnnotation> result = new ArrayList<HeaderAnnotation>();

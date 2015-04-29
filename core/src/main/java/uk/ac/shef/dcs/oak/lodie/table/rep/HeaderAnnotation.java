@@ -109,7 +109,6 @@ public class HeaderAnnotation implements Comparable<HeaderAnnotation> {
 
     @Override
     public int compareTo(HeaderAnnotation o) {
-
         int compared = ((Double) o.getFinalScore()).compareTo(getFinalScore());
         if (compared == 0)
             return new Integer(o.getSupportingRows().size()).compareTo(getSupportingRows().size());

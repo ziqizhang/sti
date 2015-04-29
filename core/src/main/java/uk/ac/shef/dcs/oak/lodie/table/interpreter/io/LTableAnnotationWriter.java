@@ -75,7 +75,6 @@ public class LTableAnnotationWriter {
             for (int c = 0; c < table.getNumCols(); c++) {
                 CellAnnotation[] cans = table_annotation.getContentCellAnnotations(r, c);
                 if (cans != null && cans.length > 0) {
-                    Arrays.sort(cans);
                     StringBuilder s = new StringBuilder();
                     s.append(r).append(",").append(c).append("=");
                     double prevScore=0.0;
@@ -135,7 +134,6 @@ public class LTableAnnotationWriter {
         for (int c = 0; c < table.getNumCols(); c++) {
             HeaderAnnotation[] anns = table_annotation.getHeaderAnnotation(c);
             if (anns != null && anns.length > 0) {
-                Arrays.sort(anns);
                 StringBuilder s = new StringBuilder();
                 s.append(c).append("=");
 
@@ -195,7 +193,6 @@ public class LTableAnnotationWriter {
                     if (cAnns == null)
                         annotation.append(">-");
                     else {
-                        Arrays.sort(cAnns);
                         annotation.append(" bgcolor=\"#00FF00\">");
                         for (int i = 0; i < cAnns.length; i++) {
                             CellAnnotation cAnn = cAnns[i];
@@ -266,7 +263,6 @@ public class LTableAnnotationWriter {
                 if (hAnns == null)
                     annotation.append(">-");
                 else {
-                    Arrays.sort(hAnns);
                     annotation.append(" bgcolor=\"#00FF00\">");
                     double best_score = 0.0;
                     for (int i = 0; i < hAnns.length; i++) {
@@ -332,7 +328,6 @@ public class LTableAnnotationWriter {
             if (hAnns == null)
                 annotation.append(">-");
             else {
-                Arrays.sort(hAnns);
                 annotation.append(" bgcolor=\"#00FF00\">");
                 double best_score = 0.0;
                 for (int i = 0; i < hAnns.length; i++) {
@@ -373,7 +368,6 @@ public class LTableAnnotationWriter {
                 if (cAnns == null)
                     annotation.append(">-");
                 else {
-                    Arrays.sort(cAnns);
                     annotation.append(" bgcolor=\"#00FF00\">");
                     for (int i = 0; i < cAnns.length; i++) {
                         CellAnnotation cAnn = cAnns[i];

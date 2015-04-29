@@ -13,16 +13,6 @@ import java.util.*;
  */
 public class CellAnnotationUpdater {
 
-    protected static double minConfidence = 0.0;
-
-    public CellAnnotationUpdater() {
-
-    }
-
-    public CellAnnotationUpdater(double minConfidence) {
-        this.minConfidence = minConfidence;
-    }
-
     public int[] update(ObjectMatrix2D messages, LTableAnnotation tableAnnotation) {
         int countUpdateNeeded = 0, countUpdated = 0;// an update is invalid if the message requires the cell to change to
         //the same NE that it was already assigned to
@@ -37,7 +27,6 @@ public class CellAnnotationUpdater {
                 List<ChangeMessage> messages_for_cell = (List<ChangeMessage>) container;
                 if(messages_for_cell.size()==0)
                     continue;
-                checkMinConfidence(messages_for_cell);
                 Collections.sort(messages_for_cell);
                 //not all messages can be satisfied. compute the preferences of the combinations of messages satisfied
                 List<String> messagesPreferenceSorted = createSortedPreferenceKeys(messages_for_cell.size());
@@ -77,14 +66,7 @@ public class CellAnnotationUpdater {
         return new int[]{countUpdated, countUpdateNeeded};
     }
 
-    protected static void checkMinConfidence(List<ChangeMessage> messages_for_cell) {
-        Iterator<ChangeMessage> it = messages_for_cell.iterator();
-        while (it.hasNext()) {
-            ChangeMessage m = it.next();
-            if (m.getConfidence() < minConfidence)
-                it.remove();
-        }
-    }
+
 
     /**
      * go thru every candidate cell annotation in cell (r, c), count for each candidate, the ChangeMessage objects that
@@ -151,7 +133,7 @@ public class CellAnnotationUpdater {
                     }
                 }
             }
-        } else {  //change message sent by header
+        } else {  //change message sent by header   todo at this point, we should re-query freebase to fetch more candidates
             List<String> legitHeaderLabels = new ArrayList<String>(m.getLabels());
             legitHeaderLabels.retainAll(ca.getAnnotation().getTypeIds());
             if (legitHeaderLabels.size() > 0)

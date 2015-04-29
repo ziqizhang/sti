@@ -57,11 +57,11 @@ public class RelationLearner {
         }
 
         //aggregate overall scores for relations on each column pairs and populate relation annotation object
-        aggregate(tableAnnotations);
+        aggregate(tableAnnotations, table);
     }
 
     private void aggregate(
-            LTableAnnotation tableAnnotation) {
+            LTableAnnotation tableAnnotation, LTable table) {
 
         List<Key_SubjectCol_ObjectCol> processed = new ArrayList<Key_SubjectCol_ObjectCol>();
         for (Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> e :
@@ -87,9 +87,9 @@ public class RelationLearner {
                 collectVotes(relations_on_rows, votes);
                 List<RelationDataTuple> best_objsub = selectBest(votes, reverse_relationKey);   //the highest scoring relation in the direction of object-subject relation
 
-                integrateCreateHeaderBinaryRelationAnnotations(best_subobj, best_objsub, tableAnnotation);
+                integrateCreateHeaderBinaryRelationAnnotations(best_subobj, best_objsub, tableAnnotation, table);
             } else {//no relation from reverse direction,
-                integrateCreateHeaderBinaryRelationAnnotations(best_subobj, null, tableAnnotation);
+                integrateCreateHeaderBinaryRelationAnnotations(best_subobj, null, tableAnnotation, table);
             }
         }
     }
@@ -98,7 +98,8 @@ public class RelationLearner {
     private void integrateCreateHeaderBinaryRelationAnnotations(
             List<RelationDataTuple> best_subobj,
             List<RelationDataTuple> best_objsub,
-            LTableAnnotation tableAnnotation) {
+            LTableAnnotation tableAnnotation,
+            LTable table) {
         if (best_objsub != null)
             best_subobj.addAll(best_objsub);
         Collections.sort(best_subobj);
@@ -107,6 +108,14 @@ public class RelationLearner {
         int maxVote = template.votes;
         double maxScore = template.score;
         Key_SubjectCol_ObjectCol relationDirection = template.relationDirection;
+        int countNonEmptyRows = 0;
+        for (int r = 0; r < tableAnnotation.getRows(); r++) {
+            LTableContentCell c1 = table.getContentCell(r, relationDirection.getSubjectCol());
+            LTableContentCell c2 = table.getContentCell(r, relationDirection.getObjectCol());
+            if (!c1.getType().equals(DataTypeClassifier.DataType.EMPTY) &&
+                    !c1.getType().equals(DataTypeClassifier.DataType.EMPTY))
+                countNonEmptyRows++;
+        }
 
         for (RelationDataTuple rdt : best_subobj) {
             if (rdt.votes == maxVote && rdt.score == maxScore && rdt.relationDirection.getSubjectCol() == relationDirection.getSubjectCol() &&
@@ -114,7 +123,7 @@ public class RelationLearner {
                 HeaderBinaryRelationAnnotation hbr = new HeaderBinaryRelationAnnotation(relationDirection,
                         rdt.relationString,
                         rdt.relationString,
-                        (double) maxVote / tableAnnotation.getRows());
+                        (double) maxVote / countNonEmptyRows);
                 tableAnnotation.addRelationAnnotation_across_column(hbr);
             } else {
                 break;
@@ -150,17 +159,26 @@ public class RelationLearner {
     private void collectVotes(Map<Integer, List<CellBinaryRelationAnnotation>> relations, Map<String, ObjObj<Integer, Double>> votes
     ) {
         for (List<CellBinaryRelationAnnotation> candidatesOnRow : relations.values()) {        //go thru each row
+            Set<String> distinctRelations = new HashSet<String>();
             for (CellBinaryRelationAnnotation candidate : candidatesOnRow) { //go thru each candidate of each row
                 String relationCandidate = candidate.getAnnotation_url();
-                double score = candidate.getScore();
+                distinctRelations.add(relationCandidate);
+            }
 
-                ObjObj<Integer, Double> votesAndScore = votes.get(relationCandidate); //let's record both votes and score. so when there is a tie at votes, we resort to score
+            for (String relation: distinctRelations) { //go thru each candidate of each row
+                double maxScore=0.0;
+                for(CellBinaryRelationAnnotation candidate : candidatesOnRow){
+                    if(candidate.getAnnotation_url().equals(relation) && candidate.getScore()>maxScore)
+                        maxScore=candidate.getScore();
+                }
+
+                ObjObj<Integer, Double> votesAndScore = votes.get(relation); //let's record both votes and score. so when there is a tie at votes, we resort to score
                 if (votesAndScore == null)
                     votesAndScore = new ObjObj<Integer, Double>(0, 0.0);
                 votesAndScore.setMainObject(votesAndScore.getMainObject() + 1);
-                votesAndScore.setOtherObject(votesAndScore.getOtherObject() + score);
+                votesAndScore.setOtherObject(votesAndScore.getOtherObject() + maxScore);
 
-                votes.put(relationCandidate, votesAndScore);
+                votes.put(relation, votesAndScore);
             }
         }
     }

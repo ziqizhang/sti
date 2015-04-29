@@ -29,7 +29,6 @@ public class LTableAnnotationWriter_SMP extends LTableAnnotationWriter {
             for (int c = 0; c < table.getNumCols(); c++) {
                 HeaderAnnotation[] anns = table_annotation.getHeaderAnnotation(c);
                 if (anns != null && anns.length > 0) {
-                    Arrays.sort(anns);
                     StringBuilder s = new StringBuilder();
                     s.append(c).append("=");
 
@@ -75,7 +74,6 @@ public class LTableAnnotationWriter_SMP extends LTableAnnotationWriter {
             if (hAnns == null)
                 annotation.append(">-");
             else {
-                Arrays.sort(hAnns);
                 annotation.append(" bgcolor=\"#00FF00\">");
                 double best_score = 0.0, best_granularity_score=0.0;
                 for (int i = 0; i < hAnns.length; i++) {
