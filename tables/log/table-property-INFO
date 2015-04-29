@@ -1,9 +1,0 @@
-12:54:41,371  INFO uk.ac.shef.dcs.oak.tables.ExtractTableAnnotations - Checking for results conrtaing tables started at Fri Mar 01 12:54:41 GMT 2013, total=1
- 12:54:41,512  INFO uk.ac.shef.dcs.oak.tables.ExtractTableAnnotations - 	- process 2 pages of 130834 total pages max. @ Fri Mar 01 12:54:41 GMT 2013
- 12:54:41,513  INFO uk.ac.shef.dcs.oak.tables.ExtractTableAnnotations - Processing page 1 ** 1
- 12:54:54,970  INFO uk.ac.shef.dcs.oak.tables.ExtractTableAnnotations - Processing page 2 ** 2
- 12:56:28,447  INFO uk.ac.shef.dcs.oak.tables.ExtractTableAnnotations - Checking for results conrtaing tables started at Fri Mar 01 12:56:28 GMT 2013, total=1
- 12:56:28,577  INFO uk.ac.shef.dcs.oak.tables.ExtractTableAnnotations - Started processing: 2 pages of 130834 total pages max. @ Fri Mar 01 12:56:28 GMT 2013
- 12:56:28,577  INFO uk.ac.shef.dcs.oak.tables.ExtractTableAnnotations - 	 Processing page 1 ** 1
- 12:56:42,269  INFO uk.ac.shef.dcs.oak.tables.ExtractTableAnnotations - 	 Processing page 2 ** 2
- 

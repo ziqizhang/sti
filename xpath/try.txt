@@ -1,4 +1,0 @@
-#!/bin/bash 
-#$ -l mem=16G -l rmem=12G -m bea -M a.gentile@shef.ac.uk -l h_rt=168:00:00 
-module add apps/java/1.6 
-java -Xmx4096m -Dlog4j.configuration=file:///fastdata/ac1ag/annotations/properties/log4j.properties -jar /fastdata/ac1ag/annotations/lodie-xpathExperiment-1.0-jar-with-dependencies.jar  /fastdata/ac1ag/book/book-amazon-2000 /fastdata/ac1ag/titles/book_titles.txt 

@@ -81,7 +81,7 @@
     <orderEntry type="library" name="Maven: org.apache.jena:jena-arq:2.9.3" level="project" />
     <orderEntry type="library" name="Maven: org.apache.jena:jena-core:2.7.3" level="project" />
     <orderEntry type="library" name="Maven: org.apache.jena:jena-iri:0.9.3" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.6" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.4" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-log4j12:1.6.4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.1.3" level="project" />
@@ -89,7 +89,7 @@
     <orderEntry type="library" name="Maven: org.apache.solr:solr-core:4.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.solr:solr-solrj:4.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.zookeeper:zookeeper:3.4.5" level="project" />
-    <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpmime:4.1.3" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.codehaus.woodstox:wstx-asl:3.2.7" level="project" />
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers-common:4.1.0" level="project" />
@@ -111,25 +111,13 @@
     <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.2" level="project" />
     <orderEntry type="library" name="Maven: commons-fileupload:commons-fileupload:1.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.6.4" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-jdk14:1.6.6" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-jdk14:1.6.4" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:13.0.1" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" name="Maven: com.google.api-client:google-api-client:1.17.0-rc" level="project" />
     <orderEntry type="library" name="Maven: com.google.oauth-client:google-oauth-client:1.17.0-rc" level="project" />
     <orderEntry type="library" name="Maven: com.google.http-client:google-http-client:1.17.0-rc" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:1.3.9" level="project" />
-    <orderEntry type="module" module-name="lodie-sides" />
-    <orderEntry type="library" name="Maven: org.apache.nutch:nutch:2.1" level="project" />
-    <orderEntry type="library" name="Maven: com.ibm.icu:icu4j:4.0.1" level="project" />
-    <orderEntry type="library" name="Maven: xerces:xmlParserAPIs:2.6.2" level="project" />
-    <orderEntry type="library" name="Maven: oro:oro:2.0.8" level="project" />
-    <orderEntry type="library" name="Maven: org.mortbay.jetty:jetty-client:6.1.26" level="project" />
-    <orderEntry type="library" name="Maven: org.mortbay.jetty:jetty-sslengine:6.1.26" level="project" />
-    <orderEntry type="library" name="Maven: org.mortbay.jetty:jetty:6.1.26" level="project" />
-    <orderEntry type="library" name="Maven: org.mortbay.jetty:jetty-util:6.1.26" level="project" />
-    <orderEntry type="library" name="Maven: org.mortbay.jetty:servlet-api:2.5-20081211" level="project" />
-    <orderEntry type="library" name="Maven: org.mortbay.jetty:jetty-util5:6.1.26" level="project" />
-    <orderEntry type="library" name="Maven: org.jvnet.jaxb2_commons:jaxb2-basics-runtime:0.6.4" level="project" />
   </component>
 </module>
 
