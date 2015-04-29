@@ -33,8 +33,8 @@ public class NamedEntityRanker {
         LTableContentCell cell = table.getContentCell(row, column);
         System.out.print("\t\t>> NamedEntityRanker, position at (" + row + "," + column + ") " +
                 cell);
-        if(row==11)
-            System.out.println();
+       /* if(row==11)
+            System.out.println();*/
         List<EntityCandidate> candidates = kbSearcher.find_matchingEntitiesForCell(cell);
         System.out.println(" candidates=" + candidates.size());
         //each candidate will have a map containing multiple elements of scores. See DisambiguationScorer_SMP_adapted

@@ -36,6 +36,8 @@ public class CellAnnotationUpdater {
                     continue;
                 countUpdateNeeded++;
                 List<ChangeMessage> messages_for_cell = (List<ChangeMessage>) container;
+                if(messages_for_cell.size()==0)
+                    continue;
                 checkMinConfidence(messages_for_cell);
                 Collections.sort(messages_for_cell);
                 //not all messages can be satisfied. compute the preferences of the combinations of messages satisfied

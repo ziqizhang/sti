@@ -48,7 +48,6 @@ public class TestTableInterpretation_LimayeDataset_SMP {
             }
         }
 
-
         File configFile = new File(cacheFolderGeneral + File.separator + "solr.xml");
         CoreContainer container = new CoreContainer(cacheFolderGeneral,
                 configFile);
@@ -178,6 +177,7 @@ public class TestTableInterpretation_LimayeDataset_SMP {
         serverGeneral.shutdown();
         serverConceptGranularity.shutdown();
         System.out.println(new Date());
+        System.exit(0);
     }
 
 

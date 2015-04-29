@@ -106,7 +106,7 @@ public class CombinationGenerator {
         return a;
 
     }
-
+    //todo:this is not right. you want powerset!!
     public static List<String> generateCombinations(String[] words){
         List<String> all = new ArrayList<String>();
         //each single word

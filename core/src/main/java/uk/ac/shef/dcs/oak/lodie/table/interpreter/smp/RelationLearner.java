@@ -116,8 +116,8 @@ public class RelationLearner {
             if(rdt.votes==maxVote && rdt.score==maxScore &&rdt.relationDirection.getSubjectCol()==relationDirection.getSubjectCol() &&
                     rdt.relationDirection.getObjectCol()==relationDirection.getObjectCol()){
                 HeaderBinaryRelationAnnotation hbr = new HeaderBinaryRelationAnnotation(relationDirection,
-                        template.relationString,
-                        template.relationString,
+                        rdt.relationString,
+                        rdt.relationString,
                         (double)maxVote/tableAnnotation.getRows());
                 tableAnnotation.addRelationAnnotation_across_column(hbr);
             }
