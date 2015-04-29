@@ -17,7 +17,7 @@ public class Evaluator_AllInOne_Limaye {
         /************************************************
          FORY limaye200
          *************************************************/
-        String method = "tm_ospd_nsc";
+        String method = "smp";
 
 
         if (method.equals("nm")) {
@@ -246,6 +246,42 @@ public class Evaluator_AllInOne_Limaye {
                     "tmp_result/limaye_rel_tm_ospd_nsc-ne.csv",
                     "tmp_result/limaye_rel_tm_ospd_nsc_missed-ne.csv",true,true
             );*/
+        }
+        else if (method.equals("smp")) {
+            ent_evaluator.evaluate(
+                    "E:\\Data\\table_annotation\\tmp",
+                    "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\entity",
+                    "tmp_result/limaye_entity_smp.csv",
+                    "tmp_result/limaye_entity_smp_missed.csv",
+                    true
+            );
+            cls_evaluator.evaluate(
+                    "E:\\Data\\table_annotation\\tmp",
+                    "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\header_ne+prop",
+                    "tmp_result/limaye_header_smp-all.csv",
+                    "tmp_result/limaye_header_tm_smp-all_missed.csv", false
+            );
+            cls_evaluator.evaluate(
+                    "E:\\Data\\table_annotation\\tmp",
+                    "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\header_ne+prop",
+                    "tmp_result/limaye_header_smp-ne.csv",
+                    "tmp_result/limaye_header_smp-ne_missed.csv", true
+
+            );
+            rel_evaluator.evaluate(
+                    "E:\\Data\\table_annotation\\tmp",
+                    "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\relation",
+                    "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\header_ne+prop",
+                    "tmp_result/limaye_rel_smp-all.csv",
+                    "tmp_result/limaye_rel_smp_missed-all.csv", true, false
+            );
+            rel_evaluator.evaluate(
+                    "E:\\Data\\table_annotation\\tmp",
+                    "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\relation",
+                    "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\header_ne+prop",
+                    "tmp_result/limaye_rel_smp-ne.csv",
+                    "tmp_result/limaye_rel_smp_missed-ne.csv", true, true
+            );
         }
         System.exit(0);
     }
