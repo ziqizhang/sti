@@ -84,7 +84,7 @@ public class TestTableInterpretation_LimayeDataset_SMP {
         );
 
 
-        LTableAnnotationWriter writer = new LTableAnnotationWriter(
+        LTableAnnotationWriter writer = new LTableAnnotationWriter_SMP(
                 new TripleGenerator("http://www.freebase.com", "http://lodie.dcs.shef.ac.uk"));
 
         int count = 0;

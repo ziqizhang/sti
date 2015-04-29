@@ -7,6 +7,7 @@ import uk.ac.shef.dcs.oak.lodie.table.rep.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +17,9 @@ import java.util.Map;
  */
 public class LTableAnnotationWriter {
 
-    private String linkPrefix = "http://www.freebase.com";
-    private boolean showLosingCandidates = true;
-    private TripleGenerator tripleGenerator;
+    protected String linkPrefix = "http://www.freebase.com";
+    protected boolean showLosingCandidates = true;
+    protected TripleGenerator tripleGenerator;
 
     public LTableAnnotationWriter(TripleGenerator tripleGenerator) {
         this.tripleGenerator = tripleGenerator;
@@ -68,12 +69,13 @@ public class LTableAnnotationWriter {
 
     }
 
-    private void writeCellKeyFile(LTable table, LTableAnnotation table_annotation, String cell_key) throws FileNotFoundException {
+    protected void writeCellKeyFile(LTable table, LTableAnnotation table_annotation, String cell_key) throws FileNotFoundException {
         PrintWriter p = new PrintWriter(cell_key);
         for (int r = 0; r < table.getNumRows(); r++) {
             for (int c = 0; c < table.getNumCols(); c++) {
                 CellAnnotation[] cans = table_annotation.getContentCellAnnotations(r, c);
                 if (cans != null && cans.length > 0) {
+                    Arrays.sort(cans);
                     StringBuilder s = new StringBuilder();
                     s.append(r).append(",").append(c).append("=");
                     double prevScore=0.0;
@@ -98,13 +100,14 @@ public class LTableAnnotationWriter {
         p.close();
     }
 
-    private void writeRelationKeyFile(LTableAnnotation table_annotation, String relation_key) throws FileNotFoundException {
+    protected void writeRelationKeyFile(LTableAnnotation table_annotation, String relation_key) throws FileNotFoundException {
         PrintWriter p = new PrintWriter(relation_key);
         for (Map.Entry<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> e :
                 table_annotation.getRelationAnnotations_across_columns().entrySet()) {
             int subCol = e.getKey().getSubjectCol();
             int objCol = e.getKey().getObjectCol();
             List<HeaderBinaryRelationAnnotation> relations = e.getValue();
+            Collections.sort(relations);
             StringBuilder s = new StringBuilder();
             double prevScore=0.0;
             for (HeaderBinaryRelationAnnotation hr : relations) {
@@ -126,12 +129,13 @@ public class LTableAnnotationWriter {
         p.close();
     }
 
-    private void writeHeaderKeyFile(LTable table, LTableAnnotation table_annotation, String header_key) throws FileNotFoundException {
+    protected void writeHeaderKeyFile(LTable table, LTableAnnotation table_annotation, String header_key) throws FileNotFoundException {
         PrintWriter p = new PrintWriter(header_key);
 
         for (int c = 0; c < table.getNumCols(); c++) {
             HeaderAnnotation[] anns = table_annotation.getHeaderAnnotation(c);
             if (anns != null && anns.length > 0) {
+                Arrays.sort(anns);
                 StringBuilder s = new StringBuilder();
                 s.append(c).append("=");
 
@@ -161,7 +165,7 @@ public class LTableAnnotationWriter {
         p.close();
     }
 
-    private void writeTriples(List<LTableTriple> triples, String outFile) throws FileNotFoundException {
+    protected void writeTriples(List<LTableTriple> triples, String outFile) throws FileNotFoundException {
         PrintWriter p = new PrintWriter(outFile);
         p.println("<html><body>");
         for (LTableTriple ltt : triples) {
@@ -173,7 +177,7 @@ public class LTableAnnotationWriter {
         p.close();
     }
 
-    private String writeRelation_inCell(LTable table, LTableAnnotation tab_annotations) {
+    protected String writeRelation_inCell(LTable table, LTableAnnotation tab_annotations) {
         StringBuilder out = new StringBuilder();
         out.append("<tr>\n");
         for (int row = 0; row < table.getNumRows(); row++) {
@@ -191,6 +195,7 @@ public class LTableAnnotationWriter {
                     if (cAnns == null)
                         annotation.append(">-");
                     else {
+                        Arrays.sort(cAnns);
                         annotation.append(" bgcolor=\"#00FF00\">");
                         for (int i = 0; i < cAnns.length; i++) {
                             CellAnnotation cAnn = cAnns[i];
@@ -243,7 +248,7 @@ public class LTableAnnotationWriter {
         return out.toString();
     }
 
-    private String writeRelation_inHeader(LTable table, LTableAnnotation tab_annotations) {
+    protected String writeRelation_inHeader(LTable table, LTableAnnotation tab_annotations) {
         StringBuilder out = new StringBuilder();
         out.append("<tr>\n");
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -261,6 +266,7 @@ public class LTableAnnotationWriter {
                 if (hAnns == null)
                     annotation.append(">-");
                 else {
+                    Arrays.sort(hAnns);
                     annotation.append(" bgcolor=\"#00FF00\">");
                     double best_score = 0.0;
                     for (int i = 0; i < hAnns.length; i++) {
@@ -310,7 +316,7 @@ public class LTableAnnotationWriter {
     }
 
 
-    private String writeHeader(LTable table, LTableAnnotation tab_annotations) {
+    protected String writeHeader(LTable table, LTableAnnotation tab_annotations) {
         StringBuilder out = new StringBuilder();
         out.append("<tr>\n");
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -326,6 +332,7 @@ public class LTableAnnotationWriter {
             if (hAnns == null)
                 annotation.append(">-");
             else {
+                Arrays.sort(hAnns);
                 annotation.append(" bgcolor=\"#00FF00\">");
                 double best_score = 0.0;
                 for (int i = 0; i < hAnns.length; i++) {
@@ -348,7 +355,7 @@ public class LTableAnnotationWriter {
         return out.toString();
     }
 
-    private String writeCell(LTable table, LTableAnnotation tab_annotations) {
+    protected String writeCell(LTable table, LTableAnnotation tab_annotations) {
         StringBuilder out = new StringBuilder();
 
         for (int row = 0; row < table.getNumRows(); row++) {
@@ -366,6 +373,7 @@ public class LTableAnnotationWriter {
                 if (cAnns == null)
                     annotation.append(">-");
                 else {
+                    Arrays.sort(cAnns);
                     annotation.append(" bgcolor=\"#00FF00\">");
                     for (int i = 0; i < cAnns.length; i++) {
                         CellAnnotation cAnn = cAnns[i];
@@ -385,7 +393,7 @@ public class LTableAnnotationWriter {
         return out.toString();
     }
 
-    private Object generateCellAnnotationString(CellAnnotation cAnn) {
+    protected Object generateCellAnnotationString(CellAnnotation cAnn) {
         StringBuilder sb = new StringBuilder();
         sb.append("<a href=\"" + linkPrefix + cAnn.getAnnotation().getId() + "\">").
                 append(cAnn.getAnnotation().getName()).append("</a>").
@@ -393,7 +401,7 @@ public class LTableAnnotationWriter {
         return sb.toString();
     }
 
-    private String generateHeaderAnnotationString(HeaderAnnotation ha) {
+    protected String generateHeaderAnnotationString(HeaderAnnotation ha) {
         StringBuilder sb = new StringBuilder();
         sb.append("<a href=\"" + linkPrefix + ha.getAnnotation_url() + "\">").
                 append(ha.getAnnotation_url()).append("(").append(ha.getAnnotation_label()).append(")</a>").
@@ -401,7 +409,7 @@ public class LTableAnnotationWriter {
         return sb.toString();
     }
 
-    private String generateAcrossHeaderRelationString(HeaderBinaryRelationAnnotation ha) {
+    protected String generateAcrossHeaderRelationString(HeaderBinaryRelationAnnotation ha) {
         StringBuilder sb = new StringBuilder();
         sb.append("<a href=\"" + linkPrefix + ha.getAnnotation_url() + "\">").
                 append(ha.getAnnotation_url()).
@@ -410,7 +418,7 @@ public class LTableAnnotationWriter {
         return sb.toString();
     }
 
-    private String generateAcrossCellRelationString(CellBinaryRelationAnnotation ca) {
+    protected String generateAcrossCellRelationString(CellBinaryRelationAnnotation ca) {
         StringBuilder sb = new StringBuilder();
         sb.append("<a href=\"" + linkPrefix + ca.getAnnotation_url() + "\">").
                 append(ca.getAnnotation_url()).
