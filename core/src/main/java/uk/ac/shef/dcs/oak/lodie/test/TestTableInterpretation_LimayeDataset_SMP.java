@@ -82,7 +82,7 @@ public class TestTableInterpretation_LimayeDataset_SMP {
         boolean useSubjectColumn = Boolean.valueOf(properties.getProperty("SMP_USE_SUBJECT_COLUMN"));
         String neRankerChoice = properties.getProperty("SMP_NAMED_ENTITY_RANKER");
         DisambiguationScorer disambiguator;
-        if (neRankerChoice != null || neRankerChoice.equalsIgnoreCase("tableminer")) {
+        if (neRankerChoice != null && neRankerChoice.equalsIgnoreCase("tableminer")) {
             disambiguator = new DisambiguationScorer_Overlap(
                     stopWords,
                     new double[]{1.0, 0.5, 0.5, 1.0, 1.0}, //row,column, tablecontext other,refent, tablecontext pagetitle (unused)
