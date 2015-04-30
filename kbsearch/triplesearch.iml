@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="common-util" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.solr:solr-core:4.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.solr:solr-solrj:4.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.zookeeper:zookeeper:3.4.5" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.4" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.1.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.1.4" level="project" />
+    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.7" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpmime:4.1.3" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.codehaus.woodstox:wstx-asl:3.2.7" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:4.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers-common:4.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers-kuromoji:4.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers-morfologik:4.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.carrot2:morfologik-polish:1.5.5" level="project" />
+    <orderEntry type="library" name="Maven: org.carrot2:morfologik-stemming:1.5.5" level="project" />
+    <orderEntry type="library" name="Maven: org.carrot2:morfologik-fsa:1.5.5" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers-phonetic:4.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-highlighter:4.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-memory:4.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-misc:4.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queryparser:4.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queries:4.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-spatial:4.1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.spatial4j:spatial4j:0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-suggest:4.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-grouping:4.1.0" level="project" />
+    <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.2" level="project" />
+    <orderEntry type="library" name="Maven: commons-fileupload:commons-fileupload:1.2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.6.4" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-jdk14:1.6.4" level="project" />
+    <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:13.0.1" level="project" />
+    <orderEntry type="library" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
+    <orderEntry type="library" name="Maven: com.google.api-client:google-api-client:1.17.0-rc" level="project" />
+    <orderEntry type="library" name="Maven: com.google.oauth-client:google-oauth-client:1.17.0-rc" level="project" />
+    <orderEntry type="library" name="Maven: com.google.http-client:google-http-client:1.17.0-rc" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:1.3.9" level="project" />
+    <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: junit:junit:4.10" level="project" />
+    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
+  </component>
+</module>
+

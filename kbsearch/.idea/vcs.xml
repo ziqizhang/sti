@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/../sindice4j-api3" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/../util" vcs="svn" />
+  </component>
+</project>
+
