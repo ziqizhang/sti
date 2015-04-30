@@ -131,7 +131,6 @@
     <orderEntry type="library" name="Maven: org.apache.ant:ant:1.7.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.ant:ant-launcher:1.7.0" level="project" />
     <orderEntry type="library" name="Maven: de.l3s.boilerpipe:boilerpipe:1.1.0" level="project" />
-    <orderEntry type="library" name="Maven: com.github.mpkorstanje:simmetrics:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: cc.mallet:mallet:2.0.7-RC2" level="project" />
     <orderEntry type="library" name="Maven: junit:junit:4.8.2" level="project" />
     <orderEntry type="library" name="Maven: org.beanshell:bsh:2.0b4" level="project" />
