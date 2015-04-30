@@ -6,6 +6,9 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.content.KBSearcher;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.content.KBSearcher_Freebase;
+import uk.ac.shef.dcs.oak.lodie.table.interpreter.interpret.DisambiguationScorer;
+import uk.ac.shef.dcs.oak.lodie.table.interpreter.interpret.DisambiguationScorer_Overlap;
+import uk.ac.shef.dcs.oak.lodie.table.interpreter.interpret.Disambiguator;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.interpret.TripleGenerator;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.io.LTableAnnotationWriter;
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.maincol.MainColumnFinder;
@@ -32,7 +35,9 @@ public class TestTableInterpretation_LimayeDataset_SMP {
     public static void main(String[] args) throws IOException {
         String inFolder = args[0];
         String outFolder = args[1];
-        String freebaseProperties = args[2]; //"D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties"
+        String propertyFile = args[2]; //"D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties"
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(propertyFile));
         String cacheFolderGeneral = args[3];  //String cacheFolder = "D:\\Work\\lodiedata\\tableminer_cache\\solrindex_cache\\zookeeper\\solr";
         String cacheFolderConceptGranularity = args[4];
         String nlpResources = args[5]; //"D:\\Work\\lodie\\resources\\nlp_resources";
@@ -60,8 +65,8 @@ public class TestTableInterpretation_LimayeDataset_SMP {
 
 
         //object to fetch things from KB
-        KBSearcher_Freebase freebaseSearcherGeneral = new KBSearcher_Freebase(freebaseProperties, serverGeneral, true);
-        KBSearcher_Freebase freebaseSearcherConceptGranularity = new KBSearcher_Freebase(freebaseProperties, serverConceptGranularity, true);
+        KBSearcher_Freebase freebaseSearcherGeneral = new KBSearcher_Freebase(propertyFile, serverGeneral, true);
+        KBSearcher_Freebase freebaseSearcherConceptGranularity = new KBSearcher_Freebase(propertyFile, serverConceptGranularity, true);
 /*        freebaseMatcher.find_typesForEntityId("/m/02hrh1q");
         server.shutdown();
         System.exit(0);*/
@@ -74,9 +79,22 @@ public class TestTableInterpretation_LimayeDataset_SMP {
                 stopWords
         );//   dobs
         //object to find main subject column
+        boolean useSubjectColumn = Boolean.valueOf(properties.getProperty("SMP_USE_SUBJECT_COLUMN"));
+        String neRankerChoice = properties.getProperty("SMP_NAMED_ENTITY_RANKER");
+        DisambiguationScorer disambiguator;
+        if (neRankerChoice != null || neRankerChoice.equalsIgnoreCase("tableminer")) {
+            disambiguator = new DisambiguationScorer_Overlap(
+                    stopWords,
+                    new double[]{1.0, 0.5, 0.5, 1.0, 1.0}, //row,column, tablecontext other,refent, tablecontext pagetitle (unused)
+                    nlpResources);
+        } else
+            disambiguator = new DisambiguationScorer_SMP_adapted(stopWords, nlpResources);
+
+        //DisambiguationScorer disambiguator = new DisambiguationScorer_SMP_adapted(stopWords, nlpResources);
         TI_SemanticMessagePassing interpreter = new TI_SemanticMessagePassing(
                 main_col_finder,
-                new NamedEntityRanker(freebaseSearcherGeneral, new DisambiguationScorer_SMP_adapted(stopWords, nlpResources)),
+                useSubjectColumn,
+                new NamedEntityRanker(freebaseSearcherGeneral, disambiguator),
                 new ColumnClassifier(freebaseSearcherConceptGranularity),
                 new RelationLearner(new RelationTextMatch_Scorer(stopWords, new Levenshtein(), 0.5)),
                 IGNORE_COLUMNS,

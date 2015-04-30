@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.oak.lodie.table.interpreter.smp;
 
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.content.KBSearcher;
+import uk.ac.shef.dcs.oak.lodie.table.interpreter.interpret.DisambiguationScorer;
 import uk.ac.shef.dcs.oak.lodie.table.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.lodie.table.rep.LTable;
 import uk.ac.shef.dcs.oak.lodie.table.rep.LTableAnnotation;
@@ -17,10 +18,10 @@ import java.util.*;
 public class NamedEntityRanker {
 
     private KBSearcher kbSearcher;
-    private DisambiguationScorer_SMP_adapted disambScorer;
+    private DisambiguationScorer disambScorer;
     //private static Logger log = Logger.getLogger(Disambiguator.class.getName());
 
-    public NamedEntityRanker(KBSearcher kbSearcher, DisambiguationScorer_SMP_adapted disambScorer) {
+    public NamedEntityRanker(KBSearcher kbSearcher, DisambiguationScorer disambScorer) {
         this.kbSearcher = kbSearcher;
         this.disambScorer = disambScorer;
     }
@@ -76,7 +77,7 @@ public class NamedEntityRanker {
             }
             Map<String, Double> scoreMap = disambScorer.
                     score(c, candidates,
-                            column, row, new ArrayList<Integer>(),
+                            column, row, Arrays.asList(row),
                             table, new HashSet<String>());
             disambScorer.compute_final_score(scoreMap, cell.getText());
             ObjObj<EntityCandidate, Map<String, Double>> entry = new ObjObj<EntityCandidate, Map<String, Double>>();

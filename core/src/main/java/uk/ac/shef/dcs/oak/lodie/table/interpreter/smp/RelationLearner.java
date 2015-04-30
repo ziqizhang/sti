@@ -16,7 +16,7 @@ public class RelationLearner {
         this.matcher = matcher;
     }
 
-    public void inferRelation(LTableAnnotation tableAnnotations, LTable table) {
+    public void inferRelation(LTableAnnotation tableAnnotations, LTable table, boolean useMainSubjectColumn) {
         //RelationDataStructure result = new RelationDataStructure();
 
         //mainColumnIndexes contains indexes of columns that are possible NEs
@@ -29,7 +29,14 @@ public class RelationLearner {
         }
 
         //aggregate candidate relations between any pairs of columns
-        for (int subjectColumn = 0; subjectColumn < table.getNumCols(); subjectColumn++) {  //choose a column to be subject column (must be NE column)
+        List<Integer> subjectColumnsToConsider = new ArrayList<Integer>();
+        if(useMainSubjectColumn)
+            subjectColumnsToConsider.add(tableAnnotations.getSubjectColumn());
+        else {
+            for(int c=0; c<table.getNumCols(); c++)
+                subjectColumnsToConsider.add(c);
+        }
+        for (int subjectColumn :subjectColumnsToConsider) {  //choose a column to be subject column (must be NE column)
             if (!table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                 continue;
 

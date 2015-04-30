@@ -25,32 +25,22 @@ public class TI_SemanticMessagePassing {
     private NamedEntityRanker neRanker;
     private ColumnClassifier columnClassifier;
     private RelationLearner relationLearner;
+    private boolean useSubjectColumn =false;
 
     public int halting_num_of_iterations_middlepoint = 5;
     public double min_pc_of_change_messages_for_column_concept_update = 0.0;
     public double min_pc_of_change_messages_for_relation_update = 0.0;
     public int halting_num_of_iterations_max = 10;
 
-    public TI_SemanticMessagePassing(NamedEntityRanker neRanker,
-                                     ColumnClassifier columnClassifier,
-                                     RelationLearner relationLearner,
-                                     int[] ignoreColumns,
-                                     int[] forceInterpretColumn
-    ) {
-        this.relationLearner = relationLearner;
-        this.columnClassifier = columnClassifier;
-        this.neRanker = neRanker;
-        this.ignoreColumns = ignoreColumns;
-        this.forceInterpretColumn = forceInterpretColumn;
-    }
-
     public TI_SemanticMessagePassing(MainColumnFinder main_col_finder,
+                                     boolean useSubjectColumn,
                                      NamedEntityRanker neRanker,
                                      ColumnClassifier columnClassifier,
                                      RelationLearner relationLearner,
                                      int[] ignoreColumns,
                                      int[] forceInterpretColumn
     ) {
+        this.useSubjectColumn = useSubjectColumn;
         this.main_col_finder = main_col_finder;
         this.relationLearner = relationLearner;
         this.columnClassifier = columnClassifier;
@@ -65,7 +55,8 @@ public class TI_SemanticMessagePassing {
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
         List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
-        tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getMainObject());
+        if(useSubjectColumn)
+            tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getMainObject());
 
         System.out.println(">\t INITIALIZATION");
         System.out.println(">\t\t NAMED ENTITY RANKER..."); //SMP begins with an initial NE ranker to rank candidate NEs for each cell
@@ -92,7 +83,7 @@ public class TI_SemanticMessagePassing {
         }
 
         System.out.println(">\t COMPUTING HEADER CLASSIFICATION AND COLUMN-COLUMN RELATION");
-        computeClassesAndRelations(tab_annotations, table, 1);
+        computeClassesAndRelations(tab_annotations, table, useSubjectColumn);
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t SEMANTIC MESSAGE PASSING");
@@ -128,7 +119,7 @@ public class TI_SemanticMessagePassing {
             } else {
                 //re-compute header and relation annotations
                 resetClassesAndRelations(tab_annotations);
-                computeClassesAndRelations(tab_annotations, table, i + 1);
+                computeClassesAndRelations(tab_annotations, table, useSubjectColumn);
             }
         }
         return tab_annotations;
@@ -139,7 +130,7 @@ public class TI_SemanticMessagePassing {
         tab_annotations.resetRelationAnnotations();
     }
 
-    private void computeClassesAndRelations(LTableAnnotation_SMP_Freebase tab_annotations, LTable table, int iteration) throws IOException {
+    private void computeClassesAndRelations(LTableAnnotation_SMP_Freebase tab_annotations, LTable table, boolean useMainSubjectColumn) throws IOException {
         System.out.println("\t\t>> COLUMN SEMANTIC TYPE COMPUTING...");
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -156,7 +147,7 @@ public class TI_SemanticMessagePassing {
         }
 
         System.out.println("\t\t>> RELATION COMPUTING...");
-        relationLearner.inferRelation(tab_annotations, table);
+        relationLearner.inferRelation(tab_annotations, table, useMainSubjectColumn);
     }
 
     private boolean middlePointHaltingConditionReached(ObjectMatrix2D messages, LTableAnnotation tab_annotations, LTable table) {

@@ -42,8 +42,8 @@ public class FreebaseQueryHelper {
 
     public FreebaseQueryHelper(String freebasePropertyFile) throws IOException {
         properties.load(new FileInputStream(freebasePropertyFile));
-        interrupter = new FreebaseQueryInterrupter(Integer.valueOf(properties.get("MAX_QUERY_PER_SECOND").toString()),
-                Integer.valueOf(properties.get("MAX_QUERY_PER_DAY").toString()));
+        interrupter = new FreebaseQueryInterrupter(Integer.valueOf(properties.get("FREEBASE_MAX_QUERY_PER_SECOND").toString()),
+                Integer.valueOf(properties.get("FREEBASE_MAX_QUERY_PER_DAY").toString()));
         httpTransport = new NetHttpTransport();
         requestFactory = httpTransport.createRequestFactory();
         jsonParser = new JSONParser();
@@ -56,8 +56,8 @@ public class FreebaseQueryHelper {
     public List<String[]> topicapi_facts_of_id(String id) throws IOException {
         Date start = new Date();
         List<String[]> res = new ArrayList<String[]>();
-        GenericUrl url = new GenericUrl(properties.get("TOPIC_QUERY_URL").toString() + id);
-        url.put("key", properties.get("API_KEY"));
+        GenericUrl url = new GenericUrl(properties.get("FREEBASE_TOPIC_QUERY_URL").toString() + id);
+        url.put("key", properties.get("FREEBASE_API_KEY"));
         url.put("limit", 100);
         HttpRequest request = requestFactory.buildGetRequest(url);
         HttpResponse httpResponse = interrupter.executeQuery(request, true);
@@ -76,8 +76,8 @@ public class FreebaseQueryHelper {
     public List<String[]> topicapi_types_of_id(String id) throws IOException {
         Date start = new Date();
         List<String[]> res = new ArrayList<String[]>();
-        GenericUrl url = new GenericUrl(properties.get("TOPIC_QUERY_URL").toString() + id);
-        url.put("key", properties.get("API_KEY"));
+        GenericUrl url = new GenericUrl(properties.get("FREEBASE_TOPIC_QUERY_URL").toString() + id);
+        url.put("key", properties.get("FREEBASE_API_KEY"));
         url.put("filter", "/type/object/type");
         HttpRequest request = requestFactory.buildGetRequest(url);
         HttpResponse httpResponse = interrupter.executeQuery(request, true);
@@ -98,8 +98,8 @@ public class FreebaseQueryHelper {
     public List<String[]> topicapi_facts_of_id_with_filter(String id, String filter) throws IOException {
         Date start = new Date();
         List<String[]> res = new ArrayList<String[]>();
-        GenericUrl url = new GenericUrl(properties.get("TOPIC_QUERY_URL").toString() + id);
-        url.put("key", properties.get("API_KEY"));
+        GenericUrl url = new GenericUrl(properties.get("FREEBASE_TOPIC_QUERY_URL").toString() + id);
+        url.put("key", properties.get("FREEBASE_API_KEY"));
         url.put("filter", filter);
         url.put("limit", 200);
         HttpRequest request = requestFactory.buildGetRequest(url);
@@ -198,11 +198,11 @@ public class FreebaseQueryHelper {
         HttpRequestFactory requestFactory = httpTransport.createRequestFactory();
         List<EntityCandidate_FreebaseTopic> res = new ArrayList<EntityCandidate_FreebaseTopic>();
 
-        GenericUrl url = new GenericUrl(properties.get("SEARCH_QUERY_URL").toString());
+        GenericUrl url = new GenericUrl(properties.get("FREEBASE_SEARCH_QUERY_URL").toString());
         url.put("query", name);
         url.put("limit", 20);
         url.put("prefixed", true);
-        url.put("key", properties.get("API_KEY"));
+        url.put("key", properties.get("FREEBASE_API_KEY"));
 
         StringBuilder filter = new StringBuilder();
         for (String t : types) {
@@ -297,9 +297,9 @@ public class FreebaseQueryHelper {
                     "\"limit\":" + limit + "" +
                     "}]";
 
-            GenericUrl url = new GenericUrl(properties.get("MQL_QUERY_URL").toString());
+            GenericUrl url = new GenericUrl(properties.get("FREEBASE_MQL_QUERY_URL").toString());
             url.put("query", query);
-            url.put("key", properties.get("API_KEY"));
+            url.put("key", properties.get("FREEBASE_API_KEY"));
             url.put("cursor", cursorPoint);
 
             HttpRequest request = requestFactory.buildGetRequest(url);
@@ -362,9 +362,9 @@ public class FreebaseQueryHelper {
                 "\"id\":\"/wikipedia/en_id/" + wikipedia_pageid + "\"" +
                 "}]";
 
-        GenericUrl url = new GenericUrl(properties.get("MQL_QUERY_URL").toString());
+        GenericUrl url = new GenericUrl(properties.get("FREEBASE_MQL_QUERY_URL").toString());
         url.put("query", query);
-        url.put("key", properties.get("API_KEY"));
+        url.put("key", properties.get("FREEBASE_API_KEY"));
 
         HttpRequest request = requestFactory.buildGetRequest(url);
         HttpResponse httpResponse = interrupter.executeQuery(request, true);
@@ -395,7 +395,7 @@ public class FreebaseQueryHelper {
         requestFactory = httpTransport.createRequestFactory();
         List<String> res = new ArrayList<String>();
 
-        int limit = Integer.valueOf(properties.get("LIMIT").toString());
+        int limit = Integer.valueOf(properties.get("FREEBASE_LIMIT").toString());
         int iterations = maxResults % limit;
         iterations = iterations == 0 ? maxResults / limit : maxResults / limit + 1;
         String cursorPoint = "";
@@ -405,9 +405,9 @@ public class FreebaseQueryHelper {
                     "\"limit\":" + limit + "" +
                     "}]";
 
-            GenericUrl url = new GenericUrl(properties.get("MQL_QUERY_URL").toString());
+            GenericUrl url = new GenericUrl(properties.get("FREEBASE_MQL_QUERY_URL").toString());
             url.put("query", query);
-            url.put("key", properties.get("API_KEY"));
+            url.put("key", properties.get("FREEBASE_API_KEY"));
             url.put("cursor", cursorPoint);
 
             HttpRequest request = requestFactory.buildGetRequest(url);
@@ -446,7 +446,7 @@ public class FreebaseQueryHelper {
         requestFactory = httpTransport.createRequestFactory();
         List<String> res = new ArrayList<String>();
 
-        int limit = Integer.valueOf(properties.get("LIMIT").toString());
+        int limit = Integer.valueOf(properties.get("FREEBASE_LIMIT").toString());
         int iterations = maxResults % limit;
         iterations = iterations == 0 ? maxResults / limit : maxResults / limit + 1;
         String cursorPoint = "";
@@ -456,9 +456,9 @@ public class FreebaseQueryHelper {
                     "\"limit\":" + limit + "" +
                     "}]";
 
-            GenericUrl url = new GenericUrl(properties.get("MQL_QUERY_URL").toString());
+            GenericUrl url = new GenericUrl(properties.get("FREEBASE_MQL_QUERY_URL").toString());
             url.put("query", query);
-            url.put("key", properties.get("API_KEY"));
+            url.put("key", properties.get("FREEBASE_API_KEY"));
             url.put("cursor", cursorPoint);
 
             HttpRequest request = requestFactory.buildGetRequest(url);
@@ -498,7 +498,7 @@ public class FreebaseQueryHelper {
         requestFactory = httpTransport.createRequestFactory();
         List<String> res = new ArrayList<String>();
 
-        int limit = Integer.valueOf(properties.get("LIMIT").toString());
+        int limit = Integer.valueOf(properties.get("FREEBASE_LIMIT").toString());
         int iterations = maxResults % limit;
         iterations = iterations == 0 ? maxResults / limit : maxResults / limit + 1;
         String cursorPoint = "";
@@ -509,9 +509,9 @@ public class FreebaseQueryHelper {
                     "\"limit\":" + limit + "" +
                     "}]";
 
-            GenericUrl url = new GenericUrl(properties.get("BASE_QUERY_URL").toString());
+            GenericUrl url = new GenericUrl(properties.get("FREEBASE_BASE_QUERY_URL").toString());
             url.put("query", query);
-            url.put("key", properties.get("API_KEY"));
+            url.put("key", properties.get("FREEBASE_API_KEY"));
             url.put("cursor", cursorPoint);
 
             HttpRequest request = requestFactory.buildGetRequest(url);

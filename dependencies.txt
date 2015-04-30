@@ -1,9 +1,0 @@
-test
-	-(everyting)
-core
-	-(everything but "test")
-triplesearch
-	-util
-	-sindice4j-api3
-
-
