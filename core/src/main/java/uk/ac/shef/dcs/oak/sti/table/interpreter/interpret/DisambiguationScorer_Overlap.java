@@ -1,5 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.table.interpreter.interpret;
 
+import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.misc.DataTypeClassifier;
@@ -9,7 +10,6 @@ import uk.ac.shef.dcs.oak.sti.table.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.table.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.sti.table.rep.LTableContext;
 import uk.ac.shef.dcs.oak.sti.test.TableMinerConstants;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 
@@ -40,14 +40,14 @@ public class DisambiguationScorer_Overlap implements DisambiguationScorer {
 
 
 
-    public Map<String, Double> score(EntityCandidate candidate,
-                                     List<EntityCandidate> all_candidates,
+    public Map<String, Double> score(Entity candidate,
+                                     List<Entity> all_candidates,
                                      int entity_source_column,
                                      int entity_source_row,
                                      List<Integer> other_entity_source_rows,
                                      LTable table,
                                      Set<String> assigned_column_semantic_types,
-                                     EntityCandidate... reference_disambiguated_entities) {
+                                     Entity... reference_disambiguated_entities) {
         /*if(candidate.getName().contains("Republican"))
             System.out.println();*/
         Map<String, Double> scoreMap = new HashMap<String, Double>();
@@ -133,11 +133,11 @@ public class DisambiguationScorer_Overlap implements DisambiguationScorer {
 
         /*REFERENCE ENTITY CONTEXT*/
         //refrence entities, if any
-        Set<EntityCandidate> reference_non_duplicate = new HashSet<EntityCandidate>();
-        for (EntityCandidate ec : reference_disambiguated_entities)
+        Set<Entity> reference_non_duplicate = new HashSet<Entity>();
+        for (Entity ec : reference_disambiguated_entities)
             reference_non_duplicate.add(ec);
         double sum = 0.0;
-        for (EntityCandidate ec : reference_non_duplicate) {
+        for (Entity ec : reference_non_duplicate) {
             bag_of_words_for_context.clear();
 
             for (String[] f : ec.getFacts()) {
@@ -262,7 +262,7 @@ public class DisambiguationScorer_Overlap implements DisambiguationScorer {
 
     public static void score_typeMatch(Map<String, Double> scoreMap,
                                        List<String> assigned_column_types,
-                                       EntityCandidate candidate) {
+                                       Entity candidate) {
         List<String> bag_of_words_for_context = new ArrayList<String>();
         if (assigned_column_types.size() > 0 && candidate.getTypes().size() > 0) {
             bag_of_words_for_context.addAll(assigned_column_types);

@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.oak.sti.table.interpreter.baseline;
 
+import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.content.KBSearcher;
 import uk.ac.shef.dcs.oak.sti.table.rep.*;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 
 import java.io.IOException;
@@ -29,8 +29,8 @@ public class Base_NameMatch_ColumnLearner {
     }
 
     public void interpret(LTable table, LTableAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
-        Map<Integer, List<ObjObj<EntityCandidate, Map<String, Double>>>> candidate_for_each_row =
-                new HashMap<Integer, List<ObjObj<EntityCandidate, Map<String, Double>>>>();
+        Map<Integer, List<ObjObj<Entity, Map<String, Double>>>> candidate_for_each_row =
+                new HashMap<Integer, List<ObjObj<Entity, Map<String, Double>>>>();
         Set<HeaderAnnotation> headerAnnotationScores = new HashSet<HeaderAnnotation>();
 
 
@@ -55,11 +55,11 @@ public class Base_NameMatch_ColumnLearner {
                 }
             }
 
-            List<ObjObj<EntityCandidate, Map<String, Double>>> disamb_result = null;
+            List<ObjObj<Entity, Map<String, Double>>> disamb_result = null;
             if (skip) {
                 disamb_result = collect_existing(table_annotation, row_index, column);
             } else {
-                List<EntityCandidate> candidates = kbSearcher.find_matchingEntitiesForCell(tcc);
+                List<Entity> candidates = kbSearcher.find_matchingEntitiesForCell(tcc);
                 disamb_result =
                         disambiguator.disambiguate(candidates, table, row_index, column);
                 if (disamb_result != null && disamb_result.size() > 0) {
@@ -69,10 +69,10 @@ public class Base_NameMatch_ColumnLearner {
         }
 
         Map<Object, Double> state = new HashMap<Object, Double>();
-        for (Map.Entry<Integer, List<ObjObj<EntityCandidate, Map<String, Double>>>> e : candidate_for_each_row.entrySet()) {
-            List<ObjObj<EntityCandidate, Map<String, Double>>> container = e.getValue();
+        for (Map.Entry<Integer, List<ObjObj<Entity, Map<String, Double>>>> e : candidate_for_each_row.entrySet()) {
+            List<ObjObj<Entity, Map<String, Double>>> container = e.getValue();
             if (container.size() > 0) {
-                EntityCandidate ec = container.get(0).getMainObject();
+                Entity ec = container.get(0).getMainObject();
                 List<String> types = ec.getTypeIds();
                 for (String t : types) {
                     Double score = state.get(t);
@@ -88,14 +88,14 @@ public class Base_NameMatch_ColumnLearner {
 
     }
 
-    private List<ObjObj<EntityCandidate, Map<String, Double>>> collect_existing(LTableAnnotation table_annotation, int row_index, int column) {
-        List<ObjObj<EntityCandidate, Map<String, Double>>> candidates = new ArrayList<ObjObj<EntityCandidate, Map<String, Double>>>();
+    private List<ObjObj<Entity, Map<String, Double>>> collect_existing(LTableAnnotation table_annotation, int row_index, int column) {
+        List<ObjObj<Entity, Map<String, Double>>> candidates = new ArrayList<ObjObj<Entity, Map<String, Double>>>();
         CellAnnotation[] annotations = table_annotation.getContentCellAnnotations(row_index, column);
         for (CellAnnotation can : annotations) {
-            EntityCandidate ec = can.getAnnotation();
+            Entity ec = can.getAnnotation();
             Map<String, Double> scoreElements = can.getScore_element_map();
             scoreElements.put(CellAnnotation.SCORE_FINAL, can.getFinalScore());
-            candidates.add(new ObjObj<EntityCandidate, Map<String, Double>>(ec, scoreElements));
+            candidates.add(new ObjObj<Entity, Map<String, Double>>(ec, scoreElements));
         }
 
         return candidates;
@@ -105,26 +105,26 @@ public class Base_NameMatch_ColumnLearner {
 
     private void disambiguate(LTableAnnotation table_annotation,
                               LTable table,
-                              Map<Integer, List<ObjObj<EntityCandidate, Map<String, Double>>>> candidates_and_scores_for_each_row,
+                              Map<Integer, List<ObjObj<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row,
                               int column) {
         List<HeaderAnnotation> bestHeaderAnnotations = table_annotation.getBestHeaderAnnotations(column);
         List<String> types = new ArrayList<String>();
         for (HeaderAnnotation ha : bestHeaderAnnotations)
             types.add(ha.getAnnotation_url());
 
-        for (Map.Entry<Integer, List<ObjObj<EntityCandidate, Map<String, Double>>>> e :
+        for (Map.Entry<Integer, List<ObjObj<Entity, Map<String, Double>>>> e :
                 candidates_and_scores_for_each_row.entrySet()) {
 
             int row = e.getKey();
-            List<ObjObj<EntityCandidate, Map<String, Double>>> entities_for_this_cell_and_scores = e.getValue();
+            List<ObjObj<Entity, Map<String, Double>>> entities_for_this_cell_and_scores = e.getValue();
             if (entities_for_this_cell_and_scores.size() == 0)
                 continue;
 
-            List<ObjObj<EntityCandidate, Map<String, Double>>> revised = disambiguator.revise(entities_for_this_cell_and_scores, types);
+            List<ObjObj<Entity, Map<String, Double>>> revised = disambiguator.revise(entities_for_this_cell_and_scores, types);
             if (revised.size() != 0)
                 entities_for_this_cell_and_scores = revised;
 
-            List<EntityCandidate> best_entities = create_entity_annotations(table, table_annotation, row, column, entities_for_this_cell_and_scores
+            List<Entity> best_entities = create_entity_annotations(table, table_annotation, row, column, entities_for_this_cell_and_scores
             ); //supporting rows are added here, impossible other places
             update_typing_supporting_rows(best_entities, row, column, table_annotation);
         }
@@ -153,38 +153,38 @@ public class Base_NameMatch_ColumnLearner {
         table_annotation.setHeaderAnnotation(column, final_header_annotations);
     }
 
-    private List<EntityCandidate> create_entity_annotations(
+    private List<Entity> create_entity_annotations(
             LTable table,
             LTableAnnotation table_annotation,
             int table_cell_row,
             int table_cell_col,
-            List<ObjObj<EntityCandidate, Map<String, Double>>> candidates_and_scores_for_cell) {
+            List<ObjObj<Entity, Map<String, Double>>> candidates_and_scores_for_cell) {
 
         if (candidates_and_scores_for_cell.size() > 0) {
             CellAnnotation[] annotationsForCell = new CellAnnotation[1];
-            EntityCandidate e = candidates_and_scores_for_cell.get(0).getMainObject();
+            Entity e = candidates_and_scores_for_cell.get(0).getMainObject();
             annotationsForCell[0] = new CellAnnotation(table.getContentCell(table_cell_row, table_cell_col).getText(),
                     e, 1.0, new HashMap<String, Double>());
             table_annotation.setContentCellAnnotations(table_cell_row, table_cell_col, annotationsForCell);
         }
 
-        List<EntityCandidate> best = new ArrayList<EntityCandidate>();
+        List<Entity> best = new ArrayList<Entity>();
         for (int i = 0; i < candidates_and_scores_for_cell.size(); i++) {
-            ObjObj<EntityCandidate, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
+            ObjObj<Entity, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
 
             best.add(e.getMainObject());
         }
         return best;
     }
 
-    private void update_typing_supporting_rows(List<EntityCandidate> bestCandidates,
+    private void update_typing_supporting_rows(List<Entity> bestCandidates,
                                                int row,
                                                int column,
                                                LTableAnnotation table_annotation) {
         HeaderAnnotation[] headers = table_annotation.getHeaderAnnotation(column);
         if (headers != null) {
             for (HeaderAnnotation ha : headers) {
-                for (EntityCandidate ec : bestCandidates) {
+                for (Entity ec : bestCandidates) {
                     if (ec.getTypeIds().contains(ha.getAnnotation_url()))
                         ha.addSupportingRow(row);
                 }

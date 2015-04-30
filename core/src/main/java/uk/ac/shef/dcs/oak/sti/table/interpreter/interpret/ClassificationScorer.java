@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.oak.sti.table.interpreter.interpret;
 
+import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.table.rep.HeaderAnnotation;
 import uk.ac.shef.dcs.oak.sti.table.rep.LTable;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public interface ClassificationScorer {
     //output: a map representing the state of the solution
     Map<String,Double> compute_final_score(HeaderAnnotation ha, int tableRowsTotal);
     //intput: list of candidates and their disamb scores on the current row;
-    Set<HeaderAnnotation> score(List<ObjObj<EntityCandidate, Map<String, Double>>> input,
+    Set<HeaderAnnotation> score(List<ObjObj<Entity, Map<String, Double>>> input,
                                 Set<HeaderAnnotation> headerAnnotations_prev,
                                 LTable table,
                                 List<Integer> rows, int column);

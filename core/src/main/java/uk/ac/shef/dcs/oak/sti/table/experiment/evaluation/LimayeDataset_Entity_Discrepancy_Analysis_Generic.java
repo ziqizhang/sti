@@ -2,9 +2,9 @@ package uk.ac.shef.dcs.oak.sti.table.experiment.evaluation;
 
 import info.aduna.io.FileUtil;
 import org.xml.sax.SAXException;
+import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.content.KBSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.io.LTableAnnotationKeyFileReader;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.FileUtils;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -323,7 +323,7 @@ public class LimayeDataset_Entity_Discrepancy_Analysis_Generic {
                     line.append("\t" + reference_entity_annotation_folder_identifier + "=").
                             append(reference_entity_annotation + "|").append(
                             extractName(
-                                    searcher.find_triplesForEntity(new EntityCandidate(reference_entity_annotation, reference_entity_annotation)))
+                                    searcher.find_triplesForEntity(new Entity(reference_entity_annotation, reference_entity_annotation)))
                     );
 
                     for (Map.Entry<String, Map<String, String>> e : map_method_id_to_entity_annotations.entrySet()) {
@@ -339,7 +339,7 @@ public class LimayeDataset_Entity_Discrepancy_Analysis_Generic {
                             line.append("\t").append(methodKey).append("=").append(ann).append("|null");
                         } else {
                             line.append("\t").append(methodKey).append("=").append(ann).append("|").append(
-                                    extractName(searcher.find_triplesForEntity(new EntityCandidate(ann, ann)))
+                                    extractName(searcher.find_triplesForEntity(new Entity(ann, ann)))
 
                             );
                         }

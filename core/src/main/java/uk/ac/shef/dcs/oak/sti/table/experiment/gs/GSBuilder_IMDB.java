@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.table.experiment.gs;
 
 import org.apache.any23.util.FileUtils;
+import uk.ac.shef.dcs.oak.kbsearch.freebase.Entity_FreebaseTopic;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.interpret.TripleGenerator;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.io.LTableAnnotationWriter;
 import uk.ac.shef.dcs.oak.sti.table.rep.CellAnnotation;
@@ -12,8 +13,7 @@ import uk.ac.shef.dcs.oak.sti.table.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.oak.sti.table.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.oak.sti.table.xtractor.TableObjCreatorIMDB;
 import uk.ac.shef.dcs.oak.sti.table.xtractor.TableXtractorIMDB;
-import uk.ac.shef.dcs.oak.triplesearch.freebase.EntityCandidate_FreebaseTopic;
-import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
+import uk.ac.shef.dcs.oak.kbsearch.freebase.FreebaseQueryHelper;
 
 import java.io.*;
 import java.util.HashMap;
@@ -99,7 +99,7 @@ public class GSBuilder_IMDB {
                 continue;
 
             String imdb_id = text.substring(start, end).trim();
-            List<EntityCandidate_FreebaseTopic> list = queryHelper.searchapi_topics_with_name_and_type(imdb_id, "any", false, 5);
+            List<Entity_FreebaseTopic> list = queryHelper.searchapi_topics_with_name_and_type(imdb_id, "any", false, 5);
             if (list == null || list.size() == 0)
                 continue;
             CellAnnotation[] cas = new CellAnnotation[1];

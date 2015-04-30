@@ -13,6 +13,9 @@
         <option value="$PROJECT_DIR$/../websearch/pom.xml" />
         <option value="$PROJECT_DIR$/../../powerlaws/trunk/powerlaws/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/../common-util/pom.xml" />
+        <option value="$PROJECT_DIR$/../any23-sti/pom.xml" />
+        <option value="$PROJECT_DIR$/../kbsearch/pom.xml" />
       </list>
     </option>
   </component>

@@ -16,7 +16,7 @@ import uk.ac.shef.dcs.oak.sti.table.xtractor.TableObjCreatorWikipediaGS;
 import uk.ac.shef.dcs.oak.sti.table.xtractor.TableXtractorWikipedia;
 import uk.ac.shef.dcs.oak.sti.test.LimayeDatasetLoader;
 import uk.ac.shef.dcs.oak.sti.util.GenericSearchCache_SOLR;
-import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
+import uk.ac.shef.dcs.oak.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.oak.util.FileUtils;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.BingWebSearch;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.BingWebSearchResultParser;

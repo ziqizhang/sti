@@ -2,12 +2,12 @@ package uk.ac.shef.dcs.oak.sti.table.interpreter.content;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.solr.client.solrj.SolrServer;
+import uk.ac.shef.dcs.oak.kbsearch.Entity;
+import uk.ac.shef.dcs.oak.kbsearch.freebase.Entity_FreebaseTopic;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.sti.table.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.sti.test.TableMinerConstants;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
-import uk.ac.shef.dcs.oak.triplesearch.freebase.EntityCandidate_FreebaseTopic;
-import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
+import uk.ac.shef.dcs.oak.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 
 import java.io.IOException;
@@ -45,18 +45,18 @@ public class KBSearcher_Freebase extends KBSearcher {
 
 
     @Override
-    public List<EntityCandidate> find_matchingEntitiesForCell(LTableContentCell tcc) throws IOException {
+    public List<Entity> find_matchingEntitiesForCell(LTableContentCell tcc) throws IOException {
         String query = createQuery_findEntities(tcc);
         return find_matchingEntitiesForText_clientFilterTypes(query);
     }
 
     @Override
-    public List<EntityCandidate> find_matchingEntities_with_type_forCell(LTableContentCell tcc, String... types) throws IOException {
+    public List<Entity> find_matchingEntities_with_type_forCell(LTableContentCell tcc, String... types) throws IOException {
         String query = createQuery_findEntities(tcc);
         return find_matchingEntitiesForText_clientFilterTypes(query, types);
     }
 
-    protected List<EntityCandidate> find_matchingEntitiesForText_clientFilterTypes(String text, String... types) throws IOException {
+    protected List<Entity> find_matchingEntitiesForText_clientFilterTypes(String text, String... types) throws IOException {
         boolean forceQuery = false;
         /*if (text.contains("Follow the")||text.contains("Wind"))
             //forceQuery = true;
@@ -73,7 +73,7 @@ public class KBSearcher_Freebase extends KBSearcher {
         }
         List<String> query_tokens = StringUtils.toAlphaNumericTokens(text, true);
         if (query_tokens.size() == 0)
-            return new ArrayList<EntityCandidate>();
+            return new ArrayList<Entity>();
 
 
         /*try {
@@ -99,20 +99,20 @@ public class KBSearcher_Freebase extends KBSearcher {
         if (TableMinerConstants.FORCE_SEARCHAPI_QUERY)
             forceQuery = true;
 
-        List<EntityCandidate> result = null;
+        List<Entity> result = null;
         if (!forceQuery) {
             try {
-                result = (List<EntityCandidate>) solrCache.retrieve(toSolrKey(text));
+                result = (List<Entity>) solrCache.retrieve(toSolrKey(text));
                 if (result != null)
                     log.warning("QUERY (cache load)=" + toSolrKey(text) + "|" + text);
             } catch (Exception e) {
             }
         }
         if (result == null) {
-            result = new ArrayList<EntityCandidate>();
+            result = new ArrayList<Entity>();
             //List<EntityCandidate_FreebaseTopic> topics = searcher.searchapi_topics_with_name_and_type(text, "any",true,15,types);
-            List<EntityCandidate_FreebaseTopic> topics = searcher.searchapi_topics_with_name_and_type(text, "any", true, 20); //search api does not retrieve complete types, find types for them
-            for (EntityCandidate_FreebaseTopic ec : topics) {
+            List<Entity_FreebaseTopic> topics = searcher.searchapi_topics_with_name_and_type(text, "any", true, 20); //search api does not retrieve complete types, find types for them
+            for (Entity_FreebaseTopic ec : topics) {
                 //find_triplesForEntityId()
                 //instantiate facts and types
                 List<String[]> facts = find_triplesForEntity(ec);
@@ -125,9 +125,9 @@ public class KBSearcher_Freebase extends KBSearcher {
                 }
             }
 
-            Iterator<EntityCandidate_FreebaseTopic> it = topics.iterator();
+            Iterator<Entity_FreebaseTopic> it = topics.iterator();
             while (it.hasNext()) {
-                EntityCandidate_FreebaseTopic ec = it.next();
+                Entity_FreebaseTopic ec = it.next();
                 List<String> cell_text_tokens = StringUtils.toAlphaNumericTokens(ec.getName(), true);
                 int size = cell_text_tokens.size();
                 cell_text_tokens.removeAll(query_tokens);
@@ -171,9 +171,9 @@ public class KBSearcher_Freebase extends KBSearcher {
 
         int beforeFiltering = result.size();
         if (types.length > 0) {
-            Iterator<EntityCandidate> it = result.iterator();
+            Iterator<Entity> it = result.iterator();
             while (it.hasNext()) {
-                EntityCandidate ec = it.next();
+                Entity ec = it.next();
                 boolean typeSatisfied = false;
                 for (String t : types) {
                     if (ec.hasTypeId(t)) {
@@ -187,7 +187,7 @@ public class KBSearcher_Freebase extends KBSearcher {
         }
 
         String id = "|";
-        for (EntityCandidate ec : result) {
+        for (Entity ec : result) {
             id = id + ec.getId() + ",";
             Iterator<String[]> it = ec.getTypes().iterator();
             while (it.hasNext()) {
@@ -202,7 +202,7 @@ public class KBSearcher_Freebase extends KBSearcher {
     }
 
 
-    protected List<EntityCandidate> find_matchingEntitiesForText_serverFilterTypes(String text, String... types) throws IOException {
+    protected List<Entity> find_matchingEntitiesForText_serverFilterTypes(String text, String... types) throws IOException {
         boolean forceQuery = false;
         /*if (text.contains("Nirmal Kumar Sidhanta"))
             forceQuery = true;*/
@@ -217,17 +217,17 @@ public class KBSearcher_Freebase extends KBSearcher {
         }
         List<String> query_tokens = StringUtils.toAlphaNumericTokens(text, true);
         if (query_tokens.size() == 0)
-            return new ArrayList<EntityCandidate>();
+            return new ArrayList<Entity>();
 
-        List<EntityCandidate> result = null;
+        List<Entity> result = null;
 
         if (!forceQuery) {
             try {
-                result = (List<EntityCandidate>) solrCache.retrieve(toSolrKey(cacheQuery));
+                result = (List<Entity>) solrCache.retrieve(toSolrKey(cacheQuery));
                 if (types.length > 0) {
-                    Iterator<EntityCandidate> it = result.iterator();
+                    Iterator<Entity> it = result.iterator();
                     while (it.hasNext()) {
-                        EntityCandidate ec = it.next();
+                        Entity ec = it.next();
                         boolean typeSatisfied = false;
                         for (String t : types) {
                             if (ec.hasTypeId(t)) {
@@ -246,10 +246,10 @@ public class KBSearcher_Freebase extends KBSearcher {
         }
         if (result == null) {
 
-            result = new ArrayList<EntityCandidate>();
+            result = new ArrayList<Entity>();
             //List<EntityCandidate_FreebaseTopic> topics = searcher.searchapi_topics_with_name_and_type(text, "any",true,15,types);
-            List<EntityCandidate_FreebaseTopic> topics = searcher.searchapi_topics_with_name_and_type(text, "any", true, 20, types); //search api does not retrieve complete types, find types for them
-            for (EntityCandidate_FreebaseTopic ec : topics) {
+            List<Entity_FreebaseTopic> topics = searcher.searchapi_topics_with_name_and_type(text, "any", true, 20, types); //search api does not retrieve complete types, find types for them
+            for (Entity_FreebaseTopic ec : topics) {
                 //find_triplesForEntityId()
                 //instantiate facts and types
                 List<String[]> facts = find_triplesForEntity(ec);
@@ -262,9 +262,9 @@ public class KBSearcher_Freebase extends KBSearcher {
                 }
             }
 
-            Iterator<EntityCandidate_FreebaseTopic> it = topics.iterator();
+            Iterator<Entity_FreebaseTopic> it = topics.iterator();
             while (it.hasNext()) {
-                EntityCandidate_FreebaseTopic ec = it.next();
+                Entity_FreebaseTopic ec = it.next();
                 List<String> cell_text_tokens = StringUtils.toAlphaNumericTokens(ec.getName(), true);
                 int size = cell_text_tokens.size();
                 cell_text_tokens.removeAll(query_tokens);
@@ -303,7 +303,7 @@ public class KBSearcher_Freebase extends KBSearcher {
             }
         }
 
-        for (EntityCandidate ec : result) {
+        for (Entity ec : result) {
             Iterator<String[]> it = ec.getTypes().iterator();
             while (it.hasNext()) {
                 String[] s = it.next();
@@ -316,7 +316,7 @@ public class KBSearcher_Freebase extends KBSearcher {
 
 
     @Override
-    public List<String[]> find_triplesForEntity(EntityCandidate ec) throws IOException {
+    public List<String[]> find_triplesForEntity(Entity ec) throws IOException {
         boolean forceQuery = false;
 
         /*  if(ec.getId().equals("/m/06qw_")||ec.getId().endsWith("/m/0859_")){
@@ -399,7 +399,7 @@ public class KBSearcher_Freebase extends KBSearcher {
 
     @Override
     public List<String[]> find_expected_types_of_relation(String majority_relation_name) throws IOException {
-        List<String[]> triples = find_triplesForEntity(new EntityCandidate(majority_relation_name, majority_relation_name));
+        List<String[]> triples = find_triplesForEntity(new Entity(majority_relation_name, majority_relation_name));
         List<String[]> types = new ArrayList<String[]>();
         for (String[] t : triples) {
             if (t[0].equals("/type/property/expected_type")) {

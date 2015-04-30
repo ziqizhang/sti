@@ -24,7 +24,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="any23extension" />
+        <module name="any23-sti" />
         <module name="common-util" />
         <module name="core" />
         <module name="powerlaws" />
