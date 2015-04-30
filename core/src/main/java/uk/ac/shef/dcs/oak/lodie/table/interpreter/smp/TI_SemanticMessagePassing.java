@@ -91,7 +91,7 @@ public class TI_SemanticMessagePassing {
             }
         }
 
-        System.out.println(">\t\t COMPUTING HEADER CLASSIFICATION AND COLUMN-COLUMN RELATION");
+        System.out.println(">\t COMPUTING HEADER CLASSIFICATION AND COLUMN-COLUMN RELATION");
         computeClassesAndRelations(tab_annotations, table, 1);
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -99,10 +99,11 @@ public class TI_SemanticMessagePassing {
         LTableAnnotation_SMP_Freebase copy;
         CellAnnotationUpdater cellAnnotationUpdater = new CellAnnotationUpdater();
         for (int i = 1; i <= halting_num_of_iterations_max; i++) {
+            System.out.println("\t\t>> [ITERATION] "+i);
             copy = new LTableAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
             LTableAnnotation.copy(tab_annotations, copy);
             //column concept and relation factors send message to entity factors
-            System.out.println("\t\t>> Computing messages");
+            System.out.println("\t\t>> COMPUTING MESSAGES");
             ObjectMatrix2D messages = new ChangeMessageBroadcaster().computeChangeMessages(tab_annotations, table);
             //check middle-point halting condition
             boolean stop = false;
@@ -115,7 +116,7 @@ public class TI_SemanticMessagePassing {
             }
 
             //re-compute cell annotations based on messages
-            System.out.println("\t\t>> (itr=" + i + ") Re-computing named entities");
+            System.out.println("\t\t>> NAMED ENTITY UPDATE");
             int[] updateResult = cellAnnotationUpdater.update(messages, tab_annotations);
             System.out.println("\t\t   (requiredUpdate=" + updateResult[1] + ", updated=" + updateResult[0]+")");
 
@@ -139,7 +140,7 @@ public class TI_SemanticMessagePassing {
     }
 
     private void computeClassesAndRelations(LTableAnnotation_SMP_Freebase tab_annotations, LTable table, int iteration) throws IOException {
-        System.out.println("\t\t>> (itr=" + iteration + ") COLUMN SEMANTIC TYPE COMPUTING...");
+        System.out.println("\t\t>> COLUMN SEMANTIC TYPE COMPUTING...");
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
             if (forceInterpret(col)) {
@@ -154,7 +155,7 @@ public class TI_SemanticMessagePassing {
             }
         }
 
-        System.out.println("\t\t>> (itr=" + iteration + ") RELATION COMPUTING...");
+        System.out.println("\t\t>> RELATION COMPUTING...");
         relationLearner.inferRelation(tab_annotations, table);
     }
 
