@@ -20,6 +20,7 @@ import uk.ac.shef.dcs.oak.lodie.table.xtractor.TableXtractorMusicBrainz;
 import uk.ac.shef.dcs.oak.lodie.test.LimayeDatasetLoader;
 import uk.ac.shef.dcs.oak.lodie.test.TableMinerConstants;
 import uk.ac.shef.dcs.oak.util.FileUtils;
+import uk.ac.shef.dcs.oak.websearch.bing.v2.MultiKeyStringSplitter;
 
 import java.io.*;
 import java.net.SocketTimeoutException;
@@ -40,7 +41,9 @@ public class TestTI_DataFiltering_TableMiner_LimayeDataset {
     public static void main(String[] args) throws IOException {
         String inFolder = args[0];
         String outFolder = args[1];
-        String freebaseProperties = args[2]; //"D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties"
+        String propertyFile = args[2]; //"D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties"
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(propertyFile));
         String cacheFolder = args[3];  //String cacheFolder = "D:\\Work\\lodiedata\\tableminer_cache\\solrindex_cache\\zookeeper\\solr";
         String nlpResources = args[4]; //"D:\\Work\\lodie\\resources\\nlp_resources";
         int start = Integer.valueOf(args[5]);
@@ -64,7 +67,7 @@ public class TestTI_DataFiltering_TableMiner_LimayeDataset {
 
 
         //object to fetch things from KB
-        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(freebaseProperties, server, true);
+        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(propertyFile, server, true);
 /*        freebaseMatcher.find_typesForEntityId("/m/02hrh1q");
         server.shutdown();
         System.exit(0);*/
@@ -81,7 +84,7 @@ public class TestTI_DataFiltering_TableMiner_LimayeDataset {
                 //"/BlhLSReljQ3Koh+vDSOaYMji9/Ccwe/7/b9mGJLwDQ=");  //zqz.work
                 //"fXhmgvVQnz1aLBti87+AZlPYDXcQL0G9L2dVAav+aK0="); //ziqizhang
                 stopWords,
-                "paYAoeXcGrctiu5doF3p+a4EKwvQbgqp274r4dHxaw8"//, lodie
+                MultiKeyStringSplitter.split(properties.getProperty("BING_API_KEYS"))
                 //"7ql9acl+fXXfdjBGIIAH+N2WHk/dIZxdSkl4Uur68Hg"
         );//   dobs
 

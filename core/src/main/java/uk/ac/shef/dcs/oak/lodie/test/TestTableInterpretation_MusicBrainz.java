@@ -18,6 +18,7 @@ import uk.ac.shef.dcs.oak.lodie.table.rep.LTable;
 import uk.ac.shef.dcs.oak.lodie.table.rep.LTableAnnotation;
 import uk.ac.shef.dcs.oak.lodie.table.validator.TabValGeneric;
 import uk.ac.shef.dcs.oak.lodie.table.xtractor.*;
+import uk.ac.shef.dcs.oak.websearch.bing.v2.MultiKeyStringSplitter;
 
 import java.io.*;
 import java.net.SocketTimeoutException;
@@ -34,7 +35,9 @@ public class TestTableInterpretation_MusicBrainz {
     public static void main(String[] args) throws IOException {
         String inFolder = args[0];
         String outFolder = args[1];
-        String freebaseProperties = args[2]; //"D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties"
+        String propertyFile = args[2]; //"D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties"
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(propertyFile));
         String cacheFolder = args[3];  //String cacheFolder = "D:\\Work\\lodiedata\\tableminer_cache\\solrindex_cache\\zookeeper\\solr";
         String nlpResources = args[4]; //"D:\\Work\\lodie\\resources\\nlp_resources";
         int start = Integer.valueOf(args[5]);
@@ -47,7 +50,7 @@ public class TestTableInterpretation_MusicBrainz {
         SolrServer server = new EmbeddedSolrServer(container, "collection1");
 
         //object to fetch things from KB
-        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(freebaseProperties, server, true);
+        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(propertyFile, server, true);
         List<String> stopWords = uk.ac.shef.dcs.oak.util.FileUtils.readList(nlpResources + "/stoplist.txt", true);
         //object to find main subject column
         MainColumnFinder main_col_finder = new MainColumnFinder(
@@ -57,8 +60,8 @@ public class TestTableInterpretation_MusicBrainz {
                 server,
                 nlpResources, true, stopWords,
                 //"tHSVoL7Xxn+sZ7N+gP081zev4wLvzeD5SWhyCpfFtbI"); //ziqi.zhang
-                "nKegYOqCMXV0rjUHzKADJinbJ9NrkMyBMqm9h3X9vAo",
-                "tHSVoL7Xxn+sZ7N+gP081zev4wLvzeD5SWhyCpfFtbI"); //annalisa
+                MultiKeyStringSplitter.split(properties.getProperty("BING_API_KEYS"))
+                ); //annalisa
 
 
         //stop words and stop properties (freebase) are used for disambiguation

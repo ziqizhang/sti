@@ -13,13 +13,11 @@ import uk.ac.shef.dcs.oak.lodie.table.interpreter.selector.LTableContentRow_Samp
 import uk.ac.shef.dcs.oak.lodie.table.interpreter.stopping.EntropyConvergence;
 import uk.ac.shef.dcs.oak.lodie.table.rep.LTable;
 import uk.ac.shef.dcs.oak.lodie.table.rep.LTableAnnotation;
+import uk.ac.shef.dcs.oak.websearch.bing.v2.MultiKeyStringSplitter;
 
 import java.io.*;
 import java.net.SocketTimeoutException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -37,7 +35,9 @@ public class TestTableInterpretation_LimayeDataset_Baseline_Another {
     public static void main(String[] args) throws IOException {
         String inFolder = args[0];
         String outFolder = args[1];
-        String freebaseProperties = args[2]; //"D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties"
+        String propertyFile = args[2]; //"D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties"
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(propertyFile));
         String cacheFolder = args[3];  //String cacheFolder = "D:\\Work\\lodiedata\\tableminer_cache\\solrindex_cache\\zookeeper\\solr";
         String nlpResources = args[4]; //"D:\\Work\\lodie\\resources\\nlp_resources";
         int start = Integer.valueOf(args[5]);
@@ -50,7 +50,7 @@ public class TestTableInterpretation_LimayeDataset_Baseline_Another {
         SolrServer server = new EmbeddedSolrServer(container, "collection1");
 
         //object to fetch things from KB
-        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(freebaseProperties, server, true);
+        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(propertyFile, server, true);
         List<String> stopWords = uk.ac.shef.dcs.oak.util.FileUtils.readList(nlpResources + "/stoplist.txt", true);
         //object to find main subject column
         MainColumnFinder main_col_finder = new MainColumnFinder(
@@ -61,7 +61,8 @@ public class TestTableInterpretation_LimayeDataset_Baseline_Another {
                 nlpResources,
                 TableMinerConstants.MAIN_COL_DETECT_USE_WEBSEARCH,
                 stopWords,
-                "tHSVoL7Xxn+sZ7N+gP081zev4wLvzeD5SWhyCpfFtbI");
+                MultiKeyStringSplitter.split(properties.getProperty("BING_API_KEYS"))
+               );
 
 
 

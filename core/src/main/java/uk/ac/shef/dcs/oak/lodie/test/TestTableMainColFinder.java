@@ -16,15 +16,14 @@ import uk.ac.shef.dcs.oak.lodie.table.xtractor.TableObjCreatorMusicBrainz;
 import uk.ac.shef.dcs.oak.lodie.table.xtractor.TableXtractorMusicBrainz;
 import uk.ac.shef.dcs.oak.util.FileUtils;
 import uk.ac.shef.dcs.oak.util.ObjObj;
+import uk.ac.shef.dcs.oak.websearch.bing.v2.MultiKeyStringSplitter;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  */
@@ -40,6 +39,8 @@ public class TestTableMainColFinder {
         String outFile = args[1];
         String nlpResources = args[2];
         String cacheFolder = args[3];
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(args[4]));
         List<String> stopWords = uk.ac.shef.dcs.oak.util.FileUtils.readList(nlpResources + "/stoplist.txt", true);
         File configFile = new File(cacheFolder + File.separator + "solr.xml");
         CoreContainer container = new CoreContainer(cacheFolder,
@@ -50,7 +51,7 @@ public class TestTableMainColFinder {
                 new String[]{"0.0", "1", "0.01"},
                 server,
                 nlpResources, true, stopWords,
-                "paYAoeXcGrctiu5doF3p+a4EKwvQbgqp274r4dHxaw8" //lodie
+                MultiKeyStringSplitter.split(properties.getProperty("BING_API_KEYS")) //lodie
 
         );
 

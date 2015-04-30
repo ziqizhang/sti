@@ -19,6 +19,7 @@ import uk.ac.shef.dcs.oak.lodie.table.xtractor.TableNormalizerDummy;
 import uk.ac.shef.dcs.oak.lodie.table.xtractor.TableObjCreatorMusicBrainz;
 import uk.ac.shef.dcs.oak.lodie.table.xtractor.TableXtractorMusicBrainz;
 import uk.ac.shef.dcs.oak.util.FileUtils;
+import uk.ac.shef.dcs.oak.websearch.bing.v2.MultiKeyStringSplitter;
 
 import java.io.*;
 import java.net.SocketTimeoutException;
@@ -39,7 +40,9 @@ public class TestTableInterpretation_LimayeDataset_Baseline {
     public static void main(String[] args) throws IOException {
         String inFolder = args[0];
         String outFolder = args[1];
-        String freebaseProperties = args[2]; //"D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties"
+        String propertyFile = args[2]; //"D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties"
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(propertyFile));
         String cacheFolder = args[3];  //String cacheFolder = "D:\\Work\\lodiedata\\tableminer_cache\\solrindex_cache\\zookeeper\\solr";
         String nlpResources = args[4]; //"D:\\Work\\lodie\\resources\\nlp_resources";
         int start = Integer.valueOf(args[5]);
@@ -70,7 +73,7 @@ public class TestTableInterpretation_LimayeDataset_Baseline {
         SolrServer server = new EmbeddedSolrServer(container, "collection1");
 
         //object to fetch things from KB
-        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(freebaseProperties, server, true);
+        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(propertyFile, server, true);
         List<String> stopWords = uk.ac.shef.dcs.oak.util.FileUtils.readList(nlpResources + "/stoplist.txt", true);
         //object to find main subject column
         MainColumnFinder main_col_finder = new MainColumnFinder(
@@ -81,7 +84,7 @@ public class TestTableInterpretation_LimayeDataset_Baseline {
                 nlpResources,
                 TableMinerConstants.MAIN_COL_DETECT_USE_WEBSEARCH,
                 stopWords,
-                "/BlhLSReljQ3Koh+vDSOaYMji9/Ccwe/7/b9mGJLwDQ="
+                MultiKeyStringSplitter.split(properties.getProperty("BING_API_KEYS"))
                 //"8Yr8amTvrm5SM4XK3vM3KrLqOCT/ZhkwCfLEDtslE7o=","eT14G3TOr7NdItThWFCXFjDrRHNUxmPBmqgDvjoIc6Q"
                 /*"fXhmgvVQnz1aLBti87+AZlPYDXcQL0G9L2dVAav+aK0=",
                 "/BlhLSReljQ3Koh+vDSOaYMji9/Ccwe/7/b9mGJLwDQ="*/);  //zqz.work
