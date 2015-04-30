@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../any23-sti/any23-sti.iml" filepath="$PROJECT_DIR$/../any23-sti/any23-sti.iml" />
       <module fileurl="file://$PROJECT_DIR$/../common-util/common-util.iml" filepath="$PROJECT_DIR$/../common-util/common-util.iml" />
       <module fileurl="file://$PROJECT_DIR$/core.iml" filepath="$PROJECT_DIR$/core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../powerlaws/trunk/powerlaws/powerlaws.iml" filepath="$PROJECT_DIR$/../../powerlaws/trunk/powerlaws/powerlaws.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../kbsearch/triplesearch.iml" filepath="$PROJECT_DIR$/../kbsearch/triplesearch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../any23-sti/lodie-any23.iml" filepath="$PROJECT_DIR$/../any23-sti/lodie-any23.iml" />
+      <module fileurl="file://E:/powerlaws/trunk/powerlaws/powerlaws.iml" filepath="E:/powerlaws/trunk/powerlaws/powerlaws.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../triplesearch/triplesearch.iml" filepath="$PROJECT_DIR$/../triplesearch/triplesearch.iml" />
       <module fileurl="file://$PROJECT_DIR$/../websearch/websearch.iml" filepath="$PROJECT_DIR$/../websearch/websearch.iml" />
     </modules>
   </component>

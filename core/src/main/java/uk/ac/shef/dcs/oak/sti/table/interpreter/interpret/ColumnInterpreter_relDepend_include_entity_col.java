@@ -1,10 +1,10 @@
 package uk.ac.shef.dcs.oak.sti.table.interpreter.interpret;
 
-import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.content.KBSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.selector.CellSelector;
 import uk.ac.shef.dcs.oak.sti.table.rep.*;
 import uk.ac.shef.dcs.oak.sti.test.TableMinerConstants;
+import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 
@@ -406,7 +406,7 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
 
         //Map<String, HeaderAnnotation> candidate_header_annotations = new HashMap<String, HeaderAnnotation>();
         //count types that are known for already mapped entities (using their ids)
-        Set<Entity> reference_entities = new HashSet<Entity>();
+        Set<EntityCandidate> reference_entities = new HashSet<EntityCandidate>();
 
         //0. apply one sense per discourse
         Map<Integer, Integer> map_rows_to_already_solved_rows_if_any = new HashMap<Integer, Integer>();
@@ -448,7 +448,7 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
                             table.getColumnHeader(column).getHeaderText());
 
                 //update cell annotation
-                Entity ec = new Entity(entity.getMainObject(), entity.getOtherObject());
+                EntityCandidate ec = new EntityCandidate(entity.getMainObject(), entity.getOtherObject());
                 reference_entities.add(ec);
 
                 ec.getTypes().addAll(candidate_types);
@@ -513,7 +513,7 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
         }
 
         if (max_reference_entity_for_disambiguation == 0)
-            reference_entities = new HashSet<Entity>();
+            reference_entities = new HashSet<EntityCandidate>();
         else
             reference_entities = ColumnInterpreter.selectReferenceEntities(table, table_annotation, column, max_reference_entity_for_disambiguation);
         column_updater.learn_consolidate(0,

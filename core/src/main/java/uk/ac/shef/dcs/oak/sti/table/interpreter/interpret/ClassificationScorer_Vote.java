@@ -1,11 +1,11 @@
 package uk.ac.shef.dcs.oak.sti.table.interpreter.interpret;
 
-import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.PlaceHolder;
 import uk.ac.shef.dcs.oak.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.oak.sti.table.rep.*;
 import uk.ac.shef.dcs.oak.sti.test.TableMinerConstants;
+import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.util.StringUtils;
@@ -33,7 +33,7 @@ public class ClassificationScorer_Vote implements ClassificationScorer {
     }
 
     @Override
-    public Set<HeaderAnnotation> score(List<ObjObj<Entity, Map<String, Double>>> input,
+    public Set<HeaderAnnotation> score(List<ObjObj<EntityCandidate, Map<String, Double>>> input,
                                        Set<HeaderAnnotation> headerAnnotations_prev,
                                        LTable table,
                                        List<Integer> rows, int column) {
@@ -50,7 +50,7 @@ public class ClassificationScorer_Vote implements ClassificationScorer {
         return candidates;
     }
 
-    public Set<HeaderAnnotation> score_entity_all_candidate_contribute(List<ObjObj<Entity, Map<String, Double>>> input,
+    public Set<HeaderAnnotation> score_entity_all_candidate_contribute(List<ObjObj<EntityCandidate, Map<String, Double>>> input,
                                                                        Set<HeaderAnnotation> headerAnnotations_prev, LTable table,
                                                                        int row, int column) {
         final Set<HeaderAnnotation> candidate_header_annotations =
@@ -60,8 +60,8 @@ public class ClassificationScorer_Vote implements ClassificationScorer {
         Map<String, Double> tmp_header_annotation_and_max_score = new HashMap<String, Double>();
         Map<String, String> header_annotation_and_text = new HashMap<String, String>();
 
-        for (ObjObj<Entity, Map<String, Double>> es : input) { //each candidate entity in this cell
-            Entity entity = es.getMainObject();
+        for (ObjObj<EntityCandidate, Map<String, Double>> es : input) { //each candidate entity in this cell
+            EntityCandidate entity = es.getMainObject();
             //each assigned type receives a score of 1, and the bonus score due to disambiguation result
             double entity_disamb_score = es.getOtherObject().get(CellAnnotation.SCORE_FINAL);
             for (String[] type : entity.getTypes()) {
@@ -118,17 +118,17 @@ public class ClassificationScorer_Vote implements ClassificationScorer {
         return candidate_header_annotations;
     }
 
-    public Set<HeaderAnnotation> score_entity_best_candidate_contribute(List<ObjObj<Entity, Map<String, Double>>> input,
+    public Set<HeaderAnnotation> score_entity_best_candidate_contribute(List<ObjObj<EntityCandidate, Map<String, Double>>> input,
                                                                         Set<HeaderAnnotation> headerAnnotations_prev, LTable table,
                                                                         int row, int column) {
         final Set<HeaderAnnotation> candidate_header_annotations =
                 headerAnnotations_prev;
 
         //for this row
-        Entity entity_with_highest_disamb_score = null;
+        EntityCandidate entity_with_highest_disamb_score = null;
         double best_score = 0.0;
-        for (ObjObj<Entity, Map<String, Double>> es : input) { //each candidate entity in this cell
-            Entity entity = es.getMainObject();
+        for (ObjObj<EntityCandidate, Map<String, Double>> es : input) { //each candidate entity in this cell
+            EntityCandidate entity = es.getMainObject();
             //each assigned type receives a score of 1, and the bonus score due to disambiguation result
             double entity_disamb_score = es.getOtherObject().get(CellAnnotation.SCORE_FINAL);
             if (entity_disamb_score > best_score) {
@@ -143,8 +143,8 @@ public class ClassificationScorer_Vote implements ClassificationScorer {
         }
 
 
-        for (ObjObj<Entity, Map<String, Double>> es : input) {
-            Entity current_candidate = es.getMainObject();
+        for (ObjObj<EntityCandidate, Map<String, Double>> es : input) {
+            EntityCandidate current_candidate = es.getMainObject();
             double entity_disamb_score = es.getOtherObject().get(CellAnnotation.SCORE_FINAL);
             if (entity_disamb_score != best_score)
                 continue;

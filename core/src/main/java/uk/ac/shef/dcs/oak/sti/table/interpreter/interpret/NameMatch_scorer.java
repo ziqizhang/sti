@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.table.interpreter.interpret;
 
-import uk.ac.shef.dcs.oak.kbsearch.Entity;
+import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,9 +20,9 @@ public class NameMatch_scorer {
         stopWords.add("or");
     }
 
-    public static double compute_order_matters(Entity entity,
+    public static double compute_order_matters(EntityCandidate entity,
                                                String tableCellText,
-                                               List<Entity> entity_list
+                                               List<EntityCandidate> entity_list
     ){
         List<String> entity_name_tokens = toTokens(entity.getName());
         List<String> table_cell_tokens = toTokens(tableCellText);
@@ -35,9 +35,9 @@ public class NameMatch_scorer {
         return similarity/**disambiguation_weight*/;
     }
 
-    private static double calculate_disambiguation_weight(Entity entity, List<Entity> entity_list) {
+    private static double calculate_disambiguation_weight(EntityCandidate entity, List<EntityCandidate> entity_list) {
         int count=0;
-        for(Entity ec: entity_list){
+        for(EntityCandidate ec: entity_list){
             if(entity.getName().equals(ec.getName()))
                 count++;
         }

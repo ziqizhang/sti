@@ -7,12 +7,11 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
-import org.apache.tools.ant.filters.StringInputStream;
+import org.apache.tika.io.IOUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.PlaceHolder;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.maincol.ColumnFeatureGenerator;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.misc.DataTypeClassifier;
@@ -24,7 +23,8 @@ import uk.ac.shef.dcs.oak.sti.table.xtractor.TableObjCreatorWikipediaGS;
 import uk.ac.shef.dcs.oak.sti.table.xtractor.TableXtractorWikipedia;
 import uk.ac.shef.dcs.oak.sti.test.LimayeDatasetLoader;
 import uk.ac.shef.dcs.oak.sti.util.GenericSearchCache_SOLR;
-import uk.ac.shef.dcs.oak.kbsearch.freebase.FreebaseQueryHelper;
+import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
+import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
 import uk.ac.shef.dcs.oak.util.FileUtils;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
@@ -632,7 +632,7 @@ public class GSBuilder_Limaye_Wikitables {
 
     protected static List<Node> extractWikiTables(String wikiPageContentString, String documentURI) {
         List<Node> tableNodes = new ArrayList<Node>();
-        TagSoupParser parser = new TagSoupParser(new StringInputStream(wikiPageContentString), documentURI, "UTF-8");
+        TagSoupParser parser = new TagSoupParser(IOUtils.toInputStream(wikiPageContentString), documentURI, "UTF-8");
         Document doc = null;
         try {
             doc = parser.getDOM();
@@ -794,7 +794,7 @@ public class GSBuilder_Limaye_Wikitables {
     }
 
     public static Map<String, Set<String>> extractLinksFromWikipediaPage(String content, String documentURI) {
-        TagSoupParser parser = new TagSoupParser(new StringInputStream(content), documentURI, "UTF-8");
+        TagSoupParser parser = new TagSoupParser(IOUtils.toInputStream(content), documentURI, "UTF-8");
         Document doc = null;
         try {
             doc = parser.getDOM();
@@ -876,7 +876,7 @@ public class GSBuilder_Limaye_Wikitables {
                             if (fb_id != null && fb_id.length() > 0) {
                                 annotation.append(r + "," + c + "=").append(fb_id).append("\n");
                             }
-                            CellAnnotation ca = new CellAnnotation(tcc.getText(), new Entity(wikiTitle, wikiTitle), 1.0, new HashMap<String, Double>());
+                            CellAnnotation ca = new CellAnnotation(tcc.getText(), new EntityCandidate(wikiTitle, wikiTitle), 1.0, new HashMap<String, Double>());
                             originalTable.getTableAnnotations().setContentCellAnnotations(
                                     r, c, new CellAnnotation[]{ca}
                             );

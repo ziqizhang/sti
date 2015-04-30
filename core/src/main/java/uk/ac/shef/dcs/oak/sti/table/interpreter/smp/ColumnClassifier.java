@@ -1,6 +1,5 @@
 package uk.ac.shef.dcs.oak.sti.table.interpreter.smp;
 
-import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.content.KBSearcher;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.misc.KB_InstanceFilter;
@@ -8,6 +7,7 @@ import uk.ac.shef.dcs.oak.sti.table.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.sti.table.rep.HeaderAnnotation;
 import uk.ac.shef.dcs.oak.sti.table.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.table.rep.LTableAnnotation;
+import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 
 import java.io.IOException;
@@ -38,7 +38,7 @@ public class ColumnClassifier {
             if (bestCellAnnotations.size() > 0) {
                 Set<String> distinctTypes = new HashSet<String>();
                 for (CellAnnotation ca : bestCellAnnotations) {
-                    Entity e = ca.getAnnotation();
+                    EntityCandidate e = ca.getAnnotation();
                     distinctTypes.addAll(e.getTypeIds());
                 }
                 for (String t : distinctTypes) {

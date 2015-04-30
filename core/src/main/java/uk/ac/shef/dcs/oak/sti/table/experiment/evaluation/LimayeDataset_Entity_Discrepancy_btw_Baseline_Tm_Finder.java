@@ -4,9 +4,9 @@ import info.aduna.io.FileUtil;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
-import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.content.KBSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.io.LTableAnnotationKeyFileReader;
+import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.FileUtils;
 
 import java.io.File;
@@ -204,7 +204,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
                                 String answer = appendBestAnswer(tableminer_answer);
                                 if (answer.equals("null")) {
                                 } else {
-                                    answer = answer + "|" + extractName(searcher.find_triplesForEntity(new Entity(answer, answer)));
+                                    answer = answer + "|" + extractName(searcher.find_triplesForEntity(new EntityCandidate(answer, answer)));
                                 }
                                 line.append(answer).append("\t");
                                 line.append("\tbs=");
@@ -212,7 +212,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
                                 answer = appendBestAnswer(baseline_answer);
                                 if (answer.equals("null")) {
                                 } else {
-                                    answer = answer + "|" + extractName(searcher.find_triplesForEntity(new Entity(answer, answer)));
+                                    answer = answer + "|" + extractName(searcher.find_triplesForEntity(new EntityCandidate(answer, answer)));
                                 }
                                 line.append(answer);
                             }

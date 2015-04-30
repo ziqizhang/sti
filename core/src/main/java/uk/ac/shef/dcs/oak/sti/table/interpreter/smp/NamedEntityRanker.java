@@ -1,12 +1,12 @@
 package uk.ac.shef.dcs.oak.sti.table.interpreter.smp;
 
-import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.content.KBSearcher;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.interpret.DisambiguationScorer;
 import uk.ac.shef.dcs.oak.sti.table.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.sti.table.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.table.rep.LTableAnnotation;
 import uk.ac.shef.dcs.oak.sti.table.rep.LTableContentCell;
+import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 
 import java.io.IOException;
@@ -30,15 +30,15 @@ public class NamedEntityRanker {
             LTableAnnotation tableAnnotations, LTable table,
             int row, int column
     ) throws IOException {
-        List<ObjObj<Entity, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
-        List<ObjObj<Entity, Double>> sorted = new ArrayList<ObjObj<Entity, Double>>();
-        for (ObjObj<Entity, Map<String, Double>> e : scores) {
+        List<ObjObj<EntityCandidate, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
+        List<ObjObj<EntityCandidate, Double>> sorted = new ArrayList<ObjObj<EntityCandidate, Double>>();
+        for (ObjObj<EntityCandidate, Map<String, Double>> e : scores) {
             double score = e.getOtherObject().get(CellAnnotation.SCORE_FINAL);
-            sorted.add(new ObjObj<Entity, Double>(e.getMainObject(), score));
+            sorted.add(new ObjObj<EntityCandidate, Double>(e.getMainObject(), score));
         }
-        Collections.sort(sorted, new Comparator<ObjObj<Entity, Double>>() {
+        Collections.sort(sorted, new Comparator<ObjObj<EntityCandidate, Double>>() {
             @Override
-            public int compare(ObjObj<Entity, Double> o1, ObjObj<Entity, Double> o2) {
+            public int compare(ObjObj<EntityCandidate, Double> o1, ObjObj<EntityCandidate, Double> o2) {
                 return o2.getOtherObject().compareTo(o1.getOtherObject());
             }
         });
@@ -46,7 +46,7 @@ public class NamedEntityRanker {
         LTableContentCell tcc = table.getContentCell(row, column);
         CellAnnotation[] annotations = new CellAnnotation[scores.size()];
         int i = 0;
-        for (ObjObj<Entity, Map<String, Double>> oo : scores) {
+        for (ObjObj<EntityCandidate, Map<String, Double>> oo : scores) {
             CellAnnotation ca = new CellAnnotation(tcc.getText(), oo.getMainObject(), oo.getOtherObject().get(CellAnnotation.SCORE_FINAL), oo.getOtherObject());
             annotations[i] = ca;
             i++;
@@ -55,7 +55,7 @@ public class NamedEntityRanker {
         //return sorted;
     }
 
-    public List<ObjObj<Entity, Map<String, Double>>> scoreCandidateNamedEntities(LTable table,
+    public List<ObjObj<EntityCandidate, Map<String, Double>>> scoreCandidateNamedEntities(LTable table,
                                                                                           int row, int column
     ) throws IOException {
         //do disambiguation scoring
@@ -65,11 +65,11 @@ public class NamedEntityRanker {
                 cell);
        /* if(row==11)
             System.out.println();*/
-        List<Entity> candidates = kbSearcher.find_matchingEntitiesForCell(cell);
+        List<EntityCandidate> candidates = kbSearcher.find_matchingEntitiesForCell(cell);
         System.out.println(" candidates=" + candidates.size());
         //each candidate will have a map containing multiple elements of scores. See DisambiguationScorer_SMP_adapted
-        List<ObjObj<Entity, Map<String, Double>>> disambiguationScores = new ArrayList<ObjObj<Entity, Map<String, Double>>>();
-        for (Entity c : candidates) {
+        List<ObjObj<EntityCandidate, Map<String, Double>>> disambiguationScores = new ArrayList<ObjObj<EntityCandidate, Map<String, Double>>>();
+        for (EntityCandidate c : candidates) {
             //find facts of each entity
             if (c.getFacts() == null || c.getFacts().size() == 0) {
                 List<String[]> facts = kbSearcher.find_triplesForEntity(c);
@@ -80,7 +80,7 @@ public class NamedEntityRanker {
                             column, row, Arrays.asList(row),
                             table, new HashSet<String>());
             disambScorer.compute_final_score(scoreMap, cell.getText());
-            ObjObj<Entity, Map<String, Double>> entry = new ObjObj<Entity, Map<String, Double>>();
+            ObjObj<EntityCandidate, Map<String, Double>> entry = new ObjObj<EntityCandidate, Map<String, Double>>();
             entry.setMainObject(c);
             entry.setOtherObject(scoreMap);
             disambiguationScores.add(entry);

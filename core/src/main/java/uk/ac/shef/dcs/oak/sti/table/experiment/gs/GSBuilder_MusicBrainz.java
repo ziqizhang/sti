@@ -1,7 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.table.experiment.gs;
 
 import org.apache.any23.util.FileUtils;
-import uk.ac.shef.dcs.oak.kbsearch.freebase.Entity_FreebaseTopic;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.interpret.TripleGenerator;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.io.LTableAnnotationWriter;
 import uk.ac.shef.dcs.oak.sti.table.rep.CellAnnotation;
@@ -10,7 +9,8 @@ import uk.ac.shef.dcs.oak.sti.table.rep.LTableAnnotation;
 import uk.ac.shef.dcs.oak.sti.table.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.sti.table.validator.TabValGeneric;
 import uk.ac.shef.dcs.oak.sti.table.xtractor.*;
-import uk.ac.shef.dcs.oak.kbsearch.freebase.FreebaseQueryHelper;
+import uk.ac.shef.dcs.oak.triplesearch.freebase.EntityCandidate_FreebaseTopic;
+import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -83,7 +83,7 @@ public class GSBuilder_MusicBrainz {
     }
 
     public LTableAnnotation annotate(LTable table, FreebaseQueryHelper queryHelper) throws IOException {
-        Map<String, List<Entity_FreebaseTopic>> cache_for_table = new HashMap<String, List<Entity_FreebaseTopic>>();
+        Map<String, List<EntityCandidate_FreebaseTopic>> cache_for_table = new HashMap<String, List<EntityCandidate_FreebaseTopic>>();
 
         LTableAnnotation tableAnnotation = new LTableAnnotation(table.getNumRows(), table.getNumCols());
         for (int row = 0; row < table.getNumRows(); row++) {
@@ -115,11 +115,11 @@ public class GSBuilder_MusicBrainz {
                         System.out.println();
                     }
 
-                    List<Entity_FreebaseTopic> list = cache_for_table.get(music_brainz_id);
+                    List<EntityCandidate_FreebaseTopic> list = cache_for_table.get(music_brainz_id);
                     if (list == null) {
                         list = queryHelper.searchapi_topics_with_name_and_type(music_brainz_id, "any", false, 5);
                         if (list == null)
-                            list = new ArrayList<Entity_FreebaseTopic>();
+                            list = new ArrayList<EntityCandidate_FreebaseTopic>();
                         cache_for_table.put(music_brainz_id, list);
                     }
                     if (list.size() == 0)

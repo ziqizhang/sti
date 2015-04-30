@@ -1,11 +1,11 @@
 package uk.ac.shef.dcs.oak.sti.table.interpreter.baseline;
 
-import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.PlaceHolder;
 import uk.ac.shef.dcs.oak.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.oak.sti.table.rep.*;
 import uk.ac.shef.dcs.oak.sti.test.TableMinerConstants;
+import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.*;
@@ -36,7 +36,7 @@ public class Base_TM_no_Update_ClassificationScorer {
         //this.stringSimilarityMetric=new CosineSimilarity();
     }
 
-    public Set<HeaderAnnotation> score(List<ObjObj<Entity, Map<String, Double>>> input,
+    public Set<HeaderAnnotation> score(List<ObjObj<EntityCandidate, Map<String, Double>>> input,
                                        Set<HeaderAnnotation> headerAnnotations_prev,
                                        LTable table,
                                        int row, int column) {
@@ -50,16 +50,16 @@ public class Base_TM_no_Update_ClassificationScorer {
         return candidates;
     }
 
-    public Set<HeaderAnnotation> score_entity_best_candidate_vote(List<ObjObj<Entity, Map<String, Double>>> input,
+    public Set<HeaderAnnotation> score_entity_best_candidate_vote(List<ObjObj<EntityCandidate, Map<String, Double>>> input,
                                                                   Set<HeaderAnnotation> headerAnnotations_prev, LTable table,
                                                                   int row, int column) {
         final Set<HeaderAnnotation> candidate_header_annotations =
                 headerAnnotations_prev;
         //for this row
-        Entity entity_with_highest_disamb_score = null;
+        EntityCandidate entity_with_highest_disamb_score = null;
         double best_score = 0.0;
-        for (ObjObj<Entity, Map<String, Double>> es : input) { //each candidate entity in this cell
-            Entity entity = es.getMainObject();
+        for (ObjObj<EntityCandidate, Map<String, Double>> es : input) { //each candidate entity in this cell
+            EntityCandidate entity = es.getMainObject();
             //each assigned type receives a score of 1, and the bonus score due to disambiguation result
             double entity_disamb_score = es.getOtherObject().get(CellAnnotation.SCORE_FINAL);
             if (entity_disamb_score > best_score) {
@@ -81,8 +81,8 @@ public class Base_TM_no_Update_ClassificationScorer {
         }
 
         Set<String> types_already_received_votes_by_cell = new HashSet<String>();    //each type will receive a max of 1 vote from each cell. If multiple candidates have the same highest score and casts same votes, they are counted oly once
-        for (ObjObj<Entity, Map<String, Double>> es : input) {
-            Entity current_candidate = es.getMainObject();
+        for (ObjObj<EntityCandidate, Map<String, Double>> es : input) {
+            EntityCandidate current_candidate = es.getMainObject();
             double entity_disamb_score = es.getOtherObject().get(CellAnnotation.SCORE_FINAL);
             if (entity_disamb_score != best_score)
                 continue;
@@ -127,7 +127,7 @@ public class Base_TM_no_Update_ClassificationScorer {
     }
 
 
-    public Set<HeaderAnnotation> score_entity_all_candidate_vote(List<ObjObj<Entity, Map<String, Double>>> input,
+    public Set<HeaderAnnotation> score_entity_all_candidate_vote(List<ObjObj<EntityCandidate, Map<String, Double>>> input,
                                                                  Set<HeaderAnnotation> headerAnnotations_prev, LTable table,
                                                                  int row, int column) {
         final Set<HeaderAnnotation> candidate_header_annotations =
@@ -139,8 +139,8 @@ public class Base_TM_no_Update_ClassificationScorer {
             return candidate_header_annotations;
         }
 
-        for (ObjObj<Entity, Map<String, Double>> es : input) {
-            Entity current_candidate = es.getMainObject();
+        for (ObjObj<EntityCandidate, Map<String, Double>> es : input) {
+            EntityCandidate current_candidate = es.getMainObject();
 
             List<String[]> type_voted_by_this_cell = current_candidate.getTypes();
 

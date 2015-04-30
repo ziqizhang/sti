@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.table.experiment.evaluation;
 
 import uk.ac.shef.dcs.oak.sti.table.interpreter.io.LTableAnnotationKeyFileReader;
-import uk.ac.shef.dcs.oak.kbsearch.freebase.FreebaseQueryHelper;
+import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.util;
 
-import uk.ac.shef.dcs.oak.kbsearch.Entity;
+import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 
 import java.util.List;
 
@@ -30,9 +30,9 @@ public class ObjectToString {
 
     public static String entity_candidate_list_toString(Object o) {
         try {
-            List<Entity> ec = (List<Entity>) o;
+            List<EntityCandidate> ec = (List<EntityCandidate>) o;
             String content = "";
-            for (Entity e : ec) {
+            for (EntityCandidate e : ec) {
                 content = content + e.getId() + " " + e.getName() + " "
                         + string_array_list_toString(e.getFacts()) + " " + string_array_list_toString(e.getTypes());
 

@@ -1,9 +1,9 @@
 package uk.ac.shef.dcs.oak.sti.table.interpreter.interpret;
 
-import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.table.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.sti.table.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.table.rep.LTableAnnotation;
+import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class ColumnInterpreter {
 
     public void interpret(LTable table, LTableAnnotation table_annotation, int column) throws IOException {
         ObjObj<Integer, List<List<Integer>>> converge_position = learnerSeeding.learn_seeding(table, table_annotation, column);
-        Set<Entity> reference_entities = new HashSet<Entity>();
+        Set<EntityCandidate> reference_entities = new HashSet<EntityCandidate>();
         if (max_reference_entities>0) {
             reference_entities = selectReferenceEntities(table, table_annotation, column,max_reference_entities);
         }
@@ -44,7 +44,7 @@ public class ColumnInterpreter {
                 reference_entities);
     }
 
-    public static Set<Entity> selectReferenceEntities(LTable table, LTableAnnotation table_annotation, int column, int max){
+    public static Set<EntityCandidate> selectReferenceEntities(LTable table, LTableAnnotation table_annotation, int column, int max){
         List<CellAnnotation> selected_best_from_each_row = new ArrayList<CellAnnotation>();
         for(int i=0; i<table.getNumRows(); i++){
             List<CellAnnotation> best = table_annotation.getBestContentCellAnnotations(i, column);
@@ -52,14 +52,14 @@ public class ColumnInterpreter {
                 selected_best_from_each_row.addAll(best);
         }
         Collections.sort(selected_best_from_each_row);
-        Set<Entity> result = new HashSet<Entity>();
+        Set<EntityCandidate> result = new HashSet<EntityCandidate>();
         for(int i=0; i<selected_best_from_each_row.size() && i<max; i++)
             result.add(selected_best_from_each_row.get(i).getAnnotation());
         return result;
     }
 
-    public static Set<Entity> selectReferenceEntities(ObjObj<Integer, int[]> converge_position, LTableAnnotation table_annotation, int column, int max){
-        Set<Entity> reference_entities = new HashSet<Entity>();
+    public static Set<EntityCandidate> selectReferenceEntities(ObjObj<Integer, int[]> converge_position, LTableAnnotation table_annotation, int column, int max){
+        Set<EntityCandidate> reference_entities = new HashSet<EntityCandidate>();
         for (int i = 0; i < converge_position.getMainObject()&&i<max; i++) {
             int row = converge_position.getOtherObject()[i];
             CellAnnotation[] annotations = table_annotation.getContentCellAnnotations(row, column);

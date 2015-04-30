@@ -1,6 +1,5 @@
 package uk.ac.shef.dcs.oak.sti.table.interpreter.baseline;
 
-import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.misc.DataTypeClassifier;
@@ -9,6 +8,7 @@ import uk.ac.shef.dcs.oak.sti.table.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.sti.table.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.table.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.sti.test.TableMinerConstants;
+import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
@@ -47,13 +47,13 @@ public class Base_TM_no_Update_EntityDisambiguationScorer {
         //stringSimilarityMetric=new CosineSimilarity();
     }
 
-    public Map<String, Double> score(Entity candidate,
-                                     List<Entity> other_candidates_returned,
+    public Map<String, Double> score(EntityCandidate candidate,
+                                     List<EntityCandidate> other_candidates_returned,
                                      int entity_source_column,
                                      int entity_source_row,
                                      LTable table,
                                      Set<String> assigned_column_types,
-                                     Entity... reference_disambiguated_entities) {
+                                     EntityCandidate... reference_disambiguated_entities) {
         /*if(candidate.getName().contains("Republican"))
             System.out.println();*/
         Map<String, Double> scoreMap = new HashMap<String, Double>();

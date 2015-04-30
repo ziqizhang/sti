@@ -4,12 +4,12 @@ import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.interpret.TripleGenerator;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.io.LTableAnnotationWriter;
 import uk.ac.shef.dcs.oak.sti.table.rep.*;
 import uk.ac.shef.dcs.oak.sti.test.LimayeDatasetLoader;
-import uk.ac.shef.dcs.oak.kbsearch.freebase.FreebaseQueryHelper;
+import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
+import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.oak.util.FileUtils;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -177,7 +177,7 @@ public class GSBuilder_Limaye {
         if (list == null || list.size() == 0)
             return null;
 
-        Entity ec = new Entity(list.get(0), wikipedia_title);
+        EntityCandidate ec = new EntityCandidate(list.get(0), wikipedia_title);
         CellAnnotation ca = new CellAnnotation(wikipedia_title, ec, 1.0, new HashMap<String, Double>());
         return new CellAnnotation[]{ca};
     }

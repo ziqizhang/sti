@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.oak.sti.table.interpreter.interpret;
 
-import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.table.interpreter.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.table.rep.*;
+import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +44,7 @@ public class TripleGenerator {
                         continue;
 
                     CellAnnotation final_cell_annotation = cell_annotations[0];
-                    Entity entity = final_cell_annotation.getAnnotation();
+                    EntityCandidate entity = final_cell_annotation.getAnnotation();
 
                     //new triple
                     LTableTriple ltt = new LTableTriple();

@@ -8,9 +8,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.oak.kbsearch.Entity;
 import uk.ac.shef.dcs.oak.sti.PlaceHolder;
 import uk.ac.shef.dcs.oak.sti.table.rep.*;
+import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -215,7 +215,7 @@ public class DataStats_TableSize_NameLength_Anaylsis_LimayeOld {
                     }
                     String textContent=table.getContentCell(i, j).getText();
                     CellAnnotation cellAnnotation = new CellAnnotation(
-                            textContent, new Entity(htmlCell.getTextContent(), htmlCell.getTextContent()), 1.0, new HashMap<String, Double>()
+                            textContent, new EntityCandidate(htmlCell.getTextContent(), htmlCell.getTextContent()), 1.0, new HashMap<String, Double>()
                     );
 
                     int length=0;
