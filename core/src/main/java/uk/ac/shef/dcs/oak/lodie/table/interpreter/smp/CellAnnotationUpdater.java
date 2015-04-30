@@ -30,20 +30,22 @@ public class CellAnnotationUpdater {
                 Collections.sort(messages_for_cell);
                 //not all messages can be satisfied. compute the preferences of the combinations of messages satisfied
                 List<String> messagesPreferenceSorted = createSortedPreferenceKeys(messages_for_cell.size());
+
+                CellAnnotation[] candidateAnnotations = tableAnnotation.getContentCellAnnotations(r, c);
                 //key- the index of CellAnnotation in the CellAnnotation[] object returned by #tableAnnotation.get...(r, c)
                 //value- list of indexes (as appearing in messages_for_cell of messages satisfied by the CellAnnotation identified by 'key'
                 Map<Integer, List<Integer>> annotation_satisfies_messages =
                         computeSatisfiedMessages(r, c, messages_for_cell, tableAnnotation);
                 //indexes of candidate entity annotation for the cell (r, c)
-                List<Integer> bestAnnotations = select(annotation_satisfies_messages, messagesPreferenceSorted);
+                List<Integer> bestAnnotations = select(annotation_satisfies_messages, messagesPreferenceSorted, candidateAnnotations);
 
                 //retrieve actual annotation based on their indexes...
                 if (bestAnnotations.size() > 0) {
                     boolean isValidUpdate = false;
-                    CellAnnotation[] candidateAnnotations = tableAnnotation.getContentCellAnnotations(r, c);
                     List<CellAnnotation> currentBestAnnotations = tableAnnotation.getBestContentCellAnnotations(r, c);
                     double currentMaxScore = currentBestAnnotations.get(0).getFinalScore();
                     double arbitraryNewScore = currentMaxScore + 0.000001;
+
                     for (int i = 0; i < candidateAnnotations.length; i++) {
                         if (bestAnnotations.contains(i)) {
                             if (candidateAnnotations[i].getFinalScore() != currentMaxScore) //the chosen best annotation tobe updated
@@ -53,9 +55,8 @@ public class CellAnnotationUpdater {
                         }
 
                     }
-                    List<CellAnnotation> list = Arrays.asList(candidateAnnotations);
-                    Collections.sort(list);
-                    tableAnnotation.setContentCellAnnotations(r, c, list.toArray(new CellAnnotation[0]));
+                    Arrays.sort(candidateAnnotations);
+                    tableAnnotation.setContentCellAnnotations(r, c, candidateAnnotations);
                     if(isValidUpdate)
                         countUpdated++;
                     else
@@ -145,7 +146,8 @@ public class CellAnnotationUpdater {
     //key-index of the CellAnnotation in the list of candidate CellAnnotations for the cell ranked by their score
     //value-list of indexes of satisfied messages by this CellAnnotation.
     private List<Integer> select(Map<Integer, List<Integer>> annotation_satisfies_messages,
-                                 List<String> messagePreferencesSorted) {
+                                 List<String> messagePreferencesSorted,
+                                 CellAnnotation[] candidateAnnotationsInCell) {
         int bestPreferenceIndex = Integer.MAX_VALUE;
         List<Integer> bestAnnotations = new ArrayList<Integer>();
         if (annotation_satisfies_messages.size() == 0)
@@ -182,6 +184,21 @@ public class CellAnnotationUpdater {
 
             if (key.equals(bestPreference))
                 bestAnnotations.add(e.getKey());
+        }
+
+        //prune bestAnnotations, if there are multiple ones chosen by messages, select only the highest scoring ones
+        double maxScore=0.0;
+        for(int i: bestAnnotations){
+            CellAnnotation ca = candidateAnnotationsInCell[i];
+            if(ca.getFinalScore()>maxScore)
+                maxScore=ca.getFinalScore();
+        }
+        Iterator<Integer> it = bestAnnotations.iterator();
+        while(it.hasNext()) {
+            int index=it.next();
+            CellAnnotation ca = candidateAnnotationsInCell[index];
+            if(ca.getFinalScore()!=maxScore)
+                it.remove();
         }
         return bestAnnotations;
     }

@@ -101,7 +101,6 @@ public class TI_SemanticMessagePassing {
         for (int i = 1; i <= halting_num_of_iterations_max; i++) {
             copy = new LTableAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
             LTableAnnotation.copy(tab_annotations, copy);
-            System.out.println("\t>> ITERATION " + (i));
             //column concept and relation factors send message to entity factors
             System.out.println("\t\t>> Computing messages");
             ObjectMatrix2D messages = new ChangeMessageBroadcaster().computeChangeMessages(tab_annotations, table);
@@ -170,7 +169,6 @@ public class TI_SemanticMessagePassing {
                     continue;
 
                 List<ChangeMessage> messages_for_cell = (List<ChangeMessage>) container;
-                CellAnnotationUpdater.checkMinConfidence(messages_for_cell);
 
                 for (ChangeMessage m : messages_for_cell) {
                     if (m instanceof ChangeMessageFromColumnsRelation)

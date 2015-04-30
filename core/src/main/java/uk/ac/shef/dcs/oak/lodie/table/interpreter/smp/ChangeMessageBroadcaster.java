@@ -14,6 +14,14 @@ import java.util.Map;
  */
 public class ChangeMessageBroadcaster {
 
+    protected static double minConfidence = 0.5;
+
+    public ChangeMessageBroadcaster(){}
+
+    public ChangeMessageBroadcaster(double minConfidence){
+        this.minConfidence=minConfidence;
+    }
+
     public ObjectMatrix2D computeChangeMessages(LTableAnnotation tableAnnotation, LTable table) {
         ObjectMatrix2D messages = new SparseObjectMatrix2D(table.getNumRows(), table.getNumCols());
         //messages by column header
@@ -108,16 +116,18 @@ public class ChangeMessageBroadcaster {
     }
 
     private void updateMessageForCell(ObjectMatrix2D messages, int row, int col, ChangeMessage m) {
-        Object container = messages.get(row, col);
-        List<ChangeMessage> messages_at_cell = null;
-        if (container == null) {
-            messages_at_cell = new ArrayList<ChangeMessage>();
-        } else {
-            messages_at_cell = (List<ChangeMessage>) container;
-        }
+        if (m.getConfidence() >= minConfidence) {
+            Object container = messages.get(row, col);
+            List<ChangeMessage> messages_at_cell = null;
+            if (container == null) {
+                messages_at_cell = new ArrayList<ChangeMessage>();
+            } else {
+                messages_at_cell = (List<ChangeMessage>) container;
+            }
 
-        messages_at_cell.add(m);
-        messages.set(row, col, messages_at_cell);
+            messages_at_cell.add(m);
+            messages.set(row, col, messages_at_cell);
+        }
     }
 
 
