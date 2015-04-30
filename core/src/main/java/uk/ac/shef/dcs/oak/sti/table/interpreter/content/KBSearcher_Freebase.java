@@ -58,14 +58,6 @@ public class KBSearcher_Freebase extends KBSearcher {
 
     protected List<Entity> find_matchingEntitiesForText_clientFilterTypes(String text, String... types) throws IOException {
         boolean forceQuery = false;
-        /*if (text.contains("Follow the")||text.contains("Wind"))
-            //forceQuery = true;
-            System.out.println();*/
-
-        //rebuild due to invalid type?
-
-        String original = text;
-
         text = StringEscapeUtils.unescapeXml(text);
         int bracket = text.indexOf("(");
         if (bracket != -1) {

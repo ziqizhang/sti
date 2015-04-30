@@ -9,11 +9,6 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: zqz
- * Date: 21/01/14
- * Time: 16:53
- * To change this template use File | Settings | File Templates.
  */
 public abstract class KBSearcher {
 
