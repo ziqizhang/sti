@@ -5,10 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/../any23Extension/any23extension.iml" filepath="$PROJECT_DIR$/../any23Extension/any23extension.iml" />
       <module fileurl="file://$PROJECT_DIR$/../util/common-util.iml" filepath="$PROJECT_DIR$/../util/common-util.iml" />
       <module fileurl="file://$PROJECT_DIR$/core.iml" filepath="$PROJECT_DIR$/core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../nlptools/nlptools.iml" filepath="$PROJECT_DIR$/../nlptools/nlptools.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../powerlaws/trunk/powerlaws/powerlaws.iml" filepath="$PROJECT_DIR$/../../powerlaws/trunk/powerlaws/powerlaws.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../sindice4j-api3/sindice4j-api3.iml" filepath="$PROJECT_DIR$/../sindice4j-api3/sindice4j-api3.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../test/test.iml" filepath="$PROJECT_DIR$/../test/test.iml" />
       <module fileurl="file://$PROJECT_DIR$/../triplesearch/triplesearch.iml" filepath="$PROJECT_DIR$/../triplesearch/triplesearch.iml" />
       <module fileurl="file://$PROJECT_DIR$/../websearch/websearch.iml" filepath="$PROJECT_DIR$/../websearch/websearch.iml" />
     </modules>

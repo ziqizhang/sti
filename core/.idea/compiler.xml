@@ -27,10 +27,7 @@
         <module name="any23extension" />
         <module name="common-util" />
         <module name="core" />
-        <module name="nlptools" />
         <module name="powerlaws" />
-        <module name="sindice4j-api3" />
-        <module name="test" />
         <module name="triplesearch" />
         <module name="websearch" />
       </profile>

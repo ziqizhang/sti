@@ -3,8 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
     <mapping directory="$PROJECT_DIR$/../any23Extension" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/../sindice4j-api3" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/../test" vcs="svn" />
     <mapping directory="$PROJECT_DIR$/../triplesearch" vcs="svn" />
     <mapping directory="$PROJECT_DIR$/../util" vcs="svn" />
   </component>

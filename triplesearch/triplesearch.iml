@@ -11,7 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="sindice4j-api3" />
+    <orderEntry type="library" name="Maven: uk.ac.shef.oak:sindice4j-api3:1.0" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
     <orderEntry type="module" module-name="common-util" />
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.17" level="project" />

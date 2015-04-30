@@ -74,7 +74,7 @@
     <orderEntry type="library" name="Maven: org.apache.ant:ant-launcher:1.7.0" level="project" />
     <orderEntry type="library" name="Maven: de.l3s.boilerpipe:boilerpipe:1.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:4.1.0" level="project" />
-    <orderEntry type="module" module-name="sindice4j-api3" />
+    <orderEntry type="library" name="Maven: uk.ac.shef.oak:sindice4j-api3:1.0" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1" level="project" />
     <orderEntry type="module" module-name="triplesearch" />
     <orderEntry type="module" module-name="common-util" />
