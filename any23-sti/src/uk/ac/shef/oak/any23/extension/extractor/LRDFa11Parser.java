@@ -11,8 +11,6 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -24,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)
@@ -31,7 +30,7 @@ import java.util.*;
  * Time: 10:45
  */
 public class LRDFa11Parser {
-    private static final Logger logger = LoggerFactory.getLogger(LRDFa11Parser.class);
+    private static final Logger logger = Logger.getLogger(LRDFa11Parser.class.getName());
 
     public static final String CURIE_SEPARATOR = ":";
     public static final char URI_PREFIX_SEPARATOR = ':';
@@ -499,7 +498,7 @@ public class LRDFa11Parser {
         try {
             processNode(node, extractionResult);
         } catch (Exception e) {
-            if (logger.isDebugEnabled()) logger.debug("Error while processing node.", e);
+            logger.warning("Error while processing node.");
             reportError(node, e.getMessage());
             // e.printStackTrace();
         }
@@ -588,7 +587,7 @@ public class LRDFa11Parser {
             assert currentEvaluationContext.newSubject != null : "newSubject must be not null.";
             */
             if (currentEvaluationContext.newSubject == null) return;
-            if (logger.isDebugEnabled()) logger.debug("newSubject: " + currentEvaluationContext.newSubject);
+            logger.warning("newSubject: " + currentEvaluationContext.newSubject);
 
             // RDFa1.0[5.5.6] / RDFa1.1[7.5.8]
             final URI[] types = getTypes(currentElement);
