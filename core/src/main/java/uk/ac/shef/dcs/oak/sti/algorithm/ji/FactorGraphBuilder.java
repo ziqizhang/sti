@@ -284,7 +284,7 @@ public class FactorGraphBuilder {
                 HeaderAnnotation ha = candidateConcepts_header[i];
                 candidateIndex_header.lookupIndex(ha.getAnnotation_url());
                 potential[i] = ha.getScoreElements().get(
-                        ClassificationScorer.SCORE_HEADER_FACTOR
+                        ClassificationScorer_JI_adapted.SCORE_HEADER_FACTOR
                 );
             }
             Variable variable_header = new Variable(candidateIndex_header);

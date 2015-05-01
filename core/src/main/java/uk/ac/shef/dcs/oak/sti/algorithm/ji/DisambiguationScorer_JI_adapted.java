@@ -1,8 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.DisambiguationScorer;
-import uk.ac.shef.dcs.oak.sti.nlp.Lemmatizer;
-import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
+import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
@@ -11,14 +10,12 @@ import uk.ac.shef.wit.simmetrics.similaritymetrics.CosineSimilarity;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.JaccardSimilarity;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * todo
  */
 public class DisambiguationScorer_JI_adapted implements DisambiguationScorer {
     public static String SCORE_CELL_FACTOR ="score_factor_graph-cell";
@@ -67,6 +64,7 @@ public class DisambiguationScorer_JI_adapted implements DisambiguationScorer {
 
     @Override
     public double compute_final_score(Map<String, Double> scoreMap, String cellTextOriginal) {
-        return 0;
+        scoreMap.put(CellAnnotation.SCORE_FINAL, scoreMap.get(SCORE_CELL_FACTOR));
+        return scoreMap.get(SCORE_CELL_FACTOR);
     }
 }
