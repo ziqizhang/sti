@@ -255,7 +255,7 @@ public class FactorGraphBuilder {
                     CellAnnotation ca = candidateEntityAnnotations[i];
                     candidateIndex_cell.lookupIndex(ca.getAnnotation().getId());
                     potential[i] = ca.getScore_element_map().get(
-                            DisambiguationScorer_JI.SCORE_CELL_FACTOR
+                            DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR
                     );
                 }
                 Variable variable_cell = new Variable(candidateIndex_cell);

@@ -16,10 +16,10 @@ import java.util.*;
  */
 public class CandidateEntityGenerator {
     private KBSearcher kbSearcher;
-    private DisambiguationScorer_JI disambScorer;
+    private DisambiguationScorer_JI_adapted disambScorer;
     //private static Logger log = Logger.getLogger(Disambiguator.class.getName());
 
-    public CandidateEntityGenerator(KBSearcher kbSearcher, DisambiguationScorer_JI disambScorer) {
+    public CandidateEntityGenerator(KBSearcher kbSearcher, DisambiguationScorer_JI_adapted disambScorer) {
         this.kbSearcher = kbSearcher;
         this.disambScorer = disambScorer;
     }
@@ -31,7 +31,7 @@ public class CandidateEntityGenerator {
         List<ObjObj<EntityCandidate, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
         List<ObjObj<EntityCandidate, Double>> sorted = new ArrayList<ObjObj<EntityCandidate, Double>>();
         for (ObjObj<EntityCandidate, Map<String, Double>> e : scores) {
-            double score = e.getOtherObject().get(DisambiguationScorer_JI.SCORE_CELL_FACTOR);
+            double score = e.getOtherObject().get(DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR);
             sorted.add(new ObjObj<EntityCandidate, Double>(e.getMainObject(), score));
         }
         Collections.sort(sorted, new Comparator<ObjObj<EntityCandidate, Double>>() {
