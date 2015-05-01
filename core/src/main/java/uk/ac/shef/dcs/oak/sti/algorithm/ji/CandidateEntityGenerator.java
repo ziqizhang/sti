@@ -31,7 +31,7 @@ public class CandidateEntityGenerator {
         List<ObjObj<EntityCandidate, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
         List<ObjObj<EntityCandidate, Double>> sorted = new ArrayList<ObjObj<EntityCandidate, Double>>();
         for (ObjObj<EntityCandidate, Map<String, Double>> e : scores) {
-            double score = e.getOtherObject().get(CellAnnotation.SCORE_FINAL);
+            double score = e.getOtherObject().get(DisambiguationScorer_JI.SCORE_CELL_FACTOR);
             sorted.add(new ObjObj<EntityCandidate, Double>(e.getMainObject(), score));
         }
         Collections.sort(sorted, new Comparator<ObjObj<EntityCandidate, Double>>() {
