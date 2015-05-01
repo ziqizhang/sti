@@ -164,6 +164,22 @@ public class TestGRMMToy {
         infLoopyBP.computeMarginals(mdl);
         infResidualBP.computeMarginals(mdl);
 
+        for(int i=0; i<mdl.numVariables(); i++){
+            Variable var = mdl.get(i);
+
+            Factor ptl  =infResidualBP.lookupMarginal(var);
+
+
+            AssignmentIterator it = ptl.assignmentIterator ();
+            while(it.hasNext()){
+                int outcome = it.indexOfCurrentAssn ();
+                System.out.println (var+"  "+outcome+"   "+ptl.value (it));
+
+                it.next();
+            }
+            System.out.println ();
+        }
+
         System.out.println();
 
 
