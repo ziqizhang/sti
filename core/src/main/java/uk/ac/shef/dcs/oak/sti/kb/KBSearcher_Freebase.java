@@ -314,14 +314,57 @@ public class KBSearcher_Freebase extends KBSearcher {
         return result;
     }
 
-
-    @Override
-    public List<String[]> find_triplesForEntity(EntityCandidate ec) throws IOException {
+    public List<String[]> find_triplesForEntity(String entityId) throws IOException {
         boolean forceQuery = false;
 
         /*  if(ec.getId().equals("/m/06qw_")||ec.getId().endsWith("/m/0859_")){
             forceQuery=true;
         }*/
+        if (TableMinerConstants.FORCE_TOPICAPI_QUERY)
+            forceQuery = true;
+
+        String query = createQuery_findFacts(entityId);
+        if (query.length() == 0)
+            return new ArrayList<String[]>();
+        List<String[]> result = null;
+        try {
+            result = (List<String[]>) solrCache.retrieve(toSolrKey(query));
+            if (result != null)
+                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+        } catch (Exception e) {
+        }
+        if (result == null || forceQuery) {
+
+            List<String[]> facts = searcher.topicapi_facts_of_id(entityId);
+
+            Iterator<String[]> it = facts.iterator();
+            while (it.hasNext()) {
+                String[] fact = it.next();
+                if (KB_InstanceFilter.ignorePredicate_from_triple(fact[0]))
+                    it.remove();
+            }
+            result = new ArrayList<String[]>();
+            result.addAll(facts);
+            try {
+                solrCache.cache(toSolrKey(query), result, commit);
+                //debug_helper_method(ec.getId(), result);
+                //debug_fact_writer(ec.getId(),result);
+                log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<String[]> find_triplesForEntity(EntityCandidate ec) throws IOException {
+        return find_triplesForEntity(ec.getId());
+        /*boolean forceQuery = false;
+
+        *//*  if(ec.getId().equals("/m/06qw_")||ec.getId().endsWith("/m/0859_")){
+            forceQuery=true;
+        }*//*
         if (TableMinerConstants.FORCE_TOPICAPI_QUERY)
             forceQuery = true;
 
@@ -356,13 +399,12 @@ public class KBSearcher_Freebase extends KBSearcher {
                 e.printStackTrace();
             }
         }
-        return result;
+        return result;*/
     }
 
     @Override
     public double find_granularityForType(String type) throws IOException {
         Double result = null;
-
         try {
             Object o = solrCache.retrieve(toSolrKey(type));
             if (o != null) {
@@ -377,6 +419,7 @@ public class KBSearcher_Freebase extends KBSearcher {
                 double granularity = searcher.find_granularityForType(type);
                 result = Double.valueOf(granularity);
                 try {
+                    //System.err.println(type+","+toSolrKey(type));
                     solrCache.cache(toSolrKey(type), result, commit);
                 /* debug_helper_method(result);
                 for(EntityCandidate ec: result){

@@ -39,6 +39,8 @@ public abstract class KBSearcher {
     //get triples for entities
     public abstract List<String[]> find_triplesForEntity(EntityCandidate ec) throws IOException;
 
+    public abstract List<String[]> find_triplesForEntity(String entityId) throws IOException;
+
     public abstract double find_granularityForType(String type) throws IOException;
 
     protected String createQuery_findEntities(LTableContentCell tcc){

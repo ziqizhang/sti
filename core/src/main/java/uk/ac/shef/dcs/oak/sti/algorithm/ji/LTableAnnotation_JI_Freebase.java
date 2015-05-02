@@ -23,6 +23,9 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
             v=0.0;
         return v;
     }
+    public void setScore_entityAndConcept(String entityId, String conceptId, double score){
+        score_entityAndConcept.put(createKey(entityId, conceptId), score);
+    }
 
     public double getScore_conceptAndRelation(String conceptId, String relationId){
         Double v = score_conceptAndRelation.get(createKey(conceptId, relationId));
@@ -30,6 +33,8 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
             v=0.0;
         return v;
     }
+
+
 
     public double getScore_entityAndRelation(String entityId, String relationId){
         Double v = score_entityAndRelation.get(createKey(entityId, relationId));

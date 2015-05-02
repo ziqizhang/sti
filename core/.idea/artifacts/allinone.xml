@@ -2,14 +2,11 @@
   <artifact type="jar" name="allinone">
     <output-path>$PROJECT_DIR$/../classes/artifacts/allinone</output-path>
     <root id="archive" name="allinone.jar">
-      <element id="module-output" name="test" />
       <element id="module-output" name="core" />
       <element id="module-output" name="triplesearch" />
-      <element id="module-output" name="sindice4j-api3" />
       <element id="module-output" name="lodie-any23" />
       <element id="module-output" name="common-util" />
       <element id="module-output" name="websearch" />
-      <element id="module-output" name="nlptools" />
     </root>
   </artifact>
 </component>
