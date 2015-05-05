@@ -44,6 +44,9 @@ public class LTableAnnotation {
     public void resetHeaderAnnotations(){
         headerAnnotations = new SparseObjectMatrix1D(headerAnnotations.size());
     }
+    public void resetCellAnnotations(){
+        contentAnnotations = new SparseObjectMatrix2D(contentAnnotations.rows(), contentAnnotations.columns());
+    }
 
     /**
      * Target and Source must have the same dimension!!!

@@ -1,14 +1,20 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
+import cc.mallet.grmm.inference.Inferencer;
+import cc.mallet.grmm.inference.ResidualBP;
+import cc.mallet.grmm.types.AssignmentIterator;
+import cc.mallet.grmm.types.Factor;
+import cc.mallet.grmm.types.FactorGraph;
+import cc.mallet.grmm.types.Variable;
 import uk.ac.shef.dcs.oak.sti.STIException;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.maincol.MainColumnFinder;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.oak.sti.rep.LTable;
-import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
+import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,24 +28,32 @@ public class TI_JointInference {
     //if there are any columns we want to ignore
     private int[] ignoreColumns;
     private int[] forceInterpretColumn;
-    private boolean useSubjectColumn =false;
+    private int maxIteration;
+
+    private boolean useSubjectColumn = false;
     private CandidateEntityGenerator neGenerator;
     private CandidateConceptGenerator columnClassifier;
     private CandidateRelationGenerator relationGenerator;
+    private FactorGraphBuilder graphBuilder;
+
     public TI_JointInference(MainColumnFinder main_col_finder,
                              CandidateEntityGenerator neGenerator,
                              CandidateConceptGenerator columnClassifier,
-                                     boolean useSubjectColumn,
-                                     int[] ignoreColumns,
-                                     int[] forceInterpretColumn
+                             FactorGraphBuilder graphBuilder,
+                             boolean useSubjectColumn,
+                             int[] ignoreColumns,
+                             int[] forceInterpretColumn,
+                             int maxIteration
     ) {
         this.useSubjectColumn = useSubjectColumn;
         this.main_col_finder = main_col_finder;
-        this.neGenerator=neGenerator;
-        this.columnClassifier=columnClassifier;
-        this.relationGenerator=relationGenerator;
+        this.graphBuilder = graphBuilder;
+        this.neGenerator = neGenerator;
+        this.columnClassifier = columnClassifier;
+        this.relationGenerator = relationGenerator;
         this.ignoreColumns = ignoreColumns;
         this.forceInterpretColumn = forceInterpretColumn;
+        this.maxIteration = maxIteration;
     }
 
     public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
@@ -48,7 +62,7 @@ public class TI_JointInference {
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
         List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
-        if(useSubjectColumn)
+        if (useSubjectColumn)
             tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getMainObject());
 
         System.out.println(">\t INITIALIZATION");
@@ -76,22 +90,26 @@ public class TI_JointInference {
         }
 
         System.out.println(">\t HEADER CLASSIFICATION GENERATOR");
-        computeClasses(tab_annotations, table);
-        if(relationLearning)
-            computeRelations(tab_annotations, table, useSubjectColumn);
+        computeClassCandidates(tab_annotations, table);
+        if (relationLearning)
+            computeRelationCandidates(tab_annotations, table, useSubjectColumn);
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t BUILDING FACTOR GRAPH");
-        //TODO
+        FactorGraph graph = graphBuilder.build(tab_annotations, table);
         System.out.println(">\t RUNNING INFERENCE");
-        //TODO
+        Inferencer infResidualBP;
+        if (maxIteration > 0)
+            infResidualBP = new ResidualBP(maxIteration);
+        else
+            infResidualBP = new ResidualBP();
+        infResidualBP.computeMarginals(graph);
         System.out.println(">\t COLLECTING MARGINAL PROB AND FINALIZING ANNOTATIONS");
-        //TODO
+        createFinalAnnotations(graph, graphBuilder, infResidualBP, tab_annotations);
         return tab_annotations;
     }
 
-
-    private void computeClasses(LTableAnnotation_JI_Freebase tab_annotations, LTable table) throws IOException {
+    private void computeClassCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table) throws IOException {
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
             if (forceInterpret(col)) {
@@ -107,8 +125,115 @@ public class TI_JointInference {
         }
     }
 
-    private void computeRelations(LTableAnnotation_JI_Freebase tab_annotations, LTable table, boolean useMainSubjectColumn){
+    private void computeRelationCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table, boolean useMainSubjectColumn) {
         relationGenerator.generateCandidateRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumns);
+    }
+
+    private void createFinalAnnotations(FactorGraph graph,
+                                        FactorGraphBuilder graphBuilder,
+                                        Inferencer infResidualBP,
+                                        LTableAnnotation_JI_Freebase tab_annotations) {
+        for (int i = 0; i < graph.numVariables(); i++) {
+            Variable var = graph.get(i);
+            Factor ptl = infResidualBP.lookupMarginal(var);
+
+            String varType = graphBuilder.getTypeOfVariable(var);
+            if (varType == null)
+                continue;
+
+            if (varType.equals(FactorGraphBuilder.CELL_VARIABLE)) {
+                int[] position = graphBuilder.getCellPosition(var);
+                if (position == null)
+                    continue;
+                CellAnnotation[] candidateCellAnnotations = tab_annotations.getContentCellAnnotations(position[0], position[1]);
+
+                for (CellAnnotation ca : candidateCellAnnotations) {
+                    AssignmentIterator it = ptl.assignmentIterator();
+                    boolean found = false;
+                    while (it.hasNext()) {
+                        int outcome = it.indexOfCurrentAssn();
+                        String assignedId = var.getLabelAlphabet().lookupLabel(outcome).toString();
+                        if (assignedId.equals(ca.getAnnotation().getId())) {
+                            found = true;
+                            double score = ptl.value(it);
+                            ca.setFinalScore(score);
+                            break;
+                        }
+                        it.next();
+                    }
+                    if (!found) //this should not happen
+                        ca.setFinalScore(0.0);
+                }
+                Arrays.sort(candidateCellAnnotations);
+                tab_annotations.setContentCellAnnotations(position[0], position[1], candidateCellAnnotations);
+            } else if (varType.equals(FactorGraphBuilder.HEADER_VARIABLE)) {
+                Integer position = graphBuilder.getHeaderPosition(var);
+                if (position == null)
+                    continue;
+                HeaderAnnotation[] candidateHeaderAnnotations = tab_annotations.getHeaderAnnotation(position);
+                for (HeaderAnnotation ha : candidateHeaderAnnotations) {
+                    AssignmentIterator it = ptl.assignmentIterator();
+                    boolean found = false;
+                    while (it.hasNext()) {
+                        int outcome = it.indexOfCurrentAssn();
+                        String assignedId = var.getLabelAlphabet().lookupLabel(outcome).toString();
+                        if (assignedId.equals(ha.getAnnotation_url())) {
+                            found = true;
+                            double score = ptl.value(it);
+                            ha.setFinalScore(score);
+                            break;
+                        }
+                        it.next();
+                    }
+                    if (!found) //this should not happen
+                        ha.setFinalScore(0.0);
+                }
+                Arrays.sort(candidateHeaderAnnotations);
+                tab_annotations.setHeaderAnnotation(position, candidateHeaderAnnotations);
+            } else if (varType.equals(FactorGraphBuilder.RELATION_VARIABLE)) {
+                double maxScore=0.0;
+                AssignmentIterator it = ptl.assignmentIterator();
+                Key_SubjectCol_ObjectCol direction=null;
+                while (it.hasNext()) {
+                    double score= ptl.value(it);
+                    int outcome = it.indexOfCurrentAssn();
+                    String assignedId = var.getLabelAlphabet().lookupLabel(outcome).toString();
+                    if(score>maxScore) {
+                        maxScore = score;
+                        direction=graphBuilder.getRelationDirection(assignedId);
+                    }
+                    it.next();
+                }
+                List<HeaderBinaryRelationAnnotation> relationCandidates=
+                        tab_annotations.getRelationAnnotations_across_columns().get(direction);
+                tab_annotations.getRelationAnnotations_across_columns().remove(new Key_SubjectCol_ObjectCol(
+                        direction.getObjectCol(), direction.getSubjectCol()
+                ));
+                for(HeaderBinaryRelationAnnotation hbr: relationCandidates){
+                    AssignmentIterator itr = ptl.assignmentIterator();
+                    boolean found = false;
+                    while (itr.hasNext()) {
+                        int outcome = itr.indexOfCurrentAssn();
+                        String assignedId = var.getLabelAlphabet().lookupLabel(outcome).toString();
+                        if (assignedId.equals(hbr.getAnnotation_url())) {
+                            found = true;
+                            double score = ptl.value(itr);
+                            hbr.setFinalScore(score);
+                            break;
+                        }
+                        itr.next();
+                    }
+                    if (!found) //this should not happen
+                        hbr.setFinalScore(0.0);
+                }
+                tab_annotations.getRelationAnnotations_across_columns().put(direction,
+                        relationCandidates);
+                //go through again and collection only...
+
+            } else {
+                continue;
+            }
+        }
     }
 
     protected static boolean ignoreColumn(Integer i, int[] ignoreColumns) {

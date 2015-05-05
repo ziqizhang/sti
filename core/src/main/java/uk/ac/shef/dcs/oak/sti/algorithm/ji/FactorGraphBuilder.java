@@ -1,6 +1,8 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
+import bsh.*;
 import cc.mallet.grmm.types.*;
+import cc.mallet.grmm.types.Variable;
 import cc.mallet.types.LabelAlphabet;
 import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.sti.rep.*;
@@ -11,6 +13,14 @@ import java.util.*;
  * Created by zqz on 01/05/2015.
  */
 public class FactorGraphBuilder {
+
+    protected static final String CELL_VARIABLE="cell";
+    protected static final String HEADER_VARIABLE="header";
+    protected static final String RELATION_VARIABLE="relation";
+    private Map<Variable, String> typeOfVariable = new HashMap<Variable, String>();
+    private Map<Variable, int[]> cellVarOutcomePosition = new HashMap<Variable, int[]>();
+    private Map<Variable, Integer> headerVarOutcomePosition = new HashMap<Variable, Integer>();
+    private Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection = new HashMap<String, Key_SubjectCol_ObjectCol>();
 
     public FactorGraph build(LTableAnnotation_JI_Freebase annotation, LTable table) {
         FactorGraph graph = new FactorGraph();
@@ -134,6 +144,9 @@ public class FactorGraphBuilder {
             LabelAlphabet candidateIndex_relation = new LabelAlphabet();
             for (HeaderBinaryRelationAnnotation hbr : candidate_relations) {
                 int index_relation = candidateIndex_relation.lookupIndex(hbr.getAnnotation_url(), true);
+
+                relationVarOutcomeDirection.put(hbr.getAnnotation_url(), hbr.getSubject_object_key());
+
                 reltaionString_and_direction.put(hbr.getAnnotation_url(), hbr.getSubject_object_key());
                 for (int c = 0; c < column1_header_variable.getNumOutcomes(); c++) {
                     String header_concept_url = column1_header_variable.getLabelAlphabet().lookupLabel(c).toString();
@@ -149,6 +162,7 @@ public class FactorGraphBuilder {
                 }
             }
             Variable relationVariable = new Variable(candidateIndex_relation);
+            typeOfVariable.put(relationVariable, RELATION_VARIABLE);
             result.put(new int[]{relation_direction.getSubjectCol(),
                     relation_direction.getObjectCol()}, relationVariable);
 
@@ -254,12 +268,16 @@ public class FactorGraphBuilder {
                 for (int i = 0; i < candidateEntityAnnotations.length; i++) {
                     CellAnnotation ca = candidateEntityAnnotations[i];
                     candidateIndex_cell.lookupIndex(ca.getAnnotation().getId());
+
                     potential[i] = ca.getScore_element_map().get(
                             DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR
                     );
                 }
                 Variable variable_cell = new Variable(candidateIndex_cell);
                 variable_cell.setLabel(cellText);
+                typeOfVariable.put(variable_cell, CELL_VARIABLE);
+                cellVarOutcomePosition.put(variable_cell, new int[]{row, col});
+
                 TableFactor factor = new TableFactor(variable_cell, potential);
                 graph.addFactor(factor);
                 variables.put(new int[]{row, col}, variable_cell);
@@ -283,16 +301,36 @@ public class FactorGraphBuilder {
             for (int i = 0; i < candidateConcepts_header.length; i++) {
                 HeaderAnnotation ha = candidateConcepts_header[i];
                 candidateIndex_header.lookupIndex(ha.getAnnotation_url());
+
                 potential[i] = ha.getScoreElements().get(
                         ClassificationScorer_JI_adapted.SCORE_HEADER_FACTOR
                 );
             }
             Variable variable_header = new Variable(candidateIndex_header);
             variable_header.setLabel(headerText);
+            typeOfVariable.put(variable_header, HEADER_VARIABLE);
+            headerVarOutcomePosition.put(variable_header, col);
             TableFactor factor = new TableFactor(variable_header, potential);
             graph.addFactor(factor);
             variables.put(col, variable_header);
         }
         return variables;
     }
+
+    public String getTypeOfVariable(Variable variable){
+        return typeOfVariable.get(variable);
+    }
+
+    public int[] getCellPosition(Variable variable){
+        return cellVarOutcomePosition.get(variable);
+    }
+
+    public int getHeaderPosition(Variable variable) {
+        return headerVarOutcomePosition.get(variable);
+    }
+
+    public Key_SubjectCol_ObjectCol getRelationDirection(String varOutcomeLabel){
+        return relationVarOutcomeDirection.get(varOutcomeLabel);
+    }
 }
+
