@@ -126,7 +126,7 @@ public class TI_JointInference {
         }
     }
 
-    private void computeRelationCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table, boolean useMainSubjectColumn) {
+    private void computeRelationCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table, boolean useMainSubjectColumn) throws IOException {
         relationGenerator.generateCandidateRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumns);
     }
 

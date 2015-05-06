@@ -42,25 +42,13 @@ public class RelationTextMatch_Scorer {
                       LTableAnnotation tableAnnotation
     ) {
         if (subjectCellAnnotations.size() != 0) {
-            List<ObjObj<String, Double>> result = new ArrayList<ObjObj<String, Double>>();
             if (subjectCellAnnotations.size() > 0 && UtilRelationMatcher.isValidType(object_column_type)) {
                 for (int s = 0; s < subjectCellAnnotations.size(); s++) {
                     CellAnnotation subjectEntity = subjectCellAnnotations.get(s);
                     List<String[]> subject_entity_facts = subjectEntity.getAnnotation().getFacts();
-                    Map<Integer, DataTypeClassifier.DataType> fact_data_types = new HashMap<Integer, DataTypeClassifier.DataType>();
-                    //typing the objects of facts
-                    for (int index = 0; index < subject_entity_facts.size(); index++) {
-                        String[] fact = subject_entity_facts.get(index);
-                        String val = fact[1];
-                        String id_of_val = fact[2];
-
-                        if (id_of_val != null)
-                            fact_data_types.put(index, DataTypeClassifier.DataType.NAMED_ENTITY);
-                        else {
-                            DataTypeClassifier.DataType type = DataTypeClassifier.classify(val);
-                            fact_data_types.put(index, type);
-                        }
-                    }
+                    Map<Integer, DataTypeClassifier.DataType> fact_data_types = classifyFactObjDataType(
+                            subject_entity_facts
+                    );
 
                     String objText = objectCellText.getText();
                     //scoring matches for the cell on the row
@@ -101,26 +89,33 @@ public class RelationTextMatch_Scorer {
                         Double score = e.getValue();
                         if (score.equals(highestScore)) {
                             String[] fact = subject_entity_facts.get(index);
-                            result.add(new ObjObj<String, Double>(fact[0], score));
+                            tableAnnotation.addRelationAnnotation_per_row(new CellBinaryRelationAnnotation(
+                                    new Key_SubjectCol_ObjectCol(subjectColumn, objectColumn), row,
+                                    fact[0], fact[0],
+                                    new ArrayList<String[]>(), maxScore
+                            ));
                         }
-                    }
-
-                    //sorting and selection for all and create annotations
-                    Collections.sort(result, new Comparator<ObjObj<String, Double>>() {
-                        @Override
-                        public int compare(ObjObj<String, Double> o1, ObjObj<String, Double> o2) {
-                            return o2.getOtherObject().compareTo(o1.getOtherObject());
-                        }
-                    });
-                    maxScore = result.get(0).getOtherObject();
-                    for (ObjObj<String, Double> r : result) {
-                        tableAnnotation.addRelationAnnotation_per_row(new CellBinaryRelationAnnotation(
-                                new Key_SubjectCol_ObjectCol(subjectColumn, objectColumn), row, r.getMainObject(), r.getMainObject(),
-                                new ArrayList<String[]>(), maxScore
-                        ));
                     }
                 }//each subjectNE
             }//if block checking whether the potential subject-object cell pairs are valid
         }
+    }
+
+    protected Map<Integer, DataTypeClassifier.DataType> classifyFactObjDataType(List<String[]> sbjEntityFacts) {
+        Map<Integer, DataTypeClassifier.DataType> dataTypes = new HashMap<Integer, DataTypeClassifier.DataType>();
+        //typing the objects of facts
+        for (int index = 0; index < sbjEntityFacts.size(); index++) {
+            String[] fact = sbjEntityFacts.get(index);
+            String val = fact[1];
+            String id_of_val = fact[2];
+
+            if (id_of_val != null)
+                dataTypes.put(index, DataTypeClassifier.DataType.NAMED_ENTITY);
+            else {
+                DataTypeClassifier.DataType type = DataTypeClassifier.classify(val);
+                dataTypes.put(index, type);
+            }
+        }
+        return dataTypes;
     }
 }
