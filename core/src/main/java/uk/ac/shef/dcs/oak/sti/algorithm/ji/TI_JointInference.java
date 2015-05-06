@@ -39,6 +39,7 @@ public class TI_JointInference {
     public TI_JointInference(MainColumnFinder main_col_finder,
                              CandidateEntityGenerator neGenerator,
                              CandidateConceptGenerator columnClassifier,
+                             CandidateRelationGenerator relationGenerator,
                              FactorGraphBuilder graphBuilder,
                              boolean useSubjectColumn,
                              int[] ignoreColumns,

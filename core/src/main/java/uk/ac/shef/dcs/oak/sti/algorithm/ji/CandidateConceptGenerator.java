@@ -18,9 +18,6 @@ public class CandidateConceptGenerator {
     private ClassificationScorer_JI_adapted conceptScorer;
     private EntityAndConceptScorer_Freebase entityAndConceptScorer;
 
-    public static final String SMP_SCORE_ENTITY_VOTE = "smp_score_entity_vote";
-    public static final String SMP_SCORE_GRANULARITY = "smp_score_granularity";
-
     public CandidateConceptGenerator(KBSearcher kbSearcher,
                                      ClassificationScorer_JI_adapted conceptScorer,
                                      EntityAndConceptScorer_Freebase entityAndConceptScorer)

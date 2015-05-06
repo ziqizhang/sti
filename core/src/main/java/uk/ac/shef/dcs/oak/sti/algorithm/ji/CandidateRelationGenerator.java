@@ -2,20 +2,21 @@ package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
 import uk.ac.shef.dcs.oak.sti.algorithm.smp.RelationTextMatch_Scorer;
 import uk.ac.shef.dcs.oak.sti.algorithm.smp.TI_SemanticMessagePassing;
+import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
  * Created by zqz on 01/05/2015.
  */
 public class CandidateRelationGenerator {
-    //todo: collect candidate relations; also score them for building factor graph
-    private RelationTextMatch_Scorer matcher;
+    private RelationTextMatcher_Scorer_JI_adapted matcher;
 
-    public CandidateRelationGenerator(RelationTextMatch_Scorer matcher) {
+    public CandidateRelationGenerator(RelationTextMatcher_Scorer_JI_adapted matcher) {
         this.matcher = matcher;
     }
 
@@ -67,20 +68,19 @@ public class CandidateRelationGenerator {
                             subjectColumn,
                             Arrays.asList(objectCells),
                             objectColumn,
-                            subjectCellText, objectCellText, colTypes.get(objectColumn),
+                            objectCellText, colTypes.get(objectColumn),
                             tableAnnotations);
                 }
             }
         }
 
         //aggregate overall scores for relations on each column pairs and populate relation annotation object
-        aggregate(tableAnnotations, table);
+        //also update header-header relation scores
+        aggregate(tableAnnotations);
     }
 
     private void aggregate(
-            LTableAnnotation tableAnnotation, LTable table) {
-
-        List<Key_SubjectCol_ObjectCol> processed = new ArrayList<Key_SubjectCol_ObjectCol>();
+            LTableAnnotation tableAnnotation) {
         for (Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> e :
                 tableAnnotation.getRelationAnnotations_per_row().entrySet()) {
 
@@ -102,7 +102,31 @@ public class CandidateRelationGenerator {
                                 url, 0.0)
                 );
             }
+
+
         }
+
+
     }
 
+    private void createRelationCandidateBetweenConceptCandidates(int col1, int col2,
+                                                                 LTableAnnotation_JI_Freebase annotation,
+                                                                 LTable table,
+                                                                 Map<Integer, DataTypeClassifier.DataType> colTypes,
+                                                                 KBSearcher kbSearcher) throws IOException {
+        HeaderAnnotation[] candidates_col1 = annotation.getHeaderAnnotation(col1);
+        LTableColumnHeader header_col1 = table.getColumnHeader(col1);
+        HeaderAnnotation[] candidates_col2 = annotation.getHeaderAnnotation(col2);
+        LTableColumnHeader header_col2 = table.getColumnHeader(col2);
+
+        matcher.matchHeader(
+                Arrays.asList(candidates_col1),
+                col1,
+                Arrays.asList(candidates_col2),
+                col2,
+                header_col1, header_col2, colTypes.get(col2),
+                annotation,
+                kbSearcher);
+
+    }
 }

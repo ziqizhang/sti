@@ -59,7 +59,7 @@ public class RelationLearner {
 
                     //aggregate relation on each row, between each pair of subject-object cells
                     matcher.match(r, subjectCells, subjectColumn, objectCells, objectColumn,
-                            subjectCellText, objectCellText, colTypes.get(objectColumn),
+                            objectCellText, colTypes.get(objectColumn),
                             tableAnnotations);
                 }
             }

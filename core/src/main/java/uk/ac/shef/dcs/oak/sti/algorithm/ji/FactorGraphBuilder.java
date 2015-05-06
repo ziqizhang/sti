@@ -1,6 +1,5 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
-import bsh.*;
 import cc.mallet.grmm.types.*;
 import cc.mallet.grmm.types.Variable;
 import cc.mallet.types.LabelAlphabet;
@@ -150,13 +149,13 @@ public class FactorGraphBuilder {
                 reltaionString_and_direction.put(hbr.getAnnotation_url(), hbr.getSubject_object_key());
                 for (int c = 0; c < column1_header_variable.getNumOutcomes(); c++) {
                     String header_concept_url = column1_header_variable.getLabelAlphabet().lookupLabel(c).toString();
-                    double score = annotation.getScore_conceptAndRelation(header_concept_url, hbr.getAnnotation_url());
+                    double score = annotation.getScore_conceptAndRelation_instanceEvidence(header_concept_url, hbr.getAnnotation_url());
                     if (score > 0)
                         affinity_scores_column1_and_relation.put(new int[]{c, index_relation}, score);
                 }
                 for (int c = 0; c < column2_header_variable.getNumOutcomes(); c++) {
                     String header_concept_url = column2_header_variable.getLabelAlphabet().lookupLabel(c).toString();
-                    double score = annotation.getScore_conceptAndRelation(header_concept_url, hbr.getAnnotation_url());
+                    double score = annotation.getScore_conceptAndRelation_instanceEvidence(header_concept_url, hbr.getAnnotation_url());
                     if (score > 0)
                         affinity_scores_column2_and_relation.put(new int[]{c, index_relation}, score);
                 }

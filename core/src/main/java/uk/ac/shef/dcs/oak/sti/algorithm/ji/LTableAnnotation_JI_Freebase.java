@@ -14,7 +14,8 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
 
     private Map<String, Double> score_entityAndConcept= new HashMap<String, Double>();
     private Map<String, Double> score_entityAndRelation= new HashMap<String, Double>();
-    private Map<String, Double> score_conceptAndRelation= new HashMap<String, Double>();
+    private Map<String, Double> score_conceptAndRelation_instaceEvidence = new HashMap<String, Double>();
+    private Map<String, Double> score_conceptAndRelation_conceptEvidence=new HashMap<String, Double>();
     private Map<String, List<String>> scoreContributingCells_conceptsAndRelation = new HashMap<String, List<String>>();
     public LTableAnnotation_JI_Freebase(int rows, int cols) {
         super(rows, cols);
@@ -30,8 +31,19 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
         score_entityAndConcept.put(createKey(entityId, conceptId), score);
     }
 
-    public double getScore_conceptAndRelation(String conceptId, String relationId){
-        Double v = score_conceptAndRelation.get(createKey(conceptId, relationId));
+    public double getScore_conceptAndRelation_conceptEvidence(String conceptId, String relationId){
+        Double v = score_conceptAndRelation_conceptEvidence.get(createKey(conceptId, relationId));
+        if(v==null)
+            v=0.0;
+        return v;
+    }
+
+    public void setScore_conceptAndRelation_conceptEvidence(String conceptId, String relationId, double score){
+        score_conceptAndRelation_conceptEvidence.put(createKey(conceptId, relationId), score);
+    }
+
+    public double getScore_conceptAndRelation_instanceEvidence(String conceptId, String relationId){
+        Double v = score_conceptAndRelation_instaceEvidence.get(createKey(conceptId, relationId));
         if(v==null)
             v=0.0;
         return v;
@@ -45,8 +57,8 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
      * @param relationId
      * @param score
      */
-    public void setScore_conceptAndRelation(int row, int column, String conceptId,
-                                            String relationId, double score){
+    public void setScore_conceptAndRelation_instanceEvidence(int row, int column, String conceptId,
+                                                             String relationId, double score){
         String cellPosition = row+","+column;
         List<String> contributingCells = scoreContributingCells_conceptsAndRelation.get(
                 cellPosition
@@ -54,13 +66,13 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
         if(contributingCells==null)
             contributingCells=new ArrayList<String>();
         if(contributingCells.contains(cellPosition)){
-            double existingScore = getScore_conceptAndRelation(conceptId, relationId);
+            double existingScore = getScore_conceptAndRelation_instanceEvidence(conceptId, relationId);
             if(existingScore<score)
-                score_conceptAndRelation.put(createKey(conceptId, relationId), score);
+                score_conceptAndRelation_instaceEvidence.put(createKey(conceptId, relationId), score);
         }
         else{
             contributingCells.add(cellPosition);
-            score_conceptAndRelation.put(createKey(conceptId, relationId), score);
+            score_conceptAndRelation_instaceEvidence.put(createKey(conceptId, relationId), score);
         }
     }
 

@@ -17,7 +17,7 @@ public class Evaluator_AllInOne_MB {
         /************************************************
          FORY limaye200
          *************************************************/
-        String method = "tm_ospd_nsc";
+        String method = "smp";
 
         if (method.equals("nm")) {
             ent_evaluator.evaluate(
@@ -210,8 +210,8 @@ public class Evaluator_AllInOne_MB {
             cls_evaluator.evaluate(
                     "E:\\Data\\table_annotation\\tableminer_df\\mb_df_combined",
                     "E:\\Data\\table_annotation\\freebase_crawl\\music_record_label\\gs/musicbrainz.header.keys",
-                    "tmp_result/mb_header_tm_ospd_nsc-ne.csv",
-                    "tmp_result/mb_header_tm_ospd_missed_nsc-ne.csv", true
+                    "D:\\Work\\sti\\core\\tmp_result/mb_header_tm_ospd_nsc-ne.csv",
+                    "D:\\Work\\sti\\core\\tmp_result/mb_header_tm_ospd_missed_nsc-ne.csv", true
             );
             /*rel_evaluator.evaluate(
                     "E:\\Data\\table_annotation\\tableminer_df\\mb_df_random",
@@ -227,7 +227,42 @@ public class Evaluator_AllInOne_MB {
                     "tmp_result/mb_tm_ospd-nsc_rel-all.csv",
                     "tmp_result/mb_tm_ospd-nsc_rel_missed-all.csv",false,false
             );*/
+        }else if (method.equals("smp")) {
+            ent_evaluator.evaluate(
+                    "E:\\Data\\table_annotation\\tmp",
+                    "E:\\Data\\table_annotation\\freebase_crawl\\music_record_label\\gs\\musicbrainz_gs(entity)_reformatted",
+                    "D:\\Work\\sti\\core\\tmp_result/mb_entity_smp.csv",
+                    "D:\\Work\\sti\\core\\tmp_result/mb_entity_smp_missed.csv",
+                    false
+            );
+            cls_evaluator.evaluate(
+                    "E:\\Data\\table_annotation\\tmp",
+                    "E:\\Data\\table_annotation\\freebase_crawl\\music_record_label\\gs/musicbrainz.header.keys",
+                    "D:\\Work\\sti\\core\\tmp_result/mb_header_smp-all.csv",
+                    "D:\\Work\\sti\\core\\tmp_result/mb_header_smp_missed-all.csv", false
+            );
+            cls_evaluator.evaluate(
+                    "E:\\Data\\table_annotation\\tmp",
+                    "E:\\Data\\table_annotation\\freebase_crawl\\music_record_label\\gs/musicbrainz.header.keys",
+                    "D:\\Work\\sti\\core\\tmp_result/mb_header_smp-ne.csv",
+                    "D:\\Work\\sti\\core\\tmp_result/mb_header_smp_missed-ne.csv", true
+            );
+            rel_evaluator.evaluate(
+                    "E:\\Data\\table_annotation\\tmp",
+                    "E:\\Data\\table_annotation\\freebase_crawl\\music_record_label\\gs/musicbrainz.relation.keys",
+                    "E:\\Data\\table_annotation\\freebase_crawl\\music_record_label\\gs/musicbrainz.header.keys",
+                    "D:\\Work\\sti\\core\\tmp_result/mb_rel_smp-ne.csv",
+                    "D:\\Work\\sti\\core\\tmp_result/mb_rel_smp_missed-ne.csv",false,true
+            );
+            rel_evaluator.evaluate(
+                    "E:\\Data\\table_annotation\\tmp",
+                    "E:\\Data\\table_annotation\\freebase_crawl\\music_record_label\\gs/musicbrainz.relation.keys",
+                    "E:\\Data\\table_annotation\\freebase_crawl\\music_record_label\\gs/musicbrainz.header.keys",
+                    "D:\\Work\\sti\\core\\tmp_result/mb_rel_smp-all.csv",
+                    "D:\\Work\\sti\\core\\tmp_result/mb_rel_smp_missed-all.csv",false,false
+            );
         }
+
         System.exit(0);
     }
 }
