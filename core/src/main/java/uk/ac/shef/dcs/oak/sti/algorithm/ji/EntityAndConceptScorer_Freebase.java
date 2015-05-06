@@ -33,9 +33,9 @@ public class EntityAndConceptScorer_Freebase {
 
     protected static double FREEBASE_TOTAL_TOPICS=47560900; //total # of topics on freebase as by 1 May 2015
 
-    public double score(String entity_id, String concept_url, KBSearcher kbSearcher) throws IOException {
-        double specificity = computeConceptSpecificity(concept_url, kbSearcher);
-        double similarity = computeEntityConceptSimilarity(entity_id, concept_url, kbSearcher);
+    public double score(String entity_id, String concept_url, KBSearcher kbSearcher_entity, KBSearcher kbSearcher_conceptGranularity) throws IOException {
+        double specificity = computeConceptSpecificity(concept_url, kbSearcher_conceptGranularity);
+        double similarity = computeEntityConceptSimilarity(entity_id, concept_url, kbSearcher_entity);
         return specificity+similarity+1.0;
     }
 

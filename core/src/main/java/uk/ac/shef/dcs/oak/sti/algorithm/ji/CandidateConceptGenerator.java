@@ -14,15 +14,18 @@ import java.util.*;
  *
  */
 public class CandidateConceptGenerator {
-    private KBSearcher kbSearcher;
+    private KBSearcher kbSearcher_entities;
+    private KBSearcher kbSearcher_conceptGranularity;
     private ClassificationScorer_JI_adapted conceptScorer;
     private EntityAndConceptScorer_Freebase entityAndConceptScorer;
 
-    public CandidateConceptGenerator(KBSearcher kbSearcher,
+    public CandidateConceptGenerator(KBSearcher kbSearcher_entities,
+                                     KBSearcher kbSearcher_conceptGranularity,
                                      ClassificationScorer_JI_adapted conceptScorer,
                                      EntityAndConceptScorer_Freebase entityAndConceptScorer)
     {
-        this.kbSearcher = kbSearcher;
+        this.kbSearcher_entities = kbSearcher_entities;
+        this.kbSearcher_conceptGranularity=kbSearcher_conceptGranularity;
         this.conceptScorer=conceptScorer;
         this.entityAndConceptScorer=entityAndConceptScorer;
     }
@@ -58,9 +61,11 @@ public class CandidateConceptGenerator {
             HeaderAnnotation ha = new HeaderAnnotation(table.getColumnHeader(col).getHeaderText(),
                     concept.getKey(), concept.getValue(), 0.0);
             Map<String, Double> score_elements=conceptScorer.score(ha, table.getColumnHeader(col));
-            ha.setFinalScore(conceptScorer.compute_final_score(score_elements));
+            conceptScorer.compute_final_score(score_elements);
+            ha.setFinalScore(score_elements.get(ClassificationScorer_JI_adapted.SCORE_HEADER_FACTOR));
             ha.setScoreElements(score_elements);
             headerAnnotations[count]=ha;
+            count++;
         }
         Arrays.sort(headerAnnotations);
         tableAnnotation.setHeaderAnnotation(col, headerAnnotations);
@@ -72,7 +77,10 @@ public class CandidateConceptGenerator {
             List<String> conceptIds = entry.getValue();
             System.out.print(conceptIds.size() + ",");
             for(String conceptId : conceptIds){
-                double score = entityAndConceptScorer.score(entityId, conceptId, kbSearcher);
+                if(KB_InstanceFilter.ignoreType(conceptId, distinctTypes.get(conceptId)))
+                    continue;
+                double score = entityAndConceptScorer.score(entityId, conceptId, kbSearcher_entities,
+                        kbSearcher_conceptGranularity);
                 tableAnnotation.setScore_entityAndConcept(entityId, conceptId, score);
             }
         }

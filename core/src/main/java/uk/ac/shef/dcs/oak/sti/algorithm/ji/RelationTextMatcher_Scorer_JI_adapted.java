@@ -20,12 +20,12 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
         super(stopWords, stringSimilarityMetric, minimum_match_score);
     }
 
-    public void match(int row,
-                      List<CellAnnotation> subjectCellAnnotations, int subjectColumn,
-                      List<CellAnnotation> objectCellAnnotations, int objectColumn,
-                      LTableContentCell objectCellText,
-                      DataTypeClassifier.DataType object_column_type,
-                      LTableAnnotation_JI_Freebase tableAnnotation
+    public void match_cellPairs(int row,
+                                List<CellAnnotation> subjectCellAnnotations, int subjectColumn,
+                                List<CellAnnotation> objectCellAnnotations, int objectColumn,
+                                LTableContentCell objectCellText,
+                                DataTypeClassifier.DataType object_column_type,
+                                LTableAnnotation_JI_Freebase tableAnnotation
     ) {
         if (subjectCellAnnotations.size() != 0) {
             List<ObjObj<String, Double>> result = new ArrayList<ObjObj<String, Double>>();
@@ -137,15 +137,15 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
 
     }
 
-    public void matchHeader(List<HeaderAnnotation> subjectHeaderColumnCandidates,
-                            int col1,
-                            List<HeaderAnnotation> objectHeaderColumnCandidates,
-                            int col2,
-                            LTableColumnHeader subjectColumnHeader,
-                            LTableColumnHeader objectColumnHeader,
-                            DataTypeClassifier.DataType objectColumnDataType,
-                            LTableAnnotation_JI_Freebase annotation,
-                            KBSearcher kbSearcher) throws IOException {
+    public void match_headerPairs(List<HeaderAnnotation> subjectHeaderColumnCandidates,
+                                  int col1,
+                                  List<HeaderAnnotation> objectHeaderColumnCandidates,
+                                  int col2,
+                                  LTableColumnHeader subjectColumnHeader,
+                                  LTableColumnHeader objectColumnHeader,
+                                  DataTypeClassifier.DataType objectColumnDataType,
+                                  LTableAnnotation_JI_Freebase annotation,
+                                  KBSearcher kbSearcher) throws IOException {
         if (subjectHeaderColumnCandidates.size() != 0) {
             if (subjectHeaderColumnCandidates.size() > 0 && UtilRelationMatcher.isValidType(objectColumnDataType)) {
                 for (int s = 0; s < subjectHeaderColumnCandidates.size(); s++) {

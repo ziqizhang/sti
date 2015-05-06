@@ -63,6 +63,7 @@ public class TestTableInterpretation_LimayeDataset_JI {
 
         //object to fetch things from KB
         KBSearcher_Freebase freebaseSearcherGeneral = new KBSearcher_Freebase(propertyFile, serverGeneral, true);
+        KBSearcher_Freebase freebaseSearcherConceptGranularity = new KBSearcher_Freebase(propertyFile, serverConceptGranularity, true);
 
         List<String> stopWords = uk.ac.shef.dcs.oak.util.FileUtils.readList(nlpResources + "/stoplist.txt", true);
         MainColumnFinder main_col_finder = new MainColumnFinder(
@@ -81,11 +82,12 @@ public class TestTableInterpretation_LimayeDataset_JI {
                 main_col_finder,
                 new CandidateEntityGenerator(freebaseSearcherGeneral,
                         new DisambiguationScorer_JI_adapted()),
-                new CandidateConceptGenerator(freebaseSearcherGeneral,
+                new CandidateConceptGenerator(freebaseSearcherGeneral,freebaseSearcherConceptGranularity,
                         new ClassificationScorer_JI_adapted(),
                         new EntityAndConceptScorer_Freebase(stopWords, nlpResources)),
                 new CandidateRelationGenerator(new RelationTextMatcher_Scorer_JI_adapted(stopWords,
-                        new Levenshtein(), 0.0)),
+                        new Levenshtein(), 0.0),
+                        freebaseSearcherGeneral),
                 new FactorGraphBuilder(),
                 useSubjectColumn,
                 IGNORE_COLUMNS,
