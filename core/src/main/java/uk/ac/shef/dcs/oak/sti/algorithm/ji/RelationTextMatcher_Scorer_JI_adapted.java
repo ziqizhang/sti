@@ -1,16 +1,13 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
-import javafx.scene.control.Cell;
 import uk.ac.shef.dcs.oak.sti.algorithm.smp.RelationTextMatch_Scorer;
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.sti.misc.UtilRelationMatcher;
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 
-import javax.rmi.CORBA.Util;
 import java.io.IOException;
 import java.util.*;
 
@@ -106,7 +103,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                   LTableColumnHeader objectColumnHeader,
                                   DataTypeClassifier.DataType objectColumnDataType,
                                   LTableAnnotation_JI_Freebase annotation,
-                                  KBSearcher kbSearcher) throws IOException {
+                                  KnowledgeBaseSearcher kbSearcher) throws IOException {
         if (subjectHeaderColumnCandidates.size() != 0) {
             if (subjectHeaderColumnCandidates.size() > 0 && UtilRelationMatcher.isValidType(objectColumnDataType)) {
                 for (int s = 0; s < subjectHeaderColumnCandidates.size(); s++) {

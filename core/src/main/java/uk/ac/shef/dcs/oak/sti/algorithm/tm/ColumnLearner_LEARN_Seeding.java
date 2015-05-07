@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.selector.CellSelector;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.stopping.StoppingCriteria;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.stopping.StoppingCriteriaInstantiator;
@@ -18,7 +18,7 @@ import java.util.*;
 
 public class ColumnLearner_LEARN_Seeding {
     private CellSelector selector;
-    private KBSearcher kbSearcher;
+    private KnowledgeBaseSearcher kbSearcher;
     private Disambiguator disambiguation_learn;
     private ClassificationScorer classifier_learn;
 
@@ -28,7 +28,7 @@ public class ColumnLearner_LEARN_Seeding {
     public ColumnLearner_LEARN_Seeding(CellSelector selector,
                                        String stoppingCriteriaClassname,
                                        String[] stoppingCriteriaParams,
-                                       KBSearcher candidateFinder,
+                                       KnowledgeBaseSearcher candidateFinder,
                                        Disambiguator disambiguation_learn,
                                        ClassificationScorer algorithm) {
         this.selector = selector;

@@ -4,7 +4,7 @@ import com.google.api.client.http.HttpResponseException;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher_Freebase;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.DisambiguationScorer;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.DisambiguationScorer_Overlap;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.TripleGenerator;
@@ -64,7 +64,7 @@ public class TestTableInterpretation_MusicBrainz_SMP {
 
         //object to fetch things from KB
         //object to fetch things from KB
-        KBSearcher_Freebase freebaseSearcher = new KBSearcher_Freebase(propertyFile, true, serverEntity,serverConcept,null);
+        KnowledgeBaseSearcher_Freebase freebaseSearcher = new KnowledgeBaseSearcher_Freebase(propertyFile, true, serverEntity,serverConcept,null);
 
         List<String> stopWords = uk.ac.shef.dcs.oak.util.FileUtils.readList(nlpResources + "/stoplist.txt", true);
 

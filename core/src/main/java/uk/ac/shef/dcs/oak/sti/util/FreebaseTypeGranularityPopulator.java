@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.oak.sti.util;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher_Freebase;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher_Freebase;
 import uk.ac.shef.dcs.oak.util.FileUtils;
 
 import java.io.File;
@@ -53,9 +53,10 @@ public class FreebaseTypeGranularityPopulator {
             p.println(t);
         p.close();
 
-        System.exit(0)*/;
+        System.exit(0)*/
+        ;
         //fetch freebase pages, parse them and get granularity scores
-        List<String> all_types = new ArrayList<String>(new HashSet<String>(FileUtils.readList(args[1]+"/types_merge_all.txt",false)));
+        List<String> all_types = new ArrayList<String>(new HashSet<String>(FileUtils.readList(args[1] + "/types_merge_all.txt", false)));
         Collections.sort(all_types);
         /*PrintWriter p =new PrintWriter(args[1]+"/types.txt");
         for(String t: all_types)
@@ -73,17 +74,24 @@ public class FreebaseTypeGranularityPopulator {
                 configFileProperty);
         SolrServer serverProperty = new EmbeddedSolrServer(containerProperty, "collection1");
 
-        KBSearcher_Freebase kbSeacher = new KBSearcher_Freebase(args[2],true, null, serverConcept, serverProperty);
-        System.out.println("total = "+all_types.size());
-        int count=0;
-        for(String t: all_types){
-            System.out.println(count);
-            kbSeacher.find_granularityForConcept(t);
-            kbSeacher.find_triplesForConcept(t);
-            count++;
-            try{
+        KnowledgeBaseSearcher_Freebase kbSeacher = new KnowledgeBaseSearcher_Freebase(args[2], true, null, serverConcept, serverProperty);
+
+        //kbSeacher.find_triplesForProperty("/award/award_category/nomination_announcement");
+
+        System.out.println("total = " + all_types.size());
+        int count = 0;
+        for (String t : all_types) {
+            System.out.println(count + "_" + t);
+            try {
+                kbSeacher.find_granularityForConcept(t);
+                kbSeacher.find_triplesForConcept(t);
+                count++;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
                 Thread.sleep(1000);
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }

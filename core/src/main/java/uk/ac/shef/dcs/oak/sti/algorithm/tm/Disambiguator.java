@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.ObjObj;
@@ -12,11 +12,11 @@ import java.util.*;
  */
 public class Disambiguator {
 
-    private KBSearcher kbSearcher;
+    private KnowledgeBaseSearcher kbSearcher;
     private DisambiguationScorer disambScorer;
     //private static Logger log = Logger.getLogger(Disambiguator.class.getName());
 
-    public Disambiguator(KBSearcher kbSearcher, DisambiguationScorer disambScorer) {
+    public Disambiguator(KnowledgeBaseSearcher kbSearcher, DisambiguationScorer disambScorer) {
         this.kbSearcher = kbSearcher;
         this.disambScorer = disambScorer;
     }

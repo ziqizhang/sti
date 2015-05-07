@@ -5,13 +5,10 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.oak.sti.algorithm.ji.*;
-import uk.ac.shef.dcs.oak.sti.algorithm.smp.*;
-import uk.ac.shef.dcs.oak.sti.algorithm.tm.DisambiguationScorer;
-import uk.ac.shef.dcs.oak.sti.algorithm.tm.DisambiguationScorer_Overlap;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.TripleGenerator;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.maincol.MainColumnFinder;
 import uk.ac.shef.dcs.oak.sti.io.LTableAnnotationWriter;
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher_Freebase;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.oak.util.FileUtils;
@@ -35,40 +32,44 @@ public class TestTableInterpretation_LimayeDataset_JI {
         String propertyFile = args[2]; //"D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties"
         Properties properties = new Properties();
         properties.load(new FileInputStream(propertyFile));
-        String cacheFolderGeneral = args[3];  //String cacheFolder = "D:\\Work\\lodiedata\\tableminer_cache\\solrindex_cache\\zookeeper\\solr";
-        String cacheFolderConceptGranularity = args[4];
-        String nlpResources = args[5]; //"D:\\Work\\lodie\\resources\\nlp_resources";
-        int start = Integer.valueOf(args[6]);
-        boolean relationLearning = Boolean.valueOf(args[7]);
+        String cacheFolderEntity = args[3];  //String cacheFolder = "D:\\Work\\lodiedata\\tableminer_cache\\solrindex_cache\\zookeeper\\solr";
+        String cacheFolderConcept = args[4];
+        String cacheFolderProperty = args[5];
+        String nlpResources = args[6]; //"D:\\Work\\lodie\\resources\\nlp_resources";
+        int start = Integer.valueOf(args[7]);
+        boolean relationLearning = Boolean.valueOf(args[8]);
         //cache target location
 
         List<Integer> missed_files = new ArrayList<Integer>();
-        if (args.length == 9) {
-            String in_missed = args[8];
+        if (args.length == 10) {
+            String in_missed = args[9];
             for (String line : FileUtils.readList(in_missed, false)) {
                 missed_files.add(Integer.valueOf(line.split(",")[0].trim()));
             }
         }
 
-        File configFile = new File(cacheFolderGeneral + File.separator + "solr.xml");
-        CoreContainer container = new CoreContainer(cacheFolderGeneral,
+        File configFile = new File(cacheFolderEntity + File.separator + "solr.xml");
+        CoreContainer container = new CoreContainer(cacheFolderEntity,
                 configFile);
         SolrServer serverEntity = new EmbeddedSolrServer(container, "collection1");
 
-        File configFile2 = new File(cacheFolderConceptGranularity + File.separator + "solr.xml");
-        CoreContainer container2 = new CoreContainer(cacheFolderConceptGranularity,
+        File configFile2 = new File(cacheFolderConcept + File.separator + "solr.xml");
+        CoreContainer container2 = new CoreContainer(cacheFolderConcept,
                 configFile2);
         SolrServer serverConcept = new EmbeddedSolrServer(container2, "collection1");
 
-        SolrServer serverProperty =null; //todo!!!
+        File configFile3 = new File(cacheFolderProperty + File.separator + "solr.xml");
+        CoreContainer container3 = new CoreContainer(cacheFolderProperty,
+                configFile3);
+        SolrServer serverProperty =new EmbeddedSolrServer(container3, "collection1");; //todo!!!
 
         //object to fetch things from KB
-        KBSearcher_Freebase freebaseSearcherGeneral = new KBSearcher_Freebase(propertyFile, true, serverEntity,
+        KnowledgeBaseSearcher_Freebase freebaseSearcherGeneral = new KnowledgeBaseSearcher_Freebase(propertyFile, true, serverEntity,
                 serverConcept, serverProperty);
 
         List<String> stopWords = uk.ac.shef.dcs.oak.util.FileUtils.readList(nlpResources + "/stoplist.txt", true);
         MainColumnFinder main_col_finder = new MainColumnFinder(
-                cacheFolderGeneral,
+                cacheFolderEntity,
                 nlpResources,
                 false,
                 stopWords

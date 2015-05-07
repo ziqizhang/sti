@@ -16,13 +16,13 @@ import uk.ac.shef.dcs.oak.sti.PlaceHolder;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.maincol.ColumnFeatureGenerator;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.rep.*;
+import uk.ac.shef.dcs.oak.sti.util.SearchCacheSolr;
 import uk.ac.shef.dcs.oak.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableObjCreatorWikipediaGS;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableXtractorWikipedia;
 import uk.ac.shef.dcs.oak.sti.experiment.LimayeDatasetLoader;
-import uk.ac.shef.dcs.oak.sti.util.GenericSearchCache_SOLR;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
@@ -52,7 +52,7 @@ import java.util.logging.Logger;
  */
 public class GSBuilder_Limaye_Wikitables {
     protected FreebaseQueryHelper queryHelper;
-    protected GenericSearchCache_SOLR solrCache;
+    protected SearchCacheSolr solrCache;
     protected TableXtractorWikipedia xtractor;
     protected BingWebSearch searcher;
     protected BingWebSearchResultParser parser;
@@ -62,7 +62,7 @@ public class GSBuilder_Limaye_Wikitables {
     protected static Logger log = Logger.getLogger(GSBuilder_Limaye_Wikitables.class.getName());
 
     public GSBuilder_Limaye_Wikitables(FreebaseQueryHelper queryHelper,
-                                       GenericSearchCache_SOLR cache_solr,
+                                       SearchCacheSolr cache_solr,
                                        TableXtractorWikipedia xtractor,
                                        String... bingApiKeys) throws IOException {
         this.queryHelper = queryHelper;
@@ -105,7 +105,7 @@ public class GSBuilder_Limaye_Wikitables {
         CoreContainer container = new CoreContainer(solrCache,
                 configFile);
         SolrServer server = new EmbeddedSolrServer(container, "collection1");
-        GenericSearchCache_SOLR cache = new GenericSearchCache_SOLR(server);
+        SearchCacheSolr cache = new SearchCacheSolr(server);
 
         TableXtractorWikipedia xtractor = new TableXtractorWikipedia(new TableNormalizerFrequentRowLength(true),
                 new TableHODetectorByHTMLTag(),
@@ -650,7 +650,7 @@ public class GSBuilder_Limaye_Wikitables {
         return tableNodes;
     }
 
-    public static String queryWikipediaPageid(String wikipedia_title, GenericSearchCache_SOLR cache) throws IOException {
+    public static String queryWikipediaPageid(String wikipedia_title, SearchCacheSolr cache) throws IOException {
         Date startTime = new Date();
 
         String query = "https://en.wikipedia.org/w/api.php?action=query&titles=" + wikipedia_title;
@@ -720,7 +720,7 @@ public class GSBuilder_Limaye_Wikitables {
 
     }
 
-    public String createCellAnnotation(String pageid, GenericSearchCache_SOLR cache) throws IOException {
+    public String createCellAnnotation(String pageid, SearchCacheSolr cache) throws IOException {
         String freebase_id = null;
         try {
             Object o = cache.retrieve(pageid);

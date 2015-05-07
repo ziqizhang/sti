@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.smp;
 
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
@@ -18,12 +18,12 @@ import java.util.*;
  */
 public class ColumnClassifier {
 
-    private KBSearcher kbSearcher;
+    private KnowledgeBaseSearcher kbSearcher;
 
     public static final String SMP_SCORE_ENTITY_VOTE = "smp_score_entity_vote";
     public static final String SMP_SCORE_GRANULARITY = "smp_score_granularity";
 
-    public ColumnClassifier(KBSearcher kbSearcher) {
+    public ColumnClassifier(KnowledgeBaseSearcher kbSearcher) {
         this.kbSearcher = kbSearcher;
     }
 

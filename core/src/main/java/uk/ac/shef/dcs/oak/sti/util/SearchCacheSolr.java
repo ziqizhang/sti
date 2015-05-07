@@ -24,21 +24,21 @@ import java.util.List;
  * Time: 12:58
  * To change this template use File | Settings | File Templates.
  */
-public class GenericSearchCache_SOLR {
+public class SearchCacheSolr {
 
     private SolrServer server;
     private static final String idFieldName = "id";
     private static final String valueFieldName = "value";
     private static final String valueTextFieldName="value_text";
 
-    public GenericSearchCache_SOLR(String solrHomePath, String coreName) {
+    public SearchCacheSolr(String solrHomePath, String coreName) {
         File configFile = new File(solrHomePath + File.separator + "solr.xml");
         CoreContainer container = new CoreContainer(solrHomePath,
                 configFile);
         server = new EmbeddedSolrServer(container, coreName);
     }
 
-    public GenericSearchCache_SOLR(SolrServer server) {
+    public SearchCacheSolr(SolrServer server) {
         this.server=server;
     }
 
@@ -98,10 +98,6 @@ public class GenericSearchCache_SOLR {
 
         Object object =  SerializableUtils.deserializeBase64((byte[])dataBytes);
         return object;
-    }
-
-    public static String toCacheId(String qParam, String targetFieldName) {
-        return qParam.hashCode() + "_" + targetFieldName.hashCode();
     }
 
 }

@@ -1,15 +1,11 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.smp;
 
-import uk.ac.shef.dcs.oak.sti.algorithm.ji.LTableAnnotation_JI_Freebase;
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.sti.misc.UtilRelationMatcher;
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 
-import java.io.IOException;
 import java.util.*;
 
 /**

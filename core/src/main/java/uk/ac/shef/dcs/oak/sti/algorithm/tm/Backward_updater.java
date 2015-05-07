@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
 import uk.ac.shef.dcs.oak.sti.STIException;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.selector.CellSelector;
 import uk.ac.shef.dcs.oak.sti.rep.*;
@@ -20,14 +20,14 @@ import java.util.*;
 public class Backward_updater {
 
     private Disambiguator disambiguator;
-    private KBSearcher kbSearcher;
+    private KnowledgeBaseSearcher kbSearcher;
     private ClassificationScorer classification_scorer;
     private String nlpTools_folder;
     private CellSelector selector;
     private List<String> stopWords;
 
     public Backward_updater(CellSelector selector,
-                            KBSearcher kbSearcher,
+                            KnowledgeBaseSearcher kbSearcher,
                             Disambiguator disambiguator,
                             ClassificationScorer classification_scorer,
                             List<String> stopwords,

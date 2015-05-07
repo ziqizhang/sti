@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
@@ -15,11 +15,11 @@ import java.util.*;
  * Created by zqz on 01/05/2015.
  */
 public class CandidateEntityGenerator {
-    private KBSearcher kbSearcher;
+    private KnowledgeBaseSearcher kbSearcher;
     private DisambiguationScorer_JI_adapted disambScorer;
     //private static Logger log = Logger.getLogger(Disambiguator.class.getName());
 
-    public CandidateEntityGenerator(KBSearcher kbSearcher, DisambiguationScorer_JI_adapted disambScorer) {
+    public CandidateEntityGenerator(KnowledgeBaseSearcher kbSearcher, DisambiguationScorer_JI_adapted disambScorer) {
         this.kbSearcher = kbSearcher;
         this.disambScorer = disambScorer;
     }

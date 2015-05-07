@@ -1,8 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.kb;
 
-import org.apache.solr.client.solrj.SolrServer;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
-import uk.ac.shef.dcs.oak.sti.util.GenericSearchCache_SOLR;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 
 import java.io.IOException;
@@ -15,7 +13,7 @@ import java.util.List;
  * Time: 16:53
  * To change this template use File | Settings | File Templates.
  */
-public abstract class KBSearcher {
+public abstract class KnowledgeBaseSearcher {
 
     //match cells to entities
     public abstract List<EntityCandidate> find_matchingEntitiesForCell(LTableContentCell tcc) throws IOException;
@@ -36,10 +34,6 @@ public abstract class KBSearcher {
 
     protected String createQuery_findEntities(LTableContentCell tcc){
         return tcc.getText();
-    }
-
-    protected String createQuery_findFacts(EntityCandidate ec) {
-        return createQuery_findFacts(ec.getId());
     }
 
     protected String createQuery_findFacts(String query) {

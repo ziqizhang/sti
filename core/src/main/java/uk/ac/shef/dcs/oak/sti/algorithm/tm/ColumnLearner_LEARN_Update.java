@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
@@ -14,10 +14,10 @@ import java.util.*;
 public class ColumnLearner_LEARN_Update {
 
     private Disambiguator disambiguator;
-    private KBSearcher kbSearcher;
+    private KnowledgeBaseSearcher kbSearcher;
     private ClassificationScorer classification_scorer;
 
-    public ColumnLearner_LEARN_Update(KBSearcher kbSearcher,
+    public ColumnLearner_LEARN_Update(KnowledgeBaseSearcher kbSearcher,
                                       Disambiguator disambiguator,
                                       ClassificationScorer classification_scorer) {
         this.kbSearcher = kbSearcher;

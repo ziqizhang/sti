@@ -4,7 +4,7 @@ import info.aduna.io.FileUtil;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher_Freebase;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.io.LTableAnnotationKeyFileReader;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.FileUtils;
@@ -27,7 +27,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
         SolrServer server = new EmbeddedSolrServer(container, "collection1");
         //object to fetch things from KB
         String freebaseProperties = "D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties";
-        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(freebaseProperties, true, server, null,null);
+        KnowledgeBaseSearcher_Freebase freebaseMatcher = new KnowledgeBaseSearcher_Freebase(freebaseProperties, true, server, null,null);
 
         find_discrepancies_between(
                 "E:\\Data\\table annotation\\corpus_analysis\\100_tables\\tableminer_aclshort_no_ref_ent",
@@ -164,7 +164,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
             String inFolder_tableminer,
             String inFolder_baseline,
             String outFolder,
-            KBSearcher_Freebase searcher) throws IOException {
+            KnowledgeBaseSearcher_Freebase searcher) throws IOException {
         for (File tableminer_entity_file : new File(inFolder_tableminer).listFiles()) {
             Map<int[], List<List<String>>> tableminer_cells = null, baseline_cells = null;
 

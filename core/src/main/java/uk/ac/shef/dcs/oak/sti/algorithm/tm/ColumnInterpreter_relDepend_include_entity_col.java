@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher_Freebase;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.selector.CellSelector;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
@@ -17,14 +17,14 @@ import java.util.*;
 @Deprecated
 public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterpreter_relDepend {
     //private static final Logger log = Logger.getLogger(ColumnInterpreter_relDepend_v1.class.getName());
-    private KBSearcher_Freebase fbSearcher;
+    private KnowledgeBaseSearcher_Freebase fbSearcher;
     private ClassificationScorer classification_scorer;
     private ColumnLearner_LEARN_Update column_updater;
     private CellSelector selector;
     private int max_reference_entity_for_disambiguation;
     private int[] ignoreColumns;
 
-    public ColumnInterpreter_relDepend_include_entity_col(KBSearcher_Freebase fbSearcher,
+    public ColumnInterpreter_relDepend_include_entity_col(KnowledgeBaseSearcher_Freebase fbSearcher,
                                                           ClassificationScorer scorer,
                                                           ColumnLearner_LEARN_Update updater,
                                                           CellSelector selector,

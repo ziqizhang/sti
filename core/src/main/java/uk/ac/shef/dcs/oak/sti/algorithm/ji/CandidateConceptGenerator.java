@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.HeaderAnnotation;
@@ -14,11 +14,11 @@ import java.util.*;
  *
  */
 public class CandidateConceptGenerator {
-    private KBSearcher kbSearcher;
+    private KnowledgeBaseSearcher kbSearcher;
     private ClassificationScorer_JI_adapted conceptScorer;
     private EntityAndConceptScorer_Freebase entityAndConceptScorer;
 
-    public CandidateConceptGenerator(KBSearcher kbSearcher,
+    public CandidateConceptGenerator(KnowledgeBaseSearcher kbSearcher,
                                      ClassificationScorer_JI_adapted conceptScorer,
                                      EntityAndConceptScorer_Freebase entityAndConceptScorer)
     {

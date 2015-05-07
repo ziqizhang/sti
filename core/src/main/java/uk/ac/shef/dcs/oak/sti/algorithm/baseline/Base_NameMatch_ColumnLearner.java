@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.baseline;
 
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.ObjObj;
@@ -16,12 +16,12 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 public class Base_NameMatch_ColumnLearner {
-    private KBSearcher kbSearcher;
+    private KnowledgeBaseSearcher kbSearcher;
     private Base_NameMatch_Disambiguator disambiguator;
 
 
     public Base_NameMatch_ColumnLearner(
-            KBSearcher candidateFinder,
+            KnowledgeBaseSearcher candidateFinder,
             Base_NameMatch_Disambiguator disambiguation_learn) {
         this.kbSearcher = candidateFinder;
         this.disambiguator = disambiguation_learn;

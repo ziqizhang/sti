@@ -1,11 +1,12 @@
 package uk.ac.shef.dcs.oak.sti.kb;
 
+import com.google.api.client.http.HttpResponseException;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.solr.client.solrj.SolrServer;
 import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.oak.sti.util.GenericSearchCache_SOLR;
+import uk.ac.shef.dcs.oak.sti.util.SearchCacheSolr;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.triplesearch.freebase.EntityCandidate_FreebaseTopic;
 import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
@@ -13,39 +14,39 @@ import uk.ac.shef.dcs.oak.util.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
 /**
  */
-public class KBSearcher_Freebase extends KBSearcher {
+public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
 
     private boolean commit;
     private FreebaseQueryHelper searcher;
-    private static Logger log = Logger.getLogger(KBSearcher_Freebase.class.getName());
-    protected GenericSearchCache_SOLR cacheEntity;
-    protected GenericSearchCache_SOLR cacheConcept;
-    protected GenericSearchCache_SOLR cacheProperty;
+    private static Logger log = Logger.getLogger(KnowledgeBaseSearcher_Freebase.class.getName());
+    protected SearchCacheSolr cacheEntity;
+    protected SearchCacheSolr cacheConcept;
+    protected SearchCacheSolr cacheProperty;
     protected boolean split_at_conjunction;
 
 
-    public KBSearcher_Freebase(String freebase_properties, boolean split_at_conjunection,
-                               SolrServer cacheEntity, SolrServer cacheConcept,
-                               SolrServer cacheProperty) throws IOException {
+    public KnowledgeBaseSearcher_Freebase(String freebase_properties, boolean split_at_conjunection,
+                                          SolrServer cacheEntity, SolrServer cacheConcept,
+                                          SolrServer cacheProperty) throws IOException {
         searcher = new FreebaseQueryHelper(freebase_properties);
         if (TableMinerConstants.COMMIT_SOLR_PER_FILE)
             commit = false;
         else
             commit = true;
-        if(cacheEntity!=null)
-            this.cacheEntity=new GenericSearchCache_SOLR(cacheEntity);
-        if(cacheConcept!=null)
-            this.cacheConcept=new GenericSearchCache_SOLR(cacheConcept);
-        if(cacheProperty!=null)
-            this.cacheProperty=new GenericSearchCache_SOLR(cacheProperty);
-        this.split_at_conjunction=split_at_conjunection;
+        if (cacheEntity != null)
+            this.cacheEntity = new SearchCacheSolr(cacheEntity);
+        if (cacheConcept != null)
+            this.cacheConcept = new SearchCacheSolr(cacheConcept);
+        if (cacheProperty != null)
+            this.cacheProperty = new SearchCacheSolr(cacheProperty);
+        this.split_at_conjunction = split_at_conjunection;
     }
 
 
@@ -186,9 +187,10 @@ public class KBSearcher_Freebase extends KBSearcher {
         return find_triples(propertyId, cacheProperty);
     }
 
-    @Override
+    @Override    //todo: CHANGE THIS BACK WHEN CACHE IS READY!!!
     public List<String[]> find_triplesForConcept(String conceptId) throws IOException {
-        boolean forceQuery = false;
+        return find_triplesForEntity(conceptId);
+        /*boolean forceQuery = false;
         if (TableMinerConstants.FORCE_TOPICAPI_QUERY)
             forceQuery = true;
         List<String[]> facts = new ArrayList<String[]>();
@@ -202,35 +204,36 @@ public class KBSearcher_Freebase extends KBSearcher {
         } catch (Exception e) {
         }
         if (facts == null || forceQuery) {
-            facts=new ArrayList<String[]>();
+            facts = new ArrayList<String[]>();
             List<String[]> retrievedFacts = searcher.topicapi_facts_of_id(conceptId);
             //check firstly, is this a concept?
-            boolean isConcept=false;
-            for(String[] f: retrievedFacts){
-                if(f[0].equals("/type/object/type") && f[2]!=null &&f[2].equals("/type/type")) {
+            boolean isConcept = false;
+            for (String[] f : retrievedFacts) {
+                if (f[0].equals("/type/object/type") && f[2] != null && f[2].equals("/type/type")) {
                     isConcept = true;
                     break;
                 }
             }
-            if(!isConcept)  return facts;
+            if (!isConcept) return facts;
 
             //ok, this is a concept. We need to deep-fetch its properties, and find out the range of their properties
-            System.out.println(">>"+retrievedFacts.size());
-            for(String[] f: retrievedFacts){
+            System.out.println(">>" + retrievedFacts.size());
+            for (String[] f : retrievedFacts) {
                 if (KB_InstanceFilter.ignorePredicate_from_triple(f[0])) continue;
 
-                if(f[0].equals("/type/type/properties")) { //this is a property of a concept, we need to process it further
+                if (f[0].equals("/type/type/properties")) { //this is a property of a concept, we need to process it further
                     String propertyId = f[2];
-                    if(f[2]==null) continue;
+                    if (f[2] == null) continue;
+
                     List<String[]> triples4Property = find_triplesForProperty(propertyId);
-                    for(String[] t: triples4Property){
-                        if(t[0].equals("/type/property/expected_type")){
+                    for (String[] t : triples4Property) {
+                        if (t[0].equals("/type/property/expected_type")) {
                             String rangeLabel = t[1];
                             String rangeURL = t[2];
                             facts.add(new String[]{f[2], rangeLabel, rangeURL, "n"});
                         }
                     }
-                }else{
+                } else {
                     facts.add(f);
                 }
             }
@@ -241,12 +244,12 @@ public class KBSearcher_Freebase extends KBSearcher {
                 e.printStackTrace();
             }
         }
-        return facts;
+        return facts;*/
     }
 
-    @Override
+    @Override   //TODO CHANGE THIS BACK WHEN CACHE IS READY!!!
     public double find_granularityForConcept(String type) throws IOException {
-        String query = createQuery_findGranularity(type);
+        String query = type; //createQuery_findGranularity(type);
         Double result = null;
         try {
             Object o = cacheConcept.retrieve(toSolrKey(query));
@@ -288,6 +291,7 @@ public class KBSearcher_Freebase extends KBSearcher {
         }
         return types;
     }
+
     public List<String[]> find_typesForEntity(String id) throws IOException {
         String query = createQuery_findTypes(id);
         List<String[]> result = null;
@@ -320,7 +324,7 @@ public class KBSearcher_Freebase extends KBSearcher {
         return result;
     }
 
-    private List<String[]> find_triples(String id, GenericSearchCache_SOLR cache) throws IOException {
+    private List<String[]> find_triples(String id, SearchCacheSolr cache) throws IOException {
         boolean forceQuery = false;
         if (TableMinerConstants.FORCE_TOPICAPI_QUERY)
             forceQuery = true;
@@ -336,8 +340,15 @@ public class KBSearcher_Freebase extends KBSearcher {
         } catch (Exception e) {
         }
         if (result == null || forceQuery) {
-            List<String[]> facts = searcher.topicapi_facts_of_id(id);
-
+            List<String[]> facts;
+            try {
+                facts = searcher.topicapi_facts_of_id(id);
+            } catch (HttpResponseException e) {
+                if (donotRepeatQuery(e))
+                    facts = new ArrayList<String[]>();
+                else
+                    throw e;
+            }
             Iterator<String[]> it = facts.iterator();
             while (it.hasNext()) {
                 String[] fact = it.next();
@@ -358,6 +369,13 @@ public class KBSearcher_Freebase extends KBSearcher {
         return result;
     }
 
+    private boolean donotRepeatQuery(HttpResponseException e) {
+        String message = e.getContent();
+        if(message.contains("\"reason\": \"notFound\""))
+            return true;
+        return false;
+    }
+
 
     private String toSolrKey(String text) {
         //return String.valueOf(text.hashCode());
@@ -367,11 +385,11 @@ public class KBSearcher_Freebase extends KBSearcher {
 
     @Override
     public void finalizeConnection() {
-        if(cacheEntity!=null)
+        if (cacheEntity != null)
             cacheEntity.shutdown();
-        if(cacheConcept!=null)
+        if (cacheConcept != null)
             cacheConcept.shutdown();
-        if(cacheProperty!=null)
+        if (cacheProperty != null)
             cacheProperty.shutdown();
     }
 }

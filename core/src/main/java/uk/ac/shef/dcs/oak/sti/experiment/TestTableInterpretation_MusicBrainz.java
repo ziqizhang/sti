@@ -5,7 +5,7 @@ import org.apache.any23.util.FileUtils;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher_Freebase;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.*;
 import uk.ac.shef.dcs.oak.sti.io.LTableAnnotationWriter;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.maincol.MainColumnFinder;
@@ -49,7 +49,7 @@ public class TestTableInterpretation_MusicBrainz {
         SolrServer server = new EmbeddedSolrServer(container, "collection1");
 
         //object to fetch things from KB
-        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(propertyFile, true,server, null,null);
+        KnowledgeBaseSearcher_Freebase freebaseMatcher = new KnowledgeBaseSearcher_Freebase(propertyFile, true,server, null,null);
         List<String> stopWords = uk.ac.shef.dcs.oak.util.FileUtils.readList(nlpResources + "/stoplist.txt", true);
         //object to find main subject column
         MainColumnFinder main_col_finder = new MainColumnFinder(

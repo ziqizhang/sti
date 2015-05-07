@@ -4,7 +4,7 @@ import com.google.api.client.http.HttpResponseException;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher_Freebase;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.*;
 import uk.ac.shef.dcs.oak.sti.io.LTableAnnotationWriter;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.maincol.MainColumnFinder;
@@ -58,7 +58,7 @@ public class TestTableInterpretation_LimayeDataset {
 
 
         //object to fetch things from KB
-        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(propertyFile, true, server, null,null);
+        KnowledgeBaseSearcher_Freebase freebaseMatcher = new KnowledgeBaseSearcher_Freebase(propertyFile, true, server, null,null);
 /*        freebaseMatcher.find_typesForEntityId("/m/02hrh1q");
         server.shutdown();
         System.exit(0);*/

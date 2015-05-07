@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
@@ -31,13 +31,13 @@ public class EntityAndConceptScorer_Freebase {
 
     protected static double FREEBASE_TOTAL_TOPICS=47560900; //total # of topics on freebase as by 1 May 2015
 
-    public double score(String entity_id, String concept_url, KBSearcher kbSearcher) throws IOException {
+    public double score(String entity_id, String concept_url, KnowledgeBaseSearcher kbSearcher) throws IOException {
         double specificity = computeConceptSpecificity(concept_url, kbSearcher);
         double similarity = computeEntityConceptSimilarity(entity_id, concept_url, kbSearcher);
         return specificity+similarity+1.0;
     }
 
-    private double computeEntityConceptSimilarity(String entity_id, String concept_url, KBSearcher kbSearcher) throws IOException {
+    private double computeEntityConceptSimilarity(String entity_id, String concept_url, KnowledgeBaseSearcher kbSearcher) throws IOException {
         List<String[]> entity_triples=kbSearcher.find_triplesForEntity(entity_id);
         /* BOW OF THE ENTITY*/
         List<String> bag_of_words_for_entity = new ArrayList<String>();
@@ -79,7 +79,7 @@ public class EntityAndConceptScorer_Freebase {
         return contextOverlapScore;
     }
 
-    private double computeConceptSpecificity(String concept_url, KBSearcher kbSearcher) throws IOException {
+    private double computeConceptSpecificity(String concept_url, KnowledgeBaseSearcher kbSearcher) throws IOException {
         double conceptGranularity = kbSearcher.find_granularityForConcept(concept_url);
         return 1-Math.sqrt(conceptGranularity/FREEBASE_TOTAL_TOPICS);
     }

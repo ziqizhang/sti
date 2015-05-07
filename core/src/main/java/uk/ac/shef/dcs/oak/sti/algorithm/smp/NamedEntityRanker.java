@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.smp;
 
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.DisambiguationScorer;
 import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
@@ -17,11 +17,11 @@ import java.util.*;
  */
 public class NamedEntityRanker {
 
-    private KBSearcher kbSearcher;
+    private KnowledgeBaseSearcher kbSearcher;
     private DisambiguationScorer disambScorer;
     //private static Logger log = Logger.getLogger(Disambiguator.class.getName());
 
-    public NamedEntityRanker(KBSearcher kbSearcher, DisambiguationScorer disambScorer) {
+    public NamedEntityRanker(KnowledgeBaseSearcher kbSearcher, DisambiguationScorer disambScorer) {
         this.kbSearcher = kbSearcher;
         this.disambScorer = disambScorer;
     }

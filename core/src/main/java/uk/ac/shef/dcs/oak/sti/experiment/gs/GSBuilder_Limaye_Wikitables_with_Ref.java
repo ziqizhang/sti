@@ -9,13 +9,13 @@ import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.maincol.ColumnFeatureGenerator;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.rep.*;
+import uk.ac.shef.dcs.oak.sti.util.SearchCacheSolr;
 import uk.ac.shef.dcs.oak.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableObjCreatorWikipediaGS;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableXtractorWikipedia;
 import uk.ac.shef.dcs.oak.sti.experiment.LimayeDatasetLoader;
-import uk.ac.shef.dcs.oak.sti.util.GenericSearchCache_SOLR;
 import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.oak.util.FileUtils;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.BingWebSearch;
@@ -35,7 +35,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
     private Levenshtein stringSim = new Levenshtein();
 
     public GSBuilder_Limaye_Wikitables_with_Ref(FreebaseQueryHelper queryHelper,
-                                                GenericSearchCache_SOLR cache_solr,
+                                                SearchCacheSolr cache_solr,
                                                 TableXtractorWikipedia xtractor,
                                                 String... bingApiKeys) {
         this.queryHelper = queryHelper;
@@ -74,7 +74,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
         CoreContainer container = new CoreContainer(solrCache,
                 configFile);
         SolrServer server = new EmbeddedSolrServer(container, "collection1");
-        GenericSearchCache_SOLR cache = new GenericSearchCache_SOLR(server);
+        SearchCacheSolr cache = new SearchCacheSolr(server);
 
         TableXtractorWikipedia xtractor = new TableXtractorWikipedia(new TableNormalizerFrequentRowLength(true),
                 new TableHODetectorByHTMLTag(),

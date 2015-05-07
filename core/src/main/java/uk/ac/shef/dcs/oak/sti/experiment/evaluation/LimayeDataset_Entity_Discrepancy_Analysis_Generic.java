@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.oak.sti.experiment.evaluation;
 
 import info.aduna.io.FileUtil;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher_Freebase;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.io.LTableAnnotationKeyFileReader;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.FileUtils;
@@ -227,7 +227,7 @@ public class LimayeDataset_Entity_Discrepancy_Analysis_Generic {
     public static void find_discrepancies_between(
             String gs_entity_annotation_folder,
             String out_folder,
-            KBSearcher_Freebase searcher,
+            KnowledgeBaseSearcher_Freebase searcher,
             Map<String, String> result_annotation_folders_to_consider) throws IOException, ParserConfigurationException, SAXException {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 

@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 
@@ -12,10 +12,10 @@ import java.util.*;
  */
 public class CandidateRelationGenerator {
     private RelationTextMatcher_Scorer_JI_adapted matcher;
-    private KBSearcher kbSearcher;
+    private KnowledgeBaseSearcher kbSearcher;
 
     public CandidateRelationGenerator(RelationTextMatcher_Scorer_JI_adapted matcher,
-                                      KBSearcher kbSearcher) {
+                                      KnowledgeBaseSearcher kbSearcher) {
         this.matcher = matcher;
         this.kbSearcher=kbSearcher;
     }
@@ -82,7 +82,7 @@ public class CandidateRelationGenerator {
             LTableAnnotation_JI_Freebase tableAnnotation,
             LTable table,
             Map<Integer, DataTypeClassifier.DataType> colTypes,
-            KBSearcher searcher) throws IOException {
+            KnowledgeBaseSearcher searcher) throws IOException {
         for (Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> e :
                 tableAnnotation.getRelationAnnotations_per_row().entrySet()) {
 
@@ -121,7 +121,7 @@ public class CandidateRelationGenerator {
                                                                  LTableAnnotation_JI_Freebase annotation,
                                                                  LTable table,
                                                                  Map<Integer, DataTypeClassifier.DataType> colTypes,
-                                                                 KBSearcher kbSearcher) throws IOException {
+                                                                 KnowledgeBaseSearcher kbSearcher) throws IOException {
         HeaderAnnotation[] candidates_col1 = annotation.getHeaderAnnotation(col1);
         HeaderAnnotation[] candidates_col2 = annotation.getHeaderAnnotation(col2);
         LTableColumnHeader header_col2 = table.getColumnHeader(col2);

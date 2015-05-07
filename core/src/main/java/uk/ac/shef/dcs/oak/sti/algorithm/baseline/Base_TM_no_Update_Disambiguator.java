@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.baseline;
 
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.DisambiguationScorer_Overlap;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
@@ -14,9 +14,9 @@ import java.util.*;
  */
 public class Base_TM_no_Update_Disambiguator {
 
-    private KBSearcher kbSearcher;
+    private KnowledgeBaseSearcher kbSearcher;
     private Base_TM_no_Update_EntityDisambiguationScorer disambScorer;
-    public Base_TM_no_Update_Disambiguator(KBSearcher kbSearcher, Base_TM_no_Update_EntityDisambiguationScorer disambScorer) {
+    public Base_TM_no_Update_Disambiguator(KnowledgeBaseSearcher kbSearcher, Base_TM_no_Update_EntityDisambiguationScorer disambScorer) {
         this.kbSearcher = kbSearcher;
         this.disambScorer = disambScorer;
     }

@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.baseline;
 
-import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.ObjObj;
@@ -12,13 +12,13 @@ import java.util.*;
  */
 public class Base_TM_no_Update_ColumnLearner {
 
-    private KBSearcher kbSearcher;
+    private KnowledgeBaseSearcher kbSearcher;
     private Base_TM_no_Update_Disambiguator disambiguation_learn;
     private Base_TM_no_Update_ClassificationScorer classifier_learn;
 
 
     public Base_TM_no_Update_ColumnLearner(
-            KBSearcher candidateFinder,
+            KnowledgeBaseSearcher candidateFinder,
             Base_TM_no_Update_Disambiguator disambiguation_learn,
             Base_TM_no_Update_ClassificationScorer algorithm) {
         this.kbSearcher = candidateFinder;
