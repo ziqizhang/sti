@@ -80,7 +80,7 @@ public class ColumnClassifier {
             if (count_same_max_score > 1) {
                 for (ObjObj<String, Double> e : result_votes) {
                     if (e.getOtherObject() == maxScore) {
-                        result_granularity.put(e.getMainObject(), kbSearcher.find_granularityForType(e.getMainObject()));
+                        result_granularity.put(e.getMainObject(), kbSearcher.find_granularityForConcept(e.getMainObject()));
                     }
                 }
             }

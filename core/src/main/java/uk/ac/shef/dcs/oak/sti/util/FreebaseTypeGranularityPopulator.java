@@ -77,15 +77,17 @@ public class FreebaseTypeGranularityPopulator {
         System.out.println("total = "+all_types.size());
         int count=0;
         for(String t: all_types){
-            kbSeacher.find_granularityForType(t);
+            System.out.println(count);
+            kbSeacher.find_granularityForConcept(t);
             kbSeacher.find_triplesForConcept(t);
             count++;
-            System.out.println(count);
             try{
                 Thread.sleep(1000);
             }catch (Exception e){
 
             }
         }
+        kbSeacher.finalizeConnection();
+        System.exit(0);
     }
 }

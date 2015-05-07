@@ -202,6 +202,7 @@ public class KBSearcher_Freebase extends KBSearcher {
         } catch (Exception e) {
         }
         if (facts == null || forceQuery) {
+            facts=new ArrayList<String[]>();
             List<String[]> retrievedFacts = searcher.topicapi_facts_of_id(conceptId);
             //check firstly, is this a concept?
             boolean isConcept=false;
@@ -214,6 +215,7 @@ public class KBSearcher_Freebase extends KBSearcher {
             if(!isConcept)  return facts;
 
             //ok, this is a concept. We need to deep-fetch its properties, and find out the range of their properties
+            System.out.println(">>"+retrievedFacts.size());
             for(String[] f: retrievedFacts){
                 if (KB_InstanceFilter.ignorePredicate_from_triple(f[0])) continue;
 
@@ -243,11 +245,11 @@ public class KBSearcher_Freebase extends KBSearcher {
     }
 
     @Override
-    public double find_granularityForType(String type) throws IOException {
+    public double find_granularityForConcept(String type) throws IOException {
         String query = createQuery_findGranularity(type);
         Double result = null;
         try {
-            Object o = cacheEntity.retrieve(toSolrKey(query));
+            Object o = cacheConcept.retrieve(toSolrKey(query));
             if (o != null) {
                 log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + type);
                 return (Double) o;
@@ -260,7 +262,7 @@ public class KBSearcher_Freebase extends KBSearcher {
                 double granularity = searcher.find_granularityForType(type);
                 result = granularity;
                 try {
-                    cacheEntity.cache(toSolrKey(query), result, commit);
+                    cacheConcept.cache(toSolrKey(query), result, commit);
                     log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + type);
                 } catch (Exception e) {
                     System.out.println("FAILED:" + type);

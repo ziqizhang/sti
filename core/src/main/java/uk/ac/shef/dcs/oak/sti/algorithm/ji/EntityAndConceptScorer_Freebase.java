@@ -5,10 +5,8 @@ import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
 import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
-import uk.ac.shef.dcs.oak.sti.util.DiceSimilarity;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
 import uk.ac.shef.dcs.oak.util.StringUtils;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -82,7 +80,7 @@ public class EntityAndConceptScorer_Freebase {
     }
 
     private double computeConceptSpecificity(String concept_url, KBSearcher kbSearcher) throws IOException {
-        double conceptGranularity = kbSearcher.find_granularityForType(concept_url);
+        double conceptGranularity = kbSearcher.find_granularityForConcept(concept_url);
         return 1-Math.sqrt(conceptGranularity/FREEBASE_TOTAL_TOPICS);
     }
 }

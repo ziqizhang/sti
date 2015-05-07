@@ -32,7 +32,7 @@ public abstract class KBSearcher {
 
     public abstract List<String[]> find_triplesForProperty(String propertyId) throws IOException;
 
-    public abstract double find_granularityForType(String type) throws IOException;
+    public abstract double find_granularityForConcept(String type) throws IOException;
 
     protected String createQuery_findEntities(LTableContentCell tcc){
         return tcc.getText();
