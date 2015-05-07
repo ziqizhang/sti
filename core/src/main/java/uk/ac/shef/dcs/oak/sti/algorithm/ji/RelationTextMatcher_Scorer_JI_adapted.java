@@ -262,7 +262,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                 );
         boolean contains = false;
         for (HeaderBinaryRelationAnnotation hbr : candidateRelations) {
-            if (hbr.equals(relation)) {
+            if (hbr.getAnnotation_url().equals(relation)) {
                 contains = true;
                 break;
             }

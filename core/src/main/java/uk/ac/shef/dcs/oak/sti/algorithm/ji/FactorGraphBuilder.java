@@ -35,7 +35,7 @@ public class FactorGraphBuilder {
         //relation and pair of column types
         Map<String, Key_SubjectCol_ObjectCol> relationString_and_direction =
                 new HashMap<String, Key_SubjectCol_ObjectCol>();
-        Map<int[], Variable> relations = addRelationAndHeaderFactors(
+        Map<String, Variable> relations = addRelationAndHeaderFactors(
                 columnHeaders,
                 annotation,
                 graph,
@@ -52,7 +52,7 @@ public class FactorGraphBuilder {
         return graph;
     }
 
-    private void addRelationAndCellFactors(Map<int[], Variable> relationVariables,
+    private void addRelationAndCellFactors(Map<String, Variable> relationVariables,
                                            Map<String, Variable> cellVariables,
                                            LTableAnnotation_JI_Freebase annotation,
                                            FactorGraph graph) {
@@ -103,12 +103,12 @@ public class FactorGraphBuilder {
         }
     }
 
-    private Map<int[], Variable> addRelationAndHeaderFactors(
+    private Map<String, Variable> addRelationAndHeaderFactors(
             Map<Integer, Variable> columnHeaders,
             LTableAnnotation_JI_Freebase annotation,
             FactorGraph graph,
             Map<String, Key_SubjectCol_ObjectCol> reltaionString_and_direction) {
-        Map<int[], Variable> result = new HashMap<int[], Variable>();
+        Map<String, Variable> result = new HashMap<String, Variable>();
 
         Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>>
                 candidateRelations = annotation.getRelationAnnotations_across_columns();
@@ -132,8 +132,8 @@ public class FactorGraphBuilder {
             List<HeaderBinaryRelationAnnotation> candidate_relations_reversed =
                     candidateRelations.get(relation_direction_reverse);
             if (candidate_relations_reversed != null)
-                candidate_relations.addAll(candidate_relations_reversed);
-
+                candidate_relations.addAll(candidate_relations_reversed);  //assuming that a relation can have only
+            //1 possible direction. not necessarily true always but reasonable
             Map<String, Double> affinity_scores_column1_and_relation = new HashMap<String, Double>();
             Map<String, Double> affinity_scores_column2_and_relation = new HashMap<String, Double>();
             Variable column1_header_variable = columnHeaders.get(relation_direction.getSubjectCol());
@@ -149,21 +149,21 @@ public class FactorGraphBuilder {
                 reltaionString_and_direction.put(hbr.getAnnotation_url(), hbr.getSubject_object_key());
                 for (int c = 0; c < column1_header_variable.getNumOutcomes(); c++) {
                     String header_concept_url = column1_header_variable.getLabelAlphabet().lookupLabel(c).toString();
-                    double score = annotation.getScore_conceptAndRelation_instanceEvidence(header_concept_url, hbr.getAnnotation_url());
+                    double score = annotation.getScore_conceptAndRelation(header_concept_url, hbr.getAnnotation_url());
                     if (score > 0)
                         affinity_scores_column1_and_relation.put(c+","+ index_relation, score);
                 }
                 for (int c = 0; c < column2_header_variable.getNumOutcomes(); c++) {
                     String header_concept_url = column2_header_variable.getLabelAlphabet().lookupLabel(c).toString();
-                    double score = annotation.getScore_conceptAndRelation_instanceEvidence(header_concept_url, hbr.getAnnotation_url());
+                    double score = annotation.getScore_conceptAndRelation(header_concept_url, hbr.getAnnotation_url());
                     if (score > 0)
                         affinity_scores_column2_and_relation.put(c+","+ index_relation, score);
                 }
             }
             Variable relationVariable = new Variable(candidateIndex_relation);
             typeOfVariable.put(relationVariable, RELATION_VARIABLE);
-            result.put(new int[]{relation_direction.getSubjectCol(),
-                    relation_direction.getObjectCol()}, relationVariable);
+            result.put(relation_direction.getSubjectCol()+","+
+                    relation_direction.getObjectCol(), relationVariable);
 
             //create potentials
             double[] potential1 = computePotential(affinity_scores_column1_and_relation, column1_header_variable,

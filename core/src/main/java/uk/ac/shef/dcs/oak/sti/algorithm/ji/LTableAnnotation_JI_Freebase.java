@@ -42,10 +42,19 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
         score_conceptAndRelation_conceptEvidence.put(createKey(conceptId, relationId), score);
     }
 
-    public double getScore_conceptAndRelation_instanceEvidence(String conceptId, String relationId){
+    private double getScore_conceptAndRelation_instanceEvidence(String conceptId, String relationId){
         Double v = score_conceptAndRelation_instaceEvidence.get(createKey(conceptId, relationId));
         if(v==null)
             v=0.0;
+        return v;
+    }
+
+    public double getScore_conceptAndRelation(String conceptId, String relationId){
+        double v = getScore_conceptAndRelation_conceptEvidence(conceptId, relationId);
+
+        Map<String, Double> cells=scoreContributingCells_conceptsAndRelation.get(createKey(conceptId, relationId));
+        if(cells!=null)
+            v = v+ cells.size()/(double)getRows();
         return v;
     }
 
