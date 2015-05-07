@@ -16,7 +16,7 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
     private Map<String, Double> score_entityAndRelation= new HashMap<String, Double>();
     private Map<String, Double> score_conceptAndRelation_instaceEvidence = new HashMap<String, Double>();
     private Map<String, Double> score_conceptAndRelation_conceptEvidence=new HashMap<String, Double>();
-    private Map<String, List<String>> scoreContributingCells_conceptsAndRelation = new HashMap<String, List<String>>();
+    private Map<String, Map<String, Double>> scoreContributingCells_conceptsAndRelation = new HashMap<String, Map<String, Double>>();
     public LTableAnnotation_JI_Freebase(int rows, int cols) {
         super(rows, cols);
     }
@@ -60,19 +60,31 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
     public void setScore_conceptAndRelation_instanceEvidence(int row, int column, String conceptId,
                                                              String relationId, double score){
         String cellPosition = row+","+column;
-        List<String> contributingCells = scoreContributingCells_conceptsAndRelation.get(
-                cellPosition
+        String key=createKey(conceptId, relationId);
+        Map<String, Double> contributingCells = scoreContributingCells_conceptsAndRelation.get(//todo, this var is not used in READ
+                key
         );
-        if(contributingCells==null)
-            contributingCells=new ArrayList<String>();
-        if(contributingCells.contains(cellPosition)){
-            double existingScore = getScore_conceptAndRelation_instanceEvidence(conceptId, relationId);
-            if(existingScore<score)
-                score_conceptAndRelation_instaceEvidence.put(createKey(conceptId, relationId), score);
+        if(contributingCells==null) {
+            contributingCells = new HashMap<String, Double>();
+            contributingCells.put(cellPosition, score);
+            score_conceptAndRelation_instaceEvidence.put(key, score);
+            scoreContributingCells_conceptsAndRelation.put(key, contributingCells);
         }
         else{
-            contributingCells.add(cellPosition);
-            score_conceptAndRelation_instaceEvidence.put(createKey(conceptId, relationId), score);
+            Double existingScore = contributingCells.get(cellPosition);
+            if(existingScore==null){
+                contributingCells.put(cellPosition,score);
+                score_conceptAndRelation_instaceEvidence.put(key,
+                        score+getScore_conceptAndRelation_instanceEvidence(conceptId, relationId));
+                scoreContributingCells_conceptsAndRelation.put(key, contributingCells);
+            }
+            else if(existingScore<score) { //previously this cell has contributed to a score, but that is smaller
+                //so we need to recalculate the instanceEvidence score using the new score
+                contributingCells.put(cellPosition,score);
+                double diff = score-existingScore;
+                score_conceptAndRelation_instaceEvidence.put(key,
+                        diff+getScore_conceptAndRelation_instanceEvidence(conceptId, relationId));
+            }
         }
     }
 

@@ -14,7 +14,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class KB_InstanceFilter {
-
+    //todo MOVE THESE "stop" LIST TO FILES
     private static List<String> ignorePredicates_from_triples = new ArrayList<String>();
 
     static {
@@ -30,7 +30,8 @@ public class KB_InstanceFilter {
                         "/type/object/key",
                         "/type/object/attribution",
                         "/type/object/permission",
-                        "/type/object/guid"
+                        "/type/object/guid",
+                        "/common/document/updated"
                 }
         );
     }
@@ -42,7 +43,8 @@ public class KB_InstanceFilter {
                 type.endsWith("topic") || type.startsWith("/pipeline/") ||
                 type.endsWith("skos_concept") ||
                 type.endsWith("_instance") ||
-                type.startsWith("/base/type_ontology")
+                type.startsWith("/base/type_ontology")||
+                type.startsWith("/type/type/domain")
 
                 ||label.equalsIgnoreCase("topic")||label.equalsIgnoreCase("thing")||label.equalsIgnoreCase("concept")
                 ||label.equalsIgnoreCase("things")||label.equalsIgnoreCase("entity"))
@@ -66,8 +68,17 @@ public class KB_InstanceFilter {
                 relation.equals("/common/topic/description") ||
                 relation.equals("/type/object/type") ||
                 relation.equals("/type/object/name") ||
-                relation.equals("/common/topic/notable_properties")
-                )
+                relation.equals("/common/topic/notable_properties")||
+                relation.equals("/type/type/domain")||
+                relation.equals("/type/type/properties")||
+                relation.equals("/type/object/id")||
+                relation.equals("/type/type/expected_by")||
+                relation.equals("/common/document/updated")||
+                relation.equals("/common/document/content")||
+                relation.equals("/common/document/text")||
+                relation.equals("/type/object/attribution")||
+                relation.equals("/type/object/permission")||
+                relation.equals("/type/object/key"))
             return true;
         return false;
     }
@@ -75,7 +86,8 @@ public class KB_InstanceFilter {
     public static boolean ignoreFact_from_bow(String predicate) {
         if (predicate.equals("/type/object/mid") ||
                 predicate.equals("/type/object/key") ||
-                predicate.equals("/common/topic/image")
+                predicate.equals("/common/topic/image")||
+                predicate.equals("/common/document/updated")
             /*||predicate.endsWith("_webpage")*/)
             return true;
         return false;

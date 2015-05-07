@@ -123,7 +123,6 @@ public class CandidateRelationGenerator {
                                                                  Map<Integer, DataTypeClassifier.DataType> colTypes,
                                                                  KBSearcher kbSearcher) throws IOException {
         HeaderAnnotation[] candidates_col1 = annotation.getHeaderAnnotation(col1);
-        LTableColumnHeader header_col1 = table.getColumnHeader(col1);
         HeaderAnnotation[] candidates_col2 = annotation.getHeaderAnnotation(col2);
         LTableColumnHeader header_col2 = table.getColumnHeader(col2);
 
@@ -132,7 +131,7 @@ public class CandidateRelationGenerator {
                 col1,
                 Arrays.asList(candidates_col2),
                 col2,
-                header_col1, header_col2, colTypes.get(col2),
+                header_col2, colTypes.get(col2),
                 annotation,
                 kbSearcher);
 

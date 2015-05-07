@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
+import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.sti.misc.UtilRelationMatcher;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
@@ -63,7 +64,8 @@ public class RelationTextMatch_Scorer {
                 /* if (stopProperties.contains(fact[0]))
                                     continue;
                 */
-                if (!UtilRelationMatcher.isValidType(type_of_fact_value)) {
+                if (!UtilRelationMatcher.isValidType(type_of_fact_value)||
+                        KB_InstanceFilter.ignoreRelation_from_relInterpreter(fact[0])) {
                     continue;
                 }
 

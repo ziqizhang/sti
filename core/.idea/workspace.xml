@@ -2120,41 +2120,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="KBSearcher_Freebase.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KBSearcher_Freebase.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="13350">
-              <caret line="0" column="31" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="KBSearcher_FreebaseWrapper.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KBSearcher_FreebaseWrapper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="325">
-              <caret line="5" column="39" selection-start-line="5" selection-start-column="39" selection-end-line="5" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TI_JointInference.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1883" max-vertical-offset="6250">
-              <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="CandidateRelationGenerator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2983" max-vertical-offset="3525">
-              <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2939" max-vertical-offset="3500">
+              <caret line="128" column="0" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
               <folding>
                 <element signature="e#1450#1459#0" expanded="true" />
                 <element signature="e#4763#4771#0" expanded="true" />
@@ -2163,50 +2133,42 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Key_SubjectCol_ObjectCol.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/Key_SubjectCol_ObjectCol.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="428" max-vertical-offset="1125">
-              <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-              <folding>
-                <element signature="e#372#373#0" expanded="true" />
-                <element signature="e#405#406#0" expanded="true" />
-                <element signature="e#563#564#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="RelationTextMatcher_Scorer_JI_adapted.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/RelationTextMatcher_Scorer_JI_adapted.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.15957446" vertical-offset="2800" max-vertical-offset="6175">
-              <caret line="115" column="22" selection-start-line="115" selection-start-column="22" selection-end-line="115" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.5643154" vertical-offset="2639" max-vertical-offset="6950">
+              <caret line="114" column="0" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2166#2183#0" expanded="true" />
-                <element signature="e#2430#2461#0" expanded="true" />
-                <element signature="e#3306#3336#0" expanded="true" />
-                <element signature="e#4837#4846#0" expanded="true" />
-                <element signature="e#4928#5213#0" expanded="true" />
-                <element signature="e#5190#5191#0" expanded="true" />
-                <element signature="e#7641#7658#0" expanded="true" />
-                <element signature="e#7794#7817#0" expanded="true" />
-                <element signature="e#8529#8551#0" expanded="true" />
-                <element signature="e#10329#10338#0" expanded="true" />
+                <element signature="e#2195#2212#0" expanded="true" />
+                <element signature="e#2461#2492#0" expanded="true" />
+                <element signature="e#3433#3463#0" expanded="true" />
+                <element signature="e#4964#4973#0" expanded="true" />
+                <element signature="e#7557#7574#0" expanded="true" />
+                <element signature="e#7707#7730#0" expanded="true" />
+                <element signature="e#8252#8261#0" expanded="true" />
+                <element signature="e#13335#13357#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RelationTextMatch_Scorer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/RelationTextMatch_Scorer.java">
+      <file leaf-file-name="KBSearcher_Freebase.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KBSearcher_Freebase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="133" max-vertical-offset="2850">
-              <caret line="19" column="21" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
-              <folding>
-                <element signature="e#5801#5839#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="7714" max-vertical-offset="13350">
+              <caret line="337" column="54" selection-start-line="337" selection-start-column="54" selection-end-line="337" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FreebaseQueryHelper.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../triplesearch/src/main/java/uk/ac/shef/dcs/oak/triplesearch/freebase/FreebaseQueryHelper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2539" max-vertical-offset="14250">
+              <caret line="118" column="17" selection-start-line="118" selection-start-column="17" selection-end-line="118" selection-end-column="17" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -2221,8 +2183,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/../util/pom.xml" />
-        <option value="$PROJECT_DIR$/../any23Extension/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/table/experiment/gs/GSBuilder_Limaye_Wikitables.java" />
         <option value="$PROJECT_DIR$/../triplesearch/src/main/java/uk/ac/shef/dcs/oak/triplesearch/EntityCandidate.java" />
         <option value="$PROJECT_DIR$/../any23-sti/src/uk/ac/shef/oak/any23/extension/extractor/LRDFa11Parser.java" />
@@ -2265,13 +2225,15 @@
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/EntityAndConceptScorer_Freebase.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/util/GenericSearchCache_SOLR.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/misc/DataTypeClassifier.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/RelationTextMatch_Scorer.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/LTableAnnotation_JI_Freebase.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/RelationTextMatch_Scorer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/RelationTextMatch_Scorer.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/RelationTextMatcher_Scorer_JI_adapted.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/misc/KB_InstanceFilter.java" />
       </list>
     </option>
   </component>
@@ -4117,12 +4079,12 @@
       <workItem from="1430501823097" duration="11877000" />
       <workItem from="1430592757154" duration="1551000" />
       <workItem from="1430597199203" duration="3196000" />
-      <workItem from="1430830894739" duration="33776000" />
+      <workItem from="1430830894739" duration="39372000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="231265000" />
+    <option name="totallyTimeSpent" value="236861000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -4146,17 +4108,17 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1598" height="858" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38505095" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32382312" sideWeight="0.638961" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5363766" sideWeight="0.638961" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.66480446" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24393724" sideWeight="0.5733766" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.6005706" sideWeight="0.5733766" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27817404" sideWeight="0.47272727" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32152063" sideWeight="0.19832402" order="2" side_tool="true" content_ui="tabs" />
@@ -5111,12 +5073,6 @@
           <option name="timeStamp" value="470" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java</url>
-          <line>77</line>
-          <properties />
-          <option name="timeStamp" value="472" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorGraphBuilder.java</url>
           <line>106</line>
           <properties />
@@ -5136,15 +5092,9 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/RelationTextMatch_Scorer.java</url>
-          <line>90</line>
+          <line>92</line>
           <properties />
           <option name="timeStamp" value="535" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java</url>
-          <line>95</line>
-          <properties />
-          <option name="timeStamp" value="543" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java</url>
@@ -5153,31 +5103,19 @@
           <option name="timeStamp" value="544" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java</url>
-          <line>89</line>
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/RelationTextMatcher_Scorer_JI_adapted.java</url>
+          <line>211</line>
           <properties />
-          <option name="timeStamp" value="549" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java</url>
-          <line>107</line>
-          <properties />
-          <option name="timeStamp" value="550" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java</url>
-          <line>129</line>
-          <properties />
-          <option name="timeStamp" value="552" />
+          <option name="timeStamp" value="569" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/RelationTextMatcher_Scorer_JI_adapted.java</url>
-          <line>117</line>
+          <line>114</line>
           <properties />
-          <option name="timeStamp" value="553" />
+          <option name="timeStamp" value="571" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="554" />
+      <option name="time" value="572" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -5185,20 +5123,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/stopping/StoppingCriteriaInstantiator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="825">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/LListItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="1075">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/TI_SemanticMessagePassing.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="406" max-vertical-offset="7125">
@@ -5260,14 +5184,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1950" max-vertical-offset="3200">
           <caret line="101" column="76" selection-start-line="101" selection-start-column="8" selection-end-line="101" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/RelationTextMatch_Scorer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33279222" vertical-offset="545" max-vertical-offset="2625">
-          <caret line="35" column="37" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="37" />
           <folding />
         </state>
       </provider>
@@ -5408,16 +5324,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/LTableColumnHeader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="333" max-vertical-offset="1000">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding>
-            <element signature="e#646#647#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/ClassificationScorer_JI_adapted.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="808" max-vertical-offset="1400">
@@ -5425,14 +5331,6 @@
           <folding>
             <element signature="e#1664#1680#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../triplesearch/src/main/java/uk/ac/shef/dcs/oak/triplesearch/freebase/FreebaseQueryHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="13291" max-vertical-offset="14250">
-          <caret line="556" column="18" selection-start-line="556" selection-start-column="18" selection-end-line="556" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5508,14 +5406,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KBSearcher_Freebase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="13350">
-          <caret line="0" column="31" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KBSearcher_FreebaseWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="325">
@@ -5564,35 +5454,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/RelationTextMatch_Scorer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="133" max-vertical-offset="2850">
-          <caret line="19" column="21" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
-          <folding>
-            <element signature="e#5801#5839#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/misc/UtilRelationMatcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30878186" vertical-offset="2116" max-vertical-offset="2975">
-          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/LTableAnnotation_JI_Freebase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1758" max-vertical-offset="2550">
-          <caret line="82" column="0" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
-          <folding>
-            <element signature="e#675#691#0" expanded="true" />
-            <element signature="e#796#825#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1883" max-vertical-offset="6250">
@@ -5601,9 +5462,67 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/LTableColumnHeader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="333" max-vertical-offset="1000">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding>
+            <element signature="e#646#647#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/misc/UtilRelationMatcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.2358274" vertical-offset="2534" max-vertical-offset="2975">
+          <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+          <folding>
+            <element signature="e#1192#1200#0" expanded="true" />
+            <element signature="e#1247#1255#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/LTableAnnotation_JI_Freebase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="761" max-vertical-offset="2550">
+          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+          <folding>
+            <element signature="e#675#691#0" expanded="true" />
+            <element signature="e#796#825#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/RelationTextMatch_Scorer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1428" max-vertical-offset="2650">
+          <caret line="67" column="85" selection-start-line="67" selection-start-column="85" selection-end-line="67" selection-end-column="85" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/RelationTextMatch_Scorer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2875">
+          <caret line="17" column="29" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
+          <folding>
+            <element signature="e#5951#5989#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/misc/KB_InstanceFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2575">
+          <caret line="16" column="42" selection-start-line="16" selection-start-column="42" selection-end-line="16" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/Key_SubjectCol_ObjectCol.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="428" max-vertical-offset="1125">
+        <state vertical-scroll-proportion="0.0" vertical-offset="410" max-vertical-offset="1125">
           <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding>
             <element signature="e#372#373#0" expanded="true" />
@@ -5615,8 +5534,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2983" max-vertical-offset="3525">
-          <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2939" max-vertical-offset="3500">
+          <caret line="128" column="0" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
           <folding>
             <element signature="e#1450#1459#0" expanded="true" />
             <element signature="e#4763#4771#0" expanded="true" />
@@ -5624,22 +5543,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/HeaderAnnotation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1414" max-vertical-offset="2825">
+          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+          <folding>
+            <element signature="e#2745#2746#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../triplesearch/src/main/java/uk/ac/shef/dcs/oak/triplesearch/freebase/FreebaseQueryHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2539" max-vertical-offset="14250">
+          <caret line="118" column="17" selection-start-line="118" selection-start-column="17" selection-end-line="118" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KBSearcher_Freebase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="7714" max-vertical-offset="13350">
+          <caret line="337" column="54" selection-start-line="337" selection-start-column="54" selection-end-line="337" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/RelationTextMatcher_Scorer_JI_adapted.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15957446" vertical-offset="2800" max-vertical-offset="6175">
-          <caret line="115" column="22" selection-start-line="115" selection-start-column="22" selection-end-line="115" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.5643154" vertical-offset="2639" max-vertical-offset="6950">
+          <caret line="114" column="0" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2166#2183#0" expanded="true" />
-            <element signature="e#2430#2461#0" expanded="true" />
-            <element signature="e#3306#3336#0" expanded="true" />
-            <element signature="e#4837#4846#0" expanded="true" />
-            <element signature="e#4928#5213#0" expanded="true" />
-            <element signature="e#5190#5191#0" expanded="true" />
-            <element signature="e#7641#7658#0" expanded="true" />
-            <element signature="e#7794#7817#0" expanded="true" />
-            <element signature="e#8529#8551#0" expanded="true" />
-            <element signature="e#10329#10338#0" expanded="true" />
+            <element signature="e#2195#2212#0" expanded="true" />
+            <element signature="e#2461#2492#0" expanded="true" />
+            <element signature="e#3433#3463#0" expanded="true" />
+            <element signature="e#4964#4973#0" expanded="true" />
+            <element signature="e#7557#7574#0" expanded="true" />
+            <element signature="e#7707#7730#0" expanded="true" />
+            <element signature="e#8252#8261#0" expanded="true" />
+            <element signature="e#13335#13357#0" expanded="true" />
           </folding>
         </state>
       </provider>

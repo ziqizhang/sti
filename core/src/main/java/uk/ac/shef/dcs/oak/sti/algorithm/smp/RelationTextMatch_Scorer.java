@@ -3,6 +3,7 @@ package uk.ac.shef.dcs.oak.sti.algorithm.smp;
 import uk.ac.shef.dcs.oak.sti.algorithm.ji.LTableAnnotation_JI_Freebase;
 import uk.ac.shef.dcs.oak.sti.kb.KBSearcher;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
+import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.sti.misc.UtilRelationMatcher;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.util.ObjObj;
@@ -57,7 +58,8 @@ public class RelationTextMatch_Scorer {
                     for (int index = 0; index < subject_entity_facts.size(); index++) {
                         DataTypeClassifier.DataType type_of_fact_value = fact_data_types.get(index);
                         String[] fact = subject_entity_facts.get(index);
-                        if (!UtilRelationMatcher.isValidType(type_of_fact_value)) {
+                        if (!UtilRelationMatcher.isValidType(type_of_fact_value)
+                                ||KB_InstanceFilter.ignoreRelation_from_relInterpreter(fact[0])) {
                             continue;
                         }
 
