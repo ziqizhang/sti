@@ -111,7 +111,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
             if (subjectHeaderColumnCandidates.size() > 0 && UtilRelationMatcher.isValidType(objectColumnDataType)) {
                 for (int s = 0; s < subjectHeaderColumnCandidates.size(); s++) {
                     HeaderAnnotation sbjCandidates = subjectHeaderColumnCandidates.get(s);
-                    List<String[]> sbjCandidateFacts = kbSearcher.find_triplesForEntity(sbjCandidates.getAnnotation_url());
+                    List<String[]> sbjCandidateFacts = kbSearcher.find_triplesForConcept(sbjCandidates.getAnnotation_url());
                     Map<Integer, DataTypeClassifier.DataType> factObjDataTypes = classifyFactObjDataType(
                             sbjCandidateFacts
                     );

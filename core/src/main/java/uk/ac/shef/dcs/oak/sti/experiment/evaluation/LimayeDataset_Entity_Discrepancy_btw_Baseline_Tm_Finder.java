@@ -27,7 +27,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
         SolrServer server = new EmbeddedSolrServer(container, "collection1");
         //object to fetch things from KB
         String freebaseProperties = "D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties";
-        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(freebaseProperties, server, true);
+        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(freebaseProperties, true, server, null,null);
 
         find_discrepancies_between(
                 "E:\\Data\\table annotation\\corpus_analysis\\100_tables\\tableminer_aclshort_no_ref_ent",

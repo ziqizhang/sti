@@ -1,8 +1,12 @@
 package uk.ac.shef.dcs.oak.sti.util;
 
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.oak.sti.kb.KBSearcher_Freebase;
 import uk.ac.shef.dcs.oak.util.FileUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -59,11 +63,22 @@ public class FreebaseTypeGranularityPopulator {
         p.close();
         System.exit(0);*/
 
-        KBSearcher_Freebase kbSeacher = new KBSearcher_Freebase(args[2],args[3], false);
+        File configFileConcept = new File(args[3] + File.separator + "solr.xml");
+        CoreContainer containerConcept = new CoreContainer(args[3],
+                configFileConcept);
+        SolrServer serverConcept = new EmbeddedSolrServer(containerConcept, "collection1");
+
+        File configFileProperty = new File(args[4] + File.separator + "solr.xml");
+        CoreContainer containerProperty = new CoreContainer(args[4],
+                configFileProperty);
+        SolrServer serverProperty = new EmbeddedSolrServer(containerProperty, "collection1");
+
+        KBSearcher_Freebase kbSeacher = new KBSearcher_Freebase(args[2],true, null, serverConcept, serverProperty);
         System.out.println("total = "+all_types.size());
         int count=0;
         for(String t: all_types){
             kbSeacher.find_granularityForType(t);
+            kbSeacher.find_triplesForConcept(t);
             count++;
             System.out.println(count);
             try{

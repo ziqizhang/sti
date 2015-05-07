@@ -55,20 +55,17 @@ public class TestTableInterpretation_MusicBrainz_SMP {
         File configFile = new File(cacheFolderGeneral + File.separator + "solr.xml");
         CoreContainer container = new CoreContainer(cacheFolderGeneral,
                 configFile);
-        SolrServer serverGeneral = new EmbeddedSolrServer(container, "collection1");
+        SolrServer serverEntity = new EmbeddedSolrServer(container, "collection1");
 
         File configFile2 = new File(cacheFolderConceptGranularity + File.separator + "solr.xml");
         CoreContainer container2 = new CoreContainer(cacheFolderConceptGranularity,
                 configFile2);
-        SolrServer serverConceptGranularity = new EmbeddedSolrServer(container2, "collection1");
+        SolrServer serverConcept = new EmbeddedSolrServer(container2, "collection1");
 
         //object to fetch things from KB
         //object to fetch things from KB
-        KBSearcher_Freebase freebaseSearcherGeneral = new KBSearcher_Freebase(propertyFile, serverGeneral, true);
-        KBSearcher_Freebase freebaseSearcherConceptGranularity = new KBSearcher_Freebase(propertyFile, serverConceptGranularity, true);
-/*        freebaseMatcher.find_typesForEntityId("/m/02hrh1q");
-        server.shutdown();
-        System.exit(0);*/
+        KBSearcher_Freebase freebaseSearcher = new KBSearcher_Freebase(propertyFile, true, serverEntity,serverConcept,null);
+
         List<String> stopWords = uk.ac.shef.dcs.oak.util.FileUtils.readList(nlpResources + "/stoplist.txt", true);
 
         MainColumnFinder main_col_finder = new MainColumnFinder(
@@ -93,8 +90,8 @@ public class TestTableInterpretation_MusicBrainz_SMP {
         TI_SemanticMessagePassing interpreter = new TI_SemanticMessagePassing(
                 main_col_finder,
                 useSubjectColumn,
-                new NamedEntityRanker(freebaseSearcherGeneral, disambiguator),
-                new ColumnClassifier(freebaseSearcherConceptGranularity),
+                new NamedEntityRanker(freebaseSearcher, disambiguator),
+                new ColumnClassifier(freebaseSearcher),
                 new RelationLearner(new RelationTextMatch_Scorer(stopWords, new Levenshtein(), 0.5)),
                 IGNORE_COLUMNS,
                 new int[0]
@@ -156,8 +153,8 @@ public class TestTableInterpretation_MusicBrainz_SMP {
                 complete = process(interpreter, table, sourceTableFile, writer, outFolder, relationLearning);
 
                 if (TableMinerConstants.COMMIT_SOLR_PER_FILE) {
-                    serverGeneral.commit();
-                    serverConceptGranularity.commit();
+                    serverEntity.commit();
+                    serverConcept.commit();
                 }
                 /**************check bugged cache/load for "Deep Space 9" in Seinfeld document*****************/
                 /*   if (inFile.contains("Seinfeld")) {
@@ -195,14 +192,14 @@ public class TestTableInterpretation_MusicBrainz_SMP {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 e.printStackTrace();
-                serverGeneral.shutdown();
-                serverConceptGranularity.shutdown();
+                serverEntity.shutdown();
+                serverConcept.shutdown();
                 System.exit(1);
             }
 
         }
-        serverGeneral.shutdown();
-        serverConceptGranularity.shutdown();
+        serverEntity.shutdown();
+        serverConcept.shutdown();
         System.out.println(new Date());
         System.exit(0);
     }

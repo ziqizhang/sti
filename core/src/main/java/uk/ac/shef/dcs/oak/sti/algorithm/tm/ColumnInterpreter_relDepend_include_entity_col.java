@@ -537,7 +537,7 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
 
     private List<String[]> find_typesOfEntity(String entity_id) throws IOException {
         List<String[]> types = new ArrayList<String[]>();
-        List<String[]> facts = fbSearcher.find_typesForEntityId(entity_id);
+        List<String[]> facts = fbSearcher.find_typesForEntity(entity_id);
         for (String[] f : facts) {
             String type = f[2]; //this is the id of the type
             types.add(new String[]{type, f[1]});

@@ -64,7 +64,7 @@ public class TestTableInterpretation_MusicBrainz_Baseline_Another {
         SolrServer server = new EmbeddedSolrServer(container, "collection1");
 
         //object to fetch things from KB
-        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(propertyFile, server, true);
+        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(propertyFile,true, server, null,null);
         List<String> stopWords = uk.ac.shef.dcs.oak.util.FileUtils.readList(nlpResources + "/stoplist.txt", true);
         //object to find main subject column
         MainColumnFinder main_col_finder = new MainColumnFinder(

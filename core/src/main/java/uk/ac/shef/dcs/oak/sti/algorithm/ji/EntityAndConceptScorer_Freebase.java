@@ -33,9 +33,9 @@ public class EntityAndConceptScorer_Freebase {
 
     protected static double FREEBASE_TOTAL_TOPICS=47560900; //total # of topics on freebase as by 1 May 2015
 
-    public double score(String entity_id, String concept_url, KBSearcher kbSearcher_entity, KBSearcher kbSearcher_conceptGranularity) throws IOException {
-        double specificity = computeConceptSpecificity(concept_url, kbSearcher_conceptGranularity);
-        double similarity = computeEntityConceptSimilarity(entity_id, concept_url, kbSearcher_entity);
+    public double score(String entity_id, String concept_url, KBSearcher kbSearcher) throws IOException {
+        double specificity = computeConceptSpecificity(concept_url, kbSearcher);
+        double similarity = computeEntityConceptSimilarity(entity_id, concept_url, kbSearcher);
         return specificity+similarity+1.0;
     }
 
@@ -58,7 +58,7 @@ public class EntityAndConceptScorer_Freebase {
             bag_of_words_for_entity = lemmatizer.lemmatize(bag_of_words_for_entity);
         bag_of_words_for_entity.removeAll(stopWords);
 
-        List<String[]> concept_triples=kbSearcher.find_triplesForEntity(concept_url);
+        List<String[]> concept_triples=kbSearcher.find_triplesForConcept(concept_url);
         List<String> bag_of_words_for_concept = new ArrayList<String>();
         for (String[] f : concept_triples) {
             if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))

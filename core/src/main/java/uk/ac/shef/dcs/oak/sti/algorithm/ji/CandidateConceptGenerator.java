@@ -14,18 +14,15 @@ import java.util.*;
  *
  */
 public class CandidateConceptGenerator {
-    private KBSearcher kbSearcher_entities;
-    private KBSearcher kbSearcher_conceptGranularity;
+    private KBSearcher kbSearcher;
     private ClassificationScorer_JI_adapted conceptScorer;
     private EntityAndConceptScorer_Freebase entityAndConceptScorer;
 
-    public CandidateConceptGenerator(KBSearcher kbSearcher_entities,
-                                     KBSearcher kbSearcher_conceptGranularity,
+    public CandidateConceptGenerator(KBSearcher kbSearcher,
                                      ClassificationScorer_JI_adapted conceptScorer,
                                      EntityAndConceptScorer_Freebase entityAndConceptScorer)
     {
-        this.kbSearcher_entities = kbSearcher_entities;
-        this.kbSearcher_conceptGranularity=kbSearcher_conceptGranularity;
+        this.kbSearcher = kbSearcher;
         this.conceptScorer=conceptScorer;
         this.entityAndConceptScorer=entityAndConceptScorer;
     }
@@ -79,8 +76,7 @@ public class CandidateConceptGenerator {
             for(String conceptId : conceptIds){
                 if(KB_InstanceFilter.ignoreType(conceptId, distinctTypes.get(conceptId)))
                     continue;
-                double score = entityAndConceptScorer.score(entityId, conceptId, kbSearcher_entities,
-                        kbSearcher_conceptGranularity);
+                double score = entityAndConceptScorer.score(entityId, conceptId, kbSearcher);
                 tableAnnotation.setScore_entityAndConcept(entityId, conceptId, score);
             }
         }

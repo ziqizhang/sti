@@ -60,7 +60,7 @@ public class TestTI_DataFiltering_Baseline_LimayeDataset {
 
 
         //object to fetch things from KB
-        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(propertyFile, server, true);
+        KBSearcher_Freebase freebaseMatcher = new KBSearcher_Freebase(propertyFile, true, server, null,null);
 /*        freebaseMatcher.find_typesForEntityId("/m/02hrh1q");
         server.shutdown();
         System.exit(0);*/

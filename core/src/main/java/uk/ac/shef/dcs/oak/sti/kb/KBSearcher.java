@@ -17,19 +17,6 @@ import java.util.List;
  */
 public abstract class KBSearcher {
 
-    protected GenericSearchCache_SOLR solrCache;
-    protected boolean split_at_conjunction;
-
-    public KBSearcher(String solrHomePath, String coreName, boolean split_at_conjunction){
-        solrCache = new GenericSearchCache_SOLR(solrHomePath, coreName);
-        this.split_at_conjunction=split_at_conjunction;
-    }
-
-    public KBSearcher(SolrServer server, boolean split_at_conjunection){
-        solrCache = new GenericSearchCache_SOLR(server);
-        this.split_at_conjunction=split_at_conjunection;
-    }
-
     //match cells to entities
     public abstract List<EntityCandidate> find_matchingEntitiesForCell(LTableContentCell tcc) throws IOException;
 
@@ -40,6 +27,10 @@ public abstract class KBSearcher {
     public abstract List<String[]> find_triplesForEntity(EntityCandidate ec) throws IOException;
 
     public abstract List<String[]> find_triplesForEntity(String entityId) throws IOException;
+
+    public abstract List<String[]> find_triplesForConcept(String conceptId) throws IOException;
+
+    public abstract List<String[]> find_triplesForProperty(String propertyId) throws IOException;
 
     public abstract double find_granularityForType(String type) throws IOException;
 
@@ -59,10 +50,11 @@ public abstract class KBSearcher {
         return "TYPES_"+query;
     }
 
+    protected String createQuery_findGranularity(String query) {
+        return "GRANULARITY_" + query;
+    }
     public abstract List<String[]> find_expected_types_of_relation(String majority_relation_name) throws IOException;
 
-    public void shutdownCache(){
-        solrCache.shutdown();
-    }
+    public abstract void finalizeConnection();
 
 }
