@@ -92,8 +92,10 @@ public class TI_JointInference {
 
         System.out.println(">\t HEADER CLASSIFICATION GENERATOR");
         computeClassCandidates(tab_annotations, table);
-        if (relationLearning)
+        if (relationLearning) {
+            System.out.println(">\t RELATION GENERATOR");
             computeRelationCandidates(tab_annotations, table, useSubjectColumn);
+        }
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t BUILDING FACTOR GRAPH");

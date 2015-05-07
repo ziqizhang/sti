@@ -59,7 +59,7 @@ public class Base_NameMatch_ColumnLearner {
             if (skip) {
                 disamb_result = collect_existing(table_annotation, row_index, column);
             } else {
-                List<EntityCandidate> candidates = kbSearcher.find_matchingEntitiesForCell(tcc);
+                List<EntityCandidate> candidates = kbSearcher.findEntitiesForCell(tcc);
                 disamb_result =
                         disambiguator.disambiguate(candidates, table, row_index, column);
                 if (disamb_result != null && disamb_result.size() > 0) {

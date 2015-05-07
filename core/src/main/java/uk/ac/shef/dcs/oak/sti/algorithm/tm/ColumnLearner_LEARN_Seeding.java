@@ -87,7 +87,7 @@ public class ColumnLearner_LEARN_Seeding {
             if (skip) {
                 candidates_and_scores_on_this_block = collect_existing(table_annotation, rows_indexes, column);
             } else {
-                List<EntityCandidate> candidates = kbSearcher.find_matchingEntitiesForCell(sample);
+                List<EntityCandidate> candidates = kbSearcher.findEntitiesForCell(sample);
                 //do disambiguation scoring
                 candidates_and_scores_on_this_block =
                         disambiguation_learn.disambiguate_learn_seeding(

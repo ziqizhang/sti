@@ -68,7 +68,7 @@ public class CandidateConceptGenerator {
         tableAnnotation.setHeaderAnnotation(col, headerAnnotations);
 
         //go thru every entity-concept pair, compute their scores
-        System.out.print("("+entityId_and_conceptURLs.size() + "-");
+        System.out.print("-E_and_C_scores-("+entityId_and_conceptURLs.size() + "-");
         for(Map.Entry<String, List<String>> entry: entityId_and_conceptURLs.entrySet()){
             String entityId = entry.getKey();
             List<String> conceptIds = entry.getValue();

@@ -406,7 +406,7 @@ public class Backward_updater {
         List<ObjObj<EntityCandidate, Map<String, Double>>> candidates_and_scores_for_block
                 = new ArrayList<ObjObj<EntityCandidate, Map<String, Double>>>();
 
-        List<EntityCandidate> candidates = kbSearcher.find_matchingEntities_with_type_forCell(tcc, columnTypes.toArray(new String[0]));
+        List<EntityCandidate> candidates = kbSearcher.findEntitiesOfTypesForCell(tcc, columnTypes.toArray(new String[0]));
 
         int count_already_built_feature_space = 0;
         for (EntityCandidate ec : candidates) {
@@ -418,7 +418,7 @@ public class Backward_updater {
 
         if (candidates != null && candidates.size() != 0) {
         } else {
-            candidates = kbSearcher.find_matchingEntities_with_type_forCell(tcc);
+            candidates = kbSearcher.findEntitiesOfTypesForCell(tcc);
         }
 
         //now each candidate is given scores

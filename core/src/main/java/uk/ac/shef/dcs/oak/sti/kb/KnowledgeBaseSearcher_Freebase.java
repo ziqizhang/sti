@@ -51,13 +51,13 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
 
 
     @Override
-    public List<EntityCandidate> find_matchingEntitiesForCell(LTableContentCell tcc) throws IOException {
+    public List<EntityCandidate> findEntitiesForCell(LTableContentCell tcc) throws IOException {
         String query = createQuery_findEntities(tcc);
         return find_matchingEntitiesForText_clientFilterTypes(query);
     }
 
     @Override
-    public List<EntityCandidate> find_matchingEntities_with_type_forCell(LTableContentCell tcc, String... types) throws IOException {
+    public List<EntityCandidate> findEntitiesOfTypesForCell(LTableContentCell tcc, String... types) throws IOException {
         String query = createQuery_findEntities(tcc);
         return find_matchingEntitiesForText_clientFilterTypes(query, types);
     }

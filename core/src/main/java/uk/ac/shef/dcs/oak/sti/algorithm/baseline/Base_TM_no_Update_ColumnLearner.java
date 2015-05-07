@@ -66,7 +66,7 @@ public class Base_TM_no_Update_ColumnLearner {
             if (skip) {
                 candidates_and_scores_on_this_row = collect_existing(table_annotation, row_index, column);
             } else {
-                List<EntityCandidate> candidates = kbSearcher.find_matchingEntitiesForCell(tcc);
+                List<EntityCandidate> candidates = kbSearcher.findEntitiesForCell(tcc);
                 //do disambiguation scoring
                 candidates_and_scores_on_this_row =
                         disambiguation_learn.disambiguate_learn(
