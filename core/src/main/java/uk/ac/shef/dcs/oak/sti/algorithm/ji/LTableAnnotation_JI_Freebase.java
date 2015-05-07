@@ -54,7 +54,7 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
 
         Map<String, Double> cells=scoreContributingCells_conceptsAndRelation.get(createKey(conceptId, relationId));
         if(cells!=null)
-            v = v+ cells.size()/(double)getRows();
+            v = v+ cells.size();
         return v;
     }
 
