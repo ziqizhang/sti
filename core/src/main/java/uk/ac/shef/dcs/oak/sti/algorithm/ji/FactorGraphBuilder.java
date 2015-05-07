@@ -24,7 +24,7 @@ public class FactorGraphBuilder {
     public FactorGraph build(LTableAnnotation_JI_Freebase annotation, LTable table) {
         FactorGraph graph = new FactorGraph();
         //cell text and entity label
-        Map<int[], Variable> cellAnnotations = addCellAnnotationFactors(annotation, table, graph);
+        Map<String, Variable> cellAnnotations = addCellAnnotationFactors(annotation, graph);
         //column header and type label
         Map<Integer, Variable> columnHeaders = addColumnHeaderFactors(annotation, table, graph);
         //column type and cell entities
@@ -53,7 +53,7 @@ public class FactorGraphBuilder {
     }
 
     private void addRelationAndCellFactors(Map<int[], Variable> relationVariables,
-                                           Map<int[], Variable> cellVariables,
+                                           Map<String, Variable> cellVariables,
                                            LTableAnnotation_JI_Freebase annotation,
                                            FactorGraph graph) {
         Map<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>
@@ -71,8 +71,8 @@ public class FactorGraphBuilder {
                 Variable relationVariable = relationVariables.get(new int[]{column1, column2});
                 if (relationVariable == null)
                     relationVariable = relationVariables.get(new int[]{column2, column1});
-                Variable cellVariable1 = cellVariables.get(new int[]{row, column1});
-                Variable cellVariable2 = cellVariables.get(new int[]{row, column2});
+                Variable cellVariable1 = cellVariables.get(row+","+ column1);
+                Variable cellVariable2 = cellVariables.get(row+","+ column2);
 
                 double[] potential1 = new double[cellVariable1.getNumOutcomes() * relationVariable.getNumOutcomes()];
                 for (int i = 0; i < cellVariable1.getNumOutcomes(); i++) {
@@ -134,8 +134,8 @@ public class FactorGraphBuilder {
             if (candidate_relations_reversed != null)
                 candidate_relations.addAll(candidate_relations_reversed);
 
-            Map<int[], Double> affinity_scores_column1_and_relation = new HashMap<int[], Double>();
-            Map<int[], Double> affinity_scores_column2_and_relation = new HashMap<int[], Double>();
+            Map<String, Double> affinity_scores_column1_and_relation = new HashMap<String, Double>();
+            Map<String, Double> affinity_scores_column2_and_relation = new HashMap<String, Double>();
             Variable column1_header_variable = columnHeaders.get(relation_direction.getSubjectCol());
             Variable column2_header_variable = columnHeaders.get(relation_direction.getObjectCol());
 
@@ -151,13 +151,13 @@ public class FactorGraphBuilder {
                     String header_concept_url = column1_header_variable.getLabelAlphabet().lookupLabel(c).toString();
                     double score = annotation.getScore_conceptAndRelation_instanceEvidence(header_concept_url, hbr.getAnnotation_url());
                     if (score > 0)
-                        affinity_scores_column1_and_relation.put(new int[]{c, index_relation}, score);
+                        affinity_scores_column1_and_relation.put(c+","+ index_relation, score);
                 }
                 for (int c = 0; c < column2_header_variable.getNumOutcomes(); c++) {
                     String header_concept_url = column2_header_variable.getLabelAlphabet().lookupLabel(c).toString();
                     double score = annotation.getScore_conceptAndRelation_instanceEvidence(header_concept_url, hbr.getAnnotation_url());
                     if (score > 0)
-                        affinity_scores_column2_and_relation.put(new int[]{c, index_relation}, score);
+                        affinity_scores_column2_and_relation.put(c+","+ index_relation, score);
                 }
             }
             Variable relationVariable = new Variable(candidateIndex_relation);
@@ -182,7 +182,7 @@ public class FactorGraphBuilder {
         return result;
     }
 
-    private void addHeaderAndCellFactors(Map<int[], Variable> cellVariables,
+    private void addHeaderAndCellFactors(Map<String, Variable> cellVariables,
                                          Map<Integer, Variable> headerVariables,
                                          LTableAnnotation_JI_Freebase annotation,
                                          FactorGraph graph) {
@@ -192,10 +192,10 @@ public class FactorGraphBuilder {
                 if (candidateEntityAnnotations.length == 0)
                     continue;
 
-                Variable cellVar = cellVariables.get(new int[]{row, col});
+                Variable cellVar = cellVariables.get(row+","+ col);
                 Variable headerVar = headerVariables.get(col);
 
-                Map<int[], Double> affinity_values_between_variable_outcomes = new HashMap<int[], Double>();
+                Map<String, Double> affinity_values_between_variable_outcomes = new HashMap<String, Double>();
                 //go thru every candidate cell entity
                 for (CellAnnotation ca : candidateEntityAnnotations) {
                     //which concept it has a relation with
@@ -209,7 +209,7 @@ public class FactorGraphBuilder {
                         if (headerVarOutcomeIndex < 0) continue;
 
                         affinity_values_between_variable_outcomes.put(
-                                new int[]{cellVarOutcomeIndex, headerVarOutcomeIndex},
+                                cellVarOutcomeIndex+","+ headerVarOutcomeIndex,
                                 annotation.getScore_entityAndConcept(entId, type));
 
                     }
@@ -234,7 +234,7 @@ public class FactorGraphBuilder {
      * @return
      */
     private double[] computePotential(
-            Map<int[], Double> affinity_values_between_variable_outcomes,
+            Map<String, Double> affinity_values_between_variable_outcomes,
             Variable firstVar,
             Variable secondVar) {
         int dimensionFirstVar = firstVar.getNumOutcomes();
@@ -242,7 +242,7 @@ public class FactorGraphBuilder {
         double[] res = new double[dimensionFirstVar * dimensionSecondVar];
         for (int first = 0; first < dimensionFirstVar; first++) {
             for (int second = 0; second < dimensionSecondVar; second++) {
-                int[] key = new int[]{first, second};
+                String key = first+","+second;
                 Double affinity = affinity_values_between_variable_outcomes.get(key);
 
                 if (affinity == null)
@@ -253,8 +253,8 @@ public class FactorGraphBuilder {
         return res;
     }
 
-    private Map<int[], Variable> addCellAnnotationFactors(LTableAnnotation annotation, LTable table, FactorGraph graph) {
-        Map<int[], Variable> variables = new HashMap<int[], Variable>();
+    private Map<String, Variable> addCellAnnotationFactors(LTableAnnotation annotation, FactorGraph graph) {
+        Map<String, Variable> variables = new HashMap<String, Variable>();
         for (int row = 0; row < annotation.getRows(); row++) {
             for (int col = 0; col < annotation.getCols(); col++) {
                 CellAnnotation[] candidateEntityAnnotations = annotation.getContentCellAnnotations(row, col);
@@ -279,7 +279,7 @@ public class FactorGraphBuilder {
 
                 TableFactor factor = new TableFactor(variable_cell, potential);
                 graph.addFactor(factor);
-                variables.put(new int[]{row, col}, variable_cell);
+                variables.put(row+","+col, variable_cell);
             }
         }
         return variables;
