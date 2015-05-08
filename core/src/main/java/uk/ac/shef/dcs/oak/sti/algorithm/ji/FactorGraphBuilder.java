@@ -33,7 +33,7 @@ public class FactorGraphBuilder {
                 annotation,
                 graph);
         //relation and pair of column types
-        Map<String, Variable> relations = addRelationAndHeaderFactors(
+        /*Map<String, Variable> relations = addRelationAndHeaderFactors(
                 columnHeaders,
                 annotation,
                 graph
@@ -46,7 +46,7 @@ public class FactorGraphBuilder {
                 annotation,
                 graph
         );
-
+*/
         return graph;
     }
 
@@ -166,6 +166,7 @@ public class FactorGraphBuilder {
                 }
             }
             Variable relationVariable = new Variable(candidateIndex_relation);
+            relationVariable.setLabel(RELATION_VARIABLE+"."+relation_direction.getSubjectCol()+","+relation_direction.getObjectCol());
             typeOfVariable.put(relationVariable, RELATION_VARIABLE);
             result.put(relation_direction.getSubjectCol() + "," +
                     relation_direction.getObjectCol(), relationVariable);
@@ -265,7 +266,7 @@ public class FactorGraphBuilder {
                 CellAnnotation[] candidateEntityAnnotations = annotation.getContentCellAnnotations(row, col);
                 if (candidateEntityAnnotations.length == 0)
                     continue;
-                String cellText = String.valueOf(row) + "," + String.valueOf(col);
+                String cellPosition = String.valueOf(row) + "," + String.valueOf(col);
 
                 LabelAlphabet candidateIndex_cell = new LabelAlphabet();
                 double[] potential = new double[candidateEntityAnnotations.length];
@@ -278,7 +279,7 @@ public class FactorGraphBuilder {
                     );
                 }
                 Variable variable_cell = new Variable(candidateIndex_cell);
-                variable_cell.setLabel(cellText);
+                variable_cell.setLabel(CELL_VARIABLE+"."+cellPosition);
                 typeOfVariable.put(variable_cell, CELL_VARIABLE);
                 cellVarOutcomePosition.put(variable_cell, new int[]{row, col});
 
@@ -298,7 +299,7 @@ public class FactorGraphBuilder {
             if (candidateConcepts_header.length == 0)
                 continue;
 
-            String headerText = String.valueOf(col);
+            String headerPosition = String.valueOf(col);
             LabelAlphabet candidateIndex_header = new LabelAlphabet();
 
             double[] potential = new double[candidateConcepts_header.length];
@@ -311,7 +312,7 @@ public class FactorGraphBuilder {
                 );
             }
             Variable variable_header = new Variable(candidateIndex_header);
-            variable_header.setLabel(headerText);
+            variable_header.setLabel(HEADER_VARIABLE+"."+headerPosition);
             typeOfVariable.put(variable_header, HEADER_VARIABLE);
             headerVarOutcomePosition.put(variable_header, col);
             TableFactor factor = new TableFactor(variable_header, potential);
