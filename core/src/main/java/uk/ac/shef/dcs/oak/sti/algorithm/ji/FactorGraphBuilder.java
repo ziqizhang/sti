@@ -148,17 +148,21 @@ public class FactorGraphBuilder {
 
                 relationVarOutcomeDirection.put(hbr.getAnnotation_url(), hbr.getSubject_object_key());
 
-                for (int c = 0; c < column1_header_variable.getNumOutcomes(); c++) {
-                    String header_concept_url = column1_header_variable.getLabelAlphabet().lookupLabel(c).toString();
-                    double score = annotation.getScore_conceptAndRelation(header_concept_url, hbr.getAnnotation_url());
-                    if (score > 0)
-                        affinity_scores_column1_and_relation.put(c + "," + index_relation, score);
+                if(column1_header_variable!=null) {
+                    for (int c = 0; c < column1_header_variable.getNumOutcomes(); c++) {
+                        String header_concept_url = column1_header_variable.getLabelAlphabet().lookupLabel(c).toString();
+                        double score = annotation.getScore_conceptAndRelation(header_concept_url, hbr.getAnnotation_url());
+                        if (score > 0)
+                            affinity_scores_column1_and_relation.put(c + "," + index_relation, score);
+                    }
                 }
-                for (int c = 0; c < column2_header_variable.getNumOutcomes(); c++) {
-                    String header_concept_url = column2_header_variable.getLabelAlphabet().lookupLabel(c).toString();
-                    double score = annotation.getScore_conceptAndRelation(header_concept_url, hbr.getAnnotation_url());
-                    if (score > 0)
-                        affinity_scores_column2_and_relation.put(c + "," + index_relation, score);
+                if(column2_header_variable!=null) {
+                    for (int c = 0; c < column2_header_variable.getNumOutcomes(); c++) {
+                        String header_concept_url = column2_header_variable.getLabelAlphabet().lookupLabel(c).toString();
+                        double score = annotation.getScore_conceptAndRelation(header_concept_url, hbr.getAnnotation_url());
+                        if (score > 0)
+                            affinity_scores_column2_and_relation.put(c + "," + index_relation, score);
+                    }
                 }
             }
             Variable relationVariable = new Variable(candidateIndex_relation);
@@ -167,18 +171,20 @@ public class FactorGraphBuilder {
                     relation_direction.getObjectCol(), relationVariable);
 
             //create potentials
-            double[] potential1 = computePotential(affinity_scores_column1_and_relation, column1_header_variable,
-                    relationVariable);
-            VarSet varSet1 = new HashVarSet(new Variable[]{column1_header_variable, relationVariable});
-            TableFactor factor1 = new TableFactor(varSet1, potential1);
-            graph.addFactor(factor1);
-
-            double[] potential2 = computePotential(affinity_scores_column2_and_relation, column2_header_variable,
-                    relationVariable);
-            VarSet varSet2 = new HashVarSet(new Variable[]{column2_header_variable, relationVariable});
-            TableFactor factor2 = new TableFactor(varSet2, potential2);
-            graph.addFactor(factor2);
-
+            if(column1_header_variable!=null) {
+                double[] potential1 = computePotential(affinity_scores_column1_and_relation, column1_header_variable,
+                        relationVariable);
+                VarSet varSet1 = new HashVarSet(new Variable[]{column1_header_variable, relationVariable});
+                TableFactor factor1 = new TableFactor(varSet1, potential1);
+                graph.addFactor(factor1);
+            }
+            if(column2_header_variable!=null) {
+                double[] potential2 = computePotential(affinity_scores_column2_and_relation, column2_header_variable,
+                        relationVariable);
+                VarSet varSet2 = new HashVarSet(new Variable[]{column2_header_variable, relationVariable});
+                TableFactor factor2 = new TableFactor(varSet2, potential2);
+                graph.addFactor(factor2);
+            }
         }
         return result;
     }
