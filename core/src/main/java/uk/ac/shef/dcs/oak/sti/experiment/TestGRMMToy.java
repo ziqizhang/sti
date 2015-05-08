@@ -115,7 +115,7 @@ public class TestGRMMToy {
         v1_2nd,v2_2nd    citigroup          mayor_surname     0.1
 
          */
-        double[] potential12 = {0.65, 0.1, 0.15, 0.1};
+        double[] potential12 = {6, 1, 0, 0};
         VarSet varSet12 = new HashVarSet(new Variable[]{varHeaderCity, varHeaderMayor});
         TableFactor f12 = new TableFactor(varSet12, potential12);
 
@@ -139,7 +139,7 @@ public class TestGRMMToy {
         VarSet varSet35 = new HashVarSet(new Variable[]{varCellCity1, varCellMayor1});
         TableFactor f35 = new TableFactor(varSet35, potential35);
 
-        double[] potential46 = new double[]{0.2, 0.01, 0.03, 0.1, 0.5, 0.01, 0.3, 0.02, 0.2, 0.2, 0.01, 0.29};
+        double[] potential46 = new double[]{20, 1, 3, 2, 5, 1, 3, 2, 2, 2, 1, 29};
         VarSet varSet46 = new HashVarSet(new Variable[]{varCellCity2, varCellMayor2});
         TableFactor f46 = new TableFactor(varSet46, potential46);
 
