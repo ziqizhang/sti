@@ -187,10 +187,10 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
         return find_triples(propertyId, cacheProperty);
     }
 
-    @Override    //todo: CHANGE THIS BACK WHEN CACHE IS READY!!!
+    @Override
     public List<String[]> find_triplesForConcept(String conceptId) throws IOException {
-        return find_triplesForEntity(conceptId);
-        /*boolean forceQuery = false;
+        //return find_triplesForEntity(conceptId);
+        boolean forceQuery = false;
         if (TableMinerConstants.FORCE_TOPICAPI_QUERY)
             forceQuery = true;
         List<String[]> facts = new ArrayList<String[]>();
@@ -244,12 +244,12 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
                 e.printStackTrace();
             }
         }
-        return facts;*/
+        return facts;
     }
 
-    @Override   //TODO CHANGE THIS BACK WHEN CACHE IS READY!!!
+    @Override
     public double find_granularityForConcept(String type) throws IOException {
-        String query = type; //createQuery_findGranularity(type);
+        String query = createQuery_findGranularity(type);
         Double result = null;
         try {
             Object o = cacheConcept.retrieve(toSolrKey(query));

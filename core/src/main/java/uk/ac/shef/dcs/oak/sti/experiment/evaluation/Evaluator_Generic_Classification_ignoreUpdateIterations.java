@@ -47,7 +47,6 @@ public class Evaluator_Generic_Classification_ignoreUpdateIterations {
         return rs;
     }
 
-    //todo: test this!!!!!!
     public void evaluate(String checklist_file,
                          String in_header_computed_folder,
                          String in_header_gs_folder,

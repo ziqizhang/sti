@@ -57,46 +57,6 @@ public class XPathUtils {
         return longest;
     }
 
-    /**
-     * @param subjectXPath
-     * @param predicateXPath
-     * @param objectXPath
-     * @return true of S, P, O in the same row or column, regardless if any one of the three elements is
-     *         a parent element of others (e.g., S=tr, P=tr/td, O=tr/td/text()
-     */
-    public static boolean isRegularTableTriple(String subjectXPath, String predicateXPath, String objectXPath) {
-        //todo: this is not a good approach. the goal is to avoid "null" xpath when predicate is "rdf:type"
-        if(predicateXPath==null)
-            predicateXPath=subjectXPath;
-
-
-        subjectXPath = subjectXPath.toLowerCase();
-        predicateXPath = predicateXPath.toLowerCase();
-        objectXPath = objectXPath.toLowerCase();
-
-        //find the path to the containing tables of S, O, P
-        String subjectTableSrc = trimXPathLastTag("table", subjectXPath);
-        if (subjectTableSrc == null || subjectTableSrc.equals(subjectXPath)) return false;
-        String predicateTableSrc = trimXPathLastTag("table", predicateXPath);
-        if (predicateTableSrc == null || predicateTableSrc.equals(predicateXPath)) return false;
-        String objectTableSrc = trimXPathLastTag("table", objectXPath);
-        if (objectTableSrc == null || objectTableSrc.equals(objectXPath)) return false;
-
-        //if S,O,P not in the same table, this triple is not interesting
-        if (subjectTableSrc.equals(objectTableSrc) && subjectTableSrc.equals(predicateTableSrc)) {
-            //next check if the triple is in the same row? or column? otherwise, it is not interesting
-            String sContainingCell = subjectXPath.substring(subjectTableSrc.length());
-            String pContainingCell = predicateXPath.substring(predicateTableSrc.length());
-            String oContainingCell = objectXPath.substring(objectTableSrc.length());
-
-            if (sameRow(sContainingCell, pContainingCell, oContainingCell) ||
-                    sameColumn(sContainingCell, pContainingCell, oContainingCell))
-                return true;
-
-        }
-
-        return false;
-    }
 
     public static boolean sameRow(String... trXPaths) {
         String prevTR = null;

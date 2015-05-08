@@ -126,9 +126,6 @@ public class DataStats_TableSize_NameLength_Analysis_MB_IMDB {
                     System.out.println("c>6:" + tableFilename);
                 //p.println(rows_with_annotations.size() + "," + columns_with_annotations.size());
             }
-            //todo: read relation annotation
-
-
             return table;
         }
         return null;

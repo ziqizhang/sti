@@ -61,7 +61,7 @@ public class TestTableInterpretation_LimayeDataset_JI {
         File configFile3 = new File(cacheFolderProperty + File.separator + "solr.xml");
         CoreContainer container3 = new CoreContainer(cacheFolderProperty,
                 configFile3);
-        SolrServer serverProperty =new EmbeddedSolrServer(container3, "collection1");; //todo!!!
+        SolrServer serverProperty =new EmbeddedSolrServer(container3, "collection1");
 
         //object to fetch things from KB
         KnowledgeBaseSearcher_Freebase freebaseSearcherGeneral = new KnowledgeBaseSearcher_Freebase(propertyFile, true, serverEntity,

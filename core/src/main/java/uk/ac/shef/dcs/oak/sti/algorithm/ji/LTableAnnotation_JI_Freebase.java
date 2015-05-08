@@ -70,7 +70,7 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
                                                              String relationId, double score){
         String cellPosition = row+","+column;
         String key=createKey(conceptId, relationId);
-        Map<String, Double> contributingCells = scoreContributingCells_conceptsAndRelation.get(//todo, this var is not used in READ
+        Map<String, Double> contributingCells = scoreContributingCells_conceptsAndRelation.get(
                 key
         );
         if(contributingCells==null) {

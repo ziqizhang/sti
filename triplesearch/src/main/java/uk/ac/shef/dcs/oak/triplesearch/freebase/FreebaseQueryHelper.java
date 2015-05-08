@@ -143,12 +143,6 @@ public class FreebaseQueryHelper {
         obj.setName(json.get("name").toString());
         obj.setScore(Double.valueOf(json.get("score").toString()));
 
-       /* o = json.get("notable");
-        if (o != null) {
-            JSONObject notable = (JSONObject) o;
-            obj.addType(new String[]{notable.get("id").toString(), notable.get("name").toString()});       //todo: wrong!!! types will be incomplete
-        }*/
-
         obj.setLanguage(json.get("lang").toString());
         return obj;
     }
@@ -490,62 +484,6 @@ public class FreebaseQueryHelper {
 
         return res;
     }
-
-
-    //given a type search for any topics of that type and return their ids
-    public List<String> savePagesFor_topicIds_with_type(String type, int maxResults) throws IOException {
-        httpTransport = new NetHttpTransport();
-        requestFactory = httpTransport.createRequestFactory();
-        List<String> res = new ArrayList<String>();
-
-        int limit = Integer.valueOf(properties.get("FREEBASE_LIMIT").toString());
-        int iterations = maxResults % limit;
-        iterations = iterations == 0 ? maxResults / limit : maxResults / limit + 1;
-        String cursorPoint = "";
-        for (int i = 0; i < iterations; i++) {
-            String query = "[{\"mid\":null," +
-                    "\"name\":null," +
-                    "\"type\":\"" + type + "\"," +
-                    "\"limit\":" + limit + "" +
-                    "}]";
-
-            GenericUrl url = new GenericUrl(properties.get("FREEBASE_BASE_QUERY_URL").toString());
-            url.put("query", query);
-            url.put("key", properties.get("FREEBASE_API_KEY"));
-            url.put("cursor", cursorPoint);
-
-            HttpRequest request = requestFactory.buildGetRequest(url);
-            HttpResponse httpResponse = interrupter.executeQuery(request, true);
-            System.out.println(limit * (i + 1));
-            JSONObject response;
-            try {
-                response = (JSONObject) jsonParser.parse(httpResponse.parseAsString());
-                cursorPoint = response.get("cursor").toString();
-                JSONArray results = (JSONArray) response.get("result");
-
-                for (Object result : results) {
-                    JSONObject obj = (JSONObject) result;
-                    String id = obj.get("mid").toString();
-
-
-                    //http://www.freebase.com/m/0vhypk
-                    //TODO get html for "http://www.freebase.com/" + id
-
-                }
-
-                if (results.size() < limit) {
-                    break;
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return res;
-    }
-
-    // public abstract List<String> searchFactsOfTopic(String topic);
 
     public static void main(String[] args) throws IOException {
         FreebaseQueryHelper helper = new FreebaseQueryHelper("D:\\Work\\lodiedata\\tableminer_gs/freebase.properties");

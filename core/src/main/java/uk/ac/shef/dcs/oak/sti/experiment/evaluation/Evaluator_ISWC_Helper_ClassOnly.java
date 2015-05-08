@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 import java.util.*;
 
 /**
- * todo: TEST THIS!!!!!!!
+ *
  */
 public class Evaluator_ISWC_Helper_ClassOnly {
 
