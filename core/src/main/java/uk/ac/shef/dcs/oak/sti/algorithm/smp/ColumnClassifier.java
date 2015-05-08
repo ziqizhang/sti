@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.oak.sti.algorithm.smp;
 
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.HeaderAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
@@ -42,8 +42,6 @@ public class ColumnClassifier {
                     distinctTypes.addAll(e.getTypeIds());
                 }
                 for (String t : distinctTypes) {
-                    if (KB_InstanceFilter.ignoreType(t, t))
-                        continue;
                     Double v = votes.get(t);
                     v = v == null ? 1.0 : v;
                     v += 1.0;

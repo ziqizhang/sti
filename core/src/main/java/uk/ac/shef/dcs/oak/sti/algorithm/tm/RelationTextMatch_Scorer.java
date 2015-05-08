@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.oak.sti.misc.UtilRelationMatcher;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
@@ -29,7 +29,8 @@ public class RelationTextMatch_Scorer {
                                                         Map<Integer, DataTypeClassifier.DataType> column_types) {
         Map<Integer, List<ObjObj<String[], Double>>> matching_scores =
                 new HashMap<Integer, List<ObjObj<String[],Double>>>();
-
+        //filter facts to remove predicates that are not useful relations
+        facts = KnowledgeBaseFreebaseFilter.filterRelations(facts);
         //typing facts
 
         Map<Integer, DataTypeClassifier.DataType> fact_data_types = new HashMap<Integer, DataTypeClassifier.DataType>();
@@ -64,8 +65,7 @@ public class RelationTextMatch_Scorer {
                 /* if (stopProperties.contains(fact[0]))
                                     continue;
                 */
-                if (!UtilRelationMatcher.isValidType(type_of_fact_value)||
-                        KB_InstanceFilter.ignoreRelation_from_relInterpreter(fact[0])) {
+                if (!UtilRelationMatcher.isValidType(type_of_fact_value)) {
                     continue;
                 }
 

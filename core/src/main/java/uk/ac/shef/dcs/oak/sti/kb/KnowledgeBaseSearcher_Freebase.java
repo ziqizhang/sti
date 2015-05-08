@@ -3,7 +3,6 @@ package uk.ac.shef.dcs.oak.sti.kb;
 import com.google.api.client.http.HttpResponseException;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.solr.client.solrj.SolrServer;
-import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.oak.sti.util.SearchCacheSolr;
@@ -91,7 +90,7 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
             for (EntityCandidate_FreebaseTopic ec : topics) {
                 //find_triplesForEntityId()
                 //instantiate facts and types
-                List<String[]> facts = find_triplesForEntity(ec);
+                List<String[]> facts = find_triplesForEntity_filtered(ec);
                 ec.setFacts(facts);
                 for (String[] f : facts) {
                     if (f[0].equals("/type/object/type") &&
@@ -157,15 +156,15 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
             }
         }
 
+        //filter EC types
         String id = "|";
         for (EntityCandidate ec : result) {
             id = id + ec.getId() + ",";
-            Iterator<String[]> it = ec.getTypes().iterator();
-            while (it.hasNext()) {
-                String[] s = it.next();
-                if (KB_InstanceFilter.ignoreType(s[0], s[1]))
-                    it.remove();
-            }
+            //ec.setTypes(KnowledgeBaseFreebaseFilter.filterTypes(ec.getTypes()));
+            List<String[]> filteredTypes = KnowledgeBaseFreebaseFilter.filterTypes(ec.getTypes());
+            ec.getTypes().clear();
+            for(String[] ft:filteredTypes)
+                ec.addType(ft);
         }
 
         System.out.println("(QUERY_KB:" + beforeFiltering + " => " + result.size() + id);
@@ -173,22 +172,22 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
     }
 
 
-    public List<String[]> find_triplesForEntity(String entityId) throws IOException {
-        return find_triples(entityId, cacheEntity);
+    public List<String[]> find_triplesForEntity_filtered(String entityId) throws IOException {
+        return find_triples_filtered(entityId, cacheEntity);
     }
 
     @Override
-    public List<String[]> find_triplesForEntity(EntityCandidate ec) throws IOException {
-        return find_triplesForEntity(ec.getId());
+    public List<String[]> find_triplesForEntity_filtered(EntityCandidate ec) throws IOException {
+        return find_triplesForEntity_filtered(ec.getId());
     }
 
     @Override
-    public List<String[]> find_triplesForProperty(String propertyId) throws IOException {
-        return find_triples(propertyId, cacheProperty);
+    public List<String[]> find_triplesForProperty_filtered(String propertyId) throws IOException {
+        return find_triples_filtered(propertyId, cacheProperty);
     }
 
     @Override
-    public List<String[]> find_triplesForConcept(String conceptId) throws IOException {
+    public List<String[]> find_triplesForConcept_filtered(String conceptId) throws IOException {
         //return find_triplesForEntity(conceptId);
         boolean forceQuery = false;
         if (TableMinerConstants.FORCE_TOPICAPI_QUERY)
@@ -219,13 +218,11 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
             //ok, this is a concept. We need to deep-fetch its properties, and find out the range of their properties
             System.out.println(">>" + retrievedFacts.size());
             for (String[] f : retrievedFacts) {
-                if (KB_InstanceFilter.ignorePredicate_from_triple(f[0])) continue;
-
                 if (f[0].equals("/type/type/properties")) { //this is a property of a concept, we need to process it further
                     String propertyId = f[2];
                     if (f[2] == null) continue;
 
-                    List<String[]> triples4Property = find_triplesForProperty(propertyId);
+                    List<String[]> triples4Property = find_triplesForProperty_filtered(propertyId);
                     for (String[] t : triples4Property) {
                         if (t[0].equals("/type/property/expected_type")) {
                             String rangeLabel = t[1];
@@ -243,6 +240,14 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+
+        //filtering
+        Iterator<String[]> it =facts.iterator();
+        while(it.hasNext()){
+            String[] f = it.next();
+            if (KnowledgeBaseFreebaseFilter.ignoreFactWithPredicate(f[0]))
+                it.remove();
         }
         return facts;
     }
@@ -282,7 +287,7 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
 
     @Override
     public List<String[]> find_expected_types_of_relation(String majority_relation_name) throws IOException {
-        List<String[]> triples = find_triplesForEntity(new EntityCandidate(majority_relation_name, majority_relation_name));
+        List<String[]> triples = find_triplesForEntity_filtered(new EntityCandidate(majority_relation_name, majority_relation_name));
         List<String[]> types = new ArrayList<String[]>();
         for (String[] t : triples) {
             if (t[0].equals("/type/property/expected_type")) {
@@ -292,7 +297,7 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
         return types;
     }
 
-    public List<String[]> find_typesForEntity(String id) throws IOException {
+    public List<String[]> find_typesForEntity_filtered(String id) throws IOException {
         String query = createQuery_findTypes(id);
         List<String[]> result = null;
         try {
@@ -303,16 +308,12 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
         } catch (Exception e) {
         }
         if (result == null) {
-
             result = new ArrayList<String[]>();
             List<String[]> facts = searcher.topicapi_types_of_id(id);
-            Iterator<String[]> it = facts.iterator();
-            while (it.hasNext()) {
-                String[] type_triple = it.next();
-                if (KB_InstanceFilter.ignoreType(type_triple[2], type_triple[1]))
-                    it.remove();
+            for (String[] f : facts) {
+                String type = f[2]; //this is the id of the type
+                result.add(new String[]{type, f[1]});
             }
-            result.addAll(facts);
             try {
                 cacheEntity.cache(toSolrKey(query), result, commit);
                 // debug_helper_method(id, facts);
@@ -321,10 +322,10 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
                 e.printStackTrace();
             }
         }
-        return result;
+        return KnowledgeBaseFreebaseFilter.filterTypes(result);
     }
 
-    private List<String[]> find_triples(String id, SearchCacheSolr cache) throws IOException {
+    private List<String[]> find_triples_filtered(String id, SearchCacheSolr cache) throws IOException {
         boolean forceQuery = false;
         if (TableMinerConstants.FORCE_TOPICAPI_QUERY)
             forceQuery = true;
@@ -349,22 +350,22 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
                 else
                     throw e;
             }
-            Iterator<String[]> it = facts.iterator();
-            while (it.hasNext()) {
-                String[] fact = it.next();
-                if (KB_InstanceFilter.ignorePredicate_from_triple(fact[0]))
-                    it.remove();
-            }
             result = new ArrayList<String[]>();
             result.addAll(facts);
             try {
                 cache.cache(toSolrKey(query), result, commit);
-                //debug_helper_method(ec.getId(), result);
-                //debug_fact_writer(ec.getId(),result);
                 log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+
+        //filtering
+        Iterator<String[]> it = result.iterator();
+        while (it.hasNext()) {
+            String[] fact = it.next();
+            if (KnowledgeBaseFreebaseFilter.ignoreFactWithPredicate(fact[0]))
+                it.remove();
         }
         return result;
     }

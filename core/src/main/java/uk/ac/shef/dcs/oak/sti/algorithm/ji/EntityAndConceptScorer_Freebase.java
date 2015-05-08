@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
-import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.oak.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
@@ -38,13 +38,13 @@ public class EntityAndConceptScorer_Freebase {
     }
 
     private double computeEntityConceptSimilarity(String entity_id, String concept_url, KnowledgeBaseSearcher kbSearcher) throws IOException {
-        List<String[]> entity_triples=kbSearcher.find_triplesForEntity(entity_id);
+        List<String[]> entity_triples=kbSearcher.find_triplesForEntity_filtered(entity_id);
         /* BOW OF THE ENTITY*/
         List<String> bag_of_words_for_entity = new ArrayList<String>();
         for (String[] f : entity_triples) {
             if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
                 continue;
-            if (KB_InstanceFilter.ignoreFact_from_bow(f[0]))
+            if (KnowledgeBaseFreebaseFilter.ignoreFactFromBOW(f[0]))
                 continue;
             String value = f[1];
             if (!StringUtils.isPath(value))
@@ -56,12 +56,12 @@ public class EntityAndConceptScorer_Freebase {
             bag_of_words_for_entity = lemmatizer.lemmatize(bag_of_words_for_entity);
         bag_of_words_for_entity.removeAll(stopWords);
 
-        List<String[]> concept_triples=kbSearcher.find_triplesForConcept(concept_url);
+        List<String[]> concept_triples=kbSearcher.find_triplesForConcept_filtered(concept_url);
         List<String> bag_of_words_for_concept = new ArrayList<String>();
         for (String[] f : concept_triples) {
             if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
                 continue;
-            if (KB_InstanceFilter.ignoreFact_from_bow(f[0]))
+            if (KnowledgeBaseFreebaseFilter.ignoreFactFromBOW(f[0]))
                 continue;
             String value = f[1];
             if (!StringUtils.isPath(value))

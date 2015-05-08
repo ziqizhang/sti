@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
-import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.HeaderAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
@@ -35,10 +35,9 @@ public class CandidateConceptGenerator {
             if (cellAnnotations.length > 0) {
                 for (CellAnnotation ca : cellAnnotations) {
                     EntityCandidate e = ca.getAnnotation();
-                    for(String[] type: e.getTypes()){
+                    for(String[] type: KnowledgeBaseFreebaseFilter.filterTypes(e.getTypes())){
                         String url = type[0];
                         String label = type[1];
-                        if(KB_InstanceFilter.ignoreType(url, label)) continue;
                         distinctTypes.put(url, label);
                         List<String> conceptURLs = entityId_and_conceptURLs.get(e.getId());
                         if(conceptURLs==null)
@@ -74,8 +73,6 @@ public class CandidateConceptGenerator {
             List<String> conceptIds = entry.getValue();
             System.out.print(conceptIds.size() + ",");
             for(String conceptId : conceptIds){
-                if(KB_InstanceFilter.ignoreType(conceptId, distinctTypes.get(conceptId)))
-                    continue;
                 double score = entityAndConceptScorer.score(entityId, conceptId, kbSearcher);
                 tableAnnotation.setScore_entityAndConcept(entityId, conceptId, score);
             }

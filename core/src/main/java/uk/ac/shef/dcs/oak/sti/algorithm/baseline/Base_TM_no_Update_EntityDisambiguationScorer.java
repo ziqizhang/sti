@@ -1,9 +1,9 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.baseline;
 
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.oak.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
 import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
@@ -63,7 +63,7 @@ public class Base_TM_no_Update_EntityDisambiguationScorer {
         List<String[]> facts = candidate.getFacts();
         List<String> bag_of_words_for_entity = new ArrayList<String>();
         for (String[] f : facts) {
-            if (KB_InstanceFilter.ignoreFact_from_bow(f[0]))
+            if (KnowledgeBaseFreebaseFilter.ignoreFactFromBOW(f[0]))
                 continue;
             String value = f[1];
             if (!StringUtils.isPath(value))

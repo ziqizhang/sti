@@ -17,13 +17,13 @@ public abstract class KnowledgeBaseSearcher {
     public abstract List<EntityCandidate> findEntitiesOfTypesForCell(LTableContentCell tcc, String... types) throws IOException;
 
     //get triples for entities
-    public abstract List<String[]> find_triplesForEntity(EntityCandidate ec) throws IOException;
+    public abstract List<String[]> find_triplesForEntity_filtered(EntityCandidate ec) throws IOException;
 
-    public abstract List<String[]> find_triplesForEntity(String entityId) throws IOException;
+    public abstract List<String[]> find_triplesForEntity_filtered(String entityId) throws IOException;
 
-    public abstract List<String[]> find_triplesForConcept(String conceptId) throws IOException;
+    public abstract List<String[]> find_triplesForConcept_filtered(String conceptId) throws IOException;
 
-    public abstract List<String[]> find_triplesForProperty(String propertyId) throws IOException;
+    public abstract List<String[]> find_triplesForProperty_filtered(String propertyId) throws IOException;
 
     public abstract double find_granularityForConcept(String type) throws IOException;
 

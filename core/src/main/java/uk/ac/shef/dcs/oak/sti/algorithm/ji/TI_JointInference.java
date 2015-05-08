@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
 import cc.mallet.grmm.inference.Inferencer;
+import cc.mallet.grmm.inference.LoopyBP;
 import cc.mallet.grmm.inference.ResidualBP;
 import cc.mallet.grmm.types.AssignmentIterator;
 import cc.mallet.grmm.types.Factor;
@@ -103,9 +104,9 @@ public class TI_JointInference {
         System.out.println(">\t RUNNING INFERENCE");
         Inferencer infResidualBP;
         if (maxIteration > 0)
-            infResidualBP = new ResidualBP(maxIteration);
+            infResidualBP = new LoopyBP(maxIteration);
         else
-            infResidualBP = new ResidualBP();
+            infResidualBP = new LoopyBP();
         infResidualBP.computeMarginals(graph);
         System.out.println(">\t COLLECTING MARGINAL PROB AND FINALIZING ANNOTATIONS");
         createFinalAnnotations(graph, graphBuilder, infResidualBP, tab_annotations);
@@ -194,25 +195,28 @@ public class TI_JointInference {
                 Arrays.sort(candidateHeaderAnnotations);
                 tab_annotations.setHeaderAnnotation(position, candidateHeaderAnnotations);
             } else if (varType.equals(FactorGraphBuilder.RELATION_VARIABLE)) {
-                double maxScore=0.0;
+                double maxScore = 0.0;
                 AssignmentIterator it = ptl.assignmentIterator();
-                Key_SubjectCol_ObjectCol direction=null;
+                Key_SubjectCol_ObjectCol direction = null;
                 while (it.hasNext()) {
-                    double score= ptl.value(it);
+                    double score = ptl.value(it);
                     int outcome = it.indexOfCurrentAssn();
                     String assignedId = var.getLabelAlphabet().lookupLabel(outcome).toString();
-                    if(score>maxScore) {
+                    if (score >= maxScore) {
                         maxScore = score;
-                        direction=graphBuilder.getRelationDirection(assignedId);
+                        direction = graphBuilder.getRelationDirection(assignedId);
                     }
                     it.next();
                 }
-                List<HeaderBinaryRelationAnnotation> relationCandidates=
+
+                List<HeaderBinaryRelationAnnotation> relationCandidates =
                         tab_annotations.getRelationAnnotations_across_columns().get(direction);
+
                 tab_annotations.getRelationAnnotations_across_columns().remove(new Key_SubjectCol_ObjectCol(
                         direction.getObjectCol(), direction.getSubjectCol()
                 ));
-                for(HeaderBinaryRelationAnnotation hbr: relationCandidates){
+
+                for (HeaderBinaryRelationAnnotation hbr : relationCandidates) {
                     AssignmentIterator itr = ptl.assignmentIterator();
                     boolean found = false;
                     while (itr.hasNext()) {

@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 import uk.ac.shef.dcs.oak.sti.algorithm.smp.RelationTextMatch_Scorer;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.oak.sti.misc.UtilRelationMatcher;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
@@ -32,6 +32,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                 for (int s = 0; s < subjectCellAnnotations.size(); s++) { //for each candidate subject entity
                     CellAnnotation sbjEntity = subjectCellAnnotations.get(s);
                     List<String[]> sbjEntityFacts = sbjEntity.getAnnotation().getFacts(); //get the facts of that sbj ent
+                    sbjEntityFacts=KnowledgeBaseFreebaseFilter.filterRelations(sbjEntityFacts);
                     Map<Integer, DataTypeClassifier.DataType> fact_data_types = classifyFactObjDataType(
                             sbjEntityFacts
                     );
@@ -44,8 +45,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                     for (int index = 0; index < sbjEntityFacts.size(); index++) {
                         DataTypeClassifier.DataType type_of_fact_value = fact_data_types.get(index);
                         String[] fact = sbjEntityFacts.get(index);
-                        if (!UtilRelationMatcher.isValidType(type_of_fact_value)||
-                                KB_InstanceFilter.ignoreRelation_from_relInterpreter(fact[0])) {
+                        if (!UtilRelationMatcher.isValidType(type_of_fact_value)) {
                             continue;
                         }
                         //match the object cell text
@@ -108,7 +108,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
             if (subjectHeaderColumnCandidates.size() > 0 && UtilRelationMatcher.isValidType(objectColumnDataType)) {
                 for (int s = 0; s < subjectHeaderColumnCandidates.size(); s++) {
                     HeaderAnnotation sbjCandidates = subjectHeaderColumnCandidates.get(s);
-                    List<String[]> sbjCandidateFacts = kbSearcher.find_triplesForConcept(sbjCandidates.getAnnotation_url());
+                    List<String[]> sbjCandidateFacts = kbSearcher.find_triplesForConcept_filtered(sbjCandidates.getAnnotation_url());
                     Map<Integer, DataTypeClassifier.DataType> factObjDataTypes = classifyFactObjDataType(
                             sbjCandidateFacts
                     );
@@ -176,8 +176,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                                  int entityRow, int entityColumn,
                                                  String relationURL,
                                                  double maxScore) {
-        for (String[] type : entity.getAnnotation().getTypes()) {
-            if (!KB_InstanceFilter.ignoreType(type[0], type[1]))
+        for (String[] type : KnowledgeBaseFreebaseFilter.filterTypes(entity.getAnnotation().getTypes())) {
                 tableAnnotation.setScore_conceptAndRelation_instanceEvidence(entityRow,
                         entityColumn, type[0], relationURL, maxScore);
         }
@@ -198,11 +197,11 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                               factIdx_matchedObjHeaderCandidates
     ) {
         //scoring matches for the cell on the row
+        sbjCandidateFacts=KnowledgeBaseFreebaseFilter.filterRelations(sbjCandidateFacts);
         for (int index = 0; index < sbjCandidateFacts.size(); index++) {
             DataTypeClassifier.DataType type_of_fact_value = fact_data_types.get(index);
             String[] fact = sbjCandidateFacts.get(index);
-            if (!UtilRelationMatcher.isValidType(type_of_fact_value)||
-                    KB_InstanceFilter.ignoreRelation_from_relInterpreter(fact[0])) {
+            if (!UtilRelationMatcher.isValidType(type_of_fact_value)) {
                 continue;
             }
             //use only the fact's obj (text) to compare against the header's text

@@ -204,7 +204,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
                                 String answer = appendBestAnswer(tableminer_answer);
                                 if (answer.equals("null")) {
                                 } else {
-                                    answer = answer + "|" + extractName(searcher.find_triplesForEntity(new EntityCandidate(answer, answer)));
+                                    answer = answer + "|" + extractName(searcher.find_triplesForEntity_filtered(new EntityCandidate(answer, answer)));
                                 }
                                 line.append(answer).append("\t");
                                 line.append("\tbs=");
@@ -212,7 +212,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
                                 answer = appendBestAnswer(baseline_answer);
                                 if (answer.equals("null")) {
                                 } else {
-                                    answer = answer + "|" + extractName(searcher.find_triplesForEntity(new EntityCandidate(answer, answer)));
+                                    answer = answer + "|" + extractName(searcher.find_triplesForEntity_filtered(new EntityCandidate(answer, answer)));
                                 }
                                 line.append(answer);
                             }

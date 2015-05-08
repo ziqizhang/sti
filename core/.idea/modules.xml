@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/../common-util/common-util.iml" filepath="$PROJECT_DIR$/../common-util/common-util.iml" />
       <module fileurl="file://$PROJECT_DIR$/core.iml" filepath="$PROJECT_DIR$/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/../any23-sti/lodie-any23.iml" filepath="$PROJECT_DIR$/../any23-sti/lodie-any23.iml" />
-      <module fileurl="file://E:/powerlaws/trunk/powerlaws/powerlaws.iml" filepath="E:/powerlaws/trunk/powerlaws/powerlaws.iml" />
       <module fileurl="file://$PROJECT_DIR$/../triplesearch/triplesearch.iml" filepath="$PROJECT_DIR$/../triplesearch/triplesearch.iml" />
       <module fileurl="file://$PROJECT_DIR$/../websearch/websearch.iml" filepath="$PROJECT_DIR$/../websearch/websearch.iml" />
     </modules>

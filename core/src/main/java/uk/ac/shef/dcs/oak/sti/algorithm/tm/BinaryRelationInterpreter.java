@@ -1,9 +1,8 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 
 import java.util.*;
@@ -56,7 +55,7 @@ public class BinaryRelationInterpreter {
             /*if(final_annotation.getAnnotation().getId().equals("/m/0nlpl"))
                 System.out.println();*/
             List<String[]> facts = /*candidateFinder.find_triplesForEntity(final_annotation.getAnnotation())*/final_annotation.getAnnotation().getFacts();
-            removeIgnoreRelations(facts);
+            facts=KnowledgeBaseFreebaseFilter.filterRelations(facts);
             Map<Integer, String> values_to_match_on_the_row = new HashMap<Integer, String>();
             for (int col : colTypes.keySet()) {
                 if (col != sub_column) {
@@ -134,17 +133,5 @@ public class BinaryRelationInterpreter {
         return annotations.getRelationAnnotations_per_row().size();
 
     }
-
-    private void removeIgnoreRelations(List<String[]> facts) {
-        Iterator<String[]> it = facts.iterator();
-        while (it.hasNext()) {
-            String[] fact = it.next();
-            if(!TableMinerConstants.USE_NESTED_RELATION_FOR_RELATION_INTERPRETATION && fact[3].equals("y"))
-                it.remove();
-            else if (KB_InstanceFilter.ignoreRelation_from_relInterpreter(fact[0]))
-                it.remove();
-        }
-    }
-
 
 }

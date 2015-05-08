@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 import cc.mallet.grmm.types.*;
 import cc.mallet.grmm.types.Variable;
 import cc.mallet.types.LabelAlphabet;
-import uk.ac.shef.dcs.oak.sti.misc.KB_InstanceFilter;
+import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 
 import java.util.*;
@@ -13,9 +13,9 @@ import java.util.*;
  */
 public class FactorGraphBuilder {
 
-    protected static final String CELL_VARIABLE="cell";
-    protected static final String HEADER_VARIABLE="header";
-    protected static final String RELATION_VARIABLE="relation";
+    protected static final String CELL_VARIABLE = "cell";
+    protected static final String HEADER_VARIABLE = "header";
+    protected static final String RELATION_VARIABLE = "relation";
     private Map<Variable, String> typeOfVariable = new HashMap<Variable, String>();
     private Map<Variable, int[]> cellVarOutcomePosition = new HashMap<Variable, int[]>();
     private Map<Variable, Integer> headerVarOutcomePosition = new HashMap<Variable, Integer>();
@@ -37,7 +37,7 @@ public class FactorGraphBuilder {
                 columnHeaders,
                 annotation,
                 graph
-                );
+        );
 
         //relation and entity pairs
         addRelationAndCellFactors(
@@ -66,39 +66,42 @@ public class FactorGraphBuilder {
                 int column1 = relation_direction.getSubjectCol();
                 int column2 = relation_direction.getObjectCol();
 
-                Variable relationVariable = relationVariables.get(column1+","+ column2);
+                Variable relationVariable = relationVariables.get(column1 + "," + column2);
                 if (relationVariable == null)
-                    relationVariable = relationVariables.get(column2+","+ column1);
-                if(relationVariable==null)
+                    relationVariable = relationVariables.get(column2 + "," + column1);
+                if (relationVariable == null)
                     continue;//this should not happen
-                Variable cellVariable1 = cellVariables.get(row+","+ column1);
-                Variable cellVariable2 = cellVariables.get(row+","+ column2);
+                Variable cellVariable1 = cellVariables.get(row + "," + column1);
+                Variable cellVariable2 = cellVariables.get(row + "," + column2);
 
-                double[] potential1 = new double[cellVariable1.getNumOutcomes() * relationVariable.getNumOutcomes()];
-                for (int i = 0; i < cellVariable1.getNumOutcomes(); i++) {
-                    for (int j = 0; j < relationVariable.getNumOutcomes(); j++) {
-                        String cellAnnotationId = cellVariable1.getLabelAlphabet().lookupLabel(i).toString();
-                        String relationURL = relationVariable.getLabelAlphabet().lookupLabel(j).toString();
-                        double score = annotation.getScore_entityAndRelation(cellAnnotationId, relationURL);
-                        potential1[i + j] = score;
+                if (cellVariable1 != null) {
+                    double[] potential1 = new double[cellVariable1.getNumOutcomes() * relationVariable.getNumOutcomes()];
+                    for (int i = 0; i < cellVariable1.getNumOutcomes(); i++) {
+                        for (int j = 0; j < relationVariable.getNumOutcomes(); j++) {
+                            String cellAnnotationId = cellVariable1.getLabelAlphabet().lookupLabel(i).toString();
+                            String relationURL = relationVariable.getLabelAlphabet().lookupLabel(j).toString();
+                            double score = annotation.getScore_entityAndRelation(cellAnnotationId, relationURL);
+                            potential1[i + j] = score;
+                        }
                     }
+                    VarSet varSet1 = new HashVarSet(new Variable[]{cellVariable1, relationVariable});
+                    TableFactor factor1 = new TableFactor(varSet1, potential1);
+                    graph.addFactor(factor1);
                 }
-                VarSet varSet1 = new HashVarSet(new Variable[]{cellVariable1, relationVariable});
-                TableFactor factor1 = new TableFactor(varSet1, potential1);
-                graph.addFactor(factor1);
-
-                double[] potential2 = new double[cellVariable2.getNumOutcomes() * relationVariable.getNumOutcomes()];
-                for (int i = 0; i < cellVariable2.getNumOutcomes(); i++) {
-                    for (int j = 0; j < relationVariable.getNumOutcomes(); j++) {
-                        String cellAnnotationId = cellVariable2.getLabelAlphabet().lookupLabel(i).toString();
-                        String relationURL = relationVariable.getLabelAlphabet().lookupLabel(j).toString();
-                        double score = annotation.getScore_entityAndRelation(cellAnnotationId, relationURL);
-                        potential1[i + j] = score;
+                if (cellVariable2 != null) {
+                    double[] potential2 = new double[cellVariable2.getNumOutcomes() * relationVariable.getNumOutcomes()];
+                    for (int i = 0; i < cellVariable2.getNumOutcomes(); i++) {
+                        for (int j = 0; j < relationVariable.getNumOutcomes(); j++) {
+                            String cellAnnotationId = cellVariable2.getLabelAlphabet().lookupLabel(i).toString();
+                            String relationURL = relationVariable.getLabelAlphabet().lookupLabel(j).toString();
+                            double score = annotation.getScore_entityAndRelation(cellAnnotationId, relationURL);
+                            potential2[i + j] = score;
+                        }
                     }
+                    VarSet varSet2 = new HashVarSet(new Variable[]{cellVariable2, relationVariable});
+                    TableFactor factor2 = new TableFactor(varSet2, potential2);
+                    graph.addFactor(factor2);
                 }
-                VarSet varSet2 = new HashVarSet(new Variable[]{cellVariable2, relationVariable});
-                TableFactor factor2 = new TableFactor(varSet2, potential2);
-                graph.addFactor(factor2);
             }
         }
     }
@@ -149,18 +152,18 @@ public class FactorGraphBuilder {
                     String header_concept_url = column1_header_variable.getLabelAlphabet().lookupLabel(c).toString();
                     double score = annotation.getScore_conceptAndRelation(header_concept_url, hbr.getAnnotation_url());
                     if (score > 0)
-                        affinity_scores_column1_and_relation.put(c+","+ index_relation, score);
+                        affinity_scores_column1_and_relation.put(c + "," + index_relation, score);
                 }
                 for (int c = 0; c < column2_header_variable.getNumOutcomes(); c++) {
                     String header_concept_url = column2_header_variable.getLabelAlphabet().lookupLabel(c).toString();
                     double score = annotation.getScore_conceptAndRelation(header_concept_url, hbr.getAnnotation_url());
                     if (score > 0)
-                        affinity_scores_column2_and_relation.put(c+","+ index_relation, score);
+                        affinity_scores_column2_and_relation.put(c + "," + index_relation, score);
                 }
             }
             Variable relationVariable = new Variable(candidateIndex_relation);
             typeOfVariable.put(relationVariable, RELATION_VARIABLE);
-            result.put(relation_direction.getSubjectCol()+","+
+            result.put(relation_direction.getSubjectCol() + "," +
                     relation_direction.getObjectCol(), relationVariable);
 
             //create potentials
@@ -190,7 +193,7 @@ public class FactorGraphBuilder {
                 if (candidateEntityAnnotations.length == 0)
                     continue;
 
-                Variable cellVar = cellVariables.get(row+","+ col);
+                Variable cellVar = cellVariables.get(row + "," + col);
                 Variable headerVar = headerVariables.get(col);
 
                 Map<String, Double> affinity_values_between_variable_outcomes = new HashMap<String, Double>();
@@ -200,15 +203,13 @@ public class FactorGraphBuilder {
                     String entId = ca.getAnnotation().getId();
                     int cellVarOutcomeIndex = cellVar.getLabelAlphabet().lookupIndex(entId, false);
                     if (cellVarOutcomeIndex < 0) continue;
-                    for (String type : ca.getAnnotation().getTypeIds()) {
-                        if (KB_InstanceFilter.ignoreType(type, type))
-                            continue;
-                        int headerVarOutcomeIndex = headerVar.getLabelAlphabet().lookupIndex(type, false);
+                    for (String[] type : KnowledgeBaseFreebaseFilter.filterTypes(ca.getAnnotation().getTypes())) {
+                        int headerVarOutcomeIndex = headerVar.getLabelAlphabet().lookupIndex(type[0], false);
                         if (headerVarOutcomeIndex < 0) continue;
 
                         affinity_values_between_variable_outcomes.put(
-                                cellVarOutcomeIndex+","+ headerVarOutcomeIndex,
-                                annotation.getScore_entityAndConcept(entId, type));
+                                cellVarOutcomeIndex + "," + headerVarOutcomeIndex,
+                                annotation.getScore_entityAndConcept(entId, type[0]));
 
                     }
                 }
@@ -240,7 +241,7 @@ public class FactorGraphBuilder {
         double[] res = new double[dimensionFirstVar * dimensionSecondVar];
         for (int first = 0; first < dimensionFirstVar; first++) {
             for (int second = 0; second < dimensionSecondVar; second++) {
-                String key = first+","+second;
+                String key = first + "," + second;
                 Double affinity = affinity_values_between_variable_outcomes.get(key);
 
                 if (affinity == null)
@@ -277,7 +278,7 @@ public class FactorGraphBuilder {
 
                 TableFactor factor = new TableFactor(variable_cell, potential);
                 graph.addFactor(factor);
-                variables.put(row+","+col, variable_cell);
+                variables.put(row + "," + col, variable_cell);
             }
         }
         return variables;
@@ -314,11 +315,11 @@ public class FactorGraphBuilder {
         return variables;
     }
 
-    public String getTypeOfVariable(Variable variable){
+    public String getTypeOfVariable(Variable variable) {
         return typeOfVariable.get(variable);
     }
 
-    public int[] getCellPosition(Variable variable){
+    public int[] getCellPosition(Variable variable) {
         return cellVarOutcomePosition.get(variable);
     }
 
@@ -326,7 +327,7 @@ public class FactorGraphBuilder {
         return headerVarOutcomePosition.get(variable);
     }
 
-    public Key_SubjectCol_ObjectCol getRelationDirection(String varOutcomeLabel){
+    public Key_SubjectCol_ObjectCol getRelationDirection(String varOutcomeLabel) {
         return relationVarOutcomeDirection.get(varOutcomeLabel);
     }
 }

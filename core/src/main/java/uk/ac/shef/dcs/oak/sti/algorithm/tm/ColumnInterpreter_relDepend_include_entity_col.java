@@ -439,7 +439,7 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
             else
                 System.out.println("\t>>> Row "+ row+ "(apply OSPD)");
             for (ObjObj<String, String> entity : entities) {
-                List<String[]> candidate_types = find_typesOfEntity(entity.getMainObject());
+                List<String[]> candidate_types = fbSearcher.find_typesForEntity_filtered(entity.getMainObject());
 
                 if (!use_only_typing_candidates_from_relations_with_main_col)
                     initialize_candidate_header_typings(
@@ -533,17 +533,6 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
             ha = ha == null ? new HeaderAnnotation(headerText, url, label, 0.0) : ha;
             contribution_from_cells.put(url, ha);
         }
-    }
-
-    private List<String[]> find_typesOfEntity(String entity_id) throws IOException {
-        List<String[]> types = new ArrayList<String[]>();
-        List<String[]> facts = fbSearcher.find_typesForEntity(entity_id);
-        for (String[] f : facts) {
-            String type = f[2]; //this is the id of the type
-            types.add(new String[]{type, f[1]});
-
-        }
-        return types;
     }
 
     public boolean ignoreColumn(Integer i) {
