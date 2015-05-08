@@ -241,8 +241,6 @@ public class DataStats_TableSize_NameLength_Anaylsis_LimayeOld {
             rows_col_with_ne_Printer.println
                     (dataRowAnnotations.size()+","+columns_with_annotated_entities.size());
         }
-        //todo: read relation annotation
-
 
         return table;
     }

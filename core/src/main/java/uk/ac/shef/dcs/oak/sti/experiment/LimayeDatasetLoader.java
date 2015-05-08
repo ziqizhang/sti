@@ -29,7 +29,6 @@ import java.util.List;
  * Date: 27/02/13
  * Time: 14:32
  */
-//todo: debug this class
 public class LimayeDatasetLoader {
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
@@ -229,9 +228,6 @@ public class LimayeDatasetLoader {
 
         }
         }
-        //todo: read relation annotation
-
-
         return table;
     }
 

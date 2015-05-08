@@ -643,7 +643,7 @@ public class GSBuilder_Limaye_Wikitables {
         int tableCount = 0;
         List<Node> tables = DomUtils.findAll(doc, /*"//TABLE[@class='wikitable']"*/"//TABLE");
         if (tables.size() > 0)
-            tableNodes.addAll(tables); //todo: change to allow fuzzy match "wikitableSortable"
+            tableNodes.addAll(tables);
         /*  if (tables.size() > 0)
         tableNodes.addAll(tables);*/
 

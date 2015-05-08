@@ -7,7 +7,6 @@ import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 import java.util.*;
 
 /**
- * todo: how to select rows for interpreting main subject column of a table?
  */
 public class LTableContentRow_Sampler_nonEmpty extends RowSelector {
     @Override

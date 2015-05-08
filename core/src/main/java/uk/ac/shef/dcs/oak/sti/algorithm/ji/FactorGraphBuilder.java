@@ -33,13 +33,11 @@ public class FactorGraphBuilder {
                 annotation,
                 graph);
         //relation and pair of column types
-        Map<String, Key_SubjectCol_ObjectCol> relationString_and_direction =
-                new HashMap<String, Key_SubjectCol_ObjectCol>();
         Map<String, Variable> relations = addRelationAndHeaderFactors(
                 columnHeaders,
                 annotation,
-                graph,
-                relationString_and_direction);
+                graph
+                );
 
         //relation and entity pairs
         addRelationAndCellFactors(
@@ -68,9 +66,11 @@ public class FactorGraphBuilder {
                 int column1 = relation_direction.getSubjectCol();
                 int column2 = relation_direction.getObjectCol();
 
-                Variable relationVariable = relationVariables.get(new int[]{column1, column2});
+                Variable relationVariable = relationVariables.get(column1+","+ column2);
                 if (relationVariable == null)
-                    relationVariable = relationVariables.get(new int[]{column2, column1});
+                    relationVariable = relationVariables.get(column2+","+ column1);
+                if(relationVariable==null)
+                    continue;//this should not happen
                 Variable cellVariable1 = cellVariables.get(row+","+ column1);
                 Variable cellVariable2 = cellVariables.get(row+","+ column2);
 
@@ -106,9 +106,8 @@ public class FactorGraphBuilder {
     private Map<String, Variable> addRelationAndHeaderFactors(
             Map<Integer, Variable> columnHeaders,
             LTableAnnotation_JI_Freebase annotation,
-            FactorGraph graph,
-            Map<String, Key_SubjectCol_ObjectCol> reltaionString_and_direction) {
-        Map<String, Variable> result = new HashMap<String, Variable>();
+            FactorGraph graph) {
+        Map<String, Variable> result = new HashMap<String, Variable>(); //for each pair of col, will only have 1 key stored, both both directional keys are processed
 
         Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>>
                 candidateRelations = annotation.getRelationAnnotations_across_columns();
@@ -146,7 +145,6 @@ public class FactorGraphBuilder {
 
                 relationVarOutcomeDirection.put(hbr.getAnnotation_url(), hbr.getSubject_object_key());
 
-                reltaionString_and_direction.put(hbr.getAnnotation_url(), hbr.getSubject_object_key());
                 for (int c = 0; c < column1_header_variable.getNumOutcomes(); c++) {
                     String header_concept_url = column1_header_variable.getLabelAlphabet().lookupLabel(c).toString();
                     double score = annotation.getScore_conceptAndRelation(header_concept_url, hbr.getAnnotation_url());

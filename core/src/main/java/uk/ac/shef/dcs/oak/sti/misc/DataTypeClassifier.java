@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * //todo: test this class
  */
 public class DataTypeClassifier implements Serializable {
     private static List<String> MONTHS = new ArrayList<String>(
