@@ -3,6 +3,7 @@ package uk.ac.shef.dcs.oak.sti.algorithm.smp;
 import cern.colt.matrix.ObjectMatrix2D;
 import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.Key_SubjectCol_ObjectCol;
+import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.oak.sti.util.SubsetGenerator;
 
@@ -147,7 +148,8 @@ public class CellAnnotationUpdater {
     //value-list of indexes of satisfied messages by this CellAnnotation.
     private List<Integer> select(Map<Integer, List<Integer>> annotation_satisfies_messages,
                                  List<String> messagePreferencesSorted,
-                                 CellAnnotation[] candidateAnnotationsInCell) {
+                                 CellAnnotation[] candidateAnnotationsInCell
+                                 ) {
         int bestPreferenceIndex = Integer.MAX_VALUE;
         List<Integer> bestAnnotations = new ArrayList<Integer>();
         if (annotation_satisfies_messages.size() == 0)
@@ -206,10 +208,31 @@ public class CellAnnotationUpdater {
     //to update cell's annotation, we need to select the one that satisfies most "change" messages sent from different
     //factors. Here we compute different combinations of satisfied "change" messages ranked by preference (see Mulwad's papge
     // on page 12
-    private List<String> createSortedPreferenceKeys(int totalMessages) {
+    /*private List<String> createSortedPreferenceKeys(int totalMessages) {
         Set<String> in = new HashSet<String>(totalMessages);
         for (int i = 0; i < totalMessages; i++) {
             in.add(String.valueOf(i));
+        }
+        List<String> rs = SubsetGenerator.generateSubsets(in);
+        Collections.sort(rs, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                Integer length1 = o1.length();
+                Integer length2 = o2.length();
+                int compare = length2.compareTo(length1);
+                if (compare == 0) {
+                    return o1.compareTo(o2);
+                } else
+                    return compare;
+            }
+        });
+        return rs;
+    }*/
+
+    private List<String> createSortedPreferenceKeys(int totalMessages) {
+        Set<Integer> in = new HashSet<Integer>(totalMessages);
+        for (int i = 0; i < totalMessages; i++) {
+            in.add(i);
         }
         List<String> rs = SubsetGenerator.generateSubsets(in);
         Collections.sort(rs, new Comparator<String>() {
