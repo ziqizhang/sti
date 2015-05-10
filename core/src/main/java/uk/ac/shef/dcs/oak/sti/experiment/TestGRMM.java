@@ -39,7 +39,7 @@ public class TestGRMM {
         //create a variable that takes the two possible values
         Variable var_header_city = new Variable(header_city);    //0
         /*prior prob of seeing each value of varHeaderCity in the KB*/
-        double[] potential1 = new double[]{2.65, 1.35};  //meaning prob of seeing the first value (city) is 0.65; prob of the 2nd (citi_group) is0.35
+        double[] potential1 = new double[]{0, 0};  //meaning prob of seeing the first value (city) is 0.65; prob of the 2nd (citi_group) is0.35
         TableFactor f1 = new TableFactor(var_header_city, potential1);
         mdl.addFactor(f1);
 
@@ -47,7 +47,7 @@ public class TestGRMM {
         header_mayor.lookupIndex("dbpedia-owl:Mayor");
         header_mayor.lookupIndex("dbpedia-owl:Mayor_Surname");
         Variable var_header_mayor = new Variable(header_mayor);   //1
-        double[] potential2 = new double[]{1.75, 0.25};
+        double[] potential2 = new double[]{1.75, 0};
         TableFactor f2 = new TableFactor(var_header_mayor, potential2);
         mdl.addFactor(f2);
 

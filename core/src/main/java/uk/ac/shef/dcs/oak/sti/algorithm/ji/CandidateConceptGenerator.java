@@ -42,7 +42,7 @@ public class CandidateConceptGenerator {
                         List<String> conceptURLs = entityId_and_conceptURLs.get(e.getId());
                         if(conceptURLs==null)
                             conceptURLs=new ArrayList<String>();
-                        if(!conceptURLs.contains(type))
+                        if(!conceptURLs.contains(url))
                             conceptURLs.add(url);
                         entityId_and_conceptURLs.put(e.getId(), conceptURLs);
                     }

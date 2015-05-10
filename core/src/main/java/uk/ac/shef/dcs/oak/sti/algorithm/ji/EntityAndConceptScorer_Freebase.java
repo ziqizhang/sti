@@ -81,6 +81,8 @@ public class EntityAndConceptScorer_Freebase {
 
     private double computeConceptSpecificity(String concept_url, KnowledgeBaseSearcher kbSearcher) throws IOException {
         double conceptGranularity = kbSearcher.find_granularityForConcept(concept_url);
+        if(conceptGranularity<0)
+            return 0.0;
         return 1-Math.sqrt(conceptGranularity/FREEBASE_TOTAL_TOPICS);
     }
 }

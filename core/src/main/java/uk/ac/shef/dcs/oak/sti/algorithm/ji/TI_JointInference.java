@@ -15,6 +15,7 @@ import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -101,6 +102,13 @@ public class TI_JointInference {
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t BUILDING FACTOR GRAPH");
         FactorGraph graph = graphBuilder.build(tab_annotations, table);
+
+        //================debug
+        PrintWriter p = new PrintWriter("D:\\Work\\sti/graph.txt");
+        graph.dump(p);
+        p.close();
+        //===============debug
+
         System.out.println(">\t RUNNING INFERENCE");
         Inferencer infResidualBP;
         if (maxIteration > 0)

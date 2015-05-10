@@ -33,20 +33,19 @@ public class FactorGraphBuilder {
                 annotation,
                 graph);
         //relation and pair of column types
-        /*Map<String, Variable> relations = addRelationAndHeaderFactors(
+        Map<String, Variable> relations = addRelationAndHeaderFactors(
                 columnHeaders,
                 annotation,
                 graph
         );
 
         //relation and entity pairs
-        addRelationAndCellFactors(
+        /*addRelationAndCellFactors(
                 relations,
                 cellAnnotations,
                 annotation,
                 graph
-        );
-*/
+        );*/
         return graph;
     }
 
@@ -81,12 +80,14 @@ public class FactorGraphBuilder {
                             String cellAnnotationId = cellVariable1.getLabelAlphabet().lookupLabel(i).toString();
                             String relationURL = relationVariable.getLabelAlphabet().lookupLabel(j).toString();
                             double score = annotation.getScore_entityAndRelation(cellAnnotationId, relationURL);
-                            potential1[i + j] = score;
+                            potential1[i*relationVariable.getNumOutcomes() + j] = score;
                         }
                     }
-                    VarSet varSet1 = new HashVarSet(new Variable[]{cellVariable1, relationVariable});
-                    TableFactor factor1 = new TableFactor(varSet1, potential1);
-                    graph.addFactor(factor1);
+                    if(isValidPotential(potential1,"cell-relation("+cellVariable1.getLabel()+"),"+relationVariable.getLabel())) {
+                        VarSet varSet1 = new HashVarSet(new Variable[]{cellVariable1, relationVariable});
+                        TableFactor factor1 = new TableFactor(varSet1, potential1);
+                        graph.addFactor(factor1);
+                    }
                 }
                 if (cellVariable2 != null) {
                     double[] potential2 = new double[cellVariable2.getNumOutcomes() * relationVariable.getNumOutcomes()];
@@ -95,12 +96,14 @@ public class FactorGraphBuilder {
                             String cellAnnotationId = cellVariable2.getLabelAlphabet().lookupLabel(i).toString();
                             String relationURL = relationVariable.getLabelAlphabet().lookupLabel(j).toString();
                             double score = annotation.getScore_entityAndRelation(cellAnnotationId, relationURL);
-                            potential2[i + j] = score;
+                            potential2[i*relationVariable.getNumOutcomes() + j] = score;
                         }
                     }
-                    VarSet varSet2 = new HashVarSet(new Variable[]{cellVariable2, relationVariable});
-                    TableFactor factor2 = new TableFactor(varSet2, potential2);
-                    graph.addFactor(factor2);
+                    if(isValidPotential(potential2, "cell-relation("+cellVariable2.getLabel()+"),"+relationVariable.getLabel())) {
+                        VarSet varSet2 = new HashVarSet(new Variable[]{cellVariable2, relationVariable});
+                        TableFactor factor2 = new TableFactor(varSet2, potential2);
+                        graph.addFactor(factor2);
+                    }
                 }
             }
         }
@@ -175,16 +178,20 @@ public class FactorGraphBuilder {
             if(column1_header_variable!=null) {
                 double[] potential1 = computePotential(affinity_scores_column1_and_relation, column1_header_variable,
                         relationVariable);
-                VarSet varSet1 = new HashVarSet(new Variable[]{column1_header_variable, relationVariable});
-                TableFactor factor1 = new TableFactor(varSet1, potential1);
-                graph.addFactor(factor1);
+                if(isValidPotential(potential1,"header-relation("+column1_header_variable.getLabel()+"),"+relationVariable.getLabel())) {
+                    VarSet varSet1 = new HashVarSet(new Variable[]{column1_header_variable, relationVariable});
+                    TableFactor factor1 = new TableFactor(varSet1, potential1);
+                    graph.addFactor(factor1);
+                }
             }
             if(column2_header_variable!=null) {
                 double[] potential2 = computePotential(affinity_scores_column2_and_relation, column2_header_variable,
                         relationVariable);
-                VarSet varSet2 = new HashVarSet(new Variable[]{column2_header_variable, relationVariable});
-                TableFactor factor2 = new TableFactor(varSet2, potential2);
-                graph.addFactor(factor2);
+                if(isValidPotential(potential2,"header-relation("+column2_header_variable.getLabel()+"),"+relationVariable.getLabel())) {
+                    VarSet varSet2 = new HashVarSet(new Variable[]{column2_header_variable, relationVariable});
+                    TableFactor factor2 = new TableFactor(varSet2, potential2);
+                    graph.addFactor(factor2);
+                }
             }
         }
         return result;
@@ -224,39 +231,14 @@ public class FactorGraphBuilder {
                 if (affinity_values_between_variable_outcomes.size() > 0) {
                     double[] potential = computePotential(affinity_values_between_variable_outcomes,
                             cellVar, headerVar);
-                    VarSet varSet = new HashVarSet(new Variable[]{cellVar, headerVar});
-                    TableFactor factor = new TableFactor(varSet, potential);
-                    graph.addFactor(factor);
+                    if(isValidPotential(potential,"cell-header("+cellVar.getLabel()+"),"+headerVar.getLabel())) {
+                        VarSet varSet = new HashVarSet(new Variable[]{cellVar, headerVar});
+                        TableFactor factor = new TableFactor(varSet, potential);
+                        graph.addFactor(factor);
+                    }
                 }
             }
         }
-    }
-
-    /**
-     * @param affinity_values_between_variable_outcomes in the key, the first element (int) must correspond to the index in cellVar; the second must
-     *                                                  correpsond to the index in headerVar
-     * @param firstVar
-     * @param secondVar
-     * @return
-     */
-    private double[] computePotential(
-            Map<String, Double> affinity_values_between_variable_outcomes,
-            Variable firstVar,
-            Variable secondVar) {
-        int dimensionFirstVar = firstVar.getNumOutcomes();
-        int dimensionSecondVar = secondVar.getNumOutcomes();
-        double[] res = new double[dimensionFirstVar * dimensionSecondVar];
-        for (int first = 0; first < dimensionFirstVar; first++) {
-            for (int second = 0; second < dimensionSecondVar; second++) {
-                String key = first + "," + second;
-                Double affinity = affinity_values_between_variable_outcomes.get(key);
-
-                if (affinity == null)
-                    affinity = 0.0;
-                res[first + second] = affinity;
-            }
-        }
-        return res;
     }
 
     private Map<String, Variable> addCellAnnotationFactors(LTableAnnotation annotation, FactorGraph graph) {
@@ -283,9 +265,11 @@ public class FactorGraphBuilder {
                 typeOfVariable.put(variable_cell, CELL_VARIABLE);
                 cellVarOutcomePosition.put(variable_cell, new int[]{row, col});
 
-                TableFactor factor = new TableFactor(variable_cell, potential);
-                graph.addFactor(factor);
-                variables.put(row + "," + col, variable_cell);
+                if(isValidPotential(potential,"cell("+variable_cell.getLabel()+")")) {
+                    TableFactor factor = new TableFactor(variable_cell, potential);
+                    graph.addFactor(factor);
+                    variables.put(row + "," + col, variable_cell);
+                }
             }
         }
         return variables;
@@ -315,9 +299,12 @@ public class FactorGraphBuilder {
             variable_header.setLabel(HEADER_VARIABLE+"."+headerPosition);
             typeOfVariable.put(variable_header, HEADER_VARIABLE);
             headerVarOutcomePosition.put(variable_header, col);
-            TableFactor factor = new TableFactor(variable_header, potential);
-            graph.addFactor(factor);
-            variables.put(col, variable_header);
+
+            if(isValidPotential(potential,"header "+variable_header.getLabel())) {
+                TableFactor factor = new TableFactor(variable_header, potential);
+                graph.addFactor(factor);
+                variables.put(col, variable_header);
+            }
         }
         return variables;
     }
@@ -337,5 +324,45 @@ public class FactorGraphBuilder {
     public Key_SubjectCol_ObjectCol getRelationDirection(String varOutcomeLabel) {
         return relationVarOutcomeDirection.get(varOutcomeLabel);
     }
+
+    private boolean isValidPotential(double[] potential1, String note) {
+        int countZero=0;
+        for(int i=0; i<potential1.length; i++){
+            if(potential1[i]==0)
+                countZero++;
+        }
+        System.out.println(note+":"+countZero+"/"+potential1.length);
+        if(countZero==potential1.length)
+            return false;
+        return true;
+    }
+
+    /**
+     * @param affinity_values_between_variable_outcomes in the key, the first element (int) must correspond to the index in cellVar; the second must
+     *                                                  correpsond to the index in headerVar
+     * @param firstVar
+     * @param secondVar
+     * @return
+     */
+    private double[] computePotential(
+            Map<String, Double> affinity_values_between_variable_outcomes,
+            Variable firstVar,
+            Variable secondVar) {
+        int dimensionFirstVar = firstVar.getNumOutcomes();
+        int dimensionSecondVar = secondVar.getNumOutcomes();
+        double[] res = new double[dimensionFirstVar * dimensionSecondVar];
+        for (int first = 0; first < dimensionFirstVar; first++) {
+            for (int second = 0; second < dimensionSecondVar; second++) {
+                String key = first + "," + second;
+                Double affinity = affinity_values_between_variable_outcomes.get(key);
+
+                if (affinity == null)
+                    affinity = 0.0;
+                res[first*dimensionSecondVar + second] = affinity;
+            }
+        }
+        return res;
+    }
+
 }
 
