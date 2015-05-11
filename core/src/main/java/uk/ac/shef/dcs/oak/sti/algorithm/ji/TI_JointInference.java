@@ -104,6 +104,7 @@ public class TI_JointInference {
         FactorGraph graph = graphBuilder.build(tab_annotations, table);
 
         //================debug
+        graphBuilder.dumpCheckVariableOutcomeUsage();
         PrintWriter p = new PrintWriter("D:\\Work\\sti/graph.txt");
         graph.dump(p);
         p.close();
@@ -118,6 +119,8 @@ public class TI_JointInference {
         infResidualBP.computeMarginals(graph);
         System.out.println(">\t COLLECTING MARGINAL PROB AND FINALIZING ANNOTATIONS");
         createFinalAnnotations(graph, graphBuilder, infResidualBP, tab_annotations);
+
+
         return tab_annotations;
     }
 

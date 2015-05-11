@@ -101,6 +101,36 @@ public class CandidateRelationGenerator {
             }
         }
         System.out.println(")");
+
+        //further, update entity-relation scores, to account for 1:n relations
+        for (int subjectColumn : subjectColumnsToConsider) {  //choose a column to be subject column (must be NE column)
+            if (!table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+                continue;
+
+            for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
+                if (subjectColumn == objectColumn)
+                    continue;
+                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType();
+                if (columnDataType.equals(DataTypeClassifier.DataType.EMPTY) || columnDataType.equals(DataTypeClassifier.DataType.LONG_TEXT) ||
+                        columnDataType.equals(DataTypeClassifier.DataType.ORDERED_NUMBER))
+                    continue;
+                System.out.print("("+subjectColumn + "-" + objectColumn + ",");
+                for (int r = 0; r < table.getNumRows(); r++) {
+                    //in JI, all candidate NEs (the disambiguated NE) is needed from each cell to aggregate candidate relation
+                    CellAnnotation[] subjectCells = tableAnnotations.getContentCellAnnotations(r, subjectColumn);
+
+                    //matches obj of facts of subject entities against object cell text and candidate entity labels.
+                    //also create evidence for entity-relation, concept-relation
+                    matcher.match_sbjCellsAndRelation(
+                            Arrays.asList(subjectCells),
+                            subjectColumn,
+                            objectColumn,
+                            colTypes.get(objectColumn),
+                            tableAnnotations);
+                }
+            }
+        }
+        System.out.println(")");
     }
 
     private void aggregate(
