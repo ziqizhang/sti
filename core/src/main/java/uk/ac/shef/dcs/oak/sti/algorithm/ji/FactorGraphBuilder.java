@@ -42,12 +42,12 @@ public class FactorGraphBuilder {
         );
 
         //relation and entity pairs
-        /*addRelationAndCellFactors(
+        addRelationAndCellFactors(
                 relations,
                 cellAnnotations,
                 annotation,
                 graph
-        );*/
+        );
         return graph;
     }
 
@@ -97,6 +97,8 @@ public class FactorGraphBuilder {
                 for (int j = 0; j < relationVar.getNumOutcomes(); j++) {
                     String rel = relationVar.getLabelAlphabet().lookupLabel(j).toString();
                     double score = annotation.getScore_entityAndRelation(sbj, rel);
+                    if(score==0)
+                        score=Math.pow(10.0,-12);
                     if (score > 0) {
                         affinity_scores.put(i + "," + j, score);
                     }
@@ -429,7 +431,7 @@ public class FactorGraphBuilder {
             if (potential1[i] == 0)
                 countZero++;
         }
-        System.out.println(note + ":" + countZero + "/" + potential1.length);
+        //System.out.println(note + ":" + countZero + "/" + potential1.length);
         if (countZero == potential1.length)
             return false;
         return true;

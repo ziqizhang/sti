@@ -118,7 +118,9 @@ public class TI_JointInference {
             infResidualBP = new LoopyBP();
         infResidualBP.computeMarginals(graph);
         System.out.println(">\t COLLECTING MARGINAL PROB AND FINALIZING ANNOTATIONS");
-        createFinalAnnotations(graph, graphBuilder, infResidualBP, tab_annotations);
+        boolean success=createFinalAnnotations(graph, graphBuilder, infResidualBP, tab_annotations);
+        if(!success)
+            System.err.println("-----------------------invalid marginals!!!");
 
 
         return tab_annotations;
@@ -144,7 +146,7 @@ public class TI_JointInference {
         relationGenerator.generateCandidateRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumns);
     }
 
-    private void createFinalAnnotations(FactorGraph graph,
+    private boolean createFinalAnnotations(FactorGraph graph,
                                         FactorGraphBuilder graphBuilder,
                                         Inferencer infResidualBP,
                                         LTableAnnotation_JI_Freebase tab_annotations) {
@@ -195,6 +197,7 @@ public class TI_JointInference {
                         if (assignedId.equals(ha.getAnnotation_url())) {
                             found = true;
                             double score = ptl.value(it);
+                            if(Double.isNaN(score)) return false;
                             ha.setFinalScore(score);
                             break;
                         }
@@ -211,6 +214,7 @@ public class TI_JointInference {
                 Key_SubjectCol_ObjectCol direction = null;
                 while (it.hasNext()) {
                     double score = ptl.value(it);
+                    if(Double.isNaN(score)) return false;
                     int outcome = it.indexOfCurrentAssn();
                     String assignedId = var.getLabelAlphabet().lookupLabel(outcome).toString();
                     if (score >= maxScore) {
@@ -236,6 +240,7 @@ public class TI_JointInference {
                         if (assignedId.equals(hbr.getAnnotation_url())) {
                             found = true;
                             double score = ptl.value(itr);
+                            if(Double.isNaN(score)) return false;
                             hbr.setFinalScore(score);
                             break;
                         }
@@ -252,6 +257,7 @@ public class TI_JointInference {
                 continue;
             }
         }
+        return true;
     }
 
     protected static boolean ignoreColumn(Integer i, int[] ignoreColumns) {

@@ -260,10 +260,12 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                         new Key_SubjectCol_ObjectCol(col1, col2)
                 );
         boolean contains = false;
-        for (HeaderBinaryRelationAnnotation hbr : candidateRelations) {
-            if (hbr.getAnnotation_url().equals(relation)) {
-                contains = true;
-                break;
+        if (candidateRelations != null) {
+            for (HeaderBinaryRelationAnnotation hbr : candidateRelations) {
+                if (hbr.getAnnotation_url().equals(relation)) {
+                    contains = true;
+                    break;
+                }
             }
         }
         if (!contains)
