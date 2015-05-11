@@ -97,8 +97,8 @@ public class FactorGraphBuilder {
                 for (int j = 0; j < relationVar.getNumOutcomes(); j++) {
                     String rel = relationVar.getLabelAlphabet().lookupLabel(j).toString();
                     double score = annotation.getScore_entityAndRelation(sbj, rel);
-                    if(score==0)
-                        score=Math.pow(10.0,-12);
+                    /*if(score==0)
+                        score=Math.pow(10.0,-12);*/
                     if (score > 0) {
                         affinity_scores.put(i + "," + j, score);
                     }
@@ -483,7 +483,7 @@ public class FactorGraphBuilder {
         Collections.sort(keys);
         for (String k : keys) {
             if(!varOutcomeHasNonZeroPotential.get(k))
-                System.out.println("\t"+k);
+                System.out.println("\tmissed: "+k);
         }
     }
 

@@ -211,7 +211,8 @@ public class LTableAnnotation {
     }
 
     public void addRelationAnnotation_across_column(HeaderBinaryRelationAnnotation ra){
-
+        if(ra.getAnnotation_url().startsWith("/type"))
+            System.out.println();
         List<HeaderBinaryRelationAnnotation> annotations_for_columns
                 = relationAnnotations_across_columns.get(ra.getSubject_object_key());          //get the container of binary relations between the two columns
         if(annotations_for_columns==null)

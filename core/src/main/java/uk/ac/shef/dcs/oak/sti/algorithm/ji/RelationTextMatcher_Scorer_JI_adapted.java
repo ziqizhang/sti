@@ -109,6 +109,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                 for (int s = 0; s < subjectHeaderColumnCandidates.size(); s++) {
                     HeaderAnnotation sbjCandidates = subjectHeaderColumnCandidates.get(s);
                     List<String[]> sbjCandidateFacts = kbSearcher.find_triplesForConcept_filtered(sbjCandidates.getAnnotation_url());
+                    sbjCandidateFacts = KnowledgeBaseFreebaseFilter.filterRelations(sbjCandidateFacts);
                     Map<Integer, DataTypeClassifier.DataType> factObjDataTypes = classifyFactObjDataType(
                             sbjCandidateFacts
                     );
@@ -197,7 +198,6 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                               factIdx_matchedObjHeaderCandidates
     ) {
         //scoring matches for the cell on the row
-        sbjCandidateFacts = KnowledgeBaseFreebaseFilter.filterRelations(sbjCandidateFacts);
         for (int index = 0; index < sbjCandidateFacts.size(); index++) {
             DataTypeClassifier.DataType type_of_fact_value = fact_data_types.get(index);
             String[] fact = sbjCandidateFacts.get(index);
@@ -268,10 +268,11 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                 }
             }
         }
-        if (!contains)
-            candidateRelations.add(new HeaderBinaryRelationAnnotation(
+        if (!contains) {
+            annotation.addRelationAnnotation_across_column(new HeaderBinaryRelationAnnotation(
                     new Key_SubjectCol_ObjectCol(col1, col2), relation, relation, 0.0
             ));
+        }
     }
 
     public void match_sbjCellsAndRelation(
