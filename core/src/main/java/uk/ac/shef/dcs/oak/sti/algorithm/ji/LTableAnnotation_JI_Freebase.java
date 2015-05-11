@@ -104,8 +104,8 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
         return v;
     }
 
-    public void setScore_entityAndRelation(String entityId, String relationURL, double score){
-        score_entityAndRelation.put(createKey(entityId, relationURL),score);
+    public void setScore_entityAndRelation(String entityId, String relationId, double score){
+        score_entityAndRelation.put(createKey(entityId, relationId),score);
     }
 
     private String createKey(String s1, String s2){

@@ -157,17 +157,18 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                 new ArrayList<String[]>(), score
         ));
         //subject entity, its concepts and relation
-        populateEntityAndRelationScore(tableAnnotation, sbjEntity.getAnnotation().getId(), fact[0], score);
+        populateEntityAndRelationScore(tableAnnotation, sbjEntity.getAnnotation().getId(),
+                fact[0],subjectColumn, objectColumn, score);
         populateConceptAndRelationScore(tableAnnotation, sbjEntity,
                 row, subjectColumn,
-                fact[0], score);
+                fact[0], subjectColumn, objectColumn, score);
         //object entity (if any), its concepts and relation
         if (matchedObjCellCandidates != null) {
             for (CellAnnotation ca : matchedObjCellCandidates) {
                 populateEntityAndRelationScore(tableAnnotation, ca.getAnnotation().getId(),
-                        fact[0], score);
+                        fact[0], subjectColumn, objectColumn,score);
                 populateConceptAndRelationScore(tableAnnotation, ca, row, objectColumn,
-                        fact[0], score);
+                        fact[0],subjectColumn, objectColumn, score);
             }
         }
     }
@@ -176,16 +177,21 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                                  CellAnnotation entity,
                                                  int entityRow, int entityColumn,
                                                  String relationURL,
+                                                 int relationFrom, int relationTo,
                                                  double maxScore) {
         for (String[] type : KnowledgeBaseFreebaseFilter.filterTypes(entity.getAnnotation().getTypes())) {
             tableAnnotation.setScore_conceptAndRelation_instanceEvidence(entityRow,
-                    entityColumn, type[0], relationURL, maxScore);
+                    entityColumn, type[0],
+                    HeaderBinaryRelationAnnotation.toStringExpanded(relationFrom, relationTo,relationURL), maxScore);
         }
     }
 
     private void populateEntityAndRelationScore(LTableAnnotation_JI_Freebase tableAnnotation,
-                                                String entityId, String relationURL, double maxScore) {
-        tableAnnotation.setScore_entityAndRelation(entityId, relationURL, maxScore);
+                                                String entityId, String relationURL,
+                                                int relationFrom, int relationTo,
+                                                double maxScore) {
+        tableAnnotation.setScore_entityAndRelation(entityId, HeaderBinaryRelationAnnotation.toStringExpanded(
+                relationFrom, relationTo, relationURL), maxScore);
     }
 
     private void scoreAgainstSbjFacts(String objHeaderText,
@@ -244,15 +250,15 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                            LTableAnnotation_JI_Freebase annotation,
                                            int col1,
                                            int col2) {
-        String relation = fact[0];
+        String relation_key = HeaderBinaryRelationAnnotation.toStringExpanded(col1, col2, fact[0]);
         String subjectConcept = sbjCandidate.getAnnotation_url();
         if (objectConcepts != null) {
             for (String oc : objectConcepts) {
-                annotation.setScore_conceptAndRelation_conceptEvidence(oc, relation, 1.0);
+                annotation.setScore_conceptAndRelation_conceptEvidence(oc, relation_key, 1.0);
             }
         }
         annotation.setScore_conceptAndRelation_conceptEvidence(
-                subjectConcept, relation, 1.0
+                subjectConcept, relation_key, 1.0
         );
 
         List<HeaderBinaryRelationAnnotation> candidateRelations =
@@ -262,7 +268,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
         boolean contains = false;
         if (candidateRelations != null) {
             for (HeaderBinaryRelationAnnotation hbr : candidateRelations) {
-                if (hbr.getAnnotation_url().equals(relation)) {
+                if (hbr.getAnnotation_url().equals(fact[0])) {
                     contains = true;
                     break;
                 }
@@ -270,7 +276,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
         }
         if (!contains) {
             annotation.addRelationAnnotation_across_column(new HeaderBinaryRelationAnnotation(
-                    new Key_SubjectCol_ObjectCol(col1, col2), relation, relation, 0.0
+                    new Key_SubjectCol_ObjectCol(col1, col2), fact[0], fact[0], 0.0
             ));
         }
     }

@@ -213,7 +213,15 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
                     break;
                 }
             }
-            if (!isConcept) return facts;
+            if (!isConcept) {
+                try {
+                    cacheConcept.cache(toSolrKey(query), facts, commit);
+                    log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return facts;
+            }
 
             //ok, this is a concept. We need to deep-fetch its properties, and find out the range of their properties
             System.out.println(">>" + retrievedFacts.size());
