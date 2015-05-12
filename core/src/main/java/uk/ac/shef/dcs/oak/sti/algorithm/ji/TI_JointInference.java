@@ -158,7 +158,7 @@ public class TI_JointInference {
             if (varType == null)
                 continue;
 
-            if (varType.equals(FactorGraphBuilder.CELL_VARIABLE)) {
+            if (varType.equals(VariableType.CELL.toString())) {
                 int[] position = graphBuilder.getCellPosition(var);
                 if (position == null)
                     continue;
@@ -183,7 +183,7 @@ public class TI_JointInference {
                 }
                 Arrays.sort(candidateCellAnnotations);
                 tab_annotations.setContentCellAnnotations(position[0], position[1], candidateCellAnnotations);
-            } else if (varType.equals(FactorGraphBuilder.HEADER_VARIABLE)) {
+            } else if (varType.equals(VariableType.HEADER.toString())) {
                 Integer position = graphBuilder.getHeaderPosition(var);
                 if (position == null)
                     continue;
@@ -208,7 +208,7 @@ public class TI_JointInference {
                 }
                 Arrays.sort(candidateHeaderAnnotations);
                 tab_annotations.setHeaderAnnotation(position, candidateHeaderAnnotations);
-            } else if (varType.equals(FactorGraphBuilder.RELATION_VARIABLE)) {
+            } else if (varType.equals(VariableType.RELATION.toString())) {
                 double maxScore = 0.0;
                 AssignmentIterator it = ptl.assignmentIterator();
                 Key_SubjectCol_ObjectCol direction = null;

@@ -3,7 +3,6 @@ package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 import cc.mallet.grmm.types.*;
 import cc.mallet.grmm.types.Variable;
 import cc.mallet.types.LabelAlphabet;
-import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 
 import java.util.*;
@@ -13,320 +12,42 @@ import java.util.*;
  */
 public class FactorGraphBuilder {
 
-    protected static final String CELL_VARIABLE = "cell";
-    protected static final String HEADER_VARIABLE = "header";
-    protected static final String RELATION_VARIABLE = "relation";
+    private FactorBuilderCell factorBuilderCell = new FactorBuilderCell();
+    private FactorBuilderHeader factorBuilderHeader = new FactorBuilderHeader();
+    private FactorBuilderHeaderAndRelation factorBuilderHeaderAndRelation = new FactorBuilderHeaderAndRelation();
     private Map<Variable, String> typeOfVariable = new HashMap<Variable, String>();
-    private Map<Variable, int[]> cellVarOutcomePosition = new HashMap<Variable, int[]>();
-    private Map<Variable, Integer> headerVarOutcomePosition = new HashMap<Variable, Integer>();
-    private Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection = new HashMap<String, Key_SubjectCol_ObjectCol>();
 
     private Map<String, Boolean> varOutcomeHasNonZeroPotential = new HashMap<String, Boolean>();
 
     public FactorGraph build(LTableAnnotation_JI_Freebase annotation, LTable table) {
         FactorGraph graph = new FactorGraph();
         //cell text and entity label
-        Map<String, Variable> cellAnnotations = addCellAnnotationFactors(annotation, graph);
+        Map<String, Variable> cellAnnotations = factorBuilderCell.addFactors(annotation, graph,
+                typeOfVariable, varOutcomeHasNonZeroPotential);
         //column header and type label
-        Map<Integer, Variable> columnHeaders = addColumnHeaderFactors(annotation, table, graph);
+        Map<Integer, Variable> columnHeaders = factorBuilderHeader.addFactors(annotation, graph,
+                typeOfVariable, varOutcomeHasNonZeroPotential);
         //column type and cell entities
-        addHeaderAndCellFactors(cellAnnotations,
+        new FactorBuilderHeaderAndCell().addFactors(cellAnnotations,
                 columnHeaders,
                 annotation,
-                graph);
+                graph, varOutcomeHasNonZeroPotential);
         //relation and pair of column types
-        /*Map<String, Variable> relations = addRelationAndHeaderFactors(
+        Map<String, Variable> relations = factorBuilderHeaderAndRelation.addFactors(
                 columnHeaders,
                 annotation,
-                graph
-        );*/
+                graph,
+                typeOfVariable, varOutcomeHasNonZeroPotential
+        );
 
         //relation and entity pairs
-        /*addRelationAndCellFactors(
+        new FactorBuilderCellAndRelation().addFactors(
                 relations,
                 cellAnnotations,
                 annotation,
-                graph
-        );*/
+                graph,varOutcomeHasNonZeroPotential
+        );
         return graph;
-    }
-
-    private void addRelationAndCellFactors(Map<String, Variable> relationVariables,
-                                           Map<String, Variable> cellVariables,
-                                           LTableAnnotation_JI_Freebase annotation,
-                                           FactorGraph graph) {
-        List<String> processed = new ArrayList<String>();
-        for (int c1 = 0; c1 < annotation.getCols(); c1++) {
-            for (int c2 = 0; c2 < annotation.getCols(); c2++) {
-                if (c1 == c2) continue;
-                if (processed.contains(c1 + "," + c2) || processed.contains(c2 + "," + c1)) continue;
-                Variable relation_var = relationVariables.get(c1 + "," + c2);
-                if (relation_var != null) {
-                    //there is a relation between c1, c2, go thru each row, to create factor between the cell pair and relation
-                    for (int r = 0; r < annotation.getRows(); r++) {
-                        Variable sbj_cell_var = cellVariables.get(r + "," + c1);
-                        createCellRelationFactor(sbj_cell_var, relation_var, annotation, graph);
-                        Variable obj_cell_var = cellVariables.get(r + "," + c2);
-                        createCellRelationFactor(obj_cell_var, relation_var, annotation, graph);
-                    }
-                } else {
-                    relation_var = relationVariables.get(c2 + "," + c1);
-                    if (relation_var != null) {
-                        for (int r = 0; r < annotation.getRows(); r++) {
-                            Variable sbj_cell_var = cellVariables.get(r + "," + c2);
-                            createCellRelationFactor(sbj_cell_var, relation_var, annotation, graph);
-                            Variable obj_cell_var = cellVariables.get(r + "," + c1);
-                            createCellRelationFactor(obj_cell_var, relation_var, annotation, graph);
-                        }
-                    }
-                }
-                processed.add(c1 + "," + c2);
-                processed.add(c2 + "," + c1);
-            }
-        }
-
-    }
-
-    private void createCellRelationFactor(Variable cellVar, Variable relationVar,
-                                          LTableAnnotation_JI_Freebase annotation,
-                                          FactorGraph graph) {
-        if (cellVar != null) {
-            Map<String, Double> affinity_scores = new HashMap<String, Double>();
-            for (int i = 0; i < cellVar.getNumOutcomes(); i++) {
-                String sbj = cellVar.getLabelAlphabet().lookupLabel(i).toString();
-                for (int j = 0; j < relationVar.getNumOutcomes(); j++) {
-                    String rel = relationVar.getLabelAlphabet().lookupLabel(j).toString();
-                    double score = annotation.getScore_entityAndRelation(sbj, rel);
-                    /*if(score==0)
-                        score=Math.pow(10.0,-12);*/
-                    if (score > 0) {
-                        affinity_scores.put(i + "," + j, score);
-                    }
-                    checkVariableOutcomeUsage(score, cellVar.getLabel() + "." + sbj);
-                    checkVariableOutcomeUsage(score, relationVar.getLabel() + "." + rel);
-                }
-            }
-            if (affinity_scores.size() > 0) {
-                double[] potential = computePotential(affinity_scores,
-                        cellVar, relationVar);
-                if (isValidPotential(potential, "cell-relation(" + cellVar.getLabel() + ")," + relationVar.getLabel())) {
-                    VarSet varSet = new HashVarSet(new Variable[]{cellVar, relationVar});
-                    TableFactor factor = new TableFactor(varSet, potential);
-                    graph.addFactor(factor);
-                }
-            }
-        }
-    }
-
-    private Map<String, Variable> addRelationAndHeaderFactors(
-            Map<Integer, Variable> columnHeaders,
-            LTableAnnotation_JI_Freebase annotation,
-            FactorGraph graph) {
-        Map<String, Variable> result = new HashMap<String, Variable>(); //for each pair of col, will only have 1 key stored, both both directional keys are processed
-        List<String> processed = new ArrayList<String>();
-        Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>>
-                candidateRelations = annotation.getRelationAnnotations_across_columns();
-        for (int c1 = 0; c1 < annotation.getCols(); c1++) {
-            for (int c2 = 0; c2 < annotation.getCols(); c2++) {
-                if (c1 == c2) continue;
-                if (processed.contains(c1 + "," + c2) || processed.contains(c2 + "," + c1)) continue;
-                Key_SubjectCol_ObjectCol relation_direction = new Key_SubjectCol_ObjectCol(c1, c2);
-                Key_SubjectCol_ObjectCol relation_direction_reverse = new Key_SubjectCol_ObjectCol(
-                        c2, c1
-                );
-                List<HeaderBinaryRelationAnnotation> candidate_relations = candidateRelations.get(relation_direction);
-                if (candidate_relations == null) {
-                    candidate_relations = new ArrayList<HeaderBinaryRelationAnnotation>();
-                }
-                List<HeaderBinaryRelationAnnotation> candidate_relations_reversed = candidateRelations.get(relation_direction_reverse);
-                if (candidate_relations_reversed != null) candidate_relations.addAll(candidate_relations_reversed);
-                //assuming that a relation can have only
-                //1 possible direction. not necessarily true always but reasonable
-                if (candidate_relations.size() == 0)
-                    continue;
-
-                Map<String, Double> affinity_scores_column1_and_relation = new HashMap<String, Double>();
-                Map<String, Double> affinity_scores_column2_and_relation = new HashMap<String, Double>();
-                Variable column1_header_variable = columnHeaders.get(relation_direction.getSubjectCol());
-                Variable column2_header_variable = columnHeaders.get(relation_direction.getObjectCol());
-
-                LabelAlphabet candidateIndex_relation = new LabelAlphabet();
-                for (HeaderBinaryRelationAnnotation hbr : candidate_relations) {
-                    int index_relation = candidateIndex_relation.lookupIndex(hbr.toStringExpanded(), true);
-                    relationVarOutcomeDirection.put(hbr.toStringExpanded(), hbr.getSubject_object_key());
-
-                    if (column1_header_variable != null) {
-                        for (int c = 0; c < column1_header_variable.getNumOutcomes(); c++) {
-                            String header_concept_url = column1_header_variable.getLabelAlphabet().lookupLabel(c).toString();
-                            double score = annotation.getScore_conceptAndRelation(header_concept_url, hbr.toStringExpanded());
-                            if (score > 0) {
-                                affinity_scores_column1_and_relation.put(c + "," + index_relation, score);
-                            }
-                            checkVariableOutcomeUsage(score, column1_header_variable.getLabel() + "." + header_concept_url);
-                            checkVariableOutcomeUsage(score, RELATION_VARIABLE + "." + relation_direction.getSubjectCol() + "," + relation_direction.getObjectCol() + "." + hbr.getAnnotation_url());
-                        }
-                    }
-                    if (column2_header_variable != null) {
-                        for (int c = 0; c < column2_header_variable.getNumOutcomes(); c++) {
-                            String header_concept_url = column2_header_variable.getLabelAlphabet().lookupLabel(c).toString();
-                            double score = annotation.getScore_conceptAndRelation(header_concept_url, hbr.toStringExpanded());
-                            if (score > 0) {
-                                affinity_scores_column2_and_relation.put(c + "," + index_relation, score);
-                            }
-                            checkVariableOutcomeUsage(score, column2_header_variable.getLabel() + "." + header_concept_url);
-                            checkVariableOutcomeUsage(score, RELATION_VARIABLE + "." + relation_direction.getSubjectCol() + "," + relation_direction.getObjectCol() + "." + hbr.getAnnotation_url());
-                        }
-                    }
-                }
-                Variable relationVariable = new Variable(candidateIndex_relation);
-                relationVariable.setLabel(RELATION_VARIABLE + "." + relation_direction.getSubjectCol() + "," + relation_direction.getObjectCol());
-                typeOfVariable.put(relationVariable, RELATION_VARIABLE);
-                result.put(relation_direction.getSubjectCol() + "," +
-                        relation_direction.getObjectCol(), relationVariable);
-
-                //create potentials
-                if (column1_header_variable != null) {
-                    double[] potential1 = computePotential(affinity_scores_column1_and_relation, column1_header_variable,
-                            relationVariable);
-                    if (isValidPotential(potential1, "header-relation(" + column1_header_variable.getLabel() + ")," + relationVariable.getLabel())) {
-                        VarSet varSet1 = new HashVarSet(new Variable[]{column1_header_variable, relationVariable});
-                        TableFactor factor1 = new TableFactor(varSet1, potential1);
-                        graph.addFactor(factor1);
-                    }
-                }
-                if (column2_header_variable != null) {
-                    double[] potential2 = computePotential(affinity_scores_column2_and_relation, column2_header_variable,
-                            relationVariable);
-                    if (isValidPotential(potential2, "header-relation(" + column2_header_variable.getLabel() + ")," + relationVariable.getLabel())) {
-                        VarSet varSet2 = new HashVarSet(new Variable[]{column2_header_variable, relationVariable});
-                        TableFactor factor2 = new TableFactor(varSet2, potential2);
-                        graph.addFactor(factor2);
-                    }
-                }
-                processed.add(c1 + "," + c2);
-                processed.add(c2 + "," + c1);
-            }
-        }
-        return result;
-    }
-
-    private void addHeaderAndCellFactors(Map<String, Variable> cellVariables,
-                                         Map<Integer, Variable> headerVariables,
-                                         LTableAnnotation_JI_Freebase annotation,
-                                         FactorGraph graph) {
-        for (int row = 0; row < annotation.getRows(); row++) {
-            for (int col = 0; col < annotation.getCols(); col++) {
-                CellAnnotation[] candidateEntityAnnotations = annotation.getContentCellAnnotations(row, col);
-                if (candidateEntityAnnotations.length == 0)
-                    continue;
-
-                Variable cellVar = cellVariables.get(row + "," + col);
-                Variable headerVar = headerVariables.get(col);
-
-                Map<String, Double> affinity_values_between_variable_outcomes = new HashMap<String, Double>();
-                //go thru every candidate cell entity
-                for (CellAnnotation ca : candidateEntityAnnotations) {
-                    //which concept it has a relation with
-                    String entId = ca.getAnnotation().getId();
-                    int cellVarOutcomeIndex = cellVar.getLabelAlphabet().lookupIndex(entId, false);
-                    if (cellVarOutcomeIndex < 0) continue;
-                    for (String[] type : KnowledgeBaseFreebaseFilter.filterTypes(ca.getAnnotation().getTypes())) {
-                        int headerVarOutcomeIndex = headerVar.getLabelAlphabet().lookupIndex(type[0], false);
-                        if (headerVarOutcomeIndex < 0) continue;
-
-                        double score = annotation.getScore_entityAndConcept(entId, type[0]);
-                        if (score > 0) {
-                            affinity_values_between_variable_outcomes.put(
-                                    cellVarOutcomeIndex + "," + headerVarOutcomeIndex, score
-                            );
-                        }
-                        checkVariableOutcomeUsage(score, headerVar.getLabel() + "." + type[0]);
-                        checkVariableOutcomeUsage(score, cellVar.getLabel() + "." + entId);
-                    }
-                }
-
-                if (affinity_values_between_variable_outcomes.size() > 0) {
-                    double[] potential = computePotential(affinity_values_between_variable_outcomes,
-                            cellVar, headerVar);
-                    if (isValidPotential(potential, "cell-header(" + cellVar.getLabel() + ")," + headerVar.getLabel())) {
-                        VarSet varSet = new HashVarSet(new Variable[]{cellVar, headerVar});
-                        TableFactor factor = new TableFactor(varSet, potential);
-                        graph.addFactor(factor);
-                    }
-                }
-            }
-        }
-    }
-
-    private Map<String, Variable> addCellAnnotationFactors(LTableAnnotation annotation, FactorGraph graph) {
-        Map<String, Variable> variables = new HashMap<String, Variable>();
-        for (int row = 0; row < annotation.getRows(); row++) {
-            for (int col = 0; col < annotation.getCols(); col++) {
-                CellAnnotation[] candidateEntityAnnotations = annotation.getContentCellAnnotations(row, col);
-                if (candidateEntityAnnotations.length == 0)
-                    continue;
-                String cellPosition = String.valueOf(row) + "," + String.valueOf(col);
-
-                LabelAlphabet candidateIndex_cell = new LabelAlphabet();
-                double[] potential = new double[candidateEntityAnnotations.length];
-                for (int i = 0; i < candidateEntityAnnotations.length; i++) {
-                    CellAnnotation ca = candidateEntityAnnotations[i];
-                    candidateIndex_cell.lookupIndex(ca.getAnnotation().getId());
-
-                    potential[i] = ca.getScore_element_map().get(
-                            DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR
-                    );
-                    checkVariableOutcomeUsage(potential[i], CELL_VARIABLE + "." + cellPosition + "." + ca.getAnnotation().getId());
-                }
-                Variable variable_cell = new Variable(candidateIndex_cell);
-                variable_cell.setLabel(CELL_VARIABLE + "." + cellPosition);
-                typeOfVariable.put(variable_cell, CELL_VARIABLE);
-                cellVarOutcomePosition.put(variable_cell, new int[]{row, col});
-
-                if (isValidPotential(potential, "cell(" + variable_cell.getLabel() + ")")) {
-                    TableFactor factor = new TableFactor(variable_cell, potential);
-                    graph.addFactor(factor);
-                    variables.put(row + "," + col, variable_cell);
-                }
-            }
-        }
-        return variables;
-    }
-
-    protected Map<Integer, Variable> addColumnHeaderFactors(LTableAnnotation annotation, LTable table,
-                                                            FactorGraph graph) {
-        Map<Integer, Variable> variables = new HashMap<Integer, Variable>();
-        for (int col = 0; col < annotation.getCols(); col++) {
-            HeaderAnnotation[] candidateConcepts_header = annotation.getHeaderAnnotation(col);
-            if (candidateConcepts_header.length == 0)
-                continue;
-
-            String headerPosition = String.valueOf(col);
-            LabelAlphabet candidateIndex_header = new LabelAlphabet();
-
-            double[] potential = new double[candidateConcepts_header.length];
-            for (int i = 0; i < candidateConcepts_header.length; i++) {
-                HeaderAnnotation ha = candidateConcepts_header[i];
-                candidateIndex_header.lookupIndex(ha.getAnnotation_url());
-
-                potential[i] = ha.getScoreElements().get(
-                        ClassificationScorer_JI_adapted.SCORE_HEADER_FACTOR
-                );
-                checkVariableOutcomeUsage(potential[i], HEADER_VARIABLE + "." + headerPosition + "." + ha.getAnnotation_url());
-
-            }
-            Variable variable_header = new Variable(candidateIndex_header);
-            variable_header.setLabel(HEADER_VARIABLE + "." + headerPosition);
-            typeOfVariable.put(variable_header, HEADER_VARIABLE);
-            headerVarOutcomePosition.put(variable_header, col);
-
-            if (isValidPotential(potential, "header " + variable_header.getLabel())) {
-                TableFactor factor = new TableFactor(variable_header, potential);
-                graph.addFactor(factor);
-                variables.put(col, variable_header);
-            }
-        }
-        return variables;
     }
 
     public String getTypeOfVariable(Variable variable) {
@@ -334,68 +55,15 @@ public class FactorGraphBuilder {
     }
 
     public int[] getCellPosition(Variable variable) {
-        return cellVarOutcomePosition.get(variable);
+        return factorBuilderCell.cellVarOutcomePosition.get(variable);
     }
 
     public int getHeaderPosition(Variable variable) {
-        return headerVarOutcomePosition.get(variable);
+        return factorBuilderHeader.headerVarOutcomePosition.get(variable);
     }
 
     public Key_SubjectCol_ObjectCol getRelationDirection(String varOutcomeLabel) {
-        return relationVarOutcomeDirection.get(varOutcomeLabel);
-    }
-
-    private boolean isValidPotential(double[] potential1, String note) {
-        int countZero = 0;
-        for (int i = 0; i < potential1.length; i++) {
-            if (potential1[i] == 0)
-                countZero++;
-        }
-        //System.out.println(note + ":" + countZero + "/" + potential1.length);
-        if (countZero == potential1.length)
-            return false;
-        return true;
-    }
-
-    /**
-     * @param affinity_values_between_variable_outcomes in the key, the first element (int) must correspond to the index in cellVar; the second must
-     *                                                  correpsond to the index in headerVar
-     * @param firstVar
-     * @param secondVar
-     * @return
-     */
-    private double[] computePotential(
-            Map<String, Double> affinity_values_between_variable_outcomes,
-            Variable firstVar,
-            Variable secondVar) {
-        int dimensionFirstVar = firstVar.getNumOutcomes();
-        int dimensionSecondVar = secondVar.getNumOutcomes();
-        double[] res = new double[dimensionFirstVar * dimensionSecondVar];
-        for (int first = 0; first < dimensionFirstVar; first++) {
-            for (int second = 0; second < dimensionSecondVar; second++) {
-                String key = first + "," + second;
-                Double affinity = affinity_values_between_variable_outcomes.get(key);
-
-                if (affinity == null)
-                    affinity = 0.0;
-                res[first * dimensionSecondVar + second] = affinity;
-            }
-        }
-        return res;
-    }
-
-    private void checkVariableOutcomeUsage(double potential, String key) {
-        Boolean hasNonZeroPotential =
-                varOutcomeHasNonZeroPotential.
-                        get(key);
-        if (hasNonZeroPotential == null) {
-            hasNonZeroPotential = false;
-            varOutcomeHasNonZeroPotential.put(key, hasNonZeroPotential);
-        }
-        if (potential > 0) {
-            if (!hasNonZeroPotential)
-                varOutcomeHasNonZeroPotential.put(key, true);
-        }
+        return factorBuilderHeaderAndRelation.relationVarOutcomeDirection.get(varOutcomeLabel);
     }
 
     public void dumpCheckVariableOutcomeUsage() {
