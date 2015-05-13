@@ -71,4 +71,34 @@ abstract class FactorBuilder {
         return res;
     }
 
+
+    /**
+     * correpsond to the index in headerVar
+     *
+     * @param firstHeaderVar
+     * @param relationVar
+     * @return
+     */
+    protected double[] computePotential(
+            Map<String, Double> affinity_values,
+            Variable firstHeaderVar,
+            Variable relationVar,
+            Variable secondHeaderVar) {
+        int dimensionFirstHeaderVar = firstHeaderVar.getNumOutcomes();
+        int dimensionRelationVar = relationVar.getNumOutcomes();
+        int dimensionSecondHeaderVar=secondHeaderVar.getNumOutcomes();
+        double[] res = new double[dimensionFirstHeaderVar * dimensionRelationVar*dimensionSecondHeaderVar];
+        for (int f = 0; f < dimensionFirstHeaderVar; f++) {
+            for (int r = 0; r < dimensionRelationVar; r++) {
+                for (int s = 0; s < dimensionSecondHeaderVar; s++) {
+                    Double affinity = affinity_values.get(f + ">" + r+">"+s);
+                    if(affinity==null) affinity=affinity_values.get(s+">"+r+">"+f);
+                    if (affinity == null) affinity = 0.0;
+                    res[f * dimensionRelationVar * dimensionSecondHeaderVar +
+                            r*dimensionSecondHeaderVar + s] = affinity;
+                }
+            }
+        }
+        return res;
+    }
 }

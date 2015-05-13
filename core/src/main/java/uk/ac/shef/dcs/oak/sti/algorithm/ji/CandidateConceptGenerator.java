@@ -30,11 +30,13 @@ public class CandidateConceptGenerator {
     public void generateCandidateConcepts(LTableAnnotation_JI_Freebase tableAnnotation, LTable table, int col) throws IOException {
         Map<String, String> distinctTypes = new HashMap<String, String>();
         Map<String, List<String>> entityId_and_conceptURLs = new HashMap<String, List<String>>();
+        Map<String, String> distinctEntities = new HashMap<String, String>();
         for (int r = 0; r < table.getNumRows(); r++) {
             CellAnnotation[] cellAnnotations = tableAnnotation.getContentCellAnnotations(r, col);
             if (cellAnnotations.length > 0) {
                 for (CellAnnotation ca : cellAnnotations) {
                     EntityCandidate e = ca.getAnnotation();
+                    distinctEntities.put(e.getId(), e.getName());
                     for(String[] type: KnowledgeBaseFreebaseFilter.filterTypes(e.getTypes())){
                         String url = type[0];
                         String label = type[1];
@@ -67,14 +69,24 @@ public class CandidateConceptGenerator {
         tableAnnotation.setHeaderAnnotation(col, headerAnnotations);
 
         //go thru every entity-concept pair, compute their scores
-        System.out.print("-E_and_C_scores-("+entityId_and_conceptURLs.size() + "-");
+        System.out.print("-E_and_C_scores-(tot.Ent:"+distinctEntities.size() + "-tot.Cpt:"+distinctTypes.size()+">");
+        int cc=0;
+        for(String entityId: distinctEntities.keySet()){
+            for(String conceptId: distinctTypes.keySet()){
+                cc++;
+                double sim = entityAndConceptScorer.computeEntityConceptSimilarity(entityId, conceptId, kbSearcher);
+                tableAnnotation.setScore_entityAndConcept(entityId, conceptId, sim);
+                System.out.print(cc + ",");
+            }
+        }
+        //then update scores for every entity-concept pair where the entity votes for the concept
         for(Map.Entry<String, List<String>> entry: entityId_and_conceptURLs.entrySet()){
             String entityId = entry.getKey();
             List<String> conceptIds = entry.getValue();
-            System.out.print(conceptIds.size() + ",");
             for(String conceptId : conceptIds){
-                double score = entityAndConceptScorer.score(entityId, conceptId, kbSearcher);
-                tableAnnotation.setScore_entityAndConcept(entityId, conceptId, score);
+                double specificity = entityAndConceptScorer.computeConceptSpecificity(conceptId, kbSearcher);
+                double simScore = tableAnnotation.getScore_entityAndConcept(entityId, conceptId);
+                tableAnnotation.setScore_entityAndConcept(entityId, conceptId, simScore+1.0+specificity);
             }
         }
         System.out.println(")");

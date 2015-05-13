@@ -51,16 +51,13 @@ public class CandidateRelationGenerator {
                 if (subjectColumn == objectColumn)
                     continue;
                 DataTypeClassifier.DataType columnDataType = table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType();
-                if (columnDataType.equals(DataTypeClassifier.DataType.EMPTY) || columnDataType.equals(DataTypeClassifier.DataType.LONG_TEXT) ||
-                        columnDataType.equals(DataTypeClassifier.DataType.ORDERED_NUMBER))
+                if (!columnDataType.equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
-                System.out.print("("+subjectColumn + "-" + objectColumn + ",");
+                System.out.print("(" + subjectColumn + "-" + objectColumn + ",");
                 for (int r = 0; r < table.getNumRows(); r++) {
                     //in JI, all candidate NEs (the disambiguated NE) is needed from each cell to aggregate candidate relation
                     CellAnnotation[] subjectCells = tableAnnotations.getContentCellAnnotations(r, subjectColumn);
                     CellAnnotation[] objectCells = tableAnnotations.getContentCellAnnotations(r, objectColumn);
-                    LTableContentCell objectCellText = table.getContentCell(r, objectColumn);
-
                     //matches obj of facts of subject entities against object cell text and candidate entity labels.
                     //also create evidence for entity-relation, concept-relation
                     matcher.match_cellPairs(r,
@@ -68,7 +65,7 @@ public class CandidateRelationGenerator {
                             subjectColumn,
                             Arrays.asList(objectCells),
                             objectColumn,
-                            objectCellText, colTypes.get(objectColumn),
+                            colTypes.get(objectColumn),
                             tableAnnotations);
                 }
             }
@@ -85,13 +82,10 @@ public class CandidateRelationGenerator {
                 continue;
 
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
-                if (subjectColumn == objectColumn)
-                    continue;
+                if (subjectColumn == objectColumn) continue;
                 DataTypeClassifier.DataType columnDataType = table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType();
-                if (columnDataType.equals(DataTypeClassifier.DataType.EMPTY) || columnDataType.equals(DataTypeClassifier.DataType.LONG_TEXT) ||
-                        columnDataType.equals(DataTypeClassifier.DataType.ORDERED_NUMBER))
-                    continue;
-                System.out.print("("+subjectColumn + "-" + objectColumn + ",");
+                if (!columnDataType.equals(DataTypeClassifier.DataType.NAMED_ENTITY)) continue;
+                System.out.print("(" + subjectColumn + "-" + objectColumn + ",");
                 createRelationCandidateBetweenConceptCandidates(subjectColumn,
                         objectColumn,
                         tableAnnotations,
@@ -106,15 +100,11 @@ public class CandidateRelationGenerator {
         for (int subjectColumn : subjectColumnsToConsider) {  //choose a column to be subject column (must be NE column)
             if (!table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                 continue;
-
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
-                if (subjectColumn == objectColumn)
-                    continue;
+                if (subjectColumn == objectColumn) continue;
                 DataTypeClassifier.DataType columnDataType = table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType();
-                if (columnDataType.equals(DataTypeClassifier.DataType.EMPTY) || columnDataType.equals(DataTypeClassifier.DataType.LONG_TEXT) ||
-                        columnDataType.equals(DataTypeClassifier.DataType.ORDERED_NUMBER))
-                    continue;
-                System.out.print("("+subjectColumn + "-" + objectColumn + ",");
+                if (!columnDataType.equals(DataTypeClassifier.DataType.NAMED_ENTITY)) continue;
+                System.out.print("(" + subjectColumn + "-" + objectColumn + ",");
                 for (int r = 0; r < table.getNumRows(); r++) {
                     //in JI, all candidate NEs (the disambiguated NE) is needed from each cell to aggregate candidate relation
                     CellAnnotation[] subjectCells = tableAnnotations.getContentCellAnnotations(r, subjectColumn);
@@ -125,7 +115,6 @@ public class CandidateRelationGenerator {
                             Arrays.asList(subjectCells),
                             subjectColumn,
                             objectColumn,
-                            colTypes.get(objectColumn),
                             tableAnnotations);
                 }
             }
@@ -135,7 +124,7 @@ public class CandidateRelationGenerator {
 
     private void aggregate(
             LTableAnnotation_JI_Freebase tableAnnotation
-           ) throws IOException {
+    ) throws IOException {
         for (Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> e :
                 tableAnnotation.getRelationAnnotations_per_row().entrySet()) {
 
@@ -160,21 +149,21 @@ public class CandidateRelationGenerator {
         }
     }
 
-    private void createRelationCandidateBetweenConceptCandidates(int col1, int col2,
+    private void createRelationCandidateBetweenConceptCandidates(int sbjCol, int objCol,
                                                                  LTableAnnotation_JI_Freebase annotation,
                                                                  LTable table,
                                                                  Map<Integer, DataTypeClassifier.DataType> colTypes,
                                                                  KnowledgeBaseSearcher kbSearcher) throws IOException {
-        HeaderAnnotation[] candidates_col1 = annotation.getHeaderAnnotation(col1);
-        HeaderAnnotation[] candidates_col2 = annotation.getHeaderAnnotation(col2);
-        LTableColumnHeader header_col2 = table.getColumnHeader(col2);
+        HeaderAnnotation[] candidates_col1 = annotation.getHeaderAnnotation(sbjCol);
+        HeaderAnnotation[] candidates_col2 = annotation.getHeaderAnnotation(objCol);
+        LTableColumnHeader header_col2 = table.getColumnHeader(objCol);
 
         matcher.match_headerPairs(
                 Arrays.asList(candidates_col1),
-                col1,
+                sbjCol,
                 Arrays.asList(candidates_col2),
-                col2,
-                header_col2, colTypes.get(col2),
+                objCol,
+                colTypes.get(objCol),
                 annotation,
                 kbSearcher);
 

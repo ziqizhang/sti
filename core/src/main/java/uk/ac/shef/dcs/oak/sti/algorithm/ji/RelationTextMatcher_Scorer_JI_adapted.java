@@ -23,127 +23,127 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
     public void match_cellPairs(int row,
                                 List<CellAnnotation> subjectCellAnnotations, int subjectColumn,
                                 List<CellAnnotation> objectCellAnnotations, int objectColumn,
-                                LTableContentCell objectCellText,
                                 DataTypeClassifier.DataType object_column_type,
                                 LTableAnnotation_JI_Freebase tableAnnotation
     ) {
-        if (subjectCellAnnotations.size() != 0) {
-            if (subjectCellAnnotations.size() > 0 && UtilRelationMatcher.isValidType(object_column_type)) {
-                for (int s = 0; s < subjectCellAnnotations.size(); s++) { //for each candidate subject entity
-                    CellAnnotation sbjEntity = subjectCellAnnotations.get(s);
-                    List<String[]> sbjEntityFacts = sbjEntity.getAnnotation().getFacts(); //get the facts of that sbj ent
-                    sbjEntityFacts = KnowledgeBaseFreebaseFilter.filterRelations(sbjEntityFacts);
-                    Map<Integer, DataTypeClassifier.DataType> fact_data_types = classifyFactObjDataType(
-                            sbjEntityFacts
-                    );
+        if (subjectCellAnnotations.size() != 0 && objectCellAnnotations.size() != 0) {
+            for (int s = 0; s < subjectCellAnnotations.size(); s++) { //for each candidate subject entity
+                CellAnnotation sbjEntity = subjectCellAnnotations.get(s);
+                List<String[]> sbjEntityFacts = sbjEntity.getAnnotation().getFacts(); //get the facts of that sbj ent
+                sbjEntityFacts = KnowledgeBaseFreebaseFilter.filterRelations(sbjEntityFacts);
+                Map<Integer, DataTypeClassifier.DataType> fact_data_types = classifyFactObjDataType(
+                        sbjEntityFacts
+                );
 
-                    String objText = objectCellText.getText();
-                    final Map<Integer, Double> factIdx_matchedScores = new HashMap<Integer, Double>();
-                    //key - index of fact; value- list of candidate entity from the obj cell matched the fact, or null if no candidate entities
-                    Map<Integer, List<CellAnnotation>> factIdx_matchedObjCellCandidates = new HashMap<Integer, List<CellAnnotation>>();
-                    //now go thru each fact
-                    for (int index = 0; index < sbjEntityFacts.size(); index++) {
-                        DataTypeClassifier.DataType type_of_fact_value = fact_data_types.get(index);
+                final Map<Integer, Double> factIdx_matchedScores = new HashMap<Integer, Double>();
+                //key - index of fact; value- list of candidate entity from the obj cell matched the fact, or null if no candidate entities
+                Map<Integer, List<CellAnnotation>> factIdx_matchedObjCellCandidates = new HashMap<Integer, List<CellAnnotation>>();
+                //now go thru each fact
+                for (int index = 0; index < sbjEntityFacts.size(); index++) {
+                    DataTypeClassifier.DataType type_of_fact_value = fact_data_types.get(index);
+                    String[] fact = sbjEntityFacts.get(index);
+                    if (!UtilRelationMatcher.isValidType(type_of_fact_value)) {
+                        continue;
+                    }
+                    double maxScore = 0.0; //maximum score between this fact's obj and any candidate entity in the obj cell
+                    //this fact may match multiple candidate NEs for the object cell
+                    Map<Double, List<CellAnnotation>> mctScore_objCellCandidates = new HashMap<Double, List<CellAnnotation>>();
+                    for (int o = 0; o < objectCellAnnotations.size(); o++) {
+                        CellAnnotation objectEntity = objectCellAnnotations.get(o);
+                        double scoreAgainstObjEntityLabel = UtilRelationMatcher.score(
+                                objectEntity.getAnnotation().getName(), object_column_type, fact[1], type_of_fact_value, stopWords, stringSimilarityMetric);
+                        double scoreAgainstObjEntityId = 0.0;
+                        if (fact[2] != null)
+                            scoreAgainstObjEntityId = objectEntity.getAnnotation().getId().equals(fact[2]) ? 1.0 : 0.0;
+
+                        double finalScore = scoreAgainstObjEntityId > scoreAgainstObjEntityLabel ? scoreAgainstObjEntityId :
+                                scoreAgainstObjEntityLabel;
+
+                        List<CellAnnotation> candidates = mctScore_objCellCandidates.get(finalScore);
+                        if (candidates == null) candidates = new ArrayList<CellAnnotation>();
+                        candidates.add(objectEntity);
+                        mctScore_objCellCandidates.put(finalScore, candidates);
+                        if (maxScore < finalScore)
+                            maxScore = finalScore;
+                    }
+                    if (maxScore > 0 && maxScore > minimum_match_score) {
+                        factIdx_matchedScores.put(index, maxScore);
+                        factIdx_matchedObjCellCandidates.put(index, mctScore_objCellCandidates.get(maxScore));
+                    }
+                }
+
+                if (factIdx_matchedScores.size() == 0) continue;
+                //go thru all scores and make selection   within each subjectEntity-objectEntity pair
+                List<Integer> qualified = new ArrayList<Integer>(factIdx_matchedScores.keySet());
+                Collections.sort(qualified, new Comparator<Integer>() {
+                    @Override
+                    public int compare(Integer o1, Integer o2) {
+                        return factIdx_matchedScores.get(o2).compareTo(factIdx_matchedScores.get(o1));
+                    }
+                });
+                Double highestScore = factIdx_matchedScores.get(qualified.get(0));
+                for (Map.Entry<Integer, Double> e : factIdx_matchedScores.entrySet()) {
+                    int index = e.getKey();
+                    Double score = e.getValue();
+                    List<CellAnnotation> objEntities = factIdx_matchedObjCellCandidates.get(index);
+                    if (score.equals(highestScore) && objEntities != null && objEntities.size() > 0) {
                         String[] fact = sbjEntityFacts.get(index);
-                        if (!UtilRelationMatcher.isValidType(type_of_fact_value)) {
-                            continue;
-                        }
-                        //match the object cell text
-                        double score = UtilRelationMatcher.score(objText, object_column_type, fact[1], type_of_fact_value, stopWords, stringSimilarityMetric);
-                        //this fact may match multiple candidate NEs for the object cell
-                        Map<Double, List<CellAnnotation>> mctScore_objCellCandidates = new HashMap<Double, List<CellAnnotation>>();
-                        for (int o = 0; o < objectCellAnnotations.size(); o++) {
-                            CellAnnotation objectEntity = objectCellAnnotations.get(o);
-                            double scoreAgainstObjEntityLabel = UtilRelationMatcher.score(
-                                    objectEntity.getAnnotation().getName(), object_column_type, fact[1], type_of_fact_value, stopWords, stringSimilarityMetric);
-                            List<CellAnnotation> candidates = mctScore_objCellCandidates.get(scoreAgainstObjEntityLabel);
-                            if (candidates == null) candidates = new ArrayList<CellAnnotation>();
-                            candidates.add(objectEntity);
-                            mctScore_objCellCandidates.put(scoreAgainstObjEntityLabel, candidates);
-                            if (score < scoreAgainstObjEntityLabel)
-                                score = scoreAgainstObjEntityLabel;
-                        }
-                        if (score > 0 && score > minimum_match_score) {
-                            factIdx_matchedScores.put(index, score);
-                            factIdx_matchedObjCellCandidates.put(index, mctScore_objCellCandidates.get(score));
-                        }
+                        createCandidateAnnotation(tableAnnotation,
+                                row, subjectColumn, objectColumn,
+                                fact, score, sbjEntity, objEntities);
                     }
+                }
+            }// each subjectNE-objectNE pair
+        }//each subjectNE
+    }//if block checking whether the potential subject-object cell pairs are valid
 
-                    if (factIdx_matchedScores.size() == 0) continue;
-                    //go thru all scores and make selection   within each subjectEntity-objectEntity pair
-                    List<Integer> qualified = new ArrayList<Integer>(factIdx_matchedScores.keySet());
-                    Collections.sort(qualified, new Comparator<Integer>() {
-                        @Override
-                        public int compare(Integer o1, Integer o2) {
-                            return factIdx_matchedScores.get(o2).compareTo(factIdx_matchedScores.get(o1));
-                        }
-                    });
-                    Double highestScore = factIdx_matchedScores.get(qualified.get(0));
-                    for (Map.Entry<Integer, Double> e : factIdx_matchedScores.entrySet()) {
-                        int index = e.getKey();
-                        Double score = e.getValue();
-                        if (score.equals(highestScore)) {
-                            String[] fact = sbjEntityFacts.get(index);
-                            createCandidateAnnotation(tableAnnotation,
-                                    row, subjectColumn, objectColumn,
-                                    fact, score, sbjEntity,
-                                    factIdx_matchedObjCellCandidates.get(index));
-                        }
-                    }
-                }// each subjectNE-objectNE pair
-            }//each subjectNE
-        }//if block checking whether the potential subject-object cell pairs are valid
-
-    }
 
     public void match_headerPairs(List<HeaderAnnotation> subjectHeaderColumnCandidates,
-                                  int col1,
+                                  int sbjCol,
                                   List<HeaderAnnotation> objectHeaderColumnCandidates,
-                                  int col2,
-                                  LTableColumnHeader objectColumnHeader,
+                                  int objCol,
                                   DataTypeClassifier.DataType objectColumnDataType,
                                   LTableAnnotation_JI_Freebase annotation,
                                   KnowledgeBaseSearcher kbSearcher) throws IOException {
-        if (subjectHeaderColumnCandidates.size() != 0) {
-            if (subjectHeaderColumnCandidates.size() > 0 && UtilRelationMatcher.isValidType(objectColumnDataType)) {
-                for (int s = 0; s < subjectHeaderColumnCandidates.size(); s++) {
-                    HeaderAnnotation sbjCandidates = subjectHeaderColumnCandidates.get(s);
-                    List<String[]> sbjCandidateFacts = kbSearcher.find_triplesForConcept_filtered(sbjCandidates.getAnnotation_url());
-                    sbjCandidateFacts = KnowledgeBaseFreebaseFilter.filterRelations(sbjCandidateFacts);
-                    Map<Integer, DataTypeClassifier.DataType> factObjDataTypes = classifyFactObjDataType(
-                            sbjCandidateFacts
-                    );
-                    final Map<Integer, Double> factIdx_matchedScores = new HashMap<Integer, Double>();
-                    final Map<Integer, List<String>>
-                            factIdx_matchedObjHeaderCandidates = new HashMap<Integer, List<String>>();
-                    scoreAgainstSbjFacts(objectColumnHeader.getHeaderText(),
-                            objectColumnDataType, objectHeaderColumnCandidates,
-                            sbjCandidateFacts, factObjDataTypes, factIdx_matchedScores, factIdx_matchedObjHeaderCandidates);
+        if (subjectHeaderColumnCandidates.size() > 0 && objectHeaderColumnCandidates.size() > 0) {
+            for (int s = 0; s < subjectHeaderColumnCandidates.size(); s++) {
+                HeaderAnnotation sbjCandidates = subjectHeaderColumnCandidates.get(s);
+                List<String[]> sbjCandidateFacts = kbSearcher.find_triplesForConcept_filtered(sbjCandidates.getAnnotation_url());
+                sbjCandidateFacts = KnowledgeBaseFreebaseFilter.filterRelations(sbjCandidateFacts);
+                Map<Integer, DataTypeClassifier.DataType> factObjDataTypes = classifyFactObjDataType(
+                        sbjCandidateFacts
+                );
+                final Map<Integer, Double> factIdx_matchedScores = new HashMap<Integer, Double>();
+                final Map<Integer, List<String>>
+                        factIdx_matchedObjHeaderCandidates = new HashMap<Integer, List<String>>();
+                scoreAgainstSbjFacts(
+                        objectColumnDataType, objectHeaderColumnCandidates,
+                        sbjCandidateFacts, factObjDataTypes, factIdx_matchedScores, factIdx_matchedObjHeaderCandidates);
 
 
-                    if (factIdx_matchedScores.size() == 0) continue;
-                    //go thru all scores and make selection   within each subjectEntity-objectEntity pair
-                    List<Integer> qualified = new ArrayList<Integer>(factIdx_matchedScores.keySet());
-                    Collections.sort(qualified, new Comparator<Integer>() {
-                        @Override
-                        public int compare(Integer o1, Integer o2) {
-                            return factIdx_matchedScores.get(o2).compareTo(factIdx_matchedScores.get(o1));
-                        }
-                    });
-                    Double highestScore = factIdx_matchedScores.get(qualified.get(0));
-                    for (Map.Entry<Integer, Double> e : factIdx_matchedScores.entrySet()) {
-                        int index = e.getKey();
-                        Double score = e.getValue();
-                        if (score.equals(highestScore)) {
-                            createCandidateAnnotation(sbjCandidateFacts.get(index),
-                                    sbjCandidates, factIdx_matchedObjHeaderCandidates.get(index),
-                                    annotation, col1, col2
-                            );
-                        }
+                if (factIdx_matchedScores.size() == 0) continue;
+                //go thru all scores and make selection   within each subjectEntity-objectEntity pair
+                List<Integer> qualified = new ArrayList<Integer>(factIdx_matchedScores.keySet());
+                Collections.sort(qualified, new Comparator<Integer>() {
+                    @Override
+                    public int compare(Integer o1, Integer o2) {
+                        return factIdx_matchedScores.get(o2).compareTo(factIdx_matchedScores.get(o1));
                     }
-                }//each subjectNE
-            }//if block checking whether the potential subject-object cell pairs are valid
-        }
+                });
+                Double highestScore = factIdx_matchedScores.get(qualified.get(0));
+                for (Map.Entry<Integer, Double> e : factIdx_matchedScores.entrySet()) {
+                    int index = e.getKey();
+                    Double score = e.getValue();
+                    if (score.equals(highestScore)) {
+                        createCandidateAnnotation(sbjCandidateFacts.get(index),
+                                sbjCandidates, factIdx_matchedObjHeaderCandidates.get(index),
+                                annotation, sbjCol, objCol
+                        );
+                    }
+                }
+            }//each subjectNE
+        }//if block checking whether the potential subject-object cell pairs are valid
+
     }
 
     private void createCandidateAnnotation(LTableAnnotation_JI_Freebase tableAnnotation,
@@ -158,50 +158,51 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
         ));
         //subject entity, its concepts and relation
         populateEntityAndRelationScore(tableAnnotation, sbjEntity.getAnnotation().getId(),
-                fact[0],subjectColumn, objectColumn, score);
+                fact[0], matchedObjCellCandidates, subjectColumn, objectColumn, score);
         populateConceptAndRelationScore(tableAnnotation, sbjEntity,
-                row, subjectColumn,
-                fact[0], subjectColumn, objectColumn, score);
-        //object entity (if any), its concepts and relation
-        if (matchedObjCellCandidates != null) {
-            for (CellAnnotation ca : matchedObjCellCandidates) {
-                populateEntityAndRelationScore(tableAnnotation, ca.getAnnotation().getId(),
-                        fact[0], subjectColumn, objectColumn,score);
-                populateConceptAndRelationScore(tableAnnotation, ca, row, objectColumn,
-                        fact[0],subjectColumn, objectColumn, score);
+                row,
+                fact[0], matchedObjCellCandidates, subjectColumn, objectColumn, score);
+    }
+
+    private void populateConceptAndRelationScore(LTableAnnotation_JI_Freebase tableAnnotation,
+                                                 CellAnnotation sbjEntity,
+                                                 int entityRow,
+                                                 String relationURL,
+                                                 List<CellAnnotation> matchedObjCellCandidates,
+                                                 int relationFrom, int relationTo,
+                                                 double maxScore) {
+        for (String[] sbjType : KnowledgeBaseFreebaseFilter.filterTypes(sbjEntity.getAnnotation().getTypes())) {
+            for (CellAnnotation objEntity : matchedObjCellCandidates) {
+                for (String[] objType : KnowledgeBaseFreebaseFilter.filterTypes(objEntity.getAnnotation().getTypes())) {
+                    tableAnnotation.setScore_conceptPairAndRelation_instanceEvidence(entityRow,
+                            sbjType[0],
+                            HeaderBinaryRelationAnnotation.toStringExpanded(relationFrom, relationTo, relationURL),
+                            objType[0],
+                            maxScore);
+                }
             }
         }
     }
 
-    private void populateConceptAndRelationScore(LTableAnnotation_JI_Freebase tableAnnotation,
-                                                 CellAnnotation entity,
-                                                 int entityRow, int entityColumn,
-                                                 String relationURL,
-                                                 int relationFrom, int relationTo,
-                                                 double maxScore) {
-        for (String[] type : KnowledgeBaseFreebaseFilter.filterTypes(entity.getAnnotation().getTypes())) {
-            tableAnnotation.setScore_conceptAndRelation_instanceEvidence(entityRow,
-                    entityColumn, type[0],
-                    HeaderBinaryRelationAnnotation.toStringExpanded(relationFrom, relationTo,relationURL), maxScore);
-        }
-    }
-
     private void populateEntityAndRelationScore(LTableAnnotation_JI_Freebase tableAnnotation,
-                                                String entityId, String relationURL,
+                                                String entityId, String relationURL, List<CellAnnotation> objEntities,
                                                 int relationFrom, int relationTo,
                                                 double maxScore) {
-        tableAnnotation.setScore_entityAndRelation(entityId, HeaderBinaryRelationAnnotation.toStringExpanded(
-                relationFrom, relationTo, relationURL), maxScore);
+        for (CellAnnotation objEntity : objEntities)
+            tableAnnotation.setScore_entityPairAndRelation(entityId,
+                    objEntity.getAnnotation().getId(),
+                    HeaderBinaryRelationAnnotation.toStringExpanded(
+                            relationFrom, relationTo, relationURL), maxScore);
     }
 
-    private void scoreAgainstSbjFacts(String objHeaderText,
-                                      DataTypeClassifier.DataType objectColumnDataType,
-                                      List<HeaderAnnotation> objectHeaderColumnCandidates,
-                                      List<String[]> sbjCandidateFacts,
-                                      Map<Integer, DataTypeClassifier.DataType> fact_data_types,
-                                      Map<Integer, Double> factIdx_matchedScores,
-                                      Map<Integer, List<String>>
-                                              factIdx_matchedObjHeaderCandidates
+    private void scoreAgainstSbjFacts(
+            DataTypeClassifier.DataType objectColumnDataType,
+            List<HeaderAnnotation> objectHeaderColumnCandidates,
+            List<String[]> sbjCandidateFacts,
+            Map<Integer, DataTypeClassifier.DataType> fact_data_types,
+            Map<Integer, Double> factIdx_matchedScores,
+            Map<Integer, List<String>>
+                    factIdx_matchedObjHeaderCandidates
     ) {
         //scoring matches for the cell on the row
         for (int index = 0; index < sbjCandidateFacts.size(); index++) {
@@ -211,8 +212,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                 continue;
             }
             //use only the fact's obj (text) to compare against the header's text
-            double scoreWithHeader = UtilRelationMatcher.score(objHeaderText,
-                    objectColumnDataType, fact[1], type_of_fact_value, stopWords, stringSimilarityMetric);
+            double maxScore = 0.0;
             Map<Double, List<String>> mchScore_objHeaderCandidates = new HashMap<Double, List<String>>();
             for (int o = 0; o < objectHeaderColumnCandidates.size(); o++) {
                 String objHeaderConceptURL = objectHeaderColumnCandidates.get(o).getAnnotation_url();
@@ -222,24 +222,22 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                     double scoreAgainstObjHeaderConcept = UtilRelationMatcher.
                             score(objHeaderConceptLabel, objectColumnDataType, fact[1], type_of_fact_value, stopWords, stringSimilarityMetric);
                     if (fact[2] != null) {
-                        double score = UtilRelationMatcher.
-                                score(objHeaderConceptURL, objectColumnDataType, fact[2], type_of_fact_value, stopWords, stringSimilarityMetric);
-                        if (score > scoreAgainstObjHeaderConcept)
-                            scoreAgainstObjHeaderConcept = score;
+                        double score = objHeaderConceptURL.equals(fact[2]) ? 1.0 : 0.0;
+                        if (score > scoreAgainstObjHeaderConcept) scoreAgainstObjHeaderConcept = score;
                     }
                     List<String> candidates = mchScore_objHeaderCandidates.get(scoreAgainstObjHeaderConcept);
                     if (candidates == null) candidates = new ArrayList<String>();
                     candidates.add(objHeaderConceptURL);
                     mchScore_objHeaderCandidates.put(scoreAgainstObjHeaderConcept, candidates);
-                    if (scoreWithHeader < scoreAgainstObjHeaderConcept) {
-                        scoreWithHeader = scoreAgainstObjHeaderConcept;
+                    if (maxScore < scoreAgainstObjHeaderConcept) {
+                        maxScore = scoreAgainstObjHeaderConcept;
                     }
                 }
             }
-            if (scoreWithHeader > 0 && scoreWithHeader > minimum_match_score) {
-                factIdx_matchedScores.put(index, scoreWithHeader);
+            if (maxScore > 0 && maxScore > minimum_match_score) {
+                factIdx_matchedScores.put(index, maxScore);
                 factIdx_matchedObjHeaderCandidates.
-                        put(index, mchScore_objHeaderCandidates.get(scoreWithHeader));
+                        put(index, mchScore_objHeaderCandidates.get(maxScore));
             }
         }
     }
@@ -254,12 +252,9 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
         String subjectConcept = sbjCandidate.getAnnotation_url();
         if (objectConcepts != null) {
             for (String oc : objectConcepts) {
-                annotation.setScore_conceptAndRelation_conceptEvidence(oc, relation_key, 1.0);
+                annotation.setScore_conceptPairAndRelation_conceptEvidence(subjectConcept, relation_key, oc, 1.0);
             }
         }
-        annotation.setScore_conceptAndRelation_conceptEvidence(
-                subjectConcept, relation_key, 1.0
-        );
 
         List<HeaderBinaryRelationAnnotation> candidateRelations =
                 annotation.getRelationAnnotations_across_columns().get(
@@ -284,31 +279,28 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
     public void match_sbjCellsAndRelation(
             List<CellAnnotation> subjectCellAnnotations,
             int subjectColumn, int objectColumn,
-            DataTypeClassifier.DataType object_column_type,
             LTableAnnotation_JI_Freebase tableAnnotations) {
-        if (subjectCellAnnotations.size() != 0) {
-            if (subjectCellAnnotations.size() > 0 && UtilRelationMatcher.isValidType(object_column_type)) {
-                Key_SubjectCol_ObjectCol relationDirection = new Key_SubjectCol_ObjectCol(subjectColumn, objectColumn);
-                List<HeaderBinaryRelationAnnotation> candidateRelations =
-                        tableAnnotations.getRelationAnnotations_across_columns().get(relationDirection);
-                if (candidateRelations != null && candidateRelations.size() > 0) {
-                    for (int s = 0; s < subjectCellAnnotations.size(); s++) { //for each candidate subject entity
-                        CellAnnotation sbjEntity = subjectCellAnnotations.get(s);
-                        List<String[]> sbjEntityFacts = sbjEntity.getAnnotation().getFacts(); //get the facts of that sbj ent
-                        sbjEntityFacts = KnowledgeBaseFreebaseFilter.filterRelations(sbjEntityFacts);
+        if (subjectCellAnnotations.size() > 0) {
+            Key_SubjectCol_ObjectCol relationDirection = new Key_SubjectCol_ObjectCol(subjectColumn, objectColumn);
+            List<HeaderBinaryRelationAnnotation> candidateRelations =
+                    tableAnnotations.getRelationAnnotations_across_columns().get(relationDirection);
+            if (candidateRelations != null && candidateRelations.size() > 0) {
+                for (int s = 0; s < subjectCellAnnotations.size(); s++) { //for each candidate subject entity
+                    CellAnnotation sbjEntity = subjectCellAnnotations.get(s);
+                    List<String[]> sbjEntityFacts = sbjEntity.getAnnotation().getFacts(); //get the facts of that sbj ent
+                    sbjEntityFacts = KnowledgeBaseFreebaseFilter.filterRelations(sbjEntityFacts);
 
-                        for (String[] f : sbjEntityFacts) {
-                            for (HeaderBinaryRelationAnnotation hbr : candidateRelations) {
-                                if (f[0].equals(hbr.getAnnotation_url())) {
-                                    double existingScore = tableAnnotations.getScore_entityAndRelation(sbjEntity.getAnnotation().getId(), f[0]);
-                                    tableAnnotations.setScore_entityAndRelation(sbjEntity.getAnnotation().getId(), f[0], existingScore + 1.0);
-                                    break;
-                                }
+                    for (String[] f : sbjEntityFacts) {
+                        for (HeaderBinaryRelationAnnotation hbr : candidateRelations) {
+                            if (f[0].equals(hbr.getAnnotation_url())) {
+                                tableAnnotations.setScore_entityAndRelation(sbjEntity.getAnnotation().getId(), f[0], 1.0);
+                                break;
                             }
                         }
                     }
-                }// each subjectNE-objectNE pair
-            }//each subjectNE
-        }//if block checking whether the potential subject-object cell pairs are valid
-    }
+                }
+            }// each subjectNE-objectNE pair
+        }//each subjectNE
+    }//if block checking whether the potential subject-object cell pairs are valid
+
 }

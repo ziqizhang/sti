@@ -27,18 +27,18 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                     //there is a relation between c1, c2, go thru each row, to create factor between the cell pair and relation
                     for (int r = 0; r < annotation.getRows(); r++) {
                         Variable sbj_cell_var = cellVariables.get(r + "," + c1);
-                        createCellRelationFactor(sbj_cell_var, relation_var, annotation, graph,varOutcomeHasNonZeroPotential);
                         Variable obj_cell_var = cellVariables.get(r + "," + c2);
-                        createCellRelationFactor(obj_cell_var, relation_var, annotation, graph,varOutcomeHasNonZeroPotential);
+                        createCellRelationFactor(sbj_cell_var, obj_cell_var, relation_var,
+                                annotation, graph,varOutcomeHasNonZeroPotential);
                     }
                 } else {
                     relation_var = relationVariables.get(c2 + "," + c1);
                     if (relation_var != null) {
                         for (int r = 0; r < annotation.getRows(); r++) {
                             Variable sbj_cell_var = cellVariables.get(r + "," + c2);
-                            createCellRelationFactor(sbj_cell_var, relation_var, annotation, graph,varOutcomeHasNonZeroPotential);
                             Variable obj_cell_var = cellVariables.get(r + "," + c1);
-                            createCellRelationFactor(obj_cell_var, relation_var, annotation, graph,varOutcomeHasNonZeroPotential);
+                            createCellRelationFactor(obj_cell_var, sbj_cell_var, relation_var,
+                                    annotation, graph,varOutcomeHasNonZeroPotential);
                         }
                     }
                 }
@@ -49,31 +49,35 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
 
     }
 
-    private void createCellRelationFactor(Variable cellVar, Variable relationVar,
+    private void createCellRelationFactor(Variable sbjCellVar,
+                                          Variable objCellVar,
+                                          Variable relationVar,
                                           LTableAnnotation_JI_Freebase annotation,
                                           FactorGraph graph,
                                           Map<String, Boolean> varOutcomeHasNonZeroPotential) {
-        if (cellVar != null) {
+        if (sbjCellVar != null && objCellVar!=null) {
             Map<String, Double> affinity_scores = new HashMap<String, Double>();
-            for (int i = 0; i < cellVar.getNumOutcomes(); i++) {
-                String sbj = cellVar.getLabelAlphabet().lookupLabel(i).toString();
-                for (int j = 0; j < relationVar.getNumOutcomes(); j++) {
-                    String rel = relationVar.getLabelAlphabet().lookupLabel(j).toString();
-                    double score = annotation.getScore_entityAndRelation(sbj, rel);
-                    /*if(score==0)
-                        score=Math.pow(10.0,-12);*/
-                    if (score > 0) {
-                        affinity_scores.put(i + "," + j, score);
+            for (int s = 0; s < sbjCellVar.getNumOutcomes(); s++) {
+                String sbj = sbjCellVar.getLabelAlphabet().lookupLabel(s).toString();
+                for (int r = 0; r < relationVar.getNumOutcomes(); r++) {
+                    String rel = relationVar.getLabelAlphabet().lookupLabel(r).toString();
+                    for(int o=0; o<objCellVar.getNumOutcomes(); o++){
+                        String obj = objCellVar.getLabelAlphabet().lookupLabel(o).toString();
+                        double score = annotation.getScore_entityPairAndRelation(sbj, obj, rel);
+                        score = score + annotation.getScore_entityAndRelation(sbj, rel);
+                        if (score > 0) {
+                            affinity_scores.put(s + ">" +r+">"+o , score);
+                        }
+                        checkVariableOutcomeUsage(score, sbjCellVar.getLabel() + "." + sbj,varOutcomeHasNonZeroPotential);
+                        checkVariableOutcomeUsage(score, relationVar.getLabel() + "." + rel,varOutcomeHasNonZeroPotential);
                     }
-                    checkVariableOutcomeUsage(score, cellVar.getLabel() + "." + sbj,varOutcomeHasNonZeroPotential);
-                    checkVariableOutcomeUsage(score, relationVar.getLabel() + "." + rel,varOutcomeHasNonZeroPotential);
                 }
             }
             if (affinity_scores.size() > 0) {
                 double[] potential = computePotential(affinity_scores,
-                        cellVar, relationVar);
+                        sbjCellVar, relationVar, objCellVar);
                 if (isValidPotential(potential)) {
-                    VarSet varSet = new HashVarSet(new Variable[]{cellVar, relationVar});
+                    VarSet varSet = new HashVarSet(new Variable[]{sbjCellVar, relationVar, objCellVar});
                     TableFactor factor = new TableFactor(varSet, potential);
                     graph.addFactor(factor);
                 }

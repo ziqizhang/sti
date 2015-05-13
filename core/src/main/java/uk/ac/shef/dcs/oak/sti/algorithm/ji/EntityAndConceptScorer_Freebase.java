@@ -31,13 +31,8 @@ public class EntityAndConceptScorer_Freebase {
 
     protected static double FREEBASE_TOTAL_TOPICS=47560900; //total # of topics on freebase as by 1 May 2015
 
-    public double score(String entity_id, String concept_url, KnowledgeBaseSearcher kbSearcher) throws IOException {
-        double specificity = computeConceptSpecificity(concept_url, kbSearcher);
-        double similarity = computeEntityConceptSimilarity(entity_id, concept_url, kbSearcher);
-        return specificity+similarity+1.0;
-    }
 
-    private double computeEntityConceptSimilarity(String entity_id, String concept_url, KnowledgeBaseSearcher kbSearcher) throws IOException {
+    public double computeEntityConceptSimilarity(String entity_id, String concept_url, KnowledgeBaseSearcher kbSearcher) throws IOException {
         List<String[]> entity_triples=kbSearcher.find_triplesForEntity_filtered(entity_id);
         /* BOW OF THE ENTITY*/
         List<String> bag_of_words_for_entity = new ArrayList<String>();
@@ -79,7 +74,7 @@ public class EntityAndConceptScorer_Freebase {
         return contextOverlapScore;
     }
 
-    private double computeConceptSpecificity(String concept_url, KnowledgeBaseSearcher kbSearcher) throws IOException {
+    public double computeConceptSpecificity(String concept_url, KnowledgeBaseSearcher kbSearcher) throws IOException {
         double conceptGranularity = kbSearcher.find_granularityForConcept(concept_url);
         if(conceptGranularity<0)
             return 0.0;
