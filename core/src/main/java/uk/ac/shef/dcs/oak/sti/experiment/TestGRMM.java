@@ -123,6 +123,7 @@ public class TestGRMM {
         TableFactor f26 = new TableFactor(varSet26, potential_headerMayor_cellMayor2);
         mdl.addFactor(f26);
 
+        mdl.dump();
 
         Inferencer infLoopyBP = new LoopyBP();
         //Inferencer infResidualBP = new ResidualBP();

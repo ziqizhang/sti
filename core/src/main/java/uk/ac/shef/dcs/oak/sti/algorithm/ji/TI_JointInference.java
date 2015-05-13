@@ -2,7 +2,6 @@ package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
 import cc.mallet.grmm.inference.Inferencer;
 import cc.mallet.grmm.inference.LoopyBP;
-import cc.mallet.grmm.inference.ResidualBP;
 import cc.mallet.grmm.types.AssignmentIterator;
 import cc.mallet.grmm.types.Factor;
 import cc.mallet.grmm.types.FactorGraph;
@@ -104,7 +103,7 @@ public class TI_JointInference {
         FactorGraph graph = graphBuilder.build(tab_annotations, table);
 
         //================debug
-        graphBuilder.dumpCheckVariableOutcomeUsage();
+        graphBuilder.dumpCheckMissedVariableOutcome();
         PrintWriter p = new PrintWriter("D:\\Work\\sti/graph.txt");
         graph.dump(p);
         p.close();

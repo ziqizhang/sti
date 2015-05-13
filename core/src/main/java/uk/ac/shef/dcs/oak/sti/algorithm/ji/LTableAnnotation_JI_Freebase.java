@@ -66,7 +66,14 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
 
     public double getScore_conceptPairAndRelation(String sbjConceptId, String relationId, String objConceptId, int norm) {
         double v = getScore_conceptPairAndRelation_conceptEvidence(sbjConceptId, relationId, objConceptId);
-        if (v == 0) {//todo change this back?
+
+        Map<String, Double> cells = scoreContributingRows_conceptPairAndRelation.get(
+                createKeyTriple(sbjConceptId, objConceptId, relationId));
+        if (cells != null)
+            v = v+Math.sqrt(cells.size() / (double) norm);
+        return v;
+
+        /*if (v == 0) {//todo change this back?
             if(CandidateRelationGenerator.allowRelationCandidatesFromRows){
                 Map<String, Double> cells = scoreContributingRows_conceptPairAndRelation.get(
                         createKeyTriple(sbjConceptId, objConceptId, relationId));
@@ -81,7 +88,7 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
             if (cells != null)
                 v = v + Math.sqrt(cells.size() / (double) norm);
             return v;
-        }
+        }*/
     }
 
     /**
