@@ -303,5 +303,4 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
             }// each subjectNE-objectNE pair
         }//each subjectNE
     }//if block checking whether the potential subject-object cell pairs are valid
-
 }

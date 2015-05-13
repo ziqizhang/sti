@@ -33,7 +33,7 @@ public class FactorGraphBuilder {
                 annotation,
                 graph, varOutcomeHasNonZeroPotential);
         //relation and pair of column types
-        Map<String, Variable> relations = factorBuilderHeaderAndRelation.addFactors(
+        /*Map<String, Variable> relations = factorBuilderHeaderAndRelation.addFactors(
                 columnHeaders,
                 annotation,
                 graph,
@@ -48,7 +48,7 @@ public class FactorGraphBuilder {
                 graph,
                 factorBuilderHeaderAndRelation.getRelationVarOutcomeDirection(),
                 varOutcomeHasNonZeroPotential
-        );
+        );*/
         return graph;
     }
 
