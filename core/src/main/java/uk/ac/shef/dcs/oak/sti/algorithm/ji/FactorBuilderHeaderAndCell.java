@@ -21,7 +21,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
             Variable headerVar = headerVariables.get(col);
             if (headerVar == null) continue;
 
-            for (int row = 0; row < annotation.getCols(); row++) {
+            for (int row = 0; row < annotation.getRows(); row++) {
                 CellAnnotation[] candidateEntityAnnotations = annotation.getContentCellAnnotations(row, col);
                 if (candidateEntityAnnotations.length == 0) continue;
                 Variable cellVar = cellVariables.get(row + "," + col);
@@ -52,7 +52,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                 if (affinity_values_between_variable_outcomes.size() > 0) {
                     double[] potential = computePotential(affinity_values_between_variable_outcomes,
                             headerVar,cellVar);
-                    if (isValidPotential(potential)) {
+                    if (isValidPotential(potential, affinity_values_between_variable_outcomes)) {
                         VarSet varSet = new HashVarSet(new Variable[]{headerVar, cellVar});
                         TableFactor factor = new TableFactor(varSet, potential);
                         graph.addFactor(factor);

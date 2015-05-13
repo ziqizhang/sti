@@ -49,7 +49,7 @@ class FactorBuilderHeader extends FactorBuilder {
             typeOfVariable.put(variable_header, VariableType.HEADER.toString());
             headerVarOutcomePosition.put(variable_header, col);
 
-            if (isValidPotential(potential)) {
+            if (isValidPotential(potential,null)) {
                 VarSet varSet = new HashVarSet(new Variable[]{dummyHeader, variable_header});
                 TableFactor factor = new TableFactor(varSet, potential);
                 graph.addFactor(factor);

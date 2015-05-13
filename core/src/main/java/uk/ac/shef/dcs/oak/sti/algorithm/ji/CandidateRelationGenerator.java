@@ -11,13 +11,16 @@ import java.util.*;
  * Created by zqz on 01/05/2015.
  */
 public class CandidateRelationGenerator {
+    public static boolean allowRelationCandidatesFromRows=true;
     private RelationTextMatcher_Scorer_JI_adapted matcher;
     private KnowledgeBaseSearcher kbSearcher;
 
     public CandidateRelationGenerator(RelationTextMatcher_Scorer_JI_adapted matcher,
-                                      KnowledgeBaseSearcher kbSearcher) {
+                                      KnowledgeBaseSearcher kbSearcher,
+                                      boolean allowRelationCandidatesFromRows) {
         this.matcher = matcher;
         this.kbSearcher = kbSearcher;
+        this.allowRelationCandidatesFromRows=allowRelationCandidatesFromRows;
     }
 
     public void generateCandidateRelation(LTableAnnotation_JI_Freebase tableAnnotations, LTable table, boolean useMainSubjectColumn, int[] ignoreColumns) throws IOException {
@@ -50,7 +53,7 @@ public class CandidateRelationGenerator {
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
                 if (subjectColumn == objectColumn)
                     continue;
-                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType();
+                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(objectColumn).getFeature().getMostDataType().getCandidateType();
                 if (!columnDataType.equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 System.out.print("(" + subjectColumn + "-" + objectColumn + ",");
@@ -73,7 +76,8 @@ public class CandidateRelationGenerator {
         System.out.println(")");
 
         //aggregate scores for relations on each column pairs and populate relation annotation object
-        aggregate(tableAnnotations);
+        if(allowRelationCandidatesFromRows)
+            aggregateRelationsAcrossColumns(tableAnnotations);
 
         //using pairs of column headers to compute candidate relations between columns, update tableannotation object
         System.out.println("\t\t>>Relations derived from headers");
@@ -83,26 +87,25 @@ public class CandidateRelationGenerator {
 
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
                 if (subjectColumn == objectColumn) continue;
-                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType();
+                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(objectColumn).getFeature().getMostDataType().getCandidateType();
                 if (!columnDataType.equals(DataTypeClassifier.DataType.NAMED_ENTITY)) continue;
                 System.out.print("(" + subjectColumn + "-" + objectColumn + ",");
                 createRelationCandidateBetweenConceptCandidates(subjectColumn,
                         objectColumn,
                         tableAnnotations,
-                        table,
                         colTypes, kbSearcher
                 );
             }
         }
         System.out.println(")");
-
+        System.out.println("\t\t>>Update entity-relation scores");
         //further, update entity-relation scores, to account for 1:n relations
         for (int subjectColumn : subjectColumnsToConsider) {  //choose a column to be subject column (must be NE column)
             if (!table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                 continue;
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
                 if (subjectColumn == objectColumn) continue;
-                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType();
+                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(objectColumn).getFeature().getMostDataType().getCandidateType();
                 if (!columnDataType.equals(DataTypeClassifier.DataType.NAMED_ENTITY)) continue;
                 System.out.print("(" + subjectColumn + "-" + objectColumn + ",");
                 for (int r = 0; r < table.getNumRows(); r++) {
@@ -122,7 +125,7 @@ public class CandidateRelationGenerator {
         System.out.println(")");
     }
 
-    private void aggregate(
+    private void aggregateRelationsAcrossColumns(
             LTableAnnotation_JI_Freebase tableAnnotation
     ) throws IOException {
         for (Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> e :
@@ -151,13 +154,10 @@ public class CandidateRelationGenerator {
 
     private void createRelationCandidateBetweenConceptCandidates(int sbjCol, int objCol,
                                                                  LTableAnnotation_JI_Freebase annotation,
-                                                                 LTable table,
                                                                  Map<Integer, DataTypeClassifier.DataType> colTypes,
                                                                  KnowledgeBaseSearcher kbSearcher) throws IOException {
         HeaderAnnotation[] candidates_col1 = annotation.getHeaderAnnotation(sbjCol);
         HeaderAnnotation[] candidates_col2 = annotation.getHeaderAnnotation(objCol);
-        LTableColumnHeader header_col2 = table.getColumnHeader(objCol);
-
         matcher.match_headerPairs(
                 Arrays.asList(candidates_col1),
                 sbjCol,

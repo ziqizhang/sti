@@ -76,18 +76,23 @@ public class CandidateConceptGenerator {
                 cc++;
                 double sim = entityAndConceptScorer.computeEntityConceptSimilarity(entityId, conceptId, kbSearcher);
                 tableAnnotation.setScore_entityAndConcept(entityId, conceptId, sim);
-                System.out.print(cc + ",");
+                if(cc%50==0) System.out.print(cc + ",");
             }
         }
+        System.out.println(")");
         //then update scores for every entity-concept pair where the entity votes for the concept
+        System.out.print("-E_and_C_scores_update-(tot.Ent:"+distinctEntities.size() +">");
+        cc=0;
         for(Map.Entry<String, List<String>> entry: entityId_and_conceptURLs.entrySet()){
             String entityId = entry.getKey();
             List<String> conceptIds = entry.getValue();
+            System.out.print(cc + "="+conceptIds.size()+",");
             for(String conceptId : conceptIds){
                 double specificity = entityAndConceptScorer.computeConceptSpecificity(conceptId, kbSearcher);
                 double simScore = tableAnnotation.getScore_entityAndConcept(entityId, conceptId);
                 tableAnnotation.setScore_entityAndConcept(entityId, conceptId, simScore+1.0+specificity);
             }
+            cc++;
         }
         System.out.println(")");
     }

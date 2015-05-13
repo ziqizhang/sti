@@ -23,14 +23,14 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
         super(rows, cols);
     }
 
-    public double getScore_entityAndRelation(String entityId, String relationId){
+    public double getScore_entityAndRelation(String entityId, String relationId) {
         Double v = score_entityAndRelation.get(createKeyPair(entityId, relationId));
         if (v == null)
             v = 0.0;
         return v;
     }
 
-    public void setScore_entityAndRelation(String entityId, String relationId, double score){
+    public void setScore_entityAndRelation(String entityId, String relationId, double score) {
         score_entityAndRelation.put(createKeyPair(entityId, relationId), score);
     }
 
@@ -66,12 +66,22 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
 
     public double getScore_conceptPairAndRelation(String sbjConceptId, String relationId, String objConceptId, int norm) {
         double v = getScore_conceptPairAndRelation_conceptEvidence(sbjConceptId, relationId, objConceptId);
-
-        Map<String, Double> cells = scoreContributingRows_conceptPairAndRelation.get(
-                createKeyTriple(sbjConceptId, objConceptId, relationId));
-        if (cells != null)
-            v = v + Math.sqrt(cells.size()/(double)norm);
-        return v;
+        if (v == 0) {//todo change this back?
+            if(CandidateRelationGenerator.allowRelationCandidatesFromRows){
+                Map<String, Double> cells = scoreContributingRows_conceptPairAndRelation.get(
+                        createKeyTriple(sbjConceptId, objConceptId, relationId));
+                if (cells != null)
+                    v = Math.sqrt(cells.size() / (double) norm);
+                return v;
+            }
+            return v;
+        } else {
+            Map<String, Double> cells = scoreContributingRows_conceptPairAndRelation.get(
+                    createKeyTriple(sbjConceptId, objConceptId, relationId));
+            if (cells != null)
+                v = v + Math.sqrt(cells.size() / (double) norm);
+            return v;
+        }
     }
 
     /**

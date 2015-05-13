@@ -3,7 +3,9 @@ package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 import cc.mallet.grmm.types.Variable;
 import cc.mallet.types.LabelAlphabet;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by zqz on 12/05/2015.
@@ -24,7 +26,7 @@ abstract class FactorBuilder {
         }
     }
 
-    protected boolean isValidPotential(double[] potential1) {
+    protected boolean isValidPotential(double[] potential1, Map<String, Double> affinityValues) {
         int countZero = 0;
         for (int i = 0; i < potential1.length; i++) {
             if (potential1[i] == 0)
@@ -32,6 +34,9 @@ abstract class FactorBuilder {
         }
         //System.out.println(note + ":" + countZero + "/" + potential1.length);
         if (countZero == potential1.length)
+            return false;
+
+        if(affinityValues!=null&&potential1.length-countZero!=affinityValues.size())
             return false;
         return true;
     }
@@ -83,7 +88,8 @@ abstract class FactorBuilder {
             Map<String, Double> affinity_values,
             Variable firstHeaderVar,
             Variable relationVar,
-            Variable secondHeaderVar) {
+            Variable secondHeaderVar,
+            Map<Integer, Boolean> relationIndex_forwardRelation) {
         int dimensionFirstHeaderVar = firstHeaderVar.getNumOutcomes();
         int dimensionRelationVar = relationVar.getNumOutcomes();
         int dimensionSecondHeaderVar=secondHeaderVar.getNumOutcomes();
@@ -91,11 +97,15 @@ abstract class FactorBuilder {
         for (int f = 0; f < dimensionFirstHeaderVar; f++) {
             for (int r = 0; r < dimensionRelationVar; r++) {
                 for (int s = 0; s < dimensionSecondHeaderVar; s++) {
-                    Double affinity = affinity_values.get(f + ">" + r+">"+s);
-                    if(affinity==null) affinity=affinity_values.get(s+">"+r+">"+f);
+                    Double affinity;
+                    if(relationIndex_forwardRelation.get(r))
+                        affinity = affinity_values.get(f + ">" + r+">"+s);
+                    else
+                        affinity=affinity_values.get(s+">"+r+">"+f);
                     if (affinity == null) affinity = 0.0;
-                    res[f * dimensionRelationVar * dimensionSecondHeaderVar +
-                            r*dimensionSecondHeaderVar + s] = affinity;
+                    int index=f * dimensionRelationVar * dimensionSecondHeaderVar +
+                            r*dimensionSecondHeaderVar + s;
+                    res[index] = affinity;
                 }
             }
         }

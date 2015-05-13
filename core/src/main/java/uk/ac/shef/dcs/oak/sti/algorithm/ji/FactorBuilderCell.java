@@ -46,7 +46,7 @@ class FactorBuilderCell extends FactorBuilder{
                 typeOfVariable.put(variable_cell, VariableType.CELL.toString());
                 cellVarOutcomePosition.put(variable_cell, new int[]{row, col});
 
-                if (isValidPotential(potential)) {
+                if (isValidPotential(potential,null)) {
                     VarSet varSet = new HashVarSet(new Variable[]{dummyCell, variable_cell});
                     TableFactor factor = new TableFactor(varSet, potential);
                     graph.addFactor(factor);

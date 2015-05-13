@@ -157,23 +157,25 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                 new ArrayList<String[]>(), score
         ));
         //subject entity, its concepts and relation
-        populateEntityAndRelationScore(tableAnnotation, sbjEntity.getAnnotation().getId(),
+        populateEntityPairAndRelationScore(tableAnnotation, sbjEntity.getAnnotation().getId(),
                 fact[0], matchedObjCellCandidates, subjectColumn, objectColumn, score);
-        populateConceptAndRelationScore(tableAnnotation, sbjEntity,
+        populateConceptPairAndRelationScore_instanceEvidence(tableAnnotation, sbjEntity,
                 row,
                 fact[0], matchedObjCellCandidates, subjectColumn, objectColumn, score);
     }
 
-    private void populateConceptAndRelationScore(LTableAnnotation_JI_Freebase tableAnnotation,
-                                                 CellAnnotation sbjEntity,
-                                                 int entityRow,
-                                                 String relationURL,
-                                                 List<CellAnnotation> matchedObjCellCandidates,
-                                                 int relationFrom, int relationTo,
-                                                 double maxScore) {
+    private void populateConceptPairAndRelationScore_instanceEvidence(LTableAnnotation_JI_Freebase tableAnnotation,
+                                                                      CellAnnotation sbjEntity,
+                                                                      int entityRow,
+                                                                      String relationURL,
+                                                                      List<CellAnnotation> matchedObjCellCandidates,
+                                                                      int relationFrom, int relationTo,
+                                                                      double maxScore) {
+        //todo: false relation added to highly general types (person, religious_leader_title), maybe use only most specific type of sbj, obj
         for (String[] sbjType : KnowledgeBaseFreebaseFilter.filterTypes(sbjEntity.getAnnotation().getTypes())) {
             for (CellAnnotation objEntity : matchedObjCellCandidates) {
                 for (String[] objType : KnowledgeBaseFreebaseFilter.filterTypes(objEntity.getAnnotation().getTypes())) {
+                    if (sbjType[0].equals(objType[0])) continue;
                     tableAnnotation.setScore_conceptPairAndRelation_instanceEvidence(entityRow,
                             sbjType[0],
                             HeaderBinaryRelationAnnotation.toStringExpanded(relationFrom, relationTo, relationURL),
@@ -184,10 +186,10 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
         }
     }
 
-    private void populateEntityAndRelationScore(LTableAnnotation_JI_Freebase tableAnnotation,
-                                                String entityId, String relationURL, List<CellAnnotation> objEntities,
-                                                int relationFrom, int relationTo,
-                                                double maxScore) {
+    private void populateEntityPairAndRelationScore(LTableAnnotation_JI_Freebase tableAnnotation,
+                                                    String entityId, String relationURL, List<CellAnnotation> objEntities,
+                                                    int relationFrom, int relationTo,
+                                                    double maxScore) {
         for (CellAnnotation objEntity : objEntities)
             tableAnnotation.setScore_entityPairAndRelation(entityId,
                     objEntity.getAnnotation().getId(),
@@ -260,13 +262,12 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                 annotation.getRelationAnnotations_across_columns().get(
                         new Key_SubjectCol_ObjectCol(col1, col2)
                 );
+        if (candidateRelations == null) candidateRelations = new ArrayList<HeaderBinaryRelationAnnotation>();
         boolean contains = false;
-        if (candidateRelations != null) {
-            for (HeaderBinaryRelationAnnotation hbr : candidateRelations) {
-                if (hbr.getAnnotation_url().equals(fact[0])) {
-                    contains = true;
-                    break;
-                }
+        for (HeaderBinaryRelationAnnotation hbr : candidateRelations) {
+            if (hbr.getAnnotation_url().equals(fact[0])) {
+                contains = true;
+                break;
             }
         }
         if (!contains) {

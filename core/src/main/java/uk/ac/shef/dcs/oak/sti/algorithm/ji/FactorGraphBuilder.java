@@ -45,7 +45,9 @@ public class FactorGraphBuilder {
                 relations,
                 cellAnnotations,
                 annotation,
-                graph,varOutcomeHasNonZeroPotential
+                graph,
+                factorBuilderHeaderAndRelation.getRelationVarOutcomeDirection(),
+                varOutcomeHasNonZeroPotential
         );
         return graph;
     }
@@ -66,7 +68,7 @@ public class FactorGraphBuilder {
         return factorBuilderHeaderAndRelation.relationVarOutcomeDirection.get(varOutcomeLabel);
     }
 
-    public void dumpCheckVariableOutcomeUsage() {
+    public void dumpCheckMissedVariableOutcome() {
         List<String> keys = new ArrayList<String>(varOutcomeHasNonZeroPotential.keySet());
         Collections.sort(keys);
         for (String k : keys) {
