@@ -50,7 +50,6 @@ public class RelationTextMatch_Scorer {
 
                     String objText = objectCellText.getText();
                     //scoring matches for the cell on the row
-                    double maxScore = 0.0;
                     final Map<Integer, Double> fact_matched_scores = new HashMap<Integer, Double>();
                     for (int index = 0; index < subject_entity_facts.size(); index++) {
                         DataTypeClassifier.DataType type_of_fact_value = fact_data_types.get(index);
@@ -90,7 +89,7 @@ public class RelationTextMatch_Scorer {
                             tableAnnotation.addRelationAnnotation_per_row(new CellBinaryRelationAnnotation(
                                     new Key_SubjectCol_ObjectCol(subjectColumn, objectColumn), row,
                                     fact[0], fact[0],
-                                    new ArrayList<String[]>(), maxScore
+                                    new ArrayList<String[]>(), score
                             ));
                         }
                     }

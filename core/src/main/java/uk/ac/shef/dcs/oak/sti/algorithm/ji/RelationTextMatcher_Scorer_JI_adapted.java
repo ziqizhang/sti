@@ -158,7 +158,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
         ));
         //subject entity, its concepts and relation
         populateEntityPairAndRelationScore(tableAnnotation, sbjEntity.getAnnotation().getId(),
-                fact[0], matchedObjCellCandidates, subjectColumn, objectColumn, score);
+                fact[0], matchedObjCellCandidates, subjectColumn, objectColumn);
         populateConceptPairAndRelationScore_instanceEvidence(tableAnnotation, sbjEntity,
                 row,
                 fact[0], matchedObjCellCandidates, subjectColumn, objectColumn, score);
@@ -188,13 +188,13 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
 
     private void populateEntityPairAndRelationScore(LTableAnnotation_JI_Freebase tableAnnotation,
                                                     String entityId, String relationURL, List<CellAnnotation> objEntities,
-                                                    int relationFrom, int relationTo,
-                                                    double maxScore) {
+                                                    int relationFrom, int relationTo
+                                                    ) {
         for (CellAnnotation objEntity : objEntities)
             tableAnnotation.setScore_entityPairAndRelation(entityId,
                     objEntity.getAnnotation().getId(),
                     HeaderBinaryRelationAnnotation.toStringExpanded(
-                            relationFrom, relationTo, relationURL), maxScore);
+                            relationFrom, relationTo, relationURL), 1.0);
     }
 
     private void scoreAgainstSbjFacts(
