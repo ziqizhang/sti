@@ -71,21 +71,30 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                             score = annotation.getScore_entityPairAndRelation(sbj, obj, rel);
                             score = score + annotation.getScore_entityAndRelation(sbj, rel);
                             if (score > 0)
-                                affinity_scores.put(s + ">" + r + ">" + o, score);
+                                updateAffinity(affinity_scores, sbjCellVar, s, objCellVar, o, r, score);
                         } else {
                             score = annotation.getScore_entityPairAndRelation(obj, sbj, rel);
                             score = score + annotation.getScore_entityAndRelation(obj, rel);
                             if (score > 0)
-                                affinity_scores.put(o + ">" + r + ">" + s, score);
+                                updateAffinity(affinity_scores, sbjCellVar, s, objCellVar, o, r, score);
                         }
                     }
                 }
             }
             if (affinity_scores.size() > 0) {
-                double[] potential = computePotential(affinity_scores,
-                        sbjCellVar, relationVar, objCellVar, relationIndex_forwardRelation);
+                double[] potential;
+                if (sbjCellVar.getIndex() < objCellVar.getIndex())
+                    potential = computePotential(affinity_scores,
+                            sbjCellVar, objCellVar, relationVar, relationIndex_forwardRelation);
+                else
+                    potential = computePotential(affinity_scores,
+                            objCellVar, sbjCellVar, relationVar, relationIndex_forwardRelation);
                 if (isValidPotential(potential, affinity_scores)) {
-                    VarSet varSet = new HashVarSet(new Variable[]{sbjCellVar, relationVar, objCellVar});
+                    VarSet varSet;
+                    if(sbjCellVar.getIndex() < objCellVar.getIndex())
+                        varSet= new HashVarSet(new Variable[]{sbjCellVar, objCellVar, relationVar});
+                    else
+                        varSet= new HashVarSet(new Variable[]{objCellVar, sbjCellVar, relationVar});
                     TableFactor factor = new TableFactor(varSet, potential);
                     graph.addFactor(factor);
                 }
@@ -93,5 +102,15 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
         }
     }
 
+    private void updateAffinity(Map<String, Double> affinity_scores,
+                                Variable sbjCellVar, int sbjVarOutcomeIndex,
+                                Variable objCellVar, int objVarOutcomeIndex,
+                                int relationVarOutcomeIndex, double score) {
+        if (sbjCellVar.getIndex() < objCellVar.getIndex()) {
+            affinity_scores.put(sbjVarOutcomeIndex + ">" + objVarOutcomeIndex + ">" + relationVarOutcomeIndex, score);
+        } else {
+            affinity_scores.put(objVarOutcomeIndex + ">" + sbjVarOutcomeIndex + ">" + relationVarOutcomeIndex, score);
+        }
+    }
 
 }

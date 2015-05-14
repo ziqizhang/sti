@@ -14,7 +14,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
 
     protected Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection = new HashMap<String, Key_SubjectCol_ObjectCol>();
 
-    public Map<String, Key_SubjectCol_ObjectCol> getRelationVarOutcomeDirection(){
+    public Map<String, Key_SubjectCol_ObjectCol> getRelationVarOutcomeDirection() {
         return relationVarOutcomeDirection;
     }
 
@@ -59,7 +59,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                 LabelAlphabet candidateIndex_relation = new LabelAlphabet();
 
                 //key- outcome index of a relation var; value-true if relation is forward; false otherwise
-                Map<Integer, Boolean> relationIndex_forwardRelation=new HashMap<Integer, Boolean>();
+                Map<Integer, Boolean> relationIndex_forwardRelation = new HashMap<Integer, Boolean>();
                 for (HeaderBinaryRelationAnnotation hbr : candidate_relations) {
                     int index_relation = candidateIndex_relation.lookupIndex(hbr.toStringExpanded(), true);
                     Key_SubjectCol_ObjectCol current_rel_direction = hbr.getSubject_object_key();
@@ -70,27 +70,21 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                             String col1_header_concept_url = column1_header_variable.getLabelAlphabet().lookupLabel(col1_outcome).toString();
                             for (int col2_outcome = 0; col2_outcome < column2_header_variable.getNumOutcomes(); col2_outcome++) {
                                 String col2_header_concept_url = column2_header_variable.getLabelAlphabet().lookupLabel(col2_outcome).toString();
+                                double score = 0.0;
                                 if (current_rel_direction.getSubjectCol() == c1 && current_rel_direction.getObjectCol() == c2) {
-                                    /*if(col1_header_concept_url.equals("/tv/tv_actor")&&col2_header_concept_url.equals("/tv/tv_actor"))
-                                        System.out.println();*/
-                                    double score = annotation.getScore_conceptPairAndRelation(col1_header_concept_url,
+                                    score = annotation.getScore_conceptPairAndRelation(col1_header_concept_url,
                                             hbr.toStringExpanded(), col2_header_concept_url, annotation.getRows());
-                                    if (score > 0) {
-                                        affinity_scores.put(col1_outcome + ">" + index_relation + ">" + col2_outcome, score);
-                                        relationIndex_forwardRelation.put(index_relation, true);
-                                    }
-                                        //affinity_scores.put(col1_header_concept_url + ">" + col2_header_concept_url + ">" + hbr.toStringExpanded(), score);
-                                }
-                                else if (current_rel_direction.getObjectCol() == c1 && current_rel_direction.getSubjectCol() == c2) {
-                                    /*if(col1_header_concept_url.equals("/tv/tv_actor")&&col2_header_concept_url.equals("/tv/tv_actor"))
-                                        System.out.println();*/
-                                    double score = annotation.getScore_conceptPairAndRelation(col2_header_concept_url,
+                                } else if (current_rel_direction.getObjectCol() == c1 && current_rel_direction.getSubjectCol() == c2) {
+
+                                    score = annotation.getScore_conceptPairAndRelation(col2_header_concept_url,
                                             hbr.toStringExpanded(), col1_header_concept_url, annotation.getRows());
-                                    if (score > 0) {
-                                        affinity_scores.put(col2_outcome + ">" + index_relation + ">" + col1_outcome, score);
-                                        relationIndex_forwardRelation.put(index_relation, false);
-                                    }
-                                        //affinity_scores.put(col2_header_concept_url + ">" + col1_header_concept_url + ">" + hbr.toStringExpanded(), score);
+                                }
+                                if (column1_header_variable.getIndex() < column2_header_variable.getIndex()) {
+                                    affinity_scores.put(col1_outcome + ">" + col2_outcome+">"+index_relation, score);
+                                    relationIndex_forwardRelation.put(index_relation, true);
+                                } else {
+                                    affinity_scores.put(col2_outcome + ">" + col1_outcome+">"+index_relation, score);
+                                    relationIndex_forwardRelation.put(index_relation, false);
                                 }
                             }
                         }
@@ -99,10 +93,6 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                     processed.add(c2 + "," + c1);
                 }
 
-                //debugggggggggggggggggggg, check affinity vs annotation's evidence
-
-                //
-
                 Variable relationVariable = new Variable(candidateIndex_relation);
                 relationVariable.setLabel(VariableType.RELATION.toString() + "." + relation_direction.getSubjectCol() + "," + relation_direction.getObjectCol());
                 typeOfVariable.put(relationVariable, VariableType.RELATION.toString());
@@ -110,13 +100,23 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                         relation_direction.getObjectCol(), relationVariable);
 
                 //create potentials
-                double[] potential1 = computePotential(affinity_scores,
-                        column1_header_variable,
-                        relationVariable,
-                        column2_header_variable, relationIndex_forwardRelation);
-                if (isValidPotential(potential1,affinity_scores)) {
-                    VarSet varSet1 = new HashVarSet(new Variable[]{column1_header_variable, relationVariable, column2_header_variable});
-                    TableFactor factor1 = new TableFactor(varSet1, potential1);
+                double[] compatibility;
+                if(column1_header_variable.getIndex() < column2_header_variable.getIndex()) {
+                    compatibility = computePotential(affinity_scores,
+                            column1_header_variable,
+                            column2_header_variable, relationVariable, relationIndex_forwardRelation);
+                }else{
+                    compatibility = computePotential(affinity_scores,
+                            column2_header_variable,
+                            column1_header_variable, relationVariable, relationIndex_forwardRelation);
+                }
+                if (isValidPotential(compatibility, affinity_scores)) {
+                    VarSet varSet;
+                    if(column1_header_variable.getIndex() < column2_header_variable.getIndex())
+                        varSet = new HashVarSet(new Variable[]{column1_header_variable, column2_header_variable, relationVariable});
+                    else
+                        varSet = new HashVarSet(new Variable[]{column2_header_variable, column1_header_variable, relationVariable});
+                    TableFactor factor1 = new TableFactor(varSet, compatibility);
                     graph.addFactor(factor1);
                 }
             }

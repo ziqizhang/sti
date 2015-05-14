@@ -40,7 +40,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                         double score = annotation.getScore_entityAndConcept(entId, conceptURL);
                         if (score > 0) {
                             affinity_values_between_variable_outcomes.put(
-                                    headerVarOutcomeIndex + "," + cellVarOutcomeIndex, score
+                                    cellVarOutcomeIndex + "," +headerVarOutcomeIndex , score
                             );
                         }
                     }
@@ -48,9 +48,9 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
 
                 if (affinity_values_between_variable_outcomes.size() > 0) {
                     double[] potential = computePotential(affinity_values_between_variable_outcomes,
-                            headerVar, cellVar);
+                            cellVar, headerVar);
                     if (isValidPotential(potential, affinity_values_between_variable_outcomes)) {
-                        VarSet varSet = new HashVarSet(new Variable[]{headerVar, cellVar});
+                        VarSet varSet = new HashVarSet(new Variable[]{cellVar, headerVar});
                         TableFactor factor = new TableFactor(varSet, potential);
                         graph.addFactor(factor);
                     }

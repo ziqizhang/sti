@@ -12,6 +12,19 @@ import java.util.Set;
  */
 abstract class FactorBuilder {
 
+    protected void checkVariableOutcomeUsage(double potential, String key, Map<String, Boolean> varOutcomeHasNonZeroPotential) {
+        Boolean hasNonZeroPotential =
+                varOutcomeHasNonZeroPotential.
+                        get(key);
+        if (hasNonZeroPotential == null) {
+            hasNonZeroPotential = false;
+            varOutcomeHasNonZeroPotential.put(key, hasNonZeroPotential);
+        }
+        if (potential > 0) {
+            if (!hasNonZeroPotential)
+                varOutcomeHasNonZeroPotential.put(key, true);
+        }
+    }
 
     protected boolean isValidPotential(double[] potential1, Map<String, Double> affinityValues) {
         int countZero = 0;
@@ -78,24 +91,46 @@ abstract class FactorBuilder {
             Variable secondHeaderVar,
             Map<Integer, Boolean> relationIndex_forwardRelation) {
         int dimensionFirstHeaderVar = firstHeaderVar.getNumOutcomes();
-        int dimensionRelationVar = relationVar.getNumOutcomes();
-        int dimensionSecondHeaderVar=secondHeaderVar.getNumOutcomes();
-        double[] res = new double[dimensionFirstHeaderVar * dimensionRelationVar*dimensionSecondHeaderVar];
+        int dimensionSecondVar = relationVar.getNumOutcomes();
+        int dimensionThirdVar=secondHeaderVar.getNumOutcomes();
+        double[] res = new double[dimensionFirstHeaderVar * dimensionSecondVar*dimensionThirdVar];
+        int cc=0;
+        Set<Integer> indexes = new HashSet<Integer>();
         for (int f = 0; f < dimensionFirstHeaderVar; f++) {
+            for (int s = 0; s < dimensionSecondVar; s++) {
+                for (int t = 0; t < dimensionThirdVar; t++) {
+                    Double affinity = affinity_values.get(f + ">" + s+">"+t);
+                    if (affinity == null) affinity = 0.0;
+                    int index=f * dimensionSecondVar * dimensionThirdVar +
+                            s*dimensionThirdVar + t;
+                    res[index] = affinity;
+                    if(affinity!=0) {
+                        cc++;
+                        indexes.add(index);
+                    }
+                }
+            }
+        }
+        System.out.println(cc);
+        return res;
+    }
+
+    /*
+    for (int f = 0; f < dimensionFirstHeaderVar; f++) {
             for (int r = 0; r < dimensionRelationVar; r++) {
                 for (int s = 0; s < dimensionSecondHeaderVar; s++) {
-                    Double affinity;
-                    if(relationIndex_forwardRelation.get(r))
-                        affinity = affinity_values.get(f + ">" + r+">"+s);
-                    else
-                        affinity=affinity_values.get(s+">"+r+">"+f);
+                    Double affinity = affinity_values.get(f + ">" + r+">"+s);
+                    if(affinity==null) affinity=affinity_values.get(s+">"+r+">"+f);
                     if (affinity == null) affinity = 0.0;
                     int index=f * dimensionRelationVar * dimensionSecondHeaderVar +
                             r*dimensionSecondHeaderVar + s;
                     res[index] = affinity;
+                    if(affinity!=0) {
+                        cc++;
+                        indexes.add(index);
+                    }
                 }
             }
         }
-        return res;
-    }
+     */
 }
