@@ -17,7 +17,7 @@ public class FactorGraphBuilder {
     private FactorBuilderHeaderAndRelation factorBuilderHeaderAndRelation = new FactorBuilderHeaderAndRelation();
     private Map<Variable, String> typeOfVariable = new HashMap<Variable, String>();
 
-    public FactorGraph build(LTableAnnotation_JI_Freebase annotation) {
+    public FactorGraph build(LTableAnnotation_JI_Freebase annotation, boolean relationLearning) {
         FactorGraph graph = new FactorGraph();
         //cell text and entity label
         Map<String, Variable> cellAnnotations = factorBuilderCell.addFactors(annotation, graph,
@@ -31,21 +31,23 @@ public class FactorGraphBuilder {
                 annotation,
                 graph);
         //relation and pair of column types
-        Map<String, Variable> relations = factorBuilderHeaderAndRelation.addFactors(
-                columnHeaders,
-                annotation,
-                graph,
-                typeOfVariable
-        );
+        if (relationLearning) {
+            Map<String, Variable> relations = factorBuilderHeaderAndRelation.addFactors(
+                    columnHeaders,
+                    annotation,
+                    graph,
+                    typeOfVariable
+            );
 
-        //relation and entity pairs
-        /*new FactorBuilderCellAndRelation().addFactors(
-                relations,
-                cellAnnotations,
-                annotation,
-                graph,
-                factorBuilderHeaderAndRelation.getRelationVarOutcomeDirection()
-        );*/
+            //relation and entity pairs
+            new FactorBuilderCellAndRelation().addFactors(
+                    relations,
+                    cellAnnotations,
+                    annotation,
+                    graph,
+                    factorBuilderHeaderAndRelation.getRelationVarOutcomeDirection()
+            );
+        }
         return graph;
     }
 
@@ -64,7 +66,6 @@ public class FactorGraphBuilder {
     public Key_SubjectCol_ObjectCol getRelationDirection(String varOutcomeLabel) {
         return factorBuilderHeaderAndRelation.relationVarOutcomeDirection.get(varOutcomeLabel);
     }
-
 
 
 }

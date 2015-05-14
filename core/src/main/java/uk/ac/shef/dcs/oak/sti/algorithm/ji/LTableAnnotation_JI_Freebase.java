@@ -175,10 +175,10 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
         if (tmp.size() > 0)
             System.err.println("score_entityAndRelation unused:" + tmp);
 
-        tmp = new ArrayList<String>(score_conceptPairAndRelation_instaceEvidence.keySet());
+        /*tmp = new ArrayList<String>(score_conceptPairAndRelation_instaceEvidence.keySet());
         tmp.removeAll(usedKey_score_conceptPairAndRelation_instaceEvidence);
         if (tmp.size() > 0)
-            System.err.println("score_conceptPairAndRelation_instaceEvidence unused:" + tmp);
+            System.err.println("score_conceptPairAndRelation_instaceEvidence unused:" + tmp);*/
 
         tmp = new ArrayList<String>(score_conceptPairAndRelation_conceptEvidence.keySet());
         tmp.removeAll(usedKey_score_conceptPairAndRelation_conceptEvidence);

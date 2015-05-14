@@ -100,7 +100,7 @@ public class TI_JointInference {
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t BUILDING FACTOR GRAPH");
-        FactorGraph graph = graphBuilder.build(tab_annotations);
+        FactorGraph graph = graphBuilder.build(tab_annotations,relationLearning);
 
         //================debug
         GraphCheckingUtil.checkGraph(graph);

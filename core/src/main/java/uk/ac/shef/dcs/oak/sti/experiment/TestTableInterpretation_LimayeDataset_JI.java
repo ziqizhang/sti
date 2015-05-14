@@ -99,7 +99,7 @@ public class TestTableInterpretation_LimayeDataset_JI {
                         multiThreads),
                 new CandidateRelationGenerator(new RelationTextMatcher_Scorer_JI_adapted(stopWords,
                         new Levenshtein(), 0.5),
-                        freebaseSearcherGeneral, false),
+                        freebaseSearcherGeneral, true),
                 new FactorGraphBuilder(),
                 useSubjectColumn,
                 IGNORE_COLUMNS,

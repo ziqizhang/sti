@@ -294,11 +294,8 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                     for (String[] f : sbjEntityFacts) {
                         for (HeaderBinaryRelationAnnotation hbr : candidateRelations) {
                             if (f[0].equals(hbr.getAnnotation_url())) {
-                                tableAnnotations.setScore_entityAndRelation(
-                                        sbjEntity.getAnnotation().getId(),
-                                        HeaderBinaryRelationAnnotation.
-                                                toStringExpanded(relationDirection.getSubjectCol(), relationDirection.getObjectCol(),f[0]),
-                                        1.0);
+                                tableAnnotations.setScore_entityAndRelation(sbjEntity.getAnnotation().getId(),
+                                        HeaderBinaryRelationAnnotation.toStringExpanded(relationDirection.getSubjectCol(), relationDirection.getObjectCol(),f[0]), 1.0);
                                 break;
                             }
                         }
