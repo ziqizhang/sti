@@ -119,6 +119,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                     else
                         varSet = new HashVarSet(new Variable[]{column2_header_variable, column1_header_variable, relationVariable});
                     TableFactor factor1 = new TableFactor(varSet, compatibility);
+                    GraphCheckingUtil.checkFactorAgainstAffinity(factor1, affinity_scores);
                     graph.addFactor(factor1);
                 }
             }

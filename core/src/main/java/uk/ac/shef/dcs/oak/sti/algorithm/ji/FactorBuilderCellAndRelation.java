@@ -96,6 +96,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                     else
                         varSet= new HashVarSet(new Variable[]{objCellVar, sbjCellVar, relationVar});
                     TableFactor factor = new TableFactor(varSet, potential);
+                    GraphCheckingUtil.checkFactorAgainstAffinity(factor, affinity_scores);
                     graph.addFactor(factor);
                 }
             }

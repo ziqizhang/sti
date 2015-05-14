@@ -10,6 +10,52 @@ import java.util.*;
  * Created by zqz on 14/05/2015.
  */
 public class GraphCheckingUtil {
+
+    public static void checkFactorAgainstAffinity(Factor f, Map<String, Double> affinity){
+        Set<String> factorValues=new HashSet<String>();
+        AssignmentIterator it = f.assignmentIterator();
+        while (it.hasNext()) {
+            Assignment assignment = it.assignment();
+            //assignment.numVariables();
+            String[] splits = assignment.dumpToString().trim().split("\r");
+            String indexString = splits[splits.length - 1].trim();
+            String[] indexes = indexString.split("\\s+");
+
+            double score = f.value(assignment);
+            if(score>0) {
+                String line = "";
+                for (int v = 0; v < assignment.numVariables(); v++) {
+                    Variable var = assignment.getVariable(v);
+                    int idx = Integer.valueOf(indexes[v]);
+                    //String label = var.getLabelAlphabet().lookupLabel(idx).toString();
+                    line = line + idx + " ";
+                }
+                line = line + score;
+                factorValues.add(line.trim());
+            }
+            it.next();
+        }
+
+        Set<String> affinityValues = new HashSet<String>();
+        for(String k: affinity.keySet()){
+            affinityValues.add(k.replaceAll("[^0-9]"," ").trim());
+        }
+
+        List<String> factorValuesCopy = new ArrayList<String>(factorValues);
+        List<String> affinityValuesCopy = new ArrayList<String>(affinityValues);
+        factorValuesCopy.removeAll(affinityValues);
+        affinityValuesCopy.removeAll(factorValues);
+
+        Collections.sort(factorValuesCopy);
+        Collections.sort(affinityValuesCopy);
+        if(factorValuesCopy.size()!=0){
+            System.err.println(f.toString()+" factorValuesRemain:"+factorValuesCopy);
+        }
+        if(affinityValuesCopy.size()!=0){
+            System.err.println(f.toString()+" affinityValuesRemain:"+affinityValuesCopy);
+        }
+    }
+
     public static void checkGraph(FactorGraph graph) throws FileNotFoundException {
         PrintWriter p = new PrintWriter("D:\\Work\\sti/graph.txt");
         graph.dump(p);

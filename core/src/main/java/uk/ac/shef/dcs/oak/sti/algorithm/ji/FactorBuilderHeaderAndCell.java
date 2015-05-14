@@ -52,6 +52,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                     if (isValidPotential(potential, affinity_values_between_variable_outcomes)) {
                         VarSet varSet = new HashVarSet(new Variable[]{cellVar, headerVar});
                         TableFactor factor = new TableFactor(varSet, potential);
+                        GraphCheckingUtil.checkFactorAgainstAffinity(factor, affinity_values_between_variable_outcomes);
                         graph.addFactor(factor);
                     }
                 }
