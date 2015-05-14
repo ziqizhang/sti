@@ -79,12 +79,14 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                                     score = annotation.getScore_conceptPairAndRelation(col2_header_concept_url,
                                             hbr.toStringExpanded(), col1_header_concept_url, annotation.getRows());
                                 }
-                                if (column1_header_variable.getIndex() < column2_header_variable.getIndex()) {
-                                    affinity_scores.put(col1_outcome + ">" + col2_outcome+">"+index_relation, score);
-                                    relationIndex_forwardRelation.put(index_relation, true);
-                                } else {
-                                    affinity_scores.put(col2_outcome + ">" + col1_outcome+">"+index_relation, score);
-                                    relationIndex_forwardRelation.put(index_relation, false);
+                                if (score > 0) {
+                                    if (column1_header_variable.getIndex() < column2_header_variable.getIndex()) {
+                                        affinity_scores.put(col1_outcome + ">" + col2_outcome + ">" + index_relation, score);
+                                        relationIndex_forwardRelation.put(index_relation, true);
+                                    } else {
+                                        affinity_scores.put(col2_outcome + ">" + col1_outcome + ">" + index_relation, score);
+                                        relationIndex_forwardRelation.put(index_relation, false);
+                                    }
                                 }
                             }
                         }
@@ -101,18 +103,18 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
 
                 //create potentials
                 double[] compatibility;
-                if(column1_header_variable.getIndex() < column2_header_variable.getIndex()) {
+                if (column1_header_variable.getIndex() < column2_header_variable.getIndex()) {
                     compatibility = computePotential(affinity_scores,
                             column1_header_variable,
                             column2_header_variable, relationVariable, relationIndex_forwardRelation);
-                }else{
+                } else {
                     compatibility = computePotential(affinity_scores,
                             column2_header_variable,
                             column1_header_variable, relationVariable, relationIndex_forwardRelation);
                 }
                 if (isValidPotential(compatibility, affinity_scores)) {
                     VarSet varSet;
-                    if(column1_header_variable.getIndex() < column2_header_variable.getIndex())
+                    if (column1_header_variable.getIndex() < column2_header_variable.getIndex())
                         varSet = new HashVarSet(new Variable[]{column1_header_variable, column2_header_variable, relationVariable});
                     else
                         varSet = new HashVarSet(new Variable[]{column2_header_variable, column1_header_variable, relationVariable});

@@ -94,7 +94,6 @@ abstract class FactorBuilder {
         int dimensionSecondVar = relationVar.getNumOutcomes();
         int dimensionThirdVar=secondHeaderVar.getNumOutcomes();
         double[] res = new double[dimensionFirstHeaderVar * dimensionSecondVar*dimensionThirdVar];
-        int cc=0;
         Set<Integer> indexes = new HashSet<Integer>();
         for (int f = 0; f < dimensionFirstHeaderVar; f++) {
             for (int s = 0; s < dimensionSecondVar; s++) {
@@ -104,14 +103,12 @@ abstract class FactorBuilder {
                     int index=f * dimensionSecondVar * dimensionThirdVar +
                             s*dimensionThirdVar + t;
                     res[index] = affinity;
-                    if(affinity!=0) {
-                        cc++;
+                    if(affinity!=0)
                         indexes.add(index);
-                    }
                 }
             }
         }
-        System.out.println(cc);
+        //System.out.println(cc);
         return res;
     }
 

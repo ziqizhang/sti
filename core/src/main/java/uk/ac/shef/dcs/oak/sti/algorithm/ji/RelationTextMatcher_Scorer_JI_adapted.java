@@ -135,8 +135,6 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                     int index = e.getKey();
                     Double score = e.getValue();
                     if (score.equals(highestScore)) {
-                        if (sbjCandidateFacts.get(index)[0].equals("/film/film/country"))
-                            System.out.println("fuck");
                         createCandidateAnnotation(sbjCandidateFacts.get(index),
                                 sbjCandidates, factIdx_matchedObjHeaderCandidates.get(index),
                                 annotation, sbjCol, objCol
@@ -154,8 +152,6 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                            double score,
                                            CellAnnotation sbjEntity,
                                            List<CellAnnotation> matchedObjCellCandidates) {
-        if (fact[0].equals("/award/award_presenting_organization/awards_presented"))
-            System.out.println("fuck");
         tableAnnotation.addRelationAnnotation_per_row(new CellBinaryRelationAnnotation(
                 new Key_SubjectCol_ObjectCol(subjectColumn, objectColumn), row, fact[0], fact[0],
                 new ArrayList<String[]>(), score

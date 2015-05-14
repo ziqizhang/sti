@@ -39,13 +39,13 @@ public class FactorGraphBuilder {
         );
 
         //relation and entity pairs
-        new FactorBuilderCellAndRelation().addFactors(
+        /*new FactorBuilderCellAndRelation().addFactors(
                 relations,
                 cellAnnotations,
                 annotation,
                 graph,
                 factorBuilderHeaderAndRelation.getRelationVarOutcomeDirection()
-        );
+        );*/
         return graph;
     }
 

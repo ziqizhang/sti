@@ -28,9 +28,6 @@ public class GraphCheckingUtil {
                 String indexString = splits[splits.length - 1].trim();
                 String[] indexes = indexString.split("\\s+");
 
-                if (indexes.length == 3)
-                    System.out.println(indexes[0] + "," + indexes[1] + "," + indexes[2]);
-
                 double score = f.value(assignment);
                 if (score > 0) {
                     for (int v = 0; v < assignment.numVariables(); v++) {
