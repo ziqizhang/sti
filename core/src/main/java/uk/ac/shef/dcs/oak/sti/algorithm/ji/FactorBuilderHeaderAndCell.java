@@ -33,11 +33,11 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                     String entId = ca.getAnnotation().getId();
                     int cellVarOutcomeIndex = cellVar.getLabelAlphabet().lookupIndex(entId, false);
                     if (cellVarOutcomeIndex < 0) continue;
-                    for (String[] type : KnowledgeBaseFreebaseFilter.filterTypes(ca.getAnnotation().getTypes())) {
-                        int headerVarOutcomeIndex = headerVar.getLabelAlphabet().lookupIndex(type[0], false);
+                    for (int headerVarOutcomeIndex=0; headerVarOutcomeIndex<headerVar.getNumOutcomes(); headerVarOutcomeIndex++) {
+                        String conceptURL = headerVar.getLabelAlphabet().lookupLabel(headerVarOutcomeIndex).toString();
                         if (headerVarOutcomeIndex < 0) continue;
 
-                        double score = annotation.getScore_entityAndConcept(entId, type[0]);
+                        double score = annotation.getScore_entityAndConcept(entId, conceptURL);
                         if (score > 0) {
                             affinity_values_between_variable_outcomes.put(
                                     headerVarOutcomeIndex + "," + cellVarOutcomeIndex, score

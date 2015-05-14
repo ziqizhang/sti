@@ -88,7 +88,6 @@ public class TI_JointInference {
                 for (int r = 0; r < table.getNumRows(); r++) {
                     neGenerator.generateCandidateEntity(tab_annotations, table, r, col);
                 }
-                break;
             }
         }
 

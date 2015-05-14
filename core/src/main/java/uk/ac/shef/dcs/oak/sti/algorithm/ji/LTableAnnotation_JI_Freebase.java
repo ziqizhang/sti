@@ -10,12 +10,12 @@ import java.util.*;
 public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
 
     //==debug purpose
-    private Set<String> usedKey_score_entityAndConcept=new HashSet<String>();
-    private Set<String> usedKey_score_entityPairAndRelation=new HashSet<String>();
-    private Set<String> usedKey_score_entityAndRelation=new HashSet<String>();
-    private Set<String> usedKey_score_conceptPairAndRelation_instaceEvidence=new HashSet<String>();
-    private Set<String> usedKey_score_conceptPairAndRelation_conceptEvidence=new HashSet<String>();
-    private Set<String> usedKey_scoreContributingRows_conceptPairAndRelation=new HashSet<String>();
+    private Set<String> usedKey_score_entityAndConcept = new HashSet<String>();
+    private Set<String> usedKey_score_entityPairAndRelation = new HashSet<String>();
+    private Set<String> usedKey_score_entityAndRelation = new HashSet<String>();
+    private Set<String> usedKey_score_conceptPairAndRelation_instaceEvidence = new HashSet<String>();
+    private Set<String> usedKey_score_conceptPairAndRelation_conceptEvidence = new HashSet<String>();
+    private Set<String> usedKey_scoreContributingRows_conceptPairAndRelation = new HashSet<String>();
     //==debug purpose
 
     private Map<String, Double> score_entityAndConcept = new HashMap<String, Double>();
@@ -82,7 +82,7 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
         usedKey_scoreContributingRows_conceptPairAndRelation.add(createKeyTriple(sbjConceptId, objConceptId, relationId));
 
         if (cells != null)
-            v = v+Math.sqrt(cells.size() / (double) norm);
+            v = v + Math.sqrt(cells.size() / (double) norm);
         return v;
 
         /*if (v == 0) {//todo change this back?
@@ -159,35 +159,35 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
         return s1 + "|" + s2;
     }
 
-    public void checkAffinityUsage(){
+    public void checkAffinityUsage() {
         List<String> tmp = new ArrayList<String>(score_entityAndConcept.keySet());
         tmp.removeAll(usedKey_score_entityAndConcept);
-        if(tmp.size()>0)
-            System.err.println("score_entityAndConcept unused:"+tmp);
+        if (tmp.size() > 0)
+            System.err.println("score_entityAndConcept unused:" + tmp);
 
         tmp = new ArrayList<String>(score_entityPairAndRelation.keySet());
         tmp.removeAll(usedKey_score_entityPairAndRelation);
-        if(tmp.size()>0)
-            System.err.println("score_entityPairAndRelation unused:"+tmp);
+        if (tmp.size() > 0)
+            System.err.println("score_entityPairAndRelation unused:" + tmp);
 
         tmp = new ArrayList<String>(score_entityAndRelation.keySet());
         tmp.removeAll(usedKey_score_entityAndRelation);
-        if(tmp.size()>0)
-            System.err.println("score_entityAndRelation unused:"+tmp);
+        if (tmp.size() > 0)
+            System.err.println("score_entityAndRelation unused:" + tmp);
 
         tmp = new ArrayList<String>(score_conceptPairAndRelation_instaceEvidence.keySet());
         tmp.removeAll(usedKey_score_conceptPairAndRelation_instaceEvidence);
-        if(tmp.size()>0)
-            System.err.println("score_conceptPairAndRelation_instaceEvidence unused:"+tmp);
+        if (tmp.size() > 0)
+            System.err.println("score_conceptPairAndRelation_instaceEvidence unused:" + tmp);
 
         tmp = new ArrayList<String>(score_conceptPairAndRelation_conceptEvidence.keySet());
         tmp.removeAll(usedKey_score_conceptPairAndRelation_conceptEvidence);
-        if(tmp.size()>0)
-            System.err.println("score_conceptPairAndRelation_conceptEvidence unused:"+tmp);
+        if (tmp.size() > 0)
+            System.err.println("score_conceptPairAndRelation_conceptEvidence unused:" + tmp);
 
         tmp = new ArrayList<String>(scoreContributingRows_conceptPairAndRelation.keySet());
         tmp.removeAll(usedKey_scoreContributingRows_conceptPairAndRelation);
-        if(tmp.size()>0)
-            System.err.println("scoreContributingRows_conceptPairAndRelation unused:"+tmp);
+        if (tmp.size() > 0)
+            System.err.println("scoreContributingRows_conceptPairAndRelation unused:" + tmp);
     }
 }
