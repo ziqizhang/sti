@@ -3,6 +3,8 @@ package uk.ac.shef.dcs.oak.sti.kb;
 import com.google.api.client.http.HttpResponseException;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.search.SolrCache;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.oak.sti.util.SearchCacheSolr;
@@ -12,22 +14,22 @@ import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Logger;
 
 /**
  */
 public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
 
+    public static String NAME_SIMILARITY_CACHE = "similarity";
     private boolean commit;
     private FreebaseQueryHelper searcher;
     private static Logger log = Logger.getLogger(KnowledgeBaseSearcher_Freebase.class.getName());
     protected SearchCacheSolr cacheEntity;
     protected SearchCacheSolr cacheConcept;
     protected SearchCacheSolr cacheProperty;
+    protected Map<String, SearchCacheSolr> otherCache;
     protected boolean split_at_conjunction;
 
 
@@ -46,8 +48,14 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
         if (cacheProperty != null)
             this.cacheProperty = new SearchCacheSolr(cacheProperty);
         this.split_at_conjunction = split_at_conjunection;
+
+        otherCache = new HashMap<String, SearchCacheSolr>();
+
     }
 
+    public void registerOtherCache(String name, SolrServer cacheServer) {
+        otherCache.put(name, new SearchCacheSolr(cacheServer));
+    }
 
     @Override
     public List<EntityCandidate> findEntitiesForCell(LTableContentCell tcc) throws IOException {
@@ -163,7 +171,7 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
             //ec.setTypes(KnowledgeBaseFreebaseFilter.filterTypes(ec.getTypes()));
             List<String[]> filteredTypes = KnowledgeBaseFreebaseFilter.filterTypes(ec.getTypes());
             ec.getTypes().clear();
-            for(String[] ft:filteredTypes)
+            for (String[] ft : filteredTypes)
                 ec.addType(ft);
         }
 
@@ -251,8 +259,8 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
         }
 
         //filtering
-        Iterator<String[]> it =facts.iterator();
-        while(it.hasNext()){
+        Iterator<String[]> it = facts.iterator();
+        while (it.hasNext()) {
             String[] f = it.next();
             if (KnowledgeBaseFreebaseFilter.ignoreFactWithPredicate(f[0]))
                 it.remove();
@@ -378,9 +386,47 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
         return result;
     }
 
+    public double find_similarity(String id1, String id2) {
+        String query = id1 + "<>" + id2;
+        Object result = null;
+        try {
+            result = otherCache.get(NAME_SIMILARITY_CACHE).retrieve(toSolrKey(query));
+            if (result != null)
+                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+        } catch (Exception e) {
+        }
+        if(result==null)
+            return -1.0;
+        return (Double) result;
+    }
+
+    public void saveSimilarity(String id1, String id2, double score, boolean biDirectional,
+                               boolean commit) {
+        String query = id1 + "<>" + id2;
+        try {
+            otherCache.get(NAME_SIMILARITY_CACHE).cache(toSolrKey(query), score, commit);
+            log.warning("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
+            if(biDirectional){
+                query = id2 + "<>" + id1;
+                otherCache.get(NAME_SIMILARITY_CACHE).cache(toSolrKey(query), score, commit);
+                log.warning("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void commitChanges() throws IOException, SolrServerException {
+        cacheConcept.commit();
+        cacheEntity.commit();
+        cacheProperty.commit();
+        for(SearchCacheSolr cache: otherCache.values())
+            cache.commit();
+    }
+
     private boolean donotRepeatQuery(HttpResponseException e) {
         String message = e.getContent();
-        if(message.contains("\"reason\": \"notFound\""))
+        if (message.contains("\"reason\": \"notFound\""))
             return true;
         return false;
     }

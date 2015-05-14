@@ -2120,69 +2120,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="CandidateConceptGenerator.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.6060606" vertical-offset="3445" max-vertical-offset="4225">
+              <caret line="154" column="59" selection-start-line="154" selection-start-column="59" selection-end-line="154" selection-end-column="59" />
+              <folding>
+                <element signature="e#5726#5742#0" expanded="true" />
+                <element signature="e#5790#5800#0" expanded="true" />
+                <element signature="e#6009#6035#0" expanded="true" />
+                <element signature="e#6334#6344#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SimilarityComputerThread.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/SimilarityComputerThread.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="365" max-vertical-offset="1375">
+              <caret line="21" column="11" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="TI_JointInference.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2054" max-vertical-offset="6725">
-              <caret line="89" column="17" selection-start-line="89" selection-start-column="17" selection-end-line="89" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CandidateConceptGenerator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1622" max-vertical-offset="2425">
-              <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LTableAnnotation_JI_Freebase.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/LTableAnnotation_JI_Freebase.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1172" max-vertical-offset="4875">
-              <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#321#329#0" expanded="true" />
-                <element signature="e#406#414#0" expanded="true" />
-                <element signature="e#487#495#0" expanded="true" />
-                <element signature="e#589#597#0" expanded="true" />
-                <element signature="e#691#699#0" expanded="true" />
-                <element signature="e#793#801#0" expanded="true" />
-                <element signature="e#896#912#0" expanded="true" />
-                <element signature="e#989#1005#0" expanded="true" />
-                <element signature="e#1078#1094#0" expanded="true" />
-                <element signature="e#1188#1204#0" expanded="true" />
-                <element signature="e#1298#1314#0" expanded="true" />
-                <element signature="e#1421#1450#0" expanded="true" />
-                <element signature="e#8218#8226#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FactorGraphBuilder.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorGraphBuilder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="500" max-vertical-offset="1825">
-              <caret line="28" column="48" selection-start-line="28" selection-start-column="48" selection-end-line="28" selection-end-column="48" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#620#638#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FactorBuilderHeaderAndCell.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderHeaderAndCell.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.5730337" vertical-offset="1105" max-vertical-offset="1550">
-              <caret line="39" column="93" selection-start-line="39" selection-start-column="93" selection-end-line="39" selection-end-column="93" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2095" max-vertical-offset="6725">
+              <caret line="106" column="0" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -2198,7 +2167,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/util/FreebaseTypeGranularityPopulator.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KBSearcher_Freebase.java" />
@@ -2206,7 +2174,6 @@
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/util/GenericSearchCache_SOLR.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/util/SolrSearchCache.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/util/SearchCacheSolr.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher.java" />
         <option value="$PROJECT_DIR$/../common-util/src/main/java/uk/ac/shef/dcs/oak/util/XPathUtils.java" />
         <option value="$PROJECT_DIR$/../triplesearch/src/main/java/uk/ac/shef/dcs/oak/triplesearch/freebase/FreebaseQueryHelper.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/misc/DataTypeClassifier.java" />
@@ -2227,16 +2194,12 @@
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/TI_SemanticMessagePassing.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorGraphUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/LTableAnnotation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher_Freebase.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/HeaderBinaryRelationAnnotation.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/VariableType.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/EntityAndConceptScorer_Freebase.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseFreebaseFilter.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestGRMM.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestGRMMToy.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/RelationTextMatch_Scorer.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/RelationTextMatcher_Scorer_JI_adapted.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/GraphCheckingUtil.java" />
@@ -2248,7 +2211,13 @@
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderCellAndRelation.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/LTableAnnotation_JI_Freebase.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/SimilarityComputerThread.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/EntityAndConceptScorer_Freebase.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderHeaderAndCell.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher_Freebase.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java" />
       </list>
     </option>
   </component>
@@ -3392,7 +3361,7 @@
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="uk.ac.shef.dcs.oak.sti.experiment.TestTableInterpretation_LimayeDataset_JI" />
       <option name="VM_PARAMETERS" value="-Xmx4096m -Djava.util.logging.config.file=logging.properties" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;E:\Data\table_annotation\limaye200\200_tables_regen\debug&quot; &quot;E:\Data\table_annotation\tmp&quot; &quot;D:\Work\sti\dist/sti.properties&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache/zookeeper/solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_concept\zookeeper\solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_property\zookeeper\solr&quot; &quot;$PROJECT_DIR$/../resources/nlp_resources&quot; 0 false" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;E:\Data\table_annotation\limaye200\200_tables_regen\debug&quot; &quot;E:\Data\table_annotation\tmp&quot; &quot;D:\Work\sti\dist/sti.properties&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache/zookeeper/solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_concept\zookeeper\solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_property\zookeeper\solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_similarity\zookeeper\solr&quot; &quot;$PROJECT_DIR$/../resources/nlp_resources&quot; 0 false" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -4209,12 +4178,12 @@
       <workItem from="1430592757154" duration="1551000" />
       <workItem from="1430597199203" duration="3196000" />
       <workItem from="1430830894739" duration="59331000" />
-      <workItem from="1431091223231" duration="118488000" />
+      <workItem from="1431091223231" duration="124077000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="375308000" />
+    <option name="totallyTimeSpent" value="380897000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -4238,7 +4207,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1598" height="858" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38505095" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -4248,7 +4217,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4593438" sideWeight="0.638961" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.66480446" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30955777" sideWeight="0.5733766" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5206847" sideWeight="0.5733766" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27817404" sideWeight="0.47272727" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32152063" sideWeight="0.19832402" order="2" side_tool="true" content_ui="tabs" />
@@ -4261,7 +4230,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.10844156" sideWeight="0.42299107" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31233767" sideWeight="0.7723214" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4721826" sideWeight="0.5272727" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48787448" sideWeight="0.5272727" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2275641" sideWeight="0.68973213" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -5167,13 +5136,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher_Freebase.java</url>
-          <line>356</line>
+          <line>364</line>
           <properties />
           <option name="timeStamp" value="588" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher_Freebase.java</url>
-          <line>357</line>
+          <line>365</line>
           <properties />
           <option name="timeStamp" value="589" />
         </line-breakpoint>
@@ -5190,18 +5159,6 @@
           <option name="timeStamp" value="776" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java</url>
-          <line>122</line>
-          <properties />
-          <option name="timeStamp" value="783" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java</url>
-          <line>118</line>
-          <properties />
-          <option name="timeStamp" value="811" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/LTableAnnotation.java</url>
           <line>214</line>
           <properties />
@@ -5209,13 +5166,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher_Freebase.java</url>
-          <line>206</line>
+          <line>214</line>
           <properties />
           <option name="timeStamp" value="883" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher_Freebase.java</url>
-          <line>208</line>
+          <line>216</line>
           <properties />
           <option name="timeStamp" value="884" />
         </line-breakpoint>
@@ -5250,31 +5207,25 @@
           <option name="timeStamp" value="1059" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java</url>
-          <line>105</line>
-          <properties />
-          <option name="timeStamp" value="1060" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/GraphCheckingUtil.java</url>
           <line>65</line>
           <properties />
           <option name="timeStamp" value="1073" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java</url>
-          <line>77</line>
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher_Freebase.java</url>
+          <line>237</line>
           <properties />
-          <option name="timeStamp" value="1075" />
+          <option name="timeStamp" value="1077" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderHeaderAndCell.java</url>
-          <line>39</line>
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher_Freebase.java</url>
+          <line>359</line>
           <properties />
-          <option name="timeStamp" value="1076" />
+          <option name="timeStamp" value="1080" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1077" />
+      <option name="time" value="1109" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -5282,36 +5233,10 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/LTableColumnHeader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9883721" vertical-offset="0" max-vertical-offset="1000">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding>
-            <element signature="e#646#647#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../triplesearch/src/main/java/uk/ac/shef/dcs/oak/triplesearch/freebase/FreebaseQueryInterrupter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1370" max-vertical-offset="2375">
-          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../triplesearch/src/main/java/uk/ac/shef/dcs/oak/triplesearch/freebase/FreebaseQueryHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33245382" vertical-offset="924" max-vertical-offset="12700">
           <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/cc/mallet/mallet/2.0.7-RC2/mallet-2.0.7-RC2-sources.jar!/cc/mallet/grmm/inference/Inferencer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="2500">
-          <caret line="33" column="95" selection-start-line="33" selection-start-column="68" selection-end-line="33" selection-end-column="68" />
           <folding />
         </state>
       </provider>
@@ -5361,34 +5286,6 @@
         <state vertical-scroll-proportion="0.84210527" vertical-offset="700" max-vertical-offset="1325">
           <caret line="56" column="17" selection-start-line="56" selection-start-column="17" selection-end-line="56" selection-end-column="17" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/EntityAndConceptScorer_Freebase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1451" max-vertical-offset="1975">
-          <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="424" max-vertical-offset="1075">
-          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher_Freebase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.5431818" vertical-offset="7254" max-vertical-offset="10250">
-          <caret line="263" column="18" selection-start-line="263" selection-start-column="18" selection-end-line="263" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#8208#8218#0" expanded="true" />
-            <element signature="e#12538#12548#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -5578,10 +5475,10 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="1442" max-vertical-offset="4425">
           <caret line="65" column="34" selection-start-line="65" selection-start-column="34" selection-end-line="65" selection-end-column="34" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1302#1340#0" expanded="true" />
-            <element signature="e#1696#1705#0" expanded="true" />
-            <element signature="e#7924#7932#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1302#1340#0" expanded="false" />
+            <element signature="e#1696#1705#0" expanded="false" />
+            <element signature="e#7924#7932#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -5630,14 +5527,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.52" vertical-offset="10737" max-vertical-offset="17000">
           <caret line="459" column="0" selection-start-line="459" selection-start-column="0" selection-end-line="459" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.52" vertical-offset="4387" max-vertical-offset="4700">
-          <caret line="196" column="0" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -5699,27 +5588,11 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="1225" max-vertical-offset="2575">
           <caret line="50" column="107" selection-start-line="50" selection-start-column="107" selection-end-line="50" selection-end-column="107" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#748#756#0" expanded="true" />
-            <element signature="e#2520#2536#0" expanded="true" />
-            <element signature="e#2617#2635#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#748#756#0" expanded="false" />
+            <element signature="e#2520#2536#0" expanded="false" />
+            <element signature="e#2617#2635#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1529" max-vertical-offset="6725">
-          <caret line="89" column="17" selection-start-line="89" selection-start-column="17" selection-end-line="89" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1622" max-vertical-offset="2425">
-          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5757,11 +5630,96 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/cc/mallet/mallet/2.0.7-RC2/mallet-2.0.7-RC2-sources.jar!/cc/mallet/grmm/inference/Inferencer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.5975232" vertical-offset="918" max-vertical-offset="2500">
+          <caret line="36" column="16" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderHeaderAndCell.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.5730337" vertical-offset="1105" max-vertical-offset="1550">
-          <caret line="39" column="93" selection-start-line="39" selection-start-column="93" selection-end-line="39" selection-end-column="93" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="711" max-vertical-offset="1550">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1929" max-vertical-offset="4950">
+          <caret line="98" column="36" selection-start-line="98" selection-start-column="36" selection-end-line="98" selection-end-column="36" />
+          <folding>
+            <element signature="e#2059#2068#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/util/SearchCacheSolr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1136" max-vertical-offset="2175">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="775" max-vertical-offset="1250">
+          <caret line="54" column="26" selection-start-line="54" selection-start-column="26" selection-end-line="54" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher_Freebase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="10200" max-vertical-offset="11400">
+          <caret line="423" column="25" selection-start-line="423" selection-start-column="25" selection-end-line="423" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#8576#8586#0" expanded="true" />
+            <element signature="e#12909#12919#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/EntityAndConceptScorer_Freebase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1272" max-vertical-offset="2175">
+          <caret line="35" column="18" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2095" max-vertical-offset="6725">
+          <caret line="106" column="0" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/SimilarityComputerThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="365" max-vertical-offset="1375">
+          <caret line="21" column="11" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6060606" vertical-offset="3445" max-vertical-offset="4225">
+          <caret line="154" column="59" selection-start-line="154" selection-start-column="59" selection-end-line="154" selection-end-column="59" />
+          <folding>
+            <element signature="e#5726#5742#0" expanded="true" />
+            <element signature="e#5790#5800#0" expanded="true" />
+            <element signature="e#6009#6035#0" expanded="true" />
+            <element signature="e#6334#6344#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

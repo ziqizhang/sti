@@ -35,14 +35,16 @@ public class TestTableInterpretation_LimayeDataset_JI {
         String cacheFolderEntity = args[3];  //String cacheFolder = "D:\\Work\\lodiedata\\tableminer_cache\\solrindex_cache\\zookeeper\\solr";
         String cacheFolderConcept = args[4];
         String cacheFolderProperty = args[5];
-        String nlpResources = args[6]; //"D:\\Work\\lodie\\resources\\nlp_resources";
-        int start = Integer.valueOf(args[7]);
-        boolean relationLearning = Boolean.valueOf(args[8]);
+        String cacheFolderSimilarity=args[6];
+        String nlpResources = args[7]; //"D:\\Work\\lodie\\resources\\nlp_resources";
+        int start = Integer.valueOf(args[8]);
+        boolean relationLearning = Boolean.valueOf(args[9]);
+        int multiThreads=5;
         //cache target location
 
         List<Integer> missed_files = new ArrayList<Integer>();
-        if (args.length == 10) {
-            String in_missed = args[9];
+        if (args.length == 11) {
+            String in_missed = args[10];
             for (String line : FileUtils.readList(in_missed, false)) {
                 missed_files.add(Integer.valueOf(line.split(",")[0].trim()));
             }
@@ -63,9 +65,16 @@ public class TestTableInterpretation_LimayeDataset_JI {
                 configFile3);
         SolrServer serverProperty =new EmbeddedSolrServer(container3, "collection1");
 
+        File configFile4 = new File(cacheFolderSimilarity + File.separator + "solr.xml");
+        CoreContainer container4 = new CoreContainer(cacheFolderSimilarity,
+                configFile4);
+        SolrServer serverSimilarity =new EmbeddedSolrServer(container4, "collection1");
+
         //object to fetch things from KB
         KnowledgeBaseSearcher_Freebase freebaseSearcherGeneral = new KnowledgeBaseSearcher_Freebase(propertyFile, true, serverEntity,
                 serverConcept, serverProperty);
+        freebaseSearcherGeneral.registerOtherCache(KnowledgeBaseSearcher_Freebase.NAME_SIMILARITY_CACHE,
+                serverSimilarity);
 
         List<String> stopWords = uk.ac.shef.dcs.oak.util.FileUtils.readList(nlpResources + "/stoplist.txt", true);
         MainColumnFinder main_col_finder = new MainColumnFinder(
@@ -86,7 +95,8 @@ public class TestTableInterpretation_LimayeDataset_JI {
                         new DisambiguationScorer_JI_adapted()),
                 new CandidateConceptGenerator(freebaseSearcherGeneral,
                         new ClassificationScorer_JI_adapted(),
-                        new EntityAndConceptScorer_Freebase(stopWords, nlpResources)),
+                        new EntityAndConceptScorer_Freebase(stopWords, nlpResources),
+                        multiThreads),
                 new CandidateRelationGenerator(new RelationTextMatcher_Scorer_JI_adapted(stopWords,
                         new Levenshtein(), 0.5),
                         freebaseSearcherGeneral, false),

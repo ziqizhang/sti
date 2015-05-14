@@ -1,5 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.kb;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 
@@ -46,4 +47,10 @@ public abstract class KnowledgeBaseSearcher {
 
     public abstract void finalizeConnection();
 
+    public abstract double find_similarity(String entity_id, String concept_url);
+
+    public abstract void saveSimilarity(String entity_id, String concept_url, double score, boolean biDirectional,
+                                        boolean commit);
+
+    public abstract void commitChanges() throws IOException, SolrServerException;
 }
