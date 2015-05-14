@@ -16,8 +16,8 @@ class FactorBuilderCell extends FactorBuilder{
     protected Map<Variable, int[]> cellVarOutcomePosition = new HashMap<Variable, int[]>();
 
     public Map<String, Variable> addFactors(LTableAnnotation annotation, FactorGraph graph,
-                                            Map<Variable, String> typeOfVariable,
-                                            Map<String, Boolean> varOutcomeHasNonZeroPotential) {
+                                            Map<Variable, String> typeOfVariable
+                                            ) {
         Map<String, Variable> variables = new HashMap<String, Variable>();
         for (int row = 0; row < annotation.getRows(); row++) {
             for (int col = 0; col < annotation.getCols(); col++) {
@@ -37,9 +37,6 @@ class FactorBuilderCell extends FactorBuilder{
                     potential[i] = ca.getScore_element_map().get(
                             DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR
                     );
-                    checkVariableOutcomeUsage(
-                            potential[i], VariableType.CELL.toString() + "." + cellPosition + "." + ca.getAnnotation().getId(),
-                            varOutcomeHasNonZeroPotential);
                 }
                 Variable variable_cell = new Variable(candidateIndex_cell);
                 variable_cell.setLabel(VariableType.CELL.toString() + "." + cellPosition);

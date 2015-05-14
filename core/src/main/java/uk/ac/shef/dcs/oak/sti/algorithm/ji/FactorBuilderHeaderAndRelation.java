@@ -22,8 +22,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
             Map<Integer, Variable> columnHeaders,
             LTableAnnotation_JI_Freebase annotation,
             FactorGraph graph,
-            Map<Variable, String> typeOfVariable,
-            Map<String, Boolean> varOutcomeHasNonZeroPotential) {
+            Map<Variable, String> typeOfVariable) {
         Map<String, Variable> result = new HashMap<String, Variable>(); //for each pair of col, will only have 1 key stored, both both directional keys are processed
         List<String> processed = new ArrayList<String>();
         Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>>
@@ -81,16 +80,6 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                                         relationIndex_forwardRelation.put(index_relation, true);
                                     }
                                         //affinity_scores.put(col1_header_concept_url + ">" + col2_header_concept_url + ">" + hbr.toStringExpanded(), score);
-
-                                    //====== debug
-                                    checkVariableOutcomeUsage(score, column1_header_variable.getLabel() + "." + col1_header_concept_url,
-                                            varOutcomeHasNonZeroPotential);
-                                    checkVariableOutcomeUsage(score, column2_header_variable.getLabel() + "." + col2_header_concept_url,
-                                            varOutcomeHasNonZeroPotential);
-                                    checkVariableOutcomeUsage(score, VariableType.RELATION.toString() + "." +
-                                                    hbr.toStringExpanded(),
-                                            varOutcomeHasNonZeroPotential);
-                                    //====== debug
                                 }
                                 else if (current_rel_direction.getObjectCol() == c1 && current_rel_direction.getSubjectCol() == c2) {
                                     /*if(col1_header_concept_url.equals("/tv/tv_actor")&&col2_header_concept_url.equals("/tv/tv_actor"))
@@ -102,16 +91,6 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                                         relationIndex_forwardRelation.put(index_relation, false);
                                     }
                                         //affinity_scores.put(col2_header_concept_url + ">" + col1_header_concept_url + ">" + hbr.toStringExpanded(), score);
-
-                                    //====== debug
-                                    checkVariableOutcomeUsage(score, column1_header_variable.getLabel() + "." + col1_header_concept_url,
-                                            varOutcomeHasNonZeroPotential);
-                                    checkVariableOutcomeUsage(score, column2_header_variable.getLabel() + "." + col2_header_concept_url,
-                                            varOutcomeHasNonZeroPotential);
-                                    checkVariableOutcomeUsage(score, VariableType.RELATION.toString() + "." +
-                                                    hbr.toStringExpanded(),
-                                            varOutcomeHasNonZeroPotential);
-                                    //====== debug
                                 }
                             }
                         }

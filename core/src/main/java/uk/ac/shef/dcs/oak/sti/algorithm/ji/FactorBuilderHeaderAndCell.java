@@ -13,10 +13,9 @@ import java.util.Map;
 class FactorBuilderHeaderAndCell extends FactorBuilder {
 
     public void addFactors(Map<String, Variable> cellVariables,
-                            Map<Integer, Variable> headerVariables,
-                            LTableAnnotation_JI_Freebase annotation,
-                            FactorGraph graph,
-                            Map<String, Boolean> varOutcomeHasNonZeroPotential) {
+                           Map<Integer, Variable> headerVariables,
+                           LTableAnnotation_JI_Freebase annotation,
+                           FactorGraph graph) {
         for (int col = 0; col < annotation.getCols(); col++) {
             Variable headerVar = headerVariables.get(col);
             if (headerVar == null) continue;
@@ -44,14 +43,12 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                                     headerVarOutcomeIndex + "," + cellVarOutcomeIndex, score
                             );
                         }
-                        checkVariableOutcomeUsage(score, headerVar.getLabel() + "." + type[0],varOutcomeHasNonZeroPotential);
-                        checkVariableOutcomeUsage(score, cellVar.getLabel() + "." + entId,varOutcomeHasNonZeroPotential);
                     }
                 }
 
                 if (affinity_values_between_variable_outcomes.size() > 0) {
                     double[] potential = computePotential(affinity_values_between_variable_outcomes,
-                            headerVar,cellVar);
+                            headerVar, cellVar);
                     if (isValidPotential(potential, affinity_values_between_variable_outcomes)) {
                         VarSet varSet = new HashVarSet(new Variable[]{headerVar, cellVar});
                         TableFactor factor = new TableFactor(varSet, potential);

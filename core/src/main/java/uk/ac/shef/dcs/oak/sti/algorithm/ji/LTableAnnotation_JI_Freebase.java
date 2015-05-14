@@ -2,15 +2,21 @@ package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
 import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by zqz on 01/05/2015.
  */
 public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
+
+    //==debug purpose
+    private Set<String> usedKey_score_entityAndConcept=new HashSet<String>();
+    private Set<String> usedKey_score_entityPairAndRelation=new HashSet<String>();
+    private Set<String> usedKey_score_entityAndRelation=new HashSet<String>();
+    private Set<String> usedKey_score_conceptPairAndRelation_instaceEvidence=new HashSet<String>();
+    private Set<String> usedKey_score_conceptPairAndRelation_conceptEvidence=new HashSet<String>();
+    private Set<String> usedKey_scoreContributingRows_conceptPairAndRelation=new HashSet<String>();
+    //==debug purpose
 
     private Map<String, Double> score_entityAndConcept = new HashMap<String, Double>();
     private Map<String, Double> score_entityPairAndRelation = new HashMap<String, Double>();
@@ -24,6 +30,7 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
     }
 
     public double getScore_entityAndRelation(String entityId, String relationId) {
+        usedKey_score_entityAndRelation.add(createKeyPair(entityId, relationId));
         Double v = score_entityAndRelation.get(createKeyPair(entityId, relationId));
         if (v == null)
             v = 0.0;
@@ -35,6 +42,7 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
     }
 
     public double getScore_entityAndConcept(String entityId, String conceptId) {
+        usedKey_score_entityAndConcept.add(createKeyPair(entityId, conceptId));
         Double v = score_entityAndConcept.get(createKeyPair(entityId, conceptId));
         if (v == null)
             v = 0.0;
@@ -46,6 +54,7 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
     }
 
     private double getScore_conceptPairAndRelation_conceptEvidence(String sbjConceptId, String relationId, String objConceptId) {
+        usedKey_score_conceptPairAndRelation_conceptEvidence.add(createKeyTriple(sbjConceptId, objConceptId, relationId));
         Double v = score_conceptPairAndRelation_conceptEvidence.get(createKeyTriple(sbjConceptId, objConceptId, relationId));
         if (v == null)
             v = 0.0;
@@ -58,6 +67,7 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
     }
 
     private double getScore_conceptPairAndRelation_instanceEvidence(String sbjConceptId, String relationId, String objConceptId) {
+        usedKey_score_conceptPairAndRelation_instaceEvidence.add(createKeyTriple(sbjConceptId, objConceptId, relationId));
         Double v = score_conceptPairAndRelation_instaceEvidence.get(createKeyTriple(sbjConceptId, objConceptId, relationId));
         if (v == null)
             v = 0.0;
@@ -69,6 +79,8 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
 
         Map<String, Double> cells = scoreContributingRows_conceptPairAndRelation.get(
                 createKeyTriple(sbjConceptId, objConceptId, relationId));
+        usedKey_scoreContributingRows_conceptPairAndRelation.add(createKeyTriple(sbjConceptId, objConceptId, relationId));
+
         if (cells != null)
             v = v+Math.sqrt(cells.size() / (double) norm);
         return v;
@@ -128,6 +140,7 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
     }
 
     public double getScore_entityPairAndRelation(String sbjEntityId, String objEntityId, String relationId) {
+        usedKey_score_entityPairAndRelation.add(createKeyTriple(sbjEntityId, objEntityId, relationId));
         Double v = score_entityPairAndRelation.get(createKeyTriple(sbjEntityId, objEntityId, relationId));
         if (v == null)
             v = 0.0;
@@ -144,5 +157,37 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
 
     private String createKeyPair(String s1, String s2) {
         return s1 + "|" + s2;
+    }
+
+    public void checkAffinityUsage(){
+        List<String> tmp = new ArrayList<String>(score_entityAndConcept.keySet());
+        tmp.removeAll(usedKey_score_entityAndConcept);
+        if(tmp.size()>0)
+            System.err.println("score_entityAndConcept unused:"+tmp);
+
+        tmp = new ArrayList<String>(score_entityPairAndRelation.keySet());
+        tmp.removeAll(usedKey_score_entityPairAndRelation);
+        if(tmp.size()>0)
+            System.err.println("score_entityPairAndRelation unused:"+tmp);
+
+        tmp = new ArrayList<String>(score_entityAndRelation.keySet());
+        tmp.removeAll(usedKey_score_entityAndRelation);
+        if(tmp.size()>0)
+            System.err.println("score_entityAndRelation unused:"+tmp);
+
+        tmp = new ArrayList<String>(score_conceptPairAndRelation_instaceEvidence.keySet());
+        tmp.removeAll(usedKey_score_conceptPairAndRelation_instaceEvidence);
+        if(tmp.size()>0)
+            System.err.println("score_conceptPairAndRelation_instaceEvidence unused:"+tmp);
+
+        tmp = new ArrayList<String>(score_conceptPairAndRelation_conceptEvidence.keySet());
+        tmp.removeAll(usedKey_score_conceptPairAndRelation_conceptEvidence);
+        if(tmp.size()>0)
+            System.err.println("score_conceptPairAndRelation_conceptEvidence unused:"+tmp);
+
+        tmp = new ArrayList<String>(scoreContributingRows_conceptPairAndRelation.keySet());
+        tmp.removeAll(usedKey_scoreContributingRows_conceptPairAndRelation);
+        if(tmp.size()>0)
+            System.err.println("scoreContributingRows_conceptPairAndRelation unused:"+tmp);
     }
 }

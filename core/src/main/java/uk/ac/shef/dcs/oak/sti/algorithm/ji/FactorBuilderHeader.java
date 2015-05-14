@@ -18,8 +18,7 @@ class FactorBuilderHeader extends FactorBuilder {
 
     public Map<Integer, Variable> addFactors(LTableAnnotation annotation,
                                              FactorGraph graph,
-                                             Map<Variable, String> typeOfVariable,
-                                             Map<String, Boolean> varOutcomeHasNonZeroPotential) {
+                                             Map<Variable, String> typeOfVariable) {
         Map<Integer, Variable> variables = new HashMap<Integer, Variable>();
         for (int col = 0; col < annotation.getCols(); col++) {
             Variable dummyHeader = createDummyVariable("dummyHeader("+col+")");
@@ -39,10 +38,6 @@ class FactorBuilderHeader extends FactorBuilder {
                 potential[i] = ha.getScoreElements().get(
                         ClassificationScorer_JI_adapted.SCORE_HEADER_FACTOR
                 );
-                checkVariableOutcomeUsage(potential[i],
-                        VariableType.HEADER.toString() + "." + headerPosition + "." + ha.getAnnotation_url(),
-                        varOutcomeHasNonZeroPotential);
-
             }
             Variable variable_header = new Variable(candidateIndex_header);
             variable_header.setLabel(VariableType.HEADER.toString() + "." + headerPosition);

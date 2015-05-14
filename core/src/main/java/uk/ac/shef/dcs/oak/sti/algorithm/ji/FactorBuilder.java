@@ -12,19 +12,6 @@ import java.util.Set;
  */
 abstract class FactorBuilder {
 
-    protected void checkVariableOutcomeUsage(double potential, String key, Map<String, Boolean> varOutcomeHasNonZeroPotential) {
-        Boolean hasNonZeroPotential =
-                varOutcomeHasNonZeroPotential.
-                        get(key);
-        if (hasNonZeroPotential == null) {
-            hasNonZeroPotential = false;
-            varOutcomeHasNonZeroPotential.put(key, hasNonZeroPotential);
-        }
-        if (potential > 0) {
-            if (!hasNonZeroPotential)
-                varOutcomeHasNonZeroPotential.put(key, true);
-        }
-    }
 
     protected boolean isValidPotential(double[] potential1, Map<String, Double> affinityValues) {
         int countZero = 0;

@@ -17,27 +17,25 @@ public class FactorGraphBuilder {
     private FactorBuilderHeaderAndRelation factorBuilderHeaderAndRelation = new FactorBuilderHeaderAndRelation();
     private Map<Variable, String> typeOfVariable = new HashMap<Variable, String>();
 
-    private Map<String, Boolean> varOutcomeHasNonZeroPotential = new HashMap<String, Boolean>();
-
-    public FactorGraph build(LTableAnnotation_JI_Freebase annotation, LTable table) {
+    public FactorGraph build(LTableAnnotation_JI_Freebase annotation) {
         FactorGraph graph = new FactorGraph();
         //cell text and entity label
         Map<String, Variable> cellAnnotations = factorBuilderCell.addFactors(annotation, graph,
-                typeOfVariable, varOutcomeHasNonZeroPotential);
+                typeOfVariable);
         //column header and type label
         Map<Integer, Variable> columnHeaders = factorBuilderHeader.addFactors(annotation, graph,
-                typeOfVariable, varOutcomeHasNonZeroPotential);
+                typeOfVariable);
         //column type and cell entities
         new FactorBuilderHeaderAndCell().addFactors(cellAnnotations,
                 columnHeaders,
                 annotation,
-                graph, varOutcomeHasNonZeroPotential);
+                graph);
         //relation and pair of column types
-        /*Map<String, Variable> relations = factorBuilderHeaderAndRelation.addFactors(
+        Map<String, Variable> relations = factorBuilderHeaderAndRelation.addFactors(
                 columnHeaders,
                 annotation,
                 graph,
-                typeOfVariable, varOutcomeHasNonZeroPotential
+                typeOfVariable
         );
 
         //relation and entity pairs
@@ -46,9 +44,8 @@ public class FactorGraphBuilder {
                 cellAnnotations,
                 annotation,
                 graph,
-                factorBuilderHeaderAndRelation.getRelationVarOutcomeDirection(),
-                varOutcomeHasNonZeroPotential
-        );*/
+                factorBuilderHeaderAndRelation.getRelationVarOutcomeDirection()
+        );
         return graph;
     }
 
@@ -68,14 +65,7 @@ public class FactorGraphBuilder {
         return factorBuilderHeaderAndRelation.relationVarOutcomeDirection.get(varOutcomeLabel);
     }
 
-    public void dumpCheckMissedVariableOutcome() {
-        List<String> keys = new ArrayList<String>(varOutcomeHasNonZeroPotential.keySet());
-        Collections.sort(keys);
-        for (String k : keys) {
-            if (!varOutcomeHasNonZeroPotential.get(k))
-                System.out.println("\tmissed: " + k);
-        }
-    }
+
 
 }
 

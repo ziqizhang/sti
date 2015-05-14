@@ -88,6 +88,7 @@ public class TI_JointInference {
                 for (int r = 0; r < table.getNumRows(); r++) {
                     neGenerator.generateCandidateEntity(tab_annotations, table, r, col);
                 }
+                break;
             }
         }
 
@@ -100,13 +101,11 @@ public class TI_JointInference {
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t BUILDING FACTOR GRAPH");
-        FactorGraph graph = graphBuilder.build(tab_annotations, table);
+        FactorGraph graph = graphBuilder.build(tab_annotations);
 
         //================debug
-        graphBuilder.dumpCheckMissedVariableOutcome();
-        PrintWriter p = new PrintWriter("D:\\Work\\sti/graph.txt");
-        graph.dump(p);
-        p.close();
+        GraphCheckingUtil.checkGraph(graph);
+        tab_annotations.checkAffinityUsage();
         //===============debug
 
         System.out.println(">\t RUNNING INFERENCE");
