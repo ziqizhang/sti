@@ -30,7 +30,6 @@ public class GraphCheckingUtil {
                     //String label = var.getLabelAlphabet().lookupLabel(idx).toString();
                     line = line + idx + " ";
                 }
-                line = line + score;
                 factorValues.add(line.trim());
             }
             it.next();
@@ -114,8 +113,6 @@ public class GraphCheckingUtil {
                 }
             }
         }
-        if (checkSuccess)
-            System.err.println("GraphCheck Success");
         /*List<String> keys = new ArrayList<String>(varOutcomeHasNonZeroPotential.keySet());
         Collections.sort(keys);
         for (String k : keys) {

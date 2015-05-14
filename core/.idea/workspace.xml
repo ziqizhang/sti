@@ -2120,12 +2120,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TestTableInterpretation_LimayeDataset_JI.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="TestTableInterpretation_LimayeDataset_JI.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1916" max-vertical-offset="4950">
-              <caret line="101" column="53" selection-start-line="101" selection-start-column="53" selection-end-line="101" selection-end-column="53" />
+            <state vertical-scroll-proportion="0.78125" vertical-offset="400" max-vertical-offset="4950">
+              <caret line="41" column="27" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CandidateConceptGenerator.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1985" max-vertical-offset="4575">
+              <caret line="85" column="40" selection-start-line="85" selection-start-column="40" selection-end-line="85" selection-end-column="40" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1417#1433#0" expanded="true" />
+                <element signature="e#1509#1531#0" expanded="true" />
+                <element signature="e#1593#1609#0" expanded="true" />
+                <element signature="e#5862#5878#0" expanded="true" />
+                <element signature="e#5926#5936#0" expanded="true" />
+                <element signature="e#6153#6179#0" expanded="true" />
+                <element signature="e#6588#6598#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -2133,8 +2152,8 @@
       <file leaf-file-name="CandidateRelationGenerator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1575" max-vertical-offset="4375">
-              <caret line="71" column="44" selection-start-line="71" selection-start-column="44" selection-end-line="71" selection-end-column="44" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2664" max-vertical-offset="4325">
+              <caret line="116" column="80" selection-start-line="116" selection-start-column="80" selection-end-line="116" selection-end-column="80" />
               <folding />
             </state>
           </provider>
@@ -2204,20 +2223,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GraphCheckingUtil.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="GraphCheckingUtil.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/GraphCheckingUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7211896" vertical-offset="556" max-vertical-offset="3300">
-              <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
+            <state vertical-scroll-proportion="-6.24" vertical-offset="2769" max-vertical-offset="3225">
+              <caret line="117" column="53" selection-start-line="117" selection-start-column="31" selection-end-line="117" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#375#383#0" expanded="true" />
-                <element signature="e#1401#1409#0" expanded="true" />
-                <element signature="e#1586#1594#0" expanded="true" />
-                <element signature="e#1665#1673#0" expanded="true" />
-                <element signature="e#2475#2499#0" expanded="true" />
-                <element signature="e#4008#4017#0" expanded="true" />
-                <element signature="e#4321#4330#0" expanded="true" />
+                <element signature="e#1364#1372#0" expanded="true" />
+                <element signature="e#1549#1557#0" expanded="true" />
+                <element signature="e#1628#1636#0" expanded="true" />
+                <element signature="e#2438#2462#0" expanded="true" />
+                <element signature="e#3971#3980#0" expanded="true" />
+                <element signature="e#4284#4293#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2276,14 +2295,14 @@
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilder.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/LTableAnnotation_JI_Freebase.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/RelationTextMatcher_Scorer_JI_adapted.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorGraphBuilder.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderCellAndRelation.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderHeaderAndCell.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderHeaderAndRelation.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/GraphCheckingUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java" />
       </list>
     </option>
   </component>
@@ -3427,7 +3446,7 @@
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="uk.ac.shef.dcs.oak.sti.experiment.TestTableInterpretation_LimayeDataset_JI" />
       <option name="VM_PARAMETERS" value="-Xmx4096m -Djava.util.logging.config.file=logging.properties" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;E:\Data\table_annotation\limaye200\200_tables_regen\debug&quot; &quot;E:\Data\table_annotation\tmp&quot; &quot;D:\Work\sti\dist/sti.properties&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache/zookeeper/solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_concept\zookeeper\solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_property\zookeeper\solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_similarity\zookeeper\solr&quot; &quot;$PROJECT_DIR$/../resources/nlp_resources&quot; 0 true" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;E:\Data\table_annotation\limaye200\200_tables_regen\raw&quot; &quot;E:\Data\table_annotation\tmp&quot; &quot;D:\Work\sti\dist/sti.properties&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache/zookeeper/solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_concept\zookeeper\solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_property\zookeeper\solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_similarity\zookeeper\solr&quot; &quot;$PROJECT_DIR$/../resources/nlp_resources&quot; 0 false" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -4244,12 +4263,12 @@
       <workItem from="1430592757154" duration="1551000" />
       <workItem from="1430597199203" duration="3196000" />
       <workItem from="1430830894739" duration="59331000" />
-      <workItem from="1431091223231" duration="150251000" />
+      <workItem from="1431091223231" duration="150571000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="407071000" />
+    <option name="totallyTimeSpent" value="407391000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -4296,7 +4315,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.10844156" sideWeight="0.42299107" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24415584" sideWeight="0.7723214" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5479256" sideWeight="0.5272727" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5479256" sideWeight="0.5272727" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2275641" sideWeight="0.68973213" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -5588,23 +5607,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1994" max-vertical-offset="4575">
-          <caret line="85" column="50" selection-start-line="85" selection-start-column="48" selection-end-line="85" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1417#1433#0" expanded="true" />
-            <element signature="e#1509#1531#0" expanded="true" />
-            <element signature="e#1593#1609#0" expanded="true" />
-            <element signature="e#5862#5878#0" expanded="true" />
-            <element signature="e#5926#5936#0" expanded="true" />
-            <element signature="e#6153#6179#0" expanded="true" />
-            <element signature="e#6588#6598#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/cc/mallet/mallet/2.0.7-RC2/mallet-2.0.7-RC2-sources.jar!/cc/mallet/grmm/types/VarSet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3321033" vertical-offset="185" max-vertical-offset="1350">
@@ -5675,22 +5677,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2125" max-vertical-offset="6725">
           <caret line="102" column="79" selection-start-line="102" selection-start-column="79" selection-end-line="102" selection-end-column="79" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1575" max-vertical-offset="4375">
-          <caret line="71" column="44" selection-start-line="71" selection-start-column="44" selection-end-line="71" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1916" max-vertical-offset="4950">
-          <caret line="101" column="53" selection-start-line="101" selection-start-column="53" selection-end-line="101" selection-end-column="53" />
           <folding />
         </state>
       </provider>
@@ -5814,20 +5800,53 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1985" max-vertical-offset="4575">
+          <caret line="85" column="40" selection-start-line="85" selection-start-column="40" selection-end-line="85" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1417#1433#0" expanded="true" />
+            <element signature="e#1509#1531#0" expanded="true" />
+            <element signature="e#1593#1609#0" expanded="true" />
+            <element signature="e#5862#5878#0" expanded="true" />
+            <element signature="e#5926#5936#0" expanded="true" />
+            <element signature="e#6153#6179#0" expanded="true" />
+            <element signature="e#6588#6598#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2664" max-vertical-offset="4325">
+          <caret line="116" column="80" selection-start-line="116" selection-start-column="80" selection-end-line="116" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/GraphCheckingUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7211896" vertical-offset="556" max-vertical-offset="3300">
-          <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
+        <state vertical-scroll-proportion="-6.24" vertical-offset="2769" max-vertical-offset="3225">
+          <caret line="117" column="53" selection-start-line="117" selection-start-column="31" selection-end-line="117" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#375#383#0" expanded="true" />
-            <element signature="e#1401#1409#0" expanded="true" />
-            <element signature="e#1586#1594#0" expanded="true" />
-            <element signature="e#1665#1673#0" expanded="true" />
-            <element signature="e#2475#2499#0" expanded="true" />
-            <element signature="e#4008#4017#0" expanded="true" />
-            <element signature="e#4321#4330#0" expanded="true" />
+            <element signature="e#1364#1372#0" expanded="true" />
+            <element signature="e#1549#1557#0" expanded="true" />
+            <element signature="e#1628#1636#0" expanded="true" />
+            <element signature="e#2438#2462#0" expanded="true" />
+            <element signature="e#3971#3980#0" expanded="true" />
+            <element signature="e#4284#4293#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.78125" vertical-offset="400" max-vertical-offset="4950">
+          <caret line="41" column="27" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>

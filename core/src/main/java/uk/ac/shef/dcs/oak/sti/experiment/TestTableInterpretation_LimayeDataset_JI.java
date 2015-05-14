@@ -39,7 +39,7 @@ public class TestTableInterpretation_LimayeDataset_JI {
         String nlpResources = args[7]; //"D:\\Work\\lodie\\resources\\nlp_resources";
         int start = Integer.valueOf(args[8]);
         boolean relationLearning = Boolean.valueOf(args[9]);
-        int multiThreads=5;
+        int multiThreads=10;
         //cache target location
 
         List<Integer> missed_files = new ArrayList<Integer>();

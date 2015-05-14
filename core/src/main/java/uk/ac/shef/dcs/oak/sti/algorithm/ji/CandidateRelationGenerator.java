@@ -115,8 +115,6 @@ public class CandidateRelationGenerator {
                     if(objectCells.length==0 || subjectCells.length==0) continue;
                     //matches obj of facts of subject entities against object cell text and candidate entity labels.
                     //also create evidence for entity-relation, concept-relation
-                    if(r==0 && subjectColumn==2)
-                        System.out.println("fuck");
                     matcher.match_sbjCellsAndRelation(
                             Arrays.asList(subjectCells),
                             subjectColumn,
