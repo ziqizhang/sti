@@ -178,8 +178,6 @@ public class TestTableInterpretation_IMDB_JI {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 e.printStackTrace();
-                serverEntity.shutdown();
-                System.exit(1);
             }
 
         }

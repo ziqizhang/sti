@@ -181,8 +181,6 @@ public class TestTableInterpretation_IMDB_SMP {
                 } catch (IOException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
-                e.printStackTrace();
-                serverEntity.shutdown();
                 System.exit(1);
             }
 

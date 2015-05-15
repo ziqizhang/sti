@@ -165,9 +165,6 @@ public class TestTableInterpretation_LimayeDataset_JI {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 e.printStackTrace();
-                serverEntity.shutdown();
-                serverConcept.shutdown();
-                System.exit(1);
             }
 
         }

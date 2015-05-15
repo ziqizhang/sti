@@ -197,8 +197,6 @@ public class TestTableInterpretation_MusicBrainz {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 e.printStackTrace();
-                server.shutdown();
-                System.exit(1);
             }
 
         }
