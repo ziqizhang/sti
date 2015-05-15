@@ -4,10 +4,10 @@ import uk.ac.shef.dcs.oak.sti.algorithm.tm.DisambiguationScorer;
 import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
+import uk.ac.shef.dcs.oak.sti.util.CosineSimilarity;
+import uk.ac.shef.dcs.oak.sti.util.JaccardSimilarity;
 import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.CosineSimilarity;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.JaccardSimilarity;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.util.HashMap;

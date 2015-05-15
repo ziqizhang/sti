@@ -30,7 +30,7 @@ public class GraphCheckingUtil {
                     int idx = 0;
                     try {
                         idx = Integer.valueOf(indexes[v]);
-                    } catch (Exception e) {
+                    } catch (NumberFormatException e) {
                         System.err.println(assignment.dumpToString()+">>>>"+indexes[v]);
                         System.exit(1);
                     }
@@ -75,7 +75,7 @@ public class GraphCheckingUtil {
             while (ait.hasNext()) {
                 Assignment assignment = ait.assignment();
                 //assignment.numVariables();
-                String[] splits = assignment.dumpToString().trim().split("\r");
+                String[] splits = assignment.dumpToString().trim().split("[\r\n]");
                 String indexString = splits[splits.length - 1].trim();
                 String[] indexes = indexString.split("\\s+");
 
@@ -84,7 +84,13 @@ public class GraphCheckingUtil {
                     for (int v = 0; v < assignment.numVariables(); v++) {
                         Variable var = assignment.getVariable(v);
 
-                        int idx = Integer.valueOf(indexes[v]);
+                        int idx = 0;
+                        try {
+                            idx = Integer.valueOf(indexes[v]);
+                        } catch (NumberFormatException e) {
+                            System.err.println(assignment.dumpToString()+">>>>"+indexes[v]);
+                            System.exit(1);
+                        }
                         String label = var.getLabelAlphabet().lookupLabel(idx).toString();
 
                         Set<Integer> nonzerooutcomes = variableNonzerooutcome.get(var);

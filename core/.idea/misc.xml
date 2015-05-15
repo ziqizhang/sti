@@ -15,13 +15,14 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/../any23-sti/pom.xml" />
         <option value="$PROJECT_DIR$/../common-util/pom.xml" />
+        <option value="$PROJECT_DIR$/../simmetrics-core/pom.xml" />
       </list>
     </option>
   </component>
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/../classes" />
   </component>
   <component name="SvnBranchConfigurationManager">

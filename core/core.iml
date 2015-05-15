@@ -10,8 +10,10 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: nlp.simmetrics:simmetrics:1.0" level="project" />
+    <orderEntry type="module" module-name="simmetrics-core" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:18.0" level="project" />
+    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.10" level="project" />
     <orderEntry type="module" module-name="websearch" />
-    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.9" level="project" />
     <orderEntry type="library" name="Maven: javax.json:javax.json-api:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish:javax.json:1.0.4" level="project" />
     <orderEntry type="module" module-name="triplesearch" />
@@ -48,7 +50,6 @@
     <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.6.4" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-jdk14:1.6.4" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.4" level="project" />
-    <orderEntry type="library" name="Maven: com.google.guava:guava:18.0" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" name="Maven: com.google.api-client:google-api-client:1.17.0-rc" level="project" />
     <orderEntry type="library" name="Maven: com.google.oauth-client:google-oauth-client:1.17.0-rc" level="project" />

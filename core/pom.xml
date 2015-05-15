@@ -19,6 +19,11 @@
             <artifactId>simmetrics</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.mpkorstanje</groupId>
+            <artifactId>simmetrics-core</artifactId>
+            <version>3.0.1</version>
+        </dependency>
 
         <dependency>
             <groupId>uk.ac.shef.dcs.oak</groupId>
