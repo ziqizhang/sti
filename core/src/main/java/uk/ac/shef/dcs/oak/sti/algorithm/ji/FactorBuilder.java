@@ -28,10 +28,21 @@ abstract class FactorBuilder {
 
     protected boolean isValidPotential(double[] potential1, Map<String, Double> affinityValues) {
         int countZero = 0;
+        double min = Double.MAX_VALUE;
         for (int i = 0; i < potential1.length; i++) {
             if (potential1[i] == 0)
                 countZero++;
+            if(potential1[i]<min)
+                min=potential1[i];
         }
+
+        //debug this is a cheat to arbitrarily fill up zero values to ensure a dense graph
+        for (int i = 0; i < potential1.length; i++) {
+            if (potential1[i] == 0)
+                potential1[i]=min/1000.0;
+        }
+        //
+
         //System.out.println(note + ":" + countZero + "/" + potential1.length);
         if (countZero == potential1.length)
             return false;
