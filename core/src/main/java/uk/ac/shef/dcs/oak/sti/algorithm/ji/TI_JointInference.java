@@ -112,7 +112,12 @@ public class TI_JointInference {
             infResidualBP = new LoopyBP(maxIteration);
         else
             infResidualBP = new LoopyBP();
-        infResidualBP.computeMarginals(graph);
+        try {
+            infResidualBP.computeMarginals(graph);
+        }catch(IndexOutOfBoundsException e){
+            System.out.println(table.getSourceId());
+            System.exit(1);
+        }
         System.out.println(">\t COLLECTING MARGINAL PROB AND FINALIZING ANNOTATIONS");
         boolean success=createFinalAnnotations(graph, graphBuilder, infResidualBP, tab_annotations);
         if(!success)
