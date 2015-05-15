@@ -85,11 +85,7 @@ public class HeaderBinaryRelationAnnotation implements Serializable, Comparable<
     }
 
     public String toStringExpanded(){
-        try {
-            return "(" + getSubject_object_key() + ")" + annotation_url;
-        }catch(OutOfMemoryError outOfMemoryError){
-            return "";
-        }
+        return "("+getSubject_object_key()+")"+annotation_url;
     }
     public static String toStringExpanded(int fromCol, int toCol, String relationURL){
         return "("+fromCol+"-"+toCol+")"+relationURL;

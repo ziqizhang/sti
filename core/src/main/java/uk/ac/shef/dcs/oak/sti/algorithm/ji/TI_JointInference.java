@@ -29,7 +29,7 @@ public class TI_JointInference {
     protected int[] ignoreColumns;
     protected int[] forceInterpretColumn;
     protected int maxIteration;
-    protected List<String> stoplist = Arrays.asList("yes","no","away","home");
+    protected List<String> stoplist = Arrays.asList("yes", "no", "away", "home");
 
     protected boolean useSubjectColumn = false;
     protected CandidateEntityGenerator neGenerator;
@@ -59,7 +59,7 @@ public class TI_JointInference {
 
     public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
         LTableAnnotation_JI_Freebase tab_annotations = new LTableAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
-        ignoreColumns=updateIgnoreColumns(table, ignoreColumns);
+        ignoreColumns = updateIgnoreColumns(table, ignoreColumns);
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
         List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
@@ -68,6 +68,7 @@ public class TI_JointInference {
 
         System.out.println(">\t INITIALIZATION");
         System.out.println(">\t\t NAMED ENTITY GENERATOR..."); //SMP begins with an initial NE ranker to rank candidate NEs for each cell
+        boolean graphNonEmpty=false;
         for (int col = 0; col < table.getNumCols(); col++) {
             /*if(col!=1)
                 continue;*/
@@ -80,6 +81,7 @@ public class TI_JointInference {
                 if (ignoreColumn(col, ignoreColumns)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
+                graphNonEmpty=true;
                 /*if (table.getColumnHeader(col).getFeature().isCode_or_Acronym())
                     continue;*/
                 //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
@@ -99,54 +101,55 @@ public class TI_JointInference {
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t BUILDING FACTOR GRAPH");
-        FactorGraph graph = graphBuilder.build(tab_annotations,relationLearning,table.getSourceId());
+        if(graphNonEmpty) {
+            FactorGraph graph = graphBuilder.build(tab_annotations, relationLearning, table.getSourceId());
 
-        //================debug
-        GraphCheckingUtil.checkGraph(graph,table.getSourceId());
-        tab_annotations.checkAffinityUsage(table.getSourceId());
-        //===============debug
+            //================debug
+            GraphCheckingUtil.checkGraph(graph, table.getSourceId());
+            tab_annotations.checkAffinityUsage(table.getSourceId());
+            //===============debug
 
-        System.out.println(">\t RUNNING INFERENCE");
-        Inferencer infResidualBP;
-        if (maxIteration > 0)
-            infResidualBP = new LoopyBP(maxIteration);
-        else
-            infResidualBP = new LoopyBP();
-        try {
+            System.out.println(">\t RUNNING INFERENCE");
+            Inferencer infResidualBP;
+            if (maxIteration > 0)
+                infResidualBP = new LoopyBP(maxIteration);
+            else
+                infResidualBP = new LoopyBP();
+
             infResidualBP.computeMarginals(graph);
-        }catch(IndexOutOfBoundsException e){
-            System.out.println(table.getSourceId());
-            System.exit(1);
+
+            System.out.println(">\t COLLECTING MARGINAL PROB AND FINALIZING ANNOTATIONS");
+            boolean success = createFinalAnnotations(graph, graphBuilder, infResidualBP, tab_annotations);
+            if (!success)
+                throw new STIException("Invalid marginals, failed: " + table.getSourceId());
+
         }
-        System.out.println(">\t COLLECTING MARGINAL PROB AND FINALIZING ANNOTATIONS");
-        boolean success=createFinalAnnotations(graph, graphBuilder, infResidualBP, tab_annotations);
-        if(!success)
-            throw new STIException("Invalid marginals, failed: "+table.getSourceId());
-
-
+        else{
+            System.err.println("EMPTY_TABLE:"+table.getSourceId());
+        }
         return tab_annotations;
     }
 
     protected int[] updateIgnoreColumns(LTable table, int[] ignoreColumns) {
-        Set<Integer> ignore =new HashSet<Integer>();
-        for(int c=0; c<table.getNumCols(); c++){
+        Set<Integer> ignore = new HashSet<Integer>();
+        for (int c = 0; c < table.getNumCols(); c++) {
             Set<String> uniqueStrings = new HashSet<String>();
-            for(int r=0; r<table.getNumRows(); r++){
+            for (int r = 0; r < table.getNumRows(); r++) {
                 LTableContentCell tcc = table.getContentCell(r, c);
                 uniqueStrings.add(tcc.getText().toLowerCase().trim());
             }
-            if(uniqueStrings.size()<4&&table.getNumRows()>4) {
+            if (uniqueStrings.size() < 4 && table.getNumRows() > 4) {
                 uniqueStrings.removeAll(stoplist);
-                if (uniqueStrings.size()==0) ignore.add(c);
+                if (uniqueStrings.size() == 0) ignore.add(c);
             }
         }
 
-        for(int i: ignoreColumns)
+        for (int i : ignoreColumns)
             ignore.add(i);
         int[] result = new int[ignore.size()];
         List<Integer> l = new ArrayList<Integer>(ignore);
-        for(int i=0; i<l.size(); i++)
-            result[i]= l.get(i);
+        for (int i = 0; i < l.size(); i++)
+            result[i] = l.get(i);
         return result;
     }
 
@@ -172,9 +175,9 @@ public class TI_JointInference {
     }
 
     protected boolean createFinalAnnotations(FactorGraph graph,
-                                        FactorGraphBuilder graphBuilder,
-                                        Inferencer infResidualBP,
-                                        LTableAnnotation_JI_Freebase tab_annotations) {
+                                             FactorGraphBuilder graphBuilder,
+                                             Inferencer infResidualBP,
+                                             LTableAnnotation_JI_Freebase tab_annotations) {
         for (int i = 0; i < graph.numVariables(); i++) {
             Variable var = graph.get(i);
             Factor ptl = infResidualBP.lookupMarginal(var);
@@ -198,7 +201,7 @@ public class TI_JointInference {
                         if (assignedId.equals(ca.getAnnotation().getId())) {
                             found = true;
                             double score = ptl.value(it);
-                            if(Double.isNaN(score))
+                            if (Double.isNaN(score))
                                 return false;
                             ca.setFinalScore(score);
                             break;
@@ -224,7 +227,7 @@ public class TI_JointInference {
                         if (assignedId.equals(ha.getAnnotation_url())) {
                             found = true;
                             double score = ptl.value(it);
-                            if(Double.isNaN(score))
+                            if (Double.isNaN(score))
                                 return false;
                             ha.setFinalScore(score);
                             break;
@@ -242,7 +245,7 @@ public class TI_JointInference {
                 Key_SubjectCol_ObjectCol direction = null;
                 while (it.hasNext()) {
                     double score = ptl.value(it);
-                    if(Double.isNaN(score))
+                    if (Double.isNaN(score))
                         return false;
                     int outcome = it.indexOfCurrentAssn();
                     String assignedId = var.getLabelAlphabet().lookupLabel(outcome).toString();
@@ -269,7 +272,7 @@ public class TI_JointInference {
                         if (assignedId.equals(hbr.getAnnotation_url())) {
                             found = true;
                             double score = ptl.value(itr);
-                            if(Double.isNaN(score)) return false;
+                            if (Double.isNaN(score)) return false;
                             hbr.setFinalScore(score);
                             break;
                         }
