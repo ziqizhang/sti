@@ -3,7 +3,6 @@ package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 import cc.mallet.grmm.types.*;
 import cc.mallet.types.LabelAlphabet;
 import uk.ac.shef.dcs.oak.sti.rep.HeaderAnnotation;
-import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
 
 import java.util.HashMap;
@@ -34,12 +33,12 @@ class FactorBuilderHeader extends FactorBuilder {
             String headerPosition = String.valueOf(col);
             LabelAlphabet candidateIndex_header = new LabelAlphabet();
 
-            double[] potential = new double[candidateConcepts_header.length];
+            double[] compatibility = new double[candidateConcepts_header.length];
             for (int i = 0; i < candidateConcepts_header.length; i++) {
                 HeaderAnnotation ha = candidateConcepts_header[i];
                 candidateIndex_header.lookupIndex(ha.getAnnotation_url());
 
-                potential[i] = ha.getScoreElements().get(
+                compatibility[i] = ha.getScoreElements().get(
                         ClassificationScorer_JI_adapted.SCORE_HEADER_FACTOR
                 );
             }
@@ -48,9 +47,10 @@ class FactorBuilderHeader extends FactorBuilder {
             typeOfVariable.put(variable_header, VariableType.HEADER.toString());
             headerVarOutcomePosition.put(variable_header, col);
 
-            if (isValidPotential(potential,null)) {
+            if (isValidCompatibility(compatibility, null)) {
+                //compatibility= patchCompatibility(compatibility);
                 VarSet varSet = new HashVarSet(new Variable[]{dummyHeader, variable_header});
-                TableFactor factor = new TableFactor(varSet, potential);
+                TableFactor factor = new TableFactor(varSet, compatibility);
                 graph.addFactor(factor);
                 variables.put(col, variable_header);
             }

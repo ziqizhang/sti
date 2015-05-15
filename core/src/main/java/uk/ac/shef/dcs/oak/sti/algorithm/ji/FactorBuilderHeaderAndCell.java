@@ -1,7 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
 import cc.mallet.grmm.types.*;
-import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
 
 import java.util.HashMap;
@@ -51,11 +50,12 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                 }
 
                 if (affinity_values_between_variable_outcomes.size() > 0) {
-                    double[] potential = computePotential(affinity_values_between_variable_outcomes,
+                    double[] compatibility = computePotential(affinity_values_between_variable_outcomes,
                             cellVar, headerVar);
-                    if (isValidPotential(potential, affinity_values_between_variable_outcomes)) {
+                    if (isValidCompatibility(compatibility, affinity_values_between_variable_outcomes)) {
+                        //compatibility= patchCompatibility(compatibility);
                         VarSet varSet = new HashVarSet(new Variable[]{cellVar, headerVar});
-                        TableFactor factor = new TableFactor(varSet, potential);
+                        TableFactor factor = new TableFactor(varSet, compatibility);
                         GraphCheckingUtil.checkFactorAgainstAffinity(factor, affinity_values_between_variable_outcomes, tableId);
                         graph.addFactor(factor);
                     }

@@ -75,13 +75,13 @@ public class TI_JointInferenceFailSafe extends TI_JointInference {
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t BUILDING FACTOR GRAPH");
-        List<FactorGraph> subGraphs = subGraphBuilder.buildDisconnectedGraphs(tab_annotations, relationLearning, table.getTableId());
+        List<FactorGraph> subGraphs = subGraphBuilder.buildDisconnectedGraphs(tab_annotations, relationLearning, table.getSourceId());
 
         //================debug
         for(int i=0; i<subGraphs.size(); i++) {
             FactorGraph graph = subGraphs.get(i);
-            GraphCheckingUtil.checkGraph(graph, i+"th_graph,"+table.getTableId());
-            tab_annotations.checkAffinityUsage(i+"th_graph,"+table.getTableId());
+            GraphCheckingUtil.checkGraph(graph, i+"th_graph,"+table.getSourceId());
+            tab_annotations.checkAffinityUsage(i+"th_graph,"+table.getSourceId());
             System.out.println(">\t "+i+"th graph RUNNING INFERENCE");
             Inferencer infResidualBP;
             if (maxIteration > 0)

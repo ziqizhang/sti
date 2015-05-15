@@ -33,12 +33,12 @@ class FactorBuilderCell extends FactorBuilder{
                 String cellPosition = String.valueOf(row) + "," + String.valueOf(col);
 
                 LabelAlphabet candidateIndex_cell = new LabelAlphabet();
-                double[] potential = new double[candidateEntityAnnotations.length];
+                double[] compatibility = new double[candidateEntityAnnotations.length];
                 for (int i = 0; i < candidateEntityAnnotations.length; i++) {
                     CellAnnotation ca = candidateEntityAnnotations[i];
                     candidateIndex_cell.lookupIndex(ca.getAnnotation().getId());
 
-                    potential[i] = ca.getScore_element_map().get(
+                    compatibility[i] = ca.getScore_element_map().get(
                             DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR
                     );
                 }
@@ -47,9 +47,10 @@ class FactorBuilderCell extends FactorBuilder{
                 typeOfVariable.put(variable_cell, VariableType.CELL.toString());
                 cellVarOutcomePosition.put(variable_cell, new int[]{row, col});
 
-                if (isValidPotential(potential,null)) {
+                if (isValidCompatibility(compatibility, null)) {
+                    //compatibility= patchCompatibility(compatibility);
                     VarSet varSet = new HashVarSet(new Variable[]{dummyCell, variable_cell});
-                    TableFactor factor = new TableFactor(varSet, potential);
+                    TableFactor factor = new TableFactor(varSet, compatibility);
                     graph.addFactor(factor);
                     variables.put(row + "," + col, variable_cell);
                 }

@@ -54,7 +54,7 @@ public class GraphCheckingUtil {
         Collections.sort(factorValuesCopy);
         Collections.sort(affinityValuesCopy);
         if(factorValuesCopy.size()!=0){
-            System.err.println(tableId+"-"+f.toString() + " factorValuesRemain:" + factorValuesCopy);
+            //System.err.println(tableId+"-"+f.toString() + " factorValuesRemain:" + factorValuesCopy);
         }
         if(affinityValuesCopy.size()!=0){
             System.err.println(tableId+"-"+f.toString()+" affinityValuesRemain:"+affinityValuesCopy);

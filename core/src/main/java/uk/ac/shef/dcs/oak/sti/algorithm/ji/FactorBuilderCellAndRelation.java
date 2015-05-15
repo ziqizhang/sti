@@ -3,7 +3,6 @@ package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 import cc.mallet.grmm.types.*;
 import uk.ac.shef.dcs.oak.sti.rep.Key_SubjectCol_ObjectCol;
 
-import java.io.File;
 import java.util.*;
 
 /**
@@ -83,20 +82,21 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                 }
             }
             if (affinity_scores.size() > 0) {
-                double[] potential;
+                double[] compatibility;
                 if (sbjCellVar.getIndex() < objCellVar.getIndex())
-                    potential = computePotential(affinity_scores,
+                    compatibility = computePotential(affinity_scores,
                             sbjCellVar, objCellVar, relationVar, relationIndex_forwardRelation);
                 else
-                    potential = computePotential(affinity_scores,
+                    compatibility = computePotential(affinity_scores,
                             objCellVar, sbjCellVar, relationVar, relationIndex_forwardRelation);
-                if (isValidPotential(potential, affinity_scores)) {
+                if (isValidCompatibility(compatibility, affinity_scores)) {
+                    //compatibility= patchCompatibility(compatibility);
                     VarSet varSet;
                     if(sbjCellVar.getIndex() < objCellVar.getIndex())
                         varSet= new HashVarSet(new Variable[]{sbjCellVar, objCellVar, relationVar});
                     else
                         varSet= new HashVarSet(new Variable[]{objCellVar, sbjCellVar, relationVar});
-                    TableFactor factor = new TableFactor(varSet, potential);
+                    TableFactor factor = new TableFactor(varSet, compatibility);
                     GraphCheckingUtil.checkFactorAgainstAffinity(factor, affinity_scores, tableId);
                     graph.addFactor(factor);
                 }
