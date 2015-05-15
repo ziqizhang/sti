@@ -59,7 +59,7 @@ public class TI_JointInference {
 
     public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
         LTableAnnotation_JI_Freebase tab_annotations = new LTableAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
-        //ignoreColumns=updateIgnoreColumns(table, ignoreColumns);
+        ignoreColumns=updateIgnoreColumns(table, ignoreColumns);
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
         List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
