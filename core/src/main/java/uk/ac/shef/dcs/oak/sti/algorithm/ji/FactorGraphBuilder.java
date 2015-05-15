@@ -12,10 +12,10 @@ import java.util.*;
  */
 public class FactorGraphBuilder {
 
-    private FactorBuilderCell factorBuilderCell = new FactorBuilderCell();
-    private FactorBuilderHeader factorBuilderHeader = new FactorBuilderHeader();
-    private FactorBuilderHeaderAndRelation factorBuilderHeaderAndRelation = new FactorBuilderHeaderAndRelation();
-    private Map<Variable, String> typeOfVariable = new HashMap<Variable, String>();
+    protected FactorBuilderCell factorBuilderCell = new FactorBuilderCell();
+    protected FactorBuilderHeader factorBuilderHeader = new FactorBuilderHeader();
+    protected FactorBuilderHeaderAndRelation factorBuilderHeaderAndRelation = new FactorBuilderHeaderAndRelation();
+    protected Map<Variable, String> typeOfVariable = new HashMap<Variable, String>();
 
     public FactorGraph build(LTableAnnotation_JI_Freebase annotation, boolean relationLearning) {
         FactorGraph graph = new FactorGraph();

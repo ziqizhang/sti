@@ -17,7 +17,7 @@ public class GraphCheckingUtil {
         while (it.hasNext()) {
             Assignment assignment = it.assignment();
             //assignment.numVariables();
-            String[] splits = assignment.dumpToString().trim().split("\r");
+            String[] splits = assignment.dumpToString().trim().split("[\r\n]");
             String indexString = splits[splits.length - 1].trim();
             String[] indexes = indexString.split("\\s+");
 
@@ -26,7 +26,14 @@ public class GraphCheckingUtil {
                 String line = "";
                 for (int v = 0; v < assignment.numVariables(); v++) {
                     Variable var = assignment.getVariable(v);
-                    int idx = Integer.valueOf(indexes[v]);
+                    //System.out.print(indexes[v]+",");
+                    int idx = 0;
+                    try {
+                        idx = Integer.valueOf(indexes[v]);
+                    } catch (Exception e) {
+                        System.err.println(assignment.dumpToString()+">>>>"+indexes[v]);
+                        System.exit(1);
+                    }
                     //String label = var.getLabelAlphabet().lookupLabel(idx).toString();
                     line = line + idx + " ";
                 }
@@ -47,7 +54,7 @@ public class GraphCheckingUtil {
         Collections.sort(factorValuesCopy);
         Collections.sort(affinityValuesCopy);
         if(factorValuesCopy.size()!=0){
-            System.err.println(f.toString()+" factorValuesRemain:"+factorValuesCopy);
+            System.err.println(f.toString() + " factorValuesRemain:" + factorValuesCopy);
         }
         if(affinityValuesCopy.size()!=0){
             System.err.println(f.toString()+" affinityValuesRemain:"+affinityValuesCopy);
@@ -55,7 +62,7 @@ public class GraphCheckingUtil {
     }
 
     public static void checkGraph(FactorGraph graph) throws FileNotFoundException {
-        PrintWriter p = new PrintWriter("D:\\Work\\sti/graph.txt");
+        PrintWriter p = new PrintWriter("graph.txt");
         graph.dump(p);
         p.close();
 

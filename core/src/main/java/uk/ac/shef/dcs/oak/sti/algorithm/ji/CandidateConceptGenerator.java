@@ -111,9 +111,13 @@ public class CandidateConceptGenerator {
                                                              boolean biDirectional) {
         Map<String, Double> result = new HashMap<String, Double>();
         List<String[]> pairs = new ArrayList<String[]>();
+        int cc=0;
         for (String e : entityIds) {
             for (String c : conceptIds) {
                 pairs.add(new String[]{e, c});
+                /*if(e.equals("/m/045clt")&&c.equals("/organization/organization"))
+                    System.out.println(c);*/
+                cc++;
             }
         }
 
@@ -122,8 +126,10 @@ public class CandidateConceptGenerator {
         if (size < 5) {
             threads = 0;
             size = pairs.size();
+        }else {
+            threads = pairs.size() / size + 1;
         }
-        System.out.print(multiThreads + 1 + " threads, each processing " + size + " pairs...");
+        System.out.print(threads + " threads, each processing " + size + " pairs...");
         for (int t = 0; t < threads + 1; t++) {
             int start = t * size;
             int end = start + size;

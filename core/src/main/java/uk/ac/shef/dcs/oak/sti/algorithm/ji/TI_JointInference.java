@@ -25,17 +25,17 @@ public class TI_JointInference {
 
     //main column finder is needed to generate data features of each column (e.g., data type in a column),
     //even though we do not use it to find the main column in SMP
-    private MainColumnFinder main_col_finder;
+    protected MainColumnFinder main_col_finder;
     //if there are any columns we want to ignore
-    private int[] ignoreColumns;
-    private int[] forceInterpretColumn;
-    private int maxIteration;
+    protected int[] ignoreColumns;
+    protected int[] forceInterpretColumn;
+    protected int maxIteration;
 
-    private boolean useSubjectColumn = false;
-    private CandidateEntityGenerator neGenerator;
-    private CandidateConceptGenerator columnClassifier;
-    private CandidateRelationGenerator relationGenerator;
-    private FactorGraphBuilder graphBuilder;
+    protected boolean useSubjectColumn = false;
+    protected CandidateEntityGenerator neGenerator;
+    protected CandidateConceptGenerator columnClassifier;
+    protected CandidateRelationGenerator relationGenerator;
+    protected FactorGraphBuilder graphBuilder;
 
     public TI_JointInference(MainColumnFinder main_col_finder,
                              CandidateEntityGenerator neGenerator,
@@ -123,7 +123,7 @@ public class TI_JointInference {
         return tab_annotations;
     }
 
-    private void computeClassCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table) throws IOException {
+    protected void computeClassCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table) throws IOException {
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
             if (forceInterpret(col)) {
@@ -139,11 +139,11 @@ public class TI_JointInference {
         }
     }
 
-    private void computeRelationCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table, boolean useMainSubjectColumn) throws IOException {
+    protected void computeRelationCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table, boolean useMainSubjectColumn) throws IOException {
         relationGenerator.generateCandidateRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumns);
     }
 
-    private boolean createFinalAnnotations(FactorGraph graph,
+    protected boolean createFinalAnnotations(FactorGraph graph,
                                         FactorGraphBuilder graphBuilder,
                                         Inferencer infResidualBP,
                                         LTableAnnotation_JI_Freebase tab_annotations) {
@@ -267,7 +267,7 @@ public class TI_JointInference {
         return false;
     }
 
-    private boolean forceInterpret(Integer i) {
+    protected boolean forceInterpret(Integer i) {
         if (i != null) {
             for (int a : forceInterpretColumn) {
                 if (a == i)
