@@ -15,7 +15,8 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
     public void addFactors(Map<String, Variable> cellVariables,
                            Map<Integer, Variable> headerVariables,
                            LTableAnnotation_JI_Freebase annotation,
-                           FactorGraph graph) {
+                           FactorGraph graph,
+                           String tableId) {
         for (int col = 0; col < annotation.getCols(); col++) {
             Variable headerVar = headerVariables.get(col);
             if (headerVar == null) continue;
@@ -52,7 +53,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                     if (isValidPotential(potential, affinity_values_between_variable_outcomes)) {
                         VarSet varSet = new HashVarSet(new Variable[]{cellVar, headerVar});
                         TableFactor factor = new TableFactor(varSet, potential);
-                        GraphCheckingUtil.checkFactorAgainstAffinity(factor, affinity_values_between_variable_outcomes);
+                        GraphCheckingUtil.checkFactorAgainstAffinity(factor, affinity_values_between_variable_outcomes, tableId);
                         graph.addFactor(factor);
                     }
                 }

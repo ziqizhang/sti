@@ -159,21 +159,21 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
         return s1 + "|" + s2;
     }
 
-    public void checkAffinityUsage() {
+    public void checkAffinityUsage(String tableId) {
         List<String> tmp = new ArrayList<String>(score_entityAndConcept.keySet());
         tmp.removeAll(usedKey_score_entityAndConcept);
         if (tmp.size() > 0)
-            System.err.println("score_entityAndConcept unused:" + tmp);
+            System.err.println(tableId+"-score_entityAndConcept unused:" + tmp);
 
         tmp = new ArrayList<String>(score_entityPairAndRelation.keySet());
         tmp.removeAll(usedKey_score_entityPairAndRelation);
         if (tmp.size() > 0)
-            System.err.println("score_entityPairAndRelation unused:" + tmp);
+            System.err.println(tableId+"-score_entityPairAndRelation unused:" + tmp);
 
         tmp = new ArrayList<String>(score_entityAndRelation.keySet());
         tmp.removeAll(usedKey_score_entityAndRelation);
         if (tmp.size() > 0)
-            System.err.println("score_entityAndRelation unused:" + tmp);
+            System.err.println(tableId+"-score_entityAndRelation unused:" + tmp);
 
         /*tmp = new ArrayList<String>(score_conceptPairAndRelation_instaceEvidence.keySet());
         tmp.removeAll(usedKey_score_conceptPairAndRelation_instaceEvidence);
@@ -183,11 +183,11 @@ public class LTableAnnotation_JI_Freebase extends LTableAnnotation {
         tmp = new ArrayList<String>(score_conceptPairAndRelation_conceptEvidence.keySet());
         tmp.removeAll(usedKey_score_conceptPairAndRelation_conceptEvidence);
         if (tmp.size() > 0)
-            System.err.println("score_conceptPairAndRelation_conceptEvidence unused:" + tmp);
+            System.err.println(tableId+"-score_conceptPairAndRelation_conceptEvidence unused:" + tmp);
 
         tmp = new ArrayList<String>(scoreContributingRows_conceptPairAndRelation.keySet());
         tmp.removeAll(usedKey_scoreContributingRows_conceptPairAndRelation);
         if (tmp.size() > 0)
-            System.err.println("scoreContributingRows_conceptPairAndRelation unused:" + tmp);
+            System.err.println(tableId+"-scoreContributingRows_conceptPairAndRelation unused:" + tmp);
     }
 }

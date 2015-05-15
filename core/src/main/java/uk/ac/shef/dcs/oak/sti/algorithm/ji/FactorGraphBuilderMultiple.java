@@ -12,7 +12,8 @@ import java.util.*;
  */
 public class FactorGraphBuilderMultiple extends FactorGraphBuilder {
     public List<FactorGraph> buildDisconnectedGraphs(LTableAnnotation_JI_Freebase annotation,
-                                                     boolean relationLearning) {
+                                                     boolean relationLearning,
+                                                     String tableId) {
         List<FactorGraph> out=new ArrayList<FactorGraph>();
 
         FactorGraph graph = new FactorGraph();
@@ -26,14 +27,14 @@ public class FactorGraphBuilderMultiple extends FactorGraphBuilder {
         new FactorBuilderHeaderAndCell().addFactors(cellAnnotations,
                 columnHeaders,
                 annotation,
-                graph);
+                graph,tableId);
         //relation and pair of column types
         if (relationLearning) {
             Map<String, Variable> relations = factorBuilderHeaderAndRelation.addFactors(
                     columnHeaders,
                     annotation,
                     graph,
-                    typeOfVariable
+                    typeOfVariable,tableId
             );
 
             //relation and entity pairs
@@ -42,7 +43,7 @@ public class FactorGraphBuilderMultiple extends FactorGraphBuilder {
                     cellAnnotations,
                     annotation,
                     graph,
-                    factorBuilderHeaderAndRelation.getRelationVarOutcomeDirection()
+                    factorBuilderHeaderAndRelation.getRelationVarOutcomeDirection(),tableId
             );
         }
         return out;

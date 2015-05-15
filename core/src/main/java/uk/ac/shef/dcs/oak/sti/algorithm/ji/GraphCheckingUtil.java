@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class GraphCheckingUtil {
 
-    public static void checkFactorAgainstAffinity(Factor f, Map<String, Double> affinity){
+    public static void checkFactorAgainstAffinity(Factor f, Map<String, Double> affinity, String tableId){
         Set<String> factorValues=new HashSet<String>();
         AssignmentIterator it = f.assignmentIterator();
         while (it.hasNext()) {
@@ -54,14 +54,14 @@ public class GraphCheckingUtil {
         Collections.sort(factorValuesCopy);
         Collections.sort(affinityValuesCopy);
         if(factorValuesCopy.size()!=0){
-            System.err.println(f.toString() + " factorValuesRemain:" + factorValuesCopy);
+            System.err.println(tableId+"-"+f.toString() + " factorValuesRemain:" + factorValuesCopy);
         }
         if(affinityValuesCopy.size()!=0){
-            System.err.println(f.toString()+" affinityValuesRemain:"+affinityValuesCopy);
+            System.err.println(tableId+"-"+f.toString()+" affinityValuesRemain:"+affinityValuesCopy);
         }
     }
 
-    public static void checkGraph(FactorGraph graph) throws FileNotFoundException {
+    public static void checkGraph(FactorGraph graph, String tableId) throws FileNotFoundException {
         PrintWriter p = new PrintWriter("graph.txt");
         graph.dump(p);
         p.close();
@@ -121,7 +121,7 @@ public class GraphCheckingUtil {
 
                 checkSuccess = false;
                 for (int m : missing) {
-                    System.err.println("MISSING:" + v.getLabel() + "\t" + v.getLabelAlphabet().lookupLabel(m));
+                    System.err.println("MISSING:" + v.getLabel() + "\t" + v.getLabelAlphabet().lookupLabel(m)+" in "+tableId);
                 }
             }
         }

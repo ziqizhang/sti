@@ -18,7 +18,8 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                            Map<String, Variable> cellVariables,
                            LTableAnnotation_JI_Freebase annotation,
                            FactorGraph graph,
-                           Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection) {
+                           Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection,
+                           String tableId) {
         List<String> processed = new ArrayList<String>();
         for (int c1 = 0; c1 < annotation.getCols(); c1++) {
             for (int c2 = 0; c2 < annotation.getCols(); c2++) {
@@ -33,7 +34,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                         Variable sbj_cell_var = cellVariables.get(r + "," + c1);
                         Variable obj_cell_var = cellVariables.get(r + "," + c2);
                         createCellRelationFactor(sbj_cell_var, obj_cell_var, relation_var,
-                                annotation, graph, relationVarOutcomeDirection);
+                                annotation, graph, relationVarOutcomeDirection, tableId);
                     }
                 }
                 processed.add(c1 + "," + c2);
@@ -48,7 +49,8 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                                           Variable relationVar,
                                           LTableAnnotation_JI_Freebase annotation,
                                           FactorGraph graph,
-                                          Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection) {
+                                          Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection,
+                                          String tableId) {
         if (sbjCellVar != null && objCellVar != null) {
             Map<String, Double> affinity_scores = new HashMap<String, Double>();
             Map<Integer, Boolean> relationIndex_forwardRelation = new HashMap<Integer, Boolean>();
@@ -96,7 +98,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                     else
                         varSet= new HashVarSet(new Variable[]{objCellVar, sbjCellVar, relationVar});
                     TableFactor factor = new TableFactor(varSet, potential);
-                    GraphCheckingUtil.checkFactorAgainstAffinity(factor, affinity_scores);
+                    GraphCheckingUtil.checkFactorAgainstAffinity(factor, affinity_scores, tableId);
                     graph.addFactor(factor);
                 }
             }

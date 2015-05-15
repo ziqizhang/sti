@@ -48,3 +48,5 @@ Temporary Items
 *.lck
 *.zip
 graph.txt
+*.csv
+core/lodie.log.1

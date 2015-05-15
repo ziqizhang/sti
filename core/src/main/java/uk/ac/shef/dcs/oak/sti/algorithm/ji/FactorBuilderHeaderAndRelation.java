@@ -22,7 +22,8 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
             Map<Integer, Variable> columnHeaders,
             LTableAnnotation_JI_Freebase annotation,
             FactorGraph graph,
-            Map<Variable, String> typeOfVariable) {
+            Map<Variable, String> typeOfVariable,
+            String tableId) {
         Map<String, Variable> result = new HashMap<String, Variable>(); //for each pair of col, will only have 1 key stored, both both directional keys are processed
         List<String> processed = new ArrayList<String>();
         Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>>
@@ -119,7 +120,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                     else
                         varSet = new HashVarSet(new Variable[]{column2_header_variable, column1_header_variable, relationVariable});
                     TableFactor factor1 = new TableFactor(varSet, compatibility);
-                    GraphCheckingUtil.checkFactorAgainstAffinity(factor1, affinity_scores);
+                    GraphCheckingUtil.checkFactorAgainstAffinity(factor1, affinity_scores,tableId);
                     graph.addFactor(factor1);
                 }
             }

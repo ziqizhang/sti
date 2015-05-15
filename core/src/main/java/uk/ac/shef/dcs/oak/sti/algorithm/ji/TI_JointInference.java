@@ -100,11 +100,11 @@ public class TI_JointInference {
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t BUILDING FACTOR GRAPH");
-        FactorGraph graph = graphBuilder.build(tab_annotations,relationLearning);
+        FactorGraph graph = graphBuilder.build(tab_annotations,relationLearning, table.getTableId());
 
         //================debug
-        GraphCheckingUtil.checkGraph(graph);
-        tab_annotations.checkAffinityUsage();
+        GraphCheckingUtil.checkGraph(graph, table.getTableId());
+        tab_annotations.checkAffinityUsage(table.getTableId());
         //===============debug
 
         System.out.println(">\t RUNNING INFERENCE");

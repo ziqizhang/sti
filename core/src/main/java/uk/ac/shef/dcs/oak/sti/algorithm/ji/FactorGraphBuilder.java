@@ -17,7 +17,7 @@ public class FactorGraphBuilder {
     protected FactorBuilderHeaderAndRelation factorBuilderHeaderAndRelation = new FactorBuilderHeaderAndRelation();
     protected Map<Variable, String> typeOfVariable = new HashMap<Variable, String>();
 
-    public FactorGraph build(LTableAnnotation_JI_Freebase annotation, boolean relationLearning) {
+    public FactorGraph build(LTableAnnotation_JI_Freebase annotation, boolean relationLearning, String tableId) {
         FactorGraph graph = new FactorGraph();
         //cell text and entity label
         Map<String, Variable> cellAnnotations = factorBuilderCell.addFactors(annotation, graph,
@@ -29,14 +29,14 @@ public class FactorGraphBuilder {
         new FactorBuilderHeaderAndCell().addFactors(cellAnnotations,
                 columnHeaders,
                 annotation,
-                graph);
+                graph,tableId);
         //relation and pair of column types
         if (relationLearning) {
             Map<String, Variable> relations = factorBuilderHeaderAndRelation.addFactors(
                     columnHeaders,
                     annotation,
                     graph,
-                    typeOfVariable
+                    typeOfVariable,tableId
             );
 
             //relation and entity pairs
@@ -45,7 +45,8 @@ public class FactorGraphBuilder {
                     cellAnnotations,
                     annotation,
                     graph,
-                    factorBuilderHeaderAndRelation.getRelationVarOutcomeDirection()
+                    factorBuilderHeaderAndRelation.getRelationVarOutcomeDirection(),
+                    tableId
             );
         }
         return graph;
