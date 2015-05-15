@@ -19,7 +19,8 @@ import java.util.List;
  */
 public class TI_JointInferenceFailSafe extends TI_JointInference {
 
-    private FactorGraphBuilderMultiple subGraphBuilder=new FactorGraphBuilderMultiple();
+    private FactorGraphBuilderMultiple subGraphBuilder=new FactorGraphBuilderMultiple(true);
+
     public TI_JointInferenceFailSafe(MainColumnFinder main_col_finder,
                                      CandidateEntityGenerator neGenerator,
                                      CandidateConceptGenerator columnClassifier,

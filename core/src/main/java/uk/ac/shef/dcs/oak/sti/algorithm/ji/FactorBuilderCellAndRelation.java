@@ -90,7 +90,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                     compatibility = computePotential(affinity_scores,
                             objCellVar, sbjCellVar, relationVar, relationIndex_forwardRelation);
                 if (isValidCompatibility(compatibility, affinity_scores)) {
-                    //compatibility= patchCompatibility(compatibility);
+                    if(patchScores) compatibility= patchCompatibility(compatibility);
                     VarSet varSet;
                     if(sbjCellVar.getIndex() < objCellVar.getIndex())
                         varSet= new HashVarSet(new Variable[]{sbjCellVar, objCellVar, relationVar});

@@ -12,6 +12,12 @@ import java.util.Set;
  */
 abstract class FactorBuilder {
 
+    protected boolean patchScores=false;
+
+    public void setPatchScores(boolean yes){
+        patchScores=yes;
+    }
+
     protected void checkVariableOutcomeUsage(double potential, String key, Map<String, Boolean> varOutcomeHasNonZeroPotential) {
         Boolean hasNonZeroPotential =
                 varOutcomeHasNonZeroPotential.
@@ -36,7 +42,7 @@ abstract class FactorBuilder {
         //debug this is a cheat to arbitrarily fill up zero values to ensure a dense graph
         for (int i = 0; i < potential1.length; i++) {
             if (potential1[i] == 0)
-                potential1[i] = min / 1000.0;
+                potential1[i] = min / 5000.0;
         }
         //
         return potential1;

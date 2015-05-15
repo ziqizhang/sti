@@ -53,7 +53,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                     double[] compatibility = computePotential(affinity_values_between_variable_outcomes,
                             cellVar, headerVar);
                     if (isValidCompatibility(compatibility, affinity_values_between_variable_outcomes)) {
-                        //compatibility= patchCompatibility(compatibility);
+                        if(patchScores) compatibility= patchCompatibility(compatibility);
                         VarSet varSet = new HashVarSet(new Variable[]{cellVar, headerVar});
                         TableFactor factor = new TableFactor(varSet, compatibility);
                         GraphCheckingUtil.checkFactorAgainstAffinity(factor, affinity_values_between_variable_outcomes, tableId);

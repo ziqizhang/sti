@@ -48,7 +48,7 @@ class FactorBuilderCell extends FactorBuilder{
                 cellVarOutcomePosition.put(variable_cell, new int[]{row, col});
 
                 if (isValidCompatibility(compatibility, null)) {
-                    //compatibility= patchCompatibility(compatibility);
+                    if(patchScores) compatibility= patchCompatibility(compatibility);
                     VarSet varSet = new HashVarSet(new Variable[]{dummyCell, variable_cell});
                     TableFactor factor = new TableFactor(varSet, compatibility);
                     graph.addFactor(factor);

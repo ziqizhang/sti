@@ -48,7 +48,7 @@ public class TI_JointInference {
     ) {
         this.useSubjectColumn = useSubjectColumn;
         this.main_col_finder = main_col_finder;
-        this.graphBuilder = new FactorGraphBuilder();
+        this.graphBuilder = new FactorGraphBuilder(false);
         this.neGenerator = neGenerator;
         this.columnClassifier = columnClassifier;
         this.relationGenerator = relationGenerator;
@@ -168,7 +168,7 @@ public class TI_JointInference {
                         String assignedId = var.getLabelAlphabet().lookupLabel(outcome).toString();
                         if (assignedId.equals(ca.getAnnotation().getId())) {
                             found = true;
-                            double score = ptl.value(it);
+                            double score = ptl.value(it); if(Double.isNaN(score)) return false;
                             ca.setFinalScore(score);
                             break;
                         }

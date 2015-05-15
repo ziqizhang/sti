@@ -15,6 +15,17 @@ public class FactorGraphBuilder {
     protected FactorBuilderCell factorBuilderCell = new FactorBuilderCell();
     protected FactorBuilderHeader factorBuilderHeader = new FactorBuilderHeader();
     protected FactorBuilderHeaderAndRelation factorBuilderHeaderAndRelation = new FactorBuilderHeaderAndRelation();
+    protected FactorBuilderHeaderAndCell factorBuilderHeaderAndCell=new FactorBuilderHeaderAndCell();
+    protected FactorBuilderCellAndRelation factorBuilderCellAndRelation = new FactorBuilderCellAndRelation();
+
+    public FactorGraphBuilder(boolean patchScores){
+        factorBuilderCell.setPatchScores(patchScores);
+        factorBuilderHeader.setPatchScores(patchScores);
+        factorBuilderCellAndRelation.setPatchScores(patchScores);
+        factorBuilderHeaderAndCell.setPatchScores(patchScores);
+        factorBuilderHeaderAndRelation.setPatchScores(patchScores);
+    }
+
     protected Map<Variable, String> typeOfVariable = new HashMap<Variable, String>();
 
     public FactorGraph build(LTableAnnotation_JI_Freebase annotation, boolean relationLearning, String tableId) {
@@ -26,7 +37,7 @@ public class FactorGraphBuilder {
         Map<Integer, Variable> columnHeaders = factorBuilderHeader.addFactors(annotation, graph,
                 typeOfVariable);
         //column type and cell entities
-        new FactorBuilderHeaderAndCell().addFactors(cellAnnotations,
+        factorBuilderHeaderAndCell.addFactors(cellAnnotations,
                 columnHeaders,
                 annotation,
                 graph,tableId);
@@ -40,7 +51,7 @@ public class FactorGraphBuilder {
             );
 
             //relation and entity pairs
-            new FactorBuilderCellAndRelation().addFactors(
+            factorBuilderCellAndRelation.addFactors(
                     relations,
                     cellAnnotations,
                     annotation,

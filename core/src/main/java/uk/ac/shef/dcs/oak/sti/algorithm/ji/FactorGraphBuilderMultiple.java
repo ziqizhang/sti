@@ -11,6 +11,10 @@ import java.util.*;
  * Created by zqz on 15/05/2015.
  */
 public class FactorGraphBuilderMultiple extends FactorGraphBuilder {
+    public FactorGraphBuilderMultiple(boolean patchScores) {
+        super(patchScores);
+    }
+
     public List<FactorGraph> buildDisconnectedGraphs(LTableAnnotation_JI_Freebase annotation,
                                                      boolean relationLearning,
                                                      String tableId) {

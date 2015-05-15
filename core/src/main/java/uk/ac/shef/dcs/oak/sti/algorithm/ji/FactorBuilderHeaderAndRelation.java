@@ -116,7 +116,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                             column1_header_variable, relationVariable, relationIndex_forwardRelation);
                 }
                 if (isValidCompatibility(compatibility, affinity_scores)) {
-                    //compatibility= patchCompatibility(compatibility);
+                    if(patchScores) compatibility= patchCompatibility(compatibility);
                     VarSet varSet;
                     if (column1_header_variable.getIndex() < column2_header_variable.getIndex())
                         varSet = new HashVarSet(new Variable[]{column1_header_variable, column2_header_variable, relationVariable});
