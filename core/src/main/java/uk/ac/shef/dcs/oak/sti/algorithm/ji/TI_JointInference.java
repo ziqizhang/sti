@@ -15,8 +15,7 @@ import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by zqz on 01/05/2015.
@@ -59,7 +58,7 @@ public class TI_JointInference {
 
     public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
         LTableAnnotation_JI_Freebase tab_annotations = new LTableAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
-
+        ignoreColumns=updateIgnoreColumns(table, ignoreColumns);
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
         List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
@@ -122,6 +121,26 @@ public class TI_JointInference {
         return tab_annotations;
     }
 
+    protected int[] updateIgnoreColumns(LTable table, int[] ignoreColumns) {
+        Set<Integer> ignore =new HashSet<Integer>();
+        for(int c=0; c<table.getNumCols(); c++){
+            Set<String> uniqueStrings = new HashSet<String>();
+            for(int r=0; r<table.getNumRows(); r++){
+                LTableContentCell tcc = table.getContentCell(r, c);
+                uniqueStrings.add(tcc.getText().toLowerCase().trim());
+            }
+            if(uniqueStrings.size()<4&&table.getNumRows()>4)
+                ignore.add(c);
+        }
+        for(int i: ignoreColumns)
+            ignore.add(i);
+        int[] result = new int[ignore.size()];
+        List<Integer> l = new ArrayList<Integer>(ignore);
+        for(int i=0; i<l.size(); i++)
+            result[i]= l.get(i);
+        return result;
+    }
+
     protected void computeClassCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table) throws IOException {
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -138,7 +157,8 @@ public class TI_JointInference {
         }
     }
 
-    protected void computeRelationCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table, boolean useMainSubjectColumn) throws IOException {
+    protected void computeRelationCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table,
+                                             boolean useMainSubjectColumn) throws IOException {
         relationGenerator.generateCandidateRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumns);
     }
 
@@ -168,7 +188,9 @@ public class TI_JointInference {
                         String assignedId = var.getLabelAlphabet().lookupLabel(outcome).toString();
                         if (assignedId.equals(ca.getAnnotation().getId())) {
                             found = true;
-                            double score = ptl.value(it); if(Double.isNaN(score)) return false;
+                            double score = ptl.value(it);
+                            if(Double.isNaN(score))
+                                return false;
                             ca.setFinalScore(score);
                             break;
                         }
@@ -193,7 +215,8 @@ public class TI_JointInference {
                         if (assignedId.equals(ha.getAnnotation_url())) {
                             found = true;
                             double score = ptl.value(it);
-                            if(Double.isNaN(score)) return false;
+                            if(Double.isNaN(score))
+                                return false;
                             ha.setFinalScore(score);
                             break;
                         }
@@ -210,7 +233,8 @@ public class TI_JointInference {
                 Key_SubjectCol_ObjectCol direction = null;
                 while (it.hasNext()) {
                     double score = ptl.value(it);
-                    if(Double.isNaN(score)) return false;
+                    if(Double.isNaN(score))
+                        return false;
                     int outcome = it.indexOfCurrentAssn();
                     String assignedId = var.getLabelAlphabet().lookupLabel(outcome).toString();
                     if (score >= maxScore) {

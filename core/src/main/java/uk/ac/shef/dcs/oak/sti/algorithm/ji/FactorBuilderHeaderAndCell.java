@@ -38,6 +38,8 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                     if (cellVarOutcomeIndex < 0) continue;
                     for (int headerVarOutcomeIndex=0; headerVarOutcomeIndex<headerVar.getNumOutcomes(); headerVarOutcomeIndex++) {
                         String conceptURL = headerVar.getLabelAlphabet().lookupLabel(headerVarOutcomeIndex).toString();
+                        /*if(conceptURL.equals("/m/02yh8l"))
+                            System.out.println("fuck");*/
                         if (headerVarOutcomeIndex < 0) continue;
 
                         double score = annotation.getScore_entityAndConcept(entId, conceptURL);

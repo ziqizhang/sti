@@ -11,8 +11,8 @@ import java.util.*;
  */
 public class GraphCheckingUtil {
 
-    public static void checkFactorAgainstAffinity(Factor f, Map<String, Double> affinity, String tableId){
-        Set<String> factorValues=new HashSet<String>();
+    public static void checkFactorAgainstAffinity(Factor f, Map<String, Double> affinity, String tableId) {
+        Set<String> factorValues = new HashSet<String>();
         AssignmentIterator it = f.assignmentIterator();
         while (it.hasNext()) {
             Assignment assignment = it.assignment();
@@ -22,7 +22,7 @@ public class GraphCheckingUtil {
             String[] indexes = indexString.split("\\s+");
 
             double score = f.value(assignment);
-            if(score>0) {
+            if (score > 0) {
                 String line = "";
                 for (int v = 0; v < assignment.numVariables(); v++) {
                     Variable var = assignment.getVariable(v);
@@ -31,7 +31,7 @@ public class GraphCheckingUtil {
                     try {
                         idx = Integer.valueOf(indexes[v]);
                     } catch (NumberFormatException e) {
-                        System.err.println(assignment.dumpToString()+">>>>"+indexes[v]);
+                        System.err.println(assignment.dumpToString() + ">>>>" + indexes[v]);
                         System.exit(1);
                     }
                     //String label = var.getLabelAlphabet().lookupLabel(idx).toString();
@@ -42,8 +42,8 @@ public class GraphCheckingUtil {
             it.next();
         }
         Set<String> affinityValues = new HashSet<String>();
-        for(String k: affinity.keySet()){
-            affinityValues.add(k.replaceAll("[^0-9]"," ").trim());
+        for (String k : affinity.keySet()) {
+            affinityValues.add(k.replaceAll("[^0-9]", " ").trim());
         }
 
         List<String> factorValuesCopy = new ArrayList<String>(factorValues);
@@ -53,11 +53,11 @@ public class GraphCheckingUtil {
 
         Collections.sort(factorValuesCopy);
         Collections.sort(affinityValuesCopy);
-        if(factorValuesCopy.size()!=0){
+        if (factorValuesCopy.size() != 0) {
             //System.err.println(tableId+"-"+f.toString() + " factorValuesRemain:" + factorValuesCopy);
         }
-        if(affinityValuesCopy.size()!=0){
-            System.err.println(tableId+"-"+f.toString()+" affinityValuesRemain:"+affinityValuesCopy);
+        if (affinityValuesCopy.size() != 0) {
+            System.err.println(tableId + "-" + f.toString() + " affinityValuesRemain:" + affinityValuesCopy);
         }
     }
 
@@ -67,7 +67,7 @@ public class GraphCheckingUtil {
         p.close();
 
         boolean checkSuccess = true;
-        Map<Variable, Set<Integer>> variableNonzerooutcome = new HashMap<Variable, Set<Integer>>();
+        Map<Variable, Set<Integer>> variableNonzerooutcome_collectedFromFactor = new HashMap<Variable, Set<Integer>>();
         Iterator it = graph.factorsIterator();
         while (it.hasNext()) {
             Factor f = (Factor) it.next();
@@ -88,16 +88,16 @@ public class GraphCheckingUtil {
                         try {
                             idx = Integer.valueOf(indexes[v]);
                         } catch (NumberFormatException e) {
-                            System.err.println(assignment.dumpToString()+">>>>"+indexes[v]);
+                            System.err.println(assignment.dumpToString() + ">>>>" + indexes[v]);
                             System.exit(1);
                         }
                         String label = var.getLabelAlphabet().lookupLabel(idx).toString();
 
-                        Set<Integer> nonzerooutcomes = variableNonzerooutcome.get(var);
+                        Set<Integer> nonzerooutcomes = variableNonzerooutcome_collectedFromFactor.get(var);
                         if (nonzerooutcomes == null)
                             nonzerooutcomes = new HashSet<Integer>();
                         nonzerooutcomes.add(idx);
-                        variableNonzerooutcome.put(var, nonzerooutcomes);
+                        variableNonzerooutcome_collectedFromFactor.put(var, nonzerooutcomes);
                     }
 
                 }
@@ -109,19 +109,19 @@ public class GraphCheckingUtil {
         //compare
         for (int i = 0; i < graph.numVariables(); i++) {
             Variable v = graph.get(i);
-            Set<Integer> values = new HashSet<Integer>();
+            Set<Integer> allOutcomesOfVariable = new HashSet<Integer>();
             for (int j = 0; j < v.getNumOutcomes(); j++)
-                values.add(j);
+                allOutcomesOfVariable.add(j);
 
-            Set<Integer> nonzerooutcomes = variableNonzerooutcome.get(v);
-            values.removeAll(nonzerooutcomes);
-            if (values.size() > 0) {
-                List<Integer> missing = new ArrayList<Integer>(nonzerooutcomes);
+            Set<Integer> nonzerooutcomes = variableNonzerooutcome_collectedFromFactor.get(v);
+            allOutcomesOfVariable.removeAll(nonzerooutcomes);
+            if (allOutcomesOfVariable.size() > 0) {
+                List<Integer> missing = new ArrayList<Integer>(allOutcomesOfVariable);
                 Collections.sort(missing);
 
                 checkSuccess = false;
                 for (int m : missing) {
-                    System.err.println("MISSING:" + v.getLabel() + "\t" + v.getLabelAlphabet().lookupLabel(m)+" in "+tableId);
+                    System.err.println("MISSING:" + v.getLabel() + "\t" + v.getLabelAlphabet().lookupLabel(m) + " in " + tableId);
                 }
             }
         }

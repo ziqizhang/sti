@@ -78,6 +78,8 @@ public class CandidateConceptGenerator {
         Map<String, Double> simScores =
                 computeSimilarityMultiThread(multiThreads, distinctEntities.keySet(), distinctTypes.keySet(), true);
         for (String entityId : distinctEntities.keySet()) {
+            if(entityId.equals("/m/04n542y"))
+                System.out.println("fuck");
             for (String conceptId : distinctTypes.keySet()) {
                 //cc++;
                 Double sim = //entityAndConceptScorer.computeEntityConceptSimilarity(entityId, conceptId, kbSearcher);

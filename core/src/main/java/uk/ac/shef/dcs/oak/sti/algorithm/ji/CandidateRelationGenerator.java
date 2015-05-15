@@ -23,7 +23,9 @@ public class CandidateRelationGenerator {
         this.allowRelationCandidatesFromRows=allowRelationCandidatesFromRows;
     }
 
-    public void generateCandidateRelation(LTableAnnotation_JI_Freebase tableAnnotations, LTable table, boolean useMainSubjectColumn, int[] ignoreColumns) throws IOException {
+    public void generateCandidateRelation(LTableAnnotation_JI_Freebase tableAnnotations,
+                                          LTable table, boolean useMainSubjectColumn,
+                                          int[] ignoreColumns) throws IOException {
         //RelationDataStructure result = new RelationDataStructure();
 
         //mainColumnIndexes contains indexes of columns that are possible NEs

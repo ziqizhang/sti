@@ -65,7 +65,19 @@ public class FactorGraphBuilderMultiple extends FactorGraphBuilder {
         int counter = 0;
         String key = null;
         if (relationLearning) {
-            for (Key_SubjectCol_ObjectCol rel : annotation.getRelationAnnotations_across_columns().keySet()) {
+            List<Key_SubjectCol_ObjectCol> relationDirections = new ArrayList<Key_SubjectCol_ObjectCol>(
+                    annotation.getRelationAnnotations_across_columns().keySet()
+            );
+            Collections.sort(relationDirections, new Comparator<Key_SubjectCol_ObjectCol>() {
+                @Override
+                public int compare(Key_SubjectCol_ObjectCol o1, Key_SubjectCol_ObjectCol o2) {
+                    int c= Integer.valueOf(o1.getSubjectCol()).compareTo(o2.getSubjectCol());
+                    if(c==0)
+                        return Integer.valueOf(o1.getObjectCol()).compareTo(o2.getObjectCol());
+                    return c;
+                }
+            });
+            for (Key_SubjectCol_ObjectCol rel : relationDirections) {
                 Set<Integer> components = findContainingGraph(result, rel.getSubjectCol(), rel.getObjectCol());
                 if (components == null) {
                     components = new HashSet<Integer>();

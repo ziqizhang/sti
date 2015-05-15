@@ -89,7 +89,7 @@ public class TestTableInterpretation_LimayeDataset_JI {
         Integer maxIteration=0;
 
         //DisambiguationScorer disambiguator = new DisambiguationScorer_SMP_adapted(stopWords, nlpResources);
-        TI_JointInference interpreter = new TI_JointInferenceFailSafe(
+        TI_JointInference interpreter = new TI_JointInference(
                 main_col_finder,
                 new CandidateEntityGenerator(freebaseSearcherGeneral,
                         new DisambiguationScorer_JI_adapted()),
