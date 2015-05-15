@@ -34,7 +34,6 @@ public class GraphCheckingUtil {
             }
             it.next();
         }
-
         Set<String> affinityValues = new HashSet<String>();
         for(String k: affinity.keySet()){
             affinityValues.add(k.replaceAll("[^0-9]"," ").trim());

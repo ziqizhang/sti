@@ -109,18 +109,9 @@ public class TestTableInterpretation_MusicBrainz_SMP {
         List<File> all = Arrays.asList(new File(inFolder).listFiles());
         Collections.sort(all);
         System.out.println(all.size());
-        int[] onlyDo = new int[]{52, 56};
 
         for (File f : all) {
             count++;
-
-            /* boolean found=false;
-        for(int od: onlyDo){
-            if(od==count)
-                found=true;
-        }
-        if(!found)
-            continue;*/
 
             if (missed_files.size() != 0 && !missed_files.contains(count))
                 continue;
@@ -129,11 +120,6 @@ public class TestTableInterpretation_MusicBrainz_SMP {
                 continue;
             boolean complete = false;
             String inFile = f.toString();
-            /*if (!inFile.contains("994e"))
-                continue;*///System.out.println("start debugging");;
-            /*if(inFile.contains("Daytona")){
-                TableMinerConstants.enable_forceQuery();
-            }*/
 
             try {
                 String fileContent = org.apache.any23.util.FileUtils.readFileContent(new File(inFile));
@@ -156,17 +142,6 @@ public class TestTableInterpretation_MusicBrainz_SMP {
                     serverEntity.commit();
                     serverConcept.commit();
                 }
-                /**************check bugged cache/load for "Deep Space 9" in Seinfeld document*****************/
-                /*   if (inFile.contains("Seinfeld")) {
-               List<String[]> facts = freebaseMatcher.find_triplesForEntity(new EntityCandidate("/m/06qw_", ""));
-               String mid = "";
-               for (String[] ft : facts) {
-                   if (ft[0].equals("/type/object/type") && ft[3].equals("n")) {
-                       mid = mid + "," + ft[2];
-                   }
-               }
-               System.out.println("---------" + facts.size() + ", " + mid);
-                }*/
 
                 if (!complete) {
                     System.out.println("\t\t\t missed: " + count + "_" + sourceTableFile);

@@ -11,6 +11,11 @@ import uk.ac.shef.dcs.oak.sti.io.LTableAnnotationWriter;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
+import uk.ac.shef.dcs.oak.sti.xtractor.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.oak.sti.xtractor.TableNormalizerFrequentRowLength;
+import uk.ac.shef.dcs.oak.sti.xtractor.TableObjCreatorIMDB;
+import uk.ac.shef.dcs.oak.sti.xtractor.TableXtractorIMDB;
+import uk.ac.shef.dcs.oak.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.oak.util.FileUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
@@ -20,11 +25,11 @@ import java.util.*;
 import java.util.logging.Logger;
 
 /**
- * Created by zqz on 06/05/2015.
+ * Created by zqz on 15/05/2015.
  */
-public class TestTableInterpretation_LimayeDataset_JI {
-    private static Logger log = Logger.getLogger(TestTableInterpretation_LimayeDataset_JI.class.getName());
-    public static int[] IGNORE_COLUMNS = new int[]{};
+public class TestTableInterpretation_IMDB_JI {
+    private static Logger log = Logger.getLogger(TestTableInterpretation_IMDB_JI.class.getName());
+    public static int[] IGNORE_COLUMNS = new int[]{0, 2, 3};
 
     public static void main(String[] args) throws IOException {
         String inFolder = args[0];
@@ -109,6 +114,11 @@ public class TestTableInterpretation_LimayeDataset_JI {
         LTableAnnotationWriter writer = new LTableAnnotationWriter(
                 new TripleGenerator("http://www.freebase.com", "http://lodie.dcs.shef.ac.uk"));
 
+        TableXtractorIMDB xtractor = new TableXtractorIMDB(new TableNormalizerFrequentRowLength(true),
+                new TableHODetectorByHTMLTag(),
+                new TableObjCreatorIMDB(),
+                new TabValGeneric());
+
         int count = 0;
         List<File> all = Arrays.asList(new File(inFolder).listFiles());
         Collections.sort(all);
@@ -126,7 +136,12 @@ public class TestTableInterpretation_LimayeDataset_JI {
             String inFile = f.toString();
 
             try {
-                LTable table = LimayeDatasetLoader.readTable(inFile, null, null);
+                String fileContent = org.apache.any23.util.FileUtils.readFileContent(new File(inFile));
+                List<LTable> tables = xtractor.extract(fileContent, inFile);
+                if (tables.size() == 0)
+                    continue;
+
+                LTable table = tables.get(0);
 
                 String sourceTableFile = inFile;
                 if (sourceTableFile.startsWith("\"") && sourceTableFile.endsWith("\""))
@@ -138,14 +153,12 @@ public class TestTableInterpretation_LimayeDataset_JI {
 
                 if (TableMinerConstants.COMMIT_SOLR_PER_FILE) {
                     serverEntity.commit();
-                    serverConcept.commit();
                 }
-
                 if (!complete) {
                     System.out.println("\t\t\t missed: " + count + "_" + sourceTableFile);
                     PrintWriter missedWriter = null;
                     try {
-                        missedWriter = new PrintWriter(new FileWriter("limaye_missed.csv", true));
+                        missedWriter = new PrintWriter(new FileWriter("imdb_missed.csv", true));
                         missedWriter.println(count + "," + inFile);
                         missedWriter.close();
                     } catch (IOException e1) {
@@ -158,7 +171,7 @@ public class TestTableInterpretation_LimayeDataset_JI {
                 e.printStackTrace();
                 PrintWriter missedWriter = null;
                 try {
-                    missedWriter = new PrintWriter(new FileWriter("limaye_missed.csv", true));
+                    missedWriter = new PrintWriter(new FileWriter("imdb_missed.csv", true));
                     missedWriter.println(count + "," + inFile);
                     missedWriter.close();
                 } catch (IOException e1) {
@@ -166,7 +179,6 @@ public class TestTableInterpretation_LimayeDataset_JI {
                 }
                 e.printStackTrace();
                 serverEntity.shutdown();
-                serverConcept.shutdown();
                 System.exit(1);
             }
 

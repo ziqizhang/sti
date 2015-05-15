@@ -162,7 +162,7 @@ public class TestTableInterpretation_IMDB_SMP {
                     System.out.println("\t\t\t missed: " + count + "_" + sourceTableFile);
                     PrintWriter missedWriter = null;
                     try {
-                        missedWriter = new PrintWriter(new FileWriter("limaye_missed.csv", true));
+                        missedWriter = new PrintWriter(new FileWriter("imdb_missed.csv", true));
                         missedWriter.println(count + "," + inFile);
                         missedWriter.close();
                     } catch (IOException e1) {
@@ -175,7 +175,7 @@ public class TestTableInterpretation_IMDB_SMP {
                 e.printStackTrace();
                 PrintWriter missedWriter = null;
                 try {
-                    missedWriter = new PrintWriter(new FileWriter("limaye_missed.csv", true));
+                    missedWriter = new PrintWriter(new FileWriter("imdb_missed.csv", true));
                     missedWriter.println(count + "," + inFile);
                     missedWriter.close();
                 } catch (IOException e1) {
@@ -188,6 +188,7 @@ public class TestTableInterpretation_IMDB_SMP {
 
         }
         serverEntity.shutdown();
+        serverConcept.shutdown();
         System.out.println(new Date());
         System.exit(0);
     }
