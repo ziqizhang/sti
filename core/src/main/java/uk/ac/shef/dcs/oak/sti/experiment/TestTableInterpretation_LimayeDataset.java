@@ -245,7 +245,7 @@ public class TestTableInterpretation_LimayeDataset {
 
 
     public static boolean process(MainInterpreter_and_Forward_learner interpreter, LTable table, String sourceTableFile, LTableAnnotationWriter writer,
-                                  String outFolder, boolean relationLearning) throws FileNotFoundException {
+                                  String outFolder, boolean relationLearning) throws Exception {
         String outFilename = sourceTableFile.replaceAll("\\\\", "/");
         try {
             LTableAnnotation annotations = interpreter.start(table, relationLearning);
@@ -266,7 +266,7 @@ public class TestTableInterpretation_LimayeDataset {
                 }
                 return false;
             } else
-                ste.printStackTrace();
+                throw ste;
 
         }
         return true;

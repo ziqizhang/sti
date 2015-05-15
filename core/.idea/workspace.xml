@@ -2123,8 +2123,8 @@
       <file leaf-file-name="TestTableInterpretation_LimayeDataset_JI.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3792" max-vertical-offset="5000">
-              <caret line="176" column="36" selection-start-line="176" selection-start-column="36" selection-end-line="176" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="3235" max-vertical-offset="5000">
+              <caret line="184" column="85" selection-start-line="184" selection-start-column="85" selection-end-line="184" selection-end-column="85" />
               <folding />
             </state>
           </provider>
@@ -2133,8 +2133,8 @@
       <file leaf-file-name="TestTableInterpretation_IMDB_JI.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB_JI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4592" max-vertical-offset="5725">
-              <caret line="190" column="36" selection-start-line="0" selection-start-column="0" selection-end-line="223" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="4187" max-vertical-offset="5725">
+              <caret line="196" column="85" selection-start-line="196" selection-start-column="85" selection-end-line="196" selection-end-column="85" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -2142,21 +2142,81 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestTableInterpretation_MusicBrainz_SMP.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_SMP.java">
+      <file leaf-file-name="TI_JointInference.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3775" max-vertical-offset="4875">
-              <caret line="177" column="24" selection-start-line="177" selection-start-column="24" selection-end-line="177" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.3159204" vertical-offset="2448" max-vertical-offset="6725">
+              <caret line="119" column="84" selection-start-line="119" selection-start-column="84" selection-end-line="119" selection-end-column="84" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestTableInterpretation_MusicBrainz_JI.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="TestTableInterpretation_MusicBrainz_SMP.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_SMP.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="4385" max-vertical-offset="4875">
+              <caret line="204" column="25" selection-start-line="204" selection-start-column="25" selection-end-line="204" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestTableInterpretation_LimayeDataset_SMP.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_SMP.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="4223" max-vertical-offset="5225">
+              <caret line="195" column="94" selection-start-line="195" selection-start-column="94" selection-end-line="195" selection-end-column="94" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestTableInterpretation_IMDB_SMP.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB_SMP.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="4148" max-vertical-offset="5150">
+              <caret line="197" column="94" selection-start-line="197" selection-start-column="94" selection-end-line="197" selection-end-column="94" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestTableInterpretation_MusicBrainz.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="4915" max-vertical-offset="5525">
+              <caret line="231" column="25" selection-start-line="231" selection-start-column="25" selection-end-line="231" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestTableInterpretation_IMDB.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="4693" max-vertical-offset="5650">
+              <caret line="218" column="93" selection-start-line="218" selection-start-column="93" selection-end-line="218" selection-end-column="93" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestTableInterpretation_LimayeDataset.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="5521" max-vertical-offset="6450">
+              <caret line="247" column="94" selection-start-line="247" selection-start-column="94" selection-end-line="247" selection-end-column="94" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestTableInterpretation_MusicBrainz_JI.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_JI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.4871795" vertical-offset="5363" max-vertical-offset="5675">
-              <caret line="171" column="69" selection-start-line="171" selection-start-column="69" selection-end-line="171" selection-end-column="69" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="4136" max-vertical-offset="5675">
+              <caret line="194" column="85" selection-start-line="194" selection-start-column="85" selection-end-line="194" selection-end-column="85" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -2174,10 +2234,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/util/GenericSearchCache_SOLR.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/util/SolrSearchCache.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/util/SearchCacheSolr.java" />
-        <option value="$PROJECT_DIR$/../common-util/src/main/java/uk/ac/shef/dcs/oak/util/XPathUtils.java" />
         <option value="$PROJECT_DIR$/../triplesearch/src/main/java/uk/ac/shef/dcs/oak/triplesearch/freebase/FreebaseQueryHelper.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/misc/DataTypeClassifier.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/selector/LTableContentRow_Sampler_nonEmpty.java" />
@@ -2208,7 +2264,6 @@
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher_Freebase.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestGRMMToy.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilder.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/LTableAnnotation_JI_Freebase.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/RelationTextMatcher_Scorer_JI_adapted.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorGraphBuilder.java" />
@@ -2220,11 +2275,16 @@
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/SimilarityComputerThread.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/GraphCheckingUtil.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB_SMP.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB_JI.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_SMP.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_JI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_SMP.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_SMP.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB_SMP.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java" />
       </list>
     </option>
   </component>
@@ -4181,12 +4241,12 @@
       <workItem from="1430592757154" duration="1551000" />
       <workItem from="1430597199203" duration="3196000" />
       <workItem from="1430830894739" duration="59331000" />
-      <workItem from="1431091223231" duration="155838000" />
+      <workItem from="1431091223231" duration="156475000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="412658000" />
+    <option name="totallyTimeSpent" value="413295000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -4210,7 +4270,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1598" height="856" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38505095" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -4232,8 +4292,8 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.10844156" sideWeight="0.42299107" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30714285" sideWeight="0.7723214" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46781117" sideWeight="0.5272727" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17857143" sideWeight="0.7723214" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3390558" sideWeight="0.5272727" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2275641" sideWeight="0.68973213" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -5284,44 +5344,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../triplesearch/src/main/java/uk/ac/shef/dcs/oak/triplesearch/EntityCandidate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="696" max-vertical-offset="3525">
-          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding>
-            <element signature="e#1188#1189#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/LTableAnnotation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="554" max-vertical-offset="5925">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding>
-            <element signature="e#1460#1461#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/Key_SubjectCol_ObjectCol.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1025">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/HeaderAnnotation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1462" max-vertical-offset="2825">
-          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
-          <folding>
-            <element signature="e#2745#2746#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/VariableType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="312" max-vertical-offset="650">
@@ -5521,14 +5543,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2125" max-vertical-offset="6725">
-          <caret line="102" column="79" selection-start-line="102" selection-start-column="79" selection-end-line="102" selection-end-column="79" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorGraphBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="550" max-vertical-offset="1850">
@@ -5707,10 +5721,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/cc/mallet/mallet/2.0.7-RC2/mallet-2.0.7-RC2-sources.jar!/cc/mallet/grmm/types/Assignment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.92" vertical-offset="11677" max-vertical-offset="17000">
+          <caret line="497" column="14" selection-start-line="497" selection-start-column="14" selection-end-line="497" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/GraphCheckingUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.24" vertical-offset="319" max-vertical-offset="3200">
-          <caret line="17" column="20" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
+        <state vertical-scroll-proportion="-5.0" vertical-offset="350" max-vertical-offset="3200">
+          <caret line="19" column="16" selection-start-line="19" selection-start-column="15" selection-end-line="19" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#375#383#0" expanded="true" />
@@ -5724,34 +5746,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/cc/mallet/mallet/2.0.7-RC2/mallet-2.0.7-RC2-sources.jar!/cc/mallet/grmm/types/Assignment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.92" vertical-offset="11677" max-vertical-offset="17000">
-          <caret line="497" column="14" selection-start-line="497" selection-start-column="14" selection-end-line="497" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB_SMP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="42" max-vertical-offset="5150">
-          <caret line="34" column="66" selection-start-line="34" selection-start-column="3" selection-end-line="34" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3792" max-vertical-offset="5000">
-          <caret line="176" column="36" selection-start-line="176" selection-start-column="36" selection-end-line="176" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="3235" max-vertical-offset="5000">
+          <caret line="184" column="85" selection-start-line="184" selection-start-column="85" selection-end-line="184" selection-end-column="85" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB_JI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4592" max-vertical-offset="5725">
-          <caret line="190" column="36" selection-start-line="0" selection-start-column="0" selection-end-line="223" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="4187" max-vertical-offset="5725">
+          <caret line="196" column="85" selection-start-line="196" selection-start-column="85" selection-end-line="196" selection-end-column="85" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_JI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4136" max-vertical-offset="5675">
+          <caret line="194" column="85" selection-start-line="194" selection-start-column="85" selection-end-line="194" selection-end-column="85" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -5760,19 +5776,57 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_SMP.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3775" max-vertical-offset="4875">
-          <caret line="177" column="24" selection-start-line="177" selection-start-column="24" selection-end-line="177" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="4385" max-vertical-offset="4875">
+          <caret line="204" column="25" selection-start-line="204" selection-start-column="25" selection-end-line="204" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_JI.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_SMP.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.4871795" vertical-offset="5363" max-vertical-offset="5675">
-          <caret line="171" column="69" selection-start-line="171" selection-start-column="69" selection-end-line="171" selection-end-column="69" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="4223" max-vertical-offset="5225">
+          <caret line="195" column="94" selection-start-line="195" selection-start-column="94" selection-end-line="195" selection-end-column="94" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB_SMP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4148" max-vertical-offset="5150">
+          <caret line="197" column="94" selection-start-line="197" selection-start-column="94" selection-end-line="197" selection-end-column="94" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5521" max-vertical-offset="6450">
+          <caret line="247" column="94" selection-start-line="247" selection-start-column="94" selection-end-line="247" selection-end-column="94" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4690" max-vertical-offset="5525">
+          <caret line="231" column="25" selection-start-line="231" selection-start-column="25" selection-end-line="231" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4693" max-vertical-offset="5650">
+          <caret line="218" column="93" selection-start-line="218" selection-start-column="93" selection-end-line="218" selection-end-column="93" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3159204" vertical-offset="2448" max-vertical-offset="6725">
+          <caret line="119" column="84" selection-start-line="119" selection-start-column="84" selection-end-line="119" selection-end-column="84" />
+          <folding />
         </state>
       </provider>
     </entry>

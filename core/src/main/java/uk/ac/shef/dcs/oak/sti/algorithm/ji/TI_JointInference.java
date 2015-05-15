@@ -117,7 +117,7 @@ public class TI_JointInference {
         System.out.println(">\t COLLECTING MARGINAL PROB AND FINALIZING ANNOTATIONS");
         boolean success=createFinalAnnotations(graph, graphBuilder, infResidualBP, tab_annotations);
         if(!success)
-            System.err.println("-----------------------invalid marginals!!!");
+            throw new STIException("Invalid marginals, failed: "+table.getSourceId());
 
 
         return tab_annotations;

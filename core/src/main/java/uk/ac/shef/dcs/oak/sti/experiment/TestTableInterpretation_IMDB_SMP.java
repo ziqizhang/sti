@@ -195,7 +195,7 @@ public class TestTableInterpretation_IMDB_SMP {
 
 
     public static boolean process(TI_SemanticMessagePassing interpreter, LTable table, String sourceTableFile, LTableAnnotationWriter writer,
-                                  String outFolder, boolean relationLearning) throws FileNotFoundException {
+                                  String outFolder, boolean relationLearning) throws Exception {
         String outFilename = sourceTableFile.replaceAll("\\\\", "/");
         try {
             LTableAnnotation annotations = interpreter.start(table, relationLearning);
@@ -216,7 +216,7 @@ public class TestTableInterpretation_IMDB_SMP {
                 }
                 return false;
             } else
-                ste.printStackTrace();
+                throw ste;
 
         }
         return true;

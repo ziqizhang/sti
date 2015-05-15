@@ -147,7 +147,7 @@ public class TestTableInterpretation_MusicBrainz_SMP {
                     System.out.println("\t\t\t missed: " + count + "_" + sourceTableFile);
                     PrintWriter missedWriter = null;
                     try {
-                        missedWriter = new PrintWriter(new FileWriter("limaye_missed.csv", true));
+                        missedWriter = new PrintWriter(new FileWriter("mb_missed.csv", true));
                         missedWriter.println(count + "," + inFile);
                         missedWriter.close();
                     } catch (IOException e1) {
@@ -160,7 +160,7 @@ public class TestTableInterpretation_MusicBrainz_SMP {
                 e.printStackTrace();
                 PrintWriter missedWriter = null;
                 try {
-                    missedWriter = new PrintWriter(new FileWriter("limaye_missed.csv", true));
+                    missedWriter = new PrintWriter(new FileWriter("mb_missed.csv", true));
                     missedWriter.println(count + "," + inFile);
                     missedWriter.close();
                 } catch (IOException e1) {
@@ -181,7 +181,7 @@ public class TestTableInterpretation_MusicBrainz_SMP {
 
 
     public static boolean process(TI_SemanticMessagePassing interpreter, LTable table, String sourceTableFile, LTableAnnotationWriter writer,
-                                  String outFolder, boolean relationLearning) throws FileNotFoundException {
+                                  String outFolder, boolean relationLearning) throws Exception {
         String outFilename = sourceTableFile.replaceAll("\\\\", "/");
         try {
             LTableAnnotation annotations = interpreter.start(table, relationLearning);
@@ -202,7 +202,7 @@ public class TestTableInterpretation_MusicBrainz_SMP {
                 }
                 return false;
             } else
-                ste.printStackTrace();
+                throw ste;
 
         }
         return true;
