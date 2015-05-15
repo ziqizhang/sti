@@ -103,7 +103,6 @@ public class TestTableInterpretation_MusicBrainz_JI {
                 new CandidateRelationGenerator(new RelationTextMatcher_Scorer_JI_adapted(stopWords,
                         new Levenshtein(), 0.5),
                         freebaseSearcherGeneral, true),
-                new FactorGraphBuilder(),
                 useSubjectColumn,
                 IGNORE_COLUMNS,
                 new int[0],maxIteration
