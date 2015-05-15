@@ -53,7 +53,7 @@ public class CandidateRelationGenerator {
                 continue;
 
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
-                if (subjectColumn == objectColumn)
+                if (subjectColumn == objectColumn||TI_JointInference.ignoreColumn(objectColumn, ignoreColumns))
                     continue;
                 DataTypeClassifier.DataType columnDataType = table.getColumnHeader(objectColumn).getFeature().getMostDataType().getCandidateType();
                 if (!columnDataType.equals(DataTypeClassifier.DataType.NAMED_ENTITY))
@@ -88,7 +88,7 @@ public class CandidateRelationGenerator {
                 continue;
 
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
-                if (subjectColumn == objectColumn) continue;
+                if (subjectColumn == objectColumn||TI_JointInference.ignoreColumn(objectColumn, ignoreColumns)) continue;
                 DataTypeClassifier.DataType columnDataType = table.getColumnHeader(objectColumn).getFeature().getMostDataType().getCandidateType();
                 if (!columnDataType.equals(DataTypeClassifier.DataType.NAMED_ENTITY)) continue;
                 System.out.print("(" + subjectColumn + "-" + objectColumn + ",");
@@ -106,7 +106,7 @@ public class CandidateRelationGenerator {
             if (!table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                 continue;
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
-                if (subjectColumn == objectColumn) continue;
+                if (subjectColumn == objectColumn||TI_JointInference.ignoreColumn(objectColumn, ignoreColumns)) continue;
                 DataTypeClassifier.DataType columnDataType = table.getColumnHeader(objectColumn).getFeature().getMostDataType().getCandidateType();
                 if (!columnDataType.equals(DataTypeClassifier.DataType.NAMED_ENTITY)) continue;
                 System.out.print("(" + subjectColumn + "-" + objectColumn + ",");

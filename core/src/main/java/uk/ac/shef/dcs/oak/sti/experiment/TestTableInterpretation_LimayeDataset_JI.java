@@ -98,7 +98,7 @@ public class TestTableInterpretation_LimayeDataset_JI {
                         new EntityAndConceptScorer_Freebase(stopWords, nlpResources),
                         multiThreads),
                 new CandidateRelationGenerator(new RelationTextMatcher_Scorer_JI_adapted(stopWords,
-                        new Levenshtein(), 0.5),
+                        new Levenshtein(), 0.8),
                         freebaseSearcherGeneral, true),
                 useSubjectColumn,
                 IGNORE_COLUMNS,
