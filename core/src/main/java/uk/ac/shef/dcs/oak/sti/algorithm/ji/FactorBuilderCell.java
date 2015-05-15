@@ -5,9 +5,7 @@ import cc.mallet.types.LabelAlphabet;
 import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by zqz on 12/05/2015.
@@ -24,7 +22,6 @@ class FactorBuilderCell extends FactorBuilder{
         for (int row = 0; row < annotation.getRows(); row++) {
             for (int col = 0; col < annotation.getCols(); col++) {
                 if(columns!=null&&!columns.contains(col)) continue;
-
                 Variable dummyCell = createDummyVariable("dummyCell("+row+","+col+")");
 
                 CellAnnotation[] candidateEntityAnnotations = annotation.getContentCellAnnotations(row, col);
@@ -33,15 +30,21 @@ class FactorBuilderCell extends FactorBuilder{
                 String cellPosition = String.valueOf(row) + "," + String.valueOf(col);
 
                 LabelAlphabet candidateIndex_cell = new LabelAlphabet();
-                double[] compatibility = new double[candidateEntityAnnotations.length];
+                List<Double> scores=new ArrayList<Double>();
                 for (int i = 0; i < candidateEntityAnnotations.length; i++) {
                     CellAnnotation ca = candidateEntityAnnotations[i];
+                    double score=ca.getScore_element_map().get(
+                            DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR);
+                    if(score==0)
+                        continue;
                     candidateIndex_cell.lookupIndex(ca.getAnnotation().getId());
-
-                    compatibility[i] = ca.getScore_element_map().get(
-                            DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR
-                    );
+                    scores.add(score);
                 }
+                if(scores.size()==0)
+                    continue;
+                double[] compatibility = new double[scores.size()];
+                for(int i=0; i<compatibility.length;i++)
+                    compatibility[i]=scores.get(i);
                 Variable variable_cell = new Variable(candidateIndex_cell);
                 variable_cell.setLabel(VariableType.CELL.toString() + "." + cellPosition);
                 typeOfVariable.put(variable_cell, VariableType.CELL.toString());

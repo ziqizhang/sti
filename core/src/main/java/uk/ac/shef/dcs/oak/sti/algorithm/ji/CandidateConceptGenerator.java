@@ -39,6 +39,10 @@ public class CandidateConceptGenerator {
             if (cellAnnotations.length > 0) {
                 for (CellAnnotation ca : cellAnnotations) {
                     EntityCandidate e = ca.getAnnotation();
+                    if (ca.getScore_element_map().get(
+                            DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR) ==0.0){
+                        continue;
+                    }
                     distinctEntities.put(e.getId(), e.getName());
                     for (String[] type : KnowledgeBaseFreebaseFilter.filterTypes(e.getTypes())) {
                         String url = type[0];
@@ -78,8 +82,6 @@ public class CandidateConceptGenerator {
         Map<String, Double> simScores =
                 computeSimilarityMultiThread(multiThreads, distinctEntities.keySet(), distinctTypes.keySet(), true);
         for (String entityId : distinctEntities.keySet()) {
-            if(entityId.equals("/m/04n542y"))
-                System.out.println("fuck");
             for (String conceptId : distinctTypes.keySet()) {
                 //cc++;
                 Double sim = //entityAndConceptScorer.computeEntityConceptSimilarity(entityId, conceptId, kbSearcher);

@@ -29,6 +29,7 @@ public class TI_JointInference {
     protected int[] ignoreColumns;
     protected int[] forceInterpretColumn;
     protected int maxIteration;
+    protected List<String> stoplist = Arrays.asList("yes","no","away","home");
 
     protected boolean useSubjectColumn = false;
     protected CandidateEntityGenerator neGenerator;
@@ -58,7 +59,7 @@ public class TI_JointInference {
 
     public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
         LTableAnnotation_JI_Freebase tab_annotations = new LTableAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
-        ignoreColumns=updateIgnoreColumns(table, ignoreColumns);
+        //ignoreColumns=updateIgnoreColumns(table, ignoreColumns);
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
         List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
@@ -129,9 +130,12 @@ public class TI_JointInference {
                 LTableContentCell tcc = table.getContentCell(r, c);
                 uniqueStrings.add(tcc.getText().toLowerCase().trim());
             }
-            if(uniqueStrings.size()<4&&table.getNumRows()>4)
-                ignore.add(c);
+            if(uniqueStrings.size()<4&&table.getNumRows()>4) {
+                uniqueStrings.removeAll(stoplist);
+                if (uniqueStrings.size()==0) ignore.add(c);
+            }
         }
+
         for(int i: ignoreColumns)
             ignore.add(i);
         int[] result = new int[ignore.size()];
