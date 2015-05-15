@@ -7,6 +7,7 @@ import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
+import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 
 import java.io.IOException;
@@ -33,9 +34,12 @@ public class EntityAndConceptScorer_Freebase {
     protected static double FREEBASE_TOTAL_TOPICS=47560900; //total # of topics on freebase as by 1 May 2015
 
 
-    public double computeEntityConceptSimilarity(String entity_id, String concept_url,
+    public ObjObj<Double, String> computeEntityConceptSimilarity(String entity_id, String concept_url,
                                                  KnowledgeBaseSearcher kbSearcher) throws IOException {
         double score = kbSearcher.find_similarity(entity_id, concept_url);
+        String fromCache="no";
+        if(score!=-1)
+            fromCache="cache";
         if(score==-1.0) {
             List<String[]> entity_triples = kbSearcher.find_triplesForEntity_filtered(entity_id);
         /* BOW OF THE ENTITY*/
@@ -76,10 +80,10 @@ public class EntityAndConceptScorer_Freebase {
                     bag_of_words_for_entity, bag_of_words_for_concept
             );
             //kbSearcher.saveSimilarity(entity_id,concept_url,contextOverlapScore,true);
-            return contextOverlapScore;
+            return new ObjObj<Double, String>(contextOverlapScore,fromCache);
         }
         else{
-            return score;
+            return new ObjObj<Double, String>(score, fromCache);
         }
     }
 

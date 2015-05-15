@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
+import uk.ac.shef.dcs.oak.util.ObjObj;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -32,13 +33,14 @@ public class SimilarityComputerThread implements Runnable{
     @Override
     public void run() {
         for(String[] pair: pairs){
-            double score=-1.0;
+            ObjObj<Double, String> score=null;
             try {
                 score = simScorer.computeEntityConceptSimilarity(pair[0], pair[1],kbSearcher);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            scores.put(pair,score);
+            if(score!=null)
+                scores.put(new String[]{pair[0], pair[1],score.getOtherObject()}, score.getMainObject());
         }
         finished=true;
     }

@@ -158,19 +158,25 @@ public class CandidateConceptGenerator {
 
         //collect results and caching
         System.out.print("saving similarity scores to cache...");
+        boolean doCommit=false;
         for (SimilarityComputerThread worker : workers) {
             for (Map.Entry<String[], Double> e : worker.getScores().entrySet()) {
                 String[] key = e.getKey();
                 if (e.getValue() != -1) {
-                    kbSearcher.saveSimilarity(key[0], key[1], e.getValue(), biDirectional, false);
+                    if(!key[2].equals("cache")) {
+                        kbSearcher.saveSimilarity(key[0], key[1], e.getValue(), biDirectional, false);
+                        doCommit=true;
+                    }
                     result.put(key[0] + "," + key[1], e.getValue());
                 }
             }
         }
-        try {
-            kbSearcher.commitChanges();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(doCommit) {
+            try {
+                kbSearcher.commitChanges();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
