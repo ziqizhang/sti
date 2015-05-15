@@ -7,6 +7,7 @@ import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by zqz on 12/05/2015.
@@ -16,11 +17,14 @@ class FactorBuilderCell extends FactorBuilder{
     protected Map<Variable, int[]> cellVarOutcomePosition = new HashMap<Variable, int[]>();
 
     public Map<String, Variable> addFactors(LTableAnnotation annotation, FactorGraph graph,
-                                            Map<Variable, String> typeOfVariable
-                                            ) {
+                                            Map<Variable, String> typeOfVariable,
+                                            Set<Integer> columns
+    ) {
         Map<String, Variable> variables = new HashMap<String, Variable>();
         for (int row = 0; row < annotation.getRows(); row++) {
             for (int col = 0; col < annotation.getCols(); col++) {
+                if(columns!=null&&!columns.contains(col)) continue;
+
                 Variable dummyCell = createDummyVariable("dummyCell("+row+","+col+")");
 
                 CellAnnotation[] candidateEntityAnnotations = annotation.getContentCellAnnotations(row, col);
@@ -52,5 +56,11 @@ class FactorBuilderCell extends FactorBuilder{
             }
         }
         return variables;
+
+    }
+    public Map<String, Variable> addFactors(LTableAnnotation annotation, FactorGraph graph,
+                                            Map<Variable, String> typeOfVariable
+                                            ) {
+        return addFactors(annotation, graph, typeOfVariable, null);
     }
 }

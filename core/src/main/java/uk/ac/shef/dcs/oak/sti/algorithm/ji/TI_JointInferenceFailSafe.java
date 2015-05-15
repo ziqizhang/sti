@@ -17,9 +17,18 @@ import java.util.List;
 /**
  * Created by zqz on 15/05/2015.
  */
-public class JI_JointInferenceFailSafe extends TI_JointInference {
-    public JI_JointInferenceFailSafe(MainColumnFinder main_col_finder, CandidateEntityGenerator neGenerator, CandidateConceptGenerator columnClassifier, CandidateRelationGenerator relationGenerator, FactorGraphBuilder graphBuilder, boolean useSubjectColumn, int[] ignoreColumns, int[] forceInterpretColumn, int maxIteration) {
-        super(main_col_finder, neGenerator, columnClassifier, relationGenerator, graphBuilder, useSubjectColumn, ignoreColumns, forceInterpretColumn, maxIteration);
+public class TI_JointInferenceFailSafe extends TI_JointInference {
+
+    private FactorGraphBuilderMultiple subGraphBuilder=new FactorGraphBuilderMultiple();
+    public TI_JointInferenceFailSafe(MainColumnFinder main_col_finder,
+                                     CandidateEntityGenerator neGenerator,
+                                     CandidateConceptGenerator columnClassifier,
+                                     CandidateRelationGenerator relationGenerator,
+                                     boolean useSubjectColumn,
+                                     int[] ignoreColumns,
+                                     int[] forceInterpretColumn,
+                                     int maxIteration) {
+        super(main_col_finder, neGenerator, columnClassifier, relationGenerator, useSubjectColumn, ignoreColumns, forceInterpretColumn, maxIteration);
     }
 
     public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
@@ -64,25 +73,28 @@ public class JI_JointInferenceFailSafe extends TI_JointInference {
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+        //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t BUILDING FACTOR GRAPH");
-        FactorGraph graph = graphBuilder.build(tab_annotations,relationLearning,table.getTableId());
+        List<FactorGraph> subGraphs = subGraphBuilder.buildDisconnectedGraphs(tab_annotations, relationLearning, table.getTableId());
 
         //================debug
-        GraphCheckingUtil.checkGraph(graph,table.getTableId());
-        tab_annotations.checkAffinityUsage(table.getTableId());
+        for(int i=0; i<subGraphs.size(); i++) {
+            FactorGraph graph = subGraphs.get(i);
+            GraphCheckingUtil.checkGraph(graph, i+"th_graph,"+table.getTableId());
+            tab_annotations.checkAffinityUsage(i+"th_graph,"+table.getTableId());
+            System.out.println(">\t "+i+"th graph RUNNING INFERENCE");
+            Inferencer infResidualBP;
+            if (maxIteration > 0)
+                infResidualBP = new LoopyBP(maxIteration);
+            else
+                infResidualBP = new LoopyBP();
+            infResidualBP.computeMarginals(graph);
+            System.out.println(">\t COLLECTING MARGINAL PROB AND FINALIZING ANNOTATIONS");
+            boolean success=createFinalAnnotations(graph, subGraphBuilder, infResidualBP, tab_annotations);
+            if(!success)
+                throw new STIException("Invalid marginals, failed: "+i+"th_graph in "+" "+table.getSourceId());
+        }
         //===============debug
-
-        System.out.println(">\t RUNNING INFERENCE");
-        Inferencer infResidualBP;
-        if (maxIteration > 0)
-            infResidualBP = new LoopyBP(maxIteration);
-        else
-            infResidualBP = new LoopyBP();
-        infResidualBP.computeMarginals(graph);
-        System.out.println(">\t COLLECTING MARGINAL PROB AND FINALIZING ANNOTATIONS");
-        boolean success=createFinalAnnotations(graph, graphBuilder, infResidualBP, tab_annotations);
-        if(!success)
-            throw new STIException("Invalid marginals, failed: "+table.getSourceId());
 
 
         return tab_annotations;

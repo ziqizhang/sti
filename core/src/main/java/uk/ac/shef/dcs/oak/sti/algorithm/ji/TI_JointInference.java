@@ -35,13 +35,12 @@ public class TI_JointInference {
     protected CandidateEntityGenerator neGenerator;
     protected CandidateConceptGenerator columnClassifier;
     protected CandidateRelationGenerator relationGenerator;
-    protected FactorGraphBuilder graphBuilder;
+    private FactorGraphBuilder graphBuilder;
 
     public TI_JointInference(MainColumnFinder main_col_finder,
                              CandidateEntityGenerator neGenerator,
                              CandidateConceptGenerator columnClassifier,
                              CandidateRelationGenerator relationGenerator,
-                             FactorGraphBuilder graphBuilder,
                              boolean useSubjectColumn,
                              int[] ignoreColumns,
                              int[] forceInterpretColumn,
@@ -49,7 +48,7 @@ public class TI_JointInference {
     ) {
         this.useSubjectColumn = useSubjectColumn;
         this.main_col_finder = main_col_finder;
-        this.graphBuilder = graphBuilder;
+        this.graphBuilder = new FactorGraphBuilder();
         this.neGenerator = neGenerator;
         this.columnClassifier = columnClassifier;
         this.relationGenerator = relationGenerator;
@@ -100,10 +99,10 @@ public class TI_JointInference {
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t BUILDING FACTOR GRAPH");
-        FactorGraph graph = graphBuilder.build(tab_annotations,relationLearning, table.getTableId());
+        FactorGraph graph = graphBuilder.build(tab_annotations,relationLearning,table.getTableId());
 
         //================debug
-        GraphCheckingUtil.checkGraph(graph, table.getTableId());
+        GraphCheckingUtil.checkGraph(graph,table.getTableId());
         tab_annotations.checkAffinityUsage(table.getTableId());
         //===============debug
 

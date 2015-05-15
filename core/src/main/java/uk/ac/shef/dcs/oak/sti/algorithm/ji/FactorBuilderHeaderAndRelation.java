@@ -23,7 +23,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
             LTableAnnotation_JI_Freebase annotation,
             FactorGraph graph,
             Map<Variable, String> typeOfVariable,
-            String tableId) {
+            String tableId, Set<Integer> columns) {
         Map<String, Variable> result = new HashMap<String, Variable>(); //for each pair of col, will only have 1 key stored, both both directional keys are processed
         List<String> processed = new ArrayList<String>();
         Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>>
@@ -31,6 +31,8 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
         for (int c1 = 0; c1 < annotation.getCols(); c1++) {
             for (int c2 = 0; c2 < annotation.getCols(); c2++) {
                 if (c1 == c2) continue;
+                if(columns!=null&& !columns.contains(c1)&&columns.contains(c2)) continue;
+
                 if (processed.contains(c1 + "," + c2) || processed.contains(c2 + "," + c1)) continue;
                 Key_SubjectCol_ObjectCol relation_direction = new Key_SubjectCol_ObjectCol(c1, c2);
                 Key_SubjectCol_ObjectCol relation_direction_reverse = new Key_SubjectCol_ObjectCol(
@@ -127,6 +129,15 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
 
         }
         return result;
+    }
+
+    public Map<String, Variable> addFactors(
+            Map<Integer, Variable> columnHeaders,
+            LTableAnnotation_JI_Freebase annotation,
+            FactorGraph graph,
+            Map<Variable, String> typeOfVariable,
+            String tableId) {
+        return addFactors(columnHeaders, annotation, graph, typeOfVariable, tableId, null);
     }
 
 

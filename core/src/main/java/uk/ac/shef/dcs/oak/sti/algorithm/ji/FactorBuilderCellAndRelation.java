@@ -4,10 +4,7 @@ import cc.mallet.grmm.types.*;
 import uk.ac.shef.dcs.oak.sti.rep.Key_SubjectCol_ObjectCol;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by zqz on 12/05/2015.
@@ -19,11 +16,13 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                            LTableAnnotation_JI_Freebase annotation,
                            FactorGraph graph,
                            Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection,
-                           String tableId) {
+                           String tableId, Set<Integer> columns) {
         List<String> processed = new ArrayList<String>();
         for (int c1 = 0; c1 < annotation.getCols(); c1++) {
             for (int c2 = 0; c2 < annotation.getCols(); c2++) {
                 if (c1 == c2) continue;
+                if(columns!=null&& !columns.contains(c1)&&columns.contains(c2)) continue;
+
                 if (processed.contains(c1 + "," + c2) || processed.contains(c2 + "," + c1)) continue;
                 Variable relation_var = relationVariables.get(c1 + "," + c2);
                 if (relation_var == null)
@@ -116,4 +115,13 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
         }
     }
 
+    public void addFactors(Map<String, Variable> relationVariables,
+                           Map<String, Variable> cellVariables,
+                           LTableAnnotation_JI_Freebase annotation,
+                           FactorGraph graph,
+                           Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection,
+                           String tableId) {
+        addFactors(relationVariables, cellVariables, annotation, graph,
+                relationVarOutcomeDirection, tableId, null);
+    }
 }

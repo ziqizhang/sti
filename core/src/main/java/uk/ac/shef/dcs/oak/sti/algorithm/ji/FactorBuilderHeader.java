@@ -8,6 +8,7 @@ import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by zqz on 12/05/2015.
@@ -18,9 +19,12 @@ class FactorBuilderHeader extends FactorBuilder {
 
     public Map<Integer, Variable> addFactors(LTableAnnotation annotation,
                                              FactorGraph graph,
-                                             Map<Variable, String> typeOfVariable) {
+                                             Map<Variable, String> typeOfVariable,
+                                             Set<Integer> columns) {
         Map<Integer, Variable> variables = new HashMap<Integer, Variable>();
         for (int col = 0; col < annotation.getCols(); col++) {
+            if(columns!=null && !columns.contains(col)) continue;
+
             Variable dummyHeader = createDummyVariable("dummyHeader("+col+")");
 
             HeaderAnnotation[] candidateConcepts_header = annotation.getHeaderAnnotation(col);
@@ -52,5 +56,11 @@ class FactorBuilderHeader extends FactorBuilder {
             }
         }
         return variables;
+    }
+
+    public Map<Integer, Variable> addFactors(LTableAnnotation annotation,
+                                             FactorGraph graph,
+                                             Map<Variable, String> typeOfVariable) {
+        return addFactors(annotation, graph, typeOfVariable, null);
     }
 }

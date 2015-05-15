@@ -15,36 +15,42 @@ public class FactorGraphBuilderMultiple extends FactorGraphBuilder {
                                                      boolean relationLearning,
                                                      String tableId) {
         List<FactorGraph> out=new ArrayList<FactorGraph>();
-
-        FactorGraph graph = new FactorGraph();
-        //cell text and entity label
-        Map<String, Variable> cellAnnotations = factorBuilderCell.addFactors(annotation, graph,
-                typeOfVariable);
-        //column header and type label
-        Map<Integer, Variable> columnHeaders = factorBuilderHeader.addFactors(annotation, graph,
-                typeOfVariable);
-        //column type and cell entities
-        new FactorBuilderHeaderAndCell().addFactors(cellAnnotations,
-                columnHeaders,
-                annotation,
-                graph,tableId);
-        //relation and pair of column types
-        if (relationLearning) {
-            Map<String, Variable> relations = factorBuilderHeaderAndRelation.addFactors(
+        Map<String, Set<Integer>> subGraphs=computeDisconnectedTableColumns(annotation, relationLearning);
+        for(Map.Entry<String, Set<Integer>> ent: subGraphs.entrySet()) {
+            Set<Integer> columns=ent.getValue();
+            FactorGraph graph = new FactorGraph();
+            //cell text and entity label
+            Map<String, Variable> cellAnnotations = factorBuilderCell.addFactors(annotation, graph,
+                    typeOfVariable, columns);
+            //column header and type label
+            Map<Integer, Variable> columnHeaders = factorBuilderHeader.addFactors(annotation, graph,
+                    typeOfVariable, columns);
+            //column type and cell entities
+            new FactorBuilderHeaderAndCell().addFactors(cellAnnotations,
                     columnHeaders,
                     annotation,
-                    graph,
-                    typeOfVariable,tableId
-            );
+                    graph, tableId,
+                    columns);
+            //relation and pair of column types
+            if (relationLearning) {
+                Map<String, Variable> relations = factorBuilderHeaderAndRelation.addFactors(
+                        columnHeaders,
+                        annotation,
+                        graph,
+                        typeOfVariable, tableId, columns
+                );
 
-            //relation and entity pairs
-            new FactorBuilderCellAndRelation().addFactors(
-                    relations,
-                    cellAnnotations,
-                    annotation,
-                    graph,
-                    factorBuilderHeaderAndRelation.getRelationVarOutcomeDirection(),tableId
-            );
+                //relation and entity pairs
+                new FactorBuilderCellAndRelation().addFactors(
+                        relations,
+                        cellAnnotations,
+                        annotation,
+                        graph,
+                        factorBuilderHeaderAndRelation.getRelationVarOutcomeDirection(), tableId, columns
+                );
+            }
+
+            out.add(graph);
         }
         return out;
     }

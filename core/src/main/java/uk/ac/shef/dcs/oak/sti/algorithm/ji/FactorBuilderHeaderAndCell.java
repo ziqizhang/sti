@@ -6,6 +6,7 @@ import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by zqz on 12/05/2015.
@@ -16,8 +17,10 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                            Map<Integer, Variable> headerVariables,
                            LTableAnnotation_JI_Freebase annotation,
                            FactorGraph graph,
-                           String tableId) {
+                           String tableId, Set<Integer> columns) {
         for (int col = 0; col < annotation.getCols(); col++) {
+            if(columns!=null&& !columns.contains(col)) continue;
+
             Variable headerVar = headerVariables.get(col);
             if (headerVar == null) continue;
 
@@ -59,5 +62,13 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                 }
             }
         }
+    }
+
+    public void addFactors(Map<String, Variable> cellVariables,
+                           Map<Integer, Variable> headerVariables,
+                           LTableAnnotation_JI_Freebase annotation,
+                           FactorGraph graph,
+                           String tableId) {
+        addFactors(cellVariables, headerVariables, annotation, graph, tableId, null);
     }
 }

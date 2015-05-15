@@ -89,7 +89,7 @@ public class TestTableInterpretation_LimayeDataset_JI {
         Integer maxIteration=0;
 
         //DisambiguationScorer disambiguator = new DisambiguationScorer_SMP_adapted(stopWords, nlpResources);
-        TI_JointInference interpreter = new TI_JointInference(
+        TI_JointInference interpreter = new TI_JointInferenceFailSafe(
                 main_col_finder,
                 new CandidateEntityGenerator(freebaseSearcherGeneral,
                         new DisambiguationScorer_JI_adapted()),
@@ -100,7 +100,6 @@ public class TestTableInterpretation_LimayeDataset_JI {
                 new CandidateRelationGenerator(new RelationTextMatcher_Scorer_JI_adapted(stopWords,
                         new Levenshtein(), 0.5),
                         freebaseSearcherGeneral, true),
-                new FactorGraphBuilder(),
                 useSubjectColumn,
                 IGNORE_COLUMNS,
                 new int[0],maxIteration
