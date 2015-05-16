@@ -19,14 +19,13 @@ import java.util.logging.Logger;
  */
 public class MainColumnFinder {
 
-    private static boolean use_token_diversity=false;
-    private static boolean use_max_score_boost=false;
-    private static double wb_cm_weight=2.0;
+    private static boolean use_token_diversity = false;
+    private static boolean use_max_score_boost = false;
+    private static double wb_cm_weight = 2.0;
 
 
-
-    public static boolean use_ordering=false;
-    private static boolean score_normamlize_by_distance_to_first_col=true;
+    public static boolean use_ordering = false;
+    private static boolean score_normamlize_by_distance_to_first_col = true;
 
     private static Logger log = Logger.getLogger(MainColumnFinder_old.class.getName());
     private ColumnFeatureGenerator featureGenerator;
@@ -35,14 +34,14 @@ public class MainColumnFinder {
     private String[] stoppingCriteriaParams;
     private boolean apply_websearch_scorer;
 
-    public MainColumnFinder(String cache, String nlpResource, boolean apply_websearch_scorer, List<String> stopwords,String... searchAPIKeys) throws IOException {
-        featureGenerator = new ColumnFeatureGenerator(cache, nlpResource, stopwords,searchAPIKeys);
+    public MainColumnFinder(String cache, String nlpResource, boolean apply_websearch_scorer, List<String> stopwords, String... searchAPIKeys) throws IOException {
+        featureGenerator = new ColumnFeatureGenerator(cache, nlpResource, stopwords, searchAPIKeys);
         this.apply_websearch_scorer = apply_websearch_scorer;
     }
 
     public MainColumnFinder(RowSelector sampler, String stoppingCriteriaClassname, String[] stoppingCriteriaParams,
-                            String cache, String nlpResource, boolean apply_websearch_scorer,List<String> stopwords, String... searchAPIKeys) throws IOException {
-        featureGenerator = new ColumnFeatureGenerator(cache, nlpResource, stopwords,searchAPIKeys);
+                            String cache, String nlpResource, boolean apply_websearch_scorer, List<String> stopwords, String... searchAPIKeys) throws IOException {
+        featureGenerator = new ColumnFeatureGenerator(cache, nlpResource, stopwords, searchAPIKeys);
         this.row_sampler = sampler;
         this.stoppingCriteriaClassname = stoppingCriteriaClassname;
         this.stoppingCriteriaParams = stoppingCriteriaParams;
@@ -50,8 +49,8 @@ public class MainColumnFinder {
     }
 
     public MainColumnFinder(RowSelector sampler, String stoppingCriteriaClassname, String[] stoppingCriteriaParams,
-                            SolrServer cache, String nlpResource, boolean apply_websearch_scorer, List<String> stopwords,String... searchAPIKeys) throws IOException {
-        featureGenerator = new ColumnFeatureGenerator(cache, nlpResource, stopwords,searchAPIKeys);
+                            SolrServer cache, String nlpResource, boolean apply_websearch_scorer, List<String> stopwords, String... searchAPIKeys) throws IOException {
+        featureGenerator = new ColumnFeatureGenerator(cache, nlpResource, stopwords, searchAPIKeys);
         this.row_sampler = sampler;
         this.stoppingCriteriaClassname = stoppingCriteriaClassname;
         this.stoppingCriteriaParams = stoppingCriteriaParams;
@@ -65,8 +64,8 @@ public class MainColumnFinder {
      *
      * @param table
      * @return a list of ObjectWithObject objects, where first object is the column index; second is the score
-     *         probability that asserts that column being the main column of the table. (only NE likely columns can be
-     *         considered main column)
+     * probability that asserts that column being the main column of the table. (only NE likely columns can be
+     * considered main column)
      */
     public List<ObjObj<Integer, ObjObj<Double, Boolean>>> compute(LTable table, int... skipColumns) throws APIKeysDepletedException, IOException {
         List<ObjObj<Integer, ObjObj<Double, Boolean>>> rs = new ArrayList<ObjObj<Integer, ObjObj<Double, Boolean>>>();
@@ -178,14 +177,8 @@ public class MainColumnFinder {
 
         //7 - yes:
         if (onlyNECol_non_duplicate != -1 && num == 1) {
-            try{
-                System.err.println("onlyNECol_non_duplicate="+onlyNECol_non_duplicate+",num="+num);
-                allColumnCandidates.get(onlyNECol_non_duplicate).isCode_or_Acronym();
-            }catch(IndexOutOfBoundsException e){
-                System.err.println(">>>>FUCK: maincol finder out of index "+table.getSourceId());
-                e.printStackTrace();
-                System.exit(1);
-            }
+            allColumnCandidates.get(onlyNECol_non_duplicate).isCode_or_Acronym();
+
             if (!allColumnCandidates.get(onlyNECol_non_duplicate).isCode_or_Acronym()) {
                 ObjObj<Integer, ObjObj<Double, Boolean>> oo = new ObjObj<Integer, ObjObj<Double, Boolean>>();
                 oo.setMainObject(onlyNECol_non_duplicate);
@@ -237,21 +230,21 @@ public class MainColumnFinder {
         if (apply_websearch_scorer) {
             log.finest("Computing web search matching (total rows " + table.getNumRows());
 
-                DoubleMatrix2D scores;
-                if (row_sampler != null) {
-                    scores = featureGenerator.feature_webSearchScore_with_sampling(allNEColumnCandidates, table,
-                            row_sampler, StoppingCriteriaInstantiator.instantiate(stoppingCriteriaClassname, stoppingCriteriaParams), 1);
-                } else {
-                    scores = featureGenerator.feature_webSearchScore(allNEColumnCandidates, table);
+            DoubleMatrix2D scores;
+            if (row_sampler != null) {
+                scores = featureGenerator.feature_webSearchScore_with_sampling(allNEColumnCandidates, table,
+                        row_sampler, StoppingCriteriaInstantiator.instantiate(stoppingCriteriaClassname, stoppingCriteriaParams), 1);
+            } else {
+                scores = featureGenerator.feature_webSearchScore(allNEColumnCandidates, table);
+            }
+            double total = 0.0;
+            for (ColumnFeature cf : allNEColumnCandidates) {
+                for (int row = 0; row < scores.rows(); row++) {
+                    total += scores.get(row, cf.getColId());
                 }
-                double total = 0.0;
-                for (ColumnFeature cf : allNEColumnCandidates) {
-                    for (int row = 0; row < scores.rows(); row++) {
-                        total += scores.get(row, cf.getColId());
-                    }
-                    cf.setWebSearchScore(total);
-                    total = 0.0;
-                }
+                cf.setWebSearchScore(total);
+                total = 0.0;
+            }
 
         }
 
@@ -301,8 +294,8 @@ public class MainColumnFinder {
     }
 
     private void reset_token_diversity(List<ColumnFeature> allNEColumnCandidates) {
-        if(!use_token_diversity){
-            for(ColumnFeature cf: allNEColumnCandidates)
+        if (!use_token_diversity) {
+            for (ColumnFeature cf : allNEColumnCandidates)
                 cf.setTokenValueDiversity(0);
         }
 
@@ -321,71 +314,70 @@ public class MainColumnFinder {
 
         //find max scores to calculate score boosters
         Map<String, Double> max_scores_for_each_feature = new HashMap<String, Double>();
-        for (int index=0; index<allNEColumnCandidates.size(); index++) {
+        for (int index = 0; index < allNEColumnCandidates.size(); index++) {
             ColumnFeature cf = allNEColumnCandidates.get(index);
             double diversity = cf.getTokenValueDiversity() + cf.getCellValueDiversity();
             double cm = cf.getContextMatchScore();
             double wb = cf.getWebSearchScore();
 
             Double max_diversity = max_scores_for_each_feature.get("diversity");
-            max_diversity=max_diversity==null?0.0:max_diversity;
-            if(diversity>max_diversity)
-                max_diversity=diversity;
-            max_scores_for_each_feature.put("diversity",max_diversity);
+            max_diversity = max_diversity == null ? 0.0 : max_diversity;
+            if (diversity > max_diversity)
+                max_diversity = diversity;
+            max_scores_for_each_feature.put("diversity", max_diversity);
 
             Double max_cm = max_scores_for_each_feature.get("cm");
-            max_cm=max_cm==null?0.0:max_cm;
-            if(cm>max_cm)
-                max_cm=cm;
-            max_scores_for_each_feature.put("cm",max_cm);
+            max_cm = max_cm == null ? 0.0 : max_cm;
+            if (cm > max_cm)
+                max_cm = cm;
+            max_scores_for_each_feature.put("cm", max_cm);
 
             Double max_wb = max_scores_for_each_feature.get("wb");
-            max_wb=max_wb==null?0.0:max_wb;
-            if(wb>max_wb)
-                max_wb=wb;
-            max_scores_for_each_feature.put("wb",max_wb);
+            max_wb = max_wb == null ? 0.0 : max_wb;
+            if (wb > max_wb)
+                max_wb = wb;
+            max_scores_for_each_feature.put("wb", max_wb);
         }
 
-        for (int index=0; index<allNEColumnCandidates.size(); index++) {
+        for (int index = 0; index < allNEColumnCandidates.size(); index++) {
             ColumnFeature cf = allNEColumnCandidates.get(index);
             double sum = 0.0;
-            double diversity=0.0;
-            if(use_token_diversity)
+            double diversity = 0.0;
+            if (use_token_diversity)
                 diversity = cf.getTokenValueDiversity() + cf.getCellValueDiversity();
             else
-                diversity=cf.getCellValueDiversity();
-            double cm = cf.getContextMatchScore()*wb_cm_weight;
-            double wb = cf.getWebSearchScore()*wb_cm_weight;
+                diversity = cf.getCellValueDiversity();
+            double cm = cf.getContextMatchScore() * wb_cm_weight;
+            double wb = cf.getWebSearchScore() * wb_cm_weight;
             double empty_cell_penalty = cf.getEmptyCells() / (double) cf.getNumRows();
 
-            int max_component_score_booster=0;
-            for(Map.Entry<String, Double> e: max_scores_for_each_feature.entrySet()){
-                if(e.getKey().equals("diversity") && e.getValue()==diversity&&diversity!=0)
+            int max_component_score_booster = 0;
+            for (Map.Entry<String, Double> e : max_scores_for_each_feature.entrySet()) {
+                if (e.getKey().equals("diversity") && e.getValue() == diversity && diversity != 0)
                     max_component_score_booster++;
-                if(e.getKey().equals("cm") && e.getValue()==cm&&cm!=0)
+                if (e.getKey().equals("cm") && e.getValue() == cm && cm != 0)
                     max_component_score_booster++;
-                if(e.getKey().equals("wb") && e.getValue()==wb&&wb!=0)
+                if (e.getKey().equals("wb") && e.getValue() == wb && wb != 0)
                     max_component_score_booster++;
             }
-            max_component_score_booster=max_component_score_booster==0?1:max_component_score_booster;
+            max_component_score_booster = max_component_score_booster == 0 ? 1 : max_component_score_booster;
 
             ObjObj<Double, Boolean> score_object = new ObjObj<Double, Boolean>();
 
             sum = diversity + cm + wb - empty_cell_penalty;
-            if (cf.isCode_or_Acronym()){
+            if (cf.isCode_or_Acronym()) {
                 sum = sum - 1.0;
                 score_object.setOtherObject(true);
-            }
-            else{
+            } else {
                 score_object.setOtherObject(false);
             }
-            if(use_max_score_boost)
-                sum=Math.pow(sum, max_component_score_booster);
+            if (use_max_score_boost)
+                sum = Math.pow(sum, max_component_score_booster);
 
 
             //sum=sum/(index+1);
-            if(score_normamlize_by_distance_to_first_col){
-                sum=sum/Math.sqrt(index+1);
+            if (score_normamlize_by_distance_to_first_col) {
+                sum = sum / Math.sqrt(index + 1);
             }
             score_object.setMainObject(sum);
             scores.put(cf.getColId(), score_object);

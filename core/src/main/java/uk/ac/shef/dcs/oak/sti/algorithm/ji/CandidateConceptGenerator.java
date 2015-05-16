@@ -146,23 +146,16 @@ public class CandidateConceptGenerator {
         List<SimilarityComputerThread> workers = new ArrayList<SimilarityComputerThread>();
         int size = pairs.size() / threads;
         if (size < 5) {
-            threads = 0;
+            threads = 1;
             size = pairs.size();
-        }else if(size>5000){
-            int idealThreads = pairs.size()/5000;
-            if(idealThreads>200){
-                threads=200;
-            }else{
-                threads=idealThreads;
-                if(pairs.size()%5000>0) threads++;
-            }
+        }else {
+            size = pairs.size()/threads;
+            int actualThreads = pairs.size()/size;
+            if(pairs.size()/size>0)
+                actualThreads++;
+            threads=actualThreads;
         }
-        else {
-            threads = pairs.size() / size;
-            if(pairs.size()%size>0)
-                threads++;
-        }
-        System.out.print(threads + " threads, each processing " + pairs.size()/threads + " pairs...");
+        System.out.print(threads + " threads, each processing " + size + " pairs...");
         for (int t = 0; t < threads + 1; t++) {
             int start = t * size;
             int end = start + size;

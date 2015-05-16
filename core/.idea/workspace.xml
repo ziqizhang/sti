@@ -2120,33 +2120,66 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TestTableInterpretation_LimayeDataset_JI.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java">
+      <file leaf-file-name="CandidateConceptGenerator.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.0" vertical-offset="900" max-vertical-offset="4925">
-              <caret line="66" column="24" selection-start-line="66" selection-start-column="24" selection-end-line="66" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TestTableInterpretation_MusicBrainz_JI.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_JI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1925" max-vertical-offset="5175">
-              <caret line="103" column="44" selection-start-line="103" selection-start-column="44" selection-end-line="103" selection-end-column="44" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EntityAndConceptScorer_Freebase.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/EntityAndConceptScorer_Freebase.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.0" vertical-offset="0" max-vertical-offset="3375">
-              <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.06203474" vertical-offset="0" max-vertical-offset="5300">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding>
-                <element signature="e#4150#4158#0" expanded="true" />
+                <element signature="e#1544#1561#0" expanded="true" />
+                <element signature="e#1637#1659#0" expanded="true" />
+                <element signature="e#1724#1740#0" expanded="true" />
+                <element signature="e#1795#1803#0" expanded="true" />
+                <element signature="e#1869#1886#0" expanded="true" />
+                <element signature="e#7005#7024#0" expanded="true" />
+                <element signature="e#8081#8100#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainColumnFinder.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="4148" max-vertical-offset="18100">
+              <caret line="180" column="0" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#3643#3685#0" expanded="true" />
+                <element signature="e#3804#3819#0" expanded="true" />
+                <element signature="e#4545#4560#0" expanded="true" />
+                <element signature="e#5758#5792#0" expanded="true" />
+                <element signature="e#6379#6413#0" expanded="true" />
+                <element signature="e#7424#7458#0" expanded="true" />
+                <element signature="e#8780#8814#0" expanded="true" />
+                <element signature="e#9361#9370#0" expanded="true" />
+                <element signature="e#10279#10313#0" expanded="true" />
+                <element signature="e#12523#12532#0" expanded="true" />
+                <element signature="e#12643#12667#0" expanded="true" />
+                <element signature="e#12908#13932#0" expanded="true" />
+                <element signature="e#13921#13922#0" expanded="true" />
+                <element signature="e#14040#14074#0" expanded="true" />
+                <element signature="e#14789#14823#0" expanded="true" />
+                <element signature="e#14912#15177#0" expanded="true" />
+                <element signature="e#15166#15167#0" expanded="true" />
+                <element signature="e#15304#15320#0" expanded="true" />
+                <element signature="e#17806#17823#0" expanded="true" />
+                <element signature="e#18664#18911#0" expanded="true" />
+                <element signature="e#18900#18901#0" expanded="true" />
+                <element signature="e#19352#19593#0" expanded="true" />
+                <element signature="e#19582#19583#0" expanded="true" />
+                <element signature="e#22038#22072#0" expanded="true" />
+                <element signature="e#22161#22593#0" expanded="true" />
+                <element signature="e#22582#22583#0" expanded="true" />
+                <element signature="e#23716#23963#0" expanded="true" />
+                <element signature="e#23952#23953#0" expanded="true" />
+                <element signature="e#25255#25496#0" expanded="true" />
+                <element signature="e#25485#25486#0" expanded="true" />
+                <element signature="e#31187#31204#0" expanded="true" />
+                <element signature="e#31293#31725#0" expanded="true" />
+                <element signature="e#31714#31715#0" expanded="true" />
+                <element signature="e#32633#32880#0" expanded="true" />
+                <element signature="e#32869#32870#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2155,67 +2188,10 @@
       <file leaf-file-name="SimilarityComputerThread.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/SimilarityComputerThread.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="850" max-vertical-offset="1525">
-              <caret line="41" column="102" selection-start-line="41" selection-start-column="102" selection-end-line="41" selection-end-column="102" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="350" max-vertical-offset="1525">
+              <caret line="19" column="31" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TI_JointInference.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.4" vertical-offset="3615" max-vertical-offset="8250">
-              <caret line="148" column="0" selection-start-line="148" selection-start-column="0" selection-end-line="148" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#6622#6631#0" expanded="true" />
-                <element signature="e#6741#6749#0" expanded="true" />
-                <element signature="e#7415#7424#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CandidateEntityGenerator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateEntityGenerator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="598" max-vertical-offset="2150">
-              <caret line="43" column="76" selection-start-line="43" selection-start-column="66" selection-end-line="43" selection-end-column="66" />
-              <folding>
-                <element signature="e#1264#1297#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CandidateConceptGenerator.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33203125" vertical-offset="3465" max-vertical-offset="5475">
-              <caret line="151" column="0" selection-start-line="151" selection-start-column="0" selection-end-line="151" selection-end-column="0" />
-              <folding>
-                <element signature="e#1544#1561#0" expanded="true" />
-                <element signature="e#1637#1659#0" expanded="true" />
-                <element signature="e#1724#1740#0" expanded="true" />
-                <element signature="e#1795#1803#0" expanded="true" />
-                <element signature="e#1869#1886#0" expanded="true" />
-                <element signature="e#7005#7024#0" expanded="true" />
-                <element signature="e#8280#8299#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TestTableInterpretation_IMDB_JI.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB_JI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="575" max-vertical-offset="5150">
-              <caret line="47" column="109" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="103" />
-              <folding>
-                <element signature="e#2531#2540#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2273,15 +2249,15 @@
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/HeaderBinaryRelationAnnotation.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/misc/TableAnnotationChecker.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/EntityAndConceptScorer_Freebase.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/SimilarityComputerThread.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB_JI.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_JI.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateEntityGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java" />
       </list>
     </option>
   </component>
@@ -4323,12 +4299,12 @@
       <workItem from="1431693371370" duration="443000" />
       <workItem from="1431693819020" duration="156000" />
       <workItem from="1431693979028" duration="20154000" />
-      <workItem from="1431725195926" duration="14842000" />
+      <workItem from="1431725195926" duration="19468000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="456260000" />
+    <option name="totallyTimeSpent" value="460886000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -4352,7 +4328,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1598" height="856" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38505095" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -4362,13 +4338,13 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36909872" sideWeight="0.638961" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.66480446" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.51216024" sideWeight="0.5733766" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4248927" sideWeight="0.5733766" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27817404" sideWeight="0.47272727" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32152063" sideWeight="0.19832402" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3319027" sideWeight="0.537013" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3319027" sideWeight="0.537013" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3352354" sideWeight="0.49754903" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -4664,7 +4640,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java</url>
-          <line>464</line>
+          <line>456</line>
           <properties />
           <option name="timeStamp" value="49" />
         </line-breakpoint>
@@ -5423,8 +5399,26 @@
           <properties />
           <option name="timeStamp" value="1395" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java</url>
+          <line>104</line>
+          <properties />
+          <option name="timeStamp" value="1412" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java</url>
+          <line>101</line>
+          <properties />
+          <option name="timeStamp" value="1413" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java</url>
+          <line>212</line>
+          <properties />
+          <option name="timeStamp" value="1414" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1409" />
+      <option name="time" value="1415" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -5757,14 +5751,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4068" max-vertical-offset="17350">
-          <caret line="179" column="0" selection-start-line="179" selection-start-column="0" selection-end-line="179" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher_Freebase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.96" vertical-offset="5101" max-vertical-offset="11400">
@@ -5792,26 +5778,6 @@
         <state vertical-scroll-proportion="-13.08" vertical-offset="2848" max-vertical-offset="3475">
           <caret line="149" column="10" selection-start-line="149" selection-start-column="10" selection-end-line="149" selection-end-column="10" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/EntityAndConceptScorer_Freebase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.0" vertical-offset="0" max-vertical-offset="3375">
-          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
-          <folding>
-            <element signature="e#4150#4158#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/SimilarityComputerThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="850" max-vertical-offset="1525">
-          <caret line="41" column="102" selection-start-line="41" selection-start-column="102" selection-end-line="41" selection-end-column="102" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -5843,8 +5809,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateEntityGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="598" max-vertical-offset="2150">
-          <caret line="43" column="76" selection-start-line="43" selection-start-column="66" selection-end-line="43" selection-end-column="66" />
+        <state vertical-scroll-proportion="0.46619216" vertical-offset="1869" max-vertical-offset="2150">
+          <caret line="92" column="75" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
           <folding>
             <element signature="e#1264#1297#0" expanded="true" />
           </folding>
@@ -5864,10 +5830,75 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/EntityAndConceptScorer_Freebase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.0" vertical-offset="0" max-vertical-offset="3375">
+          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
+          <folding>
+            <element signature="e#4150#4158#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/SimilarityComputerThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="350" max-vertical-offset="1525">
+          <caret line="19" column="31" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4148" max-vertical-offset="18100">
+          <caret line="180" column="0" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3643#3685#0" expanded="true" />
+            <element signature="e#3804#3819#0" expanded="true" />
+            <element signature="e#4545#4560#0" expanded="true" />
+            <element signature="e#5758#5792#0" expanded="true" />
+            <element signature="e#6379#6413#0" expanded="true" />
+            <element signature="e#7424#7458#0" expanded="true" />
+            <element signature="e#8780#8814#0" expanded="true" />
+            <element signature="e#9361#9370#0" expanded="true" />
+            <element signature="e#10279#10313#0" expanded="true" />
+            <element signature="e#12523#12532#0" expanded="true" />
+            <element signature="e#12643#12667#0" expanded="true" />
+            <element signature="e#12908#13932#0" expanded="true" />
+            <element signature="e#13921#13922#0" expanded="true" />
+            <element signature="e#14040#14074#0" expanded="true" />
+            <element signature="e#14789#14823#0" expanded="true" />
+            <element signature="e#14912#15177#0" expanded="true" />
+            <element signature="e#15166#15167#0" expanded="true" />
+            <element signature="e#15304#15320#0" expanded="true" />
+            <element signature="e#17806#17823#0" expanded="true" />
+            <element signature="e#18664#18911#0" expanded="true" />
+            <element signature="e#18900#18901#0" expanded="true" />
+            <element signature="e#19352#19593#0" expanded="true" />
+            <element signature="e#19582#19583#0" expanded="true" />
+            <element signature="e#22038#22072#0" expanded="true" />
+            <element signature="e#22161#22593#0" expanded="true" />
+            <element signature="e#22582#22583#0" expanded="true" />
+            <element signature="e#23716#23963#0" expanded="true" />
+            <element signature="e#23952#23953#0" expanded="true" />
+            <element signature="e#25255#25496#0" expanded="true" />
+            <element signature="e#25485#25486#0" expanded="true" />
+            <element signature="e#31187#31204#0" expanded="true" />
+            <element signature="e#31293#31725#0" expanded="true" />
+            <element signature="e#31714#31715#0" expanded="true" />
+            <element signature="e#32633#32880#0" expanded="true" />
+            <element signature="e#32869#32870#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33203125" vertical-offset="3465" max-vertical-offset="5475">
-          <caret line="151" column="0" selection-start-line="151" selection-start-column="0" selection-end-line="151" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.06203474" vertical-offset="0" max-vertical-offset="5300">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding>
             <element signature="e#1544#1561#0" expanded="true" />
             <element signature="e#1637#1659#0" expanded="true" />
@@ -5875,7 +5906,7 @@
             <element signature="e#1795#1803#0" expanded="true" />
             <element signature="e#1869#1886#0" expanded="true" />
             <element signature="e#7005#7024#0" expanded="true" />
-            <element signature="e#8280#8299#0" expanded="true" />
+            <element signature="e#8081#8100#0" expanded="true" />
           </folding>
         </state>
       </provider>
