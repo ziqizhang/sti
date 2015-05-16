@@ -51,3 +51,5 @@ graph.txt
 *.csv
 core/lodie.log.1
 *.csv
+*.1
+core/limaye_missed.csv

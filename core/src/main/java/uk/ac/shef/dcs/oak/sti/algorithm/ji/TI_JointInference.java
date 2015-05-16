@@ -116,7 +116,15 @@ public class TI_JointInference {
             else
                 infResidualBP = new LoopyBP();
 
-            infResidualBP.computeMarginals(graph);
+            try {
+                infResidualBP.computeMarginals(graph);
+            }catch(IndexOutOfBoundsException e){
+                System.err.println(">>>>FUCK! graph empty exception, but checking did not catch this:"+table.getSourceId());
+                System.err.println(">>>>");
+                System.err.println(graph.dumpToString());
+                e.printStackTrace();
+                System.exit(1);
+            }
 
             System.out.println(">\t COLLECTING MARGINAL PROB AND FINALIZING ANNOTATIONS");
             boolean success = createFinalAnnotations(graph, graphBuilder, infResidualBP, tab_annotations);
@@ -136,7 +144,9 @@ public class TI_JointInference {
             Set<String> uniqueStrings = new HashSet<String>();
             for (int r = 0; r < table.getNumRows(); r++) {
                 LTableContentCell tcc = table.getContentCell(r, c);
-                uniqueStrings.add(tcc.getText().toLowerCase().trim());
+                String text = tcc.getText().trim().replaceAll("[^a-zA-Z0-9]", "");
+                if(text.length()>1)
+                    uniqueStrings.add(text);
             }
             if (uniqueStrings.size() < 4 && table.getNumRows() > 4) {
                 uniqueStrings.removeAll(stoplist);

@@ -40,6 +40,7 @@ public class TestTableInterpretation_LimayeDataset_JI {
         int start = Integer.valueOf(args[8]);
         boolean relationLearning = Boolean.valueOf(args[9]);
         int multiThreads=Integer.valueOf(properties.getProperty("JI_NUM_OF_THREADS"));
+        boolean cacheSimilarityScore=Boolean.valueOf(properties.getProperty("CACHE_SIMILARITY_SCORE"));
         //cache target location
 
         List<Integer> missed_files = new ArrayList<Integer>();
@@ -96,7 +97,7 @@ public class TestTableInterpretation_LimayeDataset_JI {
                 new CandidateConceptGenerator(freebaseSearcherGeneral,
                         new ClassificationScorer_JI_adapted(),
                         new EntityAndConceptScorer_Freebase(stopWords, nlpResources),
-                        multiThreads),
+                        multiThreads,cacheSimilarityScore),
                 new CandidateRelationGenerator(new RelationTextMatcher_Scorer_JI_adapted(stopWords,
                         new Levenshtein(), 0.8),
                         freebaseSearcherGeneral, true),

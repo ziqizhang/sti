@@ -16,6 +16,7 @@ import java.util.*;
  */
 public class CandidateConceptGenerator {
     private int multiThreads = 10;
+    private boolean useCache=false;
     private KnowledgeBaseSearcher kbSearcher;
     private ClassificationScorer_JI_adapted conceptScorer;
     private EntityAndConceptScorer_Freebase entityAndConceptScorer;
@@ -23,17 +24,21 @@ public class CandidateConceptGenerator {
     public CandidateConceptGenerator(KnowledgeBaseSearcher kbSearcher,
                                      ClassificationScorer_JI_adapted conceptScorer,
                                      EntityAndConceptScorer_Freebase entityAndConceptScorer,
-                                     int multiThreads) {
+                                     int multiThreads,
+                                     boolean useCache) {
         this.kbSearcher = kbSearcher;
+        this.useCache=useCache;
         this.conceptScorer = conceptScorer;
         this.entityAndConceptScorer = entityAndConceptScorer;
         this.multiThreads = multiThreads;
     }
 
     public void generateCandidateConcepts(LTableAnnotation_JI_Freebase tableAnnotation, LTable table, int col) throws IOException {
-        Map<String, String> distinctTypes = new HashMap<String, String>();
+        List<EntityCandidate> distinctTypes = new ArrayList<EntityCandidate>();
         Map<String, List<String>> entityId_and_conceptURLs = new HashMap<String, List<String>>();
-        Map<String, String> distinctEntities = new HashMap<String, String>();
+        Map<String, String> distinctTypeStrings = new HashMap<String, String>();
+        Set<String> distinctEntityIds = new HashSet<String>();
+        List<EntityCandidate> distinctEntities = new ArrayList<EntityCandidate>();
         for (int r = 0; r < table.getNumRows(); r++) {
             CellAnnotation[] cellAnnotations = tableAnnotation.getContentCellAnnotations(r, col);
             if (cellAnnotations.length > 0) {
@@ -43,11 +48,12 @@ public class CandidateConceptGenerator {
                             DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR) ==0.0){
                         continue;
                     }
-                    distinctEntities.put(e.getId(), e.getName());
+                    if(!distinctEntities.contains(e))
+                        distinctEntities.add(e);
                     for (String[] type : KnowledgeBaseFreebaseFilter.filterTypes(e.getTypes())) {
                         String url = type[0];
                         String label = type[1];
-                        distinctTypes.put(url, label);
+                        distinctTypeStrings.put(url, label);
                         List<String> conceptURLs = entityId_and_conceptURLs.get(e.getId());
                         if (conceptURLs == null)
                             conceptURLs = new ArrayList<String>();
@@ -59,10 +65,22 @@ public class CandidateConceptGenerator {
             }
         }
 
+        //fetch all concept entities
+        for(Map.Entry<String, String> ent: distinctTypeStrings.entrySet()){
+            String conceptId = ent.getKey();
+            String conceptName = ent.getValue();
+            List<String[]> triples =kbSearcher.find_triplesForConcept_filtered(conceptId);
+            EntityCandidate concept = new EntityCandidate();
+            concept.setId(conceptId);
+            concept.setName(conceptName);
+            concept.setFacts(triples);
+            distinctTypes.add(concept);
+        }
+
         //go thru every distinct type, create header annotation candidate
         HeaderAnnotation[] headerAnnotations = new HeaderAnnotation[distinctTypes.size()];
         int count = 0;
-        for (Map.Entry<String, String> concept : distinctTypes.entrySet()) {
+        for (Map.Entry<String, String> concept : distinctTypeStrings.entrySet()) {
             HeaderAnnotation ha = new HeaderAnnotation(table.getColumnHeader(col).getHeaderText(),
                     concept.getKey(), concept.getValue(), 0.0);
             Map<String, Double> score_elements = conceptScorer.score(ha, table.getColumnHeader(col));
@@ -80,15 +98,15 @@ public class CandidateConceptGenerator {
         int cc = 0;
 
         Map<String, Double> simScores =
-                computeSimilarityMultiThread(multiThreads, distinctEntities.keySet(), distinctTypes.keySet(), true);
-        for (String entityId : distinctEntities.keySet()) {
-            for (String conceptId : distinctTypes.keySet()) {
+                computeSimilarityMultiThread(multiThreads, distinctEntities, distinctTypes, true);
+        for (EntityCandidate entity : distinctEntities) {
+            for (EntityCandidate concept : distinctTypes) {
                 //cc++;
                 Double sim = //entityAndConceptScorer.computeEntityConceptSimilarity(entityId, conceptId, kbSearcher);
-                        simScores.get(entityId + "," + conceptId);
+                        simScores.get(entity.getId() + "," + concept.getId());
                 if (sim == null)
                     System.err.println("fuck");;
-                tableAnnotation.setScore_entityAndConcept(entityId, conceptId, sim);
+                tableAnnotation.setScore_entityAndConcept(entity.getId(), concept.getId(), sim);
                 //if(cc%50==0) System.out.print(cc + ",");
             }
         }
@@ -110,15 +128,15 @@ public class CandidateConceptGenerator {
         System.out.println(")");
     }
 
-    private Map<String, Double> computeSimilarityMultiThread(int threads, Collection<String> entityIds,
-                                                             Collection<String> conceptIds,
+    private Map<String, Double> computeSimilarityMultiThread(int threads, Collection<EntityCandidate> entities,
+                                                             Collection<EntityCandidate> concepts,
                                                              boolean biDirectional) {
         Map<String, Double> result = new HashMap<String, Double>();
-        List<String[]> pairs = new ArrayList<String[]>();
+        List<EntityCandidate[]> pairs = new ArrayList<EntityCandidate[]>();
         int cc=0;
-        for (String e : entityIds) {
-            for (String c : conceptIds) {
-                pairs.add(new String[]{e, c});
+        for (EntityCandidate e : entities) {
+            for (EntityCandidate c : concepts) {
+                pairs.add(new EntityCandidate[]{e, c});
                 /*if(e.equals("/m/045clt")&&c.equals("/organization/organization"))
                     System.out.println(c);*/
                 cc++;
@@ -130,19 +148,30 @@ public class CandidateConceptGenerator {
         if (size < 5) {
             threads = 0;
             size = pairs.size();
-        }else {
-            threads = pairs.size() / size + 1;
+        }else if(size>5000){
+            int idealThreads = pairs.size()/5000;
+            if(idealThreads>200){
+                threads=200;
+            }else{
+                threads=idealThreads;
+                if(pairs.size()%5000>0) threads++;
+            }
         }
-        System.out.print(threads + " threads, each processing " + size + " pairs...");
+        else {
+            threads = pairs.size() / size;
+            if(pairs.size()%size>0)
+                threads++;
+        }
+        System.out.print(threads + " threads, each processing " + pairs.size()/threads + " pairs...");
         for (int t = 0; t < threads + 1; t++) {
             int start = t * size;
             int end = start + size;
-            List<String[]> selectedPairs = new ArrayList<String[]>();
+            List<EntityCandidate[]> selectedPairs = new ArrayList<EntityCandidate[]>();
             for (int j = start; j < end && j < pairs.size(); j++) {
                 selectedPairs.add(pairs.get(j));
             }
             SimilarityComputerThread thread = new SimilarityComputerThread(
-                    start + "-" + end, selectedPairs, entityAndConceptScorer, kbSearcher
+                    start + "-" + end, useCache, selectedPairs, entityAndConceptScorer, kbSearcher
             );
             workers.add(thread);
         }
@@ -167,13 +196,13 @@ public class CandidateConceptGenerator {
         }
 
         //collect results and caching
-        System.out.print("saving similarity scores to cache...");
+        System.out.print("saving similarity scores...");
         boolean doCommit=false;
         for (SimilarityComputerThread worker : workers) {
             for (Map.Entry<String[], Double> e : worker.getScores().entrySet()) {
                 String[] key = e.getKey();
                 if (e.getValue() != -1) {
-                    if(!key[2].equals("cache")) {
+                    if(useCache&& !key[2].equals("cache")) {
                         kbSearcher.saveSimilarity(key[0], key[1], e.getValue(), biDirectional, false);
                         doCommit=true;
                     }
@@ -181,7 +210,7 @@ public class CandidateConceptGenerator {
                 }
             }
         }
-        if(doCommit) {
+        if(useCache&&doCommit) {
             try {
                 kbSearcher.commitChanges();
             } catch (Exception e) {

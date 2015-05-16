@@ -6,6 +6,7 @@ import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
+import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.util.StringUtils;
@@ -34,14 +35,59 @@ public class EntityAndConceptScorer_Freebase {
     protected static double FREEBASE_TOTAL_TOPICS=47560900; //total # of topics on freebase as by 1 May 2015
 
 
-    public ObjObj<Double, String> computeEntityConceptSimilarity(String entity_id, String concept_url,
-                                                 KnowledgeBaseSearcher kbSearcher) throws IOException {
-        double score = kbSearcher.find_similarity(entity_id, concept_url);
+    public double computeEntityConceptSimilarity_fresh(List<String[]> entity_triples,
+                                                       List<String[]> concept_triples
+                                                       ){/* BOW OF THE ENTITY*/
+        List<String> bag_of_words_for_entity = new ArrayList<String>();
+        for (String[] f : entity_triples) {
+            if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
+                continue;
+            if (KnowledgeBaseFreebaseFilter.ignoreFactFromBOW(f[0]))
+                continue;
+            String value = f[1];
+            if (!StringUtils.isPath(value))
+                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
+            else
+                bag_of_words_for_entity.add(value);
+        }
+        if (lemmatizer != null)
+            bag_of_words_for_entity = lemmatizer.lemmatize(bag_of_words_for_entity);
+        bag_of_words_for_entity.removeAll(stopWords);
+
+        List<String> bag_of_words_for_concept = new ArrayList<String>();
+        for (String[] f : concept_triples) {
+            if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
+                continue;
+            if (KnowledgeBaseFreebaseFilter.ignoreFactFromBOW(f[0]))
+                continue;
+            String value = f[1];
+            if (!StringUtils.isPath(value))
+                bag_of_words_for_concept.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
+            else
+                bag_of_words_for_concept.add(value);
+        }
+        if (lemmatizer != null)
+            bag_of_words_for_concept = lemmatizer.lemmatize(bag_of_words_for_concept);
+        bag_of_words_for_concept.removeAll(stopWords);
+
+        double contextOverlapScore = CollectionUtils.scoreOverlap_dice_keepFrequency(
+                bag_of_words_for_entity, bag_of_words_for_concept
+        );
+        //kbSearcher.saveSimilarity(entity_id,concept_url,contextOverlapScore,true);
+        return contextOverlapScore;
+    }
+    public ObjObj<Double, String> computeEntityConceptSimilarity(EntityCandidate entity,
+                                                                 EntityCandidate concept,
+                                                 KnowledgeBaseSearcher kbSearcher,
+                                                 boolean useCache) throws IOException {
+        double score = -1;
+        if(useCache)
+            score=kbSearcher.find_similarity(entity.getId(), concept.getId());
         String fromCache="no";
         if(score!=-1)
             fromCache="cache";
         if(score==-1.0) {
-            List<String[]> entity_triples = kbSearcher.find_triplesForEntity_filtered(entity_id);
+            List<String[]> entity_triples = entity.getFacts();
         /* BOW OF THE ENTITY*/
             List<String> bag_of_words_for_entity = new ArrayList<String>();
             for (String[] f : entity_triples) {
@@ -59,7 +105,7 @@ public class EntityAndConceptScorer_Freebase {
                 bag_of_words_for_entity = lemmatizer.lemmatize(bag_of_words_for_entity);
             bag_of_words_for_entity.removeAll(stopWords);
 
-            List<String[]> concept_triples = kbSearcher.find_triplesForConcept_filtered(concept_url);
+            List<String[]> concept_triples = concept.getFacts();
             List<String> bag_of_words_for_concept = new ArrayList<String>();
             for (String[] f : concept_triples) {
                 if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))

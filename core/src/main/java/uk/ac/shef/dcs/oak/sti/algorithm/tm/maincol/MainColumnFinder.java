@@ -178,6 +178,14 @@ public class MainColumnFinder {
 
         //7 - yes:
         if (onlyNECol_non_duplicate != -1 && num == 1) {
+            try{
+                System.err.println("onlyNECol_non_duplicate="+onlyNECol_non_duplicate+",num="+num);
+                allColumnCandidates.get(onlyNECol_non_duplicate).isCode_or_Acronym();
+            }catch(IndexOutOfBoundsException e){
+                System.err.println(">>>>FUCK: maincol finder out of index "+table.getSourceId());
+                e.printStackTrace();
+                System.exit(1);
+            }
             if (!allColumnCandidates.get(onlyNECol_non_duplicate).isCode_or_Acronym()) {
                 ObjObj<Integer, ObjObj<Double, Boolean>> oo = new ObjObj<Integer, ObjObj<Double, Boolean>>();
                 oo.setMainObject(onlyNECol_non_duplicate);

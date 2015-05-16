@@ -42,14 +42,17 @@ public class CandidateEntityGenerator {
         });
 
         LTableContentCell tcc = table.getContentCell(row, column);
-        CellAnnotation[] annotations = new CellAnnotation[scores.size()];
-        int i = 0;
-        for (ObjObj<EntityCandidate, Map<String, Double>> oo : scores) {
-            CellAnnotation ca = new CellAnnotation(tcc.getText(), oo.getMainObject(), oo.getOtherObject().get(DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR), oo.getOtherObject());
-            annotations[i] = ca;
-            i++;
+        String text = tcc.getText().trim().replaceAll("[^a-zA-Z0-9]", "");
+        if (text.length() > 2) {
+            CellAnnotation[] annotations = new CellAnnotation[scores.size()];
+            int i = 0;
+            for (ObjObj<EntityCandidate, Map<String, Double>> oo : scores) {
+                CellAnnotation ca = new CellAnnotation(tcc.getText(), oo.getMainObject(), oo.getOtherObject().get(DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR), oo.getOtherObject());
+                annotations[i] = ca;
+                i++;
+            }
+            tableAnnotations.setContentCellAnnotations(row, column, annotations);
         }
-        tableAnnotations.setContentCellAnnotations(row, column, annotations);
         //return sorted;
     }
 
