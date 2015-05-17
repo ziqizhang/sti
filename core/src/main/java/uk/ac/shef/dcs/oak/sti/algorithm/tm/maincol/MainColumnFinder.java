@@ -136,21 +136,22 @@ public class MainColumnFinder {
         }
 
         //6. is any NE column the only one that has no empty cells?
-        int onlyNECol_with_no_emtpy = -1, num = 0;
-        for (ColumnFeature cf : allNEColumnCandidates) {
+        int index_onlyNECol_with_no_emtpy = -1, num = 0;
+        for (int index=0; index< allNEColumnCandidates.size(); index++) {
+            ColumnFeature cf = allNEColumnCandidates.get(index);
             if (cf.getEmptyCells() == 0 /*&& !cf.isCode_or_Acronym()*/) {
                 num++;
-                if (onlyNECol_with_no_emtpy == -1)
-                    onlyNECol_with_no_emtpy = cf.getColId();
+                if (index_onlyNECol_with_no_emtpy == -1)
+                    index_onlyNECol_with_no_emtpy = index;
                 else
                     break;
             }
         }
         //6 - yes:
-        if (onlyNECol_with_no_emtpy != -1 && num == 1) {
-            if (!allColumnCandidates.get(onlyNECol_with_no_emtpy).isCode_or_Acronym()) {
+        if (index_onlyNECol_with_no_emtpy != -1 && num == 1) {
+            if (!allColumnCandidates.get(index_onlyNECol_with_no_emtpy).isCode_or_Acronym()) {
                 ObjObj<Integer, ObjObj<Double, Boolean>> oo = new ObjObj<Integer, ObjObj<Double, Boolean>>();
-                oo.setMainObject(onlyNECol_with_no_emtpy);
+                oo.setMainObject(allColumnCandidates.get(index_onlyNECol_with_no_emtpy).getColId());
                 oo.setOtherObject(new ObjObj<Double, Boolean>(1.0, false));
                 rs.add(oo);
                 for (ColumnFeature cf : allColumnCandidates) {
@@ -161,27 +162,28 @@ public class MainColumnFinder {
         }
 
         //7. is any NE column the only one that has non-duplicate values on every row and that it is NOT an acronym column?
-        int onlyNECol_non_duplicate = -1;
+        int index_onlyNECol_non_duplicate = -1;
         num = 0;
-        for (ColumnFeature cf : allNEColumnCandidates) {
+        for (int index=0; index<allNEColumnCandidates.size(); index++) {
+            ColumnFeature cf = allNEColumnCandidates.get(index);
             if (cf.getCellValueDiversity() == 1.0
                     && !cf.isCode_or_Acronym()
                     && cf.getMostDataType().getCountRows() == table.getNumRows()) {
                 num++;
-                if (onlyNECol_non_duplicate == -1)
-                    onlyNECol_non_duplicate = cf.getColId();
+                if (index_onlyNECol_non_duplicate == -1)
+                    index_onlyNECol_non_duplicate = index;
                 else
                     break;
             }
         }
 
         //7 - yes:
-        if (onlyNECol_non_duplicate != -1 && num == 1) {
-            allColumnCandidates.get(onlyNECol_non_duplicate).isCode_or_Acronym();
+        if (index_onlyNECol_non_duplicate != -1 && num == 1) {
+                allColumnCandidates.get(index_onlyNECol_non_duplicate).isCode_or_Acronym();
 
-            if (!allColumnCandidates.get(onlyNECol_non_duplicate).isCode_or_Acronym()) {
+            if (!allColumnCandidates.get(index_onlyNECol_non_duplicate).isCode_or_Acronym()) {
                 ObjObj<Integer, ObjObj<Double, Boolean>> oo = new ObjObj<Integer, ObjObj<Double, Boolean>>();
-                oo.setMainObject(onlyNECol_non_duplicate);
+                oo.setMainObject(allColumnCandidates.get(index_onlyNECol_non_duplicate).getColId());
                 oo.setOtherObject(new ObjObj<Double, Boolean>(1.0, false));
                 //     rs.add(oo);
                 for (ColumnFeature cf : allColumnCandidates) {

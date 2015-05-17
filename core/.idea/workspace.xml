@@ -2120,11 +2120,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CandidateConceptGenerator.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="CandidateConceptGenerator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.06203474" vertical-offset="0" max-vertical-offset="5300">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+            <state vertical-scroll-proportion="-4.12" vertical-offset="2197" max-vertical-offset="5300">
+              <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
               <folding>
                 <element signature="e#1544#1561#0" expanded="true" />
                 <element signature="e#1637#1659#0" expanded="true" />
@@ -2141,7 +2141,7 @@
       <file leaf-file-name="MainColumnFinder.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4148" max-vertical-offset="18100">
+            <state vertical-scroll-proportion="0.0" vertical-offset="4362" max-vertical-offset="18150">
               <caret line="180" column="0" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -2150,36 +2150,77 @@
                 <element signature="e#4545#4560#0" expanded="true" />
                 <element signature="e#5758#5792#0" expanded="true" />
                 <element signature="e#6379#6413#0" expanded="true" />
-                <element signature="e#7424#7458#0" expanded="true" />
-                <element signature="e#8780#8814#0" expanded="true" />
-                <element signature="e#9361#9370#0" expanded="true" />
-                <element signature="e#10279#10313#0" expanded="true" />
-                <element signature="e#12523#12532#0" expanded="true" />
-                <element signature="e#12643#12667#0" expanded="true" />
-                <element signature="e#12908#13932#0" expanded="true" />
-                <element signature="e#13921#13922#0" expanded="true" />
-                <element signature="e#14040#14074#0" expanded="true" />
-                <element signature="e#14789#14823#0" expanded="true" />
-                <element signature="e#14912#15177#0" expanded="true" />
-                <element signature="e#15166#15167#0" expanded="true" />
-                <element signature="e#15304#15320#0" expanded="true" />
-                <element signature="e#17806#17823#0" expanded="true" />
-                <element signature="e#18664#18911#0" expanded="true" />
-                <element signature="e#18900#18901#0" expanded="true" />
-                <element signature="e#19352#19593#0" expanded="true" />
-                <element signature="e#19582#19583#0" expanded="true" />
-                <element signature="e#22038#22072#0" expanded="true" />
-                <element signature="e#22161#22593#0" expanded="true" />
-                <element signature="e#22582#22583#0" expanded="true" />
-                <element signature="e#23716#23963#0" expanded="true" />
-                <element signature="e#23952#23953#0" expanded="true" />
-                <element signature="e#25255#25496#0" expanded="true" />
-                <element signature="e#25485#25486#0" expanded="true" />
-                <element signature="e#31187#31204#0" expanded="true" />
-                <element signature="e#31293#31725#0" expanded="true" />
-                <element signature="e#31714#31715#0" expanded="true" />
-                <element signature="e#32633#32880#0" expanded="true" />
-                <element signature="e#32869#32870#0" expanded="true" />
+                <element signature="e#7528#7562#0" expanded="true" />
+                <element signature="e#9039#9073#0" expanded="true" />
+                <element signature="e#9662#9671#0" expanded="true" />
+                <element signature="e#10580#10614#0" expanded="true" />
+                <element signature="e#12824#12833#0" expanded="true" />
+                <element signature="e#12944#12968#0" expanded="true" />
+                <element signature="e#13209#14233#0" expanded="true" />
+                <element signature="e#14222#14223#0" expanded="true" />
+                <element signature="e#14341#14375#0" expanded="true" />
+                <element signature="e#15090#15124#0" expanded="true" />
+                <element signature="e#15213#15478#0" expanded="true" />
+                <element signature="e#15467#15468#0" expanded="true" />
+                <element signature="e#15605#15621#0" expanded="true" />
+                <element signature="e#18107#18124#0" expanded="true" />
+                <element signature="e#18965#19212#0" expanded="true" />
+                <element signature="e#19201#19202#0" expanded="true" />
+                <element signature="e#19653#19894#0" expanded="true" />
+                <element signature="e#19883#19884#0" expanded="true" />
+                <element signature="e#22339#22373#0" expanded="true" />
+                <element signature="e#22462#22894#0" expanded="true" />
+                <element signature="e#22883#22884#0" expanded="true" />
+                <element signature="e#24017#24264#0" expanded="true" />
+                <element signature="e#24253#24254#0" expanded="true" />
+                <element signature="e#25556#25797#0" expanded="true" />
+                <element signature="e#25786#25787#0" expanded="true" />
+                <element signature="e#31488#31505#0" expanded="true" />
+                <element signature="e#31594#32026#0" expanded="true" />
+                <element signature="e#32015#32016#0" expanded="true" />
+                <element signature="e#32934#33181#0" expanded="true" />
+                <element signature="e#33170#33171#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TI_JointInference.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.33226836" vertical-offset="2271" max-vertical-offset="8325">
+              <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#6798#6807#0" expanded="true" />
+                <element signature="e#6917#6925#0" expanded="true" />
+                <element signature="e#7591#7600#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TableAnnotationChecker.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/misc/TableAnnotationChecker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="162" max-vertical-offset="875">
+              <caret line="26" column="84" selection-start-line="26" selection-start-column="84" selection-end-line="26" selection-end-column="84" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#394#411#0" expanded="true" />
+                <element signature="e#467#484#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LTable.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/LTable.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2264" max-vertical-offset="3050">
+              <caret line="125" column="0" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
+              <folding>
+                <element signature="e#3290#3291#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2193,6 +2234,16 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FactorGraphBuilder.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorGraphBuilder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="746" max-vertical-offset="2025">
+              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -2248,16 +2299,16 @@
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderCell.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/HeaderBinaryRelationAnnotation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/misc/TableAnnotationChecker.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/EntityAndConceptScorer_Freebase.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/SimilarityComputerThread.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB_JI.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_JI.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateEntityGenerator.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/misc/TableAnnotationChecker.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java" />
       </list>
     </option>
   </component>
@@ -3438,7 +3489,7 @@
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="uk.ac.shef.dcs.oak.sti.experiment.TestTableInterpretation_LimayeDataset_JI" />
       <option name="VM_PARAMETERS" value="-Xmx4000m -Djava.util.logging.config.file=logging.properties" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;E:\Data\table_annotation\limaye200\200_tables_regen\debug&quot; &quot;E:\Data\table_annotation\tmp&quot; &quot;D:\Work\sti\dist/sti.properties&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_limayeall/zookeeper/solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_concept\zookeeper\solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_property\zookeeper\solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_similarity\zookeeper\solr&quot; &quot;$PROJECT_DIR$/../resources/nlp_resources&quot; 0 false" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;E:\Data\table_annotation\limaye200\200_tables_regen\raw&quot; &quot;E:\Data\table_annotation\tmp&quot; &quot;D:\Work\sti\dist/sti.properties&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_limayeall/zookeeper/solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_concept\zookeeper\solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_property\zookeeper\solr&quot; &quot;D:\Work\lodiedata\tableminer_cache\solrindex_cache_similarity\zookeeper\solr&quot; &quot;$PROJECT_DIR$/../resources/nlp_resources&quot; 0 false" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -4299,12 +4350,12 @@
       <workItem from="1431693371370" duration="443000" />
       <workItem from="1431693819020" duration="156000" />
       <workItem from="1431693979028" duration="20154000" />
-      <workItem from="1431725195926" duration="19468000" />
+      <workItem from="1431725195926" duration="25136000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="460886000" />
+    <option name="totallyTimeSpent" value="466554000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -4327,31 +4378,31 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="1" width="1598" height="856" extended-state="0" />
-    <editor active="true" />
+    <frame x="1" y="1" width="1598" height="856" extended-state="1" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38505095" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36909872" sideWeight="0.638961" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43633762" sideWeight="0.638961" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.66480446" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4248927" sideWeight="0.5733766" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46638054" sideWeight="0.5733766" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27817404" sideWeight="0.47272727" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32152063" sideWeight="0.19832402" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3319027" sideWeight="0.537013" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3319027" sideWeight="0.537013" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3352354" sideWeight="0.49754903" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22012988" sideWeight="0.3941019" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12597403" sideWeight="0.42299107" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22012988" sideWeight="0.7723214" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44635195" sideWeight="0.5272727" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22012988" sideWeight="0.60589814" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3018598" sideWeight="0.5272727" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2275641" sideWeight="0.68973213" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -4640,7 +4691,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java</url>
-          <line>456</line>
+          <line>458</line>
           <properties />
           <option name="timeStamp" value="49" />
         </line-breakpoint>
@@ -5377,19 +5428,19 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java</url>
-          <line>214</line>
+          <line>217</line>
           <properties />
           <option name="timeStamp" value="1368" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java</url>
-          <line>258</line>
+          <line>261</line>
           <properties />
           <option name="timeStamp" value="1370" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java</url>
-          <line>259</line>
+          <line>262</line>
           <properties />
           <option name="timeStamp" value="1373" />
         </line-breakpoint>
@@ -5400,25 +5451,67 @@
           <option name="timeStamp" value="1395" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java</url>
-          <line>104</line>
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java</url>
+          <line>117</line>
           <properties />
-          <option name="timeStamp" value="1412" />
+          <option name="timeStamp" value="1420" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java</url>
-          <line>101</line>
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java</url>
+          <line>131</line>
           <properties />
-          <option name="timeStamp" value="1413" />
+          <option name="timeStamp" value="1421" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java</url>
-          <line>212</line>
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java</url>
+          <line>151</line>
           <properties />
-          <option name="timeStamp" value="1414" />
+          <option name="timeStamp" value="1422" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java</url>
+          <line>156</line>
+          <properties />
+          <option name="timeStamp" value="1423" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java</url>
+          <line>105</line>
+          <properties />
+          <option name="timeStamp" value="1434" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorGraphBuilder.java</url>
+          <line>36</line>
+          <properties />
+          <option name="timeStamp" value="1435" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorGraphBuilder.java</url>
+          <line>39</line>
+          <properties />
+          <option name="timeStamp" value="1436" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java</url>
+          <line>108</line>
+          <properties />
+          <option name="timeStamp" value="1437" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java</url>
+          <line>122</line>
+          <properties />
+          <option name="timeStamp" value="1438" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java</url>
+          <line>138</line>
+          <properties />
+          <option name="timeStamp" value="1439" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1415" />
+      <option name="time" value="1440" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -5426,13 +5519,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_SMP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3560" max-vertical-offset="4800">
-          <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/util/DiceSimilarity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1496" max-vertical-offset="2125">
@@ -5567,7 +5653,7 @@
         <state vertical-scroll-proportion="0.3314121" vertical-offset="1085" max-vertical-offset="1900">
           <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -5577,16 +5663,6 @@
         <state vertical-scroll-proportion="0.3318584" vertical-offset="250" max-vertical-offset="26350">
           <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/LTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2268" max-vertical-offset="3050">
-          <caret line="125" column="0" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
-          <folding>
-            <element signature="e#3290#3291#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -5663,6 +5739,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1104" max-vertical-offset="4075">
           <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4321#4330#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -5689,14 +5769,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="3425">
           <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorGraphBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="348" max-vertical-offset="2150">
-          <caret line="15" column="72" selection-start-line="15" selection-start-column="72" selection-end-line="15" selection-end-column="72" />
           <folding />
         </state>
       </provider>
@@ -5763,16 +5835,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/misc/TableAnnotationChecker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0646259" vertical-offset="237" max-vertical-offset="700">
-          <caret line="22" column="8" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../triplesearch/src/main/java/uk/ac/shef/dcs/oak/triplesearch/EntityCandidate.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-13.08" vertical-offset="2848" max-vertical-offset="3475">
@@ -5786,7 +5848,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="575" max-vertical-offset="5150">
           <caret line="47" column="109" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="103" />
           <folding>
-            <element signature="e#2531#2540#0" expanded="true" />
+            <element signature="e#2531#2540#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -5812,20 +5874,7 @@
         <state vertical-scroll-proportion="0.46619216" vertical-offset="1869" max-vertical-offset="2150">
           <caret line="92" column="75" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
           <folding>
-            <element signature="e#1264#1297#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.4" vertical-offset="3615" max-vertical-offset="8250">
-          <caret line="148" column="0" selection-start-line="148" selection-start-column="0" selection-end-line="148" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#6622#6631#0" expanded="true" />
-            <element signature="e#6741#6749#0" expanded="true" />
-            <element signature="e#7415#7424#0" expanded="true" />
+            <element signature="e#1264#1297#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -5850,9 +5899,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/ColumnFeature.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="1665" max-vertical-offset="2075">
+          <caret line="115" column="26" selection-start-line="115" selection-start-column="18" selection-end-line="115" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4148" max-vertical-offset="18100">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4362" max-vertical-offset="18150">
           <caret line="180" column="0" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -5861,44 +5918,44 @@
             <element signature="e#4545#4560#0" expanded="true" />
             <element signature="e#5758#5792#0" expanded="true" />
             <element signature="e#6379#6413#0" expanded="true" />
-            <element signature="e#7424#7458#0" expanded="true" />
-            <element signature="e#8780#8814#0" expanded="true" />
-            <element signature="e#9361#9370#0" expanded="true" />
-            <element signature="e#10279#10313#0" expanded="true" />
-            <element signature="e#12523#12532#0" expanded="true" />
-            <element signature="e#12643#12667#0" expanded="true" />
-            <element signature="e#12908#13932#0" expanded="true" />
-            <element signature="e#13921#13922#0" expanded="true" />
-            <element signature="e#14040#14074#0" expanded="true" />
-            <element signature="e#14789#14823#0" expanded="true" />
-            <element signature="e#14912#15177#0" expanded="true" />
-            <element signature="e#15166#15167#0" expanded="true" />
-            <element signature="e#15304#15320#0" expanded="true" />
-            <element signature="e#17806#17823#0" expanded="true" />
-            <element signature="e#18664#18911#0" expanded="true" />
-            <element signature="e#18900#18901#0" expanded="true" />
-            <element signature="e#19352#19593#0" expanded="true" />
-            <element signature="e#19582#19583#0" expanded="true" />
-            <element signature="e#22038#22072#0" expanded="true" />
-            <element signature="e#22161#22593#0" expanded="true" />
-            <element signature="e#22582#22583#0" expanded="true" />
-            <element signature="e#23716#23963#0" expanded="true" />
-            <element signature="e#23952#23953#0" expanded="true" />
-            <element signature="e#25255#25496#0" expanded="true" />
-            <element signature="e#25485#25486#0" expanded="true" />
-            <element signature="e#31187#31204#0" expanded="true" />
-            <element signature="e#31293#31725#0" expanded="true" />
-            <element signature="e#31714#31715#0" expanded="true" />
-            <element signature="e#32633#32880#0" expanded="true" />
-            <element signature="e#32869#32870#0" expanded="true" />
+            <element signature="e#7528#7562#0" expanded="true" />
+            <element signature="e#9039#9073#0" expanded="true" />
+            <element signature="e#9662#9671#0" expanded="true" />
+            <element signature="e#10580#10614#0" expanded="true" />
+            <element signature="e#12824#12833#0" expanded="true" />
+            <element signature="e#12944#12968#0" expanded="true" />
+            <element signature="e#13209#14233#0" expanded="true" />
+            <element signature="e#14222#14223#0" expanded="true" />
+            <element signature="e#14341#14375#0" expanded="true" />
+            <element signature="e#15090#15124#0" expanded="true" />
+            <element signature="e#15213#15478#0" expanded="true" />
+            <element signature="e#15467#15468#0" expanded="true" />
+            <element signature="e#15605#15621#0" expanded="true" />
+            <element signature="e#18107#18124#0" expanded="true" />
+            <element signature="e#18965#19212#0" expanded="true" />
+            <element signature="e#19201#19202#0" expanded="true" />
+            <element signature="e#19653#19894#0" expanded="true" />
+            <element signature="e#19883#19884#0" expanded="true" />
+            <element signature="e#22339#22373#0" expanded="true" />
+            <element signature="e#22462#22894#0" expanded="true" />
+            <element signature="e#22883#22884#0" expanded="true" />
+            <element signature="e#24017#24264#0" expanded="true" />
+            <element signature="e#24253#24254#0" expanded="true" />
+            <element signature="e#25556#25797#0" expanded="true" />
+            <element signature="e#25786#25787#0" expanded="true" />
+            <element signature="e#31488#31505#0" expanded="true" />
+            <element signature="e#31594#32026#0" expanded="true" />
+            <element signature="e#32015#32016#0" expanded="true" />
+            <element signature="e#32934#33181#0" expanded="true" />
+            <element signature="e#33170#33171#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.06203474" vertical-offset="0" max-vertical-offset="5300">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        <state vertical-scroll-proportion="-4.12" vertical-offset="2197" max-vertical-offset="5300">
+          <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
           <folding>
             <element signature="e#1544#1561#0" expanded="true" />
             <element signature="e#1637#1659#0" expanded="true" />
@@ -5907,6 +5964,49 @@
             <element signature="e#1869#1886#0" expanded="true" />
             <element signature="e#7005#7024#0" expanded="true" />
             <element signature="e#8081#8100#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/LTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2268" max-vertical-offset="3050">
+          <caret line="125" column="0" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
+          <folding>
+            <element signature="e#3290#3291#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorGraphBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="746" max-vertical-offset="2025">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/misc/TableAnnotationChecker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="162" max-vertical-offset="875">
+          <caret line="26" column="84" selection-start-line="26" selection-start-column="84" selection-end-line="26" selection-end-column="84" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#394#411#0" expanded="true" />
+            <element signature="e#467#484#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33226836" vertical-offset="2271" max-vertical-offset="8325">
+          <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#6798#6807#0" expanded="true" />
+            <element signature="e#6917#6925#0" expanded="true" />
+            <element signature="e#7591#7600#0" expanded="true" />
           </folding>
         </state>
       </provider>

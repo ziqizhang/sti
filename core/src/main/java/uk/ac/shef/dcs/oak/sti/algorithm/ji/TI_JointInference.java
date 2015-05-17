@@ -9,6 +9,7 @@ import cc.mallet.grmm.types.Variable;
 import uk.ac.shef.dcs.oak.sti.STIException;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.maincol.MainColumnFinder;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
+import uk.ac.shef.dcs.oak.sti.misc.TableAnnotationChecker;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
@@ -122,6 +123,8 @@ public class TI_JointInference {
                 System.err.println(">>>>FUCK! graph empty exception, but checking did not catch this:"+table.getSourceId());
                 System.err.println(">>>>");
                 System.err.println(graph.dumpToString());
+                System.err.println(">>>>");
+                TableAnnotationChecker.checkAnnotation(tab_annotations);
                 e.printStackTrace();
                 System.exit(1);
             }
