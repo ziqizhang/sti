@@ -1,6 +1,8 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
+import bsh.*;
 import cc.mallet.grmm.types.*;
+import cc.mallet.grmm.types.Variable;
 import cc.mallet.types.LabelAlphabet;
 import uk.ac.shef.dcs.oak.sti.rep.HeaderBinaryRelationAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.Key_SubjectCol_ObjectCol;
@@ -117,12 +119,19 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                 }
                 if (isValidCompatibility(compatibility, affinity_scores)) {
                     if(patchScores) compatibility= patchCompatibility(compatibility);
-                    VarSet varSet;
+                    /*VarSet varSet;
                     if (column1_header_variable.getIndex() < column2_header_variable.getIndex())
                         varSet = new HashVarSet(new Variable[]{column1_header_variable, column2_header_variable, relationVariable});
                     else
                         varSet = new HashVarSet(new Variable[]{column2_header_variable, column1_header_variable, relationVariable});
-                    TableFactor factor1 = new TableFactor(varSet, compatibility);
+                    */
+                    Variable[] vars = null;
+                    if (column1_header_variable.getIndex() < column2_header_variable.getIndex())
+                        vars = new Variable[]{column1_header_variable, column2_header_variable, relationVariable};
+                    else
+                        vars = new Variable[]{column2_header_variable, column1_header_variable, relationVariable};
+
+                    TableFactor factor1 = new TableFactor(vars, compatibility);
                     GraphCheckingUtil.checkFactorAgainstAffinity(factor1, affinity_scores,tableId);
                     graph.addFactor(factor1);
                 }

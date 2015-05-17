@@ -91,12 +91,19 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                             objCellVar, sbjCellVar, relationVar, relationIndex_forwardRelation);
                 if (isValidCompatibility(compatibility, affinity_scores)) {
                     if(patchScores) compatibility= patchCompatibility(compatibility);
-                    VarSet varSet;
+     /*               VarSet varSet;
                     if(sbjCellVar.getIndex() < objCellVar.getIndex())
                         varSet= new HashVarSet(new Variable[]{sbjCellVar, objCellVar, relationVar});
                     else
                         varSet= new HashVarSet(new Variable[]{objCellVar, sbjCellVar, relationVar});
-                    TableFactor factor = new TableFactor(varSet, compatibility);
+                    */
+                    Variable[] vars;
+                    if(sbjCellVar.getIndex() < objCellVar.getIndex())
+                        vars= new Variable[]{sbjCellVar, objCellVar, relationVar};
+                    else
+                        vars= new Variable[]{objCellVar, sbjCellVar, relationVar};
+
+                    TableFactor factor = new TableFactor(vars, compatibility);
                     GraphCheckingUtil.checkFactorAgainstAffinity(factor, affinity_scores, tableId);
                     graph.addFactor(factor);
                 }

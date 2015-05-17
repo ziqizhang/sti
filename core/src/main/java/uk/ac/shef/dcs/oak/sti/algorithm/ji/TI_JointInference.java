@@ -141,7 +141,6 @@ public class TI_JointInference {
         }
         else{
             System.err.println("EMPTY_TABLE:"+table.getSourceId());
-            System.exit(1);
         }
         return tab_annotations;
     }
