@@ -15,7 +15,6 @@ import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.*;
 
 /**
@@ -27,7 +26,7 @@ public class TI_JointInference {
     //even though we do not use it to find the main column in SMP
     protected MainColumnFinder main_col_finder;
     //if there are any columns we want to ignore
-    protected int[] ignoreColumns;
+    protected int[] ignoreCols;
     protected int[] forceInterpretColumn;
     protected int maxIteration;
     protected List<String> stoplist = Arrays.asList("yes", "no", "away", "home");
@@ -53,17 +52,22 @@ public class TI_JointInference {
         this.neGenerator = neGenerator;
         this.columnClassifier = columnClassifier;
         this.relationGenerator = relationGenerator;
-        this.ignoreColumns = ignoreColumns;
+        this.ignoreCols = ignoreColumns;
         this.forceInterpretColumn = forceInterpretColumn;
         this.maxIteration = maxIteration;
     }
 
     public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
         LTableAnnotation_JI_Freebase tab_annotations = new LTableAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
-        ignoreColumns = updateIgnoreColumns(table, ignoreColumns);
+        List<Integer> ignoreColumnsLocal = new ArrayList<Integer>(updateIgnoreColumns(table, ignoreCols));
+        int[] ignoreColumnsLocalArray = new int[ignoreColumnsLocal.size()];
+        Collections.sort(ignoreColumnsLocal);
+        for(int i=0; i<ignoreColumnsLocal.size(); i++)
+            ignoreColumnsLocalArray[i]=ignoreColumnsLocal.get(i);
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
-        List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
+        List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table,
+                ignoreColumnsLocalArray);
         if (useSubjectColumn)
             tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getMainObject());
 
@@ -79,7 +83,7 @@ public class TI_JointInference {
                     neGenerator.generateCandidateEntity(tab_annotations, table, r, col);
                 }
             } else {
-                if (ignoreColumn(col, ignoreColumns)) continue;
+                if (ignoreColumn(col, ignoreColumnsLocal)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 graphNonEmpty=true;
@@ -94,10 +98,10 @@ public class TI_JointInference {
         }
 
         System.out.println(">\t HEADER CLASSIFICATION GENERATOR");
-        computeClassCandidates(tab_annotations, table);
+        computeClassCandidates(tab_annotations, table, ignoreColumnsLocal);
         if (relationLearning) {
             System.out.println(">\t RELATION GENERATOR");
-            computeRelationCandidates(tab_annotations, table, useSubjectColumn);
+            computeRelationCandidates(tab_annotations, table, useSubjectColumn, ignoreColumnsLocal);
         }
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -137,11 +141,12 @@ public class TI_JointInference {
         }
         else{
             System.err.println("EMPTY_TABLE:"+table.getSourceId());
+            System.exit(1);
         }
         return tab_annotations;
     }
 
-    protected int[] updateIgnoreColumns(LTable table, int[] ignoreColumns) {
+    protected Set<Integer> updateIgnoreColumns(LTable table, int[] ignoreColumns) {
         Set<Integer> ignore = new HashSet<Integer>();
         for (int c = 0; c < table.getNumCols(); c++) {
             Set<String> uniqueStrings = new HashSet<String>();
@@ -156,24 +161,20 @@ public class TI_JointInference {
                 if (uniqueStrings.size() == 0) ignore.add(c);
             }
         }
-
         for (int i : ignoreColumns)
             ignore.add(i);
-        int[] result = new int[ignore.size()];
-        List<Integer> l = new ArrayList<Integer>(ignore);
-        for (int i = 0; i < l.size(); i++)
-            result[i] = l.get(i);
-        return result;
+        return ignore;
     }
 
-    protected void computeClassCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table) throws IOException {
+    protected void computeClassCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table,
+                                          Collection<Integer> ignoreColumnsLocal) throws IOException {
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
             if (forceInterpret(col)) {
                 System.out.println("\t\t>> Column=(forced)" + col);
                 columnClassifier.generateCandidateConcepts(tab_annotations, table, col);
             } else {
-                if (ignoreColumn(col, ignoreColumns)) continue;
+                if (ignoreColumn(col,ignoreColumnsLocal )) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 System.out.println("\t\t>> Column=" + col);
@@ -183,8 +184,9 @@ public class TI_JointInference {
     }
 
     protected void computeRelationCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table,
-                                             boolean useMainSubjectColumn) throws IOException {
-        relationGenerator.generateCandidateRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumns);
+                                             boolean useMainSubjectColumn,
+                                             Collection<Integer> ignoreColumnsLocal) throws IOException {
+        relationGenerator.generateCandidateRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumnsLocal);
     }
 
     protected boolean createFinalAnnotations(FactorGraph graph,
@@ -305,14 +307,14 @@ public class TI_JointInference {
         return true;
     }
 
-    protected static boolean ignoreColumn(Integer i, int[] ignoreColumns) {
-        if (i != null) {
+    protected static boolean ignoreColumn(Integer i, Collection<Integer> ignoreColumns) {
+        /*if (i != null) {
             for (int a : ignoreColumns) {
                 if (a == i)
                     return true;
             }
-        }
-        return false;
+        }*/
+        return ignoreColumns.contains(i);
     }
 
     protected boolean forceInterpret(Integer i) {

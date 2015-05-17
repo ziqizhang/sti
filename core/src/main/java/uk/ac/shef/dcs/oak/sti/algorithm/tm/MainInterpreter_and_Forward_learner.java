@@ -23,7 +23,7 @@ public class MainInterpreter_and_Forward_learner {
     private BinaryRelationInterpreter interpreter_relation;
     private HeaderBinaryRelationScorer hbr_scorer;
     //private static Logger log = Logger.getLogger(MainInterpreter.class.getName());
-    private int[] ignoreColumns;
+    private Set<Integer> ignoreCols;
     private int[] forceInterpretColumn;
     private Backward_updater backward_updater;
 
@@ -40,7 +40,9 @@ public class MainInterpreter_and_Forward_learner {
         this.interpreter_column = interpreter_column;
         this.interpreter_column_with_knownReltaions = interpreter_column_with_knownReltaions;
         this.interpreter_relation = interpreter_relation;
-        this.ignoreColumns = ignoreColumns;
+        this.ignoreCols = new HashSet<Integer>();
+        for(int i: ignoreColumns)
+            ignoreCols.add(i);
         this.forceInterpretColumn = forceInterpretColumn;
         this.backward_updater = backward_updater;
         this.hbr_scorer = hbr_scorer;
@@ -49,7 +51,11 @@ public class MainInterpreter_and_Forward_learner {
     public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException, STIException {
         //1. find the main subject column of this table
         System.out.println(">\t Detecting main column...");
-        List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
+        int[] ignoreColumnsArray = new int[ignoreCols.size()];
+        for(int i=0; i<ignoreCols.size(); i++)
+            ignoreColumnsArray[i]=i;
+        List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns =
+                main_col_finder.compute(table, ignoreColumnsArray);
         //ignore columns that are likely to be acronyms only, because they are highly ambiguous
         /*if (candidate_main_NE_columns.size() > 1) {
             Iterator<ObjObj<Integer, ObjObj<Double, Boolean>>> it = candidate_main_NE_columns.iterator();
@@ -182,7 +188,7 @@ public class MainInterpreter_and_Forward_learner {
 
     private boolean ignoreColumn(Integer i) {
         if (i != null) {
-            for (int a : ignoreColumns) {
+            for (int a : ignoreCols) {
                 if (a == i)
                     return true;
             }

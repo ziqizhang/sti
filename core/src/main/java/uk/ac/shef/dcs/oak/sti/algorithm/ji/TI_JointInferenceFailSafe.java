@@ -13,6 +13,7 @@ import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by zqz on 15/05/2015.
@@ -34,10 +35,13 @@ public class TI_JointInferenceFailSafe extends TI_JointInference {
 
     public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
         LTableAnnotation_JI_Freebase tab_annotations = new LTableAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
-        ignoreColumns=updateIgnoreColumns(table, ignoreColumns);
+        Set<Integer> ignoreColumnsLocal = updateIgnoreColumns(table, ignoreCols);
+        int[] ignoreColumnsLocalArray = new int[ignoreColumnsLocal.size()];
+        for(int i=0; i<ignoreColumnsLocal.size(); i++)
+            ignoreColumnsLocalArray[i]=i;
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
-        List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
+        List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumnsLocalArray);
         if (useSubjectColumn)
             tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getMainObject());
 
@@ -52,7 +56,7 @@ public class TI_JointInferenceFailSafe extends TI_JointInference {
                     neGenerator.generateCandidateEntity(tab_annotations, table, r, col);
                 }
             } else {
-                if (ignoreColumn(col, ignoreColumns)) continue;
+                if (ignoreColumn(col, ignoreColumnsLocal)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 /*if (table.getColumnHeader(col).getFeature().isCode_or_Acronym())
@@ -66,10 +70,10 @@ public class TI_JointInferenceFailSafe extends TI_JointInference {
         }
 
         System.out.println(">\t HEADER CLASSIFICATION GENERATOR");
-        computeClassCandidates(tab_annotations, table);
+        computeClassCandidates(tab_annotations, table, ignoreColumnsLocal);
         if (relationLearning) {
             System.out.println(">\t RELATION GENERATOR");
-            computeRelationCandidates(tab_annotations, table, useSubjectColumn);
+            computeRelationCandidates(tab_annotations, table, useSubjectColumn, ignoreColumnsLocal);
         }
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

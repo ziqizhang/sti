@@ -25,7 +25,7 @@ public class CandidateRelationGenerator {
 
     public void generateCandidateRelation(LTableAnnotation_JI_Freebase tableAnnotations,
                                           LTable table, boolean useMainSubjectColumn,
-                                          int[] ignoreColumns) throws IOException {
+                                          Collection<Integer> ignoreColumns) throws IOException {
         //RelationDataStructure result = new RelationDataStructure();
 
         //mainColumnIndexes contains indexes of columns that are possible NEs

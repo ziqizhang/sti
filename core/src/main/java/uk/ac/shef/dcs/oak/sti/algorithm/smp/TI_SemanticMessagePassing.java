@@ -54,7 +54,8 @@ public class TI_SemanticMessagePassing {
 
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
-        List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
+        List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns =
+                main_col_finder.compute(table, ignoreColumns);
         if(useSubjectColumn)
             tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getMainObject());
 
