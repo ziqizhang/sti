@@ -151,12 +151,12 @@ public class CandidateConceptGenerator {
         }else {
             size = pairs.size()/threads;
             int actualThreads = pairs.size()/size;
-            if(pairs.size()/size>0)
+            if(pairs.size()%size>0)
                 actualThreads++;
             threads=actualThreads;
         }
         System.out.print(threads + " threads, each processing " + size + " pairs...");
-        for (int t = 0; t < threads + 1; t++) {
+        for (int t = 0; t < threads; t++) {
             int start = t * size;
             int end = start + size;
             List<EntityCandidate[]> selectedPairs = new ArrayList<EntityCandidate[]>();
@@ -171,7 +171,7 @@ public class CandidateConceptGenerator {
 
         //start all workers
         for (SimilarityComputerThread w : workers)
-            w.run();
+            w.start();
 
         boolean allFinished = false;
         while (!allFinished) {

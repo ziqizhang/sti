@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Created by zqz on 14/05/2015.
  */
-public class SimilarityComputerThread implements Runnable{
+public class SimilarityComputerThread extends Thread{
 
     private Map<String[], Double> scores;
     private List<EntityCandidate[]> pairs;
@@ -36,15 +36,23 @@ public class SimilarityComputerThread implements Runnable{
 
     @Override
     public void run() {
+        int count=0;
         for(EntityCandidate[] pair: pairs){
             ObjObj<Double, String> score=null;
             try {
                 score = simScorer.computeEntityConceptSimilarity(pair[0], pair[1],kbSearcher, useCache);
+                count++;
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(score!=null)
-                scores.put(new String[]{pair[0].getId(), pair[1].getId(),score.getOtherObject()}, score.getMainObject());
+            if(score!=null) {
+                int scoreSizeBefore=scores.size();
+                scores.put(new String[]{pair[0].getId(), pair[1].getId(), score.getOtherObject()}, score.getMainObject());
+                int scoreSizeAfter = scores.size();
+                if(scoreSizeBefore==scoreSizeAfter)
+                    System.out.println("fuck");
+
+            }
         }
         finished=true;
     }
