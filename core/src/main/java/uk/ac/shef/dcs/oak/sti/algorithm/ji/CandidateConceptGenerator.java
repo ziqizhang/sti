@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class CandidateConceptGenerator {
     private int multiThreads = 10;
-    private boolean useCache=false;
+    private boolean useCache=true;
     private KnowledgeBaseSearcher kbSearcher;
     private ClassificationScorer_JI_adapted conceptScorer;
     private EntityAndConceptScorer_Freebase entityAndConceptScorer;

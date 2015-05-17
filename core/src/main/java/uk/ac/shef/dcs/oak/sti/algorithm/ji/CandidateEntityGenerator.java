@@ -40,7 +40,6 @@ public class CandidateEntityGenerator {
                 return o2.getOtherObject().compareTo(o1.getOtherObject());
             }
         });
-
         LTableContentCell tcc = table.getContentCell(row, column);
         String text = tcc.getText().trim().replaceAll("[^a-zA-Z0-9]", "");
         if (text.length() > 2) {
@@ -67,6 +66,13 @@ public class CandidateEntityGenerator {
        /* if(row==11)
             System.out.println();*/
         List<EntityCandidate> candidates = kbSearcher.findEntitiesForCell(cell);
+        List<EntityCandidate> removeDuplicates = new ArrayList<EntityCandidate>();
+        for(EntityCandidate ec: candidates){
+            if(!removeDuplicates.contains(ec))
+                removeDuplicates.add(ec);
+        }
+        candidates=removeDuplicates;
+
         System.out.println(" candidates=" + candidates.size());
         //each candidate will have a map containing multiple elements of scores. See DisambiguationScorer_SMP_adapted
         List<ObjObj<EntityCandidate, Map<String, Double>>> disambiguationScores = new ArrayList<ObjObj<EntityCandidate, Map<String, Double>>>();

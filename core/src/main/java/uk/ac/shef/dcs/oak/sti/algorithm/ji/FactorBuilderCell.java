@@ -31,12 +31,14 @@ class FactorBuilderCell extends FactorBuilder{
 
                 LabelAlphabet candidateIndex_cell = new LabelAlphabet();
                 List<Double> scores=new ArrayList<Double>();
+
                 for (int i = 0; i < candidateEntityAnnotations.length; i++) {
                     CellAnnotation ca = candidateEntityAnnotations[i];
                     double score=ca.getScore_element_map().get(
                             DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR);
                     if(score==0)
                         continue;
+
                     candidateIndex_cell.lookupIndex(ca.getAnnotation().getId());
                     scores.add(score);
                 }

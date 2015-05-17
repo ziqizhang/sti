@@ -46,12 +46,7 @@ public class SimilarityComputerThread extends Thread{
                 e.printStackTrace();
             }
             if(score!=null) {
-                int scoreSizeBefore=scores.size();
                 scores.put(new String[]{pair[0].getId(), pair[1].getId(), score.getOtherObject()}, score.getMainObject());
-                int scoreSizeAfter = scores.size();
-                if(scoreSizeBefore==scoreSizeAfter)
-                    System.out.println("fuck");
-
             }
         }
         finished=true;
