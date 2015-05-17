@@ -143,6 +143,8 @@ public class CandidateConceptGenerator {
             }
         }
 
+        Collections.shuffle(pairs);
+
         List<SimilarityComputerThread> workers = new ArrayList<SimilarityComputerThread>();
         int size = pairs.size() / threads;
         if (size < 5) {
