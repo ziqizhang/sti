@@ -169,6 +169,7 @@ public class TestTableInterpretation_IMDB_JI {
                 //gs annotator
 
             } catch (Exception e) {
+                System.err.println(">>> Failed:"+f);
                 e.printStackTrace();
                 PrintWriter missedWriter = null;
                 try {

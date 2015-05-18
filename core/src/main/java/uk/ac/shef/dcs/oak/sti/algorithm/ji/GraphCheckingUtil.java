@@ -113,13 +113,8 @@ public class GraphCheckingUtil {
             for (int j = 0; j < v.getNumOutcomes(); j++)
                 allOutcomesOfVariable.add(j);
 
-            try {
                 Set<Integer> nonzerooutcomes = variableNonzerooutcome_collectedFromFactor.get(v);
                 allOutcomesOfVariable.removeAll(nonzerooutcomes);
-            }catch(NullPointerException npe){
-                System.err.println(">>>FUCK nullpointer "+tableId);
-                System.exit(1);
-            }
             if (allOutcomesOfVariable.size() > 0) {
                 List<Integer> missing = new ArrayList<Integer>(allOutcomesOfVariable);
                 Collections.sort(missing);

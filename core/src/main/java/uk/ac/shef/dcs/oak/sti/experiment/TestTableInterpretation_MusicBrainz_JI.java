@@ -167,6 +167,7 @@ public class TestTableInterpretation_MusicBrainz_JI {
                 //gs annotator
 
             } catch (Exception e) {
+                System.err.println(">>> Failed:"+f);
                 e.printStackTrace();
                 PrintWriter missedWriter = null;
                 try {

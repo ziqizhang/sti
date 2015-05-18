@@ -23,9 +23,6 @@ class FactorBuilderHeader extends FactorBuilder {
         Map<Integer, Variable> variables = new HashMap<Integer, Variable>();
         for (int col = 0; col < annotation.getCols(); col++) {
             if(columns!=null && !columns.contains(col)) continue;
-
-            if(col==4)
-                System.out.println("fuck");
             Variable dummyHeader = createDummyVariable("dummyHeader("+col+")");
 
             HeaderAnnotation[] candidateConcepts_header = annotation.getHeaderAnnotation(col);
@@ -48,6 +45,7 @@ class FactorBuilderHeader extends FactorBuilder {
             variable_header.setLabel(VariableType.HEADER.toString() + "." + headerPosition);
             typeOfVariable.put(variable_header, VariableType.HEADER.toString());
             headerVarOutcomePosition.put(variable_header, col);
+            variables.put(col, variable_header);
 
             if (isValidCompatibility(compatibility, null)) {
                 if(patchScores) compatibility= patchCompatibility(compatibility);
@@ -55,7 +53,6 @@ class FactorBuilderHeader extends FactorBuilder {
                 //VarSet varSet = new HashVarSet(new Variable[]{dummyHeader, variable_header});
                 TableFactor factor = new TableFactor(vars, compatibility);
                 graph.addFactor(factor);
-                variables.put(col, variable_header);
             }
         }
         return variables;
