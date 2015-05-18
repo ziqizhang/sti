@@ -117,7 +117,8 @@ This can more easily be described as ( |X & Y| ) / ( | X or Y | )
         //now combine the sets
         allTokens.addAll(secondStringTokens);
         final int commonTerms = (termsInString1 + termsInString2) - allTokens.size();
-
+        if(commonTerms==0)
+            return 0;
         //return JaccardSimilarity
         return (float) (commonTerms) / (float) (allTokens.size());
     }

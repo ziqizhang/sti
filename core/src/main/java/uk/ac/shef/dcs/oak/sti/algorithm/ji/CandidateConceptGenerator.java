@@ -81,8 +81,6 @@ public class CandidateConceptGenerator {
         HeaderAnnotation[] headerAnnotations = new HeaderAnnotation[distinctTypes.size()];
         int count = 0;
         for (Map.Entry<String, String> concept : distinctTypeStrings.entrySet()) {
-            if(col==4&& concept.getKey().equals("/film/film_story_contributor"))
-                System.out.println();
             HeaderAnnotation ha = new HeaderAnnotation(table.getColumnHeader(col).getHeaderText(),
                     concept.getKey(), concept.getValue(), 0.0);
             Map<String, Double> score_elements = conceptScorer.score(ha, table.getColumnHeader(col));
@@ -106,8 +104,6 @@ public class CandidateConceptGenerator {
                 //cc++;
                 Double sim = //entityAndConceptScorer.computeEntityConceptSimilarity(entityId, conceptId, kbSearcher);
                         simScores.get(entity.getId() + "," + concept.getId());
-                if (sim == null)
-                    System.err.println("fuck");;
                 tableAnnotation.setScore_entityAndConcept(entity.getId(), concept.getId(), sim);
                 //if(cc%50==0) System.out.print(cc + ",");
             }

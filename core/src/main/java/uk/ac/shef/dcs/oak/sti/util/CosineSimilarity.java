@@ -155,7 +155,8 @@ public final class CosineSimilarity extends AbstractStringMetric implements Seri
         //now combine the sets
         allTokens.addAll(secondStringTokens);
         final int commonTerms = (termsInString1 + termsInString2) - allTokens.size();
-
+        if(commonTerms==0)
+            return 0;
         //return CosineSimilarity
         return (float) (commonTerms) / (float) (Math.pow((float) termsInString1, 0.5f) * Math.pow((float) termsInString2, 0.5f));
     }
