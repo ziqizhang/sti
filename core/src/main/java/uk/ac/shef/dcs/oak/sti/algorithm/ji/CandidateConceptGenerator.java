@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
 import org.apache.solr.client.solrj.SolrServerException;
+import uk.ac.shef.dcs.oak.sti.algorithm.ji.multicore.SimilarityComputeManager;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
@@ -104,6 +105,8 @@ public class CandidateConceptGenerator {
                 //cc++;
                 Double sim = //entityAndConceptScorer.computeEntityConceptSimilarity(entityId, conceptId, kbSearcher);
                         simScores.get(entity.getId() + "," + concept.getId());
+                if(sim==null)
+                    System.out.println("fuck");
                 tableAnnotation.setScore_entityAndConcept(entity.getId(), concept.getId(), sim);
                 //if(cc%50==0) System.out.print(cc + ",");
             }
@@ -143,7 +146,15 @@ public class CandidateConceptGenerator {
 
         Collections.shuffle(pairs);
 
-        List<SimilarityComputerThread> workers = new ArrayList<SimilarityComputerThread>();
+        try {
+            result = SimilarityComputeManager.compute(multiThreads, pairs, useCache, entityAndConceptScorer,
+                    kbSearcher);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+
+        /*List<SimilarityComputerThread> workers = new ArrayList<SimilarityComputerThread>();
         int size = pairs.size() / threads;
         if (size < 5) {
             threads = 1;
@@ -210,6 +221,6 @@ public class CandidateConceptGenerator {
                 e.printStackTrace();
             }
         }
-        return result;
+        return result;*/
     }
 }

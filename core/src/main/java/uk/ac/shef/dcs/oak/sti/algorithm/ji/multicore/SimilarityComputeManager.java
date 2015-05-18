@@ -22,14 +22,16 @@ public class SimilarityComputeManager {
     public static Map<String, Double> compute(int threadsPerCPU, List<EntityCandidate[]> pairs, boolean useCache,
                                EntityAndConceptScorer_Freebase entityAndConceptScorer,
                                KnowledgeBaseSearcher kbSearcher) throws InterruptedException {
+        if(pairs.size()==0)
+            return new HashMap<String, Double>();
+
         int cpus = Runtime.getRuntime().availableProcessors();
         int totalThreads = cpus* threadsPerCPU;
-        ExecutorService pool = Executors.newFixedThreadPool(totalThreads);
 
         int size = pairs.size() / totalThreads;
-        if (size < 5) {
-            totalThreads = 1;
-            size = pairs.size();
+        if (size <=1) {
+            totalThreads=pairs.size();
+            size = pairs.size()/totalThreads;
         }else {
             size = pairs.size()/totalThreads;
             int actualThreads = pairs.size()/size;
@@ -37,6 +39,8 @@ public class SimilarityComputeManager {
                 actualThreads++;
             totalThreads=actualThreads;
         }
+        ExecutorService pool = Executors.newFixedThreadPool(totalThreads);
+        System.out.print(totalThreads + " threads, each processing " + size + " pairs...");
 
         List<SimilarityComputeWorker> tasks = new ArrayList<SimilarityComputeWorker>();
         for (int t = 0; t < totalThreads; t++) {
