@@ -24,6 +24,8 @@ class FactorBuilderHeader extends FactorBuilder {
         for (int col = 0; col < annotation.getCols(); col++) {
             if(columns!=null && !columns.contains(col)) continue;
 
+            if(col==4)
+                System.out.println("fuck");
             Variable dummyHeader = createDummyVariable("dummyHeader("+col+")");
 
             HeaderAnnotation[] candidateConcepts_header = annotation.getHeaderAnnotation(col);

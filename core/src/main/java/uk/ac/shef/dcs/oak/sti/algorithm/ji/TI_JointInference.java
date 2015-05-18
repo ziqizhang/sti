@@ -82,18 +82,19 @@ public class TI_JointInference {
                 for (int r = 0; r < table.getNumRows(); r++) {
                     neGenerator.generateCandidateEntity(tab_annotations, table, r, col);
                 }
+                graphNonEmpty=true;
             } else {
                 if (ignoreColumn(col, ignoreColumnsLocal)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
-                graphNonEmpty=true;
-                /*if (table.getColumnHeader(col).getFeature().isCode_or_Acronym())
+                                /*if (table.getColumnHeader(col).getFeature().isCode_or_Acronym())
                     continue;*/
                 //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
                 System.out.println("\t\t>> Column=" + col);
                 for (int r = 0; r < table.getNumRows(); r++) {
                     neGenerator.generateCandidateEntity(tab_annotations, table, r, col);
                 }
+                graphNonEmpty=true;
             }
         }
 
@@ -106,7 +107,7 @@ public class TI_JointInference {
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t BUILDING FACTOR GRAPH");
-        if(graphNonEmpty) {
+        if(graphNonEmpty && TableAnnotationChecker.hasAnnotation(tab_annotations)) {
             FactorGraph graph = graphBuilder.build(tab_annotations, relationLearning, table.getSourceId());
 
             //================debug

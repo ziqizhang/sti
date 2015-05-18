@@ -1,16 +1,13 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
+import uk.ac.shef.dcs.oak.sti.util.CosineSimilarity;
+import uk.ac.shef.dcs.oak.sti.util.JaccardSimilarity;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.CosineSimilarity;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.JaccardSimilarity;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by zqz on 01/05/2015.
@@ -33,7 +30,6 @@ public class ClassificationScorer_JI_adapted  {
 
     public Map<String, Double> score(HeaderAnnotation candidate, LTableColumnHeader header
                                      ) {
-
         double levScore = calculateStringSimilarity(header.getHeaderText(), candidate, lev);
         //dice between NE and cell text
         double jaccardScore = calculateStringSimilarity(header.getHeaderText(), candidate, jaccard);
