@@ -59,10 +59,10 @@ public class Evaluator_EntityOnly {
                 "tmp_result/limaye_entity_bs_nm_missed.csv",
                 true*/
 
-                        "E:\\Data\\table_annotation\\tableminer_df\\limayeall\\iswcmethod\\limaye_df_random_nostop",
+                "E:\\Data\\table_annotation\\freebase_crawl\\ti_limaye_smp-tableminer\\limaye_smp_computed",
                 "E:\\Data\\table_annotation\\limayeall\\all_tables_groundtruth_freebase(regen)",
-                "tmp_result/limaye_entity.csv",
-                "tmp_result/limaye_entity_missed.csv",
+                "tmp_result/limaye_entity_smp-tableminer.csv",
+                "tmp_result/limaye_entity_smp-tableminer_missed.csv",
                 true
 
         );
