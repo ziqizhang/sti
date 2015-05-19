@@ -146,15 +146,15 @@ public class CandidateConceptGenerator {
 
         Collections.shuffle(pairs);
 
-        try {
+        /*try {
             result = SimilarityComputeManager.compute(multiThreads, pairs, useCache, entityAndConceptScorer,
                     kbSearcher);
         }catch (Exception e){
             e.printStackTrace();
         }
-        return result;
+        return result;*/
 
-        /*List<SimilarityComputerThread> workers = new ArrayList<SimilarityComputerThread>();
+        List<SimilarityComputerThread> workers = new ArrayList<SimilarityComputerThread>();
         int size = pairs.size() / threads;
         if (size < 5) {
             threads = 1;
@@ -221,6 +221,6 @@ public class CandidateConceptGenerator {
                 e.printStackTrace();
             }
         }
-        return result;*/
+        return result;
     }
 }
