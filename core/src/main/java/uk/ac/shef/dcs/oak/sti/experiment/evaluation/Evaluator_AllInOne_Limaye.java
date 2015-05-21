@@ -247,47 +247,47 @@ public class Evaluator_AllInOne_Limaye {
             );*/
         }
         else if (method.equals("smp")) {
-            /*ent_evaluator.evaluate(
-                    "E:\\Data\\table_annotation\\freebase_crawl\\ti_limaye_smp-tableminer\\limaye_smp_computed",
+            ent_evaluator.evaluate(
+                    "E:\\Data\\table_annotation\\freebase_crawl\\SMP_output_tableminer-limaye200",
                     "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\entity",
                     "tmp_result/limaye_entity_smp-tableminer.csv",
                     "tmp_result/limaye_entity_smp-tableminer_missed.csv",
                     true
-            );*/
-            ent_evaluator.evaluate(
+            );
+            /*ent_evaluator.evaluate(
                     "E:\\Data\\table_annotation\\freebase_crawl\\ti_limaye_smp-tableminer\\limaye_smp_computed",
                     "E:\\Data\\table_annotation\\limayeall\\all_tables_groundtruth_freebase(regen)",
                     "tmp_result/limaye_entity_smp-tableminer.csv",
                     "tmp_result/limaye_entity_smp-tableminer_missed.csv",
                     true
-            );
-            /*cls_evaluator.evaluate(
-                    "E:\\Data\\table_annotation\\freebase_crawl\\ti_limaye_smp-tableminer\\limaye_smp_computed",
+            );*/
+            cls_evaluator.evaluate(
+                    "E:\\Data\\table_annotation\\freebase_crawl\\SMP_output_tableminer-limaye200",
                     "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\header_ne+prop",
                     "tmp_result/limaye_header_smp-all-tableminer.csv",
                     "tmp_result/limaye_header_tm_smp-all-tableminer_missed.csv", false
             );
             cls_evaluator.evaluate(
-                    "E:\\Data\\table_annotation\\freebase_crawl\\ti_limaye_smp-tableminer\\limaye_smp_computed",
+                    "E:\\Data\\table_annotation\\freebase_crawl\\SMP_output_tableminer-limaye200",
                     "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\header_ne+prop",
                     "tmp_result/limaye_header_smp-ne-tableminer.csv",
                     "tmp_result/limaye_header_smp-ne-tableminer_missed.csv", true
 
             );
             rel_evaluator.evaluate(
-                    "E:\\Data\\table_annotation\\freebase_crawl\\ti_limaye_smp-tableminer\\limaye_smp_computed",
+                    "E:\\Data\\table_annotation\\freebase_crawl\\SMP_output_tableminer-limaye200",
                     "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\relation",
                     "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\header_ne+prop",
                     "tmp_result/limaye_rel_smp-all-tableminer.csv",
                     "tmp_result/limaye_rel_smp_missed-all-tableminer.csv", true, false
             );
             rel_evaluator.evaluate(
-                    "E:\\Data\\table_annotation\\freebase_crawl\\ti_limaye_smp-tableminer\\limaye_smp_computed",
+                    "E:\\Data\\table_annotation\\freebase_crawl\\SMP_output_tableminer-limaye200",
                     "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\relation",
                     "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\header_ne+prop",
                     "tmp_result/limaye_rel_smp-ne-tableminer.csv",
                     "tmp_result/limaye_rel_smp_missed-ne-tableminer.csv", true, true
-            );*/
+            );
         }
         else if (method.equals("ji")) {
             ent_evaluator.evaluate(
