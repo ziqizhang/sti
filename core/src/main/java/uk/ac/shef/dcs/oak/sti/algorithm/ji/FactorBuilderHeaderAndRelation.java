@@ -54,6 +54,8 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                 Map<String, Double> affinity_scores = new HashMap<String, Double>();
                 Variable column1_header_variable = columnHeaders.get(relation_direction.getSubjectCol());
                 Variable column2_header_variable = columnHeaders.get(relation_direction.getObjectCol());
+                if(column1_header_variable==null||column2_header_variable==null)
+                    continue;
 
                 Collections.sort(candidate_relations, new Comparator<HeaderBinaryRelationAnnotation>() {
                     @Override
