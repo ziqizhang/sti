@@ -18,6 +18,7 @@ import java.util.*;
  */
 public class ColumnClassifier {
 
+    protected static double FREEBASE_TOTAL_TOPICS=47560900;
     private KnowledgeBaseSearcher kbSearcher;
 
     public static final String SMP_SCORE_ENTITY_VOTE = "smp_score_entity_vote";
@@ -53,7 +54,10 @@ public class ColumnClassifier {
         if (votes.size() != 0) { //couuld be 0 if the column has not NE annotations at all
             List<ObjObj<String, Double>> result_votes = new ArrayList<ObjObj<String, Double>>();
             for (Map.Entry<String, Double> e : votes.entrySet()) {
-                result_votes.add(new ObjObj<String, Double>(e.getKey(), e.getValue() / totalNonEmpty));
+                double voteScore = e.getValue() / totalNonEmpty;
+                voteScore+=computeConceptSpecificity(e.getKey(),kbSearcher);
+                result_votes.add(new ObjObj<String, Double>(e.getKey(),
+                        voteScore));
             }
             Collections.sort(result_votes, new Comparator<ObjObj<String, Double>>() {
                 @Override
@@ -99,5 +103,12 @@ public class ColumnClassifier {
             }
             tableAnnotation.setHeaderAnnotation(col, headerAnnotations);
         }
+    }
+
+    private double computeConceptSpecificity(String concept_url, KnowledgeBaseSearcher kbSearcher) throws IOException {
+        double conceptGranularity = kbSearcher.find_granularityForConcept(concept_url);
+        if(conceptGranularity<0)
+            return 0.0;
+        return 1-Math.sqrt(conceptGranularity/FREEBASE_TOTAL_TOPICS);
     }
 }
