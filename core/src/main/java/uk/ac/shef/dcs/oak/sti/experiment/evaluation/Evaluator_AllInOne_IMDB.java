@@ -17,7 +17,7 @@ public class Evaluator_AllInOne_IMDB {
         /************************************************
          FORY limaye200
          *************************************************/
-        String method = "smp";
+        String method = "ji";
 
 
         if (method.equals("nm")) {
@@ -123,6 +123,20 @@ public class Evaluator_AllInOne_IMDB {
                     "E:\\Data\\table_annotation\\freebase_crawl\\film_film\\gs/imdb.header.keys",
                     "tmp_result/imdb_header_smp-tm.csv",
                     "tmp_result/imdb_header_smp-tm_missed.csv", true
+            );
+        }else if (method.equals("ji")) {
+            ent_evaluator.evaluate(
+                    "E:\\Data\\table_annotation\\freebase_crawl\\ti_imdb_ji\\imdb_computed_smp",
+                    "E:\\Data\\table_annotation\\freebase_crawl\\film_film\\gs\\imdb_gs(entity)_reformatted",
+                    "tmp_result/imdb_entity_ji.csv",
+                    "tmp_result/imdb_entity_ji_missed.csv",
+                    false
+            );
+            cls_evaluator.evaluate(
+                    "E:\\Data\\table_annotation\\freebase_crawl\\ti_imdb_ji\\imdb_computed_smp",
+                    "E:\\Data\\table_annotation\\freebase_crawl\\film_film\\gs/imdb.header.keys",
+                    "tmp_result/imdb_header_ji.csv",
+                    "tmp_result/imdb_header_ji_missed.csv", true
             );
         }
         System.exit(0);
