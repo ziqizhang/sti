@@ -17,7 +17,7 @@ public class Evaluator_Limaye_Entity_Only {
         /************************************************
          FORY limaye200
          *************************************************/
-        String method = "smp";
+        String method = "ji";
 
 
         if (method.equals("nm")) {
@@ -88,6 +88,16 @@ public class Evaluator_Limaye_Entity_Only {
                     true
             );
             System.exit(0);
-        }
+        }    else if (method.equals("ji")) {
+            ent_evaluator.evaluate(
+                    //"E:\\Data\\table_annotation\\limaye_sample\\all\\old_tm_dc_ri_ospd_nsc(sqrtx2,ctxu1,normI)",
+                    //"E:\\Data\\table_annotation\\limaye\\all_tables_groundtruth_freebase(limaye_original)",
+
+                    "E:\\Data\\table_annotation\\freebase_crawl\\ti_limaye_ji\\limaye_smp_computed",
+                    "E:\\Data\\table_annotation\\limayeall\\all_tables_groundtruth_freebase(regen)",
+                    "tmp_result/limaye_entity_ji.csv",
+                    "tmp_result/limaye_entity_ji_missed.csv",
+                    true
+            );}
     }
 }
