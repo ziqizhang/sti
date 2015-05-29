@@ -17,7 +17,7 @@ public class Evaluator_AllInOne_Limaye {
         /************************************************
          FORY limaye200
          *************************************************/
-        String method = "smp";
+        String method = "ji";
 
         if (method.equals("nm")) {
             ent_evaluator.evaluate(
@@ -291,26 +291,26 @@ public class Evaluator_AllInOne_Limaye {
         }
         else if (method.equals("ji")) {
             ent_evaluator.evaluate(
-                    "E:\\Data\\table_annotation\\JI_limaye200_multithread_NE-Header only",
+                    "E:\\Data\\table_annotation\\freebase_crawl\\limaye_ji_computed_200",
                     "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\entity",
                     "tmp_result/limaye_entity_ji.csv",
                     "tmp_result/limaye_entity_ji_missed.csv",
                     true
             );
             cls_evaluator.evaluate(
-                    "E:\\Data\\table_annotation\\JI_limaye200_multithread_NE-Header only",
+                    "E:\\Data\\table_annotation\\freebase_crawl\\limaye_ji_computed_200",
                     "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\header_ne+prop",
                     "tmp_result/limaye_header_ji-all.csv",
                     "tmp_result/limaye_header_ji-all_missed.csv", false
             );
             cls_evaluator.evaluate(
-                    "E:\\Data\\table_annotation\\JI_limaye200_multithread_NE-Header only",
+                    "E:\\Data\\table_annotation\\freebase_crawl\\limaye_ji_computed_200",
                     "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\header_ne+prop",
                     "tmp_result/limaye_header_ji-ne.csv",
                     "tmp_result/limaye_header_ji-ne_missed.csv", true
 
             );
-            rel_evaluator.evaluate(
+            /*rel_evaluator.evaluate(
                     "E:\\Data\\table_annotation\\JI_limaye200_multithread_NE-Header only",
                     "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\relation",
                     "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\header_ne+prop",
@@ -323,7 +323,7 @@ public class Evaluator_AllInOne_Limaye {
                     "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\header_ne+prop",
                     "tmp_result/limaye_rel_ji-ne.csv",
                     "tmp_result/limaye_rel_ji_missed-ne.csv", true, true
-            );
+            );*/
         }
         System.exit(0);
     }
