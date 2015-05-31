@@ -17,7 +17,7 @@ public class Evaluator_AllInOne_Limaye {
         /************************************************
          FORY limaye200
          *************************************************/
-        String method = "ji";
+        String method = "smp";
 
         if (method.equals("nm")) {
             ent_evaluator.evaluate(
