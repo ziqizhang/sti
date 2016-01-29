@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -25,15 +25,15 @@
     <orderEntry type="library" name="Maven: org.apache.pdfbox:fontbox:0.8.0-incubator" level="project" />
     <orderEntry type="library" name="Maven: org.apache.pdfbox:jempbox:0.8.0-incubator" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi:3.6" level="project" />
-    <orderEntry type="library" name="Maven: log4j:log4j:1.2.14" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi-scratchpad:3.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml:3.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml-schemas:3.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:2.3.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.geronimo.specs:geronimo-stax-api_1.0_spec:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: dom4j:dom4j:1.6.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.geronimo.specs:geronimo-stax-api_1.0_spec:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.ccil.cowan.tagsoup:tagsoup:1.2" level="project" />
     <orderEntry type="library" name="Maven: asm:asm:3.1" level="project" />
+    <orderEntry type="library" name="Maven: log4j:log4j:1.2.14" level="project" />
     <orderEntry type="library" name="Maven: com.drewnoakes:metadata-extractor:2.4.0-beta-1" level="project" />
     <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-model:2.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-util:2.6.1" level="project" />
@@ -43,11 +43,10 @@
     <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-rio-ntriples:2.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-rio-trix:2.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-repository-sail:2.6.1" level="project" />
-    <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-repository-api:2.6.1" level="project" />
-    <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-query:2.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-sail-api:2.6.1" level="project" />
-    <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-queryalgebra-model:2.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-queryparser-api:2.6.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-queryalgebra-model:2.6.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-query:2.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-sail-memory:2.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-sail-inferencer:2.6.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.openrdf.sesame:sesame-queryparser-serql:2.6.1" level="project" />
@@ -57,14 +56,14 @@
     <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-http-protocol:2.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-queryresultio-api:2.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-queryresultio-sparqlxml:2.6.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openrdf.sesame:sesame-repository-api:2.6.1" level="project" />
     <orderEntry type="library" name="Maven: info.aduna.commons:aduna-commons-xml:2.7.0" level="project" />
     <orderEntry type="library" name="Maven: info.aduna.commons:aduna-commons-text:2.7.0" level="project" />
     <orderEntry type="library" name="Maven: info.aduna.commons:aduna-commons-net:2.7.0" level="project" />
     <orderEntry type="library" name="Maven: info.aduna.commons:aduna-commons-lang:2.9.0" level="project" />
     <orderEntry type="library" name="Maven: info.aduna.commons:aduna-commons-iteration:2.10.0" level="project" />
-    <orderEntry type="library" name="Maven: info.aduna.commons:aduna-commons-concurrent:2.7.0" level="project" />
     <orderEntry type="library" name="Maven: info.aduna.commons:aduna-commons-io:2.10.0" level="project" />
+    <orderEntry type="library" name="Maven: info.aduna.commons:aduna-commons-concurrent:2.7.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-csv:1.0-SNAPSHOT-rev1148315" level="project" />
   </component>
 </module>
-

@@ -26,22 +26,33 @@
         <processorPath useClasspath="true" />
         <module name="any23extension" />
         <module name="common-util" />
-        <module name="core" />
-        <module name="lodie-any23" />
         <module name="powerlaws" />
         <module name="simmetrics-core" />
         <module name="triplesearch" />
         <module name="websearch" />
       </profile>
+      <profile default="false" name="Annotation profile for core" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="core" />
+      </profile>
+      <profile default="false" name="Annotation profile for lodie-any23" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="lodie-any23" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="core" target="1.6" />
-      <module name="lodie-core" target="1.6" />
-      <module name="lodie-sides" target="1.6" />
-      <module name="powerlaws" target="1.6" />
+      <module name="common-util" target="1.7" />
+      <module name="core" target="1.7" />
+      <module name="lodie-any23" target="1.7" />
       <module name="simmetrics-core" target="1.7" />
-      <module name="sindice4j-api3" target="1.6" />
+      <module name="triplesearch" target="1.7" />
+      <module name="websearch" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
-

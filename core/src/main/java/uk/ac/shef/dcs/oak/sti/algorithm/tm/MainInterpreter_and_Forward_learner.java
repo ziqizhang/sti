@@ -52,8 +52,12 @@ public class MainInterpreter_and_Forward_learner {
         //1. find the main subject column of this table
         System.out.println(">\t Detecting main column...");
         int[] ignoreColumnsArray = new int[ignoreCols.size()];
-        for(int i=0; i<ignoreCols.size(); i++)
-            ignoreColumnsArray[i]=i;
+
+        int index=0;
+        for(Integer i: ignoreCols) {
+            ignoreColumnsArray[index] = i;
+            index++;
+        }
         List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns =
                 main_col_finder.compute(table, ignoreColumnsArray);
         //ignore columns that are likely to be acronyms only, because they are highly ambiguous

@@ -6,252 +6,17 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e56a4c5d-a13a-4f9f-8e0c-19edf4ff0468" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\entity\EntityFinder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_sail_api_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\mapper\PropertyLexMatchHelper.java" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__com_google_code_gson_gson_2_2_2.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_apache_tika_tika_core_1_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\sti\core\.idea\libraries\Maven__log4j_log4j_1_2_17.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_scratchpad_3_6.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_cli_commons_cli_1_2.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\superclass\SuperConceptFinder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_compress_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_3_6.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_jvnet_jaxb2_commons_jaxb2_basics_runtime_0_6_4.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\property\PropertyFinder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_turtle_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__com_hp_hpl_jena_jena_2_6_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_sail_inferencer_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_carrot2_morfologik_stemming_1_5_5.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_3_04.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../common-util/src/main/java/uk/ac/shef/dcs/oak/util/SerializableUtils.java" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__oro_oro_2_0_8.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_repository_sparql_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__edu_uci_ics_crawler4j_3_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_highlighter_4_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_http_protocol_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_csv_1_0_SNAPSHOT_rev1148315.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\sti\core\.idea\libraries\Maven__org_apache_ant_ant_1_7_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_woodstox_wstx_asl_3_2_7.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_sail_memory_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_mortbay_jetty_jetty_util5_6_1_26.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_repository_api_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_mortbay_jetty_jetty_util_6_1_26.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_pdfbox_jempbox_0_8_0_incubator.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_carrot2_morfologik_fsa_1_5_5.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__com_google_guava_guava_11_0_2.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\entity" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\mapper\RelationBetweenInstanceHelper.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_fileupload_commons_fileupload_1_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\sti\core\.idea\libraries\Maven__net_sourceforge_htmlcleaner_htmlcleaner_2_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_3.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\label" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_slf4j_slf4j_jdk14_1_6_6.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_net_2_7_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_api_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpmime_4_1_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_grouping_4_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_text_2_7_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_schemas_3_6.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_pdfbox_pdfbox_0_8_0_incubating.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_solr_solr_core_4_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_findbugs_jsr305_1_3_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_geronimo_specs_geronimo_stax_api_1_0_spec_1_0_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_util_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_mortbay_jetty_jetty_client_6_1_26.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jcl_over_slf4j_1_6_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_jdk14_1_6_4.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_codehaus_woodstox_wstx_asl_3_2_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xerces_xercesImpl_2_9_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\relation" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_ntriples_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryalgebra_model_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_analyzers_morfologik_4_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\mapper\InstanceLexMatchHelper.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_repository_sail_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__commons_io_commons_io_2_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_memory_4_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryresultio_sparqlxml_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_13_0_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_6.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_analyzers_kuromoji_4_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_xmlbeans_xmlbeans_2_3_0.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__com_hp_hpl_jena_arq_2_8_8.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_query_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryparser_serql_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_3_6.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_xml_2_7_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryparser_api_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__com_sleepycat_je_4_0_92.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_queryparser_4_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\concept\ConceptFinder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_drewnoakes_metadata_extractor_2_4_0_beta_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_spatial4j_spatial4j_0_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_analyzers_phonetic_4_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_any23_apache_any23_core_0_7_0_incubating.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_model_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_io_2_10_0.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_apache_commons_commons_compress_1_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_beust_jcommander_1_23.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_1_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_nekohtml_nekohtml_1_9_14.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\sti\core\.idea\libraries\Maven__org_apache_ant_ant_launcher_1_7_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_servlet_api_2_5.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tika_tika_core_0_6.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\mapper\RelationBetweenPropertyHelper.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_spatial_4_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__asm_asm_3_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\hierarchy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_suggest_4_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryalgebra_evaluation_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_trix_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jsoup_jsoup_1_6_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_analyzers_common_4_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__xerces_xmlParserAPIs_2_6_2.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_apache_james_apache_mime4j_core_0_7.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_apache_james_apache_mime4j_dom_0_7.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_core_4_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_apache_nutch_nutch_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_mortbay_jetty_jetty_6_1_26.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_misc_4_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_lang_2_9_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_0_4.xml" />
-      <change type="NEW" beforePath="" afterPath="E:\sti-old\util\common-util.iml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\property" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_carrot2_morfologik_polish_1_5_5.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_apache_httpcomponents_httpcore_4_1_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../common-util/src/main/java/uk/ac/shef/dcs/oak/util/CollectionUtils.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_solr_solr_solrj_4_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\mapper\ClassLexMatchHelper.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_rdfxml_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\mapper" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_4.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_mortbay_jetty_servlet_api_2_5_20081211.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_queries_4_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\sti\core\.idea\libraries\Maven__xalan_xalan_2_7_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\label\LabelFinder.java" />
-      <change type="NEW" beforePath="" afterPath="E:\sti-old\core\.idea\libraries\Maven__org_ccil_cowan_tagsoup_tagsoup_1_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\sti\core\.idea\libraries\Maven__xalan_serializer_2_7_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_apache_tika_tika_parsers_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../common-util/src/main/java/uk/ac/shef/dcs/oak/util/ObjObj.java" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__com_ibm_icu_icu4j_4_0_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_concurrent_2_7_0.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_mortbay_jetty_jetty_sslengine_6_1_26.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_pdfbox_fontbox_0_8_0_incubator.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\mapper\RelationBetweenClassesHelper.java" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\concept" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_iteration_2_10_0.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\superclass" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\sides\lodie-sides.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryresultio_api_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\sti\core\.idea\libraries\Maven__de_l3s_boilerpipe_boilerpipe_1_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tika_tika_parsers_0_6.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__stax_stax_api_1_0_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_apache_any23_plugins_apache_any23_basic_crawler_1_0_0_incubating.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__org_slf4j_slf4j_api_1_6_6.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_http_client_2_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="D:\Work\lodie\sti\core\.idea\libraries\Maven__com_hp_hpl_jena_iri_0_8.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_zookeeper_zookeeper_3_4_5.xml" />
-      <change type="DELETED" beforePath="D:\Work\lodie\core\.idea\libraries\Maven__org_jsoup_jsoup_1_7_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\ConceptFinder.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\Work\lodie\core\.idea\libraries\Maven__org_jooq_joox_1_1_0.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\META-INF\sun-jaxb.episode" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\META-INF\sun-jaxb.episode" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\EntityFinderSolr.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\entity\EntityFinderSolr.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Text.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Text.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\ConceptLabelFinderSolr.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\label\ConceptLabelFinderSolr.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\util\HierarchyGenerator.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\hierarchy\HierarchyGenerator.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\FeedItem.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\FeedItem.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\QueryCache.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\QueryCache.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\MMEntity.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\MMEntity.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\PropertyLabelFinderSolr.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\label\PropertyLabelFinderSolr.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\ConceptFinderSparql.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\concept\ConceptFinderSparql.java" />
-      <change type="MODIFICATION" beforePath="E:\sti-old\any23Extension\libsrc\apache-any23-0.7.0-incubating-src\core\src\test\resources\microformats\hreview\02-spec-2.html" afterPath="E:\sti-old\any23Extension\libsrc\apache-any23-0.7.0-incubating-src\core\src\test\resources\microformats\hreview\02-spec-2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Video.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Video.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\xpath\groundtruth\job\job-monster-title.txt" afterPath="D:\Work\lodie\sti\xpath\groundtruth\job\job-monster-title.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../triplesearch/triplesearch.iml" afterPath="$PROJECT_DIR$/../triplesearch/triplesearch.iml" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\util\Path.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\hierarchy\Path.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\DigitalStillImage.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\DigitalStillImage.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ObjectFactory.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ObjectFactory.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ContentType.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ContentType.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\PropertyFinderSolr.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\property\PropertyFinderSolr.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\xpath\lodie-xpathExperiment.iml" afterPath="D:\Work\lodie\sti\xpath\lodie-xpathExperiment.iml" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\DigitalRepresentation.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\DigitalRepresentation.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Audio.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Audio.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\LabelFinderSparql.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\label\LabelFinderSparql.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\DigitalAudio.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\DigitalAudio.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\RelationFinderSolr.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\relation\RelationFinderSolr.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\test\test.iml" afterPath="D:\Work\lodie\sti\test\test.iml" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\triplesearch\src\main\java\uk\ac\shef\dcs\oak\triplesearch\solr\SolrSearchSchemaIndexProxy.java" afterPath="D:\Work\lodie\sti\triplesearch\src\main\java\uk\ac\shef\dcs\oak\triplesearch\solr\SolrSearchSchemaIndexProxy.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ManualAutoPreferredLinguisticType.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ManualAutoPreferredLinguisticType.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Feed.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Feed.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Website.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Website.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\ConceptHierarchyHelper.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\hierarchy\ConceptHierarchyHelper.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\RelationFinderSparql.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\relation\RelationFinderSparql.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\PropertySharedDomainFinderSparql.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\PropertySharedDomainFinderSparql.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Person.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Person.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\xpath\groundtruth\job\job-job-title.txt" afterPath="D:\Work\lodie\sti\xpath\groundtruth\job\job-job-title.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ManualAutoAnchorType.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ManualAutoAnchorType.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\TrueOrFalseFinderSparql.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\TrueOrFalseFinderSparql.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\xpath\baselineGaz\job\title.txt" afterPath="D:\Work\lodie\sti\xpath\baselineGaz\job\title.txt" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\PropertyFinderSparql.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\property\PropertyFinderSparql.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\PropertyDomainFinderSparql.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\property\PropertyDomainFinderSparql.java" />
-      <change type="MODIFICATION" beforePath="E:\sti-old\any23Extension\libsrc\apache-any23-0.7.0-incubating-src\core\src\test\resources\microformats\hcard\lastfm-adr-multi-address.html" afterPath="E:\sti-old\any23Extension\libsrc\apache-any23-0.7.0-incubating-src\core\src\test\resources\microformats\hcard\lastfm-adr-multi-address.html" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\src\main\resources\schema\multimatch\multimatchMetadata-2.2.1.xsd" afterPath="D:\Work\lodie\sti\sides\src\main\resources\schema\multimatch\multimatchMetadata-2.2.1.xsd" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Organisation.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Organisation.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\SuperclassOfInstanceInCellHelper.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\mapper\SuperclassOfInstanceInCellHelper.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\PreferredLinguisticType.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\PreferredLinguisticType.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\util\Step.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\hierarchy\Step.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\StillImage.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\StillImage.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\package-info.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\package-info.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Webpage.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Webpage.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\triplesearch\src\main\java\uk\ac\shef\dcs\oak\triplesearch\util\CommonSPARQLQueries.java" afterPath="D:\Work\lodie\sti\triplesearch\src\main\java\uk\ac\shef\dcs\oak\triplesearch\util\CommonSPARQLQueries.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\ConceptFinderSolr.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\concept\ConceptFinderSolr.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\SubjectType.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\SubjectType.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ManualAutoPreferredAnchorType.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ManualAutoPreferredAnchorType.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\LocationType.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\LocationType.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\DigitalVideo.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\DigitalVideo.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\RelatedActorType.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\RelatedActorType.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\TableInterpreter.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\TableInterpreter.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\EntityLabelFinderSolr.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\label\EntityLabelFinderSolr.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ManualAutoType.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ManualAutoType.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\EntityFinderSparql.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\entity\EntityFinderSparql.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\LinguisticType.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\LinguisticType.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\test\src\main\java\uk\ac\shef\dcs\oak\lodietest\TestTableInterpreter.java" afterPath="D:\Work\lodie\sti\test\src\main\java\uk\ac\shef\dcs\oak\lodietest\TestTableInterpreter.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\DigitalText.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\DigitalText.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\PredicateOfObjectFinderSparql.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\property\PredicateOfObjectAndPredDomainFinderSparql.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Actor.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Actor.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\TableContent2KnowledgeBaseMapper.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\mapper\TableContent2KnowledgeBaseMapper.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\test\src\main\java\uk\ac\shef\dcs\oak\lodietest\TestAny.java" afterPath="D:\Work\lodie\sti\test\src\main\java\uk\ac\shef\dcs\oak\lodietest\TestAny.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\PhysicalObject.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\PhysicalObject.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\RelationFinder.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\relation\RelationFinder.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\PreferredType.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\PreferredType.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Creation.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Creation.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\PropertyOfInstanceInCellHelper.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\mapper\PropertyOfInstanceInCellHelper.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Collection.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Collection.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Event.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\Event.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\RelatedCreationType.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\RelatedCreationType.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\EntitySuperclassFinderSparql.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\superclass\EntitySuperConceptFinderSparql.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\xpath\groundtruth\job\job-jobtarget-title.txt" afterPath="D:\Work\lodie\sti\xpath\groundtruth\job\job-jobtarget-title.txt" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\xpath\groundtruth\job\job-rightitjobs-title.txt" afterPath="D:\Work\lodie\sti\xpath\groundtruth\job\job-rightitjobs-title.txt" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ManualAutoPreferredType.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ManualAutoPreferredType.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\CandidateFinder.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\CandidateFinder.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ManualAutoLinguisticType.java" afterPath="D:\Work\lodie\sti\sides\target\generated-sources\xjc-multimatch\org\multimatch\schema\multimatchmetadata_2_2\ManualAutoLinguisticType.java" />
-      <change type="MOVED" beforePath="D:\Work\lodie\core\src\main\java\uk\ac\shef\dcs\oak\lodie\table_list\interpreter\finder\EntitySuperclassFinderSolr.java" afterPath="D:\Work\lodie\sti\core\src\main\java\uk\ac\shef\dcs\oak\lodie\deprecated_table_list\interpreter\finder\superclass\EntitySuperConceptFinderSolr.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\test\src\main\java\uk\ac\shef\dcs\oak\lodietest\experiment\table\gs\TestJenaSparql.java" afterPath="D:\Work\lodie\sti\test\src\main\java\uk\ac\shef\dcs\oak\lodietest\experiment\table\gs\TestJenaSparql.java" />
-      <change type="MODIFICATION" beforePath="D:\Work\lodie\sti\xpath\baselineGaz\book\title.txt" afterPath="D:\Work\lodie\sti\xpath\baselineGaz\book\title.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core.iml" afterPath="$PROJECT_DIR$/core.iml" />
-    </list>
+    <list default="true" readonly="true" id="e56a4c5d-a13a-4f9f-8e0c-19edf4ff0468" name="Default" comment="" />
     <ignored path="core.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path="$PROJECT_DIR$/../classes/" />
+    <ignored path="$PROJECT_DIR$/../common-util/target/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="$PROJECT_DIR$/../any23-sti/target/" />
+    <ignored path="$PROJECT_DIR$/../simmetrics-core/target/" />
+    <ignored path="$PROJECT_DIR$/../triplesearch/target/" />
+    <ignored path="$PROJECT_DIR$/../websearch/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,20 +30,67 @@
     <splitter proportion="0.5" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/core$TestTableInterpretation_LimayeDataset.coverage" NAME="TestTableInterpretation_LimayeDataset Coverage Results" MODIFIED="1395411607844" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/core$GSBuilder_Limaye_Wikitables.coverage" NAME="GSBuilder_Limaye_Wikitables Coverage Results" MODIFIED="1395056639430" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/core$Evaluator.coverage" NAME="Evaluator Coverage Results" MODIFIED="1395309803460" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/core$HeaderWebsearchMatcher.coverage" NAME="HeaderWebsearchMatcher Coverage Results" MODIFIED="1393147137863" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/core$BingWebSearch.coverage" NAME="BingWebSearch Coverage Results" MODIFIED="1389610251054" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/core$test.coverage" NAME="test Coverage Results" MODIFIED="1394913121232" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/core$GSBuilder_Limaye_Wikitables.coverage" NAME="GSBuilder_Limaye_Wikitables Coverage Results" MODIFIED="1395056639430" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/core$TestTableInterpretation_LimayeDataset.coverage" NAME="TestTableInterpretation_LimayeDataset Coverage Results" MODIFIED="1395411607844" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/core$Evaluator.coverage" NAME="Evaluator Coverage Results" MODIFIED="1395309803460" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/core$HeaderWebsearchMatcher.coverage" NAME="HeaderWebsearchMatcher Coverage Results" MODIFIED="1393147137863" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="DaemonCodeAnalyzer">
-    <disable_hints />
-  </component>
   <component name="DebuggerManager">
+    <ui_properties converted="true">
+      <property name="line_breakpoints_groupByMethods" value="false" />
+      <property name="line_breakpoints_viewId" value="TABLE" />
+      <property name="exception_breakpoints_flattenPackages" value="true" />
+      <property name="method_breakpoints_flattenPackages" value="true" />
+      <property name="field_breakpoints_flattenPackages" value="true" />
+      <property name="exception_breakpoints_groupByMethods" value="false" />
+      <property name="line_breakpoints_groupByClasses" value="true" />
+      <property name="method_breakpoints_viewId" value="TABLE" />
+      <property name="field_breakpoints_groupByMethods" value="false" />
+      <property name="line_breakpoints_flattenPackages" value="true" />
+      <property name="field_breakpoints_groupByClasses" value="true" />
+      <property name="method_breakpoints_groupByClasses" value="true" />
+      <property name="exception_breakpoints_viewId" value="TABLE" />
+      <property name="field_breakpoints_viewId" value="TABLE" />
+      <property name="exception_breakpoints_groupByClasses" value="true" />
+      <property name="method_breakpoints_groupByMethods" value="false" />
+    </ui_properties>
+    <breakpoint_any converted="true">
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="&#13;&#13;JAVA" />
+        <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
+      </breakpoint>
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="&#13;&#13;JAVA" />
+        <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
+      </breakpoint>
+    </breakpoint_any>
     <line_breakpoints converted="true">
       <breakpoint url="file://$PROJECT_DIR$/../test/src/main/java/uk/ac/shef/dcs/oak/lodietest/experiment/table/gs/LimayeDatasetLoader.java" line="187" class="uk.ac.shef.dcs.oak.lodietest.experiment.table.gs.LimayeDatasetLoader" package="uk.ac.shef.dcs.oak.lodietest.experiment.table.gs">
         <option name="ENABLED" value="true" />
@@ -2062,56 +1874,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </line_breakpoints>
-    <breakpoint_any converted="true">
-      <breakpoint>
-        <option name="NOTIFY_CAUGHT" value="true" />
-        <option name="NOTIFY_UNCAUGHT" value="true" />
-        <option name="ENABLED" value="false" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="&#13;&#13;JAVA" />
-        <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
-      </breakpoint>
-      <breakpoint>
-        <option name="NOTIFY_CAUGHT" value="true" />
-        <option name="NOTIFY_UNCAUGHT" value="true" />
-        <option name="ENABLED" value="false" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="&#13;&#13;JAVA" />
-        <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
-      </breakpoint>
-    </breakpoint_any>
-    <ui_properties converted="true">
-      <property name="line_breakpoints_groupByMethods" value="false" />
-      <property name="line_breakpoints_viewId" value="TABLE" />
-      <property name="exception_breakpoints_flattenPackages" value="true" />
-      <property name="method_breakpoints_flattenPackages" value="true" />
-      <property name="field_breakpoints_flattenPackages" value="true" />
-      <property name="exception_breakpoints_groupByMethods" value="false" />
-      <property name="line_breakpoints_groupByClasses" value="true" />
-      <property name="method_breakpoints_viewId" value="TABLE" />
-      <property name="field_breakpoints_groupByMethods" value="false" />
-      <property name="line_breakpoints_flattenPackages" value="true" />
-      <property name="field_breakpoints_groupByClasses" value="true" />
-      <property name="method_breakpoints_groupByClasses" value="true" />
-      <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="field_breakpoints_viewId" value="TABLE" />
-      <property name="exception_breakpoints_groupByClasses" value="true" />
-      <property name="method_breakpoints_groupByMethods" value="false" />
-    </ui_properties>
     <breakpoint_rules converted="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
@@ -2120,21 +1882,75 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="NamedEntityRanker.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/NamedEntityRanker.java">
+      <file leaf-file-name="TestTableInterpretation_IMDB.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1950" max-vertical-offset="2450">
-              <caret line="78" column="23" selection-start-line="78" selection-start-column="23" selection-end-line="78" selection-end-column="23" />
+            <state vertical-scroll-proportion="-4.148148">
+              <caret line="131" column="0" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DisambiguationScorer_SMP_adapted.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/DisambiguationScorer_SMP_adapted.java">
+      <file leaf-file-name="MainInterpreter_and_Forward_learner.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/MainInterpreter_and_Forward_learner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.4728916" vertical-offset="1703" max-vertical-offset="3200">
-              <caret line="46" column="31" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.33333334">
+              <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainColumnFinder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+              <folding>
+                <element signature="e#3643#3685#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Table_ContextExtractor_IMDB.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/xtractor/Table_ContextExtractor_IMDB.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MultiKeyStringSplitter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../websearch/src/uk/ac/shef/dcs/oak/websearch/bing/v2/MultiKeyStringSplitter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+              <folding>
+                <element signature="e#229#230#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="KnowledgeBaseSearcher_Freebase.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher_Freebase.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FreebaseQueryInterrupter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../triplesearch/src/main/java/uk/ac/shef/dcs/oak/triplesearch/freebase/FreebaseQueryInterrupter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="22" column="11" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -2147,64 +1963,24 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
-    <option name="changedFiles">
+    <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/RelationTextMatcher_Scorer_JI_adapted.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB_SMP.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_SMP.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/../simmetrics-core/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/util/TokenizerWhiteSpace.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/util/TokeniserWhitespace.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/DisambiguationScorer_JI_adapted.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/JI_JointInferenceFailSafe.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorGraphBuilder.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilder.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorGraphBuilderMultiple.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/rep/HeaderBinaryRelationAnnotation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/EntityAndConceptScorer_Freebase.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateRelationGenerator.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/TI_SemanticMessagePassing.java" />
         <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/MainInterpreter_and_Forward_learner.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInferenceFailSafe.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderCellAndRelation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderCell.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateEntityGenerator.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/SimilarityComputerThread.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/misc/TableAnnotationChecker.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_SMP.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/ClassificationScorer_JI_adapted.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/util/CosineSimilarity.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/util/JaccardSimilarity.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderHeader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderHeaderAndCell.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/GraphCheckingUtil.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/LTableAnnotation_JI_Freebase.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB_JI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_JI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/SimilarityComputeWorker.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/multicore/SimilarityComputeWorker.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/multicore/SimilarityComputeManager.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/evaluation/Evaluator_EntityOnly.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KBSearcher_FreebaseWrapper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/ColumnClassifier.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderHeaderAndRelation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/evaluation/Evaluator_AllInOne_IMDB.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/evaluation/Evaluator_AllInOne_MB.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/evaluation/Evaluator_AllInOne_Limaye.java" />
-        <option value="$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/evaluation/Evaluator_Limaye_Entity_Only.java" />
       </list>
     </option>
   </component>
   <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Bundled (Maven 3)" />
+      </MavenGeneralSettings>
+    </option>
     <option name="importingSettings">
       <MavenImportingSettings>
         <option name="importAutomatically" value="true" />
@@ -2229,52 +2005,6 @@
           <option name="myItemId" value="sti" />
           <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
         </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="Dependencies" />
-          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$DependenciesNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="" />
-          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="sti" />
-          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="Dependencies" />
-          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$DependenciesNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="cc.mallet:mallet:2.0.7-RC2" />
-          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$DependencyNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="" />
-          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="sti" />
-          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="" />
-          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="simmetrics-core" />
-          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="Dependencies" />
-          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$DependenciesNode" />
-        </PATH_ELEMENT>
       </PATH>
       <PATH>
         <PATH_ELEMENT>
@@ -2288,10 +2018,14 @@
       </PATH>
     </treeState>
   </component>
+  <component name="NamedScopeManager">
+    <order />
+  </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1" />
-    <option name="width" value="1598" />
-    <option name="height" value="860" />
+    <option name="x" value="1452" />
+    <option name="y" value="34" />
+    <option name="width" value="1603" />
+    <option name="height" value="874" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -2341,282 +2075,13 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
+      <pane id="Scratches" />
+      <pane id="PackagesPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="triplesearch" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="triplesearch" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="triplesearch" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="simmetrics-core" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sti" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sti" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="util" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sti" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="misc" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sti" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kb" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sti" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="algorithm" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sti" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="algorithm" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="smp" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sti" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="algorithm" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="baseline" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -2631,12 +2096,32 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane">
+      <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-util" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -2645,7 +2130,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="options.splitter.main.proportions" value="0.3" />
@@ -2661,7 +2146,7 @@
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="dynamic.classpath" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../simmetrics-core/pom.xml" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="FullScreen" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="LayoutCode.rearrangeEntriesJava" value="false" />
@@ -2675,6 +2160,8 @@
     <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="false" />
     <property name="GenerateAntBuildDialog.generateIdeaHomeProperty" value="false" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="core" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -2688,21 +2175,97 @@
       <recent name="uk.ac.shef.dcs.oak.sti.xtractor" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Evaluator_Limaye_Entity_Only">
-    <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails">
-      <module name="" />
-      <setting name="vmparams" value="" />
-      <setting name="cmdLine" value="run-app" />
-      <setting name="depsClasspath" value="false" />
-      <setting name="passParentEnv" value="true" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <setting name="launchBrowser" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Application.TestTableInterpretation_IMDB">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
       <option name="PROGRAM_PARAMETERS" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
@@ -2735,9 +2298,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -2764,164 +2324,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="true" type="FlashRunConfigurationType" factoryName="Flash App">
-      <option name="BCName" value="" />
-      <option name="IOSSimulatorSdkPath" value="" />
-      <option name="adlOptions" value="" />
-      <option name="airProgramParameters" value="" />
-      <option name="appDescriptorForEmulator" value="Android" />
-      <option name="debugTransport" value="USB" />
-      <option name="debuggerSdkRaw" value="BC SDK" />
-      <option name="emulator" value="NexusOne" />
-      <option name="emulatorAdlOptions" value="" />
-      <option name="fastPackaging" value="true" />
-      <option name="fullScreenHeight" value="0" />
-      <option name="fullScreenWidth" value="0" />
-      <option name="launchUrl" value="false" />
-      <option name="launcherParameters">
-        <LauncherParameters>
-          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
-          <option name="launcherType" value="OSDefault" />
-          <option name="newPlayerInstance" value="false" />
-          <option name="playerPath" value="FlashPlayerDebugger.exe" />
-        </LauncherParameters>
-      </option>
-      <option name="mobileRunTarget" value="Emulator" />
-      <option name="moduleName" value="" />
-      <option name="overriddenMainClass" value="" />
-      <option name="overriddenOutputFileName" value="" />
-      <option name="overrideMainClass" value="false" />
-      <option name="runTrusted" value="true" />
-      <option name="screenDpi" value="0" />
-      <option name="screenHeight" value="0" />
-      <option name="screenWidth" value="0" />
-      <option name="url" value="http://" />
-      <option name="usbDebugPort" value="7936" />
-      <method />
-    </configuration>
-    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
-      <module name="" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
-      <method />
-    </configuration>
-    <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" appDescriptorForEmulator="Android" class_name="" emulatorAdlOptions="" method_name="" package_name="" scope="Class">
-      <option name="BCName" value="" />
-      <option name="launcherParameters">
-        <LauncherParameters>
-          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
-          <option name="launcherType" value="OSDefault" />
-          <option name="newPlayerInstance" value="false" />
-          <option name="playerPath" value="FlashPlayerDebugger.exe" />
-        </LauncherParameters>
-      </option>
-      <option name="moduleName" value="" />
-      <option name="trusted" value="true" />
-      <method />
-    </configuration>
-    <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="myFilePath" />
-      <option name="GLUE" />
-      <option name="myNameFilter" />
-      <option name="myGeneratedName" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="Application" factoryName="Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
-      <module name="" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="DEPLOY" value="true" />
-      <option name="ARTIFACT_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
     <configuration default="false" name="GenerateAllGazeteers" type="Application" factoryName="Application">
@@ -3445,7 +2847,7 @@
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="uk.ac.shef.dcs.oak.sti.experiment.TestTableInterpretation_IMDB" />
       <option name="VM_PARAMETERS" value="-Xmx1024m -Djava.util.logging.config.file=logging.properties" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;E:\Data\table_annotation\freebase_crawl\music_record_label\test&quot; &quot;E:\Data\table_annotation\freebase_crawl\music_record_label\testout&quot; &quot;D:\Work\lodiecrawler\src\main\java/freebase.properties&quot; &quot;E:/lodiedata/tableminer_cache/solrindex_cache/zookeeper/solr&quot; &quot;$PROJECT_DIR$/../resources/nlp_resources&quot; 0 false" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;$PROJECT_DIR$/../../sti_data/dataset/imdb/raw/imdb_raw&quot; &quot;$PROJECT_DIR$/../output/imdb&quot; &quot;$PROJECT_DIR$/../freebase.properties&quot; &quot;$PROJECT_DIR$/../../sti_data/cache/cache/tableminer_cache_imdb/solrindex_cache/zookeeper/solr&quot; &quot;$PROJECT_DIR$/../resources/nlp_resources&quot; 0 false" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/.." />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -4123,108 +3525,15 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
-  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="true">
-    <option name="USER" value="" />
-    <option name="PASSWORD" value="" />
-    <option name="mySSHConnectionTimeout" value="30000" />
-    <option name="mySSHReadTimeout" value="30000" />
-    <option name="LAST_MERGED_REVISION" />
-    <option name="MERGE_DRY_RUN" value="false" />
-    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
-    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
-    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
-    <option name="DETECT_NESTED_COPIES" value="true" />
-    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
-    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
-    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
-    <option name="FORCE_UPDATE" value="false" />
-    <option name="IGNORE_EXTERNALS" value="false" />
+  <component name="SvnConfiguration" myUseAcceleration="nothing" cleanupOnStartRun="true">
     <configuration useDefault="false">C:\Users\zqz\AppData\Roaming\Subversion</configuration>
-    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
     <supportedVersion>125</supportedVersion>
-  </component>
-  <component name="SvnFileUrlMappingImpl">
-    <option name="myMappingRoots">
-      <list>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\any23Extension" />
-          <option name="myCopyRoot" value="D:\work\lodie\any23Extension" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\core" />
-          <option name="myCopyRoot" value="D:\work\lodie\core" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\core\.idea" />
-          <option name="myCopyRoot" value="D:\work\lodie\core\.idea" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\sides" />
-          <option name="myCopyRoot" value="D:\work\lodie\sides" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\sindice4j-api3" />
-          <option name="myCopyRoot" value="D:\work\lodie\sindice4j-api3" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\test" />
-          <option name="myCopyRoot" value="D:\work\lodie\test" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\triplesearch" />
-          <option name="myCopyRoot" value="D:\work\lodie\triplesearch" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\util" />
-          <option name="myCopyRoot" value="D:\work\lodie\util" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\xpath" />
-          <option name="myCopyRoot" value="D:\work\lodie\xpath" />
-        </SvnCopyRootSimple>
-      </list>
-    </option>
-    <option name="myMoreRealMappingRoots">
-      <list>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\any23Extension" />
-          <option name="myCopyRoot" value="D:\work\lodie\any23Extension" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\core" />
-          <option name="myCopyRoot" value="D:\work\lodie\core" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\sides" />
-          <option name="myCopyRoot" value="D:\work\lodie\sides" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\sindice4j-api3" />
-          <option name="myCopyRoot" value="D:\work\lodie\sindice4j-api3" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\test" />
-          <option name="myCopyRoot" value="D:\work\lodie\test" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\triplesearch" />
-          <option name="myCopyRoot" value="D:\work\lodie\triplesearch" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\util" />
-          <option name="myCopyRoot" value="D:\work\lodie\util" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\work\lodie\xpath" />
-          <option name="myCopyRoot" value="D:\work\lodie\xpath" />
-        </SvnCopyRootSimple>
-      </list>
-    </option>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="e56a4c5d-a13a-4f9f-8e0c-19edf4ff0468" name="Default" comment="" />
       <created>1378646067828</created>
+      <option name="number" value="Default" />
       <updated>1378646067828</updated>
       <workItem from="1427793588137" duration="685000" />
       <workItem from="1428825712674" duration="3570000" />
@@ -4278,38 +3587,39 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="0" width="1598" height="860" extended-state="0" />
+    <frame x="1452" y="34" width="1603" height="874" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38505095" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.66480446" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31294453" sideWeight="0.5733766" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27817404" sideWeight="0.47272727" order="12" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32152063" sideWeight="0.19832402" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3352354" sideWeight="0.49754903" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28311688" sideWeight="0.392" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13246754" sideWeight="0.42299107" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2723785" sideWeight="0.537013" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5" sideWeight="0.45483664" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33571428" sideWeight="0.6053333" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13965407" sideWeight="0.42299107" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31578946" sideWeight="0.5272727" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2275641" sideWeight="0.68973213" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19795004" sideWeight="0.6053333" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5127877" sideWeight="0.638961" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28311688" sideWeight="0.392" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.66480446" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32152063" sideWeight="0.19832402" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5" sideWeight="0.54516333" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32142857" sideWeight="0.638961" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3642857" sideWeight="0.537013" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38505095" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2275641" sideWeight="0.68973213" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -4322,11 +3632,6 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="myTodoPanelSettings">
-      <TodoPanelSettings />
-    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -4794,18 +4099,6 @@
           <option name="timeStamp" value="85" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB.java</url>
-          <line>166</line>
-          <properties />
-          <option name="timeStamp" value="86" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/xtractor/Table_ContextExtractor_IMDB.java</url>
-          <line>54</line>
-          <properties />
-          <option name="timeStamp" value="87" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/baseline/Base_TM_no_Update_ClassificationScorer.java</url>
           <line>191</line>
           <properties />
@@ -5077,25 +4370,19 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/MainInterpreter_and_Forward_learner.java</url>
-          <line>70</line>
-          <properties />
-          <option name="timeStamp" value="142" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/MainInterpreter_and_Forward_learner.java</url>
-          <line>77</line>
+          <line>81</line>
           <properties />
           <option name="timeStamp" value="143" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/MainInterpreter_and_Forward_learner.java</url>
-          <line>99</line>
+          <line>103</line>
           <properties />
           <option name="timeStamp" value="146" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/MainInterpreter_and_Forward_learner.java</url>
-          <line>108</line>
+          <line>112</line>
           <properties />
           <option name="timeStamp" value="153" />
         </line-breakpoint>
@@ -5356,168 +4643,115 @@
           <properties />
           <option name="timeStamp" value="1576" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB.java</url>
+          <line>48</line>
+          <properties />
+          <option name="timeStamp" value="1591" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB.java</url>
+          <line>54</line>
+          <properties />
+          <option name="timeStamp" value="1592" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/MainInterpreter_and_Forward_learner.java</url>
+          <line>60</line>
+          <properties />
+          <option name="timeStamp" value="1601" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB.java</url>
+          <line>42</line>
+          <properties />
+          <option name="timeStamp" value="1604" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB.java</url>
+          <line>131</line>
+          <properties />
+          <option name="timeStamp" value="1609" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1591" />
+      <option name="time" value="1612" />
     </breakpoint-manager>
+    <watches-manager />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorGraphBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="558" max-vertical-offset="2025">
-          <caret line="39" column="40" selection-start-line="39" selection-start-column="40" selection-end-line="39" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderHeader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="358" max-vertical-offset="1625">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderHeaderAndCell.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="662" max-vertical-offset="1900">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/GraphCheckingUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2712" max-vertical-offset="3425">
-          <caret line="116" column="65" selection-start-line="116" selection-start-column="65" selection-end-line="116" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/LTableAnnotation_JI_Freebase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1087" max-vertical-offset="4825">
-          <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB_JI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45301205" vertical-offset="3637" max-vertical-offset="5175">
-          <caret line="175" column="46" selection-start-line="175" selection-start-column="46" selection-end-line="175" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_JI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3325301" vertical-offset="3362" max-vertical-offset="4950">
-          <caret line="157" column="52" selection-start-line="157" selection-start-column="52" selection-end-line="157" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_JI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.031325303" vertical-offset="3737" max-vertical-offset="5200">
-          <caret line="169" column="52" selection-start-line="169" selection-start-column="52" selection-end-line="169" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_SMP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="4500">
-          <caret line="57" column="29" selection-start-line="57" selection-start-column="29" selection-end-line="57" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/multicore/SimilarityComputeManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="556" max-vertical-offset="2500">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/multicore/SimilarityComputeWorker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="1425">
-          <caret line="16" column="78" selection-start-line="16" selection-start-column="57" selection-end-line="16" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/SimilarityComputerThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="393" max-vertical-offset="1600">
-          <caret line="24" column="31" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateConceptGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3478" max-vertical-offset="5550">
+        <state vertical-scroll-proportion="0.0">
           <caret line="157" column="15" selection-start-line="157" selection-start-column="15" selection-end-line="157" selection-end-column="15" />
           <folding>
-            <element signature="e#7007#7023#0" expanded="true" />
-            <element signature="e#7080#7099#0" expanded="true" />
-            <element signature="e#7803#7829#0" expanded="true" />
-            <element signature="e#8446#8465#0" expanded="true" />
+            <element signature="e#7007#7023#0" expanded="false" />
+            <element signature="e#7080#7099#0" expanded="false" />
+            <element signature="e#7803#7829#0" expanded="false" />
+            <element signature="e#8446#8465#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/evaluation/Evaluator_RelationOnly_IMDB_MusicBrainz.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.4" vertical-offset="3790" max-vertical-offset="5525">
+        <state vertical-scroll-proportion="-4.4">
           <caret line="162" column="0" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/ClassificationScorer_JI_adapted.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="670" max-vertical-offset="1550">
+        <state vertical-scroll-proportion="0.33333334">
           <caret line="32" column="36" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KBSearcher_FreebaseWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29205608" vertical-offset="0" max-vertical-offset="428">
+        <state vertical-scroll-proportion="0.29205608">
           <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="445" max-vertical-offset="1225">
+        <state vertical-scroll-proportion="0.33333334">
           <caret line="28" column="50" selection-start-line="28" selection-start-column="50" selection-end-line="28" selection-end-column="50" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/DisambiguationScorer_Overlap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="3863" max-vertical-offset="6925">
+        <state vertical-scroll-proportion="0.33333334">
           <caret line="173" column="0" selection-start-line="173" selection-start-column="0" selection-end-line="173" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseFreebaseFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1641" max-vertical-offset="3125">
+        <state vertical-scroll-proportion="0.0">
           <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/FactorBuilderHeaderAndRelation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="943" max-vertical-offset="3800">
+        <state vertical-scroll-proportion="0.0">
           <caret line="54" column="31" selection-start-line="54" selection-start-column="31" selection-end-line="54" selection-end-column="31" />
           <folding>
-            <element signature="e#9260#9261#0" expanded="true" />
-            <element signature="e#9358#9359#0" expanded="true" />
+            <element signature="e#9260#9261#0" expanded="false" />
+            <element signature="e#9358#9359#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/evaluation/Evaluator_EntityOnly.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5525" max-vertical-offset="7000">
+        <state vertical-scroll-proportion="0.0">
           <caret line="227" column="17" selection-start-line="227" selection-start-column="17" selection-end-line="227" selection-end-column="17" />
           <folding />
         </state>
@@ -5525,7 +4759,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/TI_JointInference.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1450" max-vertical-offset="8000">
+        <state vertical-scroll-proportion="0.0">
           <caret line="82" column="40" selection-start-line="82" selection-start-column="40" selection-end-line="82" selection-end-column="40" />
           <folding />
         </state>
@@ -5533,7 +4767,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/CandidateEntityGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1165" max-vertical-offset="2300">
+        <state vertical-scroll-proportion="0.0">
           <caret line="70" column="5" selection-start-line="70" selection-start-column="5" selection-end-line="70" selection-end-column="5" />
           <folding />
         </state>
@@ -5541,32 +4775,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/evaluation/Evaluator_AllInOne_IMDB.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2670" max-vertical-offset="3750">
+        <state vertical-scroll-proportion="0.0">
           <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/evaluation/Evaluator_ClassOnly_IMDB_MusicBrainz.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3786" max-vertical-offset="5650">
+        <state vertical-scroll-proportion="0.0">
           <caret line="161" column="0" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/evaluation/Evaluator_ClassOnly.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="8986" max-vertical-offset="12050">
+        <state vertical-scroll-proportion="0.0">
           <caret line="369" column="0" selection-start-line="369" selection-start-column="0" selection-end-line="369" selection-end-column="0" />
           <folding>
-            <element signature="e#17145#17153#0" expanded="true" />
-            <element signature="e#17225#17233#0" expanded="true" />
+            <element signature="e#17145#17153#0" expanded="false" />
+            <element signature="e#17225#17233#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/evaluation/Evaluator_AllInOne_MB.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6402" max-vertical-offset="7725">
+        <state vertical-scroll-proportion="0.0">
           <caret line="231" column="115" selection-start-line="231" selection-start-column="115" selection-end-line="231" selection-end-column="115" />
           <folding />
         </state>
@@ -5574,7 +4808,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/evaluation/Evaluator_AllInOne_Limaye.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6154" max-vertical-offset="8400">
+        <state vertical-scroll-proportion="0.0">
           <caret line="258" column="32" selection-start-line="258" selection-start-column="32" selection-end-line="258" selection-end-column="32" />
           <folding />
         </state>
@@ -5582,28 +4816,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/evaluation/Evaluator_Limaye_Entity_Only.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1870" max-vertical-offset="2725">
+        <state vertical-scroll-proportion="0.0">
           <caret line="83" column="114" selection-start-line="83" selection-start-column="114" selection-end-line="83" selection-end-column="114" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/baseline/Base_NameMatch_ColumnLearner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1350" max-vertical-offset="5525">
+        <state vertical-scroll-proportion="0.0">
           <caret line="63" column="40" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/baseline/Base_NameMatch_Disambiguator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="359" max-vertical-offset="1800">
+        <state vertical-scroll-proportion="0.0">
           <caret line="32" column="16" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTI_DataFiltering_Baseline_LimayeDataset.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1359" max-vertical-offset="6975">
+        <state vertical-scroll-proportion="0.0">
           <caret line="93" column="27" selection-start-line="93" selection-start-column="27" selection-end-line="93" selection-end-column="27" />
           <folding />
         </state>
@@ -5611,49 +4845,49 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/baseline/Base_TM_no_Update_Disambiguator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27131784" vertical-offset="0" max-vertical-offset="1850">
+        <state vertical-scroll-proportion="0.27131784">
           <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset_Baseline.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.92248064" vertical-offset="1605" max-vertical-offset="5275">
+        <state vertical-scroll-proportion="0.92248064">
           <caret line="107" column="14" selection-start-line="107" selection-start-column="14" selection-end-line="107" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/DisambiguationScorer_Baseline.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2325" max-vertical-offset="3750">
+        <state vertical-scroll-proportion="0.0">
           <caret line="126" column="9" selection-start-line="126" selection-start-column="9" selection-end-line="126" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_MusicBrainz_Baseline_Another.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1300" max-vertical-offset="4875">
+        <state vertical-scroll-proportion="0.0">
           <caret line="84" column="55" selection-start-line="84" selection-start-column="55" selection-end-line="84" selection-end-column="55" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/baseline/Base_TM_no_Update_EntityDisambiguationScorer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2980" max-vertical-offset="3750">
+        <state vertical-scroll-proportion="0.0">
           <caret line="157" column="19" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/ji/EntityAndConceptScorer_Freebase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="912" max-vertical-offset="3375">
+        <state vertical-scroll-proportion="0.0">
           <caret line="34" column="59" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="59" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/ColumnClassifier.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1425" max-vertical-offset="3000">
+        <state vertical-scroll-proportion="0.0">
           <caret line="57" column="16" selection-start-line="57" selection-start-column="16" selection-end-line="57" selection-end-column="16" />
           <folding />
         </state>
@@ -5661,28 +4895,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/ChangeMessageFromColumnsRelation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="625">
+        <state vertical-scroll-proportion="0.0">
           <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/ChangeMessageBroadcaster.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3275">
+        <state vertical-scroll-proportion="0.0">
           <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/ChangeMessage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="750">
+        <state vertical-scroll-proportion="0.0">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/CellAnnotationUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6400">
+        <state vertical-scroll-proportion="0.0">
           <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
           <folding />
         </state>
@@ -5690,59 +4924,166 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/LTableAnnotation_SMP_Freebase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="675" max-vertical-offset="2025">
+        <state vertical-scroll-proportion="0.0">
           <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/LTableAnnotationWriter_SMP.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2425">
+        <state vertical-scroll-proportion="0.0">
           <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/RelationLearner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5575">
+        <state vertical-scroll-proportion="0.0">
           <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/RelationTextMatch_Scorer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2850">
+        <state vertical-scroll-proportion="0.0">
           <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/TI_SemanticMessagePassing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7150">
+        <state vertical-scroll-proportion="0.0">
           <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/NamedEntityRanker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1159" max-vertical-offset="2125">
-          <caret line="78" column="23" selection-start-line="78" selection-start-column="23" selection-end-line="78" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/DisambiguationScorer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="334" max-vertical-offset="1000">
+        <state vertical-scroll-proportion="0.0">
           <caret line="28" column="24" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/src.zip!/java/io/FileInputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="91" column="11" selection-start-line="91" selection-start-column="11" selection-end-line="91" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.8">
+          <caret line="43" column="20" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../triplesearch/src/main/java/uk/ac/shef/dcs/oak/triplesearch/freebase/FreebaseQueryInterrupter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="11" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../websearch/src/uk/ac/shef/dcs/oak/websearch/bing/v2/MultiKeyStringSplitter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding>
+            <element signature="e#229#230#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../triplesearch/src/main/java/uk/ac/shef/dcs/oak/triplesearch/freebase/FreebaseQueryHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/kb/KnowledgeBaseSearcher_Freebase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/NamedEntityRanker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="78" column="23" selection-start-line="78" selection-start-column="23" selection-end-line="78" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/smp/DisambiguationScorer_SMP_adapted.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.4728916" vertical-offset="1703" max-vertical-offset="3200">
-          <caret line="46" column="31" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.43333334">
+          <caret line="30" column="27" selection-start-line="30" selection-start-column="27" selection-end-line="30" selection-end-column="27" />
+          <folding>
+            <element signature="e#3005#3013#0" expanded="true" />
+            <element signature="e#3968#3976#0" expanded="true" />
+            <element signature="e#5098#5114#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../simmetrics-core/src/main/java/org/simmetrics/metrics/OverlapCoefficient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8117647">
+          <caret line="61" column="43" selection-start-line="61" selection-start-column="43" selection-end-line="61" selection-end-column="43" />
+          <folding>
+            <element signature="e#2138#2139#0" expanded="true" />
+            <element signature="e#2172#2173#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/xtractor/Table_ContextExtractor_IMDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_LimayeDataset.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33144477">
+          <caret line="141" column="8" selection-start-line="141" selection-start-column="8" selection-end-line="141" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/experiment/TestTableInterpretation_IMDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.148148">
+          <caret line="131" column="0" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/maincol/MainColumnFinder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding>
+            <element signature="e#3643#3685#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/uk/ac/shef/dcs/oak/sti/algorithm/tm/MainInterpreter_and_Forward_learner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -5770,7 +5111,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.20809248" />
+                <option value="0.43105447" />
               </list>
             </option>
           </splitter-proportions>
@@ -5789,7 +5130,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>1.7</last-edited>
+          <last-edited>1.8</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -5801,11 +5142,11 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>core</last-edited>
+          <last-edited>common-util</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.20809248" />
+                <option value="0.43105447" />
                 <option value="0.6" />
               </list>
             </option>
@@ -5839,4 +5180,3 @@
     </states>
   </component>
 </project>
-

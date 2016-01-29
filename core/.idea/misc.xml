@@ -22,40 +22,16 @@
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="false" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/../classes" />
   </component>
   <component name="SvnBranchConfigurationManager">
     <option name="myConfigurationMap">
       <map>
-        <entry key="$PROJECT_DIR$/../any23Extension">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="trunkUrl" value="svn+ssh://nebula:22/projectstore/repos/lodie/any23Extension" />
-              <option name="userinfoInUrl" value="true" />
-            </SvnBranchConfiguration>
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$">
           <value>
             <SvnBranchConfiguration>
               <option name="trunkUrl" value="svn+ssh://nebula:22/projectstore/repos/lodie/core" />
-              <option name="userinfoInUrl" value="true" />
-            </SvnBranchConfiguration>
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/../sindice4j-api3">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="trunkUrl" value="svn+ssh://nebula:22/projectstore/repos/lodie/sindice4j-api3" />
-              <option name="userinfoInUrl" value="true" />
-            </SvnBranchConfiguration>
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/../test">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="trunkUrl" value="svn+ssh://nebula:22/projectstore/repos/lodie/test" />
               <option name="userinfoInUrl" value="true" />
             </SvnBranchConfiguration>
           </value>
@@ -68,18 +44,9 @@
             </SvnBranchConfiguration>
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/../util">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="trunkUrl" value="svn+ssh://nebula:22/projectstore/repos/lodie/util" />
-              <option name="userinfoInUrl" value="true" />
-            </SvnBranchConfiguration>
-          </value>
-        </entry>
       </map>
     </option>
     <option name="mySupportsUserInfoFilter" value="true" />
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
 </project>
-
