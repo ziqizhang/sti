@@ -36,8 +36,8 @@ public class TripleGenerator {
             for (int row = 0; row < table.getNumRows(); row++) {
                 for (HeaderAnnotation final_type_for_the_column : bestHeaderAnnotations) {
 
-                    if (final_type_for_the_column.getSupportingRows().contains(row))
-                        continue;
+                    /*if (final_type_for_the_column.getSupportingRows().contains(row))
+                        continue;*/
                     LTableContentCell tcc = table.getContentCell(row, col);
                     CellAnnotation[] cell_annotations = tab_annotation.getContentCellAnnotations(row, col);
                     if (cell_annotations == null || cell_annotations.length == 0) //no entity found for this cell
