@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.oak.triplesearch.rep;
+package uk.ac.shef.dcs.kbsearch.rep;
 
 /**
  * Created by - on 15/03/2016.

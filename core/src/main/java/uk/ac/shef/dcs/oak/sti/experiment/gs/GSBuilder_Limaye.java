@@ -8,8 +8,8 @@ import uk.ac.shef.dcs.oak.sti.algorithm.tm.TripleGenerator;
 import uk.ac.shef.dcs.oak.sti.io.LTableAnnotationWriter;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.sti.experiment.LimayeDatasetLoader;
-import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
+import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.oak.util.FileUtils;
 
 import javax.xml.parsers.DocumentBuilder;

@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.oak.triplesearch.freebase;
+package uk.ac.shef.dcs.kbsearch.freebase;
 
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;

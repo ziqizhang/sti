@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.kb;
 
 import org.apache.solr.client.solrj.SolrServerException;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 
 import java.io.IOException;

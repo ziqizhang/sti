@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
 
-    <groupId>uk.ac.shef.dcs.oak</groupId>
+    <groupId>uk.ac.shef.dcs</groupId>
     <artifactId>kbsearch</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
     <name>kbsearch</name>
     <dependencies>
-        <dependency><groupId>uk.ac.shef.dcs.oak</groupId>
+        <dependency><groupId>uk.ac.shef.dcs</groupId>
             <artifactId>common-util</artifactId>
             <version>1.0</version></dependency>
         <dependency>

@@ -9,8 +9,8 @@ import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.oak.sti.xtractor.*;
-import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseEntity;
-import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseEntity;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 
 import java.io.*;
 import java.util.ArrayList;

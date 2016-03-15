@@ -12,8 +12,8 @@ import uk.ac.shef.dcs.oak.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableObjCreatorIMDB;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableXtractorIMDB;
-import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseEntity;
-import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseEntity;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 
 import java.io.*;
 import java.util.HashMap;

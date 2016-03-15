@@ -9,7 +9,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.solr.core.CoreContainer;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.oak.util.SerializableUtils;
 
 import java.io.File;

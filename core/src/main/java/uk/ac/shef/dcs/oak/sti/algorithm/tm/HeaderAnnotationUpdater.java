@@ -5,7 +5,7 @@ import uk.ac.shef.dcs.oak.sti.rep.HeaderAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
+import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 
 import java.util.*;
 

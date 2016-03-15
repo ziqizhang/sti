@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.oak.triplesearch.freebase;
+package uk.ac.shef.dcs.kbsearch.freebase;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
+import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 
@@ -320,7 +320,7 @@ public class FreebaseQueryHelper {
                                 ent.addType(new Clazz(the_type, the_type));
                         }
                     }
-                    List<String> bow_ent = StringUtils.toBagOfWords(e_name, true, true,false);
+                    List<String> bow_ent = StringUtils.toBagOfWords(e_name, true, true, false);
                     List<String> bow_query = StringUtils.toBagOfWords(name, true, true,false);
                     int intersection = CollectionUtils.intersection(bow_ent, bow_query);
                     candidates.put(ent, ((double) intersection / bow_ent.size() + (double) intersection / bow_query.size()) / 2.0);

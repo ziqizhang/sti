@@ -16,7 +16,7 @@ import uk.ac.shef.dcs.oak.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableObjCreatorWikipediaGS;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableXtractorWikipedia;
 import uk.ac.shef.dcs.oak.sti.experiment.LimayeDatasetLoader;
-import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.oak.util.FileUtils;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.BingWebSearch;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.BingWebSearchResultParser;

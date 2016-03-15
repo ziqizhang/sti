@@ -8,9 +8,9 @@ import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.selector.CellSelector;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Resource;
+import uk.ac.shef.dcs.kbsearch.rep.Clazz;
+import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.rep.Resource;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 
 import java.io.IOException;

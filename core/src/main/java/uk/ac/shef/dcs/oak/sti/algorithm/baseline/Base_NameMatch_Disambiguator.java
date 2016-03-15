@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.baseline;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 

@@ -6,7 +6,7 @@ import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.oak.sti.misc.UtilRelationMatcher;
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
+import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 
 import java.io.IOException;

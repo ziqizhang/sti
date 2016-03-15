@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.rep;
 
-import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.rep.Entity;
 
 import java.io.Serializable;
 import java.util.HashMap;

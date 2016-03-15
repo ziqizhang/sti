@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.rep.Entity;
 
 import java.util.ArrayList;
 import java.util.Collections;

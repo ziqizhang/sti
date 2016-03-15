@@ -4,7 +4,7 @@ import info.aduna.io.FileUtil;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.io.LTableAnnotationKeyFileReader;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.oak.util.FileUtils;
 
 import javax.xml.parsers.DocumentBuilder;

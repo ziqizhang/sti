@@ -3,8 +3,8 @@ package uk.ac.shef.dcs.oak.sti.algorithm.ji.multicore;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.algorithm.ji.EntityAndConceptScorer_Freebase;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.rep.Clazz;
+import uk.ac.shef.dcs.kbsearch.rep.Entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

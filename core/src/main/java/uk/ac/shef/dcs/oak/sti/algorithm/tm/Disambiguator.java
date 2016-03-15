@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.rep.Entity;
 
 import java.io.IOException;
 import java.util.*;

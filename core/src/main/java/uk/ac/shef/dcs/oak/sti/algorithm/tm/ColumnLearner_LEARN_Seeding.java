@@ -6,7 +6,7 @@ import uk.ac.shef.dcs.oak.sti.algorithm.tm.selector.CellSelector;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.stopping.StoppingCriteria;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.stopping.StoppingCriteriaInstantiator;
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.rep.Entity;
 
 import java.io.IOException;
 import java.util.*;

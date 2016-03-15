@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.kb;
 
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
+import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 
 import java.util.ArrayList;
 import java.util.Arrays;

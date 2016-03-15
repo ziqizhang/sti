@@ -2,8 +2,8 @@ package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
-import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.rep.Clazz;
+import uk.ac.shef.dcs.kbsearch.rep.Entity;
 
 import java.io.IOException;
 import java.util.HashMap;
