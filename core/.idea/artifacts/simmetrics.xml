@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="simmetrics">
-    <output-path>$PROJECT_DIR$/../classes/artifacts/simmetrics</output-path>
-    <root id="archive" name="simmetrics.jar">
-      <element id="module-output" name="simmetrics-core" />
-    </root>
-  </artifact>
-</component>
