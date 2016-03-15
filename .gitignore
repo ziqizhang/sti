@@ -56,3 +56,4 @@ core/limaye_missed.csv
 output/*
 */target
 *.iml
+*/.idea
