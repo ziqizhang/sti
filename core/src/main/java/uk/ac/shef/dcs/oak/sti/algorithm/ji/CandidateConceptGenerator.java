@@ -1,13 +1,11 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
-import org.apache.solr.client.solrj.SolrServerException;
-import uk.ac.shef.dcs.oak.sti.algorithm.ji.multicore.SimilarityComputeManager;
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
-import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
-import uk.ac.shef.dcs.oak.sti.rep.HeaderAnnotation;
-import uk.ac.shef.dcs.oak.sti.rep.LTable;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
+import uk.ac.shef.dcs.oak.sti.rep.*;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 
 import java.io.IOException;
 import java.util.*;
@@ -35,25 +33,25 @@ public class CandidateConceptGenerator {
     }
 
     public void generateCandidateConcepts(LTableAnnotation_JI_Freebase tableAnnotation, LTable table, int col) throws IOException {
-        List<EntityCandidate> distinctTypes = new ArrayList<EntityCandidate>();
+        List<Clazz> distinctTypes = new ArrayList<>();
         Map<String, List<String>> entityId_and_conceptURLs = new HashMap<String, List<String>>();
         Map<String, String> distinctTypeStrings = new HashMap<String, String>();
         Set<String> distinctEntityIds = new HashSet<String>();
-        List<EntityCandidate> distinctEntities = new ArrayList<EntityCandidate>();
+        List<Entity> distinctEntities = new ArrayList<>();
         for (int r = 0; r < table.getNumRows(); r++) {
             CellAnnotation[] cellAnnotations = tableAnnotation.getContentCellAnnotations(r, col);
             if (cellAnnotations.length > 0) {
                 for (CellAnnotation ca : cellAnnotations) {
-                    EntityCandidate e = ca.getAnnotation();
+                    Entity e = ca.getAnnotation();
                     if (ca.getScore_element_map().get(
                             DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR) ==0.0){
                         continue;
                     }
                     if(!distinctEntities.contains(e))
                         distinctEntities.add(e);
-                    for (String[] type : KnowledgeBaseFreebaseFilter.filterTypes(e.getTypes())) {
-                        String url = type[0];
-                        String label = type[1];
+                    for (Clazz type : KnowledgeBaseFreebaseFilter.filterTypes(e.getTypes())) {
+                        String url = type.getId();
+                        String label = type.getLabel();
                         distinctTypeStrings.put(url, label);
                         List<String> conceptURLs = entityId_and_conceptURLs.get(e.getId());
                         if (conceptURLs == null)
@@ -70,11 +68,9 @@ public class CandidateConceptGenerator {
         for(Map.Entry<String, String> ent: distinctTypeStrings.entrySet()){
             String conceptId = ent.getKey();
             String conceptName = ent.getValue();
-            List<String[]> triples =kbSearcher.find_triplesForConcept_filtered(conceptId);
-            EntityCandidate concept = new EntityCandidate();
-            concept.setId(conceptId);
-            concept.setName(conceptName);
-            concept.setFacts(triples);
+            List<String[]> triples =kbSearcher.findTriplesOfConcept(conceptId);
+            Clazz concept = new Clazz(conceptId, conceptName);
+            concept.setTriples(triples);
             distinctTypes.add(concept);
         }
 
@@ -100,8 +96,8 @@ public class CandidateConceptGenerator {
 
         Map<String, Double> simScores =
                 computeSimilarityMultiThread(multiThreads, distinctEntities, distinctTypes, true);
-        for (EntityCandidate entity : distinctEntities) {
-            for (EntityCandidate concept : distinctTypes) {
+        for (Entity entity : distinctEntities) {
+            for (Clazz concept : distinctTypes) {
                 //cc++;
                 Double sim = //entityAndConceptScorer.computeEntityConceptSimilarity(entityId, conceptId, kbSearcher);
                         simScores.get(entity.getId() + "," + concept.getId());
@@ -129,15 +125,15 @@ public class CandidateConceptGenerator {
         System.out.println(")");
     }
 
-    private Map<String, Double> computeSimilarityMultiThread(int threads, Collection<EntityCandidate> entities,
-                                                             Collection<EntityCandidate> concepts,
+    private Map<String, Double> computeSimilarityMultiThread(int threads, Collection<Entity> entities,
+                                                             Collection<Clazz> concepts,
                                                              boolean biDirectional) {
         Map<String, Double> result = new HashMap<String, Double>();
-        List<EntityCandidate[]> pairs = new ArrayList<EntityCandidate[]>();
+        List<Pair<Entity,Clazz>> pairs = new ArrayList<>();
         int cc=0;
-        for (EntityCandidate e : entities) {
-            for (EntityCandidate c : concepts) {
-                pairs.add(new EntityCandidate[]{e, c});
+        for (Entity e : entities) {
+            for (Clazz c : concepts) {
+                pairs.add(new Pair<>(e, c));
                 /*if(e.equals("/m/045clt")&&c.equals("/organization/organization"))
                     System.out.println(c);*/
                 cc++;
@@ -170,7 +166,7 @@ public class CandidateConceptGenerator {
         for (int t = 0; t < threads; t++) {
             int start = t * size;
             int end = start + size;
-            List<EntityCandidate[]> selectedPairs = new ArrayList<EntityCandidate[]>();
+            List<Pair<Entity, Clazz>> selectedPairs = new ArrayList<>();
             for (int j = start; j < end && j < pairs.size(); j++) {
                 selectedPairs.add(pairs.get(j));
             }

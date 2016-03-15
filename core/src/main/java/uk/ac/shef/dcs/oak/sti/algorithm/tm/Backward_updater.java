@@ -1,5 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.STIException;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
@@ -7,8 +8,9 @@ import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.selector.CellSelector;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
-import uk.ac.shef.dcs.oak.util.ObjObj;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Resource;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 
 import java.io.IOException;
@@ -157,7 +159,7 @@ public class Backward_updater {
                     continue;
                 }
 
-                List<ObjObj<EntityCandidate, Map<String, Double>>>
+                List<Pair<Entity, Map<String, Double>>>
                         candidates_and_scores_for_block =
                         disambiguate(already_built_feature_space_entity_candidates,
                                 sample,
@@ -207,7 +209,7 @@ public class Backward_updater {
             for (int r = 0; r < table.getNumRows(); r++) {
                 CellAnnotation[] annotations = current_iteration_annotation.getContentCellAnnotations(r, c);
                 if (annotations != null && annotations.length > 0) {
-                    EntityCandidate ec = annotations[0].getAnnotation();
+                    Entity ec = annotations[0].getAnnotation();
                     try {
                         domain.addAll(build_domain_rep_for_entity(ec));
                     } catch (IOException e) {
@@ -219,9 +221,9 @@ public class Backward_updater {
         return domain;
     }
 
-    private Collection<? extends String> build_domain_rep_for_entity(EntityCandidate ec) throws IOException {
+    private Collection<? extends String> build_domain_rep_for_entity(Entity ec) throws IOException {
         List<String> domain = new ArrayList<String>();
-        for (String[] fact : ec.getFacts()) {
+        for (String[] fact : ec.getTriples()) {
             if (fact[0].equals("/common/topic/description")) {
                 String[] sentences = NLPTools.getInstance(nlpTools_folder).getSentenceSplitter().sentDetect(fact[1]);
                 String first = sentences.length > 0 ? sentences[0] : "";
@@ -342,11 +344,11 @@ public class Backward_updater {
             Map<String, Double> header_annotation_url_and_max_score = new HashMap<String, Double>();
             Map<String, String> header_annotation_url_and_label = new HashMap<String, String>();
             for (CellAnnotation ca : cellAnnotations) {
-                List<String[]> types = ca.getAnnotation().getTypes();
+                List<Clazz> types = ca.getAnnotation().getTypes();
                 double disamb_score = ca.getFinalScore();
-                for (String[] t : types) {
-                    String url = t[0];
-                    String label = t[1];
+                for (Clazz t : types) {
+                    String url = t.getId();
+                    String label = t.getLabel();
                     header_annotation_url_and_label.put(url, label);
                     Double score = header_annotation_url_and_max_score.get(url);
                     if (score == null) score = 0.0;
@@ -396,20 +398,20 @@ public class Backward_updater {
 
     }
 
-    private List<ObjObj<EntityCandidate, Map<String, Double>>> disambiguate(Set<String> already_built_feature_space_entity_candidates,
+    private List<Pair<Entity, Map<String, Double>>> disambiguate(Set<String> already_built_feature_space_entity_candidates,
                                                                             LTableContentCell tcc,
                                                                             LTable table,
                                                                             Set<String> columnTypes,
                                                                             List<Integer> table_cell_rows,
                                                                             int table_cell_col,
-                                                                            EntityCandidate... reference_disambiguated_entities) throws IOException {
-        List<ObjObj<EntityCandidate, Map<String, Double>>> candidates_and_scores_for_block
-                = new ArrayList<ObjObj<EntityCandidate, Map<String, Double>>>();
+                                                                 Entity... reference_disambiguated_entities) throws IOException {
+        List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_block
+                = new ArrayList<>();
 
-        List<EntityCandidate> candidates = kbSearcher.findEntitiesOfTypesForCell(tcc, columnTypes.toArray(new String[0]));
+        List<Entity> candidates = kbSearcher.findEntityCandidatesOfTypes(tcc, columnTypes.toArray(new String[0]));
 
         int count_already_built_feature_space = 0;
-        for (EntityCandidate ec : candidates) {
+        for (Resource ec : candidates) {
             if (already_built_feature_space_entity_candidates.contains(ec.getId()))
                 count_already_built_feature_space++;
         }
@@ -418,7 +420,7 @@ public class Backward_updater {
 
         if (candidates != null && candidates.size() != 0) {
         } else {
-            candidates = kbSearcher.findEntitiesOfTypesForCell(tcc);
+            candidates = kbSearcher.findEntityCandidatesOfTypes(tcc);
         }
 
         //now each candidate is given scores
@@ -434,13 +436,13 @@ public class Backward_updater {
             LTableAnnotation table_annotation,
             List<Integer> table_cell_rows,
             int table_cell_col,
-            List<ObjObj<EntityCandidate, Map<String, Double>>> candidates_and_scores_for_cell) {
+            List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_cell) {
 
-        Collections.sort(candidates_and_scores_for_cell, new Comparator<ObjObj<EntityCandidate, Map<String, Double>>>() {
+        Collections.sort(candidates_and_scores_for_cell, new Comparator<Pair<Entity, Map<String, Double>>>() {
             @Override
-            public int compare(ObjObj<EntityCandidate, Map<String, Double>> o1, ObjObj<EntityCandidate, Map<String, Double>> o2) {
-                Double o2_score = o2.getOtherObject().get(CellAnnotation.SCORE_FINAL);
-                Double o1_score = o1.getOtherObject().get(CellAnnotation.SCORE_FINAL);
+            public int compare(Pair<Entity, Map<String, Double>> o1, Pair<Entity, Map<String, Double>> o2) {
+                Double o2_score = o2.getValue().get(CellAnnotation.SCORE_FINAL);
+                Double o1_score = o1.getValue().get(CellAnnotation.SCORE_FINAL);
                 return o2_score.compareTo(o1_score);
             }
         });
@@ -450,9 +452,9 @@ public class Backward_updater {
         for (int row : table_cell_rows) {
             CellAnnotation[] annotationsForCell = new CellAnnotation[candidates_and_scores_for_cell.size()];
             for (int i = 0; i < candidates_and_scores_for_cell.size(); i++) {
-                ObjObj<EntityCandidate, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
+                Pair<Entity, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
                 annotationsForCell[i] = new CellAnnotation(sampleCellText,
-                        e.getMainObject(), e.getOtherObject().get("final"), e.getOtherObject());
+                        e.getKey(), e.getValue().get("final"), e.getValue());
                 /*if(table_cell_row==5 &&table_cell_col==4)
                 System.out.println(i);*/
             }

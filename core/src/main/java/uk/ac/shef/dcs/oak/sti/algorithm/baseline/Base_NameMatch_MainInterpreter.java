@@ -1,11 +1,11 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.baseline;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.ColumnInterpreter_relDepend;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.maincol.ColumnFeature;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.maincol.MainColumnFinder;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class Base_NameMatch_MainInterpreter {
     public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException {
         //1. find the main subject column of this table
         System.out.println(">\t Detecting main column...");
-        List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
+        List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
         //ignore columns that are likely to be acronyms only, because they are highly ambiguous
        /* if (candidate_main_NE_columns.size() > 1) {
             Iterator<ObjObj<Integer, ObjObj<Double, Boolean>>> it = candidate_main_NE_columns.iterator();
@@ -84,9 +84,9 @@ public class Base_NameMatch_MainInterpreter {
             double best_solution_score = 0;
             int main_subject_column = -1;
             LTableAnnotation best_annotations = null;
-            for (ObjObj<Integer, ObjObj<Double, Boolean>> mainCol : candidate_main_NE_columns) {
+            for (Pair<Integer, Pair<Double, Boolean>> mainCol : candidate_main_NE_columns) {
                 //tab_annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
-                main_subject_column = mainCol.getMainObject();
+                main_subject_column = mainCol.getKey();
                 if (ignoreColumn(main_subject_column)) continue;
 
                 System.out.println(">\t Interpret relations with the main column, ="+main_subject_column);

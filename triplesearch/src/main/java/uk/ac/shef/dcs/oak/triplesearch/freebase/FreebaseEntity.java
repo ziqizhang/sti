@@ -1,10 +1,7 @@
 package uk.ac.shef.dcs.oak.triplesearch.freebase;
 
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,15 +10,14 @@ import java.util.List;
  * Time: 13:12
  * To change this template use File | Settings | File Templates.
  */
-public class EntityCandidate_FreebaseTopic extends EntityCandidate{
+public class FreebaseEntity extends Entity{
     private String mid;
     private String language;
     private double score;
 
-    public EntityCandidate_FreebaseTopic(String mid){
-        super();
+    public FreebaseEntity(String mid){
+        super(mid, mid);
         this.mid=mid;
-        this.id=mid;
     }
 
     public String getMid() {

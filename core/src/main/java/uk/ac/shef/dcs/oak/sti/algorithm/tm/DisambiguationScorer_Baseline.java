@@ -8,7 +8,7 @@ import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
@@ -44,21 +44,21 @@ public class DisambiguationScorer_Baseline implements DisambiguationScorer {
         //stringSimilarityMetric=new CosineSimilarity();
     }
 
-    public Map<String, Double> score(EntityCandidate candidate,
-                                     List<EntityCandidate> all_candidates,
+    public Map<String, Double> score(Entity candidate,
+                                     List<Entity> all_candidates,
                                      int entity_source_column,
                                      int entity_source_row,
                                      List<Integer> entity_source_rows,
                                      LTable table,
                                      Set<String> assigned_column_semantic_types,
-                                     EntityCandidate... reference_disambiguated_entities) {
+                                     Entity... reference_disambiguated_entities) {
         /*if(candidate.getName().contains("Republican"))
             System.out.println();*/
         Map<String, Double> scoreMap = new HashMap<String, Double>();
         String headerText = table.getColumnHeader(entity_source_column).getHeaderText();
 
         /* BOW OF THE ENTITY*/
-        List<String[]> facts = candidate.getFacts();
+        List<String[]> facts = candidate.getTriples();
         List<String> bag_of_words_for_entity = new ArrayList<String>();
         for (String[] f : facts) {
             if (KnowledgeBaseFreebaseFilter.ignoreFactFromBOW(f[0]))
@@ -118,7 +118,7 @@ public class DisambiguationScorer_Baseline implements DisambiguationScorer {
 
 
         /*NAME MATCH SCORE */
-        String entity_name = candidate.getName();
+        String entity_name = candidate.getLabel();
         Set<String> bag_of_words_for_entity_name = new HashSet<String>(StringUtils.toBagOfWords(entity_name, true, true,TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
 
         String cell_text = table.getContentCell(entity_source_rows.get(0), entity_source_column).getText();

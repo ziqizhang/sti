@@ -1,11 +1,11 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.smp;
 
 import cern.colt.matrix.ObjectMatrix2D;
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.STIException;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.maincol.MainColumnFinder;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
@@ -54,10 +54,10 @@ public class TI_SemanticMessagePassing {
 
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
-        List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns =
+        List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns =
                 main_col_finder.compute(table, ignoreColumns);
         if(useSubjectColumn)
-            tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getMainObject());
+            tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getKey());
 
         System.out.println(">\t INITIALIZATION");
         System.out.println(">\t\t NAMED ENTITY RANKER..."); //SMP begins with an initial NE ranker to rank candidate NEs for each cell

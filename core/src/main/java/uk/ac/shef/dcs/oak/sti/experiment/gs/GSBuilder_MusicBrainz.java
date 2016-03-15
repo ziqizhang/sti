@@ -9,7 +9,7 @@ import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.oak.sti.xtractor.*;
-import uk.ac.shef.dcs.oak.triplesearch.freebase.EntityCandidate_FreebaseTopic;
+import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseEntity;
 import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
 
 import java.io.*;
@@ -83,7 +83,7 @@ public class GSBuilder_MusicBrainz {
     }
 
     public LTableAnnotation annotate(LTable table, FreebaseQueryHelper queryHelper) throws IOException {
-        Map<String, List<EntityCandidate_FreebaseTopic>> cache_for_table = new HashMap<String, List<EntityCandidate_FreebaseTopic>>();
+        Map<String, List<FreebaseEntity>> cache_for_table = new HashMap<String, List<FreebaseEntity>>();
 
         LTableAnnotation tableAnnotation = new LTableAnnotation(table.getNumRows(), table.getNumCols());
         for (int row = 0; row < table.getNumRows(); row++) {
@@ -115,11 +115,11 @@ public class GSBuilder_MusicBrainz {
                         System.out.println();
                     }
 
-                    List<EntityCandidate_FreebaseTopic> list = cache_for_table.get(music_brainz_id);
+                    List<FreebaseEntity> list = cache_for_table.get(music_brainz_id);
                     if (list == null) {
                         list = queryHelper.searchapi_topics_with_name_and_type(music_brainz_id, "any", false, 5);
                         if (list == null)
-                            list = new ArrayList<EntityCandidate_FreebaseTopic>();
+                            list = new ArrayList<FreebaseEntity>();
                         cache_for_table.put(music_brainz_id, list);
                     }
                     if (list.size() == 0)

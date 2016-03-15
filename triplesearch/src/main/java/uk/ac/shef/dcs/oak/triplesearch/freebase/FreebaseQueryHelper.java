@@ -16,6 +16,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 
@@ -135,12 +136,12 @@ public class FreebaseQueryHelper {
         }
     }
 
-    private EntityCandidate_FreebaseTopic parseProperties_of_searchapi(JSONObject json) {
-        EntityCandidate_FreebaseTopic obj = new EntityCandidate_FreebaseTopic(json.get("mid").toString());
+    private FreebaseEntity parseProperties_of_searchapi(JSONObject json) {
+        FreebaseEntity obj = new FreebaseEntity(json.get("mid").toString());
         Object o = json.get("mid");
         if (o != null)
             obj.setId(o.toString());
-        obj.setName(json.get("name").toString());
+        obj.setLabel(json.get("name").toString());
         obj.setScore(Double.valueOf(json.get("score").toString()));
 
         obj.setLanguage(json.get("lang").toString());
@@ -179,7 +180,7 @@ public class FreebaseQueryHelper {
 
 
     //operator - any means or; all means and
-    public List<EntityCandidate_FreebaseTopic> searchapi_topics_with_name_and_type(String name, String operator, boolean tokenMatch, int maxResult, String... types) throws IOException {
+    public List<FreebaseEntity> searchapi_topics_with_name_and_type(String name, String operator, boolean tokenMatch, int maxResult, String... types) throws IOException {
         Set<String> query_tokens = new HashSet<String>();
         for (String t : name.split("[\\s+/\\-,]")) {
             t = t.trim();
@@ -190,7 +191,7 @@ public class FreebaseQueryHelper {
         Date start = new Date();
         HttpTransport httpTransport = new NetHttpTransport();
         HttpRequestFactory requestFactory = httpTransport.createRequestFactory();
-        List<EntityCandidate_FreebaseTopic> res = new ArrayList<EntityCandidate_FreebaseTopic>();
+        List<FreebaseEntity> res = new ArrayList<FreebaseEntity>();
 
         GenericUrl url = new GenericUrl(properties.get("FREEBASE_SEARCH_QUERY_URL").toString());
         url.put("query", name);
@@ -214,13 +215,13 @@ public class FreebaseQueryHelper {
             JSONArray results = (JSONArray) response.get("result");
             int count = 0;
             for (Object result : results) {
-                EntityCandidate_FreebaseTopic top = parseProperties_of_searchapi((JSONObject) result);
+                FreebaseEntity top = parseProperties_of_searchapi((JSONObject) result);
 
                 if (count < maxResult) {
                     if (tokenMatch) {
                         Set<String> candidate_tokens = new HashSet<String>();
 
-                        for (String t : top.getName().split("[\\s+/\\-,]")) {
+                        for (String t : top.getLabel().split("[\\s+/\\-,]")) {
                             t = t.trim();
                             if (t.length() > 0)
                                 candidate_tokens.add(t);
@@ -244,7 +245,7 @@ public class FreebaseQueryHelper {
     }
 
 
-    public List<EntityCandidate_FreebaseTopic> mql_topics_with_name(int maxResults, String name, String operator, String... types) throws IOException {
+    public List<FreebaseEntity> mql_topics_with_name(int maxResults, String name, String operator, String... types) throws IOException {
         Set<String> query_tokens = new HashSet<String>();
         for (String t : name.split("\\s+")) {
             t = t.trim();
@@ -255,9 +256,9 @@ public class FreebaseQueryHelper {
         Date start = new Date();
         HttpTransport httpTransport = new NetHttpTransport();
         HttpRequestFactory requestFactory = httpTransport.createRequestFactory();
-        List<EntityCandidate_FreebaseTopic> res = new ArrayList<EntityCandidate_FreebaseTopic>();
+        List<FreebaseEntity> res = new ArrayList<FreebaseEntity>();
 
-        final Map<EntityCandidate_FreebaseTopic, Double> candidates = new HashMap<EntityCandidate_FreebaseTopic, Double>();
+        final Map<FreebaseEntity, Double> candidates = new HashMap<FreebaseEntity, Double>();
         int limit = 20;
         int iterations = maxResults % limit;
         iterations = iterations == 0 ? maxResults / limit : maxResults / limit + 1;
@@ -309,14 +310,14 @@ public class FreebaseQueryHelper {
                     JSONObject obj = (JSONObject) result;
                     String id = obj.get("mid").toString();
                     String e_name = obj.get("name").toString();
-                    EntityCandidate_FreebaseTopic ent = new EntityCandidate_FreebaseTopic(id);
-                    ent.setName(e_name);
+                    FreebaseEntity ent = new FreebaseEntity(id);
+                    ent.setLabel(e_name);
                     if (obj.get("/type/object/type") != null) {
                         JSONArray jsonArray = (JSONArray) obj.get("/type/object/type");
                         for (int n = 0; n < jsonArray.size(); n++) {
                             String the_type = jsonArray.get(n).toString();
                             if (!the_type.equals("/common/topic") && !the_type.startsWith("/user/"))
-                                ent.addType(new String[]{the_type, the_type});
+                                ent.addType(new Clazz(the_type, the_type));
                         }
                     }
                     List<String> bow_ent = StringUtils.toBagOfWords(e_name, true, true,false);
@@ -337,9 +338,9 @@ public class FreebaseQueryHelper {
 
         log.warning("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
         res.addAll(candidates.keySet());
-        Collections.sort(res, new Comparator<EntityCandidate_FreebaseTopic>() {
+        Collections.sort(res, new Comparator<FreebaseEntity>() {
             @Override
-            public int compare(EntityCandidate_FreebaseTopic o1, EntityCandidate_FreebaseTopic o2) {
+            public int compare(FreebaseEntity o1, FreebaseEntity o2) {
                 return candidates.get(o2).compareTo(candidates.get(o1));
             }
         });

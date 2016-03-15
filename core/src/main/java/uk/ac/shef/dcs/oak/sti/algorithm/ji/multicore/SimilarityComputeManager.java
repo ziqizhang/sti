@@ -1,9 +1,10 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji.multicore;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.algorithm.ji.EntityAndConceptScorer_Freebase;
-import uk.ac.shef.dcs.oak.sti.algorithm.ji.SimilarityComputerThread;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,11 +20,11 @@ import java.util.concurrent.Future;
  */
 public class SimilarityComputeManager {
 
-    public static Map<String, Double> compute(int threadsPerCPU, List<EntityCandidate[]> pairs, boolean useCache,
+    public static Map<String, Double> compute(int threadsPerCPU, List<Pair<Entity, Clazz>> pairs, boolean useCache,
                                EntityAndConceptScorer_Freebase entityAndConceptScorer,
                                KnowledgeBaseSearcher kbSearcher) throws InterruptedException {
         if(pairs.size()==0)
-            return new HashMap<String, Double>();
+            return new HashMap<>();
 
         int cpus = Runtime.getRuntime().availableProcessors();
         int totalThreads = cpus* threadsPerCPU;
@@ -46,7 +47,7 @@ public class SimilarityComputeManager {
         for (int t = 0; t < totalThreads; t++) {
             int start = t * size;
             int end = start + size;
-            List<EntityCandidate[]> selectedPairs = new ArrayList<EntityCandidate[]>();
+            List<Pair<Entity, Clazz>> selectedPairs = new ArrayList<>();
             for (int j = start; j < end && j < pairs.size(); j++) {
                 selectedPairs.add(pairs.get(j));
             }

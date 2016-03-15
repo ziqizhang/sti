@@ -1,14 +1,14 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
-import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 
 import java.io.IOException;
@@ -76,8 +76,8 @@ public class EntityAndConceptScorer_Freebase {
         //kbSearcher.saveSimilarity(entity_id,concept_url,contextOverlapScore,true);
         return contextOverlapScore;
     }
-    public ObjObj<Double, String> computeEntityConceptSimilarity(EntityCandidate entity,
-                                                                 EntityCandidate concept,
+    public Pair<Double, String> computeEntityConceptSimilarity(Entity entity,
+                                                                 Clazz concept,
                                                  KnowledgeBaseSearcher kbSearcher,
                                                  boolean useCache) throws IOException {
         double score = -1;
@@ -87,7 +87,7 @@ public class EntityAndConceptScorer_Freebase {
         if(score!=-1)
             fromCache="cache";
         if(score==-1.0) {
-            List<String[]> entity_triples = entity.getFacts();
+            List<String[]> entity_triples = entity.getTriples();
         /* BOW OF THE ENTITY*/
             List<String> bag_of_words_for_entity = new ArrayList<String>();
             for (String[] f : entity_triples) {
@@ -105,7 +105,7 @@ public class EntityAndConceptScorer_Freebase {
                 bag_of_words_for_entity = lemmatizer.lemmatize(bag_of_words_for_entity);
             bag_of_words_for_entity.removeAll(stopWords);
 
-            List<String[]> concept_triples = concept.getFacts();
+            List<String[]> concept_triples = concept.getTriples();
             List<String> bag_of_words_for_concept = new ArrayList<String>();
             for (String[] f : concept_triples) {
                 if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
@@ -126,10 +126,10 @@ public class EntityAndConceptScorer_Freebase {
                     bag_of_words_for_entity, bag_of_words_for_concept
             );
             //kbSearcher.saveSimilarity(entity_id,concept_url,contextOverlapScore,true);
-            return new ObjObj<Double, String>(contextOverlapScore,fromCache);
+            return new Pair<>(contextOverlapScore,fromCache);
         }
         else{
-            return new ObjObj<Double, String>(score, fromCache);
+            return new Pair<>(score, fromCache);
         }
     }
 

@@ -9,7 +9,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.solr.core.CoreContainer;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 import uk.ac.shef.dcs.oak.util.SerializableUtils;
 
 import java.io.File;
@@ -61,7 +61,7 @@ public class SearchCacheSolr {
                 return "";
             if(l.get(0) instanceof String[])
                 return ObjectToString.string_array_list_toString(obj);
-            else if(l.get(0) instanceof EntityCandidate)
+            else if(l.get(0) instanceof Entity)
                 return ObjectToString.entity_candidate_list_toString(obj);
         }
         return "";

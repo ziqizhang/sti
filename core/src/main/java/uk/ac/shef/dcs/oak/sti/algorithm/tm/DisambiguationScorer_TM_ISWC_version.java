@@ -9,7 +9,7 @@ import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContext;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 
@@ -40,25 +40,25 @@ public class DisambiguationScorer_TM_ISWC_version implements DisambiguationScore
 
 
 
-    public Map<String, Double> score(EntityCandidate candidate,
-                                     List<EntityCandidate> all_candidates,
+    public Map<String, Double> score(Entity candidate,
+                                     List<Entity> all_candidates,
                                      int entity_source_column,
                                      int entity_source_row,
                                      List<Integer> entity_source_rows,
                                      LTable table,
                                      Set<String> assigned_column_semantic_types,
-                                     EntityCandidate... reference_disambiguated_entities) {
+                                     Entity... reference_disambiguated_entities) {
         /*if(candidate.getName().contains("Republican"))
             System.out.println();*/
         Map<String, Double> scoreMap = new HashMap<String, Double>();
         String headerText = table.getColumnHeader(entity_source_column).getHeaderText();
 
-        String entity_name = candidate.getName();
+        String entity_name = candidate.getLabel();
         Set<String> bag_of_words_for_entity_name = new HashSet<String>(StringUtils.toBagOfWords(entity_name, true, true,TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
 
 
         /* BOW OF THE ENTITY*/
-        List<String[]> facts = candidate.getFacts();
+        List<String[]> facts = candidate.getTriples();
         List<String> bag_of_words_for_entity = new ArrayList<String>();
         for (String[] f : facts) {
             if(!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
@@ -133,14 +133,14 @@ public class DisambiguationScorer_TM_ISWC_version implements DisambiguationScore
 
         /*REFERENCE ENTITY CONTEXT*/
         //refrence entities, if any
-        Set<EntityCandidate> reference_non_duplicate = new HashSet<EntityCandidate>();
-        for (EntityCandidate ec : reference_disambiguated_entities)
+        Set<Entity> reference_non_duplicate = new HashSet<>();
+        for (Entity ec : reference_disambiguated_entities)
             reference_non_duplicate.add(ec);
         double sum = 0.0;
-        for (EntityCandidate ec : reference_non_duplicate) {
+        for (Entity ec : reference_non_duplicate) {
             bag_of_words_for_context.clear();
 
-            for (String[] f : ec.getFacts()) {
+            for (String[] f : ec.getTriples()) {
                 String value = f[1];
                 if (!StringUtils.isPath(value))
                     bag_of_words_for_context.addAll(StringUtils.toBagOfWords(value, true, true,TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
@@ -163,9 +163,9 @@ public class DisambiguationScorer_TM_ISWC_version implements DisambiguationScore
         if (assigned_column_semantic_types.size() > 0 && candidate.getTypes().size() > 0) {
             bag_of_words_for_context.clear();
             bag_of_words_for_context.addAll(assigned_column_semantic_types);
-            Set<String> types_strings = new HashSet<String>();
-            for (String[] type : candidate.getTypes())
-                types_strings.add(type[0]);
+            Set<String> types_strings = new HashSet<>(candidate.getTypeIds());
+            /*for (String[] type : candidate.getTypes())
+                types_strings.add(type[0]);*/
             double score_type_match = CollectionUtils.scoreOverlap_dice(bag_of_words_for_context, types_strings);
             scoreMap.put(CellAnnotation.SCORE_TYPE_MATCH, score_type_match);
         }

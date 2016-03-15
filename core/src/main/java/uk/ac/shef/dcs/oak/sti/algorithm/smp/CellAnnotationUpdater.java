@@ -112,7 +112,7 @@ public class CellAnnotationUpdater {
             if (message.getFlag_subOrObj() == 0) { //the current cell's NE is the subject in the relation that sends the "change" message
                 //we need to fetch all facts of a candidate entity annotation, check if any fact uses a relation same as identified
                 //in the message
-                List<String[]> facts = ca.getAnnotation().getFacts();
+                List<String[]> facts = ca.getAnnotation().getTriples();
                 if (containsRelation(facts, message.getLabels()))
                     return true;
                 else return false;
@@ -126,7 +126,7 @@ public class CellAnnotationUpdater {
                         //because another message should have been sent to the cell that corresponds to the subject cell
                         //and that ensures the subject's cell's annotation will be dealt with separately
                         for (CellAnnotation subjectCellAnnotation : subjectCellAnnotations) {
-                            for (String[] fact : subjectCellAnnotation.getAnnotation().getFacts()) {
+                            for (String[] fact : subjectCellAnnotation.getAnnotation().getTriples()) {
                                 if (fact[1].equals(ca.getAnnotation().getId())) {
                                     return true;
                                 }

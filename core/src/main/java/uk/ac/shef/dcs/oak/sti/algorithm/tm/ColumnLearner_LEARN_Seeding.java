@@ -1,12 +1,12 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.selector.CellSelector;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.stopping.StoppingCriteria;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.stopping.StoppingCriteriaInstantiator;
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
-import uk.ac.shef.dcs.oak.util.ObjObj;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 
 import java.io.IOException;
 import java.util.*;
@@ -40,15 +40,15 @@ public class ColumnLearner_LEARN_Seeding {
         this.stopperParams = stoppingCriteriaParams;
     }
 
-    public ObjObj<Integer, List<List<Integer>>> learn_seeding(LTable table, LTableAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
+    public Pair<Integer, List<List<Integer>>> learn_seeding(LTable table, LTableAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
         StoppingCriteria stopper = StoppingCriteriaInstantiator.instantiate(stopperClassname, stopperParams);
 
         //1. gather list of strings from this column to be interpreted
         List<List<Integer>> ranking = selector.select(table, column, table_annotation.getSubjectColumn());
 
         //3. score column and also disambiguate initial rows in the selected sample
-        Map<Integer, List<ObjObj<EntityCandidate, Map<String, Double>>>> candidates_and_scores_for_each_row =
-                new HashMap<Integer, List<ObjObj<EntityCandidate, Map<String, Double>>>>();
+        Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row =
+                new HashMap<>();
         Set<HeaderAnnotation> headerAnnotationScores = new HashSet<HeaderAnnotation>();
 
         int countProcessed = 0, totalRows=0;
@@ -83,11 +83,11 @@ public class ColumnLearner_LEARN_Seeding {
                 }
             }
 
-            List<ObjObj<EntityCandidate, Map<String, Double>>> candidates_and_scores_on_this_block;
+            List<Pair<Entity, Map<String, Double>>> candidates_and_scores_on_this_block;
             if (skip) {
                 candidates_and_scores_on_this_block = collect_existing(table_annotation, rows_indexes, column);
             } else {
-                List<EntityCandidate> candidates = kbSearcher.findEntitiesForCell(sample);
+                List<Entity> candidates = kbSearcher.findEntityCandidates(sample);
                 //do disambiguation scoring
                 candidates_and_scores_on_this_block =
                         disambiguation_learn.disambiguate_learn_seeding(
@@ -123,18 +123,18 @@ public class ColumnLearner_LEARN_Seeding {
             create_typing_annotations(state, table_annotation, column); //supporting rows not added
             revise_disambiguation_and_create_annotations(table_annotation, table, candidates_and_scores_for_each_row, column);
         }
-        return new ObjObj<Integer, List<List<Integer>>>(countProcessed, ranking);
+        return new Pair<>(countProcessed, ranking);
     }
 
-    private List<ObjObj<EntityCandidate, Map<String, Double>>> collect_existing(LTableAnnotation table_annotation, List<Integer> rows_indexes, int column) {
-        List<ObjObj<EntityCandidate, Map<String, Double>>> candidates = new ArrayList<ObjObj<EntityCandidate, Map<String, Double>>>();
+    private List<Pair<Entity, Map<String, Double>>> collect_existing(LTableAnnotation table_annotation, List<Integer> rows_indexes, int column) {
+        List<Pair<Entity, Map<String, Double>>> candidates = new ArrayList<>();
         for (int row : rows_indexes) {
             CellAnnotation[] annotations = table_annotation.getContentCellAnnotations(row, column);
             for (CellAnnotation can : annotations) {
-                EntityCandidate ec = can.getAnnotation();
+                Entity ec = can.getAnnotation();
                 Map<String, Double> scoreElements = can.getScore_element_map();
                 scoreElements.put(CellAnnotation.SCORE_FINAL, can.getFinalScore());
-                candidates.add(new ObjObj<EntityCandidate, Map<String, Double>>(ec, scoreElements));
+                candidates.add(new Pair<>(ec, scoreElements));
             }
 
         }
@@ -158,24 +158,24 @@ public class ColumnLearner_LEARN_Seeding {
 
     private void revise_disambiguation_and_create_annotations(LTableAnnotation table_annotation,
                                                               LTable table,
-                                                              Map<Integer, List<ObjObj<EntityCandidate, Map<String, Double>>>> candidates_and_scores_for_each_row,
+                                                              Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row,
                                                               int column) {
         List<HeaderAnnotation> bestHeaderAnnotations = table_annotation.getBestHeaderAnnotations(column);
         List<String> types = new ArrayList<String>();
         for (HeaderAnnotation ha : bestHeaderAnnotations)
             types.add(ha.getAnnotation_url());
-        for (Map.Entry<Integer, List<ObjObj<EntityCandidate, Map<String, Double>>>> e :
+        for (Map.Entry<Integer, List<Pair<Entity, Map<String, Double>>>> e :
                 candidates_and_scores_for_each_row.entrySet()) {
 
             int row = e.getKey();
-            List<ObjObj<EntityCandidate, Map<String, Double>>> entities_for_this_cell_and_scores = e.getValue();
+            List<Pair<Entity, Map<String, Double>>> entities_for_this_cell_and_scores = e.getValue();
             if (entities_for_this_cell_and_scores.size() == 0)
                 continue;
 
-            List<ObjObj<EntityCandidate, Map<String, Double>>> revised = disambiguation_learn.revise(entities_for_this_cell_and_scores, types);
+            List<Pair<Entity, Map<String, Double>>> revised = disambiguation_learn.revise(entities_for_this_cell_and_scores, types);
             if (revised.size() != 0)
                 entities_for_this_cell_and_scores = revised;
-            List<EntityCandidate> best_entities = create_entity_annotations(table, table_annotation, row, column, entities_for_this_cell_and_scores
+            List<Entity> best_entities = create_entity_annotations(table, table_annotation, row, column, entities_for_this_cell_and_scores
             ); //supporting rows are added here, impossible other places
             update_typing_supporting_rows(best_entities, row, column, table_annotation);
         }
@@ -203,18 +203,18 @@ public class ColumnLearner_LEARN_Seeding {
         }
     }
 
-    private List<EntityCandidate> create_entity_annotations(
+    private List<Entity> create_entity_annotations(
             LTable table,
             LTableAnnotation table_annotation,
             int table_cell_row,
             int table_cell_col,
-            List<ObjObj<EntityCandidate, Map<String, Double>>> candidates_and_scores_for_cell) {
+            List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_cell) {
 
-        Collections.sort(candidates_and_scores_for_cell, new Comparator<ObjObj<EntityCandidate, Map<String, Double>>>() {
+        Collections.sort(candidates_and_scores_for_cell, new Comparator<Pair<Entity, Map<String, Double>>>() {
             @Override
-            public int compare(ObjObj<EntityCandidate, Map<String, Double>> o1, ObjObj<EntityCandidate, Map<String, Double>> o2) {
-                Double o2_score = o2.getOtherObject().get(CellAnnotation.SCORE_FINAL);
-                Double o1_score = o1.getOtherObject().get(CellAnnotation.SCORE_FINAL);
+            public int compare(Pair<Entity, Map<String, Double>> o1, Pair<Entity, Map<String, Double>> o2) {
+                Double o2_score = o2.getValue().get(CellAnnotation.SCORE_FINAL);
+                Double o1_score = o1.getValue().get(CellAnnotation.SCORE_FINAL);
                 return o2_score.compareTo(o1_score);
             }
         });
@@ -222,34 +222,34 @@ public class ColumnLearner_LEARN_Seeding {
         double max = 0.0;
         CellAnnotation[] annotationsForCell = new CellAnnotation[candidates_and_scores_for_cell.size()];
         for (int i = 0; i < candidates_and_scores_for_cell.size(); i++) {
-            ObjObj<EntityCandidate, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
-            double score = e.getOtherObject().get(CellAnnotation.SCORE_FINAL);
+            Pair<Entity, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
+            double score = e.getValue().get(CellAnnotation.SCORE_FINAL);
             if (score > max)
                 max = score;
             annotationsForCell[i] = new CellAnnotation(table.getContentCell(table_cell_row, table_cell_col).getText(),
-                    e.getMainObject(), e.getOtherObject().get(CellAnnotation.SCORE_FINAL), e.getOtherObject());
+                    e.getKey(), e.getValue().get(CellAnnotation.SCORE_FINAL), e.getValue());
 
         }
         table_annotation.setContentCellAnnotations(table_cell_row, table_cell_col, annotationsForCell);
 
-        List<EntityCandidate> best = new ArrayList<EntityCandidate>();
+        List<Entity> best = new ArrayList<>();
         for (int i = 0; i < candidates_and_scores_for_cell.size(); i++) {
-            ObjObj<EntityCandidate, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
-            double score = e.getOtherObject().get(CellAnnotation.SCORE_FINAL);
+            Pair<Entity, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
+            double score = e.getValue().get(CellAnnotation.SCORE_FINAL);
             if (score == max)
-                best.add(e.getMainObject());
+                best.add(e.getKey());
         }
         return best;
     }
 
-    private void update_typing_supporting_rows(List<EntityCandidate> bestCandidates,
+    private void update_typing_supporting_rows(List<Entity> bestCandidates,
                                                int row,
                                                int column,
                                                LTableAnnotation table_annotation) {
         HeaderAnnotation[] headers = table_annotation.getHeaderAnnotation(column);
         if (headers != null) {
             for (HeaderAnnotation ha : headers) {
-                for (EntityCandidate ec : bestCandidates) {
+                for (Entity ec : bestCandidates) {
                     if (ec.getTypeIds().contains(ha.getAnnotation_url()))
                         ha.addSupportingRow(row);
                 }

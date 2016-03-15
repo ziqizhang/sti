@@ -1,12 +1,12 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm.maincol;
 
 import cern.colt.matrix.DoubleMatrix2D;
+import javafx.util.Pair;
 import org.apache.solr.client.solrj.SolrServer;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.selector.RowSelector;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.stopping.StoppingCriteriaInstantiator;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
@@ -67,8 +67,8 @@ public class MainColumnFinder {
      * probability that asserts that column being the main column of the table. (only NE likely columns can be
      * considered main column)
      */
-    public List<ObjObj<Integer, ObjObj<Double, Boolean>>> compute(LTable table, int... skipColumns) throws APIKeysDepletedException, IOException {
-        List<ObjObj<Integer, ObjObj<Double, Boolean>>> rs = new ArrayList<ObjObj<Integer, ObjObj<Double, Boolean>>>();
+    public List<Pair<Integer, Pair<Double, Boolean>>> compute(LTable table, int... skipColumns) throws APIKeysDepletedException, IOException {
+        List<Pair<Integer, Pair<Double, Boolean>>> rs = new ArrayList<>();
 
         //1. initiate all columns' feature objects
         List<ColumnFeature> allColumnCandidates = new ArrayList<ColumnFeature>(table.getNumCols());
@@ -111,9 +111,7 @@ public class MainColumnFinder {
         //EXCEPTION: what if no SHORT TEXT columns found?
         if (allNEColumnCandidates.size() == 0) {
             log.warning("This table does not contain columns that are likely to contain named entities.");
-            ObjObj<Integer, ObjObj<Double, Boolean>> oo = new ObjObj<Integer, ObjObj<Double, Boolean>>();
-            oo.setMainObject(0);
-            oo.setOtherObject(new ObjObj<Double, Boolean>(1.0, false));
+            Pair<Integer, Pair<Double, Boolean>> oo = new Pair<>(0,new Pair<>(1.0, false));
             rs.add(oo);
             for (ColumnFeature cf : allColumnCandidates) {
                 table.getColumnHeader(cf.getColId()).setFeature(cf);
@@ -125,9 +123,7 @@ public class MainColumnFinder {
         int onlyNECol = featureGenerator.feature_isTheOnlyNEColumn(allNEColumnCandidates);
         //5 - yes:
         if (onlyNECol != -1) {
-            ObjObj<Integer, ObjObj<Double, Boolean>> oo = new ObjObj<Integer, ObjObj<Double, Boolean>>();
-            oo.setMainObject(onlyNECol);
-            oo.setOtherObject(new ObjObj<Double, Boolean>(1.0, false));
+            Pair<Integer, Pair<Double, Boolean>> oo = new Pair<>(onlyNECol,new Pair<>(1.0, false));
             rs.add(oo);
             for (ColumnFeature cf : allColumnCandidates) {
                 table.getColumnHeader(cf.getColId()).setFeature(cf);
@@ -150,9 +146,8 @@ public class MainColumnFinder {
         //6 - yes:
         if (index_onlyNECol_with_no_emtpy != -1 && num == 1) {
             if (!allColumnCandidates.get(index_onlyNECol_with_no_emtpy).isCode_or_Acronym()) {
-                ObjObj<Integer, ObjObj<Double, Boolean>> oo = new ObjObj<Integer, ObjObj<Double, Boolean>>();
-                oo.setMainObject(allColumnCandidates.get(index_onlyNECol_with_no_emtpy).getColId());
-                oo.setOtherObject(new ObjObj<Double, Boolean>(1.0, false));
+                Pair<Integer, Pair<Double, Boolean>> oo = new Pair<>(allColumnCandidates.get(index_onlyNECol_with_no_emtpy).getColId(),
+                        new Pair<>(1.0, false));
                 rs.add(oo);
                 for (ColumnFeature cf : allColumnCandidates) {
                     table.getColumnHeader(cf.getColId()).setFeature(cf);
@@ -182,9 +177,10 @@ public class MainColumnFinder {
                 allColumnCandidates.get(index_onlyNECol_non_duplicate).isCode_or_Acronym();
 
             if (!allColumnCandidates.get(index_onlyNECol_non_duplicate).isCode_or_Acronym()) {
-                ObjObj<Integer, ObjObj<Double, Boolean>> oo = new ObjObj<Integer, ObjObj<Double, Boolean>>();
-                oo.setMainObject(allColumnCandidates.get(index_onlyNECol_non_duplicate).getColId());
-                oo.setOtherObject(new ObjObj<Double, Boolean>(1.0, false));
+                Pair<Integer, Pair<Double, Boolean>> oo = new Pair<>(
+                        allColumnCandidates.get(index_onlyNECol_non_duplicate).getColId(),
+                        new Pair<Double, Boolean>(1.0, false)
+                );
                 //     rs.add(oo);
                 for (ColumnFeature cf : allColumnCandidates) {
                     table.getColumnHeader(cf.getColId()).setFeature(cf);
@@ -211,9 +207,10 @@ public class MainColumnFinder {
             }
         }
         if (allNEColumnCandidates.size() == 1) {
-            ObjObj<Integer, ObjObj<Double, Boolean>> oo = new ObjObj<Integer, ObjObj<Double, Boolean>>();
-            oo.setMainObject(allNEColumnCandidates.get(0).getColId());
-            oo.setOtherObject(new ObjObj<Double, Boolean>(1.0, false));
+            Pair<Integer, Pair<Double, Boolean>> oo = new Pair<>(
+                    allNEColumnCandidates.get(0).getColId(),
+                    new Pair<>(1.0, false)
+            );
             rs.add(oo);
             for (ColumnFeature cf : allColumnCandidates) {
                 table.getColumnHeader(cf.getColId()).setFeature(cf);
@@ -256,7 +253,8 @@ public class MainColumnFinder {
 
         //12. then let's perform reasoning based on the remaining features: diversity score; 1st ne column; context match; web search match
         //final Map<Integer, ObjObj<Double, Boolean>> inferenceScores = infer_multiFeatures_vote(allNEColumnCandidates);
-        final Map<Integer, ObjObj<Double, Boolean>> inferenceScores = infer_multiFeatures_score(allNEColumnCandidates);
+        final Map<Integer, Pair<Double, Boolean>> inferenceScores =
+                infer_multiFeatures_score(allNEColumnCandidates);
         List<Integer> candidates = new ArrayList<Integer>(inferenceScores.keySet());
         final Map<Integer, ColumnFeature> map_column_to_columnFeature = new HashMap<Integer, ColumnFeature>();
         for (ColumnFeature cf : allNEColumnCandidates) {
@@ -267,7 +265,7 @@ public class MainColumnFinder {
         Collections.sort(candidates, new Comparator<Integer>() { //sort by score first; then column, left most first
             @Override
             public int compare(Integer o1, Integer o2) {
-                int compared = inferenceScores.get(o2).getMainObject().compareTo(inferenceScores.get(o1).getMainObject());
+                int compared = inferenceScores.get(o2).getKey().compareTo(inferenceScores.get(o1).getKey());
                 /*if (compared == 0) { //where there is a tie, choose the one having the highest diversity score
                     Double vd_o1 = map_column_to_columnFeature.get(o1).getCellValueDiversity();
                     Double vd_o2 = map_column_to_columnFeature.get(o2).getCellValueDiversity();
@@ -283,9 +281,8 @@ public class MainColumnFinder {
         });
 
         for (int ci : candidates) {
-            ObjObj<Integer, ObjObj<Double, Boolean>> oo = new ObjObj<Integer, ObjObj<Double, Boolean>>();
-            oo.setMainObject(ci);
-            oo.setOtherObject(inferenceScores.get(ci));
+            Pair<Integer, Pair<Double, Boolean>> oo = new Pair<>(ci,
+                    inferenceScores.get(ci));
             rs.add(oo);
         }
 
@@ -303,8 +300,8 @@ public class MainColumnFinder {
 
     }
 
-    private Map<Integer, ObjObj<Double, Boolean>> infer_multiFeatures_score(List<ColumnFeature> allNEColumnCandidates) {
-        Map<Integer, ObjObj<Double, Boolean>> scores = new HashMap<Integer, ObjObj<Double, Boolean>>();
+    private Map<Integer, Pair<Double, Boolean>> infer_multiFeatures_score(List<ColumnFeature> allNEColumnCandidates) {
+        Map<Integer, Pair<Double, Boolean>> scores = new HashMap<>();
         //a. vote by diversity score
         Collections.sort(allNEColumnCandidates, new Comparator<ColumnFeature>() {
             @Override
@@ -364,14 +361,12 @@ public class MainColumnFinder {
             }
             max_component_score_booster = max_component_score_booster == 0 ? 1 : max_component_score_booster;
 
-            ObjObj<Double, Boolean> score_object = new ObjObj<Double, Boolean>();
 
+            boolean f =false;
             sum = diversity + cm + wb - empty_cell_penalty;
             if (cf.isCode_or_Acronym()) {
                 sum = sum - 1.0;
-                score_object.setOtherObject(true);
-            } else {
-                score_object.setOtherObject(false);
+                f=true;
             }
             if (use_max_score_boost)
                 sum = Math.pow(sum, max_component_score_booster);
@@ -381,7 +376,7 @@ public class MainColumnFinder {
             if (score_normamlize_by_distance_to_first_col) {
                 sum = sum / Math.sqrt(index + 1);
             }
-            score_object.setMainObject(sum);
+            Pair<Double, Boolean> score_object = new Pair<>(sum,f);
             scores.put(cf.getColId(), score_object);
         }
 
@@ -468,8 +463,8 @@ public class MainColumnFinder {
     //key: col id; value: score
     //currently performs following scoring: diversity; context match; 1st ne column; acronym column checker; search
     //results are collected as number of votes by each dimension
-    private Map<Integer, ObjObj<Double, Boolean>> infer_multiFeatures_vote(List<ColumnFeature> allNEColumnCandidates) {
-        Map<Integer, ObjObj<Double, Boolean>> votes = new HashMap<Integer, ObjObj<Double, Boolean>>();
+    private Map<Integer, Pair<Double, Boolean>> infer_multiFeatures_vote(List<ColumnFeature> allNEColumnCandidates) {
+        Map<Integer, Pair<Double, Boolean>> votes = new HashMap<>();
         //a. vote by diversity score
         Collections.sort(allNEColumnCandidates, new Comparator<ColumnFeature>() {
             @Override
@@ -485,7 +480,7 @@ public class MainColumnFinder {
             double diversity = cf.getTokenValueDiversity() + cf.getCellValueDiversity();
             if (diversity >= maxDiversityScore && diversity != 0) {
                 maxDiversityScore = diversity;
-                votes.put(cf.getColId(), new ObjObj<Double, Boolean>(1.0, false));
+                votes.put(cf.getColId(), new Pair<>(1.0, false));
             } else
                 break; //already sorted, so following this there shouldnt be higher diversity scores
         }
@@ -494,11 +489,11 @@ public class MainColumnFinder {
         //b. vote by 1st ne column
         for (ColumnFeature cf : allNEColumnCandidates) {
             if (cf.isFirstNEColumn()) {
-                ObjObj<Double, Boolean> entry = votes.get(cf.getColId());
-                entry = entry == null ? new ObjObj<Double, Boolean>(0.0, false) : entry;
-                Double vts = entry.getMainObject();
+                Pair<Double, Boolean> entry = votes.get(cf.getColId());
+                entry = entry == null ? new Pair<>(0.0, false) : entry;
+                Double vts = entry.getKey();
                 vts = vts + 1.0;
-                entry.setMainObject(vts);
+                entry = new Pair<>(vts, entry.getValue());
                 votes.put(cf.getColId(), entry);
                 break;
             }
@@ -514,11 +509,11 @@ public class MainColumnFinder {
         for (ColumnFeature cf : allNEColumnCandidates) {
             if (cf.getContextMatchScore() >= maxContextMatchScore && cf.getContextMatchScore() != 0) {
                 maxContextMatchScore = cf.getContextMatchScore();
-                ObjObj<Double, Boolean> entry = votes.get(cf.getColId());
-                entry = entry == null ? new ObjObj<Double, Boolean>(0.0, false) : entry;
-                Double vts = entry.getMainObject();
+                Pair<Double, Boolean> entry = votes.get(cf.getColId());
+                entry = entry == null ? new Pair<>(0.0, false) : entry;
+                Double vts = entry.getKey();
                 vts = vts + 1.0;
-                entry.setMainObject(vts);
+                entry = new Pair<>(vts, entry.getValue());
                 votes.put(cf.getColId(), entry);
             } else
                 break;
@@ -526,12 +521,11 @@ public class MainColumnFinder {
         //d. vote by acronym columns
         for (ColumnFeature cf : allNEColumnCandidates) {
             if (cf.isCode_or_Acronym()) {
-                ObjObj<Double, Boolean> entry = votes.get(cf.getColId());
-                entry = entry == null ? new ObjObj<Double, Boolean>(0.0, false) : entry;
-                Double vts = entry.getMainObject();
+                Pair<Double, Boolean> entry = votes.get(cf.getColId());
+                entry = entry == null ? new Pair<>(0.0, false) : entry;
+                Double vts = entry.getKey();
                 vts = vts - 1.0;
-                entry.setMainObject(vts);
-                entry.setOtherObject(true);
+                entry = new Pair<>(vts, true);
                 votes.put(cf.getColId(), entry);
             }
         }
@@ -547,11 +541,11 @@ public class MainColumnFinder {
         for (ColumnFeature cf : allNEColumnCandidates) {
             if (cf.getWebSearchScore() >= maxSearchMatchScore && cf.getWebSearchScore() != 0) {
                 maxSearchMatchScore = cf.getWebSearchScore();
-                ObjObj<Double, Boolean> entry = votes.get(cf.getColId());
-                entry = entry == null ? new ObjObj<Double, Boolean>(0.0, false) : entry;
-                Double vts = entry.getMainObject();
+                Pair<Double, Boolean> entry = votes.get(cf.getColId());
+                entry = entry == null ? new Pair<>(0.0, false) : entry;
+                Double vts = entry.getKey();
                 vts = vts + 1.0;
-                entry.setMainObject(vts);
+                entry = new Pair<>(vts, entry.getValue());
                 votes.put(cf.getColId(), entry);
             } else
                 break;
@@ -560,7 +554,7 @@ public class MainColumnFinder {
         for (ColumnFeature cf : allNEColumnCandidates) {
             if (votes.containsKey(cf.getColId()))
                 continue;
-            votes.put(cf.getColId(), new ObjObj<Double, Boolean>(0.0, false));
+            votes.put(cf.getColId(), new Pair<>(0.0, false));
         }
         return votes;
     }

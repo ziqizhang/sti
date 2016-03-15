@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.kb;
 
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,11 +61,11 @@ public class KnowledgeBaseFreebaseFilter {
 
     }
 
-    public static List<String[]> filterTypes(List<String[]> types){
-        List<String[]> r = new ArrayList<String[]>();
-        for(String [] t: types) {
-            String url = t[0];
-            String label = t[1];
+    public static List<Clazz> filterTypes(List<Clazz> types){
+        List<Clazz> r = new ArrayList<>();
+        for(Clazz t: types) {
+            String url = t.getId();
+            String label = t.getLabel();
             if (ignoreType(url, label)) continue;
             r.add(t);
         }

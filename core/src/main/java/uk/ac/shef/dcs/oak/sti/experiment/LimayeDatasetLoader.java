@@ -11,7 +11,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.oak.sti.PlaceHolder;
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -218,7 +218,7 @@ public class LimayeDatasetLoader {
                     continue;
                 }
                 CellAnnotation cellAnnotation = new CellAnnotation(
-                        table.getContentCell(i, j).getText(), new EntityCandidate(htmlCell.getTextContent(), htmlCell.getTextContent()), 1.0, new HashMap<String, Double>()
+                        table.getContentCell(i, j).getText(), new Entity(htmlCell.getTextContent(), htmlCell.getTextContent()), 1.0, new HashMap<String, Double>()
                 );
 
                 table.getTableAnnotations().setContentCellAnnotations(

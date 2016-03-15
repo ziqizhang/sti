@@ -1,5 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.experiment;
 
+import javafx.util.Pair;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
@@ -14,7 +15,6 @@ import uk.ac.shef.dcs.oak.sti.xtractor.TableNormalizerDummy;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableObjCreatorMusicBrainz;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableXtractorMusicBrainz;
 import uk.ac.shef.dcs.oak.util.FileUtils;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.MultiKeyStringSplitter;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -125,9 +125,9 @@ public class TestTableMainColFinder {
             continue;*/
             // LTable table = tables.get(0);
             try {
-                List<ObjObj<Integer, ObjObj<Double, Boolean>>> result = finder.compute(table);
+                List<Pair<Integer, Pair<Double, Boolean>>> result = finder.compute(table);
 
-                p.println("\"" + f + "\"," + result.get(0).getMainObject() + "," + result.get(0).getOtherObject().getOtherObject());
+                p.println("\"" + f + "\"," + result.get(0).getKey() + "," + result.get(0).getValue().getValue());
             } catch (Exception e) {
                 System.err.println("FAILED:" + f);
             }

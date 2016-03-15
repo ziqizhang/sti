@@ -389,7 +389,7 @@ public class LTableAnnotationWriter {
     protected Object generateCellAnnotationString(CellAnnotation cAnn) {
         StringBuilder sb = new StringBuilder();
         sb.append("<a href=\"" + linkPrefix + cAnn.getAnnotation().getId() + "\">").
-                append(cAnn.getAnnotation().getName()).append("</a>").
+                append(cAnn.getAnnotation().getLabel()).append("</a>").
                 append("=").append(Math.round(cAnn.getFinalScore() * 100.0) / 100.0).append(cAnn.getAnnotation().getTypeIds());
         return sb.toString();
     }

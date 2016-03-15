@@ -5,6 +5,7 @@ import uk.ac.shef.dcs.oak.sti.rep.HeaderAnnotation;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
 
 import java.util.*;
 
@@ -23,13 +24,13 @@ class HeaderAnnotationUpdater {
                            Set<HeaderAnnotation> new_header_annotation_placeholders
     ) {
 
-        List<String[]> types = ca.getAnnotation().getTypes();
+        List<Clazz> types = ca.getAnnotation().getTypes();
 
         for (int index = 0; index < types.size(); index++) {
             boolean found = false;
-            String[] type = types.get(index);
+            Clazz type = types.get(index);
             for (HeaderAnnotation ha : existing_header_annotations) {
-                if (type[0].equalsIgnoreCase(ha.getAnnotation_url())) {
+                if (type.getId().equalsIgnoreCase(ha.getAnnotation_url())) {
                     found = true;
                     break;
                 }
@@ -37,7 +38,7 @@ class HeaderAnnotationUpdater {
             if (!found) {
                 new_header_annotation_placeholders.add(
                         new HeaderAnnotation(table.getColumnHeader(column).getHeaderText(),
-                                type[0], type[1], 0.0));
+                                type.getId(), type.getLabel(), 0.0));
             }
         }
     }
@@ -110,7 +111,7 @@ class HeaderAnnotationUpdater {
             Set<String> types_already_received_votes_by_cell=new HashSet<String>();
             for (CellAnnotation ca : bestCellAnnotations) {
                 for (HeaderAnnotation ha : existing_header_annotations) {
-                    if (ca.getAnnotation().hasTypeId(ha.getAnnotation_url())) {
+                    if (ca.getAnnotation().hasType(ha.getAnnotation_url())) {
                         ha.addSupportingRow(row);
                         if (TableMinerConstants.BEST_CANDIDATE_CONTRIBUTE_COUNT_ONLY_ONCE
                                 &&!types_already_received_votes_by_cell.contains(ha.getAnnotation_url())) {

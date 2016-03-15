@@ -1,12 +1,9 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
-import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
-import uk.ac.shef.dcs.oak.sti.rep.LTable;
-import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
-import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
-import uk.ac.shef.dcs.oak.util.ObjObj;
+import uk.ac.shef.dcs.oak.sti.rep.*;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 
 import java.io.IOException;
 import java.util.*;
@@ -28,16 +25,16 @@ public class CandidateEntityGenerator {
             LTableAnnotation tableAnnotations, LTable table,
             int row, int column
     ) throws IOException {
-        List<ObjObj<EntityCandidate, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
-        List<ObjObj<EntityCandidate, Double>> sorted = new ArrayList<ObjObj<EntityCandidate, Double>>();
-        for (ObjObj<EntityCandidate, Map<String, Double>> e : scores) {
-            double score = e.getOtherObject().get(DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR);
-            sorted.add(new ObjObj<EntityCandidate, Double>(e.getMainObject(), score));
+        List<Pair<Entity, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
+        List<Pair<Entity, Double>> sorted = new ArrayList<>();
+        for (Pair<Entity, Map<String, Double>> e : scores) {
+            double score = e.getValue().get(DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR);
+            sorted.add(new Pair<Entity, Double>(e.getKey(), score));
         }
-        Collections.sort(sorted, new Comparator<ObjObj<EntityCandidate, Double>>() {
+        Collections.sort(sorted, new Comparator<Pair<Entity, Double>>() {
             @Override
-            public int compare(ObjObj<EntityCandidate, Double> o1, ObjObj<EntityCandidate, Double> o2) {
-                return o2.getOtherObject().compareTo(o1.getOtherObject());
+            public int compare(Pair<Entity, Double> o1, Pair<Entity, Double> o2) {
+                return o2.getValue().compareTo(o1.getValue());
             }
         });
         LTableContentCell tcc = table.getContentCell(row, column);
@@ -45,8 +42,10 @@ public class CandidateEntityGenerator {
         if (text.length() > 2) {
             CellAnnotation[] annotations = new CellAnnotation[scores.size()];
             int i = 0;
-            for (ObjObj<EntityCandidate, Map<String, Double>> oo : scores) {
-                CellAnnotation ca = new CellAnnotation(tcc.getText(), oo.getMainObject(), oo.getOtherObject().get(DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR), oo.getOtherObject());
+            for (Pair<Entity, Map<String, Double>> oo : scores) {
+                CellAnnotation ca = new CellAnnotation(tcc.getText(),
+                        oo.getKey(), oo.getValue().get(DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR),
+                        oo.getValue());
                 annotations[i] = ca;
                 i++;
             }
@@ -55,7 +54,7 @@ public class CandidateEntityGenerator {
         //return sorted;
     }
 
-    public List<ObjObj<EntityCandidate, Map<String, Double>>> scoreCandidateNamedEntities(LTable table,
+    public List<Pair<Entity, Map<String, Double>>> scoreCandidateNamedEntities(LTable table,
                                                                                           int row, int column
     ) throws IOException {
         //do disambiguation scoring
@@ -65,9 +64,9 @@ public class CandidateEntityGenerator {
                 cell);
        /* if(row==11)
             System.out.println();*/
-        List<EntityCandidate> candidates = kbSearcher.findEntitiesForCell(cell);
-        List<EntityCandidate> removeDuplicates = new ArrayList<EntityCandidate>();
-        for(EntityCandidate ec: candidates){
+        List<Entity> candidates = kbSearcher.findEntityCandidates(cell);
+        List<Entity> removeDuplicates = new ArrayList<>();
+        for(Entity ec: candidates){
             if(!removeDuplicates.contains(ec))
                 removeDuplicates.add(ec);
         }
@@ -75,21 +74,20 @@ public class CandidateEntityGenerator {
 
         System.out.println(" candidates=" + candidates.size());
         //each candidate will have a map containing multiple elements of scores. See DisambiguationScorer_SMP_adapted
-        List<ObjObj<EntityCandidate, Map<String, Double>>> disambiguationScores = new ArrayList<ObjObj<EntityCandidate, Map<String, Double>>>();
-        for (EntityCandidate c : candidates) {
+        List<Pair<Entity, Map<String, Double>>> disambiguationScores =
+                new ArrayList<>();
+        for (Entity c : candidates) {
             //find facts of each entity
-            if (c.getFacts() == null || c.getFacts().size() == 0) {
-                List<String[]> facts = kbSearcher.find_triplesForEntity_filtered(c);
-                c.setFacts(facts);
+            if (c.getTriples() == null || c.getTriples().size() == 0) {
+                List<String[]> facts = kbSearcher.findTriplesOfEntityCandidates(c);
+                c.setTriples(facts);
             }
             Map<String, Double> scoreMap = disambScorer.
                     score(c, candidates,
                             column, row, Arrays.asList(row),
                             table, new HashSet<String>());
             disambScorer.compute_final_score(scoreMap, cell.getText());
-            ObjObj<EntityCandidate, Map<String, Double>> entry = new ObjObj<EntityCandidate, Map<String, Double>>();
-            entry.setMainObject(c);
-            entry.setOtherObject(scoreMap);
+            Pair<Entity, Map<String, Double>> entry = new Pair<>(c,scoreMap);
             disambiguationScores.add(entry);
         }
         return disambiguationScores;

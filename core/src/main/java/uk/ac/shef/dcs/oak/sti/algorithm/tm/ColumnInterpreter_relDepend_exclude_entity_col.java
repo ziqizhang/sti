@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 
 import java.io.IOException;
 import java.util.*;
@@ -56,7 +56,7 @@ public class ColumnInterpreter_relDepend_exclude_entity_col extends ColumnInterp
 
             Map<Integer, List<CellBinaryRelationAnnotation>> rows_annotated_with_relation = e.getValue();
             //what is the main type of this column? if the main type happens to be entities...
-            List<ObjObj<String, Double>> sorted_scores_for_relations = new ArrayList<ObjObj<String, Double>>();
+            List<Pair<String, Double>> sorted_scores_for_relations = new ArrayList<>();
             /*if (TableMinerConstants.CLASSIFICATION_CANDIDATE_CONTRIBUTION_METHOD == 0)
                 aggregated_scores_for_relations = score_columnBinaryRelations_best_contribute(rows_annotated_with_relation, table.getNumRows());
             else

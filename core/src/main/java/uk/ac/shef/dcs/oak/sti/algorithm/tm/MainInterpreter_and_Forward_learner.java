@@ -1,12 +1,12 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.STIException;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.maincol.ColumnFeature;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.maincol.MainColumnFinder;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
@@ -58,7 +58,7 @@ public class MainInterpreter_and_Forward_learner {
             ignoreColumnsArray[index] = i;
             index++;
         }
-        List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns =
+        List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns =
                 main_col_finder.compute(table, ignoreColumnsArray);
         //ignore columns that are likely to be acronyms only, because they are highly ambiguous
         /*if (candidate_main_NE_columns.size() > 1) {
@@ -70,7 +70,7 @@ public class MainInterpreter_and_Forward_learner {
             }
         }*/
         LTableAnnotation tab_annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
-        tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getMainObject());
+        tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getKey());
         List<Integer> interpreted_columns = new ArrayList<Integer>();
         System.out.println(">\t FORWARD LEARNING...");
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -104,9 +104,9 @@ public class MainInterpreter_and_Forward_learner {
             double best_solution_score = 0;
             int main_subject_column = -1;
             LTableAnnotation best_annotations = null;
-            for (ObjObj<Integer, ObjObj<Double, Boolean>> mainCol : candidate_main_NE_columns) {
+            for (Pair<Integer, Pair<Double, Boolean>> mainCol : candidate_main_NE_columns) {
                 //tab_annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
-                main_subject_column = mainCol.getMainObject();
+                main_subject_column = mainCol.getKey();
                 if (ignoreColumn(main_subject_column)) continue;
 
                 System.out.println(">\t Interpret relations with the main column, =" + main_subject_column);

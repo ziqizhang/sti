@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.smp;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 
 import java.util.*;
 
@@ -80,7 +80,7 @@ public class RelationLearner {
             Key_SubjectCol_ObjectCol current_relationKey = e.getKey(); //key indicating the directional relationship (subject col, object col)
             if (processed.contains(current_relationKey))
                 continue;
-            Map<String, ObjObj<Integer, Double>> votes = new HashMap<String, ObjObj<Integer, Double>>();
+            Map<String, Pair<Integer, Double>> votes = new HashMap<String, Pair<Integer, Double>>();
 
             processed.add(current_relationKey);
             Map<Integer, List<CellBinaryRelationAnnotation>> relations_on_rows = e.getValue(); //map object where key=row id, value=collection of binary relations between the sub col and obj col on this row
@@ -141,14 +141,14 @@ public class RelationLearner {
 
     }
 
-    private List<RelationDataTuple> selectBest(Map<String, ObjObj<Integer, Double>> votes, Key_SubjectCol_ObjectCol relationDirectionKey) {
+    private List<RelationDataTuple> selectBest(Map<String, Pair<Integer, Double>> votes, Key_SubjectCol_ObjectCol relationDirectionKey) {
         List<RelationDataTuple> out = new ArrayList<RelationDataTuple>();
-        for (Map.Entry<String, ObjObj<Integer, Double>> e : votes.entrySet()) {
+        for (Map.Entry<String, Pair<Integer, Double>> e : votes.entrySet()) {
             RelationDataTuple rdt = new RelationDataTuple();
             rdt.relationString = e.getKey();
             rdt.relationDirection = relationDirectionKey;
-            rdt.votes = e.getValue().getMainObject();
-            rdt.score = e.getValue().getOtherObject();
+            rdt.votes = e.getValue().getKey();
+            rdt.score = e.getValue().getValue();
             out.add(rdt);
         }
         Collections.sort(out);
@@ -165,7 +165,8 @@ public class RelationLearner {
         return out;
     }
 
-    private void collectVotes(Map<Integer, List<CellBinaryRelationAnnotation>> relations, Map<String, ObjObj<Integer, Double>> votes
+    private void collectVotes(Map<Integer, List<CellBinaryRelationAnnotation>> relations,
+                              Map<String, Pair<Integer, Double>> votes
     ) {
         for (List<CellBinaryRelationAnnotation> candidatesOnRow : relations.values()) {        //go thru each row
             Set<String> distinctRelations = new HashSet<String>();
@@ -181,11 +182,14 @@ public class RelationLearner {
                         maxScore=candidate.getScore();
                 }
 
-                ObjObj<Integer, Double> votesAndScore = votes.get(relation); //let's record both votes and score. so when there is a tie at votes, we resort to score
-                if (votesAndScore == null)
-                    votesAndScore = new ObjObj<Integer, Double>(0, 0.0);
-                votesAndScore.setMainObject(votesAndScore.getMainObject() + 1);
-                votesAndScore.setOtherObject(votesAndScore.getOtherObject() + maxScore);
+                Pair<Integer, Double> votesAndScore = votes.get(relation); //let's record both votes and score. so when there is a tie at votes, we resort to score
+                if (votesAndScore == null) {
+                    votesAndScore = new Pair<>(0, 0.0);
+                }
+                else{
+                    votesAndScore = new Pair<>(votesAndScore.getKey()+1,
+                            votesAndScore.getValue()+maxScore);
+                }
 
                 votes.put(relation, votesAndScore);
             }

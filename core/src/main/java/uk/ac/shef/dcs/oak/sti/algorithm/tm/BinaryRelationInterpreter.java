@@ -1,9 +1,9 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 
 import java.util.*;
 
@@ -54,7 +54,8 @@ public class BinaryRelationInterpreter {
             //fetch facts of that entity
             /*if(final_annotation.getAnnotation().getId().equals("/m/0nlpl"))
                 System.out.println();*/
-            List<String[]> facts = /*candidateFinder.find_triplesForEntity(final_annotation.getAnnotation())*/final_annotation.getAnnotation().getFacts();
+            List<String[]> facts = /*candidateFinder.find_triplesForEntity(final_annotation.getAnnotation())*/
+                    final_annotation.getAnnotation().getTriples();
             facts=KnowledgeBaseFreebaseFilter.filterRelations(facts);
             Map<Integer, String> values_to_match_on_the_row = new HashMap<Integer, String>();
             for (int col : colTypes.keySet()) {
@@ -66,27 +67,27 @@ public class BinaryRelationInterpreter {
 
             //perform matching  and scoring
             //key=col id; objobj contains the property that matched with the highest score (string, double)
-            Map<Integer, List<ObjObj<String[], Double>>> matched_scores_for_the_row =
+            Map<Integer, List<Pair<String[], Double>>> matched_scores_for_the_row =
                     cellTextMatcher.match(facts, values_to_match_on_the_row, colTypes);
 
-            for (Map.Entry<Integer, List<ObjObj<String[], Double>>> e : matched_scores_for_the_row.entrySet()) {
+            for (Map.Entry<Integer, List<Pair<String[], Double>>> e : matched_scores_for_the_row.entrySet()) {
                 Key_SubjectCol_ObjectCol subobj_key = new Key_SubjectCol_ObjectCol(sub_column, e.getKey());
 
-                List<ObjObj<String[], Double>> matched_candidates = e.getValue();
-                for (ObjObj<String[], Double> matched : matched_candidates) {
-                    String annotation = matched.getMainObject()[0];
+                List<Pair<String[], Double>> matched_candidates = e.getValue();
+                for (Pair<String[], Double> matched : matched_candidates) {
+                    String annotation = matched.getKey()[0];
                     String annotation_label = ""; //todo:currently we do not get the label!!!
                     String[] matchedValue = new String[4];
-                    matchedValue[0] = matched.getMainObject()[0]; //property name
-                    matchedValue[1] = matched.getMainObject()[1]; //property value
-                    matchedValue[2] = matched.getMainObject()[2];   //property id (if any)
-                    matchedValue[3] = matched.getMainObject()[3]; //if property is direct
+                    matchedValue[0] = matched.getKey()[0]; //property name
+                    matchedValue[1] = matched.getKey()[1]; //property value
+                    matchedValue[2] = matched.getKey()[2];   //property id (if any)
+                    matchedValue[3] = matched.getKey()[3]; //if property is direct
 
                     List<String[]> matchedValues = new ArrayList<String[]>();
                     matchedValues.add(matchedValue);
                     CellBinaryRelationAnnotation relationAnnotation =
                             new CellBinaryRelationAnnotation(
-                                    subobj_key, row, annotation, annotation_label, matchedValues, matched.getOtherObject()
+                                    subobj_key, row, annotation, annotation_label, matchedValues, matched.getValue()
                             );
                     annotations.addRelationAnnotation_per_row(relationAnnotation);
                 }

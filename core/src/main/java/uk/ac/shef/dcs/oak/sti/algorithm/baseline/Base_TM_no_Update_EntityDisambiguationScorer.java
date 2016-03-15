@@ -5,10 +5,10 @@ import uk.ac.shef.dcs.oak.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
@@ -47,20 +47,20 @@ public class Base_TM_no_Update_EntityDisambiguationScorer {
         //stringSimilarityMetric=new CosineSimilarity();
     }
 
-    public Map<String, Double> score(EntityCandidate candidate,
-                                     List<EntityCandidate> other_candidates_returned,
+    public Map<String, Double> score(Entity candidate,
+                                     List<Entity> other_candidates_returned,
                                      int entity_source_column,
                                      int entity_source_row,
                                      LTable table,
                                      Set<String> assigned_column_types,
-                                     EntityCandidate... reference_disambiguated_entities) {
+                                     Entity... reference_disambiguated_entities) {
         /*if(candidate.getName().contains("Republican"))
             System.out.println();*/
         Map<String, Double> scoreMap = new HashMap<String, Double>();
         String headerText =table.getColumnHeader(entity_source_column).getHeaderText();
 
         /* BOW OF THE ENTITY*/
-        List<String[]> facts = candidate.getFacts();
+        List<String[]> facts = candidate.getTriples();
         List<String> bag_of_words_for_entity = new ArrayList<String>();
         for (String[] f : facts) {
             if (KnowledgeBaseFreebaseFilter.ignoreFactFromBOW(f[0]))
@@ -115,9 +115,9 @@ public class Base_TM_no_Update_EntityDisambiguationScorer {
         if (assigned_column_types.size() > 0 && candidate.getTypes().size() > 0) {
             bag_of_words_for_context.clear();
             bag_of_words_for_context.addAll(assigned_column_types);
-            Set<String> types_strings = new HashSet<String>();
-            for(String[] type: candidate.getTypes())
-                types_strings.add(type[0]);
+            Set<String> types_strings = new HashSet<String>(candidate.getTypeIds());
+            /*for(String[] type: candidate.getTypes())
+                types_strings.add(type[0]);*/
             double score_type_match = CollectionUtils.scoreOverlap_dice(bag_of_words_for_context, types_strings);
             scoreMap.put(CellAnnotation.SCORE_TYPE_MATCH, score_type_match);
         }
@@ -132,7 +132,7 @@ public class Base_TM_no_Update_EntityDisambiguationScorer {
         double name_score = ((double) intersection.size() / bag_of_words_for_cell_text.size() + (double) intersection.size() / bag_of_words_for_entity_name.size()) / 2.0;
         */
         String cell_text = table.getContentCell(entity_source_row, entity_source_column).getText();
-        String entity_name = candidate.getName();
+        String entity_name = candidate.getLabel();
         //double stringSim = CollectionUtils.diceCoefficientOptimized(cell_text,entity_name);
         double stringSim = stringSimilarityMetric.getSimilarity(cell_text,entity_name);
         /*double stringSim = stringSimilarityMetric.getSimilarity(

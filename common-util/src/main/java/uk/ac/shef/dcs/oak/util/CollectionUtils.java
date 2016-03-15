@@ -1,5 +1,7 @@
 package uk.ac.shef.dcs.oak.util;
 
+import javafx.util.Pair;
+
 import java.util.*;
 
 /**
@@ -252,9 +254,9 @@ public class CollectionUtils {
         return score;
     }
 
-    public static boolean contains_ObjObj(List<ObjObj<String, String>> entities_on_the_row, ObjObj<String, String> toAdd) {
-        for(ObjObj<String, String> entry: entities_on_the_row){
-            if(entry.getMainObject().equals(toAdd.getMainObject())&&entry.getOtherObject().equals(toAdd.getOtherObject()))
+    public static boolean containsPair(List<Pair<String, String>> entities_on_the_row, Pair<String, String> toAdd) {
+        for(Pair<String, String> entry: entities_on_the_row){
+            if(entry.getKey().equals(toAdd.getKey())&&entry.getValue().equals(toAdd.getValue()))
                 return true;
         }
         return false;  //To change body of created methods use File | Settings | File Templates.

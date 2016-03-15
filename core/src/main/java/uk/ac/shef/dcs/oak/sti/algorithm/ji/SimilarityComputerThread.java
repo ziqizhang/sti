@@ -1,8 +1,9 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
-import uk.ac.shef.dcs.oak.util.ObjObj;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import java.util.Map;
 public class SimilarityComputerThread extends Thread{
 
     private Map<String[], Double> scores;
-    private List<EntityCandidate[]> pairs;
+    private List<Pair<Entity, Clazz>> pairs;
     private EntityAndConceptScorer_Freebase simScorer;
     private KnowledgeBaseSearcher kbSearcher;
     private boolean finished=false;
@@ -23,9 +24,9 @@ public class SimilarityComputerThread extends Thread{
     private boolean useCache;
 
     public SimilarityComputerThread(String id, boolean useCache,
-                                    List<EntityCandidate[]> pairs, EntityAndConceptScorer_Freebase simScorer,
+                                    List<Pair<Entity, Clazz>> pairs, EntityAndConceptScorer_Freebase simScorer,
                                     KnowledgeBaseSearcher kbSearcher){
-        scores=new HashMap<String[], Double>();
+        scores=new HashMap<>();
         this.pairs=pairs;
         this.simScorer=simScorer;
         this.kbSearcher=kbSearcher;
@@ -37,16 +38,16 @@ public class SimilarityComputerThread extends Thread{
     @Override
     public void run() {
         int count=0;
-        for(EntityCandidate[] pair: pairs){
-            ObjObj<Double, String> score=null;
+        for(Pair<Entity, Clazz> pair: pairs){
+            Pair<Double, String> score=null;
             try {
-                score = simScorer.computeEntityConceptSimilarity(pair[0], pair[1],kbSearcher, useCache);
+                score = simScorer.computeEntityConceptSimilarity(pair.getKey(), pair.getValue(),kbSearcher, useCache);
                 count++;
             } catch (IOException e) {
                 e.printStackTrace();
             }
             if(score!=null) {
-                scores.put(new String[]{pair[0].getId(), pair[1].getId(), score.getOtherObject()}, score.getMainObject());
+                scores.put(new String[]{pair.getKey().getId(), pair.getValue().getId(), score.getValue()}, score.getKey());
             }
         }
         finished=true;

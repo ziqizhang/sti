@@ -8,8 +8,8 @@ import uk.ac.shef.dcs.oak.sti.algorithm.tm.TripleGenerator;
 import uk.ac.shef.dcs.oak.sti.io.LTableAnnotationWriter;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.sti.experiment.LimayeDatasetLoader;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 import uk.ac.shef.dcs.oak.util.FileUtils;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -177,7 +177,7 @@ public class GSBuilder_Limaye {
         if (list == null || list.size() == 0)
             return null;
 
-        EntityCandidate ec = new EntityCandidate(list.get(0), wikipedia_title);
+        Entity ec = new Entity(list.get(0), wikipedia_title);
         CellAnnotation ca = new CellAnnotation(wikipedia_title, ec, 1.0, new HashMap<String, Double>());
         return new CellAnnotation[]{ca};
     }

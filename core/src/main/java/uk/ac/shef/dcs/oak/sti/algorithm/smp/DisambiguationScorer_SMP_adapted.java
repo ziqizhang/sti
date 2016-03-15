@@ -6,11 +6,11 @@ import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.DisambiguationScorer;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.sti.util.DiceSimilarity;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
@@ -44,13 +44,13 @@ public class DisambiguationScorer_SMP_adapted implements DisambiguationScorer {
     }
 
     @Override
-    public Map<String, Double> score(EntityCandidate candidate,
-                                     List<EntityCandidate> all_candidates,
+    public Map<String, Double> score(Entity candidate,
+                                     List<Entity> all_candidates,
                                      int entity_source_column,
                                      int entity_source_row,
                                      List<Integer> entity_source_rows,
                                      LTable table,
-                                     Set<String> assigned_column_semantic_types, EntityCandidate... reference_disambiguated_entities) {
+                                     Set<String> assigned_column_semantic_types, Entity... reference_disambiguated_entities) {
         //entity index score
         double indexScore = 1.0 / all_candidates.size();
 
@@ -62,7 +62,7 @@ public class DisambiguationScorer_SMP_adapted implements DisambiguationScorer {
 
         //column header and row values
          /* BOW OF THE ENTITY*/
-        List<String[]> facts = candidate.getFacts();
+        List<String[]> facts = candidate.getTriples();
         List<String> bag_of_words_for_entity = new ArrayList<String>();
         for (String[] f : facts) {
             if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
@@ -109,9 +109,9 @@ public class DisambiguationScorer_SMP_adapted implements DisambiguationScorer {
         return score_elements;
     }
 
-    private double calculateStringSimilarity(String text, EntityCandidate candidate, AbstractStringMetric lev) {
-        List<String[]> facts = candidate.getFacts();
-        double baseScore = lev.getSimilarity(text, candidate.getName());
+    private double calculateStringSimilarity(String text, Entity candidate, AbstractStringMetric lev) {
+        List<String[]> facts = candidate.getTriples();
+        double baseScore = lev.getSimilarity(text, candidate.getLabel());
         double totalAliases = 1.0, totalScore = baseScore;
 
         for (String[] f : facts) {

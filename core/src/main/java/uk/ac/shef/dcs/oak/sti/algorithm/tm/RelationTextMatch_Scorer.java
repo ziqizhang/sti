@@ -1,9 +1,9 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.oak.sti.misc.UtilRelationMatcher;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.util.*;
@@ -24,11 +24,11 @@ public class RelationTextMatch_Scorer {
     }
 
 
-    public Map<Integer, List<ObjObj<String[], Double>>> match(List<String[]> facts,
+    public Map<Integer, List<Pair<String[], Double>>> match(List<String[]> facts,
                                                         Map<Integer, String> values_on_the_row,
                                                         Map<Integer, DataTypeClassifier.DataType> column_types) {
-        Map<Integer, List<ObjObj<String[], Double>>> matching_scores =
-                new HashMap<Integer, List<ObjObj<String[],Double>>>();
+        Map<Integer, List<Pair<String[], Double>>> matching_scores =
+                new HashMap<>();
         //filter facts to remove predicates that are not useful relations
         facts = KnowledgeBaseFreebaseFilter.filterRelations(facts);
         //typing facts
@@ -80,13 +80,13 @@ public class RelationTextMatch_Scorer {
 
 
             if (maxScore >= minimum_match_score&&maxScore!=0.0) {
-                List<ObjObj<String[], Double>> list = new ArrayList<ObjObj<String[], Double>>();
+                List<Pair<String[], Double>> list = new ArrayList<>();
                 for(Map.Entry<Integer, Double> nexte: fact_matched_scores.entrySet()){
                     if(nexte.getValue()==maxScore){
-                        ObjObj<String[], Double> score_obj = new ObjObj<String[], Double>();
+
                         String[] string_array_of_matched_fact = facts.get(nexte.getKey());
-                        score_obj.setMainObject(string_array_of_matched_fact);
-                        score_obj.setOtherObject(maxScore);
+                        Pair<String[], Double> score_obj = new Pair<>(string_array_of_matched_fact,
+                                maxScore);
                         list.add(score_obj);
                     }
                 }

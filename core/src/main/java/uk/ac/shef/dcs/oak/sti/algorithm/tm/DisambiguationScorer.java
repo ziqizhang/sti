@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 
 import java.util.List;
 import java.util.Map;
@@ -26,14 +26,14 @@ public interface DisambiguationScorer {
      *                                         column should be computed, here is the list of NEs from other cells in the same column
      * @return a map where key= the name of a disambiguation score element; value=score
      */
-    Map<String, Double> score(EntityCandidate candidate,
-                              List<EntityCandidate> all_candidates,
+    Map<String, Double> score(Entity candidate,
+                              List<Entity> all_candidates,
                               int entity_source_column,
                               int entity_source_row,
                               List<Integer> other_entity_source_rows,
                               LTable table,
                               Set<String> assigned_column_semantic_types,
-                              EntityCandidate... reference_disambiguated_entities);
+                              Entity... reference_disambiguated_entities);
 
     double compute_final_score(Map<String, Double> scoreMap, String cellTextOriginal);
 }

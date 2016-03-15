@@ -1,10 +1,11 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
-import uk.ac.shef.dcs.oak.util.ObjObj;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 
 import java.io.IOException;
 import java.util.*;
@@ -31,7 +32,7 @@ public class ColumnLearner_LEARN_Update {
             LTable table,
             LTableAnnotation current_iteration_annotation,
             int column,
-            Set<EntityCandidate> reference_entities,
+            Set<Entity> reference_entities,
             Integer... skipRows) throws IOException {
 
 
@@ -73,13 +74,13 @@ public class ColumnLearner_LEARN_Update {
             }
 
 
-            List<ObjObj<EntityCandidate, Map<String, Double>>>
+            List<Pair<Entity, Map<String, Double>>>
                     candidates_and_scores_for_block =
                     disambiguate(sample,
                             table,
                             //current_iteration_annotation,
                             columnTypes,
-                            rows, column, reference_entities.toArray(new EntityCandidate[0])
+                            rows, column, reference_entities.toArray(new Entity[0])
                     );
 
             if (candidates_and_scores_for_block.size() > 0) {
@@ -109,19 +110,18 @@ public class ColumnLearner_LEARN_Update {
     //search candidates for the cell;
     //score candidates for the cell;
     //create annotation and update supportin header and header score (depending on the two params updateHeader_blah
-    private List<ObjObj<EntityCandidate, Map<String, Double>>> disambiguate(LTableContentCell tcc,
+    private List<Pair<Entity, Map<String, Double>>> disambiguate(LTableContentCell tcc,
                                                                             LTable table,
                                                                             Set<String> columnTypes,
                                                                             List<Integer> table_cell_rows,
                                                                             int table_cell_col,
-                                                                            EntityCandidate... reference_disambiguated_entities) throws IOException {
-        List<ObjObj<EntityCandidate, Map<String, Double>>> candidates_and_scores_for_block
-                = new ArrayList<ObjObj<EntityCandidate, Map<String, Double>>>();
+                                                                 Entity... reference_disambiguated_entities) throws IOException {
+        List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_block;
 
-        List<EntityCandidate> candidates = kbSearcher.findEntitiesOfTypesForCell(tcc, columnTypes.toArray(new String[0]));
+        List<Entity> candidates = kbSearcher.findEntityCandidatesOfTypes(tcc, columnTypes.toArray(new String[0]));
         if (candidates != null && candidates.size() != 0) {
         } else {
-            candidates = kbSearcher.findEntitiesOfTypesForCell(tcc);
+            candidates = kbSearcher.findEntityCandidatesOfTypes(tcc);
         }
 
         //now each candidate is given scores
@@ -141,13 +141,13 @@ public class ColumnLearner_LEARN_Update {
             LTableAnnotation table_annotation,
             List<Integer> table_cell_rows,
             int table_cell_col,
-            List<ObjObj<EntityCandidate, Map<String, Double>>> candidates_and_scores_for_cell) {
+            List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_cell) {
 
-        Collections.sort(candidates_and_scores_for_cell, new Comparator<ObjObj<EntityCandidate, Map<String, Double>>>() {
+        Collections.sort(candidates_and_scores_for_cell, new Comparator<Pair<Entity, Map<String, Double>>>() {
             @Override
-            public int compare(ObjObj<EntityCandidate, Map<String, Double>> o1, ObjObj<EntityCandidate, Map<String, Double>> o2) {
-                Double o2_score = o2.getOtherObject().get(CellAnnotation.SCORE_FINAL);
-                Double o1_score = o1.getOtherObject().get(CellAnnotation.SCORE_FINAL);
+            public int compare(Pair<Entity, Map<String, Double>> o1, Pair<Entity, Map<String, Double>> o2) {
+                Double o2_score = o2.getValue().get(CellAnnotation.SCORE_FINAL);
+                Double o1_score = o1.getValue().get(CellAnnotation.SCORE_FINAL);
                 return o2_score.compareTo(o1_score);
             }
         });
@@ -157,9 +157,9 @@ public class ColumnLearner_LEARN_Update {
         for (int row : table_cell_rows) {
             CellAnnotation[] annotationsForCell = new CellAnnotation[candidates_and_scores_for_cell.size()];
             for (int i = 0; i < candidates_and_scores_for_cell.size(); i++) {
-                ObjObj<EntityCandidate, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
+                Pair<Entity, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
                 annotationsForCell[i] = new CellAnnotation(sampleCellText,
-                        e.getMainObject(), e.getOtherObject().get("final"), e.getOtherObject());
+                        e.getKey(), e.getValue().get("final"), e.getValue());
                 /*if(table_cell_row==5 &&table_cell_col==4)
                 System.out.println(i);*/
             }
@@ -225,11 +225,11 @@ public class ColumnLearner_LEARN_Update {
             Map<String, Double> header_annotation_url_and_max_score = new HashMap<String, Double>();
             Map<String, String> header_annotation_url_and_label = new HashMap<String, String>();
             for (CellAnnotation ca : cellAnnotations) {
-                List<String[]> types = ca.getAnnotation().getTypes();
+                List<Clazz> types = ca.getAnnotation().getTypes();
                 double disamb_score = ca.getFinalScore();
-                for (String[] t : types) {
-                    String url = t[0];
-                    String label = t[1];
+                for (Clazz t : types) {
+                    String url =t.getId();
+                    String label = t.getLabel();
                     header_annotation_url_and_label.put(url, label);
                     Double score = header_annotation_url_and_max_score.get(url);
                     if (score == null) score = 0.0;

@@ -1,13 +1,14 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.PlaceHolder;
 import uk.ac.shef.dcs.oak.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class ClassificationScorer_Vote implements ClassificationScorer {
     }
 
     @Override
-    public Set<HeaderAnnotation> score(List<ObjObj<EntityCandidate, Map<String, Double>>> input,
+    public Set<HeaderAnnotation> score(List<Pair<Entity, Map<String, Double>>> input,
                                        Set<HeaderAnnotation> headerAnnotations_prev,
                                        LTable table,
                                        List<Integer> rows, int column) {
@@ -50,7 +51,7 @@ public class ClassificationScorer_Vote implements ClassificationScorer {
         return candidates;
     }
 
-    public Set<HeaderAnnotation> score_entity_all_candidate_contribute(List<ObjObj<EntityCandidate, Map<String, Double>>> input,
+    public Set<HeaderAnnotation> score_entity_all_candidate_contribute(List<Pair<Entity, Map<String, Double>>> input,
                                                                        Set<HeaderAnnotation> headerAnnotations_prev, LTable table,
                                                                        int row, int column) {
         final Set<HeaderAnnotation> candidate_header_annotations =
@@ -60,13 +61,13 @@ public class ClassificationScorer_Vote implements ClassificationScorer {
         Map<String, Double> tmp_header_annotation_and_max_score = new HashMap<String, Double>();
         Map<String, String> header_annotation_and_text = new HashMap<String, String>();
 
-        for (ObjObj<EntityCandidate, Map<String, Double>> es : input) { //each candidate entity in this cell
-            EntityCandidate entity = es.getMainObject();
+        for (Pair<Entity, Map<String, Double>> es : input) { //each candidate entity in this cell
+            Entity entity = es.getKey();
             //each assigned type receives a score of 1, and the bonus score due to disambiguation result
-            double entity_disamb_score = es.getOtherObject().get(CellAnnotation.SCORE_FINAL);
-            for (String[] type : entity.getTypes()) {
-                String url = type[0];
-                header_annotation_and_text.put(url, type[1]);
+            double entity_disamb_score = es.getValue().get(CellAnnotation.SCORE_FINAL);
+            for (Clazz type : entity.getTypes()) {
+                String url = type.getId();
+                header_annotation_and_text.put(url, type.getLabel());
                 Double score = tmp_header_annotation_and_max_score.get(url);
                 score = score == null ? 0 : score;
                 if (entity_disamb_score > score) {
@@ -118,19 +119,19 @@ public class ClassificationScorer_Vote implements ClassificationScorer {
         return candidate_header_annotations;
     }
 
-    public Set<HeaderAnnotation> score_entity_best_candidate_contribute(List<ObjObj<EntityCandidate, Map<String, Double>>> input,
+    public Set<HeaderAnnotation> score_entity_best_candidate_contribute(List<Pair<Entity, Map<String, Double>>> input,
                                                                         Set<HeaderAnnotation> headerAnnotations_prev, LTable table,
                                                                         int row, int column) {
         final Set<HeaderAnnotation> candidate_header_annotations =
                 headerAnnotations_prev;
 
         //for this row
-        EntityCandidate entity_with_highest_disamb_score = null;
+        Entity entity_with_highest_disamb_score = null;
         double best_score = 0.0;
-        for (ObjObj<EntityCandidate, Map<String, Double>> es : input) { //each candidate entity in this cell
-            EntityCandidate entity = es.getMainObject();
+        for (Pair<Entity, Map<String, Double>> es : input) { //each candidate entity in this cell
+            Entity entity = es.getKey();
             //each assigned type receives a score of 1, and the bonus score due to disambiguation result
-            double entity_disamb_score = es.getOtherObject().get(CellAnnotation.SCORE_FINAL);
+            double entity_disamb_score = es.getValue().get(CellAnnotation.SCORE_FINAL);
             if (entity_disamb_score > best_score) {
                 best_score = entity_disamb_score;
                 entity_with_highest_disamb_score = entity;
@@ -143,35 +144,35 @@ public class ClassificationScorer_Vote implements ClassificationScorer {
         }
 
 
-        for (ObjObj<EntityCandidate, Map<String, Double>> es : input) {
-            EntityCandidate current_candidate = es.getMainObject();
-            double entity_disamb_score = es.getOtherObject().get(CellAnnotation.SCORE_FINAL);
+        for (Pair<Entity, Map<String, Double>> es : input) {
+            Entity current_candidate = es.getKey();
+            double entity_disamb_score = es.getValue().get(CellAnnotation.SCORE_FINAL);
             if (entity_disamb_score != best_score)
                 continue;
 
             Set<String> types_already_received_votes_by_cell = new HashSet<String>();    //each type will receive a max of 1 vote from each cell. If multiple candidates have the same highest score and casts same votes, they are counted oly once
-            List<String[]> type_voted_by_this_cell = current_candidate.getTypes();
+            List<Clazz> type_voted_by_this_cell = current_candidate.getTypes();
 
             //consolidate scores from this cell
-            for (String[] type : type_voted_by_this_cell) {
+            for (Clazz type : type_voted_by_this_cell) {
                 if (TableMinerConstants.BEST_CANDIDATE_CONTRIBUTE_COUNT_ONLY_ONCE
-                        && types_already_received_votes_by_cell.contains(type[0]))
+                        && types_already_received_votes_by_cell.contains(type.getId()))
                     continue;
 
-                types_already_received_votes_by_cell.add(type[0]);
+                types_already_received_votes_by_cell.add(type.getId());
 
                 String headerText = table.getColumnHeader(column).getHeaderText();
 
                 HeaderAnnotation hAnnotation = null;
                 for (HeaderAnnotation key : candidate_header_annotations) {
-                    if (key.getTerm().equals(headerText) && key.getAnnotation_url().equals(type[0]
+                    if (key.getTerm().equals(headerText) && key.getAnnotation_url().equals(type.getId()
                     )) {
                         hAnnotation = key;
                         break;
                     }
                 }
                 if (hAnnotation == null) {
-                    hAnnotation = new HeaderAnnotation(headerText, type[0], type[1], 0.0);
+                    hAnnotation = new HeaderAnnotation(headerText, type.getId(), type.getLabel(), 0.0);
                 }
                 Map<String, Double> tmp_score_elements = hAnnotation.getScoreElements();
                 if (tmp_score_elements == null || tmp_score_elements.size() == 0) {

@@ -1,12 +1,13 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.kb.KnowledgeBaseSearcher_Freebase;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.selector.CellSelector;
 import uk.ac.shef.dcs.oak.sti.rep.*;
 import uk.ac.shef.dcs.oak.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Clazz;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 
 import java.io.IOException;
 import java.util.*;
@@ -51,7 +52,7 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
             System.out.println("\t>> Relation column " + subcol_objcol.getObjectCol());
             Map<Integer, List<CellBinaryRelationAnnotation>> rows_annotated_with_relation = e.getValue();
             //what is the main type of this column? if the main type happens to be entities...
-            List<ObjObj<String, Double>> sorted_scores_for_relations=new ArrayList<ObjObj<String, Double>>();
+            List<Pair<String, Double>> sorted_scores_for_relations=new ArrayList<>();
             /*if (TableMinerConstants.CLASSIFICATION_CANDIDATE_CONTRIBUTION_METHOD == 0)
                 aggregated_scores_for_relations = score_columnBinaryRelations_best_contribute(rows_annotated_with_relation, table.getNumRows());
             else
@@ -59,19 +60,19 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
             List<HeaderBinaryRelationAnnotation> header_relations =
                     annotations.getRelationAnnotations_across_columns().get(subcol_objcol);
             for(HeaderBinaryRelationAnnotation hra: header_relations){
-                ObjObj<String, Double> entry = new ObjObj<String, Double>(hra.getAnnotation_url(), hra.getFinalScore());
+                Pair<String, Double> entry = new Pair<String, Double>(hra.getAnnotation_url(), hra.getFinalScore());
                 sorted_scores_for_relations.add(entry);
             }
 
             Set<String> highest_scoring_relation_annotations = new HashSet<String>();
             double prevMax = 0.0;
-            for (ObjObj<String, Double> oo : sorted_scores_for_relations) {
+            for (Pair<String, Double> oo : sorted_scores_for_relations) {
                 String relation_name = null;
-                if (oo.getOtherObject() > prevMax) {
-                    prevMax = oo.getOtherObject();
-                    relation_name = oo.getMainObject();
-                } else if (oo.getOtherObject() == prevMax) {
-                    relation_name = oo.getMainObject();
+                if (oo.getValue() > prevMax) {
+                    prevMax = oo.getValue();
+                    relation_name = oo.getKey();
+                } else if (oo.getValue() == prevMax) {
+                    relation_name = oo.getKey();
                 } else {
                     break;
                 }
@@ -80,8 +81,8 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
                 }
             }
             Map<Integer, Double> rows_with_entities_and_matched_scores = new HashMap<Integer, Double>();
-            Map<Integer, List<ObjObj<String, String>>> rows_with_entities_and_entity_ids =
-                    new HashMap<Integer, List<ObjObj<String, String>>>();
+            Map<Integer, List<Pair<String, String>>> rows_with_entities_and_entity_ids =
+                    new HashMap<>();
 
             //for those candidates that belong to the major property/relation, are they entities?
             if (TableMinerConstants.CLASSIFICATION_CANDIDATE_CONTRIBUTION_METHOD == 0)
@@ -145,7 +146,7 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
     }
 
     @Deprecated
-    private List<ObjObj<String, Double>> score_columnBinaryRelations_best_contribute(Map<Integer, List<CellBinaryRelationAnnotation>> candidate_binary_relations,
+    private List<Pair<String, Double>> score_columnBinaryRelations_best_contribute(Map<Integer, List<CellBinaryRelationAnnotation>> candidate_binary_relations,
                                                                                      int tableRowsTotal) {
 
         Map<String, Double> binary_relation_base_score = new HashMap<String, Double>();
@@ -196,17 +197,15 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
                 max = e.getValue();
             }
         }*/
-        List<ObjObj<String, Double>> rs = new ArrayList<ObjObj<String, Double>>();
+        List<Pair<String, Double>> rs = new ArrayList<>();
         for (Map.Entry<String, Double> e : frequent_column_binary_relation_counting.entrySet()) {
-            ObjObj<String, Double> member = new ObjObj<String, Double>();
-            member.setMainObject(e.getKey());
-            member.setOtherObject(e.getValue());
+            Pair<String, Double> member = new Pair<>(e.getKey(), e.getValue());
             rs.add(member);
         }
-        Collections.sort(rs, new Comparator<ObjObj<String, Double>>() {
+        Collections.sort(rs, new Comparator<Pair<String, Double>>() {
             @Override
-            public int compare(ObjObj<String, Double> o1, ObjObj<String, Double> o2) {
-                return o2.getOtherObject().compareTo(o1.getOtherObject());
+            public int compare(Pair<String, Double> o1, Pair<String, Double> o2) {
+                return o2.getValue().compareTo(o1.getValue());
             }
         });
         return rs;
@@ -214,7 +213,7 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
     }
 
     @Deprecated
-    private List<ObjObj<String, Double>> score_columnBinaryRelations_all_contribute(Map<Integer, List<CellBinaryRelationAnnotation>> candidate_binary_relations,
+    private List<Pair<String, Double>> score_columnBinaryRelations_all_contribute(Map<Integer, List<CellBinaryRelationAnnotation>> candidate_binary_relations,
                                                                                     int tableRowsTotal) {
 
         Map<String, Double> binary_relation_disamb_score = new HashMap<String, Double>();
@@ -254,17 +253,15 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
                 max = e.getValue();
             }
         }*/
-        List<ObjObj<String, Double>> rs = new ArrayList<ObjObj<String, Double>>();
+        List<Pair<String, Double>> rs = new ArrayList<>();
         for (Map.Entry<String, Double> e : frequent_column_binary_relation_counting.entrySet()) {
-            ObjObj<String, Double> member = new ObjObj<String, Double>();
-            member.setMainObject(e.getKey());
-            member.setOtherObject(e.getValue());
+            Pair<String, Double> member = new Pair<>(e.getKey(), e.getValue());
             rs.add(member);
         }
-        Collections.sort(rs, new Comparator<ObjObj<String, Double>>() {
+        Collections.sort(rs, new Comparator<Pair<String, Double>>() {
             @Override
-            public int compare(ObjObj<String, Double> o1, ObjObj<String, Double> o2) {
-                return o2.getOtherObject().compareTo(o1.getOtherObject());
+            public int compare(Pair<String, Double> o1, Pair<String, Double> o2) {
+                return o2.getValue().compareTo(o1.getValue());
             }
         });
         return rs;
@@ -277,7 +274,7 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
             Map<Integer, List<CellBinaryRelationAnnotation>> rows_annotated_with_relation,
             Set<String> highest_scoring_relation_annotations,
             Map<Integer, Double> rows_with_entities_and_matched_scores,
-            Map<Integer, List<ObjObj<String, String>>> rows_with_entities_and_entity_ids
+            Map<Integer, List<Pair<String, String>>> rows_with_entities_and_entity_ids
     ) {
         for (Map.Entry<Integer, List<CellBinaryRelationAnnotation>> row_entry : //key- row id
                 rows_annotated_with_relation.entrySet()) {//key-row id; value:candidate binary relation detected on this row
@@ -306,11 +303,11 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
                         //if id is not null, it is likely to be an entity, so carry on to interpret the type of this column
                         if (id != null && id.length() > 0) {
                             rows_with_entities_and_matched_scores.put(row_entry.getKey(), score);
-                            List<ObjObj<String, String>> entities_on_the_row =
+                            List<Pair<String, String>> entities_on_the_row =
                                     rows_with_entities_and_entity_ids.get(row_entry.getKey());
-                            entities_on_the_row = entities_on_the_row == null ? new ArrayList<ObjObj<String, String>>() : entities_on_the_row;
-                            ObjObj<String, String> toAdd = new ObjObj<String, String>(id, name);
-                            if (!CollectionUtils.contains_ObjObj(entities_on_the_row, toAdd))
+                            entities_on_the_row = entities_on_the_row == null ? new ArrayList<Pair<String, String>>() : entities_on_the_row;
+                            Pair<String, String> toAdd = new Pair<>(id, name);
+                            if (!CollectionUtils.containsPair(entities_on_the_row, toAdd))
                                 entities_on_the_row.add(toAdd);
                             rows_with_entities_and_entity_ids.put(row_entry.getKey(), entities_on_the_row);
                         }
@@ -327,7 +324,7 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
             Map<Integer, List<CellBinaryRelationAnnotation>> rows_annotated_with_relation,
             Set<String> highest_scoring_relation_annotation_for_column,
             Map<Integer, Double> rows_with_entities_and_matched_scores,
-            Map<Integer, List<ObjObj<String, String>>> rows_with_entities_and_entity_ids
+            Map<Integer, List<Pair<String, String>>> rows_with_entities_and_entity_ids
     ) {
         for (Map.Entry<Integer, List<CellBinaryRelationAnnotation>> row_entry : //key- row id
                 rows_annotated_with_relation.entrySet()) {//key-row id; value:candidate binary relation detected on this row
@@ -345,11 +342,11 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
                         //if id is not null, it is likely to be an entity, so carry on to interpret the type of this column
                         if (id != null) {
                             rows_with_entities_and_matched_scores.put(row_entry.getKey(), score);
-                            List<ObjObj<String, String>> entities_on_the_row =
+                            List<Pair<String, String>> entities_on_the_row =
                                     rows_with_entities_and_entity_ids.get(row_entry.getKey());
-                            entities_on_the_row = entities_on_the_row == null ? new ArrayList<ObjObj<String, String>>() : entities_on_the_row;
-                            ObjObj<String, String> toAdd = new ObjObj<String, String>(id, name);
-                            if (!CollectionUtils.contains_ObjObj(entities_on_the_row, toAdd))
+                            entities_on_the_row = entities_on_the_row == null ? new ArrayList<Pair<String, String>>() : entities_on_the_row;
+                            Pair<String, String> toAdd = new Pair<>(id, name);
+                            if (!CollectionUtils.containsPair(entities_on_the_row, toAdd))
                                 entities_on_the_row.add(toAdd);
                             rows_with_entities_and_entity_ids.put(row_entry.getKey(), entities_on_the_row);
                         }
@@ -360,37 +357,37 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
     }
 
     private Map<String[], Double> create_candidate_type_objects_best_contribute(
-            List<ObjObj<String, Double>> aggregated_scores_for_relations) throws IOException {
+            List<Pair<String, Double>> aggregated_scores_for_relations) throws IOException {
         Map<String[], Double> expected_types_of_relation = new HashMap<String[], Double>();
         double prevMax = 0.0;
-        for (ObjObj<String, Double> oo : aggregated_scores_for_relations) {
+        for (Pair<String, Double> oo : aggregated_scores_for_relations) {
             String relation_name = null;
-            if (oo.getOtherObject() > prevMax) {
-                prevMax = oo.getOtherObject();
-                relation_name = oo.getMainObject();
-            } else if (oo.getOtherObject() == prevMax) {
-                relation_name = oo.getMainObject();
+            if (oo.getValue() > prevMax) {
+                prevMax = oo.getValue();
+                relation_name = oo.getKey();
+            } else if (oo.getValue() == prevMax) {
+                relation_name = oo.getKey();
             } else {
                 break;
             }
             if (relation_name != null) {
                 List<String[]> types_of_relation = fbSearcher.find_expected_types_of_relation(relation_name);
                 for(String[] tor: types_of_relation)
-                    expected_types_of_relation.put(tor, oo.getOtherObject());
+                    expected_types_of_relation.put(tor, oo.getValue());
             }
         }
         return expected_types_of_relation;
     }
 
     private Map<String[], Double> create_candidate_type_objects_all_contribute(
-            List<ObjObj<String, Double>> aggregated_scores_for_relations) throws IOException {
+            List<Pair<String, Double>> aggregated_scores_for_relations) throws IOException {
         Map<String[], Double> expected_types_of_relation = new HashMap<String[], Double>();
-        for (ObjObj<String, Double> oo : aggregated_scores_for_relations) {
-            String relation_name = oo.getMainObject();
+        for (Pair<String, Double> oo : aggregated_scores_for_relations) {
+            String relation_name = oo.getKey();
             if (relation_name != null) {
                 List<String[]> types_of_relation = fbSearcher.find_expected_types_of_relation(relation_name);
                 for(String[] tor: types_of_relation)
-                    expected_types_of_relation.put(tor, oo.getOtherObject());
+                    expected_types_of_relation.put(tor, oo.getValue());
             }
         }
         return expected_types_of_relation;
@@ -399,14 +396,14 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
     private void interpret(LTable table,
                            LTableAnnotation table_annotation,
                            Map<Integer, Double> rows_with_entities_mapped_scores,
-                           Map<Integer, List<ObjObj<String, String>>> rows_with_entity_ids,
+                           Map<Integer, List<Pair<String, String>>> rows_with_entity_ids,
                            Map<String[], Double> expected_types_of_relation,
                            int column,
                            boolean use_only_typing_candidates_from_relations_with_main_col) throws IOException {
 
         //Map<String, HeaderAnnotation> candidate_header_annotations = new HashMap<String, HeaderAnnotation>();
         //count types that are known for already mapped entities (using their ids)
-        Set<EntityCandidate> reference_entities = new HashSet<EntityCandidate>();
+        Set<Entity> reference_entities = new HashSet<>();
 
         //0. apply one sense per discourse
         Map<Integer, Integer> map_rows_to_already_solved_rows_if_any = new HashMap<Integer, Integer>();
@@ -432,14 +429,14 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
         for (Map.Entry<Integer, Double> e : rows_with_entities_mapped_scores.entrySet()) {
             int row = e.getKey();
             double mapped_score = e.getValue();
-            List<ObjObj<String, String>> entities = rows_with_entity_ids.get(row);
+            List<Pair<String, String>> entities = rows_with_entity_ids.get(row);
 
             if(map_rows_to_already_solved_rows_if_any.get(row)==null)
                 System.out.println("\t>>> Row " + row + " candidates=" + entities.size());
             else
                 System.out.println("\t>>> Row "+ row+ "(apply OSPD)");
-            for (ObjObj<String, String> entity : entities) {
-                List<String[]> candidate_types = fbSearcher.find_typesForEntity_filtered(entity.getMainObject());
+            for (Pair<String, String> entity : entities) {
+                List<Clazz> candidate_types = fbSearcher.find_typesForEntity_filtered(entity.getKey());
 
                 if (!use_only_typing_candidates_from_relations_with_main_col)
                     initialize_candidate_header_typings(
@@ -448,7 +445,7 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
                             table.getColumnHeader(column).getHeaderText());
 
                 //update cell annotation
-                EntityCandidate ec = new EntityCandidate(entity.getMainObject(), entity.getOtherObject());
+                Entity ec = new Entity(entity.getKey(), entity.getValue());
                 reference_entities.add(ec);
 
                 ec.getTypes().addAll(candidate_types);
@@ -508,12 +505,12 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
                     column, table_annotation, table, table.getNumRows());
         } else {
             column_updater.update_typing_annotations_all_candidate_contribute(
-                    new ArrayList<Integer>(rows_with_entity_ids.keySet()),
+                    new ArrayList<>(rows_with_entity_ids.keySet()),
                     column, table_annotation, table, table.getNumRows());
         }
 
         if (max_reference_entity_for_disambiguation == 0)
-            reference_entities = new HashSet<EntityCandidate>();
+            reference_entities = new HashSet<Entity>();
         else
             reference_entities = ColumnInterpreter.selectReferenceEntities(table, table_annotation, column, max_reference_entity_for_disambiguation);
         column_updater.learn_consolidate(0,
@@ -525,10 +522,11 @@ public class ColumnInterpreter_relDepend_include_entity_col extends ColumnInterp
                 rows_with_entity_ids.keySet().toArray(new Integer[0]));
     }
 
-    private void initialize_candidate_header_typings(Map<String, HeaderAnnotation> contribution_from_cells, List<String[]> candidate_types, String headerText) {
-        for (String[] ct : candidate_types) {
-            String url = ct[0];
-            String label = ct[1];
+    private void initialize_candidate_header_typings(Map<String, HeaderAnnotation> contribution_from_cells,
+                                                     List<Clazz> candidate_types, String headerText) {
+        for (Clazz ct : candidate_types) {
+            String url = ct.getId();
+            String label = ct.getLabel();
             HeaderAnnotation ha = contribution_from_cells.get(url);
             ha = ha == null ? new HeaderAnnotation(headerText, url, label, 0.0) : ha;
             contribution_from_cells.put(url, ha);

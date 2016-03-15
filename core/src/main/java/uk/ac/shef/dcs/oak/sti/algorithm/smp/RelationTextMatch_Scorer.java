@@ -42,7 +42,7 @@ public class RelationTextMatch_Scorer {
             if (subjectCellAnnotations.size() > 0 && UtilRelationMatcher.isValidType(object_column_type)) {
                 for (int s = 0; s < subjectCellAnnotations.size(); s++) {
                     CellAnnotation subjectEntity = subjectCellAnnotations.get(s);
-                    List<String[]> subject_entity_facts = subjectEntity.getAnnotation().getFacts();
+                    List<String[]> subject_entity_facts = subjectEntity.getAnnotation().getTriples();
                     KnowledgeBaseFreebaseFilter.filterRelations(subject_entity_facts);
                     Map<Integer, DataTypeClassifier.DataType> fact_data_types = classifyFactObjDataType(
                             subject_entity_facts
@@ -60,7 +60,7 @@ public class RelationTextMatch_Scorer {
 
                         double scoreWithCell = UtilRelationMatcher.score(objText, object_column_type, fact[1], type_of_fact_value, stopWords, stringSimilarityMetric);
                         for (int o = 0; o < objectCellAnnotations.size(); o++) {
-                            String objEntityLabel = objectCellAnnotations.get(o).getAnnotation().getName();
+                            String objEntityLabel = objectCellAnnotations.get(o).getAnnotation().getLabel();
                             if (objEntityLabel != null) {
                                 double scoreAgainstObjEntityLabel = UtilRelationMatcher.score(objEntityLabel, object_column_type, fact[1], type_of_fact_value, stopWords, stringSimilarityMetric);
                                 if (scoreWithCell < scoreAgainstObjEntityLabel)

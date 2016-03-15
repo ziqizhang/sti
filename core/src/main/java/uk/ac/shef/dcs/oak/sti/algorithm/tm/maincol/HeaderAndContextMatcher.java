@@ -1,11 +1,11 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.tm.maincol;
 
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.oak.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContext;
 import uk.ac.shef.dcs.oak.util.FileUtils;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +33,7 @@ class HeaderAndContextMatcher {
         try {
             stopwords = FileUtils.readList(nlpResource + File.separator + "stoplist.txt", false);
         } catch (IOException e) {
-            stopwords = new ArrayList<String>();
+            stopwords = new ArrayList<>();
         }
 
     }
@@ -84,22 +84,23 @@ class HeaderAndContextMatcher {
                 continue;
 
             //collect distinct words from this context, their frequency, and plural form frequency
-            Map<String, ObjObj<Integer, Integer>> wordFreq = new
-                    HashMap<String, ObjObj<Integer, Integer>>();
+            Map<String, Pair<Integer, Integer>> wordFreq = new
+                    HashMap<>();
             StringTokenizer tokenizer = new StringTokenizer(ctx.getText());
             while (tokenizer.hasMoreTokens()) {
                 String tok = tokenizer.nextToken();
                 String canonical = lemmatizer.getLemma(tok, "NN");
 
-                ObjObj<Integer, Integer> countings = wordFreq.get(canonical);
+                Pair<Integer, Integer> countings = wordFreq.get(canonical);
                 if (countings == null) {
-                    countings = new ObjObj<Integer, Integer>();
-                    countings.setMainObject(0);
-                    countings.setOtherObject(0);
+                    countings = new Pair<>(0,0);
                 }
-                countings.setMainObject(countings.getMainObject() + 1);
+                int k = countings.getKey() + 1;
+                int v = countings.getValue();
                 if (!tok.toLowerCase().equals(canonical))
-                    countings.setOtherObject(countings.getOtherObject() + 1);
+                    v=v + 1;
+                countings = new Pair<>(k,v);
+
                 wordFreq.put(canonical, countings);
             }
 
@@ -110,12 +111,12 @@ class HeaderAndContextMatcher {
 
                 //firstly lets try the full header text, i.e., element 1 in "words"
                 for (String word : words) {
-                    ObjObj<Integer, Integer> freq = wordFreq.get(word);
+                    Pair<Integer, Integer> freq = wordFreq.get(word);
                     if (freq == null)
                         continue;
 
-                    score = score + freq.getMainObject(); //if header keyword matches this word, its score is incremented by its frequency
-                    score = score + freq.getOtherObject();//if the matched word is plural, the score is further modified
+                    score = score + freq.getKey(); //if header keyword matches this word, its score is incremented by its frequency
+                    score = score + freq.getValue();//if the matched word is plural, the score is further modified
                     if (ctx.getType().equals(LTableContext.TableContextType.CAPTION)
                             || ctx.getText().equals(LTableContext.TableContextType.PAGETITLE)) {
                         score = score * major_context_weight_multiplier;

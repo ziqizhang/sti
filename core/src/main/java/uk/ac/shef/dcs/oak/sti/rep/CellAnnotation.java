@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.oak.sti.rep;
 
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -21,11 +21,11 @@ public class CellAnnotation implements Serializable, Comparable<CellAnnotation>{
     public static final String SCORE_CTX_OTHER ="ctx_other";
 
     private String term;
-    private EntityCandidate annotation;
+    private Entity annotation;
     private Map<String, Double> score_element_map;
     private double finalScore;
 
-    public CellAnnotation(String term, EntityCandidate annotation, double score, Map<String, Double> score_elements){
+    public CellAnnotation(String term, Entity annotation, double score, Map<String, Double> score_elements){
         this.term=term;
         this.annotation=annotation;
         this.finalScore =score;
@@ -36,7 +36,7 @@ public class CellAnnotation implements Serializable, Comparable<CellAnnotation>{
         CellAnnotation newCa = new CellAnnotation(ca.getTerm(),
                 ca.getAnnotation(),
                 ca.getFinalScore(),
-                new HashMap<String, Double>(ca.getScore_element_map()));
+                new HashMap<>(ca.getScore_element_map()));
         return newCa;
     }
 
@@ -48,11 +48,11 @@ public class CellAnnotation implements Serializable, Comparable<CellAnnotation>{
         this.term = term;
     }
 
-    public EntityCandidate getAnnotation() {
+    public Entity getAnnotation() {
         return annotation;
     }
 
-    public void setAnnotation(EntityCandidate annotation) {
+    public void setAnnotation(Entity annotation) {
         this.annotation = annotation;
     }
 

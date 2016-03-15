@@ -2,11 +2,11 @@ package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.DisambiguationScorer;
 import uk.ac.shef.dcs.oak.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.oak.sti.util.CosineSimilarity;
 import uk.ac.shef.dcs.oak.sti.util.JaccardSimilarity;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
@@ -34,14 +34,14 @@ public class DisambiguationScorer_JI_adapted implements DisambiguationScorer {
     }
 
     @Override
-    public Map<String, Double> score(EntityCandidate candidate,
-                                     List<EntityCandidate> all_candidates,
+    public Map<String, Double> score(Entity candidate,
+                                     List<Entity> all_candidates,
                                      int entity_source_column,
                                      int entity_source_row,
                                      List<Integer> other_entity_source_rows,
                                      LTable table,
                                      Set<String> assigned_column_semantic_types,
-                                     EntityCandidate... reference_disambiguated_entities) {
+                                     Entity... reference_disambiguated_entities) {
 
         LTableContentCell cell = table.getContentCell(entity_source_row, entity_source_column);
         double levScore = calculateStringSimilarity(cell.getText(), candidate, lev);
@@ -57,8 +57,8 @@ public class DisambiguationScorer_JI_adapted implements DisambiguationScorer {
         return score_elements;
     }
 
-    private double calculateStringSimilarity(String text, EntityCandidate candidate, AbstractStringMetric lev) {
-        double baseScore = lev.getSimilarity(text, candidate.getName());
+    private double calculateStringSimilarity(String text, Entity candidate, AbstractStringMetric lev) {
+        double baseScore = lev.getSimilarity(text, candidate.getLabel());
         return baseScore;
     }
 

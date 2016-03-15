@@ -3,12 +3,12 @@ package uk.ac.shef.dcs.oak.sti.algorithm.ji;
 import cc.mallet.grmm.inference.Inferencer;
 import cc.mallet.grmm.inference.LoopyBP;
 import cc.mallet.grmm.types.FactorGraph;
+import javafx.util.Pair;
 import uk.ac.shef.dcs.oak.sti.STIException;
 import uk.ac.shef.dcs.oak.sti.algorithm.tm.maincol.MainColumnFinder;
 import uk.ac.shef.dcs.oak.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableAnnotation;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
@@ -41,9 +41,9 @@ public class TI_JointInferenceFailSafe extends TI_JointInference {
             ignoreColumnsLocalArray[i]=i;
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
-        List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumnsLocalArray);
+        List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumnsLocalArray);
         if (useSubjectColumn)
-            tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getMainObject());
+            tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getKey());
 
         System.out.println(">\t INITIALIZATION");
         System.out.println(">\t\t NAMED ENTITY GENERATOR..."); //SMP begins with an initial NE ranker to rank candidate NEs for each cell

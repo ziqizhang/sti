@@ -6,7 +6,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import uk.ac.shef.dcs.oak.sti.PlaceHolder;
 import uk.ac.shef.dcs.oak.sti.rep.*;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 import uk.ac.shef.dcs.oak.util.StringUtils;
 
 import java.util.*;
@@ -128,7 +128,8 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
                 if (text.length() == 0)
                     continue;
 
-                wikiAnnotations.add(new CellAnnotation(text, new EntityCandidate(uri, uri), 1.0, new HashMap<String, Double>()));
+                wikiAnnotations.add(new CellAnnotation
+                        (text, new Entity(uri, uri), 1.0, new HashMap<String, Double>()));
                 if (only_take_first_link_in_list_like_cell)
                     break;
 

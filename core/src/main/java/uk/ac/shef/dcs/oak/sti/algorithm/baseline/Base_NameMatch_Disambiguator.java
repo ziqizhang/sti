@@ -1,9 +1,9 @@
 package uk.ac.shef.dcs.oak.sti.algorithm.baseline;
 
+import javafx.util.Pair;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 import uk.ac.shef.dcs.oak.sti.rep.LTable;
 import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
-import uk.ac.shef.dcs.oak.util.ObjObj;
 
 import java.io.IOException;
 import java.util.*;
@@ -12,31 +12,31 @@ import java.util.*;
  */
 public class Base_NameMatch_Disambiguator {
 
-    public List<ObjObj<EntityCandidate, Map<String, Double>>> disambiguate(List<EntityCandidate> candidates, LTable table,
+    public List<Pair<Entity, Map<String, Double>>> disambiguate(List<Entity> candidates, LTable table,
                                                                            int entity_row, int entity_column
     ) throws IOException {
         //do disambiguation scoring
         //log.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         System.out.println("\t>> Disambiguation-, position at [" + entity_row + "," + entity_column + "]: " + table.getContentCell(entity_row, entity_column) +
                 " candidates=" + candidates.size());
-        List<ObjObj<EntityCandidate, Map<String, Double>>> disambiguationScores = new ArrayList<ObjObj<EntityCandidate, Map<String, Double>>>();
+        List<Pair<Entity, Map<String, Double>>> disambiguationScores = new ArrayList<>();
         if (candidates.size() > 0) {
-            List<EntityCandidate> candidatesCopy = new ArrayList<EntityCandidate>();
-            for (EntityCandidate ec : candidates) {
+            List<Entity> candidatesCopy = new ArrayList<>();
+            for (Entity ec : candidates) {
                 LTableContentCell tcc = table.getContentCell(entity_row, entity_column);
                 if (tcc.getText() != null) {
-                    if (ec.getName().equalsIgnoreCase(tcc.getText().trim()))
+                    if (ec.getLabel().equalsIgnoreCase(tcc.getText().trim()))
                         candidatesCopy.add(ec);
                 }
             }
 
             if (candidatesCopy.size() > 0) {
 
-                disambiguationScores.add(new ObjObj<EntityCandidate, Map<String, Double>>(
+                disambiguationScores.add(new Pair<Entity, Map<String, Double>>(
                         candidatesCopy.get(0), new HashMap<String, Double>()
                 ));
             } else {
-                disambiguationScores.add(new ObjObj<EntityCandidate, Map<String, Double>>(
+                disambiguationScores.add(new Pair<Entity, Map<String, Double>>(
                         candidates.get(0), new HashMap<String, Double>()
                 ));
             }
@@ -45,17 +45,17 @@ public class Base_NameMatch_Disambiguator {
         return disambiguationScores;
     }
 
-    public List<ObjObj<EntityCandidate, Map<String, Double>>> revise(List<ObjObj<EntityCandidate, Map<String, Double>>> entities_for_this_cell_and_scores,
+    public List<Pair<Entity, Map<String, Double>>> revise(List<Pair<Entity, Map<String, Double>>> entities_for_this_cell_and_scores,
                                                                      List<String> types) {
 
-        Iterator<ObjObj<EntityCandidate, Map<String, Double>>> it = entities_for_this_cell_and_scores.iterator();
-        List<ObjObj<EntityCandidate, Map<String, Double>>> original = new ArrayList<ObjObj<EntityCandidate, Map<String, Double>>>(
+        Iterator<Pair<Entity, Map<String, Double>>> it = entities_for_this_cell_and_scores.iterator();
+        List<Pair<Entity, Map<String, Double>>> original = new ArrayList<>(
                 entities_for_this_cell_and_scores
         );
 
         while (it.hasNext()) {
-            ObjObj<EntityCandidate, Map<String, Double>> oo = it.next();
-            List<String> entity_types = oo.getMainObject().getTypeIds();
+            Pair<Entity, Map<String, Double>> oo = it.next();
+            Set<String> entity_types = new HashSet<>(oo.getKey().getTypeIds());
             entity_types.retainAll(types);
             if (entity_types.size() == 0)
                 it.remove();

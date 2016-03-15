@@ -23,8 +23,8 @@ import uk.ac.shef.dcs.oak.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableObjCreatorWikipediaGS;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableXtractorWikipedia;
 import uk.ac.shef.dcs.oak.sti.experiment.LimayeDatasetLoader;
-import uk.ac.shef.dcs.oak.triplesearch.EntityCandidate;
 import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
+import uk.ac.shef.dcs.oak.triplesearch.rep.Entity;
 import uk.ac.shef.dcs.oak.util.CollectionUtils;
 import uk.ac.shef.dcs.oak.util.FileUtils;
 import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
@@ -876,7 +876,8 @@ public class GSBuilder_Limaye_Wikitables {
                             if (fb_id != null && fb_id.length() > 0) {
                                 annotation.append(r + "," + c + "=").append(fb_id).append("\n");
                             }
-                            CellAnnotation ca = new CellAnnotation(tcc.getText(), new EntityCandidate(wikiTitle, wikiTitle), 1.0, new HashMap<String, Double>());
+                            CellAnnotation ca =
+                                    new CellAnnotation(tcc.getText(), new Entity(wikiTitle, wikiTitle), 1.0, new HashMap<String, Double>());
                             originalTable.getTableAnnotations().setContentCellAnnotations(
                                     r, c, new CellAnnotation[]{ca}
                             );

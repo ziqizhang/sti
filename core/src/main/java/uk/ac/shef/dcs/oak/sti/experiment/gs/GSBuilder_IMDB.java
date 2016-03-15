@@ -12,7 +12,7 @@ import uk.ac.shef.dcs.oak.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableObjCreatorIMDB;
 import uk.ac.shef.dcs.oak.sti.xtractor.TableXtractorIMDB;
-import uk.ac.shef.dcs.oak.triplesearch.freebase.EntityCandidate_FreebaseTopic;
+import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseEntity;
 import uk.ac.shef.dcs.oak.triplesearch.freebase.FreebaseQueryHelper;
 
 import java.io.*;
@@ -99,7 +99,7 @@ public class GSBuilder_IMDB {
                 continue;
 
             String imdb_id = text.substring(start, end).trim();
-            List<EntityCandidate_FreebaseTopic> list = queryHelper.searchapi_topics_with_name_and_type(imdb_id, "any", false, 5);
+            List<FreebaseEntity> list = queryHelper.searchapi_topics_with_name_and_type(imdb_id, "any", false, 5);
             if (list == null || list.size() == 0)
                 continue;
             CellAnnotation[] cas = new CellAnnotation[1];
