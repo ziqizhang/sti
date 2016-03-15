@@ -1,0 +1,193 @@
+package uk.ac.shef.dcs.sti.experiment;
+
+import com.google.api.client.http.HttpResponseException;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+import org.apache.solr.core.CoreContainer;
+import uk.ac.shef.dcs.sti.kb.KnowledgeBaseSearcher_Freebase;
+import uk.ac.shef.dcs.sti.algorithm.tm.DisambiguationScorer;
+import uk.ac.shef.dcs.sti.algorithm.tm.DisambiguationScorer_Overlap;
+import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
+import uk.ac.shef.dcs.sti.io.LTableAnnotationWriter;
+import uk.ac.shef.dcs.sti.algorithm.tm.maincol.MainColumnFinder;
+import uk.ac.shef.dcs.sti.algorithm.smp.*;
+import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
+import uk.ac.shef.dcs.util.FileUtils;
+import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
+
+import java.io.*;
+import java.net.SocketTimeoutException;
+import java.util.*;
+import java.util.logging.Logger;
+
+/**
+ * Created by zqz on 23/04/2015.
+ */
+public class TestTableInterpretation_LimayeDataset_SMP {
+    private static Logger log = Logger.getLogger(TestTableInterpretation_LimayeDataset.class.getName());
+    public static int[] IGNORE_COLUMNS = new int[]{};
+
+    public static void main(String[] args) throws IOException {
+        String inFolder = args[0];
+        String outFolder = args[1];
+        String propertyFile = args[2]; //"D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties"
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(propertyFile));
+        String cacheFolderGeneral = args[3];  //String cacheFolder = "D:\\Work\\lodiedata\\tableminer_cache\\solrindex_cache\\zookeeper\\solr";
+        String cacheFolderConceptGranularity = args[4];
+        String nlpResources = args[5]; //"D:\\Work\\lodie\\resources\\nlp_resources";
+        int start = Integer.valueOf(args[6]);
+        boolean relationLearning = Boolean.valueOf(args[7]);
+        //cache target location
+
+        List<Integer> missed_files = new ArrayList<Integer>();
+        if (args.length == 9) {
+            String in_missed = args[8];
+            for (String line : FileUtils.readList(in_missed, false)) {
+                missed_files.add(Integer.valueOf(line.split(",")[0].trim()));
+            }
+        }
+
+        File configFile = new File(cacheFolderGeneral + File.separator + "solr.xml");
+        CoreContainer container = new CoreContainer(cacheFolderGeneral,
+                configFile);
+        SolrServer serverEntity = new EmbeddedSolrServer(container, "collection1");
+
+        File configFile2 = new File(cacheFolderConceptGranularity + File.separator + "solr.xml");
+        CoreContainer container2 = new CoreContainer(cacheFolderConceptGranularity,
+                configFile2);
+        SolrServer serverConcept = new EmbeddedSolrServer(container2, "collection1");
+
+
+        //object to fetch things from KB
+        KnowledgeBaseSearcher_Freebase freebaseSearcherGeneral = new KnowledgeBaseSearcher_Freebase(propertyFile, true,serverEntity,serverConcept,null);
+
+
+        List<String> stopWords = FileUtils.readList(nlpResources + "/stoplist.txt", true);
+        MainColumnFinder main_col_finder = new MainColumnFinder(
+                cacheFolderGeneral,
+                nlpResources,
+                false,
+                stopWords
+        );//   dobs
+        //object to find main subject column
+        boolean useSubjectColumn = Boolean.valueOf(properties.getProperty("SMP_USE_SUBJECT_COLUMN"));
+        String neRankerChoice = properties.getProperty("SMP_NAMED_ENTITY_RANKER");
+        DisambiguationScorer disambiguator;
+        if (neRankerChoice != null && neRankerChoice.equalsIgnoreCase("tableminer")) {
+            disambiguator = new DisambiguationScorer_Overlap(
+                    stopWords,
+                    new double[]{1.0, 0.5, 0.5, 1.0, 1.0}, //row,column, tablecontext other,refent, tablecontext pagetitle (unused)
+                    nlpResources);
+        } else
+            disambiguator = new DisambiguationScorer_SMP_adapted(stopWords, nlpResources);
+
+        //DisambiguationScorer disambiguator = new DisambiguationScorer_SMP_adapted(stopWords, nlpResources);
+        TI_SemanticMessagePassing interpreter = new TI_SemanticMessagePassing(
+                main_col_finder,
+                useSubjectColumn,
+                new NamedEntityRanker(freebaseSearcherGeneral, disambiguator),
+                new ColumnClassifier(freebaseSearcherGeneral),
+                new RelationLearner(new RelationTextMatch_Scorer(stopWords, new Levenshtein(), 0.5)),
+                IGNORE_COLUMNS,
+                new int[0]
+        );
+
+
+        LTableAnnotationWriter writer = new LTableAnnotationWriter_SMP(
+                new TripleGenerator("http://www.freebase.com", "http://lodie.dcs.shef.ac.uk"));
+
+        int count = 0;
+        List<File> all = Arrays.asList(new File(inFolder).listFiles());
+        Collections.sort(all);
+        System.out.println(all.size());
+        for (File f : all) {
+            count++;
+
+            if (missed_files.size() != 0 && !missed_files.contains(count))
+                continue;
+
+            if (count - 1 < start)
+                continue;
+            boolean complete = false;
+            String inFile = f.toString();
+
+            try {
+                LTable table = LimayeDatasetLoader.readTable(inFile, null, null);
+
+                String sourceTableFile = inFile;
+                if (sourceTableFile.startsWith("\"") && sourceTableFile.endsWith("\""))
+                    sourceTableFile = sourceTableFile.substring(1, sourceTableFile.length() - 1).trim();
+                System.out.println(count + "_" + sourceTableFile + " " + new Date());
+                log.info(">>>" + count + "_" + sourceTableFile);
+
+                complete = process(interpreter, table, sourceTableFile, writer, outFolder, relationLearning);
+
+                if (TableMinerConstants.COMMIT_SOLR_PER_FILE) {
+                    serverEntity.commit();
+                    serverConcept.commit();
+                }
+
+                if (!complete) {
+                    System.out.println("\t\t\t missed: " + count + "_" + sourceTableFile);
+                    PrintWriter missedWriter = null;
+                    try {
+                        missedWriter = new PrintWriter(new FileWriter("limaye_missed.csv", true));
+                        missedWriter.println(count + "," + inFile);
+                        missedWriter.close();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                }
+                //gs annotator
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                PrintWriter missedWriter = null;
+                try {
+                    missedWriter = new PrintWriter(new FileWriter("limaye_missed.csv", true));
+                    missedWriter.println(count + "," + inFile);
+                    missedWriter.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                e.printStackTrace();
+            }
+
+        }
+        serverEntity.shutdown();
+        serverConcept.shutdown();
+        System.out.println(new Date());
+        System.exit(0);
+    }
+
+
+    public static boolean process(TI_SemanticMessagePassing interpreter, LTable table, String sourceTableFile, LTableAnnotationWriter writer,
+                                  String outFolder, boolean relationLearning) throws Exception {
+        String outFilename = sourceTableFile.replaceAll("\\\\", "/");
+        try {
+            LTableAnnotation annotations = interpreter.start(table, relationLearning);
+
+            int startIndex = outFilename.lastIndexOf("/");
+            if (startIndex != -1) {
+                outFilename = outFilename.substring(startIndex + 1).trim();
+            }
+            writer.writeHTML(table, annotations, outFolder + "/" + outFilename + ".html");
+
+        } catch (Exception ste) {
+            if (ste instanceof SocketTimeoutException || ste instanceof HttpResponseException) {
+                ste.printStackTrace();
+                System.out.println("Remote server timed out, continue 10 seconds. Missed." + outFilename);
+                try {
+                    Thread.sleep(10000);
+                } catch (Exception e) {
+                }
+                return false;
+            } else
+                throw ste;
+
+        }
+        return true;
+    }
+}

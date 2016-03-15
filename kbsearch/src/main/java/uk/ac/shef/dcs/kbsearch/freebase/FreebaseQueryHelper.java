@@ -17,8 +17,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
-import uk.ac.shef.dcs.oak.util.CollectionUtils;
-import uk.ac.shef.dcs.oak.util.StringUtils;
+import uk.ac.shef.dcs.util.CollectionUtils;
+import uk.ac.shef.dcs.util.StringUtils;
 
 import java.io.FileInputStream;
 import java.util.logging.Logger;
@@ -338,12 +338,7 @@ public class FreebaseQueryHelper {
 
         log.warning("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
         res.addAll(candidates.keySet());
-        Collections.sort(res, new Comparator<FreebaseEntity>() {
-            @Override
-            public int compare(FreebaseEntity o1, FreebaseEntity o2) {
-                return candidates.get(o2).compareTo(candidates.get(o1));
-            }
-        });
+        Collections.sort(res, (o1, o2) -> candidates.get(o2).compareTo(candidates.get(o1)));
         return res;
     }
 
