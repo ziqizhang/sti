@@ -11,10 +11,12 @@ import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
 import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.util.StringUtils;
+import uk.ac.shef.dcs.websearch.WebSearchFactory;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -28,10 +30,12 @@ public class TColumnFeatureGenerator {
 
     public TColumnFeatureGenerator(EmbeddedSolrServer cache, String nlpResource,
                                    List<String> stopWords,
-                                   String webSearchPropFile) throws IOException {
+                                   String webSearchClass,
+                                   String webSearchPropFile) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         ctxMatcher = new HeaderAndContextMatcher(nlpResource);
         websearchMatcher = new HeaderWebsearchMatcher_token(new HeaderWebsearchMatcherCache(cache),
-                new BingSearch(webSearchPropFile),stopWords);
+                new WebSearchFactory().createInstance(webSearchClass, webSearchPropFile),
+                stopWords);
         nlpTools = NLPTools.getInstance(nlpResource);
     }
 

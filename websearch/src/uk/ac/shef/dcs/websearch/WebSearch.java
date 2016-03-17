@@ -20,4 +20,6 @@ public abstract class WebSearch {
     }
 
     public abstract InputStream search(String s) throws Exception;
+
+    public abstract SearchResultParser getResultParser();
 }

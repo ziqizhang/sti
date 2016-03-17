@@ -1,5 +1,6 @@
 package uk.ac.shef.dcs.websearch.bing.v2;
 
+import uk.ac.shef.dcs.websearch.SearchResultParser;
 import uk.ac.shef.dcs.websearch.WebSearchResultDoc;
 
 import javax.json.Json;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  */
 
-public class BingSearchResultParser {
+public class BingSearchResultParser extends SearchResultParser {
     public List<WebSearchResultDoc> parse(InputStream is) throws IOException {
         List<WebSearchResultDoc> result = new ArrayList<WebSearchResultDoc>();
         if(is==null)

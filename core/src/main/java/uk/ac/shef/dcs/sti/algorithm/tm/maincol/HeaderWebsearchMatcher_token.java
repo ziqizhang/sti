@@ -2,6 +2,8 @@ package uk.ac.shef.dcs.sti.algorithm.tm.maincol;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import uk.ac.shef.dcs.sti.nlp.TermFreqCounter;
+import uk.ac.shef.dcs.websearch.SearchResultParser;
+import uk.ac.shef.dcs.websearch.WebSearch;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
 import uk.ac.shef.dcs.websearch.bing.v2.BingSearchResultParser;
@@ -16,8 +18,8 @@ import java.util.logging.Logger;
  */
 public class HeaderWebsearchMatcher_token {
     protected HeaderWebsearchMatcherCache cache;
-    protected BingSearch searcher;
-    protected BingSearchResultParser resultParser;
+    protected WebSearch searcher;
+    protected SearchResultParser resultParser;
     protected static double TITLE_MULTIPLIER = 2.0; //if a value is found in title of a search result document, it receives higher weight
     protected TermFreqCounter counter = new TermFreqCounter();
     protected List<String> stopWords;
@@ -25,11 +27,11 @@ public class HeaderWebsearchMatcher_token {
     protected static Logger log = Logger.getLogger(HeaderWebsearchMatcher_token.class.getName());
 
 
-    public HeaderWebsearchMatcher_token(HeaderWebsearchMatcherCache cache, BingSearch searcher,
+    public HeaderWebsearchMatcher_token(HeaderWebsearchMatcherCache cache, WebSearch searcher,
                                         List<String> stopWords) {
         this.cache = cache;
         this.searcher = searcher;
-        resultParser = new BingSearchResultParser();
+        resultParser = searcher.getResultParser();
         this.stopWords = stopWords;
     }
 
@@ -255,12 +257,13 @@ public class HeaderWebsearchMatcher_token {
         //2. if not in cache, perform web search, interpret results, and cache results
         if (result == null/*||result.size()==0*/) {
             Date start = new Date();
+            try {
             InputStream is = searcher.search(queryId);
             List<WebSearchResultDoc> searchResult = resultParser.parse(is);
-            result = searchResult == null ? new ArrayList<WebSearchResultDoc>() : searchResult;
-            try {
+            result = searchResult == null ? new ArrayList<>() : searchResult;
+
                 cache.cache(queryId, result, true);
-            } catch (SolrServerException e) {
+            } catch (Exception e) {
                 log.warning("Caching Web Search Results failed: " + e);
             }
             log.info("\tQueryBing:" + (new Date().getTime() - start.getTime()));

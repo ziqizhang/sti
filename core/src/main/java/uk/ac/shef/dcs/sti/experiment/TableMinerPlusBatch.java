@@ -31,6 +31,7 @@ public class TableMinerPlusBatch extends STIBatch {
 
 
     private static final Logger LOG = Logger.getLogger(TableMinerPlusBatch.class.getName());
+
     public static int[] IGNORE_COLUMNS = new int[]{};
 
     TMPInterpreter interpreter;
@@ -78,11 +79,12 @@ public class TableMinerPlusBatch extends STIBatch {
                     //"/BlhLSReljQ3Koh+vDSOaYMji9/Ccwe/7/b9mGJLwDQ=");  //zqz.work
                     //"fXhmgvVQnz1aLBti87+AZlPYDXcQL0G9L2dVAav+aK0="); //ziqizhang
                     getStopwords(),
+                    properties.getProperty(PROPERTY_WEBSEARCH_CLASS),
                     properties.getProperty(PROPERTY_WEBSEARCH_PROP_FILE)
                     //, lodie
                     //"7ql9acl+fXXfdjBGIIAH+N2WHk/dIZxdSkl4Uur68Hg"
             );//   dobs
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));
             throw new STIException("Failed initialising SUBJECT COLUMN DETECTION components:" + properties.getProperty(PROPERTY_KBSEARCH_CLASS)

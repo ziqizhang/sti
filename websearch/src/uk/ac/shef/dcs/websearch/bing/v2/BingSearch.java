@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.websearch.bing.v2;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
+import uk.ac.shef.dcs.websearch.SearchResultParser;
 import uk.ac.shef.dcs.websearch.WebSearch;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class BingSearch extends WebSearch{
 
     protected static final String BING_BASE_URL="bing.url";
     protected static final String BING_KEYS="bing.keys";
+    protected SearchResultParser parser;
 
     protected List<String> accountKeyPool;
     protected Map<String, Date> obsoleteAccountKeys;
@@ -76,6 +78,13 @@ public class BingSearch extends WebSearch{
             return is;
         }
         return null;
+    }
+
+    @Override
+    public SearchResultParser getResultParser() {
+        if(parser==null)
+            parser=new BingSearchResultParser();
+        return parser;
     }
 
     /*public static void main(String[] args) throws IOException, APIKeysDepletedException {

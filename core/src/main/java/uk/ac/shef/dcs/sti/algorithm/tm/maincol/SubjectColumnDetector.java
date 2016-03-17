@@ -10,6 +10,7 @@ import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -43,8 +44,11 @@ public class SubjectColumnDetector {
             String nlpResource,
             boolean useWS,
             List<String> stopwords,
-            String webSearchPropFile) throws IOException {
-        featureGenerator = new TColumnFeatureGenerator(cache, nlpResource, stopwords, webSearchPropFile);
+            String webSearchClass,
+            String webSearchPropFile) throws IOException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        featureGenerator = new TColumnFeatureGenerator(cache, nlpResource, stopwords,
+               webSearchClass,
+                webSearchPropFile);
         this.tRowRanker = tRowRanker;
         this.stoppingCriteriaClassname = stoppingCriteriaClassname;
         this.stoppingCriteriaParams = stoppingCriteriaParams;
