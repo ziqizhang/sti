@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 
 import java.util.*;
@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class ColumnHeaderType_TieBreaker {
 
-    public static List<String> consistent_domain_freebase(List<String> candidateTypes, LTableAnnotation tab_annotations, LTable table) {
+    public static List<String> consistent_domain_freebase(List<String> candidateTypes, LTableAnnotation tab_annotations, Table table) {
         Set<String> domain_words = new HashSet<String>();
         for (int col = 0; col < table.getNumCols(); col++) {
             List<HeaderAnnotation> annotations = tab_annotations.getBestHeaderAnnotations(col);

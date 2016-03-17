@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.algorithm.tm.maincol;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.util.FileUtils;
 
@@ -39,7 +39,7 @@ class HeaderAndContextMatcher {
     }
 
     //returns a map between column index and matching score
-    public Map<Integer, Double> match(LTable table, int... col_indexes) {
+    public Map<Integer, Double> match(Table table, int... col_indexes) {
         Map<Integer, Double> scores = new HashMap<Integer, Double>();
 
         //process headers to match against

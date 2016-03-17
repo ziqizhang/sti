@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseSearcher;
+import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.*;
 
@@ -12,22 +12,22 @@ import java.util.*;
  */
 public class Base_TM_no_Update_ColumnLearner {
 
-    private KnowledgeBaseSearcher kbSearcher;
+    private KBSearch kbSearch;
     private Base_TM_no_Update_Disambiguator disambiguation_learn;
     private Base_TM_no_Update_ClassificationScorer classifier_learn;
 
 
     public Base_TM_no_Update_ColumnLearner(
-            KnowledgeBaseSearcher candidateFinder,
+            KBSearch candidateFinder,
             Base_TM_no_Update_Disambiguator disambiguation_learn,
             Base_TM_no_Update_ClassificationScorer algorithm) {
-        this.kbSearcher = candidateFinder;
+        this.kbSearch = candidateFinder;
         this.disambiguation_learn = disambiguation_learn;
         this.classifier_learn = algorithm;
 
     }
 
-    public void learn(LTable table, LTableAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
+    public void learn(Table table, LTableAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
 
         //1. gather list of strings from this column to be interpreted
 
@@ -66,7 +66,7 @@ public class Base_TM_no_Update_ColumnLearner {
             if (skip) {
                 candidates_and_scores_on_this_row = collect_existing(table_annotation, row_index, column);
             } else {
-                List<Entity> candidates = kbSearcher.findEntityCandidates(tcc);
+                List<Entity> candidates = kbSearch.findEntityCandidates(tcc.getText());
                 //do disambiguation scoring
                 candidates_and_scores_on_this_row =
                         disambiguation_learn.disambiguate_learn(
@@ -120,7 +120,7 @@ public class Base_TM_no_Update_ColumnLearner {
 
 
     private void revise_disambiguation_and_create_annotation(LTableAnnotation table_annotation,
-                                                             LTable table,
+                                                             Table table,
                                                              Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row,
                                                              int column) {
         List<HeaderAnnotation> bestHeaderAnnotations = table_annotation.getBestHeaderAnnotations(column);
@@ -167,7 +167,7 @@ public class Base_TM_no_Update_ColumnLearner {
     }
 
     private List<Entity> create_entity_annotations(
-            LTable table,
+            Table table,
             LTableAnnotation table_annotation,
             int table_cell_row,
             int table_cell_col,

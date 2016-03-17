@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.xtractor.validator;
 
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 
 /**
@@ -36,7 +36,7 @@ public class TabValGeneric extends ContentValidator implements TableValidator {
 
 
     @Override
-    public boolean validate(LTable table) {
+    public boolean validate(Table table) {
         int countEmptyColumns = 0, countLengthyColumns = 0, countNumericColumns = 0, countLinkColumns = 0;
 
         if (table.getNumRows() < THRESHOLD_MIN_PROPER_DATA_ROWS)
@@ -65,19 +65,19 @@ public class TabValGeneric extends ContentValidator implements TableValidator {
 
            /* if (countEmptyPerCol > table.getNumRows() * THRESHOLD_MAX_ALLOWED_EMPTY_CELLS_IN_COLUMN) {
                 countEmptyColumns++;
-                table.setColumnDataType(LTable.ColumnDataType.EMPTY, c);
+                table.setColumnDataType(Table.ColumnDataType.EMPTY, c);
             }
             if (countLengthyPerCol > matrix.rows() * THRESHOLD_MAX_ALLOWED_LENGTHY_CELLS_IN_COLUMN) {
                 countLengthyColumns++;
-                table.setColumnDataType(LTable.ColumnDataType.LONGTEXT, c);
+                table.setColumnDataType(Table.ColumnDataType.LONGTEXT, c);
             }
             if (countNumericPerCol > matrix.rows() * THRESHOLD_MAX_ALLOWED_NUMERIC_CELLS_IN_COLUMN) {
                 countNumericColumns++;
-                table.setColumnDataType(LTable.ColumnDataType.NUMERIC, c);
+                table.setColumnDataType(Table.ColumnDataType.NUMERIC, c);
             }
             if (countLinksPerCol > matrix.rows() * THRESHOLD_MAX_ALLOWED_LINK_CELLS_IN_COLUMN) {
                 countLinkColumns++;
-                table.setColumnDataType(LTable.ColumnDataType.LINK, c);
+                table.setColumnDataType(Table.ColumnDataType.LINK, c);
             }*/
 
         }

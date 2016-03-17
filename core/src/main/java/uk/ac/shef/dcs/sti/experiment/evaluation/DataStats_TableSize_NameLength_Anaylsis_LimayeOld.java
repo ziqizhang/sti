@@ -48,7 +48,7 @@ public class DataStats_TableSize_NameLength_Anaylsis_LimayeOld {
             checkGroundTruthLimaye(clean.toString(), annotated, nlPrinter, rows_col_with_ne_Printer);
         }
 
-        /*LTable table = readTable("E:\\data\\table annotation\\tablesForAnnotation\\wikitables\\c3\\r12\\y\\e\\l/Yellowknife.html_0.xml",
+        /*Table table = readTable("E:\\data\\table annotation\\tablesForAnnotation\\wikitables\\c3\\r12\\y\\e\\l/Yellowknife.html_0.xml",
                 "E:\\data\\table annotation\\workspace\\WWT_GroundTruth\\annotation\\wikitables\\c3\\r12\\y\\e\\l/Yellowknife.html_0.xml",
                 "D:\\work\\lodiedata\\limayetable");*/
         System.out.println();
@@ -57,7 +57,7 @@ public class DataStats_TableSize_NameLength_Anaylsis_LimayeOld {
     }
 
     //tableAnnotationFileanem and htmlRepository can both be null, then they are ignored
-    public static LTable checkGroundTruthLimaye(String tableFilename, String tableAnnotationFilename,
+    public static Table checkGroundTruthLimaye(String tableFilename, String tableAnnotationFilename,
                                                 PrintWriter nlPrinter,
                                                 PrintWriter rows_col_with_ne_Printer) throws IOException, ParserConfigurationException, SAXException {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -109,10 +109,10 @@ public class DataStats_TableSize_NameLength_Anaylsis_LimayeOld {
                 totalCol = row.length;
         }
 
-        LTable table = null;
+        Table table = null;
         int rowModifier = 0;
         if (firstRowHeader) {
-            table = new LTable(String.valueOf(tableFilename.hashCode()), tableFilename, rows.size() - 1, totalCol);
+            table = new Table(String.valueOf(tableFilename.hashCode()), tableFilename, rows.size() - 1, totalCol);
             rowModifier = 1;
             if (rows.get(0).length < totalCol){
                 System.err.println("WARNING:Artificial header added, check manually. "+tableFilename);
@@ -131,7 +131,7 @@ public class DataStats_TableSize_NameLength_Anaylsis_LimayeOld {
                 table.setColumnHeader(j, header);
             }
         } else {//no header, need to add false headers
-            table = new LTable(String.valueOf(tableFilename.hashCode()), tableFilename, rows.size(), totalCol);
+            table = new Table(String.valueOf(tableFilename.hashCode()), tableFilename, rows.size(), totalCol);
             for (int j = 0; j < totalCol; j++) {
                 LTableColumnHeader header = new LTableColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue());
                 table.setColumnHeader(j, header);

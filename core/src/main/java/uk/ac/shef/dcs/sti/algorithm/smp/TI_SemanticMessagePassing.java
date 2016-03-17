@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.algorithm.smp;
 import cern.colt.matrix.ObjectMatrix2D;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.MainColumnFinder;
+import uk.ac.shef.dcs.sti.algorithm.tm.maincol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.*;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
@@ -18,7 +18,7 @@ public class TI_SemanticMessagePassing {
 
     //main column finder is needed to generate data features of each column (e.g., data type in a column),
     //even though we do not use it to find the main column in SMP
-    private MainColumnFinder main_col_finder;
+    private SubjectColumnDetector main_col_finder;
     //if there are any columns we want to ignore
     private int[] ignoreColumns;
     private int[] forceInterpretColumn;
@@ -32,7 +32,7 @@ public class TI_SemanticMessagePassing {
     public double min_pc_of_change_messages_for_relation_update = 0.0;
     public int halting_num_of_iterations_max = 10;
 
-    public TI_SemanticMessagePassing(MainColumnFinder main_col_finder,
+    public TI_SemanticMessagePassing(SubjectColumnDetector main_col_finder,
                                      boolean useSubjectColumn,
                                      NamedEntityRanker neRanker,
                                      ColumnClassifier columnClassifier,
@@ -49,7 +49,7 @@ public class TI_SemanticMessagePassing {
         this.forceInterpretColumn = forceInterpretColumn;
     }
 
-    public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException, STIException {
+    public LTableAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException, STIException {
         LTableAnnotation_SMP_Freebase tab_annotations = new LTableAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
 
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
@@ -135,7 +135,7 @@ public class TI_SemanticMessagePassing {
         tab_annotations.resetRelationAnnotations();
     }
 
-    private void computeClasses(LTableAnnotation_SMP_Freebase tab_annotations, LTable table) throws IOException {
+    private void computeClasses(LTableAnnotation_SMP_Freebase tab_annotations, Table table) throws IOException {
         System.out.println("\t\t>> COLUMN SEMANTIC TYPE COMPUTING...");
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -152,12 +152,12 @@ public class TI_SemanticMessagePassing {
         }
     }
 
-    private void computeRelations(LTableAnnotation_SMP_Freebase tab_annotations, LTable table, boolean useMainSubjectColumn){
+    private void computeRelations(LTableAnnotation_SMP_Freebase tab_annotations, Table table, boolean useMainSubjectColumn){
         System.out.println("\t\t>> RELATION COMPUTING...");
         relationLearner.inferRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumns);
     }
 
-    private boolean middlePointHaltingConditionReached(ObjectMatrix2D messages, LTableAnnotation tab_annotations, LTable table) {
+    private boolean middlePointHaltingConditionReached(ObjectMatrix2D messages, LTableAnnotation tab_annotations, Table table) {
         int count_change_messages_from_header = 0, count_change_messages_from_relation = 0;
         for (int r = 0; r < messages.rows(); r++) {
             for (int c = 0; c < messages.columns(); c++) {

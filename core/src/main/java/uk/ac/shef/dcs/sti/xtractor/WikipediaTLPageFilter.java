@@ -5,7 +5,7 @@ import info.bliki.wiki.dump.Siteinfo;
 import info.bliki.wiki.dump.WikiArticle;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.rep.LList;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,9 +57,9 @@ public class WikipediaTLPageFilter implements IArticleFilter {
             countMainPages++;
             String textLowerCase = page.getText().toLowerCase();
             if (textLowerCase.indexOf("wikitable") != -1) { //it likely contains tables or lists
-                List<LTable> tables = tXtractor.extract(page.getText(),
+                List<Table> tables = tXtractor.extract(page.getText(),
                         page.getTitle() + "_" + page.getId());
-                for (LTable t : tables) {
+                for (Table t : tables) {
                     try {
                         TableXtractor.serialize(t, targetTableDir + File.separator + countTableDirs);
                         countTables++;

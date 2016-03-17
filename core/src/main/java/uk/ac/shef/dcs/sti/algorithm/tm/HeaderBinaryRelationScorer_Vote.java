@@ -37,7 +37,7 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
     public Set<HeaderBinaryRelationAnnotation> score(List<CellBinaryRelationAnnotation> input_from_row,
                                                      Set<HeaderBinaryRelationAnnotation> header_binary_relations_prev,
                                                      int subjectCol, int objectCol,
-                                                     LTable table) {
+                                                     Table table) {
         Set<HeaderBinaryRelationAnnotation> candidates;
         if (TableMinerConstants.CLASSIFICATION_CANDIDATE_CONTRIBUTION_METHOD == 0)
             candidates = score_entity_best_candidate_contribute(input_from_row, header_binary_relations_prev, subjectCol, objectCol);
@@ -173,7 +173,7 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
         return candidate_header_binary_relations;
     }
 
-    public Set<HeaderBinaryRelationAnnotation> score_context(Set<HeaderBinaryRelationAnnotation> candidates, LTable table, int column, boolean overwrite) {
+    public Set<HeaderBinaryRelationAnnotation> score_context(Set<HeaderBinaryRelationAnnotation> candidates, Table table, int column, boolean overwrite) {
         Set<String> bag_of_words_for_header = null;
         List<String> bag_of_words_for_column = null, bag_of_words_for_table_major_context = null, bag_of_words_for_table_other_context = null;
         for (HeaderBinaryRelationAnnotation hbr : candidates) {
@@ -215,7 +215,7 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
         return candidates;
     }
 
-    private List<String> create_table_context_major_bow(List<String> bag_of_words_for_table_context, LTable table) {
+    private List<String> create_table_context_major_bow(List<String> bag_of_words_for_table_context, Table table) {
         if (bag_of_words_for_table_context != null)
             return bag_of_words_for_table_context;
         if (table.getContexts() == null)
@@ -235,7 +235,7 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
         return bow;
     }
 
-    private List<String> create_table_context_other_bow(List<String> bag_of_words_for_table_context, LTable table) {
+    private List<String> create_table_context_other_bow(List<String> bag_of_words_for_table_context, Table table) {
         if (bag_of_words_for_table_context != null)
             return bag_of_words_for_table_context;
         if (table.getContexts() == null)
@@ -255,7 +255,7 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
         return bow;
     }
 
-    private List<String> create_column_bow(List<String> bag_of_words_for_column, LTable table, int column) {
+    private List<String> create_column_bow(List<String> bag_of_words_for_column, Table table, int column) {
         if (bag_of_words_for_column != null)
             return bag_of_words_for_column;
         List<String> bow = new ArrayList<String>();
@@ -271,7 +271,7 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
         return bow;
     }
 
-    private Set<String> create_header_bow(Set<String> bag_of_words_for_header, LTable table, int column) {
+    private Set<String> create_header_bow(Set<String> bag_of_words_for_header, Table table, int column) {
         if (bag_of_words_for_header != null)
             return bag_of_words_for_header;
         Set<String> bow = new HashSet<String>();

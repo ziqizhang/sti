@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.xtractor.validator;
 
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 
 /**
@@ -36,7 +36,7 @@ public class TabValWikipediaGSStrict extends TabValGeneric {
 
 
     @Override
-    public boolean validate(LTable table) {
+    public boolean validate(Table table) {
         int countEmptyColumns = 0, countLengthyColumns = 0, countNumericColumns = 0, countURIGSColumns = 0;
 
 
@@ -72,19 +72,19 @@ public class TabValWikipediaGSStrict extends TabValGeneric {
 
             /*if (countEmptyPerCol > matrix.rows() * THRESHOLD_MAX_ALLOWED_EMPTY_CELLS_IN_COLUMN) {
                 countEmptyColumns++;
-                table.setColumnDataType(LTable.ColumnDataType.EMPTY, c);
+                table.setColumnDataType(Table.ColumnDataType.EMPTY, c);
             }
             if (countLengthyPerCol > matrix.rows() * THRESHOLD_MAX_ALLOWED_LENGTHY_CELLS_IN_COLUMN) {
                 countLengthyColumns++;
-                table.setColumnDataType(LTable.ColumnDataType.LONGTEXT, c);
+                table.setColumnDataType(Table.ColumnDataType.LONGTEXT, c);
             }
             if (countNumericPerCol > matrix.rows() * THRESHOLD_MAX_ALLOWED_NUMERIC_CELLS_IN_COLUMN) {
                 countNumericColumns++;
-                table.setColumnDataType(LTable.ColumnDataType.NUMERIC, c);
+                table.setColumnDataType(Table.ColumnDataType.NUMERIC, c);
             }
             if (countURIGSPerCol > matrix.rows() * THRESHOLD_MIN_FRAC_CELLS_WITH_URIS_IN_COLUMN) {
                 countURIGSColumns++;
-                table.setColumnDataType(LTable.ColumnDataType.LINK, c);
+                table.setColumnDataType(Table.ColumnDataType.LINK, c);
             }*/
 
         }

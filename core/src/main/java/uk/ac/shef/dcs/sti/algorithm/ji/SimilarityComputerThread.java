@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseSearcher;
+import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 
@@ -18,18 +18,18 @@ public class SimilarityComputerThread extends Thread{
     private Map<String[], Double> scores;
     private List<Pair<Entity, Clazz>> pairs;
     private EntityAndConceptScorer_Freebase simScorer;
-    private KnowledgeBaseSearcher kbSearcher;
+    private KBSearch kbSearch;
     private boolean finished=false;
     private String id;
     private boolean useCache;
 
     public SimilarityComputerThread(String id, boolean useCache,
                                     List<Pair<Entity, Clazz>> pairs, EntityAndConceptScorer_Freebase simScorer,
-                                    KnowledgeBaseSearcher kbSearcher){
+                                    KBSearch kbSearch){
         scores=new HashMap<>();
         this.pairs=pairs;
         this.simScorer=simScorer;
-        this.kbSearcher=kbSearcher;
+        this.kbSearch = kbSearch;
         this.id=id;
         this.useCache=useCache;
     }
@@ -41,7 +41,7 @@ public class SimilarityComputerThread extends Thread{
         for(Pair<Entity, Clazz> pair: pairs){
             Pair<Double, String> score=null;
             try {
-                score = simScorer.computeEntityConceptSimilarity(pair.getKey(), pair.getValue(),kbSearcher, useCache);
+                score = simScorer.computeEntityConceptSimilarity(pair.getKey(), pair.getValue(), kbSearch, useCache);
                 count++;
             } catch (IOException e) {
                 e.printStackTrace();

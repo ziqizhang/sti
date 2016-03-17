@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.xtractor;
 
 import cern.colt.matrix.ObjectMatrix2D;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
 
 /**
@@ -14,5 +14,5 @@ import uk.ac.shef.dcs.sti.rep.LTableContext;
  * Must deal with at least:
  */
 public interface TableObjCreator {
-    LTable create(ObjectMatrix2D preTable, String tableId, String sourceId, LTableContext... contexts);
+    Table create(ObjectMatrix2D preTable, String tableId, String sourceId, LTableContext... contexts);
 }

@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.algorithm.tm.maincol.ColumnFeature;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.MainColumnFinder;
+import uk.ac.shef.dcs.sti.algorithm.tm.maincol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.*;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
@@ -17,18 +17,18 @@ import java.util.Map;
 @Deprecated
 public class MainInterpreter_old {
 
-    private MainColumnFinder main_col_finder;
-    private ColumnInterpreter interpreter_column;
-    private ColumnInterpreter_relDepend interpreter_column_with_knownReltaions;
+    private SubjectColumnDetector main_col_finder;
+    private LEARNING interpreter_column;
+    private DataLiteralColumnClassifier interpreter_column_with_knownReltaions;
     private BinaryRelationInterpreter interpreter_relation;
     //private static Logger log = Logger.getLogger(MainInterpreter.class.getName());
     private int[] ignoreColumns;
     private int[] forceInterpretColumn;
 
 
-    public MainInterpreter_old(MainColumnFinder main_col_finder,
-                           ColumnInterpreter interpreter_column,
-                           ColumnInterpreter_relDepend interpreter_column_with_knownReltaions,
+    public MainInterpreter_old(SubjectColumnDetector main_col_finder,
+                           LEARNING interpreter_column,
+                           DataLiteralColumnClassifier interpreter_column_with_knownReltaions,
                            BinaryRelationInterpreter interpreter_relation,
                            int[] ignoreColumns, int[] forceInterpretColumn) {
         this.main_col_finder = main_col_finder;
@@ -39,7 +39,7 @@ public class MainInterpreter_old {
         this.forceInterpretColumn = forceInterpretColumn;
     }
 
-    public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException {
+    public LTableAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException {
         //1. find the main subject column of this table
         System.out.println(">\t Detecting main column...");
         List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
@@ -139,7 +139,7 @@ public class MainInterpreter_old {
         return tab_annotations;
     }
 
-    /*private boolean isInterpretable(int columns_having_relations_with_main_col, LTable table) {
+    /*private boolean isInterpretable(int columns_having_relations_with_main_col, Table table) {
         int totalColumns = 0;
         for (int col = 0; col < table.getNumCols(); col++) {
             DataTypeClassifier.DataType cType = table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType();
@@ -154,7 +154,7 @@ public class MainInterpreter_old {
                 totalColumns * interpreter_relation.getThreshold_minimum_binary_relations_in_table();
     }*/
 
-    private double scoreSolution(LTableAnnotation tab_annotations, LTable table, int main_subject_column) {
+    private double scoreSolution(LTableAnnotation tab_annotations, Table table, int main_subject_column) {
         double entityScores = 0.0;
         for (int col = 0; col < table.getNumCols(); col++) {
             for (int row = 0; row < table.getNumRows(); row++) {

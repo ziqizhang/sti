@@ -1,9 +1,9 @@
 package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.sti.algorithm.tm.ColumnInterpreter_relDepend;
+import uk.ac.shef.dcs.sti.algorithm.tm.DataLiteralColumnClassifier;
 import uk.ac.shef.dcs.sti.algorithm.tm.maincol.ColumnFeature;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.MainColumnFinder;
+import uk.ac.shef.dcs.sti.algorithm.tm.maincol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.*;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
@@ -21,19 +21,19 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class Base_NameMatch_MainInterpreter {
-    private MainColumnFinder main_col_finder;
+    private SubjectColumnDetector main_col_finder;
     private Base_NameMatch_ColumnLearner interpreter_column;
     private Baseline_BinaryRelationInterpreter interpreter_relation;
     //private static Logger log = Logger.getLogger(MainInterpreter.class.getName());
     private int[] ignoreColumns;
     private int[] forceInterpretColumn;
-    private ColumnInterpreter_relDepend interpreter_column_with_knownReltaions;
+    private DataLiteralColumnClassifier interpreter_column_with_knownReltaions;
 
 
-    public Base_NameMatch_MainInterpreter(MainColumnFinder main_col_finder,
+    public Base_NameMatch_MainInterpreter(SubjectColumnDetector main_col_finder,
                                           Base_NameMatch_ColumnLearner interpreter_column,
                                           Baseline_BinaryRelationInterpreter interpreter_relation,
-                                          ColumnInterpreter_relDepend interpreter_column_with_knownReltaions,
+                                          DataLiteralColumnClassifier interpreter_column_with_knownReltaions,
                                           int[] ignoreColumns, int[] forceInterpretColumn) {
         this.main_col_finder = main_col_finder;
         this.interpreter_column = interpreter_column;
@@ -43,7 +43,7 @@ public class Base_NameMatch_MainInterpreter {
         this.interpreter_column_with_knownReltaions=interpreter_column_with_knownReltaions;
     }
 
-    public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException {
+    public LTableAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException {
         //1. find the main subject column of this table
         System.out.println(">\t Detecting main column...");
         List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
@@ -125,7 +125,7 @@ public class Base_NameMatch_MainInterpreter {
         return tab_annotations;
     }
 
-    /*private boolean isInterpretable(int columns_having_relations_with_main_col, LTable table) {
+    /*private boolean isInterpretable(int columns_having_relations_with_main_col, Table table) {
         int totalColumns = 0;
         for (int col = 0; col < table.getNumCols(); col++) {
             DataTypeClassifier.DataType cType = table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType();
@@ -140,7 +140,7 @@ public class Base_NameMatch_MainInterpreter {
                 totalColumns * interpreter_relation.getThreshold_minimum_binary_relations_in_table();
     }*/
 
-    private double scoreSolution(LTableAnnotation tab_annotations, LTable table, int main_subject_column) {
+    private double scoreSolution(LTableAnnotation tab_annotations, Table table, int main_subject_column) {
         double entityScores = 0.0;
         for (int col = 0; col < table.getNumCols(); col++) {
             for (int row = 0; row < table.getNumRows(); row++) {

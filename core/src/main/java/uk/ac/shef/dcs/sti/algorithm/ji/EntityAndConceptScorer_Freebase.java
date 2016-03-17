@@ -1,9 +1,9 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseSearcher;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseFreebaseFilter;
+import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
@@ -42,7 +42,7 @@ public class EntityAndConceptScorer_Freebase {
         for (String[] f : entity_triples) {
             if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
                 continue;
-            if (KnowledgeBaseFreebaseFilter.ignoreFactFromBOW(f[0]))
+            if (FreebaseSearchResultFilter.ignoreFactFromBOW(f[0]))
                 continue;
             String value = f[1];
             if (!StringUtils.isPath(value))
@@ -58,7 +58,7 @@ public class EntityAndConceptScorer_Freebase {
         for (String[] f : concept_triples) {
             if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
                 continue;
-            if (KnowledgeBaseFreebaseFilter.ignoreFactFromBOW(f[0]))
+            if (FreebaseSearchResultFilter.ignoreFactFromBOW(f[0]))
                 continue;
             String value = f[1];
             if (!StringUtils.isPath(value))
@@ -73,16 +73,16 @@ public class EntityAndConceptScorer_Freebase {
         double contextOverlapScore = CollectionUtils.scoreOverlap_dice_keepFrequency(
                 bag_of_words_for_entity, bag_of_words_for_concept
         );
-        //kbSearcher.saveSimilarity(entity_id,concept_url,contextOverlapScore,true);
+        //kbSearch.saveSimilarity(entity_id,concept_url,contextOverlapScore,true);
         return contextOverlapScore;
     }
     public Pair<Double, String> computeEntityConceptSimilarity(Entity entity,
                                                                  Clazz concept,
-                                                 KnowledgeBaseSearcher kbSearcher,
+                                                 KBSearch kbSearch,
                                                  boolean useCache) throws IOException {
         double score = -1;
         if(useCache)
-            score=kbSearcher.find_similarity(entity.getId(), concept.getId());
+            score= kbSearch.find_similarity(entity.getId(), concept.getId());
         String fromCache="no";
         if(score!=-1)
             fromCache="cache";
@@ -93,7 +93,7 @@ public class EntityAndConceptScorer_Freebase {
             for (String[] f : entity_triples) {
                 if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
                     continue;
-                if (KnowledgeBaseFreebaseFilter.ignoreFactFromBOW(f[0]))
+                if (FreebaseSearchResultFilter.ignoreFactFromBOW(f[0]))
                     continue;
                 String value = f[1];
                 if (!StringUtils.isPath(value))
@@ -110,7 +110,7 @@ public class EntityAndConceptScorer_Freebase {
             for (String[] f : concept_triples) {
                 if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
                     continue;
-                if (KnowledgeBaseFreebaseFilter.ignoreFactFromBOW(f[0]))
+                if (FreebaseSearchResultFilter.ignoreFactFromBOW(f[0]))
                     continue;
                 String value = f[1];
                 if (!StringUtils.isPath(value))
@@ -125,7 +125,7 @@ public class EntityAndConceptScorer_Freebase {
             double contextOverlapScore = CollectionUtils.scoreOverlap_dice_keepFrequency(
                     bag_of_words_for_entity, bag_of_words_for_concept
             );
-            //kbSearcher.saveSimilarity(entity_id,concept_url,contextOverlapScore,true);
+            //kbSearch.saveSimilarity(entity_id,concept_url,contextOverlapScore,true);
             return new Pair<>(contextOverlapScore,fromCache);
         }
         else{
@@ -133,8 +133,8 @@ public class EntityAndConceptScorer_Freebase {
         }
     }
 
-    public double computeConceptSpecificity(String concept_url, KnowledgeBaseSearcher kbSearcher) throws IOException {
-        double conceptGranularity = kbSearcher.find_granularityForConcept(concept_url);
+    public double computeConceptSpecificity(String concept_url, KBSearch kbSearch) throws IOException {
+        double conceptGranularity = kbSearch.find_granularityForConcept(concept_url);
         if(conceptGranularity<0)
             return 0.0;
         return 1-Math.sqrt(conceptGranularity/FREEBASE_TOTAL_TOPICS);

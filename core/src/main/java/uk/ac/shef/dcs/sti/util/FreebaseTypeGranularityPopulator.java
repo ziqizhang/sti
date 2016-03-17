@@ -1,13 +1,11 @@
 package uk.ac.shef.dcs.sti.util;
 
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-import org.apache.solr.core.CoreContainer;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseSearcher_Freebase;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.util.FileUtils;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -64,17 +62,15 @@ public class FreebaseTypeGranularityPopulator {
         p.close();
         System.exit(0);*/
 
-        File configFileConcept = new File(args[3] + File.separator + "solr.xml");
-        CoreContainer containerConcept = new CoreContainer(args[3],
-                configFileConcept);
-        SolrServer serverConcept = new EmbeddedSolrServer(containerConcept, "collection1");
+        EmbeddedSolrServer serverConcept =
+                new EmbeddedSolrServer(Paths.get(args[3]), "collection1");
 
-        File configFileProperty = new File(args[4] + File.separator + "solr.xml");
-        CoreContainer containerProperty = new CoreContainer(args[4],
-                configFileProperty);
-        SolrServer serverProperty = new EmbeddedSolrServer(containerProperty, "collection1");
+        EmbeddedSolrServer serverProperty =
+                new EmbeddedSolrServer(Paths.get(args[4]), "collection1");
 
-        KnowledgeBaseSearcher_Freebase kbSeacher = new KnowledgeBaseSearcher_Freebase(args[2], true, null, serverConcept, serverProperty);
+
+        FreebaseSearch kbSeacher =
+                new FreebaseSearch(args[2], true, null, serverConcept, serverProperty);
 
         //kbSeacher.find_triplesForProperty("/award/award_category/nomination_announcement");
 

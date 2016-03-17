@@ -7,7 +7,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
 import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
@@ -31,8 +31,8 @@ public class TableXtractorRottenTomato extends TableXtractor {
     }
 
     @Override
-    public List<LTable> extract(String input, String sourceId) {
-        List<LTable> rs = new ArrayList<LTable>();
+    public List<Table> extract(String input, String sourceId) {
+        List<Table> rs = new ArrayList<Table>();
         parser = new TagSoupParser(new ByteArrayInputStream(input.getBytes()), sourceId, "UTF-8");
         Document doc = null;
         try {
@@ -67,7 +67,7 @@ public class TableXtractorRottenTomato extends TableXtractor {
                     continue;
 
                 List<Node> items = DomUtils.findAll(ul, "LI");
-                LTable table = new LTable(sourceId, sourceId, items.size(), 1);
+                Table table = new Table(sourceId, sourceId, items.size(), 1);
                 for (LTableContext ltc : contexts)
                     table.addContext(ltc);
 

@@ -1,9 +1,9 @@
 package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.sti.algorithm.tm.RelationTextMatch_Scorer;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.sti.rep.*;
 
 import java.util.*;
@@ -24,7 +24,7 @@ public class Baseline_BinaryRelationInterpreter {
     //so as a result of this method, the main subject column can change
     //
     //when new relation created, supporting row info is also added
-    public int interpret(LTableAnnotation annotations, LTable table, int sub_column) {
+    public int interpret(LTableAnnotation annotations, Table table, int sub_column) {
 
         //mainColumnIndexes contains indexes of columns that are possile NEs
         Map<Integer, DataTypeClassifier.DataType> colTypes
@@ -53,7 +53,7 @@ public class Baseline_BinaryRelationInterpreter {
             /*if(final_annotation.getAnnotation().getId().equals("/m/0nlpl"))
                 System.out.println();*/
             List<String[]> facts = /*candidateFinder.find_triplesForEntity(final_annotation.getAnnotation())*/final_annotation.getAnnotation().getTriples();
-            facts = KnowledgeBaseFreebaseFilter.filterRelations(facts);
+            facts = FreebaseSearchResultFilter.filterRelations(facts);
             Map<Integer, String> values_to_match_on_the_row = new HashMap<Integer, String>();
             for (int col : colTypes.keySet()) {
                 if (col != sub_column) {

@@ -106,7 +106,8 @@ public class Evaluator_ClassOnly_IMDB_MusicBrainz {
                          String in_gs_file,
                          String out_result_file,
                          String out_missed_file, boolean gs_NE_only) throws IOException {
-        FreebaseQueryHelper fb = new FreebaseQueryHelper("D:\\Work\\sti\\dist/sti.properties");
+        //todo: this will not work
+        FreebaseQueryHelper fb = null;//new FreebaseQueryHelper("D:\\Work\\sti\\dist/sti.properties");
         PrintWriter p = new PrintWriter(out_result_file);
         p.println("File,HEADER(0)_cp_y, gs_y, cp_n, p,r,f," +
                 "HEADER(1)_cp_y, gs_y, cp_n, p,r,f");

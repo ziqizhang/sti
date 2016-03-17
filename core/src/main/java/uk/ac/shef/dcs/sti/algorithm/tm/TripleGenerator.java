@@ -13,16 +13,16 @@ import java.util.Map;
  */
 public class TripleGenerator {
 
-    private String namespace;
-    private String dummyNamespace;
+    private String kbNamespace;
+    private String defaultNamespace;
 
-    public TripleGenerator(String namespace, String dummyNamespace) {
-        this.namespace = namespace;
-        this.dummyNamespace = dummyNamespace;
+    public TripleGenerator(String kbNamespace, String dummyNamespace) {
+        this.kbNamespace = kbNamespace;
+        this.defaultNamespace = dummyNamespace;
     }
 
-    public List<LTableTriple> generate_newTriples(LTableAnnotation tab_annotation, LTable table) {
-        List<LTableTriple> result = new ArrayList<LTableTriple>();
+    public List<LTableTriple> generate_newTriples(LTableAnnotation tab_annotation, Table table) {
+        List<LTableTriple> result = new ArrayList<>();
 
         //column typing instances
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -50,9 +50,9 @@ public class TripleGenerator {
                     LTableTriple ltt = new LTableTriple();
                     ltt.setSubject_position(new int[]{row, col});
                     ltt.setSubject(tcc.getText());
-                    ltt.setSubject_annotation(namespace + entity.getId());
+                    ltt.setSubject_annotation(kbNamespace + entity.getId());
                     ltt.setObject(header.getHeaderText());
-                    ltt.setObject_annotation(namespace + final_type_for_the_column.getAnnotation_url());
+                    ltt.setObject_annotation(kbNamespace + final_type_for_the_column.getAnnotation_url());
                     ltt.setObject_position(new int[]{-1, -1});
                     ltt.setRelation_annotation("rdf:type");
                     result.add(ltt);
@@ -92,17 +92,17 @@ public class TripleGenerator {
                 LTableTriple triple = new LTableTriple();
                 triple.setSubject_position(new int[]{row, subCol});
                 triple.setSubject(final_subject_cell_annotation.getTerm());
-                triple.setSubject_annotation(namespace + final_subject_cell_annotation.getAnnotation().getId());
+                triple.setSubject_annotation(kbNamespace + final_subject_cell_annotation.getAnnotation().getId());
 
                 triple.setObject_position(new int[]{row, objCol});
                 if (final_object_cell_annotation != null) {
-                    triple.setObject_annotation(namespace + final_object_cell_annotation.getAnnotation().getId());
+                    triple.setObject_annotation(kbNamespace + final_object_cell_annotation.getAnnotation().getId());
                     triple.setObject(final_object_cell_annotation.getTerm());
                 } else {
                     triple.setObject_annotation("'" + object_cell.getText() + "'");
                     triple.setObject(object_cell.getText());
                 }
-                triple.setRelation_annotation(namespace + relation_annotation.getAnnotation_url());
+                triple.setRelation_annotation(kbNamespace + relation_annotation.getAnnotation_url());
                 result.add(triple);
 
             }
@@ -133,12 +133,12 @@ public class TripleGenerator {
                 LTableTriple triple = new LTableTriple();
                 triple.setSubject_position(new int[]{row, main_subject_column});
                 triple.setSubject(final_subject_cell_annotation.getTerm());
-                triple.setSubject_annotation(namespace + final_subject_cell_annotation.getAnnotation().getId());
+                triple.setSubject_annotation(kbNamespace + final_subject_cell_annotation.getAnnotation().getId());
 
                 triple.setObject_position(new int[]{row, col});
                 triple.setObject(object_cell.getText());
                 triple.setObject_annotation("'" + object_cell.getText() + "'");
-                triple.setRelation_annotation(dummyNamespace + "/" + header.getHeaderText());
+                triple.setRelation_annotation(defaultNamespace + "/" + header.getHeaderText());
                 result.add(triple);
             }
         }

@@ -22,7 +22,7 @@ public class ChangeMessageBroadcaster {
         this.minConfidence=minConfidence;
     }
 
-    public ObjectMatrix2D computeChangeMessages(LTableAnnotation tableAnnotation, LTable table) {
+    public ObjectMatrix2D computeChangeMessages(LTableAnnotation tableAnnotation, Table table) {
         ObjectMatrix2D messages = new SparseObjectMatrix2D(table.getNumRows(), table.getNumCols());
         //messages by column header
         for (int col = 0; col < table.getNumCols(); col++) {

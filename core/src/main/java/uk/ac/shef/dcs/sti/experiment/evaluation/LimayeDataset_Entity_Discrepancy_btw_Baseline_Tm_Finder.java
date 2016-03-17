@@ -4,7 +4,7 @@ import info.aduna.io.FileUtil;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseSearcher_Freebase;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.sti.io.LTableAnnotationKeyFileReader;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.util.FileUtils;
@@ -21,13 +21,16 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
 
     public static void main(String[] args) throws IOException {
         String cacheFolder = "D:\\Work\\lodiedata\\tableminer_cache\\solrindex_cache\\zookeeper\\solr";
-        File configFile = new File(cacheFolder + File.separator + "solr.xml");
+
+        //todo: this will not work
+        /*File configFile = new File(cacheFolder + File.separator + "solr.xml");
         CoreContainer container = new CoreContainer(cacheFolder,
-                configFile);
-        SolrServer server = new EmbeddedSolrServer(container, "collection1");
+                configFile);*/
+        SolrServer server = null; //new EmbeddedSolrServer(container, "collection1");
         //object to fetch things from KB
         String freebaseProperties = "D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties";
-        KnowledgeBaseSearcher_Freebase freebaseMatcher = new KnowledgeBaseSearcher_Freebase(freebaseProperties, true, server, null,null);
+        //todo: this will not work
+        FreebaseSearch freebaseMatcher = null;//new FreebaseSearch(freebaseProperties, true, server, null,null);
 
         find_discrepancies_between(
                 "E:\\Data\\table annotation\\corpus_analysis\\100_tables\\tableminer_aclshort_no_ref_ent",
@@ -164,7 +167,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
             String inFolder_tableminer,
             String inFolder_baseline,
             String outFolder,
-            KnowledgeBaseSearcher_Freebase searcher) throws IOException {
+            FreebaseSearch searcher) throws IOException {
         for (File tableminer_entity_file : new File(inFolder_tableminer).listFiles()) {
             Map<int[], List<List<String>>> tableminer_cells = null, baseline_cells = null;
 

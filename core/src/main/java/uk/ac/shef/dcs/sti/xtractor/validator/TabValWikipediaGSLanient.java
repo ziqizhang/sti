@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.xtractor.validator;
 
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 
 /**
@@ -44,7 +44,7 @@ public class TabValWikipediaGSLanient extends TabValGeneric {
 
 
     @Override
-    public boolean validate(LTable table) {
+    public boolean validate(Table table) {
         int countEmpty = 0, countLengthy = 0, countMultiValued = 0, numericCells = 0;
         int countLengthyColumns = 0, countNumericColumns = 0;
 
@@ -69,14 +69,14 @@ public class TabValWikipediaGSLanient extends TabValGeneric {
 
             /*if (countLengthyPerCol > matrix.rows() * THRESHOLD_MAX_LENGTHY_CELLS_IN_COLUMN){
                 countLengthyColumns++;
-                table.setColumnDataType(LTable.ColumnDataType.LONGTEXT, c);
+                table.setColumnDataType(Table.ColumnDataType.LONGTEXT, c);
             }
             if (countNumericPerCol > matrix.rows() * THRESHOLD_MAX_NUMERIC_CELLS_IN_COLUMN){
                 countNumericColumns++;
-                table.setColumnDataType(LTable.ColumnDataType.NUMERIC, c);
+                table.setColumnDataType(Table.ColumnDataType.NUMERIC, c);
             }
             if(countEmpty>matrix.rows()*THRESHOLD_MAX_EMPTY_CELLS_IN_COLUMNS){
-                table.setColumnDataType(LTable.ColumnDataType.EMPTY, c);
+                table.setColumnDataType(Table.ColumnDataType.EMPTY, c);
             }*/
 
         }

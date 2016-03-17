@@ -1,5 +1,7 @@
 package uk.ac.shef.dcs.util;
 
+import org.apache.commons.io.LineIterator;
+
 import java.io.*;
 import java.util.*;
 
@@ -36,16 +38,14 @@ public class FileUtils {
      */
     public static List<String> readList(final String path, final boolean lowercase) throws IOException {
         List<String> res = new ArrayList<String>();
-        final BufferedReader reader = new BufferedReader(new FileReader(path));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            line = line.trim();
+        LineIterator it = org.apache.commons.io.FileUtils.lineIterator(new File(path));
+        while(it.hasNext()){
+            String line=it.nextLine().trim();
             if (line.equals("")) continue;
             if (lowercase) res.add(line.toLowerCase());
             else res.add(line);
         }
 
-        reader.close();
         return res;
     }
 

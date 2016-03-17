@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.sti.algorithm.ji.multicore;
 
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.algorithm.ji.EntityAndConceptScorer_Freebase;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 
@@ -19,17 +19,17 @@ public class SimilarityComputeWorker implements Callable<Map<String[], Double>> 
 
     private List<Pair<Entity, Clazz>> pairs;
     private EntityAndConceptScorer_Freebase simScorer;
-    private KnowledgeBaseSearcher kbSearcher;
+    private KBSearch kbSearch;
     private boolean finished=false;
     private String id;
     private boolean useCache;
 
     public SimilarityComputeWorker(String id, boolean useCache,
                                     List<Pair<Entity, Clazz>> pairs, EntityAndConceptScorer_Freebase simScorer,
-                                    KnowledgeBaseSearcher kbSearcher){
+                                    KBSearch kbSearch){
         this.pairs=pairs;
         this.simScorer=simScorer;
-        this.kbSearcher=kbSearcher;
+        this.kbSearch = kbSearch;
         this.id=id;
         this.useCache=useCache;
     }
@@ -39,7 +39,7 @@ public class SimilarityComputeWorker implements Callable<Map<String[], Double>> 
         for(Pair<Entity, Clazz> pair: pairs){
             Pair<Double, String> score=null;
             try {
-                score = simScorer.computeEntityConceptSimilarity(pair.getKey(), pair.getValue(),kbSearcher, useCache);
+                score = simScorer.computeEntityConceptSimilarity(pair.getKey(), pair.getValue(), kbSearch, useCache);
             } catch (IOException e) {
                 e.printStackTrace();
             }

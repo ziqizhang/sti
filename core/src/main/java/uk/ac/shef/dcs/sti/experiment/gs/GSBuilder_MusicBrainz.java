@@ -2,9 +2,9 @@ package uk.ac.shef.dcs.sti.experiment.gs;
 
 import org.apache.any23.util.FileUtils;
 import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
-import uk.ac.shef.dcs.sti.io.LTableAnnotationWriter;
+import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
@@ -27,8 +27,9 @@ public class GSBuilder_MusicBrainz {
 
     public static void main(String[] args) throws IOException {
         GSBuilder_MusicBrainz gsBuilder = new GSBuilder_MusicBrainz();
-        FreebaseQueryHelper queryHelper = new FreebaseQueryHelper(args[2]);
-        LTableAnnotationWriter writer = new LTableAnnotationWriter(new TripleGenerator("http://www.musicbrainz.org", "http://dcs.shef.ac.uk"));
+        //todo:this willn ot work
+        FreebaseQueryHelper queryHelper = null;//new FreebaseQueryHelper(args[2]);
+        TAnnotationWriter writer = new TAnnotationWriter(new TripleGenerator("http://www.musicbrainz.org", "http://dcs.shef.ac.uk"));
         String inFolder = args[0];
         String outFolder = args[1];
         //read imdb page, create table object
@@ -47,12 +48,12 @@ public class GSBuilder_MusicBrainz {
             String inFile = f.toString();
             try {
                 String fileContent = FileUtils.readFileContent(new File(inFile));
-                List<LTable> tables = xtractor.extract(fileContent, inFile);
+                List<Table> tables = xtractor.extract(fileContent, inFile);
 
                 if (tables.size() == 0)
                     continue;
 
-                LTable table = tables.get(0);
+                Table table = tables.get(0);
                 //gs annotator
                 System.out.println(f + ", with rows: " + table.getNumRows());
                 LTableAnnotation annotations = gsBuilder.annotate(table, queryHelper);
@@ -85,7 +86,7 @@ public class GSBuilder_MusicBrainz {
         }
     }
 
-    public LTableAnnotation annotate(LTable table, FreebaseQueryHelper queryHelper) throws IOException {
+    public LTableAnnotation annotate(Table table, FreebaseQueryHelper queryHelper) throws IOException {
         Map<String, List<FreebaseEntity>> cache_for_table = new HashMap<String, List<FreebaseEntity>>();
 
         LTableAnnotation tableAnnotation = new LTableAnnotation(table.getNumRows(), table.getNumCols());
@@ -137,7 +138,7 @@ public class GSBuilder_MusicBrainz {
     }
 
 
-    public void save(LTable table, LTableAnnotation annotations, String outFolder, LTableAnnotationWriter writer) throws FileNotFoundException {
+    public void save(Table table, LTableAnnotation annotations, String outFolder, TAnnotationWriter writer) throws FileNotFoundException {
         String fileId = table.getSourceId();
         fileId = fileId.replaceAll("\\\\", "/");
         int trim = fileId.lastIndexOf("/");

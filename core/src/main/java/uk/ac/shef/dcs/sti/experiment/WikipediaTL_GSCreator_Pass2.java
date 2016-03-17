@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.experiment;
 
 import uk.ac.shef.dcs.sti.rep.LList;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.xtractor.ListValidator;
 import uk.ac.shef.dcs.sti.xtractor.ListValidatorStrict;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValWikipediaGSStrict;
@@ -35,7 +35,7 @@ public class WikipediaTL_GSCreator_Pass2 {
             File[] files = dir.listFiles();
             for (File file : files) {
                 try {
-                    LTable table = TableXtractor.deserialize(file.getPath());
+                    Table table = TableXtractor.deserialize(file.getPath());
                     if (tValidator.validate(table)) {//todo: if selected
                         TableXtractor.serialize(table, tableOutFinalDir + File.separator + countTableDirs);
                         countTables++;

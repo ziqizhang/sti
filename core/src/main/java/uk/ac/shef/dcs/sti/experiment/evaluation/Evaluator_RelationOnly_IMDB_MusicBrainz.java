@@ -120,7 +120,8 @@ public class Evaluator_RelationOnly_IMDB_MusicBrainz {
         PrintWriter p = new PrintWriter(out_result_file);
         p.println("File,REL(0)_cp_y, gs_y, cp_n, p,r,f," +
                 "REL(1)_cp_y, gs_y, cp_n, p,r,f");
-        FreebaseQueryHelper fb = new FreebaseQueryHelper("D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties");
+        //todo: this will not work
+        FreebaseQueryHelper fb = null;//new FreebaseQueryHelper("D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties");
 
         PrintWriter out_missed_writer = new PrintWriter(out_missed_file);
         Set<String> processed = new HashSet<String>();

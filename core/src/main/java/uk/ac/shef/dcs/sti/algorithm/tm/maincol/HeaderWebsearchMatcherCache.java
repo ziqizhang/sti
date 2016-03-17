@@ -1,6 +1,5 @@
 package uk.ac.shef.dcs.sti.algorithm.tm.maincol;
 
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -8,11 +7,9 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.ModifiableSolrParams;
-import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.util.SerializableUtils;
-import uk.ac.shef.dcs.websearch.bing.v2.WebSearchResultDoc;
+import uk.ac.shef.dcs.websearch.WebSearchResultDoc;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,19 +22,12 @@ import java.util.List;
  */
 class HeaderWebsearchMatcherCache {
 
-    private SolrServer server;
+    private EmbeddedSolrServer server;
     private static final String idFieldName = "id";
     private static final String valueFieldName = "value";
 
 
-    public HeaderWebsearchMatcherCache(String solrHomePath, String coreName) {
-        File configFile = new File(solrHomePath + File.separator + "solr.xml");
-        CoreContainer container = new CoreContainer(solrHomePath,
-                configFile);
-        server = new EmbeddedSolrServer(container, coreName);
-    }
-
-    public HeaderWebsearchMatcherCache(SolrServer server){
+    public HeaderWebsearchMatcherCache(EmbeddedSolrServer server){
         this.server=server;
     }
 

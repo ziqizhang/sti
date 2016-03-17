@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.xtractor;
 import cern.colt.matrix.ObjectMatrix2D;
 import org.apache.any23.extractor.html.TagSoupParser;
 import org.w3c.dom.Node;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * <p/>
  * interface for extracting tables from certain RAW input strings
  *
- * WARNING: this class should not be used to READ serialised LTable objects. but process raw input to create them
+ * WARNING: this class should not be used to READ serialised Table objects. but process raw input to create them
  */
 public abstract class TableXtractor {
     protected TableNormalizer normalizer;
@@ -36,7 +36,7 @@ public abstract class TableXtractor {
         this.validators = validators;
     }
 
-    public abstract List<LTable> extract(String input, String sourceId);
+    public abstract List<Table> extract(String input, String sourceId);
 
     /**
      * Processes table elements following the basic principles:
@@ -53,14 +53,14 @@ public abstract class TableXtractor {
      * @param sourceId
      * @return null if no valid tables are extracted; Table object if otherwise
      */
-    public LTable extractTable(Node tableNode, String tableId, String sourceId, LTableContext... contexts) {
+    public Table extractTable(Node tableNode, String tableId, String sourceId, LTableContext... contexts) {
         /*if (sourceId.startsWith("List of U.S. state songs"))
             System.out.println();*/
         List<List<Node>> norm = normalizer.apply(tableNode);
         if (norm.size() == 0)
             return null;
         ObjectMatrix2D preTable = hoDetector.detect(norm);
-        LTable table = creator.create(preTable, tableId, sourceId, contexts);
+        Table table = creator.create(preTable, tableId, sourceId, contexts);
         for (TableValidator tv : validators) {
             if (!tv.validate(table))
                 return null;
@@ -69,7 +69,7 @@ public abstract class TableXtractor {
     }
 
 
-    public static void serialize(LTable table, String targetDir) throws IOException {
+    public static void serialize(Table table, String targetDir) throws IOException {
         File dir = new File(targetDir);
         if (!dir.exists())
             dir.mkdirs();
@@ -84,11 +84,11 @@ public abstract class TableXtractor {
         fileOut.close();
     }
 
-    public static LTable deserialize(String filename) throws IOException, ClassNotFoundException {
+    public static Table deserialize(String filename) throws IOException, ClassNotFoundException {
         FileInputStream fileIn =
                 new FileInputStream(filename);
         ObjectInputStream in = new ObjectInputStream(fileIn);
-        LTable table = (LTable) in.readObject();
+        Table table = (Table) in.readObject();
         in.close();
         fileIn.close();
         return table;

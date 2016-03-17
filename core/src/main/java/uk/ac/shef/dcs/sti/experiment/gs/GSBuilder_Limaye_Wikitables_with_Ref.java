@@ -6,13 +6,13 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.ColumnFeatureGenerator;
+import uk.ac.shef.dcs.sti.algorithm.tm.maincol.TColumnFeatureGenerator;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
-import uk.ac.shef.dcs.sti.util.SearchCacheSolr;
+import uk.ac.shef.dcs.util.SolrUtils;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
@@ -21,13 +21,15 @@ import uk.ac.shef.dcs.sti.xtractor.TableXtractorWikipedia;
 import uk.ac.shef.dcs.sti.experiment.LimayeDatasetLoader;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.util.FileUtils;
-import uk.ac.shef.dcs.websearch.bing.v2.BingWebSearch;
-import uk.ac.shef.dcs.websearch.bing.v2.BingWebSearchResultParser;
+import uk.ac.shef.dcs.websearch.WebSearchFactory;
+import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
+import uk.ac.shef.dcs.websearch.bing.v2.BingSearchResultParser;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -38,14 +40,27 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
     private Levenshtein stringSim = new Levenshtein();
 
     public GSBuilder_Limaye_Wikitables_with_Ref(FreebaseQueryHelper queryHelper,
-                                                SearchCacheSolr cache_solr,
+                                                SolrUtils cache_solr,
                                                 TableXtractorWikipedia xtractor,
-                                                String... bingApiKeys) {
+                                                String propertyFile) {
         this.queryHelper = queryHelper;
         this.solrCache = cache_solr;
         this.xtractor = xtractor;
-        searcher = new BingWebSearch(bingApiKeys);
-        parser = new BingWebSearchResultParser();
+        try {
+            searcher = new WebSearchFactory().createInstance(
+                    BingSearch.class.getName(), propertyFile);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        };
+        parser = new BingSearchResultParser();
     }
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
@@ -58,8 +73,8 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
         /* find_missed_files("E:\\Data\\table annotation\\limaye/gs_limaye.e8031313", "E:\\Data\\table annotation\\limaye/gs_limaye.missed");
         System.exit(0);*/
 
-
-        FreebaseQueryHelper queryHelper = new FreebaseQueryHelper(args[2]);
+//todo: this will not work!
+        FreebaseQueryHelper queryHelper =null; //= new FreebaseQueryHelper(args[2]);
         String in_original_limaye_folder = args[0];
         String out_gs_folder = args[1];
         String solrCache = args[3];
@@ -73,11 +88,12 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
             }
         }
 
-        File configFile = new File(solrCache + File.separator + "solr.xml");
+        //todo: this will not work.
+        /*File configFile = new File(solrCache + File.separator + "solr.xml");
         CoreContainer container = new CoreContainer(solrCache,
-                configFile);
-        SolrServer server = new EmbeddedSolrServer(container, "collection1");
-        SearchCacheSolr cache = new SearchCacheSolr(server);
+                configFile);*/
+        EmbeddedSolrServer server = null;// new EmbeddedSolrServer(container, "collection1");
+        SolrUtils cache = new SolrUtils(server);
 
         TableXtractorWikipedia xtractor = new TableXtractorWikipedia(new TableNormalizerFrequentRowLength(true),
                 new TableHODetectorByHTMLTag(),
@@ -104,7 +120,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
                 }
 
                 System.out.println(count + "_" + f);
-                LTable limaye_table = LimayeDatasetLoader.readTable(f.toString(), null, null);
+                Table limaye_table = LimayeDatasetLoader.readTable(f.toString(), null, null);
 
                 String wikiPage = null;
                 if (missedFile.size() > 0) {
@@ -154,7 +170,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
                     System.err.println("ERROR:NO_TABLE:" + f.getName());
                     continue;
                 }
-                LTable wikitable = gsBuilder.
+                Table wikitable = gsBuilder.
                         process_wikitable(theOne, f.toURI().toString(), f.toURI().toString(), limaye_table.getContexts().toArray(new LTableContext[0]));
                 if (wikitable == null) {
                     System.err.println("ERROR:IRREGULAR_TABLE:" + f.getName());
@@ -176,11 +192,11 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
     }
 
 
-    private void annotateTable(LTable wikitable, LTable limaye_table,
+    private void annotateTable(Table wikitable, Table limaye_table,
                                String annotationFile) throws IOException, TransformerException, ParserConfigurationException {
         //saveAsLimaye(table, rawFile);
         StringBuilder annotation = new StringBuilder();
-        ColumnFeatureGenerator.feature_columnDataTypes(limaye_table);
+        TColumnFeatureGenerator.feature_columnDataTypes(limaye_table);
 
         for (int c = 0; c < limaye_table.getNumCols(); c++) {
             DataTypeClassifier.DataType type = limaye_table.getColumnHeader(c).getTypes().get(0).getCandidateType();
@@ -239,7 +255,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
         p.close();
     }
 
-    private int findMatchingColumn(LTable limaye_table, int c, LTable wikitable) {
+    private int findMatchingColumn(Table limaye_table, int c, Table wikitable) {
         double maxScore = 0.0;
         int theOne = -1;
         String column = toString_Column(limaye_table, c);
@@ -258,7 +274,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
     }
 
 
-    private String toString_Column(LTable table, int c) {
+    private String toString_Column(Table table, int c) {
         String text = "";
 
         for (int r = 0; r < table.getNumRows(); r++) {
@@ -268,7 +284,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
         return text;
     }
 
-    private String toString_Column_Annotation(LTable table, int c) {
+    private String toString_Column_Annotation(Table table, int c) {
         String text = "";
 
         for (int r = 0; r < table.getNumRows(); r++) {

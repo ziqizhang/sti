@@ -3,7 +3,6 @@ package uk.ac.shef.dcs.sti.algorithm.smp;
 import cern.colt.matrix.ObjectMatrix2D;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Key_SubjectCol_ObjectCol;
-import uk.ac.shef.dcs.sti.rep.LTable;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.sti.util.SubsetGenerator;
 

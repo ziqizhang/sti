@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.sti.algorithm.ji.multicore;
 
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.algorithm.ji.EntityAndConceptScorer_Freebase;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseSearcher;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 
@@ -22,7 +22,7 @@ public class SimilarityComputeManager {
 
     public static Map<String, Double> compute(int threadsPerCPU, List<Pair<Entity, Clazz>> pairs, boolean useCache,
                                EntityAndConceptScorer_Freebase entityAndConceptScorer,
-                               KnowledgeBaseSearcher kbSearcher) throws InterruptedException {
+                               KBSearch kbSearch) throws InterruptedException {
         if(pairs.size()==0)
             return new HashMap<>();
 
@@ -52,7 +52,7 @@ public class SimilarityComputeManager {
                 selectedPairs.add(pairs.get(j));
             }
             SimilarityComputeWorker worker = new SimilarityComputeWorker(
-                    start + "-" + end, useCache, selectedPairs, entityAndConceptScorer, kbSearcher
+                    start + "-" + end, useCache, selectedPairs, entityAndConceptScorer, kbSearch
             );
             tasks.add(worker);
         }
@@ -72,7 +72,7 @@ public class SimilarityComputeManager {
                         String[] key = e.getKey();
                         if (e.getValue() != -1) {
                             if(useCache&& !key[2].equals("cache")) {
-                                kbSearcher.saveSimilarity(key[0], key[1], e.getValue(), true, false);
+                                kbSearch.saveSimilarity(key[0], key[1], e.getValue(), true, false);
                                 doCommit=true;
                             }
                             finalScores.put(key[0] + "," + key[1], e.getValue());
@@ -85,7 +85,7 @@ public class SimilarityComputeManager {
         }
         if(useCache&&doCommit) {
             try {
-                kbSearcher.commitChanges();
+                kbSearch.commitChanges();
             } catch (Exception e) {
                 e.printStackTrace();
             }

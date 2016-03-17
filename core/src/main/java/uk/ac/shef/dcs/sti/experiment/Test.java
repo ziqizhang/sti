@@ -4,7 +4,7 @@ package uk.ac.shef.dcs.sti.experiment;
 import info.aduna.io.FileUtil;
 import org.apache.commons.io.FileUtils;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
@@ -48,7 +48,7 @@ public class Test {
         int count=0;
         for(File f: new File("E:\\Data\\table_annotation\\limaye\\all_tables_raw(regen)").listFiles()){
             count++;
-            LTable table = LimayeDatasetLoader.readTable(f.toString(), null, null);
+            Table table = LimayeDatasetLoader.readTable(f.toString(), null, null);
             System.out.println(count);
         }
         System.exit(0);

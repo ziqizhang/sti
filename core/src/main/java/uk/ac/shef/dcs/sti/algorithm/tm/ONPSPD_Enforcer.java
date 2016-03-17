@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 
 import java.util.*;
@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class ONPSPD_Enforcer {
 
-    public static void enforce(LTable table,
+    public static void enforce(Table table,
                                LTableAnnotation table_annotation, int col) {
         Map<String, Set<String>> entityId_to_cellTexts = new HashMap<String, Set<String>>();
         Map<Integer, Set<Integer>> elements_to_update = new HashMap<Integer, Set<Integer>>();

@@ -1,12 +1,12 @@
 package uk.ac.shef.dcs.sti.algorithm.baseline;
 
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseFreebaseFilter;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.util.CollectionUtils;
@@ -51,7 +51,7 @@ public class Base_TM_no_Update_EntityDisambiguationScorer {
                                      List<Entity> other_candidates_returned,
                                      int entity_source_column,
                                      int entity_source_row,
-                                     LTable table,
+                                     Table table,
                                      Set<String> assigned_column_types,
                                      Entity... reference_disambiguated_entities) {
         /*if(candidate.getName().contains("Republican"))
@@ -63,7 +63,7 @@ public class Base_TM_no_Update_EntityDisambiguationScorer {
         List<String[]> facts = candidate.getTriples();
         List<String> bag_of_words_for_entity = new ArrayList<String>();
         for (String[] f : facts) {
-            if (KnowledgeBaseFreebaseFilter.ignoreFactFromBOW(f[0]))
+            if (FreebaseSearchResultFilter.ignoreFactFromBOW(f[0]))
                 continue;
             String value = f[1];
             if (!StringUtils.isPath(value))

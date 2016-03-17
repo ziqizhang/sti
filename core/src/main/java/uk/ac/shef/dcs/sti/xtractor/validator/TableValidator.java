@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.xtractor.validator;
 
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)
@@ -9,5 +9,5 @@ import uk.ac.shef.dcs.sti.rep.LTable;
  */
 public interface TableValidator {
 
-    boolean validate(LTable table);
+    boolean validate(Table table);
 }

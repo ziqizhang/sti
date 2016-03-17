@@ -1,9 +1,9 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.sti.algorithm.smp.RelationTextMatch_Scorer;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseSearcher;
+import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.sti.misc.UtilRelationMatcher;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.sti.rep.*;
@@ -31,7 +31,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
             for (int s = 0; s < subjectCellAnnotations.size(); s++) { //for each candidate subject entity
                 CellAnnotation sbjEntity = subjectCellAnnotations.get(s);
                 List<String[]> sbjEntityFacts = sbjEntity.getAnnotation().getTriples(); //get the facts of that sbj ent
-                sbjEntityFacts = KnowledgeBaseFreebaseFilter.filterRelations(sbjEntityFacts);
+                sbjEntityFacts = FreebaseSearchResultFilter.filterRelations(sbjEntityFacts);
                 Map<Integer, DataTypeClassifier.DataType> fact_data_types = classifyFactObjDataType(
                         sbjEntityFacts
                 );
@@ -105,12 +105,12 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                   int objCol,
                                   DataTypeClassifier.DataType objectColumnDataType,
                                   LTableAnnotation_JI_Freebase annotation,
-                                  KnowledgeBaseSearcher kbSearcher) throws IOException {
+                                  KBSearch kbSearch) throws IOException {
         if (subjectHeaderColumnCandidates.size() > 0 && objectHeaderColumnCandidates.size() > 0) {
             for (int s = 0; s < subjectHeaderColumnCandidates.size(); s++) {
                 HeaderAnnotation sbjCandidates = subjectHeaderColumnCandidates.get(s);
-                List<String[]> sbjCandidateFacts = kbSearcher.findTriplesOfConcept(sbjCandidates.getAnnotation_url());
-                sbjCandidateFacts = KnowledgeBaseFreebaseFilter.filterRelations(sbjCandidateFacts);
+                List<String[]> sbjCandidateFacts = kbSearch.findTriplesOfConcept(sbjCandidates.getAnnotation_url());
+                sbjCandidateFacts = FreebaseSearchResultFilter.filterRelations(sbjCandidateFacts);
                 Map<Integer, DataTypeClassifier.DataType> factObjDataTypes = classifyFactObjDataType(
                         sbjCandidateFacts
                 );
@@ -173,9 +173,9 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                                                       int relationFrom, int relationTo,
                                                                       double maxScore) {
         //todo: false relation added to highly general types (person, religious_leader_title), maybe use only most specific type of sbj, obj
-        for (Clazz sbjType : KnowledgeBaseFreebaseFilter.filterTypes(sbjEntity.getAnnotation().getTypes())) {
+        for (Clazz sbjType : FreebaseSearchResultFilter.filterTypes(sbjEntity.getAnnotation().getTypes())) {
             for (CellAnnotation objEntity : matchedObjCellCandidates) {
-                for (Clazz objType : KnowledgeBaseFreebaseFilter.filterTypes(objEntity.getAnnotation().getTypes())) {
+                for (Clazz objType : FreebaseSearchResultFilter.filterTypes(objEntity.getAnnotation().getTypes())) {
                     if (sbjType.getId().equals(objType.getId())) continue;
                     tableAnnotation.setScore_conceptPairAndRelation_instanceEvidence(entityRow,
                             sbjType.getId(),
@@ -290,7 +290,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                 for (int s = 0; s < subjectCellAnnotations.size(); s++) { //for each candidate subject entity
                     CellAnnotation sbjEntity = subjectCellAnnotations.get(s);
                     List<String[]> sbjEntityFacts = sbjEntity.getAnnotation().getTriples(); //get the facts of that sbj ent
-                    sbjEntityFacts = KnowledgeBaseFreebaseFilter.filterRelations(sbjEntityFacts);
+                    sbjEntityFacts = FreebaseSearchResultFilter.filterRelations(sbjEntityFacts);
 
                     for (String[] f : sbjEntityFacts) {
                         for (HeaderBinaryRelationAnnotation hbr : candidateRelations) {

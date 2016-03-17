@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.sti.misc.UtilRelationMatcher;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
@@ -30,7 +30,7 @@ public class RelationTextMatch_Scorer {
         Map<Integer, List<Pair<String[], Double>>> matching_scores =
                 new HashMap<>();
         //filter facts to remove predicates that are not useful relations
-        facts = KnowledgeBaseFreebaseFilter.filterRelations(facts);
+        facts = FreebaseSearchResultFilter.filterRelations(facts);
         //typing facts
 
         Map<Integer, DataTypeClassifier.DataType> fact_data_types = new HashMap<Integer, DataTypeClassifier.DataType>();

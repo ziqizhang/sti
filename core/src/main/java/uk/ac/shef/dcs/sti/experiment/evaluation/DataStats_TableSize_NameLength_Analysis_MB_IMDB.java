@@ -4,7 +4,7 @@ import org.apache.any23.util.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.xtractor.*;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 
@@ -69,19 +69,19 @@ public class DataStats_TableSize_NameLength_Analysis_MB_IMDB {
             p2.close();
         }
 
-        /*LTable table = readTable("E:\\data\\table annotation\\tablesForAnnotation\\wikitables\\c3\\r12\\y\\e\\l/Yellowknife.html_0.xml",
+        /*Table table = readTable("E:\\data\\table annotation\\tablesForAnnotation\\wikitables\\c3\\r12\\y\\e\\l/Yellowknife.html_0.xml",
                 "E:\\data\\table annotation\\workspace\\WWT_GroundTruth\\annotation\\wikitables\\c3\\r12\\y\\e\\l/Yellowknife.html_0.xml",
                 "D:\\work\\lodiedata\\limayetable");*/
         System.out.println();
     }
 
     //tableAnnotationFileanem and htmlRepository can both be null, then they are ignored
-    public static LTable checkGroundTruth(String tableFilename, String tableAnnotationFilename, PrintWriter p,
+    public static Table checkGroundTruth(String tableFilename, String tableAnnotationFilename, PrintWriter p,
                                           PrintWriter p2) throws IOException, ParserConfigurationException, SAXException {
 
-        LTable table = null;
+        Table table = null;
         String fileContent = FileUtils.readFileContent(new File(tableFilename));
-        List<LTable> tables = xtractor.extract(fileContent, tableFilename);
+        List<Table> tables = xtractor.extract(fileContent, tableFilename);
         if (tables.size() > 0) {
             table = tables.get(0);
 

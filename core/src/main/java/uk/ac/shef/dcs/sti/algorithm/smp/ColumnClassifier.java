@@ -1,12 +1,12 @@
 package uk.ac.shef.dcs.sti.algorithm.smp;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseSearcher;
+import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 
 import java.io.IOException;
@@ -18,16 +18,16 @@ import java.util.*;
 public class ColumnClassifier {
 
     protected static double FREEBASE_TOTAL_TOPICS=47560900;
-    private KnowledgeBaseSearcher kbSearcher;
+    private KBSearch kbSearch;
 
     public static final String SMP_SCORE_ENTITY_VOTE = "smp_score_entity_vote";
     public static final String SMP_SCORE_GRANULARITY = "smp_score_granularity";
 
-    public ColumnClassifier(KnowledgeBaseSearcher kbSearcher) {
-        this.kbSearcher = kbSearcher;
+    public ColumnClassifier(KBSearch kbSearch) {
+        this.kbSearch = kbSearch;
     }
 
-    public void rankColumnConcepts(LTableAnnotation tableAnnotation, LTable table, int col) throws IOException {
+    public void rankColumnConcepts(LTableAnnotation tableAnnotation, Table table, int col) throws IOException {
         int totalNonEmpty = 0;
         Map<String, Double> votes = new HashMap<String, Double>();
         for (int r = 0; r < table.getNumRows(); r++) {
@@ -54,7 +54,7 @@ public class ColumnClassifier {
             List<Pair<String, Double>> result_votes = new ArrayList<>();
             for (Map.Entry<String, Double> e : votes.entrySet()) {
                 double voteScore = e.getValue() / totalNonEmpty;
-                voteScore+=computeConceptSpecificity(e.getKey(),kbSearcher);
+                voteScore+=computeConceptSpecificity(e.getKey(), kbSearch);
                 result_votes.add(new Pair<>(e.getKey(),
                         voteScore));
             }
@@ -81,7 +81,7 @@ public class ColumnClassifier {
             if (count_same_max_score > 1) {
                 for (Pair<String, Double> e : result_votes) {
                     if (e.getValue() == maxScore) {
-                        result_granularity.put(e.getKey(), kbSearcher.find_granularityForConcept(e.getKey()));
+                        result_granularity.put(e.getKey(), kbSearch.find_granularityForConcept(e.getKey()));
                     }
                 }
             }
@@ -104,8 +104,8 @@ public class ColumnClassifier {
         }
     }
 
-    private double computeConceptSpecificity(String concept_url, KnowledgeBaseSearcher kbSearcher) throws IOException {
-        double conceptGranularity = kbSearcher.find_granularityForConcept(concept_url);
+    private double computeConceptSpecificity(String concept_url, KBSearch kbSearch) throws IOException {
+        double conceptGranularity = kbSearch.find_granularityForConcept(concept_url);
         if(conceptGranularity<0)
             return 0.0;
         return 1-Math.sqrt(conceptGranularity/FREEBASE_TOTAL_TOPICS);

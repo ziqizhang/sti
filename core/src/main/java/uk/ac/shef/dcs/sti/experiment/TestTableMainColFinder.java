@@ -5,17 +5,16 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.MainColumnFinder;
-import uk.ac.shef.dcs.sti.algorithm.tm.selector.LTableContentRow_Sampler_nonEmpty;
+import uk.ac.shef.dcs.sti.algorithm.tm.maincol.SubjectColumnDetector;
+import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentTContentRowRankerImpl;
 import uk.ac.shef.dcs.sti.algorithm.tm.stopping.EntropyConvergence;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerDummy;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorMusicBrainz;
 import uk.ac.shef.dcs.sti.xtractor.TableXtractorMusicBrainz;
 import uk.ac.shef.dcs.util.FileUtils;
-import uk.ac.shef.dcs.websearch.bing.v2.MultiKeyStringSplitter;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
@@ -42,17 +41,22 @@ public class TestTableMainColFinder {
         properties.load(new FileInputStream(args[4]));
         List<String> stopWords = FileUtils.readList(nlpResources + "/stoplist.txt", true);
         File configFile = new File(cacheFolder + File.separator + "solr.xml");
-        CoreContainer container = new CoreContainer(cacheFolder,
+
+        //todo: this class will not work, the following code must be resumed and corrected
+        /*CoreContainer container = new CoreContainer(cacheFolder,
                 configFile);
         SolrServer server = new EmbeddedSolrServer(container, "collection1");
-        MainColumnFinder finder = new MainColumnFinder(new LTableContentRow_Sampler_nonEmpty(),
+        SubjectColumnDetector finder = new SubjectColumnDetector(new TContentTContentRowRankerImpl(),
                 EntropyConvergence.class.getName(),
                 new String[]{"0.0", "1", "0.01"},
                 server,
                 nlpResources, true, stopWords,
                 MultiKeyStringSplitter.split(properties.getProperty("BING_API_KEYS")) //lodie
 
-        );
+        );*/
+
+        EmbeddedSolrServer server=null;
+        SubjectColumnDetector finder=null;
 
         /* List<String> tasks=
             FileUtils.readList("E:\\Data\\table annotation\\corpus_analysis\\90_tables/" +
@@ -73,7 +77,7 @@ public class TestTableMainColFinder {
 
             String groundTruth = task.substring(lastComma+1).trim();
 
-            LTable table = LimayeDatasetLoader.readTable(sourceTableFile, null, null);
+            Table table = LimayeDatasetLoader.readTable(sourceTableFile, null, null);
 
             List<ObjObj<Integer, ObjObj<Double, Boolean>>> result = finder.compute(table);
 
@@ -112,18 +116,18 @@ public class TestTableMainColFinder {
 
 
             String fileContent = org.apache.any23.util.FileUtils.readFileContent(f);
-            List<LTable> tables = xtractor.extract(fileContent, f.toString());
+            List<Table> tables = xtractor.extract(fileContent, f.toString());
             if (tables.size() == 0)
                 continue;
 
-            LTable table = tables.get(0);
+            Table table = tables.get(0);
 
-            //LTable table = LimayeDatasetLoader.readTable(task, null, null);
+            //Table table = LimayeDatasetLoader.readTable(task, null, null);
             // String fileContent = org.apache.any23.util.FileUtils.readFileContent(f);
-            //List<LTable> tables = xtractor.extract(fileContent, task);
+            //List<Table> tables = xtractor.extract(fileContent, task);
             /* if(tables.size()<1)
             continue;*/
-            // LTable table = tables.get(0);
+            // Table table = tables.get(0);
             try {
                 List<Pair<Integer, Pair<Double, Boolean>>> result = finder.compute(table);
 

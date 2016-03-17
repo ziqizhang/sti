@@ -28,8 +28,8 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
     }
 
     @Override
-    public LTable create(ObjectMatrix2D preTable, String tableId, String sourceId, LTableContext... context) {
-        LTable table = new LTable(tableId, sourceId, preTable.rows() - 1, preTable.columns());
+    public Table create(ObjectMatrix2D preTable, String tableId, String sourceId, LTableContext... context) {
+        Table table = new Table(tableId, sourceId, preTable.rows() - 1, preTable.columns());
 
         for (LTableContext ctx : context)
             table.addContext(ctx);
@@ -91,7 +91,7 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
     }
 
 
-    private void extract(Node tableCell, int r, int c, LTable table) {
+    private void extract(Node tableCell, int r, int c, Table table) {
         //todo: cell type
         String cellText = getCellTextOfNode_by_links(tableCell);
 

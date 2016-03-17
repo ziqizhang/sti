@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseSearcher;
+import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.*;
 
@@ -13,18 +13,18 @@ import java.util.*;
 public class CandidateRelationGenerator {
     public static boolean allowRelationCandidatesFromRows=true;
     private RelationTextMatcher_Scorer_JI_adapted matcher;
-    private KnowledgeBaseSearcher kbSearcher;
+    private KBSearch kbSearch;
 
     public CandidateRelationGenerator(RelationTextMatcher_Scorer_JI_adapted matcher,
-                                      KnowledgeBaseSearcher kbSearcher,
+                                      KBSearch kbSearch,
                                       boolean allowRelationCandidatesFromRows) {
         this.matcher = matcher;
-        this.kbSearcher = kbSearcher;
+        this.kbSearch = kbSearch;
         this.allowRelationCandidatesFromRows=allowRelationCandidatesFromRows;
     }
 
     public void generateCandidateRelation(LTableAnnotation_JI_Freebase tableAnnotations,
-                                          LTable table, boolean useMainSubjectColumn,
+                                          Table table, boolean useMainSubjectColumn,
                                           Collection<Integer> ignoreColumns) throws IOException {
         //RelationDataStructure result = new RelationDataStructure();
 
@@ -95,7 +95,7 @@ public class CandidateRelationGenerator {
                 createRelationCandidateBetweenConceptCandidates(subjectColumn,
                         objectColumn,
                         tableAnnotations,
-                        colTypes, kbSearcher
+                        colTypes, kbSearch
                 );
             }
         }
@@ -158,7 +158,7 @@ public class CandidateRelationGenerator {
     private void createRelationCandidateBetweenConceptCandidates(int sbjCol, int objCol,
                                                                  LTableAnnotation_JI_Freebase annotation,
                                                                  Map<Integer, DataTypeClassifier.DataType> colTypes,
-                                                                 KnowledgeBaseSearcher kbSearcher) throws IOException {
+                                                                 KBSearch kbSearch) throws IOException {
         HeaderAnnotation[] candidates_col1 = annotation.getHeaderAnnotation(sbjCol);
         HeaderAnnotation[] candidates_col2 = annotation.getHeaderAnnotation(objCol);
         matcher.match_headerPairs(
@@ -168,7 +168,7 @@ public class CandidateRelationGenerator {
                 objCol,
                 colTypes.get(objCol),
                 annotation,
-                kbSearcher);
+                kbSearch);
 
     }
 }

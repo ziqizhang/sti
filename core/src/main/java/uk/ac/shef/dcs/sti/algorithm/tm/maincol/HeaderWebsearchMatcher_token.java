@@ -3,9 +3,9 @@ package uk.ac.shef.dcs.sti.algorithm.tm.maincol;
 import org.apache.solr.client.solrj.SolrServerException;
 import uk.ac.shef.dcs.sti.nlp.TermFreqCounter;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
-import uk.ac.shef.dcs.websearch.bing.v2.BingWebSearch;
-import uk.ac.shef.dcs.websearch.bing.v2.BingWebSearchResultParser;
-import uk.ac.shef.dcs.websearch.bing.v2.WebSearchResultDoc;
+import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
+import uk.ac.shef.dcs.websearch.bing.v2.BingSearchResultParser;
+import uk.ac.shef.dcs.websearch.WebSearchResultDoc;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,8 +16,8 @@ import java.util.logging.Logger;
  */
 public class HeaderWebsearchMatcher_token {
     protected HeaderWebsearchMatcherCache cache;
-    protected BingWebSearch searcher;
-    protected BingWebSearchResultParser resultParser;
+    protected BingSearch searcher;
+    protected BingSearchResultParser resultParser;
     protected static double TITLE_MULTIPLIER = 2.0; //if a value is found in title of a search result document, it receives higher weight
     protected TermFreqCounter counter = new TermFreqCounter();
     protected List<String> stopWords;
@@ -25,11 +25,11 @@ public class HeaderWebsearchMatcher_token {
     protected static Logger log = Logger.getLogger(HeaderWebsearchMatcher_token.class.getName());
 
 
-    public HeaderWebsearchMatcher_token(HeaderWebsearchMatcherCache cache, BingWebSearch searcher,
+    public HeaderWebsearchMatcher_token(HeaderWebsearchMatcherCache cache, BingSearch searcher,
                                         List<String> stopWords) {
         this.cache = cache;
         this.searcher = searcher;
-        resultParser = new BingWebSearchResultParser();
+        resultParser = new BingSearchResultParser();
         this.stopWords = stopWords;
     }
 
@@ -181,7 +181,7 @@ public class HeaderWebsearchMatcher_token {
                 int freq = composing_token_offsets.get(candidate).size();
                 if (freq > 0) {  //exact cell value found
                     double ordering_weight_multiplier = (candidates_components.size() - o) * ordering_multiplier_components;
-                    if(!MainColumnFinder.use_ordering)
+                    if(!SubjectColumnDetector.use_ordering)
                         ordering_weight_multiplier=1.0;
                     double score_to_increment = composing_token_offsets.get(candidate).size()
                             * ordering_weight_multiplier * context_weight_multiplier;
@@ -297,18 +297,18 @@ public class HeaderWebsearchMatcher_token {
     }
 
 
-    public static void main(String[] args) throws APIKeysDepletedException, IOException {
+   /* public static void main(String[] args) throws APIKeysDepletedException, IOException {
         String[] accountKeys = new String[]{"fXhmgvVQnz1aLBti87+AZlPYDXcQL0G9L2dVAav+aK0="};
         HeaderWebsearchMatcher_token matcher = new HeaderWebsearchMatcher_token(
                 new HeaderWebsearchMatcherCache("D:\\Work\\lodiedata\\tableminer_cache\\solrindex_cache\\zookeeper\\solr",
                         "collection1"),
-                new BingWebSearch(accountKeys),
+                new BingSearch(accountKeys),
                 new ArrayList<String>()
         );
         matcher.score("House of Cards", "Peter David");
         matcher.score("University of Sheffield", "Sheffield", "United Kingdom");
         matcher.score("House of Cards", "Peter David");
         matcher.cache.shutdown();
-    }
+    }*/
 
 }

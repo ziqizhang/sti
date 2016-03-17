@@ -35,7 +35,7 @@ class FactorBuilderCell extends FactorBuilder{
                 for (int i = 0; i < candidateEntityAnnotations.length; i++) {
                     CellAnnotation ca = candidateEntityAnnotations[i];
                     double score=ca.getScore_element_map().get(
-                            DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR);
+                            JIAdaptedEntityScorer.SCORE_CELL_FACTOR);
                     if(score==0)
                         continue;
 

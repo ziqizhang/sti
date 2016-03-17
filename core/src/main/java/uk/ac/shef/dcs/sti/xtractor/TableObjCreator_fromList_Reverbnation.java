@@ -4,7 +4,7 @@ import cern.colt.matrix.ObjectMatrix2D;
 import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.PlaceHolder;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
 import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
@@ -19,8 +19,8 @@ import uk.ac.shef.dcs.util.XPathUtils;
  */
 public class TableObjCreator_fromList_Reverbnation implements TableObjCreator {
     @Override
-    public LTable create(ObjectMatrix2D preTable, String tableId, String sourceId, LTableContext... contexts) {
-        LTable table = new LTable(tableId, sourceId, preTable.rows() - 1, preTable.columns());
+    public Table create(ObjectMatrix2D preTable, String tableId, String sourceId, LTableContext... contexts) {
+        Table table = new Table(tableId, sourceId, preTable.rows() - 1, preTable.columns());
         for (LTableContext ctx : contexts)
             table.addContext(ctx);
 

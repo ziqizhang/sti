@@ -4,7 +4,7 @@ import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.extractor.html.TagSoupParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
 
@@ -27,8 +27,8 @@ public class TableXtractorHTML extends TableXtractor {
 
 
     @Override
-    public List<LTable> extract(String input, String sourceId) {
-        List<LTable> rs = new ArrayList<LTable>();
+    public List<Table> extract(String input, String sourceId) {
+        List<Table> rs = new ArrayList<Table>();
         parser = new TagSoupParser(new ByteArrayInputStream(input.getBytes()), sourceId,"UTF-8");
         Document doc = null; try {
             doc = parser.getDOM();
@@ -43,7 +43,7 @@ public class TableXtractorHTML extends TableXtractor {
             tableCount++;
             //todo: extract contexts for table
             LTableContext[] contexts = new LTableContext[0];
-            LTable table =extractTable(n, String.valueOf(tableCount),
+            Table table =extractTable(n, String.valueOf(tableCount),
                     sourceId,contexts);
             if(table!=null)
                 rs.add(table);

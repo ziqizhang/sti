@@ -8,7 +8,7 @@ import cc.mallet.grmm.types.FactorGraph;
 import cc.mallet.grmm.types.Variable;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.MainColumnFinder;
+import uk.ac.shef.dcs.sti.algorithm.tm.maincol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.misc.TableAnnotationChecker;
 import uk.ac.shef.dcs.sti.rep.*;
@@ -24,7 +24,7 @@ public class TI_JointInference {
 
     //main column finder is needed to generate data features of each column (e.g., data type in a column),
     //even though we do not use it to find the main column in SMP
-    protected MainColumnFinder main_col_finder;
+    protected SubjectColumnDetector main_col_finder;
     //if there are any columns we want to ignore
     protected int[] ignoreCols;
     protected int[] forceInterpretColumn;
@@ -37,7 +37,7 @@ public class TI_JointInference {
     protected CandidateRelationGenerator relationGenerator;
     private FactorGraphBuilder graphBuilder;
 
-    public TI_JointInference(MainColumnFinder main_col_finder,
+    public TI_JointInference(SubjectColumnDetector main_col_finder,
                              CandidateEntityGenerator neGenerator,
                              CandidateConceptGenerator columnClassifier,
                              CandidateRelationGenerator relationGenerator,
@@ -57,7 +57,7 @@ public class TI_JointInference {
         this.maxIteration = maxIteration;
     }
 
-    public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
+    public LTableAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
         LTableAnnotation_JI_Freebase tab_annotations = new LTableAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
         List<Integer> ignoreColumnsLocal = new ArrayList<Integer>(updateIgnoreColumns(table, ignoreCols));
         int[] ignoreColumnsLocalArray = new int[ignoreColumnsLocal.size()];
@@ -146,7 +146,7 @@ public class TI_JointInference {
         return tab_annotations;
     }
 
-    protected Set<Integer> updateIgnoreColumns(LTable table, int[] ignoreColumns) {
+    protected Set<Integer> updateIgnoreColumns(Table table, int[] ignoreColumns) {
         Set<Integer> ignore = new HashSet<Integer>();
         for (int c = 0; c < table.getNumCols(); c++) {
             Set<String> uniqueStrings = new HashSet<String>();
@@ -166,7 +166,7 @@ public class TI_JointInference {
         return ignore;
     }
 
-    protected void computeClassCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table,
+    protected void computeClassCandidates(LTableAnnotation_JI_Freebase tab_annotations, Table table,
                                           Collection<Integer> ignoreColumnsLocal) throws IOException {
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -183,7 +183,7 @@ public class TI_JointInference {
         }
     }
 
-    protected void computeRelationCandidates(LTableAnnotation_JI_Freebase tab_annotations, LTable table,
+    protected void computeRelationCandidates(LTableAnnotation_JI_Freebase tab_annotations, Table table,
                                              boolean useMainSubjectColumn,
                                              Collection<Integer> ignoreColumnsLocal) throws IOException {
         relationGenerator.generateCandidateRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumnsLocal);

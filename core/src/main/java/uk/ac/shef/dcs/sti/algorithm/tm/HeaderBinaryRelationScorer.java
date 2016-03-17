@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import uk.ac.shef.dcs.sti.rep.CellBinaryRelationAnnotation;
 import uk.ac.shef.dcs.sti.rep.HeaderBinaryRelationAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ public interface HeaderBinaryRelationScorer {
     Set<HeaderBinaryRelationAnnotation> score(List<CellBinaryRelationAnnotation> input_from_row,
                                               Set<HeaderBinaryRelationAnnotation> header_binary_relations_prev,
                                               int subjectCol, int objectCol,
-                                              LTable table);
+                                              Table table);
 
     Map<String, Double> compute_final_score(HeaderBinaryRelationAnnotation ha, int tableRowsTotal);
     Set<String> create_annotation_bow(HeaderBinaryRelationAnnotation hbr, boolean lowercase, boolean discard_single_char);

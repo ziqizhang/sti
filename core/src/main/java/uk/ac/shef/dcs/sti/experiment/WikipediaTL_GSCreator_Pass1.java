@@ -72,7 +72,7 @@ public class WikipediaTL_GSCreator_Pass1 {
                 new TableObjCreatorWikipediaGS()
         );
 
-        List<LTable> tables = xtractor.extract(p.getText(), p.getTitle().getPlainTitle());
+        List<Table> tables = xtractor.extract(p.getText(), p.getTitle().getPlainTitle());
 
         System.out.println(tables);*/
 

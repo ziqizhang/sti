@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.smp;
 
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseFreebaseFilter;
 import uk.ac.shef.dcs.sti.misc.UtilRelationMatcher;
 import uk.ac.shef.dcs.sti.rep.*;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
@@ -43,7 +43,7 @@ public class RelationTextMatch_Scorer {
                 for (int s = 0; s < subjectCellAnnotations.size(); s++) {
                     CellAnnotation subjectEntity = subjectCellAnnotations.get(s);
                     List<String[]> subject_entity_facts = subjectEntity.getAnnotation().getTriples();
-                    KnowledgeBaseFreebaseFilter.filterRelations(subject_entity_facts);
+                    FreebaseSearchResultFilter.filterRelations(subject_entity_facts);
                     Map<Integer, DataTypeClassifier.DataType> fact_data_types = classifyFactObjDataType(
                             subject_entity_facts
                     );

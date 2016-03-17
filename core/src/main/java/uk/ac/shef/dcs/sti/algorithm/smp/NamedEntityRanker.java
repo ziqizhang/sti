@@ -1,11 +1,11 @@
 package uk.ac.shef.dcs.sti.algorithm.smp;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseSearcher;
-import uk.ac.shef.dcs.sti.algorithm.tm.DisambiguationScorer;
+import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.sti.algorithm.tm.EntityScorer;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 
@@ -17,17 +17,17 @@ import java.util.*;
  */
 public class NamedEntityRanker {
 
-    private KnowledgeBaseSearcher kbSearcher;
-    private DisambiguationScorer disambScorer;
-    //private static Logger log = Logger.getLogger(Disambiguator.class.getName());
+    private KBSearch kbSearch;
+    private EntityScorer disambScorer;
+    //private static Logger log = Logger.getLogger(TCellDisambiguator.class.getName());
 
-    public NamedEntityRanker(KnowledgeBaseSearcher kbSearcher, DisambiguationScorer disambScorer) {
-        this.kbSearcher = kbSearcher;
+    public NamedEntityRanker(KBSearch kbSearch, EntityScorer disambScorer) {
+        this.kbSearch = kbSearch;
         this.disambScorer = disambScorer;
     }
 
     public void rankCandidateNamedEntities(
-            LTableAnnotation tableAnnotations, LTable table,
+            LTableAnnotation tableAnnotations, Table table,
             int row, int column
     ) throws IOException {
         List<Pair<Entity, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
@@ -56,7 +56,7 @@ public class NamedEntityRanker {
         //return sorted;
     }
 
-    public List<Pair<Entity, Map<String, Double>>> scoreCandidateNamedEntities(LTable table,
+    public List<Pair<Entity, Map<String, Double>>> scoreCandidateNamedEntities(Table table,
                                                                                           int row, int column
     ) throws IOException {
         //do disambiguation scoring
@@ -66,22 +66,22 @@ public class NamedEntityRanker {
                 cell);
        /* if(row==11)
             System.out.println();*/
-        List<Entity> candidates = kbSearcher.findEntityCandidates(cell);
+        List<Entity> candidates = kbSearch.findEntityCandidates(cell.getText());
         System.out.println(" candidates=" + candidates.size());
-        //each candidate will have a map containing multiple elements of scores. See DisambiguationScorer_SMP_adapted
+        //each candidate will have a map containing multiple elements of scores. See SMPAdaptedEntityScorer
         List<Pair<Entity, Map<String, Double>>> disambiguationScores =
                 new ArrayList<>();
         for (Entity c : candidates) {
             //find facts of each entity
             if (c.getTriples() == null || c.getTriples().size() == 0) {
-                List<String[]> facts = kbSearcher.findTriplesOfEntityCandidates(c);
+                List<String[]> facts = kbSearch.findTriplesOfEntityCandidates(c);
                 c.setTriples(facts);
             }
             Map<String, Double> scoreMap = disambScorer.
                     score(c, candidates,
                             column, row, Arrays.asList(row),
                             table, new HashSet<String>());
-            disambScorer.compute_final_score(scoreMap, cell.getText());
+            disambScorer.computeFinal(scoreMap, cell.getText());
             Pair<Entity, Map<String, Double>> entry = new Pair<>(c,scoreMap);
             disambiguationScores.add(entry);
         }

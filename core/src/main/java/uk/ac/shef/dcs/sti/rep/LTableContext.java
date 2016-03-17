@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.rep;
 import java.io.Serializable;
 
 /**
- * An LTableContext could be any textual content around an LTable object.
+ * An LTableContext could be any textual content around an Table object.
  */
 public class LTableContext implements Serializable, Comparable<LTableContext>{
     private String text;

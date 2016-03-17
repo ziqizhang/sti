@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
@@ -19,7 +19,7 @@ import java.util.*;
 class HeaderAnnotationUpdater {
 
     public static void add(CellAnnotation ca, int column,
-                           LTable table,
+                           Table table,
                            HeaderAnnotation[] existing_header_annotations,
                            Set<HeaderAnnotation> new_header_annotation_placeholders
     ) {
@@ -46,7 +46,7 @@ class HeaderAnnotationUpdater {
     public static void add(
             Map<String, String> header_annotation_url_and_label,
             int column,
-            LTable table,
+            Table table,
             HeaderAnnotation[] existing_header_annotations,
             Set<HeaderAnnotation> new_header_annotation_placeholders
     ) {
@@ -97,9 +97,9 @@ class HeaderAnnotationUpdater {
                                                                    int column,
                                                                    int totalRows,
                                                                    HeaderAnnotation[] existing_header_annotations,
-                                                                   LTable table,
+                                                                   Table table,
                                                                    LTableAnnotation table_annotations,
-                                                                   ClassificationScorer classification_scorer) {
+                                                                   TColumnClassifier classification_scorer) {
         Set<HeaderAnnotation> headers = new HashSet<HeaderAnnotation>(Arrays.asList(existing_header_annotations));
         headers = classification_scorer.score_context(
                 headers, table, column, false);

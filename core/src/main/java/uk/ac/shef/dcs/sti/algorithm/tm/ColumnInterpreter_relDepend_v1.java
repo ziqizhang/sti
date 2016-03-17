@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *//*
 
 @Deprecated
-public class ColumnInterpreter_relDepend_v1 extends ColumnInterpreter_relDepend {
+public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier {
     private static final Logger log = Logger.getLogger(ColumnInterpreter_relDepend_v1.class.getName());
     private KBSearcher_Freebase fbSearcher;
     private ColumnLearner_LEARN column_learner;
@@ -33,7 +33,7 @@ public class ColumnInterpreter_relDepend_v1 extends ColumnInterpreter_relDepend 
         this.use_reference_entity = use_reference_entity;
     }
 
-    public void interpret(LTable table, LTableAnnotation annotations) throws IOException {
+    public void interpret(Table table, LTableAnnotation annotations) throws IOException {
         //for each column that has a relation with the subject column, infer its type
         Map<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>
                 relationAnnotations = annotations.getRelationAnnotations_per_row();
@@ -171,7 +171,7 @@ public class ColumnInterpreter_relDepend_v1 extends ColumnInterpreter_relDepend 
 
     }
 
-    private void interpret(LTable table,
+    private void interpret(Table table,
                            LTableAnnotation table_annotation,
                            Map<Integer, Double> rows_with_entities_mapped_scores,
                            Map<Integer, List<ObjObj<String, String>>> rows_with_entity_ids,

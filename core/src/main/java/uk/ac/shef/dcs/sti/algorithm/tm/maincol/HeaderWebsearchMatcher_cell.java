@@ -1,20 +1,18 @@
 package uk.ac.shef.dcs.sti.algorithm.tm.maincol;
 
-import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
-import uk.ac.shef.dcs.websearch.bing.v2.BingWebSearch;
-import uk.ac.shef.dcs.websearch.bing.v2.BingWebSearchResultParser;
-import uk.ac.shef.dcs.websearch.bing.v2.WebSearchResultDoc;
+import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
+import uk.ac.shef.dcs.websearch.bing.v2.BingSearchResultParser;
+import uk.ac.shef.dcs.websearch.WebSearchResultDoc;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
  */
 public class HeaderWebsearchMatcher_cell extends HeaderWebsearchMatcher_token {
-    public HeaderWebsearchMatcher_cell(HeaderWebsearchMatcherCache cache, BingWebSearch searcher, List<String> stopwords) {
+    public HeaderWebsearchMatcher_cell(HeaderWebsearchMatcherCache cache, BingSearch searcher, List<String> stopwords) {
         this.cache = cache;
         this.searcher = searcher;
-        resultParser = new BingWebSearchResultParser();
+        resultParser = new BingSearchResultParser();
     }
 
     public Map<String, Double> interpret(List<WebSearchResultDoc> searchResult, String... normalizedValues) {
@@ -127,7 +125,7 @@ public class HeaderWebsearchMatcher_cell extends HeaderWebsearchMatcher_token {
 
 
             double ordering_weight_multiplier = (candidates.size() - o) * ordering_multiplier;
-            if(!MainColumnFinder.use_ordering)
+            if(!SubjectColumnDetector.use_ordering)
                 ordering_weight_multiplier=1.0;
             double score_to_increment = offsets.get(candidate).size() * ordering_weight_multiplier * context_weight_multiplier;
 
@@ -149,16 +147,16 @@ public class HeaderWebsearchMatcher_cell extends HeaderWebsearchMatcher_token {
     }
 
 
-    public static void main(String[] args) throws APIKeysDepletedException, IOException {
+    /*public static void main(String[] args) throws APIKeysDepletedException, IOException {
         String[] accountKeys = new String[]{"fXhmgvVQnz1aLBti87+AZlPYDXcQL0G9L2dVAav+aK0="};
         HeaderWebsearchMatcher_token matcher = new HeaderWebsearchMatcher_token(
                 new HeaderWebsearchMatcherCache("D:\\Work\\lodiedata\\tableminer_cache\\solrindex_cache\\zookeeper\\solr",
                         "collection1"),
-                new BingWebSearch(accountKeys), null
+                new BingSearch(accountKeys), null
         );
         matcher.score("House of Cards", "Peter David");
         matcher.score("University of Sheffield", "Sheffield", "United Kingdom");
         matcher.score("House of Cards", "Peter David");
-    }
+    }*/
 
 }

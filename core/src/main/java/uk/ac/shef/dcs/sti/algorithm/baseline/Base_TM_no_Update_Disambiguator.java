@@ -1,10 +1,10 @@
 package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseSearcher;
-import uk.ac.shef.dcs.sti.algorithm.tm.DisambiguationScorer_Overlap;
+import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.sti.algorithm.tm.TMPEntityScorer;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 
 import java.io.IOException;
 import java.util.*;
@@ -14,15 +14,15 @@ import java.util.*;
  */
 public class Base_TM_no_Update_Disambiguator {
 
-    private KnowledgeBaseSearcher kbSearcher;
+    private KBSearch kbSearch;
     private Base_TM_no_Update_EntityDisambiguationScorer disambScorer;
-    public Base_TM_no_Update_Disambiguator(KnowledgeBaseSearcher kbSearcher, Base_TM_no_Update_EntityDisambiguationScorer disambScorer) {
-        this.kbSearcher = kbSearcher;
+    public Base_TM_no_Update_Disambiguator(KBSearch kbSearch, Base_TM_no_Update_EntityDisambiguationScorer disambScorer) {
+        this.kbSearch = kbSearch;
         this.disambScorer = disambScorer;
     }
 
     public List<Pair<Entity, Map<String, Double>>> disambiguate_learn(
-            List<Entity> candidates, LTable table,
+            List<Entity> candidates, Table table,
                                                                                  int entity_row, int entity_column) throws IOException {
         System.out.println("\t>> Disambiguation-LEARN, position at [" + entity_row + "," + entity_column + "]: "+ table.getContentCell(entity_row,entity_column)+
                 " candidates=" + candidates.size());
@@ -30,7 +30,7 @@ public class Base_TM_no_Update_Disambiguator {
         for (Entity c : candidates) {
             //find facts of each entity
             if (c.getTriples() == null || c.getTriples().size() == 0) {
-                List<String[]> facts = kbSearcher.findTriplesOfEntityCandidates(c);
+                List<String[]> facts = kbSearch.findTriplesOfEntityCandidates(c);
                 c.setTriples(facts);
             }
             Map<String, Double> scoreMap = disambScorer.
@@ -51,7 +51,7 @@ public class Base_TM_no_Update_Disambiguator {
         int index=0;
         while (it.hasNext()) {
             Pair<Entity, Map<String, Double>> oo = it.next();
-            DisambiguationScorer_Overlap.
+            TMPEntityScorer.
                     score_typeMatch(oo.getValue(), types, oo.getKey());
             double type_match_score = oo.getValue().get("type_match");
             if(type_match_score==0)

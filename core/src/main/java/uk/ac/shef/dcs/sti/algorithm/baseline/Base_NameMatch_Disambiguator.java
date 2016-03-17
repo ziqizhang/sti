@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class Base_NameMatch_Disambiguator {
 
-    public List<Pair<Entity, Map<String, Double>>> disambiguate(List<Entity> candidates, LTable table,
+    public List<Pair<Entity, Map<String, Double>>> disambiguate(List<Entity> candidates, Table table,
                                                                            int entity_row, int entity_column
     ) throws IOException {
         //do disambiguation scoring

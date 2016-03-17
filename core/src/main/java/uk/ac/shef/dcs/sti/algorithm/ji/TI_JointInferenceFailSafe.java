@@ -5,9 +5,9 @@ import cc.mallet.grmm.inference.LoopyBP;
 import cc.mallet.grmm.types.FactorGraph;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.MainColumnFinder;
+import uk.ac.shef.dcs.sti.algorithm.tm.maincol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 
@@ -22,7 +22,7 @@ public class TI_JointInferenceFailSafe extends TI_JointInference {
 
     private FactorGraphBuilderMultiple subGraphBuilder=new FactorGraphBuilderMultiple(true);
 
-    public TI_JointInferenceFailSafe(MainColumnFinder main_col_finder,
+    public TI_JointInferenceFailSafe(SubjectColumnDetector main_col_finder,
                                      CandidateEntityGenerator neGenerator,
                                      CandidateConceptGenerator columnClassifier,
                                      CandidateRelationGenerator relationGenerator,
@@ -33,7 +33,7 @@ public class TI_JointInferenceFailSafe extends TI_JointInference {
         super(main_col_finder, neGenerator, columnClassifier, relationGenerator, useSubjectColumn, ignoreColumns, forceInterpretColumn, maxIteration);
     }
 
-    public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
+    public LTableAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
         LTableAnnotation_JI_Freebase tab_annotations = new LTableAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
         Set<Integer> ignoreColumnsLocal = updateIgnoreColumns(table, ignoreCols);
         int[] ignoreColumnsLocalArray = new int[ignoreColumnsLocal.size()];

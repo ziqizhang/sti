@@ -9,7 +9,7 @@ import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
 import uk.ac.shef.dcs.util.StringUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.*;
@@ -42,7 +42,7 @@ public class Base_TM_no_Update_ClassificationScorer {
 
     public Set<HeaderAnnotation> score(List<Pair<Entity, Map<String, Double>>> input,
                                        Set<HeaderAnnotation> headerAnnotations_prev,
-                                       LTable table,
+                                       Table table,
                                        int row, int column) {
         Set<HeaderAnnotation> candidates=new HashSet<HeaderAnnotation>();
         if (TableMinerConstants.CLASSIFICATION_CANDIDATE_CONTRIBUTION_METHOD == 1)
@@ -55,7 +55,7 @@ public class Base_TM_no_Update_ClassificationScorer {
     }
 
     public Set<HeaderAnnotation> score_entity_best_candidate_vote(List<Pair<Entity, Map<String, Double>>> input,
-                                                                  Set<HeaderAnnotation> headerAnnotations_prev, LTable table,
+                                                                  Set<HeaderAnnotation> headerAnnotations_prev, Table table,
                                                                   int row, int column) {
         final Set<HeaderAnnotation> candidate_header_annotations =
                 headerAnnotations_prev;
@@ -132,7 +132,7 @@ public class Base_TM_no_Update_ClassificationScorer {
 
 
     public Set<HeaderAnnotation> score_entity_all_candidate_vote(List<Pair<Entity, Map<String, Double>>> input,
-                                                                 Set<HeaderAnnotation> headerAnnotations_prev, LTable table,
+                                                                 Set<HeaderAnnotation> headerAnnotations_prev, Table table,
                                                                  int row, int column) {
         final Set<HeaderAnnotation> candidate_header_annotations =
                 headerAnnotations_prev;
@@ -180,7 +180,7 @@ public class Base_TM_no_Update_ClassificationScorer {
         return candidate_header_annotations;
     }
 
-    public Set<HeaderAnnotation> score_context(Set<HeaderAnnotation> candidates, LTable table, int column, boolean overwrite) {
+    public Set<HeaderAnnotation> score_context(Set<HeaderAnnotation> candidates, Table table, int column, boolean overwrite) {
         for (HeaderAnnotation ha : candidates) {
             Double score_ctx_header_text = ha.getScoreElements().get(HeaderAnnotation.SCORE_CTX_NAME_MATCH);
 

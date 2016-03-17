@@ -45,13 +45,13 @@ public class GS_Stats_Limaye {
             readTable(clean.toString(), annotated.toString(),"E:\\Data\\table annotation\\workspace\\WWT_GroundTruth\\annotation/stats.csv");
         }
 
-        /*LTable table = readTable("E:\\data\\table annotation\\tablesForAnnotation\\wikitables\\c3\\r12\\y\\e\\l/Yellowknife.html_0.xml",
+        /*Table table = readTable("E:\\data\\table annotation\\tablesForAnnotation\\wikitables\\c3\\r12\\y\\e\\l/Yellowknife.html_0.xml",
                 "E:\\data\\table annotation\\workspace\\WWT_GroundTruth\\annotation\\wikitables\\c3\\r12\\y\\e\\l/Yellowknife.html_0.xml",
                 "D:\\work\\lodiedata\\limayetable");*/
         System.out.println();
     }
 
-    public static LTable readTable(String tableFilename, String tableAnnotationFilename,
+    public static Table readTable(String tableFilename, String tableAnnotationFilename,
                                    String stats_file) throws IOException, ParserConfigurationException, SAXException {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 
@@ -94,17 +94,17 @@ public class GS_Stats_Limaye {
                 totalCol = row.length;
         }
 
-        LTable table = null;
+        Table table = null;
         int rowModifier = 0;
         if (firstRowHeader) {
-            table = new LTable(String.valueOf(tableFilename.hashCode()), tableFilename, rows.size() - 1, totalCol);
+            table = new Table(String.valueOf(tableFilename.hashCode()), tableFilename, rows.size() - 1, totalCol);
             rowModifier = 1;
             for (int j = 0; j < totalCol; j++) {
                 LTableColumnHeader header = new LTableColumnHeader(rows.get(0)[j]);
                 table.setColumnHeader(j, header);
             }
         } else {//no header, need to add false headers
-            table = new LTable(String.valueOf(tableFilename.hashCode()), tableFilename, rows.size(), totalCol);
+            table = new Table(String.valueOf(tableFilename.hashCode()), tableFilename, rows.size(), totalCol);
             for (int j = 0; j < totalCol; j++) {
                 LTableColumnHeader header = new LTableColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue());
                 table.setColumnHeader(j, header);

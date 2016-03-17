@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseSearcher;
+import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.*;
 
@@ -16,19 +16,19 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 public class Base_NameMatch_ColumnLearner {
-    private KnowledgeBaseSearcher kbSearcher;
+    private KBSearch kbSearch;
     private Base_NameMatch_Disambiguator disambiguator;
 
 
     public Base_NameMatch_ColumnLearner(
-            KnowledgeBaseSearcher candidateFinder,
+            KBSearch candidateFinder,
             Base_NameMatch_Disambiguator disambiguation_learn) {
-        this.kbSearcher = candidateFinder;
+        this.kbSearch = candidateFinder;
         this.disambiguator = disambiguation_learn;
 
     }
 
-    public void interpret(LTable table, LTableAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
+    public void interpret(Table table, LTableAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
         Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidate_for_each_row =
                 new HashMap<>();
         Set<HeaderAnnotation> headerAnnotationScores = new HashSet<HeaderAnnotation>();
@@ -59,7 +59,7 @@ public class Base_NameMatch_ColumnLearner {
             if (skip) {
                 disamb_result = collect_existing(table_annotation, row_index, column);
             } else {
-                List<Entity> candidates = kbSearcher.findEntityCandidates(tcc);
+                List<Entity> candidates = kbSearch.findEntityCandidates(tcc.getText());
                 disamb_result =
                         disambiguator.disambiguate(candidates, table, row_index, column);
                 if (disamb_result != null && disamb_result.size() > 0) {
@@ -104,7 +104,7 @@ public class Base_NameMatch_ColumnLearner {
 
 
     private void disambiguate(LTableAnnotation table_annotation,
-                              LTable table,
+                              Table table,
                               Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row,
                               int column) {
         List<HeaderAnnotation> bestHeaderAnnotations = table_annotation.getBestHeaderAnnotations(column);
@@ -155,7 +155,7 @@ public class Base_NameMatch_ColumnLearner {
     }
 
     private List<Entity> create_entity_annotations(
-            LTable table,
+            Table table,
             LTableAnnotation table_annotation,
             int table_cell_row,
             int table_cell_col,

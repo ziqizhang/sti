@@ -6,7 +6,7 @@ import org.jsoup.Jsoup;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.PlaceHolder;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
 import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
@@ -30,8 +30,8 @@ public class TableXtractorMSN extends TableXtractor {
     }
 
     @Override
-    public List<LTable> extract(String input, String sourceId) {
-        List<LTable> rs = new ArrayList<LTable>();
+    public List<Table> extract(String input, String sourceId) {
+        List<Table> rs = new ArrayList<Table>();
         parser = new TagSoupParser(new ByteArrayInputStream(input.getBytes()), sourceId, "UTF-8");
         Document doc = null;
         try {
@@ -61,7 +61,7 @@ public class TableXtractorMSN extends TableXtractor {
         */
 
         if (actors.size() > 0) {
-            LTable table = new LTable(sourceId, sourceId, actors.size(), 1);
+            Table table = new Table(sourceId, sourceId, actors.size(), 1);
             table.setColumnHeader(0, new LTableColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue()));
             table.addContext(allhtmltext);
             for (LTableContext ltc : contexts)

@@ -1,50 +1,54 @@
+/*
 package uk.ac.shef.dcs.sti.algorithm.tm.maincol;
 
 import cern.colt.matrix.DoubleMatrix2D;
 import javafx.util.Pair;
 import org.apache.solr.client.solrj.SolrServer;
+import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentRowRanker;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.algorithm.tm.selector.RowSelector;
 import uk.ac.shef.dcs.sti.algorithm.tm.stopping.StoppingCriteriaInstantiator;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
+*/
 /**
  * This class implements a decision tree logic to infer among all columns in a table, which ONE is likely the main entity
  * column
- */
+ *//*
+
 public class MainColumnFinder_old {
 
     private static Logger log = Logger.getLogger(MainColumnFinder_old.class.getName());
-    private ColumnFeatureGenerator featureGenerator;
-    private RowSelector row_sampler;
+    private TColumnFeatureGenerator featureGenerator;
+    private TContentRowRanker row_sampler;
     private String stoppingCriteriaClassname;
     private String[] stoppingCriteriaParams;
 
     public MainColumnFinder_old(String cache, String nlpResource, List<String> stopwords,String... searchAPIKeys) throws IOException {
-        featureGenerator = new ColumnFeatureGenerator(cache, nlpResource, stopwords, searchAPIKeys);
+        featureGenerator = new TColumnFeatureGenerator(cache, nlpResource, stopwords, searchAPIKeys);
     }
 
-    public MainColumnFinder_old(RowSelector sampler, String stoppingCriteriaClassname, String[] stoppingCriteriaParams,
+    public MainColumnFinder_old(TContentRowRanker sampler, String stoppingCriteriaClassname, String[] stoppingCriteriaParams,
                             String cache, String nlpResource, List<String> stopwords,String... searchAPIKeys) throws IOException {
-        featureGenerator = new ColumnFeatureGenerator(cache, nlpResource,stopwords, searchAPIKeys);
+        featureGenerator = new TColumnFeatureGenerator(cache, nlpResource,stopwords, searchAPIKeys);
         this.row_sampler = sampler;
         this.stoppingCriteriaClassname = stoppingCriteriaClassname;
         this.stoppingCriteriaParams = stoppingCriteriaParams;
     }
 
-    public MainColumnFinder_old(RowSelector sampler, String stoppingCriteriaClassname, String[] stoppingCriteriaParams,
+    public MainColumnFinder_old(TContentRowRanker sampler, String stoppingCriteriaClassname, String[] stoppingCriteriaParams,
                             SolrServer cache, String nlpResource, List<String> stopwords,String... searchAPIKeys) throws IOException {
-        featureGenerator = new ColumnFeatureGenerator(cache, nlpResource,stopwords, searchAPIKeys);
+        featureGenerator = new TColumnFeatureGenerator(cache, nlpResource,stopwords, searchAPIKeys);
         this.row_sampler = sampler;
         this.stoppingCriteriaClassname = stoppingCriteriaClassname;
         this.stoppingCriteriaParams = stoppingCriteriaParams;
     }
 
-    /**
+    */
+/**
      * The decision tree logic is:
      * 1. If col is the only NE likely col in the table, choose the column
      * 2. If col is NE likely, and it is the only one having non-empty cells, choose the column
@@ -53,8 +57,9 @@ public class MainColumnFinder_old {
      * @return a list of ObjectWithObject objects, where first object is the column index; second is the score
      *         probability that asserts that column being the main column of the table. (only NE likely columns can be
      *         considered main column)
-     */
-    public List<Pair<Integer, Pair<Double, Boolean>>> compute(LTable table, int... skipColumns) {
+     *//*
+
+    public List<Pair<Integer, Pair<Double, Boolean>>> compute(Table table, int... skipColumns) {
         List<Pair<Integer, Pair<Double, Boolean>>> rs = new ArrayList<>();
 
         //1. initiate all columns' feature objects
@@ -420,3 +425,4 @@ public class MainColumnFinder_old {
     }
 
 }
+*/

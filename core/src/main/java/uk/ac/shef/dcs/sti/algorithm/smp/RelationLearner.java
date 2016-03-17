@@ -16,7 +16,7 @@ public class RelationLearner {
         this.matcher = matcher;
     }
 
-    public void inferRelation(LTableAnnotation tableAnnotations, LTable table, boolean useMainSubjectColumn, int[] ignoreColumns) {
+    public void inferRelation(LTableAnnotation tableAnnotations, Table table, boolean useMainSubjectColumn, int[] ignoreColumns) {
         //RelationDataStructure result = new RelationDataStructure();
 
         //mainColumnIndexes contains indexes of columns that are possible NEs
@@ -70,7 +70,7 @@ public class RelationLearner {
     }
 
     private void aggregate(
-            LTableAnnotation tableAnnotation, LTable table) {
+            LTableAnnotation tableAnnotation, Table table) {
 
         List<Key_SubjectCol_ObjectCol> processed = new ArrayList<Key_SubjectCol_ObjectCol>();
         for (Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> e :
@@ -108,7 +108,7 @@ public class RelationLearner {
             List<RelationDataTuple> best_subobj,
             List<RelationDataTuple> best_objsub,
             LTableAnnotation tableAnnotation,
-            LTable table) {
+            Table table) {
         if (best_objsub != null)
             best_subobj.addAll(best_objsub);
         Collections.sort(best_subobj);

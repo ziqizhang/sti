@@ -1,13 +1,13 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseSearcher;
-import uk.ac.shef.dcs.sti.kb.KnowledgeBaseFreebaseFilter;
+import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 
 import java.io.IOException;
 import java.util.*;
@@ -18,23 +18,23 @@ import java.util.*;
 public class CandidateConceptGenerator {
     private int multiThreads = 10;
     private boolean useCache=false;
-    private KnowledgeBaseSearcher kbSearcher;
+    private KBSearch kbSearch;
     private ClassificationScorer_JI_adapted conceptScorer;
     private EntityAndConceptScorer_Freebase entityAndConceptScorer;
 
-    public CandidateConceptGenerator(KnowledgeBaseSearcher kbSearcher,
+    public CandidateConceptGenerator(KBSearch kbSearch,
                                      ClassificationScorer_JI_adapted conceptScorer,
                                      EntityAndConceptScorer_Freebase entityAndConceptScorer,
                                      int multiThreads,
                                      boolean useCache) {
-        this.kbSearcher = kbSearcher;
+        this.kbSearch = kbSearch;
         this.useCache=useCache;
         this.conceptScorer = conceptScorer;
         this.entityAndConceptScorer = entityAndConceptScorer;
         this.multiThreads = multiThreads;
     }
 
-    public void generateCandidateConcepts(LTableAnnotation_JI_Freebase tableAnnotation, LTable table, int col) throws IOException {
+    public void generateCandidateConcepts(LTableAnnotation_JI_Freebase tableAnnotation, Table table, int col) throws IOException {
         List<Clazz> distinctTypes = new ArrayList<>();
         Map<String, List<String>> entityId_and_conceptURLs = new HashMap<String, List<String>>();
         Map<String, String> distinctTypeStrings = new HashMap<String, String>();
@@ -46,12 +46,12 @@ public class CandidateConceptGenerator {
                 for (CellAnnotation ca : cellAnnotations) {
                     Entity e = ca.getAnnotation();
                     if (ca.getScore_element_map().get(
-                            DisambiguationScorer_JI_adapted.SCORE_CELL_FACTOR) ==0.0){
+                            JIAdaptedEntityScorer.SCORE_CELL_FACTOR) ==0.0){
                         continue;
                     }
                     if(!distinctEntities.contains(e))
                         distinctEntities.add(e);
-                    for (Clazz type : KnowledgeBaseFreebaseFilter.filterTypes(e.getTypes())) {
+                    for (Clazz type : FreebaseSearchResultFilter.filterTypes(e.getTypes())) {
                         String url = type.getId();
                         String label = type.getLabel();
                         distinctTypeStrings.put(url, label);
@@ -70,7 +70,7 @@ public class CandidateConceptGenerator {
         for(Map.Entry<String, String> ent: distinctTypeStrings.entrySet()){
             String conceptId = ent.getKey();
             String conceptName = ent.getValue();
-            List<String[]> triples =kbSearcher.findTriplesOfConcept(conceptId);
+            List<String[]> triples = kbSearch.findTriplesOfConcept(conceptId);
             Clazz concept = new Clazz(conceptId, conceptName);
             concept.setTriples(triples);
             distinctTypes.add(concept);
@@ -101,7 +101,7 @@ public class CandidateConceptGenerator {
         for (Entity entity : distinctEntities) {
             for (Clazz concept : distinctTypes) {
                 //cc++;
-                Double sim = //entityAndConceptScorer.computeEntityConceptSimilarity(entityId, conceptId, kbSearcher);
+                Double sim = //entityAndConceptScorer.computeEntityConceptSimilarity(entityId, conceptId, kbSearch);
                         simScores.get(entity.getId() + "," + concept.getId());
                 if(sim==null)
                     System.out.println("fuck");
@@ -118,7 +118,7 @@ public class CandidateConceptGenerator {
             List<String> conceptIds = entry.getValue();
             System.out.print(cc + "=" + conceptIds.size() + ",");
             for (String conceptId : conceptIds) {
-                double specificity = entityAndConceptScorer.computeConceptSpecificity(conceptId, kbSearcher);
+                double specificity = entityAndConceptScorer.computeConceptSpecificity(conceptId, kbSearch);
                 double simScore = tableAnnotation.getScore_entityAndConcept(entityId, conceptId);
                 tableAnnotation.setScore_entityAndConcept(entityId, conceptId, simScore + 1.0 + specificity);
             }
@@ -146,7 +146,7 @@ public class CandidateConceptGenerator {
 
         /*try {
             result = SimilarityComputeManager.compute(multiThreads, pairs, useCache, entityAndConceptScorer,
-                    kbSearcher);
+                    kbSearch);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -173,7 +173,7 @@ public class CandidateConceptGenerator {
                 selectedPairs.add(pairs.get(j));
             }
             SimilarityComputerThread thread = new SimilarityComputerThread(
-                    start + "-" + end, useCache, selectedPairs, entityAndConceptScorer, kbSearcher
+                    start + "-" + end, useCache, selectedPairs, entityAndConceptScorer, kbSearch
             );
             workers.add(thread);
         }
@@ -205,7 +205,7 @@ public class CandidateConceptGenerator {
                 String[] key = e.getKey();
                 if (e.getValue() != -1) {
                     if(useCache&& !key[2].equals("cache")) {
-                        kbSearcher.saveSimilarity(key[0], key[1], e.getValue(), biDirectional, false);
+                        kbSearch.saveSimilarity(key[0], key[1], e.getValue(), biDirectional, false);
                         doCommit=true;
                     }
                     result.put(key[0] + "," + key[1], e.getValue());
@@ -214,7 +214,7 @@ public class CandidateConceptGenerator {
         }
         if(useCache&&doCommit) {
             try {
-                kbSearcher.commitChanges();
+                kbSearch.commitChanges();
             } catch (Exception e) {
                 e.printStackTrace();
             }

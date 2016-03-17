@@ -5,12 +5,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
-import uk.ac.shef.dcs.sti.io.LTableAnnotationWriter;
+import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.experiment.LimayeDatasetLoader;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.util.FileUtils;
 
@@ -47,8 +47,9 @@ public class GSBuilder_Limaye {
         System.exit(0);*/
 
 
-        FreebaseQueryHelper queryHelper = new FreebaseQueryHelper(args[3]);
-        LTableAnnotationWriter writer = new LTableAnnotationWriter(new TripleGenerator("http://www.freebase.com", "http://dcs.shef.ac.uk"));
+        //todo:this will not work
+        FreebaseQueryHelper queryHelper = null;//new FreebaseQueryHelper(args[3]);
+        TAnnotationWriter writer = new TAnnotationWriter(new TripleGenerator("http://www.freebase.com", "http://dcs.shef.ac.uk"));
         String in_raw_file_folder = args[0];
         String in_gs_file_folder = args[1];
         String outFolder = args[2];
@@ -90,7 +91,7 @@ public class GSBuilder_Limaye {
 
                 String inFile = f.toString();
                 System.out.println(count + "_" + inFile + " " + new Date());
-                LTable table = LimayeDatasetLoader.readTable(raw_file.toString(), null, null);
+                Table table = LimayeDatasetLoader.readTable(raw_file.toString(), null, null);
                 LTableAnnotation annotations = gsBuilder.readTableAnnotation(inFile, table);
                 gsBuilder.save(table, annotations, outFolder, writer);
             } catch (Exception e) {
@@ -100,7 +101,7 @@ public class GSBuilder_Limaye {
         }
     }
 
-    public void save(LTable table, LTableAnnotation annotations, String outFolder, LTableAnnotationWriter writer) throws FileNotFoundException {
+    public void save(Table table, LTableAnnotation annotations, String outFolder, TAnnotationWriter writer) throws FileNotFoundException {
         String fileId = table.getSourceId();
         fileId = fileId.replaceAll("\\\\", "/");
         int trim = fileId.lastIndexOf("/");
@@ -121,7 +122,7 @@ public class GSBuilder_Limaye {
     }
 
     public LTableAnnotation readTableAnnotation(String tableAnnotationFilename,
-                                                LTable table) throws IOException, ParserConfigurationException, SAXException {
+                                                Table table) throws IOException, ParserConfigurationException, SAXException {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();

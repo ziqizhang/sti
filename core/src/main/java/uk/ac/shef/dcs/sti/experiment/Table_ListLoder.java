@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.experiment;
 
 import uk.ac.shef.dcs.sti.rep.LList;
-import uk.ac.shef.dcs.sti.rep.LTable;
+import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.xtractor.ListXtractor;
 import uk.ac.shef.dcs.sti.xtractor.TableXtractor;
 
@@ -14,8 +14,8 @@ import java.io.IOException;
  */
 public class Table_ListLoder {
 
-    public static LTable loadTable(String filename) throws ClassNotFoundException, IOException {
-        LTable table=TableXtractor.deserialize(filename);
+    public static Table loadTable(String filename) throws ClassNotFoundException, IOException {
+        Table table=TableXtractor.deserialize(filename);
         return table;
     }
     public static LList loadList(String filename) throws ClassNotFoundException, IOException {
@@ -24,7 +24,7 @@ public class Table_ListLoder {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        LTable table = loadTable("D:\\work\\lodiedata\\lodie\\tablefinal\\0/_douard_Montpetit__Montreal_Metro__1313797_1");
+        Table table = loadTable("D:\\work\\lodiedata\\lodie\\tablefinal\\0/_douard_Montpetit__Montreal_Metro__1313797_1");
         System.out.println();
         //LList list = loadList("");
         System.out.println();
