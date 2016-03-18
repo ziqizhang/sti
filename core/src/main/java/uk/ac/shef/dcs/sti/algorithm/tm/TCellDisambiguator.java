@@ -3,8 +3,8 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 
 import java.io.IOException;
 import java.util.*;
@@ -27,7 +27,7 @@ public class TCellDisambiguator {
     ) throws IOException {
         //do disambiguation scoring
         //log.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
-        LTableContentCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
+        TContentCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
         System.out.println("\t>> Disambiguation-LEARN(seeding), position at (" + entity_rows + "," + entity_column + ") "+
                 sample_tcc+" candidates=" + candidates.size());
         List<Pair<Entity, Map<String, Double>>> disambiguationScores = new ArrayList<>();
@@ -61,7 +61,7 @@ public class TCellDisambiguator {
     ) throws IOException {
         //do disambiguation scoring
         //log.info("\t>> Disambiguation-UPDATE , position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
-        LTableContentCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
+        TContentCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
         if(first_phase)
             System.out.println("\t>> Disambiguation-LEARN(consolidate) , position at (" + entity_rows + "," + entity_column + ") "+sample_tcc+" candidates=" + candidates.size());
         else

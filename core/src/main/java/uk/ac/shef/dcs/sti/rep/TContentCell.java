@@ -9,14 +9,14 @@ import java.io.Serializable;
  * Date: 01/10/12
  * Time: 15:46
  */
-public class LTableContentCell implements Serializable {
+public class TContentCell implements Serializable {
 
     private String text;    //the raw text found in the table cell
     private String other_text;
     private String xPath; //xpath that extracts this value
     private DataTypeClassifier.DataType type;
 
-    public LTableContentCell(String text){
+    public TContentCell(String text){
         this.text=text;
         this.type=DataTypeClassifier.DataType.UNKNOWN;
         other_text="";

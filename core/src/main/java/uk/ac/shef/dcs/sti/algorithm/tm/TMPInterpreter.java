@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.ColumnFeature;
+import uk.ac.shef.dcs.sti.algorithm.tm.maincol.TColumnFeature;
 import uk.ac.shef.dcs.sti.algorithm.tm.maincol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
@@ -184,7 +184,7 @@ public class TMPInterpreter {
             HeaderBinaryRelationAnnotation rel = entry.getValue().get(0);
             relationScores += rel.getFinalScore();
         }
-        ColumnFeature cf = table.getColumnHeader(main_subject_column).getFeature();
+        TColumnFeature cf = table.getColumnHeader(main_subject_column).getFeature();
         //relationScores = relationScores * cf.getValueDiversity();
 
         double diversity = cf.getCellValueDiversity() + cf.getTokenValueDiversity();

@@ -4,9 +4,9 @@ import org.apache.any23.util.FileUtils;
 import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
@@ -88,7 +88,7 @@ public class GSBuilder_IMDB {
     public LTableAnnotation annotate(Table table, FreebaseQueryHelper queryHelper) throws IOException {
         LTableAnnotation tableAnnotation = new LTableAnnotation(table.getNumRows(), table.getNumCols());
         for (int row = 0; row < table.getNumRows(); row++) {
-            LTableContentCell ltc = table.getContentCell(row, 0);
+            TContentCell ltc = table.getContentCell(row, 0);
             String text = ltc.getText();
             int start = text.indexOf("/name/");
             if (start == -1)

@@ -8,7 +8,7 @@ import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
-import uk.ac.shef.dcs.sti.rep.LTableContentCell;
+import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
 
@@ -69,7 +69,7 @@ public class TableXtractorMSN extends TableXtractor {
             for (int i = 0; i < table.getNumRows(); i++) {
                 Node n = actors.get(i);
                 String text = n.getTextContent().trim();
-                table.setContentCell(i, 0, new LTableContentCell(text));
+                table.setContentCell(i, 0, new TContentCell(text));
 
             }
             rs.add(table);

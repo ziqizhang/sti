@@ -8,7 +8,7 @@ import uk.ac.shef.dcs.sti.algorithm.tm.maincol.TColumnFeatureGenerator;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableContentCell;
+import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
@@ -194,7 +194,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
                                String annotationFile) throws IOException, TransformerException, ParserConfigurationException {
         //saveAsLimaye(table, rawFile);
         StringBuilder annotation = new StringBuilder();
-        TColumnFeatureGenerator.feature_columnDataTypes(limaye_table);
+        TColumnFeatureGenerator.generateColumnDataTypes(limaye_table);
 
         for (int c = 0; c < limaye_table.getNumCols(); c++) {
             DataTypeClassifier.DataType type = limaye_table.getColumnHeader(c).getTypes().get(0).getCandidateType();
@@ -276,7 +276,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
         String text = "";
 
         for (int r = 0; r < table.getNumRows(); r++) {
-            LTableContentCell tcc = table.getContentCell(r, c);
+            TContentCell tcc = table.getContentCell(r, c);
             text += tcc.getText() + " ";
         }
         return text;

@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.xtractor.validator;
 
+import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)
@@ -51,7 +51,7 @@ public class TabValWikipediaGSLanient extends TabValGeneric {
         for (int c = 0; c < table.getNumCols(); c++) {
             int countLengthyPerCol = 0, countNumericPerCol = 0;
             for (int r = 0; r < table.getNumRows(); r++) {
-                LTableContentCell ltc = (LTableContentCell) table.getContentCell(r, c);
+                TContentCell ltc = (TContentCell) table.getContentCell(r, c);
                 String tcText = ltc.getText();
                 if (isEmptyMediaWikiString(tcText))
                     countEmpty++;
@@ -69,14 +69,14 @@ public class TabValWikipediaGSLanient extends TabValGeneric {
 
             /*if (countLengthyPerCol > matrix.rows() * THRESHOLD_MAX_LENGTHY_CELLS_IN_COLUMN){
                 countLengthyColumns++;
-                table.setColumnDataType(Table.ColumnDataType.LONGTEXT, c);
+                table.setColumnDataType(Table.TColumnDataType.LONGTEXT, c);
             }
             if (countNumericPerCol > matrix.rows() * THRESHOLD_MAX_NUMERIC_CELLS_IN_COLUMN){
                 countNumericColumns++;
-                table.setColumnDataType(Table.ColumnDataType.NUMERIC, c);
+                table.setColumnDataType(Table.TColumnDataType.NUMERIC, c);
             }
             if(countEmpty>matrix.rows()*THRESHOLD_MAX_EMPTY_CELLS_IN_COLUMNS){
-                table.setColumnDataType(Table.ColumnDataType.EMPTY, c);
+                table.setColumnDataType(Table.TColumnDataType.EMPTY, c);
             }*/
 
         }
@@ -104,7 +104,7 @@ public class TabValWikipediaGSLanient extends TabValGeneric {
 
 
     @Deprecated
-    public static boolean isLengthyCell(LTableContentCell tc) {
+    public static boolean isLengthyCell(TContentCell tc) {
         /*if (tc.getValuesAndURIs().size() > THRESHOLD_LENGTHY_CELL_MAXMULTIVALUEITEM)
             return true;
 
@@ -125,7 +125,7 @@ public class TabValWikipediaGSLanient extends TabValGeneric {
     }
 
     @Deprecated
-    public static boolean isMultiValuedCell(LTableContentCell tc) {
+    public static boolean isMultiValuedCell(TContentCell tc) {
         //return tc.getValuesAndURIs().size() > 1;
         return false;
     }

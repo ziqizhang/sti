@@ -6,7 +6,7 @@ import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
-import uk.ac.shef.dcs.sti.rep.LTableContentCell;
+import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.util.XPathUtils;
 
@@ -50,7 +50,7 @@ public class TableObjCreatorHTML implements TableObjCreator {
                 String text = e.getTextContent();
                 String xPath= DomUtils.getXPathForNode(e);
 
-                LTableContentCell cell = new LTableContentCell(text);
+                TContentCell cell = new TContentCell(text);
                 cell.setText(text);
                 cell.setxPath(xPath);
                 //todo: content cell type

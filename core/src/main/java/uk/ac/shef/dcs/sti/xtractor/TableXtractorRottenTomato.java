@@ -9,7 +9,7 @@ import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
-import uk.ac.shef.dcs.sti.rep.LTableContentCell;
+import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
 
@@ -79,7 +79,7 @@ public class TableXtractorRottenTomato extends TableXtractor {
                         content=DomUtils.findAll(it, "DIV/A").get(0).getTextContent();
                     }catch (NullPointerException npe){}
 
-                    LTableContentCell ltc = new LTableContentCell(content);
+                    TContentCell ltc = new TContentCell(content);
                     table.setContentCell(i, 0, ltc);
                     i++;
                 }

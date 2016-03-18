@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.algorithm.tm.DataLiteralColumnClassifier;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.ColumnFeature;
+import uk.ac.shef.dcs.sti.algorithm.tm.maincol.TColumnFeature;
 import uk.ac.shef.dcs.sti.algorithm.tm.maincol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.*;
@@ -146,7 +146,7 @@ public class Base_SL_no_Update_MainInterpreter {
             HeaderBinaryRelationAnnotation rel = entry.getValue().get(0);
             relationScores += rel.getFinalScore();
         }
-        ColumnFeature cf = table.getColumnHeader(main_subject_column).getFeature();
+        TColumnFeature cf = table.getColumnHeader(main_subject_column).getFeature();
         //relationScores = relationScores * cf.getValueDiversity();
 
         double diversity = cf.getCellValueDiversity() + cf.getTokenValueDiversity();

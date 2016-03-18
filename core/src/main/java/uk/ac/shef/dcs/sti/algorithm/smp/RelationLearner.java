@@ -53,9 +53,9 @@ public class RelationLearner {
                 for (int r = 0; r < table.getNumRows(); r++) {
                     //in SMP, only the highest ranked NE (the disambiguated NE) is needed from each cell to aggregate candidate relation
                     List<CellAnnotation> subjectCells = tableAnnotations.getBestContentCellAnnotations(r, subjectColumn);
-                    LTableContentCell subjectCellText = table.getContentCell(r, subjectColumn);
+                    TContentCell subjectCellText = table.getContentCell(r, subjectColumn);
                     List<CellAnnotation> objectCells = tableAnnotations.getBestContentCellAnnotations(r, objectColumn);
-                    LTableContentCell objectCellText = table.getContentCell(r, objectColumn);
+                    TContentCell objectCellText = table.getContentCell(r, objectColumn);
 
                     //aggregate relation on each row, between each pair of subject-object cells
                     matcher.match(r, subjectCells, subjectColumn, objectCells, objectColumn,
@@ -119,8 +119,8 @@ public class RelationLearner {
         Key_SubjectCol_ObjectCol relationDirection = template.relationDirection;
         int countNonEmptyRows = 0;
         for (int r = 0; r < tableAnnotation.getRows(); r++) {
-            LTableContentCell c1 = table.getContentCell(r, relationDirection.getSubjectCol());
-            LTableContentCell c2 = table.getContentCell(r, relationDirection.getObjectCol());
+            TContentCell c1 = table.getContentCell(r, relationDirection.getSubjectCol());
+            TContentCell c2 = table.getContentCell(r, relationDirection.getObjectCol());
             if (!c1.getType().equals(DataTypeClassifier.DataType.EMPTY) &&
                     !c1.getType().equals(DataTypeClassifier.DataType.EMPTY))
                 countNonEmptyRows++;

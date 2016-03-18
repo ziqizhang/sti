@@ -34,7 +34,7 @@ public class RelationTextMatch_Scorer {
     public void match(int row,
                       List<CellAnnotation> subjectCellAnnotations, int subjectColumn,
                       List<CellAnnotation> objectCellAnnotations, int objectColumn,
-                      LTableContentCell objectCellText,
+                      TContentCell objectCellText,
                       DataTypeClassifier.DataType object_column_type,
                       LTableAnnotation tableAnnotation
     ) {

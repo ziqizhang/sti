@@ -14,9 +14,9 @@ import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.OSPD_nonEmpty;
 import uk.ac.shef.dcs.sti.algorithm.tm.stopping.EntropyConvergence;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
+import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorGoodreads;
@@ -256,7 +256,7 @@ public class Test_ISWC_TableInterpretation_Goodreads {
                 String append = "";
                 int count=0;
                 for(int r=0; r<table.getNumRows(); r++){
-                    LTableContentCell tcc =table.getContentCell(r, 1);
+                    TContentCell tcc =table.getContentCell(r, 1);
                     if(tcc!=null && tcc.getText()!=null && tcc.getText().length()>0){
                         count++;
                         append+=tcc.getText()+"\t";

@@ -7,13 +7,12 @@ import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentRowRanker;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.algorithm.tm.stopping.StoppingCriteria;
+import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
-import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.util.StringUtils;
 import uk.ac.shef.dcs.websearch.WebSearchFactory;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
-import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -28,7 +27,8 @@ public class TColumnFeatureGenerator {
     private NLPTools nlpTools;
 
 
-    public TColumnFeatureGenerator(EmbeddedSolrServer cache, String nlpResource,
+    public TColumnFeatureGenerator(EmbeddedSolrServer cache,
+                                   String nlpResource,
                                    List<String> stopWords,
                                    String webSearchClass,
                                    String webSearchPropFile) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
@@ -40,8 +40,8 @@ public class TColumnFeatureGenerator {
     }
 
     //
-    public void feature_countEmptyCells(List<ColumnFeature> features, Table table) {
-        for (ColumnFeature cf : features) {
+    public void feature_countEmptyCells(List<TColumnFeature> features, Table table) {
+        for (TColumnFeature cf : features) {
             int col = cf.getColId();
 
             int countEmpty = 0;
@@ -54,29 +54,29 @@ public class TColumnFeatureGenerator {
         }
     }
 
-    public static void feature_columnDataTypes(Table table) {
+
+    public static void generateColumnDataTypes(Table table) {
         for (int col = 0; col < table.getNumCols(); col++) {
-            List<ColumnDataType> types = new ArrayList<ColumnDataType>();
-            List<String> candidate_ordered_number = new ArrayList<String>();
+            List<TColumnDataType> types = new ArrayList<>();
+            List<String> candidate_ordered_number = new ArrayList<>();
 
             for (int row = 0; row < table.getNumRows(); row++) {
-                LTableContentCell tcc = table.getContentCell(row, col);
+                TContentCell tcc = table.getContentCell(row, col);
                 String textContent = tcc.getText();
                 if (textContent != null) {
                     DataTypeClassifier.DataType dt = DataTypeClassifier.classify(textContent);
-                    /*if(dt.equals(DataTypeClassifier.DataType.SHORT_TEXT))
-                        System.out.println();*/
                     tcc.setType(dt);
                     if (dt.equals(DataTypeClassifier.DataType.NUMBER))
-                        candidate_ordered_number.add(StringUtils.toAlphaNumericWhitechar(textContent).trim());
+                        candidate_ordered_number.
+                                add(StringUtils.toAlphaNumericWhitechar(textContent).trim());
 
-                    ColumnDataType cdt = new ColumnDataType(dt, 1);
+                    TColumnDataType cdt = new TColumnDataType(dt, 1);
                     int index = types.indexOf(cdt);
                     if (index != -1) {
                         cdt = types.get(index);
                         cdt.setCountRows(cdt.getCountRows() + 1);
                     } else {
-                        //ColumnDataType cdt = new ColumnDataType(dt, 1);
+                        //TColumnDataType cdt = new TColumnDataType(dt, 1);
                         types.add(cdt);
                     }
                 }
@@ -90,7 +90,7 @@ public class TColumnFeatureGenerator {
                 boolean ordered = DataTypeClassifier.isOrderedNumber(candidate_ordered_number.toArray(new String[0]));
                 if (ordered) {
                     types.clear();
-                    types.add(new ColumnDataType(DataTypeClassifier.DataType.ORDERED_NUMBER, candidate_ordered_number.size()));
+                    types.add(new TColumnDataType(DataTypeClassifier.DataType.ORDERED_NUMBER, candidate_ordered_number.size()));
                 }
             }
 
@@ -99,19 +99,19 @@ public class TColumnFeatureGenerator {
     }
 
     //the most frequently found datatype for each column
-    public static void feature_mostDataType(List<ColumnFeature> features, Table table) {
-        for (ColumnFeature cf : features) {
+    public static void generateMostFrequentDataType(List<TColumnFeature> features, Table table) {
+        for (TColumnFeature cf : features) {
             int col = cf.getColId();
             LTableColumnHeader header = table.getColumnHeader(col);
-            List<ColumnDataType> types = header.getTypes();
+            List<TColumnDataType> types = header.getTypes();
             Collections.sort(types);
             cf.setMostDataType(types.get(0));
         }
     }
 
     //which column is the first NE column
-    public void feature_isFirstNEColumn(List<ColumnFeature> features) {
-        for (ColumnFeature cf : features) {
+    public void feature_isFirstNEColumn(List<TColumnFeature> features) {
+        for (TColumnFeature cf : features) {
             if (cf.getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY)) {
                 cf.setFirstNEColumn(true);
                 break;
@@ -120,7 +120,7 @@ public class TColumnFeatureGenerator {
     }
 
     //which column is the only one NE column in the table
-    public int feature_isTheOnlyNEColumn(List<ColumnFeature> features) {
+    public int feature_isTheOnlyNEColumn(List<TColumnFeature> features) {
         List<Integer> indexes = new ArrayList<Integer>();
 
         for (int i = 0; i < features.size(); i++) {
@@ -136,14 +136,14 @@ public class TColumnFeatureGenerator {
     }
 
     //how many diverse values do we have in a column
-    public void feature_valueDiversity(List<ColumnFeature> features, Table table) {
-        for (ColumnFeature cf : features) {
+    public void feature_valueDiversity(List<TColumnFeature> features, Table table) {
+        for (TColumnFeature cf : features) {
             int col = cf.getColId();
             Set<String> uniqueValues_onRows = new HashSet<String>();
             Set<String> uniqueTokens_onRows = new HashSet<String>();
             int totalTokens = 0;
             for (int r = 0; r < table.getNumRows(); r++) {
-                LTableContentCell c = table.getContentCell(r, col);
+                TContentCell c = table.getContentCell(r, col);
                 uniqueValues_onRows.add(c.getText());
 
                 for (String tok : c.getText().split("\\s+")) {
@@ -159,7 +159,7 @@ public class TColumnFeatureGenerator {
     }
 
     //how does each header score against the table contexts
-    public void feature_contextMatchScore(List<ColumnFeature> features, Table table) {
+    public void feature_contextMatchScore(List<TColumnFeature> features, Table table) {
         int[] cols = new int[features.size()];
 
         for (int c = 0; c < features.size(); c++) {
@@ -168,7 +168,7 @@ public class TColumnFeatureGenerator {
         }
 
         Map<Integer, Double> scores = ctxMatcher.match(table, cols);
-        for (ColumnFeature cf : features) {
+        for (TColumnFeature cf : features) {
             Double s = scores.get(cf.getColId());
             s = s == null ? 0 : s;
             cf.setContextMatchScore(s);
@@ -178,7 +178,7 @@ public class TColumnFeatureGenerator {
     }
 
     //how does each cell on each row score against a websearch result?
-    public DoubleMatrix2D feature_webSearchScore(List<ColumnFeature> features, Table table) throws APIKeysDepletedException, IOException {
+    public DoubleMatrix2D feature_webSearchScore(List<TColumnFeature> features, Table table) throws APIKeysDepletedException, IOException {
         DoubleMatrix2D scores = new SparseDoubleMatrix2D(table.getNumRows(), table.getNumCols());
         List<Integer> searchableCols = new ArrayList<Integer>();//which columns contain values that are searchable? (numbers ignored, for example)
         for (int i = 0; i < features.size(); i++) {
@@ -194,7 +194,7 @@ public class TColumnFeatureGenerator {
             String[] values_on_the_row = new String[searchableCols.size()];
             for (int c = 0; c < searchableCols.size(); c++) {
                 int colId = searchableCols.get(c);
-                LTableContentCell cell = table.getContentCell(r, colId);
+                TContentCell cell = table.getContentCell(r, colId);
                 values_on_the_row[c] = websearchMatcher.normalizeString(cell.getText());
             }
 
@@ -219,7 +219,7 @@ public class TColumnFeatureGenerator {
 
 
     //since using web search is expensive, we can use data sampling technique to incrementally interpret main column
-    public DoubleMatrix2D feature_webSearchScore_with_sampling(List<ColumnFeature> features, Table table,
+    public DoubleMatrix2D feature_webSearchScore_with_sampling(List<TColumnFeature> features, Table table,
                                                                TContentRowRanker sampleSelector,
                                                                StoppingCriteria stopper,
                                                                int minimumRows) throws APIKeysDepletedException, IOException {
@@ -247,7 +247,7 @@ public class TColumnFeatureGenerator {
             String[] values_in_the_cell = new String[searchableCols.size()];
             for (int c = 0; c < searchableCols.size(); c++) {
                 int colId = searchableCols.get(c);
-                LTableContentCell cell = table.getContentCell(r, colId);
+                TContentCell cell = table.getContentCell(r, colId);
                 values_in_the_cell[c] = websearchMatcher.normalizeString(cell.getText());
             }
 
@@ -282,8 +282,8 @@ public class TColumnFeatureGenerator {
 
     //check the syntactic feature (POS) of the header title. invalid POS include: prep (in theory only noun is valid. but
     //that may over-eliminate true pos
-    public void feature_headerInvalidSyntactic(List<ColumnFeature> allNEColumnCandidates, Table table) {
-        for (ColumnFeature cf : allNEColumnCandidates) {
+    public void feature_headerInvalidSyntactic(List<TColumnFeature> allNEColumnCandidates, Table table) {
+        for (TColumnFeature cf : allNEColumnCandidates) {
             int col = cf.getColId();
             String headerText = table.getColumnHeader(col).getHeaderText();
 
@@ -294,8 +294,8 @@ public class TColumnFeatureGenerator {
 
     }
 
-    public void feature_isColumnAcronymOrCode(List<ColumnFeature> allNEColumnCandidates, Table table) {
-        for (ColumnFeature cf : allNEColumnCandidates) {
+    public void feature_isColumnAcronymOrCode(List<TColumnFeature> allNEColumnCandidates, Table table) {
+        for (TColumnFeature cf : allNEColumnCandidates) {
             int col = cf.getColId();
             int countAcronym_or_Code = 0;
             for (int r = 0; r < table.getNumRows(); r++) {

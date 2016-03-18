@@ -114,7 +114,7 @@ public class GS_Stats_Limaye {
         for (int r = rowModifier; r < rows.size(); r++) {
             String[] cells = rows.get(r);
             for (int c = 0; c < cells.length; c++) {
-                LTableContentCell cell = new LTableContentCell(cells[c]);
+                TContentCell cell = new TContentCell(cells[c]);
                 table.setContentCell(r - rowModifier, c, cell);
             }
         }
@@ -161,7 +161,7 @@ public class GS_Stats_Limaye {
         for (int i = 0; i < headerAnnotations.size(); i++) {
             Node header = headerAnnotations.get(i);
             int col = Integer.valueOf(header.getAttributes().getNamedItem("col").getTextContent());
-            //LTableContentCell headerCell = table.getHeaderForColumn(col);
+            //TContentCell headerCell = table.getHeaderForColumn(col);
             NodeList annotations = header.getChildNodes();
             List<HeaderAnnotation> hAnnotations = new ArrayList<HeaderAnnotation>();
             for (int j = 0; j < annotations.getLength(); j++) {

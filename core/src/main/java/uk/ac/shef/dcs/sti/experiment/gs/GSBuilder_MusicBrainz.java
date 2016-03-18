@@ -4,9 +4,9 @@ import org.apache.any23.util.FileUtils;
 import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerDummy;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorMusicBrainz;
@@ -94,7 +94,7 @@ public class GSBuilder_MusicBrainz {
             for (int col = 0; col < table.getNumCols(); col++) {
                 /* if(col==1)
                 System.out.println();*/
-                LTableContentCell ltc = table.getContentCell(row, col);
+                TContentCell ltc = table.getContentCell(row, col);
                 String text = ltc.getText();
                 String url = ltc.getOther_text();
 

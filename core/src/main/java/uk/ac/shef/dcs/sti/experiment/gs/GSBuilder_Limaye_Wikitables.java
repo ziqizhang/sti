@@ -406,7 +406,7 @@ public class GSBuilder_Limaye_Wikitables {
         }
         for (int i = 0; i < table.getNumRows(); i++) {
             for (int j = 0; j < table.getNumCols(); j++) {
-                LTableContentCell tcc = table.getContentCell(i, j);
+                TContentCell tcc = table.getContentCell(i, j);
                 if (tcc != null && tcc.getText() != null) {
                     sb.append(tcc.getText()).append(" ");
                 }
@@ -461,7 +461,7 @@ public class GSBuilder_Limaye_Wikitables {
                 Element cell = doc.createElement("cell");
                 String text = "";
                 String wikilink = "";
-                LTableContentCell tcc = table.getContentCell(r, c);
+                TContentCell tcc = table.getContentCell(r, c);
                 if (tcc != null && tcc.getText() != null) {
                     text = tcc.getText();
                 }
@@ -523,7 +523,7 @@ public class GSBuilder_Limaye_Wikitables {
 
     private boolean annotateTable(Table originalTable, String annotationFile, int maxRows) throws IOException, TransformerException, ParserConfigurationException {
         //saveAsLimaye(table, rawFile);
-        TColumnFeatureGenerator.feature_columnDataTypes(originalTable);
+        TColumnFeatureGenerator.generateColumnDataTypes(originalTable);
 
         StringBuilder annotation = new StringBuilder();
 
@@ -540,7 +540,7 @@ public class GSBuilder_Limaye_Wikitables {
                     continue;
 
                 System.out.println("\t\tr=" + r + ",c=" + c);
-                LTableContentCell tcc = originalTable.getContentCell(r, c);
+                TContentCell tcc = originalTable.getContentCell(r, c);
                 if (tcc != null) {
                     CellAnnotation[] annotations = originalTable.getTableAnnotations().getContentCellAnnotations(r, c);
                     String wikiTitle = "";
@@ -847,7 +847,7 @@ public class GSBuilder_Limaye_Wikitables {
     private boolean annotateTable_fuzzy(Table originalTable, Map<String, Set<String>> linkMap, String annotationFile
     ) throws IOException, TransformerException, ParserConfigurationException {
         //saveAsLimaye(table, rawFile);
-        TColumnFeatureGenerator.feature_columnDataTypes(originalTable);
+        TColumnFeatureGenerator.generateColumnDataTypes(originalTable);
         int count_original_annotations = 0;
         if (originalTable.getTableAnnotations() != null) {
             for (int r = 0; r < originalTable.getNumRows(); r++) {
@@ -874,7 +874,7 @@ public class GSBuilder_Limaye_Wikitables {
                     continue;
 
                 System.out.println("\t\tr=" + r + ",c=" + c);
-                LTableContentCell tcc = originalTable.getContentCell(r, c);
+                TContentCell tcc = originalTable.getContentCell(r, c);
                 if (tcc != null) {
                     String text = tcc.getText().trim();
                     Set<String> links = linkMap.get(text);

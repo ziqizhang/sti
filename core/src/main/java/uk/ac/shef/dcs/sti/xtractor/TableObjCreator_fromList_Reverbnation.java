@@ -6,7 +6,7 @@ import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
-import uk.ac.shef.dcs.sti.rep.LTableContentCell;
+import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.util.XPathUtils;
 
@@ -51,7 +51,7 @@ public class TableObjCreator_fromList_Reverbnation implements TableObjCreator {
                 Node e = (Node) preTable.get(r, c);
                 String song = findSongNode(e);
                 if(song!=null){
-                    LTableContentCell cell = new LTableContentCell(song);
+                    TContentCell cell = new TContentCell(song);
 
                     table.setContentCell(r - 1, c, cell);
                 }

@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.rep;
 
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.ColumnDataType;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.ColumnFeature;
+import uk.ac.shef.dcs.sti.algorithm.tm.maincol.TColumnDataType;
+import uk.ac.shef.dcs.sti.algorithm.tm.maincol.TColumnFeature;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,8 +13,8 @@ public class LTableColumnHeader implements Serializable
 {
     private String headerText;    //the raw text found in the table cell
     private String xPath; //xpath that extracts this value
-    private List<ColumnDataType> type;
-    private ColumnFeature feature;
+    private List<TColumnDataType> type;
+    private TColumnFeature feature;
 
     public LTableColumnHeader(String text){
         this.headerText=text;
@@ -36,19 +36,19 @@ public class LTableColumnHeader implements Serializable
         this.xPath = xPath;
     }
 
-    public List<ColumnDataType> getTypes() {
+    public List<TColumnDataType> getTypes() {
         return type;
     }
 
-    public void setType(List<ColumnDataType> type) {
+    public void setType(List<TColumnDataType> type) {
         this.type = type;
     }
 
-    public ColumnFeature getFeature() {
+    public TColumnFeature getFeature() {
         return feature;
     }
 
-    public void setFeature(ColumnFeature feature) {
+    public void setFeature(TColumnFeature feature) {
         this.feature = feature;
     }
 }

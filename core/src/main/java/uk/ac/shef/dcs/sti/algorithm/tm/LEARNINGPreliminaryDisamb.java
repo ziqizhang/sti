@@ -63,7 +63,7 @@ public class LEARNINGPreliminaryDisamb {
 
             //System.out.println(">>\tUPDATE: Classifying and disambiguating remaining rows, row " + row + ", reference entities:" + reference_entities.size());
             //find candidate entities
-            LTableContentCell sample = table.getContentCell(rows.get(0), column);
+            TContentCell sample = table.getContentCell(rows.get(0), column);
             /*if (sample.getType().equals(DataTypeClassifier.DataType.LONG_TEXT)) {
                 System.out.println("\t\t>>> Long text cell skipped: " + rows + "," + column + " " + sample.getText());
                 continue;
@@ -110,7 +110,7 @@ public class LEARNINGPreliminaryDisamb {
     //search candidates for the cell;
     //score candidates for the cell;
     //create annotation and update supportin header and header score (depending on the two params updateHeader_blah
-    private List<Pair<Entity, Map<String, Double>>> disambiguate(LTableContentCell tcc,
+    private List<Pair<Entity, Map<String, Double>>> disambiguate(TContentCell tcc,
                                                                             Table table,
                                                                             Set<String> columnTypes,
                                                                             List<Integer> table_cell_rows,

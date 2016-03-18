@@ -180,7 +180,7 @@ public class TAnnotationWriter {
         for (int row = 0; row < table.getNumRows(); row++) {
             for (int col = 0; col < table.getNumCols(); col++) {
                 String color = col == tab_annotations.getSubjectColumn() ? " bgcolor=\"yellow\"" : "";
-                LTableContentCell cell = table.getContentCell(row, col);
+                TContentCell cell = table.getContentCell(row, col);
 
                 out.append("\t<td").append(color).append(">").append(cell.getText()).append(cell.getOther_text()).append("</td>\n");
 
@@ -355,7 +355,7 @@ public class TAnnotationWriter {
         for (int row = 0; row < table.getNumRows(); row++) {
             out.append("<tr>\n");
             for (int col = 0; col < table.getNumCols(); col++) {
-                LTableContentCell tcc = table.getContentCell(row, col);
+                TContentCell tcc = table.getContentCell(row, col);
                 out.append("\t<td>").append(tcc.getText()).append(tcc.getOther_text()).append("<font color=\"grey\">").append(" [").
                         append(tcc.getType().getValue()).append("]</font>").
                         append("</td>\n");

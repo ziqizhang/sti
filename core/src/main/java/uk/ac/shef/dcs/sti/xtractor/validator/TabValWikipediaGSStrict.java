@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.sti.xtractor.validator;
 
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)
@@ -47,7 +47,7 @@ public class TabValWikipediaGSStrict extends TabValGeneric {
             int countLengthyPerCol = 0, countNumericPerCol = 0, countEmptyPerCol = 0, countURIGSPerCol = 0;
 
             for (int r = 0; r < table.getNumRows(); r++) {
-                LTableContentCell ltc = (LTableContentCell) table.getContentCell(r, c);
+                TContentCell ltc = (TContentCell) table.getContentCell(r, c);
                 String tcText = ltc.getText();
                 CellAnnotation[] annotations = table.getTableAnnotations().getContentCellAnnotations(r, c);
                 if (annotations.length > 0) {
@@ -72,19 +72,19 @@ public class TabValWikipediaGSStrict extends TabValGeneric {
 
             /*if (countEmptyPerCol > matrix.rows() * THRESHOLD_MAX_ALLOWED_EMPTY_CELLS_IN_COLUMN) {
                 countEmptyColumns++;
-                table.setColumnDataType(Table.ColumnDataType.EMPTY, c);
+                table.setColumnDataType(Table.TColumnDataType.EMPTY, c);
             }
             if (countLengthyPerCol > matrix.rows() * THRESHOLD_MAX_ALLOWED_LENGTHY_CELLS_IN_COLUMN) {
                 countLengthyColumns++;
-                table.setColumnDataType(Table.ColumnDataType.LONGTEXT, c);
+                table.setColumnDataType(Table.TColumnDataType.LONGTEXT, c);
             }
             if (countNumericPerCol > matrix.rows() * THRESHOLD_MAX_ALLOWED_NUMERIC_CELLS_IN_COLUMN) {
                 countNumericColumns++;
-                table.setColumnDataType(Table.ColumnDataType.NUMERIC, c);
+                table.setColumnDataType(Table.TColumnDataType.NUMERIC, c);
             }
             if (countURIGSPerCol > matrix.rows() * THRESHOLD_MIN_FRAC_CELLS_WITH_URIS_IN_COLUMN) {
                 countURIGSColumns++;
-                table.setColumnDataType(Table.ColumnDataType.LINK, c);
+                table.setColumnDataType(Table.TColumnDataType.LINK, c);
             }*/
 
         }

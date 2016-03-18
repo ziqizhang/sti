@@ -39,7 +39,7 @@ public class Base_NameMatch_ColumnLearner {
             /* if(row_index==13)
             System.out.println();*/
             //find candidate entities
-            LTableContentCell tcc = table.getContentCell(row_index, column);
+            TContentCell tcc = table.getContentCell(row_index, column);
             System.out.println("\t>> Classification-, row " + row_index + "," + tcc);
 
             if (tcc.getText().length() < 2) {

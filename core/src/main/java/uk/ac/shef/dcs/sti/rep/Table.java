@@ -26,7 +26,7 @@ public class Table implements Serializable {
     private Map<Integer, String> rowXPaths;
 
     private ObjectMatrix1D headers; //an object can only be a LTableColumnHeader object
-    private ObjectMatrix2D contents;//an object can only be a LTableContentCell object
+    private ObjectMatrix2D contents;//an object can only be a TContentCell object
 
 
     private int rows; //# of rows in the table (excluding header)
@@ -78,12 +78,12 @@ public class Table implements Serializable {
         return (LTableColumnHeader)o;
     }
 
-    public void setContentCell(int r, int c, LTableContentCell cell) {
+    public void setContentCell(int r, int c, TContentCell cell) {
         contents.set(r, c, cell);
     }
 
-    public LTableContentCell getContentCell(int r, int c) {
-        return (LTableContentCell)contents.get(r, c);
+    public TContentCell getContentCell(int r, int c) {
+        return (TContentCell)contents.get(r, c);
     }
 
 

@@ -47,7 +47,7 @@ public class Base_TM_no_Update_ColumnLearner {
             System.out.println();*/
             countRows++;
             //find candidate entities
-            LTableContentCell tcc = table.getContentCell(row_index, column);
+            TContentCell tcc = table.getContentCell(row_index, column);
             System.out.println("\t>> Classification-LEARN, row " + row_index + "," + tcc);
             if (tcc.getText().length() < 2) {
                 System.out.println("\t\t>>> Very short text cell skipped: " + row_index + "," + column + " " + tcc.getText());

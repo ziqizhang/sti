@@ -38,7 +38,7 @@ public class TripleGenerator {
 
                     /*if (final_type_for_the_column.getSupportingRows().contains(row))
                         continue;*/
-                    LTableContentCell tcc = table.getContentCell(row, col);
+                    TContentCell tcc = table.getContentCell(row, col);
                     CellAnnotation[] cell_annotations = tab_annotation.getContentCellAnnotations(row, col);
                     if (cell_annotations == null || cell_annotations.length == 0) //no entity found for this cell
                         continue;
@@ -80,8 +80,8 @@ public class TripleGenerator {
                 if (relation_annotation.getSupportingRows().contains(row))
                     continue;
 
-                LTableContentCell subject_cell = table.getContentCell(row, subCol);
-                LTableContentCell object_cell = table.getContentCell(row, objCol);
+                TContentCell subject_cell = table.getContentCell(row, subCol);
+                TContentCell object_cell = table.getContentCell(row, objCol);
                 CellAnnotation[] subject_cell_annotations = tab_annotation.getContentCellAnnotations(row, subCol);
                 if (subject_cell_annotations == null || subject_cell_annotations.length == 0)
                     continue;
@@ -123,8 +123,8 @@ public class TripleGenerator {
             }
 
             for (int row = 0; row < table.getNumRows(); row++) {
-                LTableContentCell subject_cell = table.getContentCell(row, main_subject_column);
-                LTableContentCell object_cell = table.getContentCell(row, col);
+                TContentCell subject_cell = table.getContentCell(row, main_subject_column);
+                TContentCell object_cell = table.getContentCell(row, col);
                 CellAnnotation[] subject_cell_annotations = tab_annotation.getContentCellAnnotations(row, main_subject_column);
                 if (subject_cell_annotations == null || subject_cell_annotations.length == 0)
                     continue;

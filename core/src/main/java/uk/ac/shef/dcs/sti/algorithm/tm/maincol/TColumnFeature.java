@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 /**
  */
-public class ColumnFeature implements Serializable {
+public class TColumnFeature implements Serializable {
 
     private int colId;
     private int numRows;
 
-    private ColumnDataType mostDataType;
+    private TColumnDataType mostDataType;
     private boolean isFirstNEColumn;
     private boolean isTheOnlyNEColumn;
     private double cellValueDiversity;
@@ -20,7 +20,7 @@ public class ColumnFeature implements Serializable {
     private boolean isIvalidPOS;
     private boolean isCode_or_Acronym;
 
-    public ColumnFeature(int colId, int numRows){
+    public TColumnFeature(int colId, int numRows){
         this.colId=colId;
         this.numRows=numRows;
     }
@@ -41,11 +41,11 @@ public class ColumnFeature implements Serializable {
         this.numRows = numRows;
     }
 
-    public ColumnDataType getMostDataType() {
+    public TColumnDataType getMostDataType() {
         return mostDataType;
     }
 
-    public void setMostDataType(ColumnDataType mostDataType) {
+    public void setMostDataType(TColumnDataType mostDataType) {
         this.mostDataType = mostDataType;
     }
 

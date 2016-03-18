@@ -260,7 +260,7 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
             return bag_of_words_for_column;
         List<String> bow = new ArrayList<String>();
         for (int row = 0; row < table.getNumRows(); row++) {
-            LTableContentCell tcc = table.getContentCell(row, column);
+            TContentCell tcc = table.getContentCell(row, column);
             if (tcc.getText() != null) {
                 bow.addAll(lemmatizer.lemmatize(
                         StringUtils.toBagOfWords(tcc.getText(), true, true,TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW))

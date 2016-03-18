@@ -151,7 +151,7 @@ public class TI_JointInference {
         for (int c = 0; c < table.getNumCols(); c++) {
             Set<String> uniqueStrings = new HashSet<String>();
             for (int r = 0; r < table.getNumRows(); r++) {
-                LTableContentCell tcc = table.getContentCell(r, c);
+                TContentCell tcc = table.getContentCell(r, c);
                 String text = tcc.getText().trim().replaceAll("[^a-zA-Z0-9]", "");
                 if(text.length()>1)
                     uniqueStrings.add(text);

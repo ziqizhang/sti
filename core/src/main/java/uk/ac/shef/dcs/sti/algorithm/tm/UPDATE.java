@@ -149,7 +149,7 @@ public class UPDATE {
             List<Integer> updated = new ArrayList<Integer>();
             for (int bi = 0; bi < ranking.size(); bi++) {
                 List<Integer> rows = ranking.get(bi);
-                LTableContentCell sample = table.getContentCell(rows.get(0), c);
+                TContentCell sample = table.getContentCell(rows.get(0), c);
                 if (sample.getType().equals(DataTypeClassifier.DataType.LONG_TEXT)) {
                     System.out.println("\t\t>>> Long text cell skipped: " + rows + "," + c + " " + sample.getText());
                     continue;
@@ -399,7 +399,7 @@ public class UPDATE {
     }
 
     private List<Pair<Entity, Map<String, Double>>> disambiguate(Set<String> already_built_feature_space_entity_candidates,
-                                                                            LTableContentCell tcc,
+                                                                            TContentCell tcc,
                                                                             Table table,
                                                                             Set<String> columnTypes,
                                                                             List<Integer> table_cell_rows,

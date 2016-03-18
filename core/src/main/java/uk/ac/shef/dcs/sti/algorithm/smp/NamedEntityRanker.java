@@ -5,9 +5,9 @@ import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.algorithm.tm.EntityScorer;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 
 import java.io.IOException;
 import java.util.*;
@@ -43,7 +43,7 @@ public class NamedEntityRanker {
             }
         });
 
-        LTableContentCell tcc = table.getContentCell(row, column);
+        TContentCell tcc = table.getContentCell(row, column);
         CellAnnotation[] annotations = new CellAnnotation[scores.size()];
         int i = 0;
         for (Pair<Entity, Map<String, Double>> oo : scores) {
@@ -61,7 +61,7 @@ public class NamedEntityRanker {
     ) throws IOException {
         //do disambiguation scoring
         //log.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
-        LTableContentCell cell = table.getContentCell(row, column);
+        TContentCell cell = table.getContentCell(row, column);
         System.out.print("\t\t>> NamedEntityRanker, position at (" + row + "," + column + ") " +
                 cell);
        /* if(row==11)

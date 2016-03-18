@@ -63,7 +63,7 @@ public class LEARNINGPreliminaryClassify {
             System.out.println();*/
             countProcessed++;    totalRows+=rows_indexes.size();
             //find candidate entities
-            LTableContentCell sample = table.getContentCell(rows_indexes.get(0), column);
+            TContentCell sample = table.getContentCell(rows_indexes.get(0), column);
             /*if (sample.getType().equals(DataTypeClassifier.DataType.LONG_TEXT)) {
                 System.out.println("\t\t>>> Long text cell skipped: " + rows_indexes + "," + column + " " + sample.getText());
                 continue;

@@ -16,7 +16,7 @@ import uk.ac.shef.dcs.sti.algorithm.tm.stopping.EntropyConvergence;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTableContentCell;
+import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizer_fromList;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreator_fromList_Reverbnation;
@@ -262,7 +262,7 @@ public class Test_ISWC_TableInterpretation_Reverbnation {
                 String append = "";
                 int count=0;
                 for(int r=0; r<table.getNumRows(); r++){
-                    LTableContentCell tcc =table.getContentCell(r, 0);
+                    TContentCell tcc =table.getContentCell(r, 0);
                     if(tcc!=null && tcc.getText()!=null && tcc.getText().length()>0){
                         count++;
                         append+=tcc.getText()+"\t";

@@ -106,7 +106,7 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
         cellText = edited;
 
 
-        LTableContentCell cell = new LTableContentCell(cellText);
+        TContentCell cell = new TContentCell(cellText);
         r = r - 1;
         table.setContentCell(r, c, cell);
 

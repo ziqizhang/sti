@@ -409,11 +409,11 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
         Map<Integer, Integer> map_rows_to_already_solved_rows_if_any = new HashMap<Integer, Integer>();
         Set<Integer> already_selected_cells_at_row = new HashSet<Integer>(rows_with_entities_mapped_scores.keySet());
         for(int r=0; r<table.getNumRows(); r++){
-            LTableContentCell tcc = table.getContentCell(r,column);
+            TContentCell tcc = table.getContentCell(r,column);
             String text = tcc.getText().trim();
 
             for(int already_selected_row: already_selected_cells_at_row){
-                LTableContentCell a_tcc = table.getContentCell(already_selected_row,column);
+                TContentCell a_tcc = table.getContentCell(already_selected_row,column);
                 String a_text = a_tcc.getText().trim();
                 if(text.equals(a_text)){
                     rows_with_entities_mapped_scores.put(r, rows_with_entities_mapped_scores.get(already_selected_row));

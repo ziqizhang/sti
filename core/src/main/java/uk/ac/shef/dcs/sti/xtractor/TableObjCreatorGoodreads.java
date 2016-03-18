@@ -5,9 +5,9 @@ import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
-import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.util.XPathUtils;
 
@@ -73,7 +73,7 @@ public class TableObjCreatorGoodreads implements TableObjCreator {
                 }
 
 
-                LTableContentCell cell = new LTableContentCell(text);
+                TContentCell cell = new TContentCell(text);
                 cell.setText(text);
 
                 table.setContentCell(r - 1, c, cell);
