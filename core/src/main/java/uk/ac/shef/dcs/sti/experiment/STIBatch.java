@@ -3,7 +3,6 @@ package uk.ac.shef.dcs.sti.experiment;
 import com.google.api.client.http.HttpResponseException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
@@ -31,7 +30,7 @@ public abstract class STIBatch {
 
     protected KBSearch kbSearch;
 
-    protected static final String PROPERTY_HOME="sti.home";
+    protected static final String PROPERTY_HOME = "sti.home";
 
     protected static final String PROPERTY_WEBSEARCH_PROP_FILE = "sti.websearch.properties";
     protected static final String PROPERTY_WEBSEARCH_CLASS = "sti.websearch.class";
@@ -45,21 +44,21 @@ public abstract class STIBatch {
     private static final String PROPERTY_ENTITY_CACHE_CORENAME = "entity";
     private static final String PROPERTY_CLAZZ_CACHE_CORENAME = "class";
     private static final String PROPERTY_RELATION_CACHE_CORENAME = "relation";
-    private static final String PROPERTY_RELATION_CACHE_WEBSEARCH = "websearch";
+    private static final String PROPERTY_WEBSEARCH_CACHE_CORENAME = "websearch";
 
     protected static final String PROPERTY_START_INDEX = "sti.start";
     protected static final String PROPERTY_SELECT_LIST = "sti.list.select";
-    protected static final String PROPERTY_FAILED_LIST="sti.list.failure";
+    protected static final String PROPERTY_FAILED_LIST = "sti.list.failure";
 
     protected static final String PROPERTY_KBSEARCH_PROP_FILE = "sti.kbsearch.propertyfile";
     protected static final String PROPERTY_KBSEARCH_CLASS = "sti.kbsearch.class";
     protected static final String PROPERTY_KBSEARCH_TRY_FUZZY_KEYWORD = "sti.kbsearch.tryfuzzykeyword";
 
-    protected static final String PROPERTY_IGNORE_COLUMNS="sti.columns.ignore";
-    protected static final String PROPERTY_MUSTDO_COLUMNS="sti.columns.mustdo";
+    protected static final String PROPERTY_IGNORE_COLUMNS = "sti.columns.ignore";
+    protected static final String PROPERTY_MUSTDO_COLUMNS = "sti.columns.mustdo";
 
-    protected static final String PROPERTY_OUTPUT_TRIPLE_KB_NAMESPACE="sti.output.triple.namespace.kb";
-    protected static final String PROPERTY_OUTPUT_TRIPLE_DEFAULT_NAMESPACE="sti.output.triple.namespace.default";
+    protected static final String PROPERTY_OUTPUT_TRIPLE_KB_NAMESPACE = "sti.output.triple.namespace.kb";
+    protected static final String PROPERTY_OUTPUT_TRIPLE_DEFAULT_NAMESPACE = "sti.output.triple.namespace.default";
 
 
     protected Properties properties;
@@ -86,36 +85,34 @@ public abstract class STIBatch {
     protected abstract Table loadTable(String file);
 
 
-    protected int getStartIndex(){
+    protected int getStartIndex() {
         String s = properties.get(PROPERTY_START_INDEX).toString();
-        if(s==null)
+        if (s == null)
             return 0;
         return Integer.valueOf(s);
     }
 
     protected EmbeddedSolrServer getSolrServerCacheEntity() throws STIException {
-        if(entityCache==null) {
+        if (entityCache == null) {
             String solrHomePath = properties.getProperty(PROPERTY_CACHE_FOLDER);
             if (solrHomePath == null || !new File(solrHomePath).exists()) {
                 String error = "Cannot proceed: the cache dir is not set or does not exist. " +
-                        PROPERTY_CACHE_FOLDER + "=" + solrHomePath + ", " +
-                        PROPERTY_ENTITY_CACHE_CORENAME + "=" + PROPERTY_ENTITY_CACHE_CORENAME;
+                        PROPERTY_CACHE_FOLDER + "=" + solrHomePath;
                 LOG.error(error);
                 throw new STIException(error);
             }
 
-            entityCache= new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_ENTITY_CACHE_CORENAME);
+            entityCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_ENTITY_CACHE_CORENAME);
         }
         return entityCache;
     }
 
     protected EmbeddedSolrServer getSolrServerCacheClazz() throws STIException {
-        if(conceptCache==null) {
+        if (conceptCache == null) {
             String solrHomePath = properties.getProperty(PROPERTY_CACHE_FOLDER);
             if (solrHomePath == null || !new File(solrHomePath).exists() || PROPERTY_CLAZZ_CACHE_CORENAME == null) {
                 String error = "Cannot proceed: the cache dir is not set or does not exist. " +
-                        PROPERTY_CACHE_FOLDER + "=" + solrHomePath + ", " +
-                        PROPERTY_CLAZZ_CACHE_CORENAME + "=" + PROPERTY_CLAZZ_CACHE_CORENAME;
+                        PROPERTY_CACHE_FOLDER + "=" + solrHomePath;
                 LOG.error(error);
                 throw new STIException(error);
             }
@@ -126,12 +123,11 @@ public abstract class STIBatch {
     }
 
     protected EmbeddedSolrServer getSolrServerCacheRelation() throws STIException {
-        if(relationCache==null) {
+        if (relationCache == null) {
             String solrHomePath = properties.getProperty(PROPERTY_CACHE_FOLDER);
             if (solrHomePath == null || !new File(solrHomePath).exists() || PROPERTY_RELATION_CACHE_CORENAME == null) {
                 String error = "Cannot proceed: the cache dir is not set or does not exist. " +
-                        PROPERTY_CACHE_FOLDER + "=" + solrHomePath + ", " +
-                        PROPERTY_RELATION_CACHE_CORENAME + "=" + PROPERTY_RELATION_CACHE_CORENAME;
+                        PROPERTY_CACHE_FOLDER + "=" + solrHomePath;
                 LOG.error(error);
                 throw new STIException(error);
             }
@@ -142,18 +138,17 @@ public abstract class STIBatch {
     }
 
     protected EmbeddedSolrServer getSolrServerCacheWebsearch() throws STIException {
-       if(websearchCache==null) {
-           String solrHomePath = properties.getProperty(PROPERTY_CACHE_FOLDER);
-           if (solrHomePath == null || !new File(solrHomePath).exists() || PROPERTY_RELATION_CACHE_CORENAME == null) {
-               String error = "Cannot proceed: the cache dir is not set or does not exist. " +
-                       PROPERTY_CACHE_FOLDER + "=" + solrHomePath + ", " +
-                       PROPERTY_RELATION_CACHE_CORENAME + "=" + PROPERTY_RELATION_CACHE_WEBSEARCH;
-               LOG.error(error);
-               throw new STIException(error);
-           }
+        if (websearchCache == null) {
+            String solrHomePath = properties.getProperty(PROPERTY_CACHE_FOLDER);
+            if (solrHomePath == null || !new File(solrHomePath).exists() || PROPERTY_RELATION_CACHE_CORENAME == null) {
+                String error = "Cannot proceed: the cache dir is not set or does not exist. " +
+                        PROPERTY_CACHE_FOLDER + "=" + solrHomePath;
+                LOG.error(error);
+                throw new STIException(error);
+            }
 
-           websearchCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_RELATION_CACHE_CORENAME);
-       }
+            websearchCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_WEBSEARCH_CACHE_CORENAME);
+        }
         return websearchCache;
     }
 
@@ -170,7 +165,7 @@ public abstract class STIBatch {
 
 
     protected String getNLPResourcesDir() throws STIException {
-        String prop = properties.getProperty(PROPERTY_NLP_RESOURCES);
+        String prop = getAbsolutePath(PROPERTY_NLP_RESOURCES);
         if (prop == null || !new File(prop).exists()) {
             String error = "Cannot proceed: nlp resources folder is not set or does not exist. " +
                     PROPERTY_KBSEARCH_PROP_FILE + "=" + prop;
@@ -181,58 +176,58 @@ public abstract class STIBatch {
     }
 
     protected List<String> getStopwords() throws STIException, IOException {
-        return FileUtils.readList(getNLPResourcesDir()+File.separator+"stoplist.txt",true);
+        return FileUtils.readList(getNLPResourcesDir() + File.separator + "stoplist.txt", true);
     }
 
-    protected int[] getIgnoreColumns(){
-        String ignore =properties.getProperty(PROPERTY_IGNORE_COLUMNS);
-        String[] splits = StringUtils.split(ignore,',');
+    protected int[] getIgnoreColumns() {
+        String ignore = properties.getProperty(PROPERTY_IGNORE_COLUMNS);
+        String[] splits = StringUtils.split(ignore, ',');
         int[] res = new int[0];
-        for(int i=0; i<splits.length;i++){
-            res[i]=Integer.valueOf(splits[i].trim());
+        for (int i = 0; i < splits.length; i++) {
+            res[i] = Integer.valueOf(splits[i].trim());
         }
         return res;
     }
 
-    protected int[] getMustdoColumns(){
-        String ignore =properties.getProperty(PROPERTY_MUSTDO_COLUMNS);
-        String[] splits = StringUtils.split(ignore,',');
+    protected int[] getMustdoColumns() {
+        String ignore = properties.getProperty(PROPERTY_MUSTDO_COLUMNS);
+        String[] splits = StringUtils.split(ignore, ',');
         int[] res = new int[0];
-        for(int i=0; i<splits.length;i++){
-            res[i]=Integer.valueOf(splits[i].trim());
+        for (int i = 0; i < splits.length; i++) {
+            res[i] = Integer.valueOf(splits[i].trim());
         }
         return res;
     }
 
-    protected TAnnotationWriter getTAnnotationWriter(){
-        if(writer==null){
-            writer= new TAnnotationWriter(
+    protected TAnnotationWriter getTAnnotationWriter() {
+        if (writer == null) {
+            writer = new TAnnotationWriter(
                     new TripleGenerator(properties.getProperty(PROPERTY_OUTPUT_TRIPLE_KB_NAMESPACE),
-                    properties.getProperty(PROPERTY_OUTPUT_TRIPLE_DEFAULT_NAMESPACE)));
+                            properties.getProperty(PROPERTY_OUTPUT_TRIPLE_DEFAULT_NAMESPACE)));
         }
         return writer;
     }
 
-    protected void commitAll(){
-        if(entityCache!=null)
+    protected void commitAll() {
+        if (entityCache != null)
             try {
                 entityCache.commit();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        if(conceptCache!=null)
+        if (conceptCache != null)
             try {
                 conceptCache.commit();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        if(relationCache!=null)
+        if (relationCache != null)
             try {
                 relationCache.commit();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        if(websearchCache!=null)
+        if (websearchCache != null)
             try {
                 websearchCache.commit();
             } catch (Exception e) {
@@ -240,33 +235,32 @@ public abstract class STIBatch {
             }
     }
 
-    protected void closeAll(){
-        if(entityCache!=null)
+    protected void closeAll() {
+        if (entityCache != null)
             try {
                 entityCache.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        if(conceptCache!=null)
+        if (conceptCache != null)
             try {
                 conceptCache.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        if(relationCache!=null)
+        if (relationCache != null)
             try {
                 relationCache.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        if(websearchCache!=null)
+        if (websearchCache != null)
             try {
                 websearchCache.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
     }
-
 
 
     public static boolean process(TMPInterpreter interpreter,
@@ -299,7 +293,7 @@ public abstract class STIBatch {
         return true;
     }
 
-    protected void recordFailure(int count, String sourceTableFile, String inFile){
+    protected void recordFailure(int count, String sourceTableFile, String inFile) {
         System.out.println("\t\t\t missed: " + count + "_" + sourceTableFile);
         PrintWriter missedWriter = null;
         try {
@@ -311,21 +305,34 @@ public abstract class STIBatch {
         }
     }
 
-    protected List<Integer> loadPreviouslyFailed(){
+    protected List<Integer> loadPreviouslyFailed() {
         List l =
                 null;
+        File f = new File(getAbsolutePath(PROPERTY_SELECT_LIST));
+        if (properties.getProperty(PROPERTY_SELECT_LIST) == null
+                || properties.getProperty(PROPERTY_SELECT_LIST).length() == 0
+                || !f.exists()) {
+            LOG.info("No specific list defined. All files will be processed: " + getAbsolutePath(PROPERTY_SELECT_LIST));
+            return new ArrayList<>();
+        }
         try {
-            l = org.apache.commons.io.FileUtils.readLines(new File(properties.getProperty(PROPERTY_SELECT_LIST)));
+            l = org.apache.commons.io.FileUtils.readLines(
+                    f);
         } catch (IOException e) {
             e.printStackTrace();
         }
         List<Integer> selected = new ArrayList<>();
-        for(Object o: l){
+        for (Object o : l) {
             String line = o.toString();
             String index = line.split(",")[0].trim();
-            if(index.length()>0)
+            if (index.length() > 0)
                 selected.add(Integer.valueOf(index));
         }
         return selected;
+    }
+
+    protected String getAbsolutePath(String propertyName) {
+        return properties.getProperty(PROPERTY_HOME)
+                + File.separator + properties.getProperty(propertyName);
     }
 }

@@ -3,10 +3,8 @@ package uk.ac.shef.dcs.sti.experiment.gs;
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.extractor.html.TagSoupParser;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-import org.apache.solr.core.CoreContainer;
 import org.apache.tika.io.IOUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -16,7 +14,7 @@ import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.sti.algorithm.tm.maincol.TColumnFeatureGenerator;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.*;
-import uk.ac.shef.dcs.util.SolrUtils;
+import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
@@ -29,7 +27,6 @@ import uk.ac.shef.dcs.util.CollectionUtils;
 import uk.ac.shef.dcs.util.FileUtils;
 import uk.ac.shef.dcs.websearch.WebSearch;
 import uk.ac.shef.dcs.websearch.WebSearchFactory;
-import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
 import uk.ac.shef.dcs.websearch.bing.v2.BingSearchResultParser;
 import uk.ac.shef.dcs.websearch.WebSearchResultDoc;
@@ -55,7 +52,7 @@ import java.util.logging.Logger;
  */
 public class GSBuilder_Limaye_Wikitables {
     protected FreebaseQueryHelper queryHelper;
-    protected SolrUtils solrCache;
+    protected SolrCache solrCache;
     protected TableXtractorWikipedia xtractor;
     protected WebSearch searcher;
     protected BingSearchResultParser parser;
@@ -65,7 +62,7 @@ public class GSBuilder_Limaye_Wikitables {
     protected static Logger log = Logger.getLogger(GSBuilder_Limaye_Wikitables.class.getName());
 
     public GSBuilder_Limaye_Wikitables(FreebaseQueryHelper queryHelper,
-                                       SolrUtils cache_solr,
+                                       SolrCache cache_solr,
                                        TableXtractorWikipedia xtractor,
                                        String propertyFile) throws IOException {
         this.queryHelper = queryHelper;
@@ -126,7 +123,7 @@ public class GSBuilder_Limaye_Wikitables {
         CoreContainer container = new CoreContainer(solrCache,
                 configFile);*/
         EmbeddedSolrServer server = null; //new EmbeddedSolrServer(container, "collection1");
-        SolrUtils cache = new SolrUtils(server);
+        SolrCache cache = new SolrCache(server);
 
         TableXtractorWikipedia xtractor = new TableXtractorWikipedia(new TableNormalizerFrequentRowLength(true),
                 new TableHODetectorByHTMLTag(),
@@ -671,7 +668,7 @@ public class GSBuilder_Limaye_Wikitables {
         return tableNodes;
     }
 
-    public static String queryWikipediaPageid(String wikipedia_title, SolrUtils cache) throws IOException {
+    public static String queryWikipediaPageid(String wikipedia_title, SolrCache cache) throws IOException {
         Date startTime = new Date();
 
         String query = "https://en.wikipedia.org/w/api.php?action=query&titles=" + wikipedia_title;
@@ -741,7 +738,7 @@ public class GSBuilder_Limaye_Wikitables {
 
     }
 
-    public String createCellAnnotation(String pageid, SolrUtils cache) throws IOException {
+    public String createCellAnnotation(String pageid, SolrCache cache) throws IOException {
         String freebase_id = null;
         try {
             Object o = cache.retrieve(pageid);

@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.kbsearch;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
-import uk.ac.shef.dcs.util.SolrUtils;
+import uk.ac.shef.dcs.util.SolrCache;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,22 +14,22 @@ import java.util.Properties;
  */
 public abstract class KBSearch {
 
-    protected SolrUtils cacheEntity;
-    protected SolrUtils cacheConcept;
-    protected SolrUtils cacheProperty;
+    protected SolrCache cacheEntity;
+    protected SolrCache cacheConcept;
+    protected SolrCache cacheProperty;
     protected boolean fuzzyKeywords;
     protected Properties properties = new Properties();
 
-    public KBSearch(String kbSearchPropertyFile, boolean fuzzyKeywords,
+    public KBSearch(String kbSearchPropertyFile, Boolean fuzzyKeywords,
                     EmbeddedSolrServer cacheEntity, EmbeddedSolrServer cacheConcept,
                     EmbeddedSolrServer cacheProperty) throws IOException {
         properties.load(new FileInputStream(kbSearchPropertyFile));
         if (cacheEntity != null)
-            this.cacheEntity = new SolrUtils(cacheEntity);
+            this.cacheEntity = new SolrCache(cacheEntity);
         if (cacheConcept != null)
-            this.cacheConcept = new SolrUtils(cacheConcept);
+            this.cacheConcept = new SolrCache(cacheConcept);
         if (cacheProperty != null)
-            this.cacheProperty = new SolrUtils(cacheProperty);
+            this.cacheProperty = new SolrCache(cacheProperty);
         this.fuzzyKeywords = fuzzyKeywords;
     }
 

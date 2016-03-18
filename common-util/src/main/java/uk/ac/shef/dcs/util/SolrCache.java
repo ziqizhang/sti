@@ -18,13 +18,13 @@ import java.util.ArrayList;
  * Time: 12:58
  * To change this template use File | Settings | File Templates.
  */
-public class SolrUtils {
+public class SolrCache {
 
     private EmbeddedSolrServer server;
     private static final String idFieldName = "id";
     private static final String valueFieldName = "value";
 
-    public SolrUtils(EmbeddedSolrServer server) {
+    public SolrCache(EmbeddedSolrServer server) {
         this.server=server;
     }
 

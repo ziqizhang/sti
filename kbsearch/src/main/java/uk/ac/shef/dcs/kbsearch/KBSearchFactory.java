@@ -19,7 +19,12 @@ public class KBSearchFactory {
                                      EmbeddedSolrServer cacheProperty) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         if(className.equals(FreebaseSearch.class.getName())){
             return (KBSearch) Class.forName(className).
-                    getDeclaredConstructor(InputStream.class).newInstance(kbSearchPropertyFile,
+                    getDeclaredConstructor(String.class,
+                            Boolean.class,
+                            EmbeddedSolrServer.class,
+                            EmbeddedSolrServer.class,
+                            EmbeddedSolrServer.class).
+                    newInstance(kbSearchPropertyFile,
                     fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty);
         }
         return null;

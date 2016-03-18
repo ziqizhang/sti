@@ -37,7 +37,7 @@ public class BingSearch extends WebSearch{
             if(k.length()>0)
                 accountKeyPool.add(k);
         }
-        this.baseURL = properties.getProperty(properties.getProperty(BING_BASE_URL));
+        this.baseURL = properties.getProperty(BING_BASE_URL);
     }
 
     public InputStream search(String query) throws IOException, APIKeysDepletedException {

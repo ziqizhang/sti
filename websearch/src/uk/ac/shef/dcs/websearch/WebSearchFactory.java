@@ -13,7 +13,7 @@ public class WebSearchFactory {
                                    String propertyFile) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         if(className.equals(BingSearch.class.getName())){
             return (WebSearch) Class.forName(className).
-                    getDeclaredConstructor(InputStream.class).newInstance(propertyFile
+                    getDeclaredConstructor(String.class).newInstance(propertyFile
                     );
         }
         return null;

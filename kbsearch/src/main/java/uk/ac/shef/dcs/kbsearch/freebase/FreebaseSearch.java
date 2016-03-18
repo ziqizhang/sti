@@ -7,7 +7,7 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
-import uk.ac.shef.dcs.util.SolrUtils;
+import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.util.StringUtils;
 
 import java.io.IOException;
@@ -29,10 +29,10 @@ public class FreebaseSearch extends KBSearch {
     private static final boolean ALWAYS_CALL_REMOTE_TOPICAPI =false;
     private FreebaseQueryHelper searcher;
 
-    protected Map<String, SolrUtils> otherCache;
+    protected Map<String, SolrCache> otherCache;
 
 
-    public FreebaseSearch(String kbSearchPropertyFile, boolean fuzzyKeywords,
+    public FreebaseSearch(String kbSearchPropertyFile, Boolean fuzzyKeywords,
                           EmbeddedSolrServer cacheEntity, EmbeddedSolrServer cacheConcept,
                           EmbeddedSolrServer cacheProperty) throws IOException {
         super(kbSearchPropertyFile, fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty);
@@ -42,7 +42,7 @@ public class FreebaseSearch extends KBSearch {
     }
 
     public void registerOtherCache(String name, EmbeddedSolrServer cacheServer) {
-        otherCache.put(name, new SolrUtils(cacheServer));
+        otherCache.put(name, new SolrCache(cacheServer));
     }
 
     @Override
@@ -327,7 +327,7 @@ public class FreebaseSearch extends KBSearch {
         return FreebaseSearchResultFilter.filterTypes(result);
     }
 
-    private List<String[]> find_triples_filtered(String id, SolrUtils cache) throws IOException {
+    private List<String[]> find_triples_filtered(String id, SolrCache cache) throws IOException {
         boolean forceQuery = false;
         if (ALWAYS_CALL_REMOTE_TOPICAPI)
             forceQuery = true;
@@ -406,7 +406,7 @@ public class FreebaseSearch extends KBSearch {
         cacheConcept.commit();
         cacheEntity.commit();
         cacheProperty.commit();
-        for(SolrUtils cache: otherCache.values())
+        for(SolrCache cache: otherCache.values())
             cache.commit();
     }
 

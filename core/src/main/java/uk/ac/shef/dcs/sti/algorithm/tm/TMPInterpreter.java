@@ -17,15 +17,15 @@ import java.util.*;
  */
 public class TMPInterpreter {
 
-    private SubjectColumnDetector main_col_finder;
-    private LEARNING interpreter_column;
+    private SubjectColumnDetector subjectColumnDetector;
+    private LEARNING learning;
     private DataLiteralColumnClassifier interpreter_column_with_knownReltaions;
     private BinaryRelationInterpreter interpreter_relation;
     private HeaderBinaryRelationScorer hbr_scorer;
     //private static Logger log = Logger.getLogger(MainInterpreter.class.getName());
     private Set<Integer> ignoreCols;
-    private int[] forceInterpretColumn;
-    private UPDATE backward_updater;
+    private int[] mustdoColumns;
+    private UPDATE update;
 
 
     public TMPInterpreter(SubjectColumnDetector subjectColumnDetector,
@@ -37,15 +37,15 @@ public class TMPInterpreter {
                           int[] ignoreColumns,
                           int[] mustdoColumns
                           ) {
-        this.main_col_finder = subjectColumnDetector;
-        this.interpreter_column = learning;
+        this.subjectColumnDetector = subjectColumnDetector;
+        this.learning = learning;
         this.interpreter_column_with_knownReltaions = interpreter_column_with_knownReltaions;
         this.interpreter_relation = interpreter_relation;
         this.ignoreCols = new HashSet<>();
         for(int i: ignoreColumns)
             ignoreCols.add(i);
-        this.forceInterpretColumn = mustdoColumns;
-        this.backward_updater = update;
+        this.mustdoColumns = mustdoColumns;
+        this.update = update;
         this.hbr_scorer = hbr_scorer;
     }
 
@@ -60,7 +60,7 @@ public class TMPInterpreter {
             index++;
         }
         List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns =
-                main_col_finder.compute(table, ignoreColumnsArray);
+                subjectColumnDetector.compute(table, ignoreColumnsArray);
         //ignore columns that are likely to be acronyms only, because they are highly ambiguous
         /*if (candidate_main_NE_columns.size() > 1) {
             Iterator<ObjObj<Integer, ObjObj<Double, Boolean>>> it = candidate_main_NE_columns.iterator();
@@ -80,7 +80,7 @@ public class TMPInterpreter {
             if (forceInterpret(col)) {
                 System.out.println("\t>> Column=(forced)" + col);
                 interpreted_columns.add(col);
-                interpreter_column.interpret(table, tab_annotations, col);
+                learning.interpret(table, tab_annotations, col);
             } else {
                 if (ignoreColumn(col)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
@@ -91,14 +91,14 @@ public class TMPInterpreter {
 
                 //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
                 System.out.println("\t>> Column=" + col);
-                interpreter_column.interpret(table, tab_annotations, col);
+                learning.interpret(table, tab_annotations, col);
                 //}
             }
         }
 
-        if (backward_updater != null) {
+        if (update != null) {
             System.out.println(">\t BACKWARD UPDATE...");
-            backward_updater.update(interpreted_columns, table, tab_annotations);
+            update.update(interpreted_columns, table, tab_annotations);
         }
 
         if (relationLearning) {
@@ -136,8 +136,8 @@ public class TMPInterpreter {
                 tab_annotations = best_annotations;
             }
 
-            if (TableMinerConstants.REVISE_HBR_BY_DC && backward_updater!=null) {
-                List<String> domain_rep = backward_updater.construct_domain_represtation(table, tab_annotations, interpreted_columns);
+            if (TableMinerConstants.REVISE_HBR_BY_DC && update !=null) {
+                List<String> domain_rep = update.construct_domain_represtation(table, tab_annotations, interpreted_columns);
                 revise_header_binary_relations(tab_annotations, domain_rep);
             }
 
@@ -203,7 +203,7 @@ public class TMPInterpreter {
 
     private boolean forceInterpret(Integer i) {
         if (i != null) {
-            for (int a : forceInterpretColumn) {
+            for (int a : mustdoColumns) {
                 if (a == i)
                     return true;
             }

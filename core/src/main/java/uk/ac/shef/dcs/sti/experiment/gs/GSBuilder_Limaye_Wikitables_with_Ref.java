@@ -1,9 +1,7 @@
 package uk.ac.shef.dcs.sti.experiment.gs;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-import org.apache.solr.core.CoreContainer;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.algorithm.tm.maincol.TColumnFeatureGenerator;
@@ -12,7 +10,7 @@ import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableContentCell;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
-import uk.ac.shef.dcs.util.SolrUtils;
+import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
@@ -40,7 +38,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
     private Levenshtein stringSim = new Levenshtein();
 
     public GSBuilder_Limaye_Wikitables_with_Ref(FreebaseQueryHelper queryHelper,
-                                                SolrUtils cache_solr,
+                                                SolrCache cache_solr,
                                                 TableXtractorWikipedia xtractor,
                                                 String propertyFile) {
         this.queryHelper = queryHelper;
@@ -93,7 +91,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
         CoreContainer container = new CoreContainer(solrCache,
                 configFile);*/
         EmbeddedSolrServer server = null;// new EmbeddedSolrServer(container, "collection1");
-        SolrUtils cache = new SolrUtils(server);
+        SolrCache cache = new SolrCache(server);
 
         TableXtractorWikipedia xtractor = new TableXtractorWikipedia(new TableNormalizerFrequentRowLength(true),
                 new TableHODetectorByHTMLTag(),

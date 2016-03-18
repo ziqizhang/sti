@@ -51,17 +51,18 @@ public class TableMinerPlusBatch extends STIBatch {
         KBSearchFactory fbf = new KBSearchFactory();
         try {
             kbSearch = fbf.createInstance(properties.getProperty(PROPERTY_KBSEARCH_CLASS),
-                    properties.getProperty(PROPERTY_KBSEARCH_PROP_FILE),
+                    getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE),
                     Boolean.valueOf(properties.getProperty(PROPERTY_KBSEARCH_TRY_FUZZY_KEYWORD, "false")),
                     kbEntityServer, null, null);
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));
-            throw new STIException("Failed initialising KBSearch:" + properties.getProperty(PROPERTY_KBSEARCH_CLASS)
+            throw new STIException("Failed initialising KBSearch:" +
+                    getAbsolutePath(PROPERTY_KBSEARCH_CLASS)
                     , e);
         }
 
-        LOG.info("Initializing WebSearcher...");
+        //LOG.info("Initializing WebSearcher...");
 
 
         LOG.info("Initializing SUBJECT COLUMN DETECTION components ...");
@@ -80,7 +81,7 @@ public class TableMinerPlusBatch extends STIBatch {
                     //"fXhmgvVQnz1aLBti87+AZlPYDXcQL0G9L2dVAav+aK0="); //ziqizhang
                     getStopwords(),
                     properties.getProperty(PROPERTY_WEBSEARCH_CLASS),
-                    properties.getProperty(PROPERTY_WEBSEARCH_PROP_FILE)
+                    getAbsolutePath(PROPERTY_WEBSEARCH_PROP_FILE)
                     //, lodie
                     //"7ql9acl+fXXfdjBGIIAH+N2WHk/dIZxdSkl4Uur68Hg"
             );//   dobs
@@ -209,6 +210,7 @@ public class TableMinerPlusBatch extends STIBatch {
         System.out.println(all.size());
 
         List<Integer> previouslyFailed = tmp.loadPreviouslyFailed();
+        int start=tmp.getStartIndex();
         for (File f : all) {
             count++;
 
@@ -216,7 +218,7 @@ public class TableMinerPlusBatch extends STIBatch {
             if (previouslyFailed.size() != 0 && !previouslyFailed.contains(count))
                 continue;
 
-            if (count - 1 < tmp.getStartIndex())
+            if (count - 1 <start )
                 continue;
             boolean complete;
             String inFile = f.toString();
