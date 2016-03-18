@@ -47,7 +47,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                         continue;
                     }
                     double maxScore = 0.0; //maximum score between this fact's obj and any candidate entity in the obj cell
-                    //this fact may match multiple candidate NEs for the object cell
+                    //this fact may score multiple candidate NEs for the object cell
                     Map<Double, List<CellAnnotation>> mctScore_objCellCandidates = new HashMap<Double, List<CellAnnotation>>();
                     for (int o = 0; o < objectCellAnnotations.size(); o++) {
                         CellAnnotation objectEntity = objectCellAnnotations.get(o);

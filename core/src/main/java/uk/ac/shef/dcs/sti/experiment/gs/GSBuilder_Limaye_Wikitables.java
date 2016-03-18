@@ -11,7 +11,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.PlaceHolder;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.TColumnFeatureGenerator;
+import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.TColumnFeatureGenerator;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.*;
 import uk.ac.shef.dcs.util.SolrCache;
@@ -250,7 +250,7 @@ public class GSBuilder_Limaye_Wikitables {
                 }
                 boolean noHeader = false;
                 for (int j = 0; j < wikitable.getNumCols(); j++) {
-                    LTableColumnHeader h = wikitable.getColumnHeader(j);
+                    TColumnHeader h = wikitable.getColumnHeader(j);
                     if (h.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue()))
                         noHeader = true;
                 }
@@ -399,7 +399,7 @@ public class GSBuilder_Limaye_Wikitables {
     protected static String toString_LTable(Table table) {
         StringBuilder sb = new StringBuilder();
         for (int j = 0; j < table.getNumCols(); j++) {
-            LTableColumnHeader header = table.getColumnHeader(j);
+            TColumnHeader header = table.getColumnHeader(j);
             if (header == null || header.getHeaderText() == null || header.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN))
                 continue;
             sb.append(header.getHeaderText()).append(" ");
@@ -437,7 +437,7 @@ public class GSBuilder_Limaye_Wikitables {
             Element he = doc.createElement("cell");
             String text = "";
             String wikilink = "";
-            LTableColumnHeader h = table.getColumnHeader(j);
+            TColumnHeader h = table.getColumnHeader(j);
             if (h != null && !h.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN)) {
                 text = h.getHeaderText();
             }
@@ -523,7 +523,7 @@ public class GSBuilder_Limaye_Wikitables {
 
     private boolean annotateTable(Table originalTable, String annotationFile, int maxRows) throws IOException, TransformerException, ParserConfigurationException {
         //saveAsLimaye(table, rawFile);
-        TColumnFeatureGenerator.generateColumnDataTypes(originalTable);
+        TColumnFeatureGenerator.setColumnDataTypes(originalTable);
 
         StringBuilder annotation = new StringBuilder();
 
@@ -532,7 +532,7 @@ public class GSBuilder_Limaye_Wikitables {
             if (r >= maxRows)
                 break;
             for (int c = 0; c < originalTable.getNumCols(); c++) {
-                DataTypeClassifier.DataType type = originalTable.getColumnHeader(c).getTypes().get(0).getCandidateType();
+                DataTypeClassifier.DataType type = originalTable.getColumnHeader(c).getTypes().get(0).getType();
                 if (type.equals(DataTypeClassifier.DataType.NUMBER) || type.equals(DataTypeClassifier.DataType.DATE) ||
                         type.equals(DataTypeClassifier.DataType.ORDERED_NUMBER) ||
                         type.equals(DataTypeClassifier.DataType.LONG_TEXT) ||
@@ -847,7 +847,7 @@ public class GSBuilder_Limaye_Wikitables {
     private boolean annotateTable_fuzzy(Table originalTable, Map<String, Set<String>> linkMap, String annotationFile
     ) throws IOException, TransformerException, ParserConfigurationException {
         //saveAsLimaye(table, rawFile);
-        TColumnFeatureGenerator.generateColumnDataTypes(originalTable);
+        TColumnFeatureGenerator.setColumnDataTypes(originalTable);
         int count_original_annotations = 0;
         if (originalTable.getTableAnnotations() != null) {
             for (int r = 0; r < originalTable.getNumRows(); r++) {
@@ -866,7 +866,7 @@ public class GSBuilder_Limaye_Wikitables {
         int totalAnnotations = 0;
         for (int r = 0; r < originalTable.getNumRows(); r++) {
             for (int c = 0; c < originalTable.getNumCols(); c++) {
-                DataTypeClassifier.DataType type = originalTable.getColumnHeader(c).getTypes().get(0).getCandidateType();
+                DataTypeClassifier.DataType type = originalTable.getColumnHeader(c).getTypes().get(0).getType();
                 if (type.equals(DataTypeClassifier.DataType.NUMBER) || type.equals(DataTypeClassifier.DataType.DATE) ||
                         type.equals(DataTypeClassifier.DataType.ORDERED_NUMBER) ||
                         type.equals(DataTypeClassifier.DataType.LONG_TEXT) ||

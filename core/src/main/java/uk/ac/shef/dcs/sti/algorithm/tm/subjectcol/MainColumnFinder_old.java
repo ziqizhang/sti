@@ -77,26 +77,26 @@ public class MainColumnFinder_old {
         }
 
         //2. infer column datatype
-        featureGenerator.generateColumnDataTypes(table);
+        featureGenerator.setColumnDataTypes(table);
 
         //3. infer the most frequent datatype,
-        featureGenerator.generateMostFrequentDataType(allColumnCandidates, table);
+        featureGenerator.setMostFrequentDataTypes(allColumnCandidates, table);
 
         //4. select only NE columns to further process
         List<TColumnFeature> allNEColumnCandidates = new ArrayList<TColumnFeature>();
         for (TColumnFeature cf : allColumnCandidates) {
-            if (cf.getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+            if (cf.getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                 allNEColumnCandidates.add(cf);
         }
         //EXCEPTION: what if no NE columns found?
         for (TColumnFeature cf : allColumnCandidates) {
-            if (cf.getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.SHORT_TEXT))
+            if (cf.getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.SHORT_TEXT))
                 allNEColumnCandidates.add(cf);
         }
 
-        featureGenerator.feature_valueDiversity(allNEColumnCandidates, table);
-        featureGenerator.feature_isColumnAcronymOrCode(allNEColumnCandidates, table);
-        featureGenerator.feature_countEmptyCells(allNEColumnCandidates, table);
+        featureGenerator.setUniqueValueCount(allNEColumnCandidates, table);
+        featureGenerator.setAcronymColumnBoolean(allNEColumnCandidates, table);
+        featureGenerator.setEmptyCellCount(allNEColumnCandidates, table);
 
         //EXCEPTION: what if no SHORT TEXT columns found?
         if (allNEColumnCandidates.size() == 0) {
@@ -111,7 +111,7 @@ public class MainColumnFinder_old {
         }
 
         //5. is any NE column the only valid NE column in the table?
-        int onlyNECol = featureGenerator.feature_isTheOnlyNEColumn(allNEColumnCandidates);
+        int onlyNECol = featureGenerator.setOnlyNEColumn(allNEColumnCandidates);
         //5 - yes:
         if (onlyNECol != -1) {
             Pair<Integer, Pair<Double, Boolean>> oo = new Pair<>(onlyNECol,new Pair<>(1.0, false));
@@ -125,7 +125,7 @@ public class MainColumnFinder_old {
         //6. is any NE column the only one that has no empty cells?
         int onlyNECol_with_no_emtpy = -1, num = 0;
         for (TColumnFeature cf : allNEColumnCandidates) {
-            if (cf.getEmptyCells() == 0) {
+            if (cf.getEmptyCellCount() == 0) {
                 num++;
                 if (onlyNECol_with_no_emtpy == -1)
                     onlyNECol_with_no_emtpy = cf.getColId();
@@ -135,7 +135,7 @@ public class MainColumnFinder_old {
         }
         //6 - yes:
         if (onlyNECol_with_no_emtpy != -1 && num == 1) {
-            if (!allColumnCandidates.get(onlyNECol_with_no_emtpy).isCode_or_Acronym()) {
+            if (!allColumnCandidates.get(onlyNECol_with_no_emtpy).isAcronymColumn()) {
                 Pair<Integer, Pair<Double, Boolean>> oo = new Pair<>(onlyNECol_with_no_emtpy,
                         new Pair<>(1.0, false));
                 rs.add(oo);
@@ -150,7 +150,7 @@ public class MainColumnFinder_old {
         int onlyNECol_non_duplicate = -1;
         num = 0;
         for (TColumnFeature cf : allNEColumnCandidates) {
-            if (cf.getCellValueDiversity() == 1.0) {
+            if (cf.getUniqueCellCount() == 1.0) {
                 num++;
                 if (onlyNECol_non_duplicate == -1)
                     onlyNECol_non_duplicate = cf.getColId();
@@ -161,7 +161,7 @@ public class MainColumnFinder_old {
 
         //7 - yes:
         if (onlyNECol_non_duplicate != -1 && num == 1) {
-            if (!allColumnCandidates.get(onlyNECol_non_duplicate).isCode_or_Acronym()) {
+            if (!allColumnCandidates.get(onlyNECol_non_duplicate).isAcronymColumn()) {
                 Pair<Integer, Pair<Double, Boolean>> oo = new Pair<>(onlyNECol_non_duplicate,
                         new Pair<>(1.0, false));
                 rs.add(oo);
@@ -174,7 +174,7 @@ public class MainColumnFinder_old {
 
         //7.5 ====== this is a dangerous rule as it MAY overdo (have not checked thou) true positives ======
         List<Integer> ignoreColumns = new ArrayList<Integer>();
-        featureGenerator.feature_headerInvalidSyntactic(allNEColumnCandidates, table);
+        featureGenerator.setInvalidHeaderTextSyntax(allNEColumnCandidates, table);
         for (TColumnFeature cf : allNEColumnCandidates) {
             if (cf.isInvalidPOS())
                 ignoreColumns.add(cf.getColId());
@@ -200,21 +200,21 @@ public class MainColumnFinder_old {
         }
 
         //8. generate feature - 1st NE column
-        featureGenerator.feature_isFirstNEColumn(allNEColumnCandidates);
+        featureGenerator.setIsFirstNEColumn(allNEColumnCandidates);
 
-        //9. generate features - context match
+        //9. generate features - context score
         log.finest("Computing context matching");
-        featureGenerator.feature_contextMatchScore(allNEColumnCandidates, table);
+        featureGenerator.setCMScores(allNEColumnCandidates, table);
 
         //10. generate features - web search matcher
         log.finest("Computing web search matching (total rows " + table.getNumRows());
         try {
             DoubleMatrix2D scores;
             if (row_sampler != null) {
-                scores = featureGenerator.feature_webSearchScore_with_sampling(allNEColumnCandidates, table,
+                scores = featureGenerator.setWSScores(allNEColumnCandidates, table,
                         row_sampler, StoppingCriteriaInstantiator.instantiate(stoppingCriteriaClassname, stoppingCriteriaParams), 1);
             } else {
-                scores = featureGenerator.feature_webSearchScore(allNEColumnCandidates, table);
+                scores = featureGenerator.setWSScores(allNEColumnCandidates, table);
             }
             double total = 0.0;
             for (TColumnFeature cf : allNEColumnCandidates) {
@@ -229,7 +229,7 @@ public class MainColumnFinder_old {
         }
 
 
-        //12. then let's perform reasoning based on the remaining features: diversity score; 1st ne column; context match; web search match
+        //12. then let's perform reasoning based on the remaining features: diversity score; 1st ne column; context score; web search score
         final Map<Integer, Pair<Double, Boolean>> inferenceScores = infer_multiFeatures(allNEColumnCandidates);
         List<Integer> candidates = new ArrayList<Integer>(inferenceScores.keySet());
         final Map<Integer, TColumnFeature> map_column_to_columnFeature = new HashMap<Integer, TColumnFeature>();
@@ -241,12 +241,12 @@ public class MainColumnFinder_old {
             public int compare(Integer o1, Integer o2) {
                 int compared = inferenceScores.get(o2).getKey().compareTo(inferenceScores.get(o1).getKey());
                 if (compared == 0) { //where there is a tie, choose the one having the highest diversity score
-                    Double vd_o1 = map_column_to_columnFeature.get(o1).getCellValueDiversity();
-                    Double vd_o2 = map_column_to_columnFeature.get(o2).getCellValueDiversity();
+                    Double vd_o1 = map_column_to_columnFeature.get(o1).getUniqueCellCount();
+                    Double vd_o2 = map_column_to_columnFeature.get(o2).getUniqueCellCount();
                     compared = vd_o2.compareTo(vd_o1);
                     if (compared == 0) {
-                        vd_o1 = map_column_to_columnFeature.get(o1).getTokenValueDiversity();
-                        vd_o2 = map_column_to_columnFeature.get(o2).getTokenValueDiversity();
+                        vd_o1 = map_column_to_columnFeature.get(o1).getUniqueTokenCount();
+                        vd_o2 = map_column_to_columnFeature.get(o2).getUniqueTokenCount();
                         return vd_o2.compareTo(vd_o1);
                     }
                 }
@@ -266,7 +266,7 @@ public class MainColumnFinder_old {
     }
 
     //key: col id; value: score
-    //currently performs following scoring: diversity; context match; 1st ne column; acronym column checker; search
+    //currently performs following scoring: diversity; context score; 1st ne column; acronym column checker; search
     //results are collected as number of votes by each dimension
     private Map<Integer, Pair<Double, Boolean>> infer_multiFeatures(List<TColumnFeature> allNEColumnCandidates) {
         Map<Integer, Pair<Double, Boolean>> votes = new HashMap<>();
@@ -274,15 +274,15 @@ public class MainColumnFinder_old {
         Collections.sort(allNEColumnCandidates, new Comparator<TColumnFeature>() {
             @Override
             public int compare(TColumnFeature o1, TColumnFeature o2) {
-                int compared = new Double(o2.getCellValueDiversity()).compareTo(o1.getCellValueDiversity());
+                int compared = new Double(o2.getUniqueCellCount()).compareTo(o1.getUniqueCellCount());
                 if (compared == 0)
-                    return new Double(o2.getTokenValueDiversity()).compareTo(o1.getTokenValueDiversity());
+                    return new Double(o2.getUniqueTokenCount()).compareTo(o1.getUniqueTokenCount());
                 return compared;
             }
         });
         double maxDiversityScore = -1.0;
         for (TColumnFeature cf : allNEColumnCandidates) {
-            double diversity = cf.getTokenValueDiversity() + cf.getCellValueDiversity();
+            double diversity = cf.getUniqueTokenCount() + cf.getUniqueCellCount();
             if (diversity >= maxDiversityScore && diversity != 0) {
                 maxDiversityScore = diversity;
                 votes.put(cf.getColId(), new Pair<>(1.0, false));
@@ -307,13 +307,13 @@ public class MainColumnFinder_old {
         Collections.sort(allNEColumnCandidates, new Comparator<TColumnFeature>() {
             @Override
             public int compare(TColumnFeature o1, TColumnFeature o2) {
-                return new Double(o2.getContextMatchScore()).compareTo(o1.getContextMatchScore());
+                return new Double(o2.getCMScore()).compareTo(o1.getCMScore());
             }
         });
         double maxContextMatchScore = -1.0;
         for (TColumnFeature cf : allNEColumnCandidates) {
-            if (cf.getContextMatchScore() >= maxContextMatchScore && cf.getContextMatchScore() != 0) {
-                maxContextMatchScore = cf.getContextMatchScore();
+            if (cf.getCMScore() >= maxContextMatchScore && cf.getCMScore() != 0) {
+                maxContextMatchScore = cf.getCMScore();
                 Pair<Double, Boolean> entry = votes.get(cf.getColId());
                 entry = entry == null ? new Pair<>(0.0, false) : entry;
                 Double vts = entry.getKey();
@@ -325,7 +325,7 @@ public class MainColumnFinder_old {
         }
         //d. vote by acronym columns
         for (TColumnFeature cf : allNEColumnCandidates) {
-            if (cf.isCode_or_Acronym()) {
+            if (cf.isAcronymColumn()) {
                 Pair<Double, Boolean> entry = votes.get(cf.getColId());
                 entry = entry == null ? new Pair<>(0.0, false) : entry;
                 entry = new Pair<>(entry.getKey(), true);
@@ -337,13 +337,13 @@ public class MainColumnFinder_old {
         Collections.sort(allNEColumnCandidates, new Comparator<TColumnFeature>() {
             @Override
             public int compare(TColumnFeature o1, TColumnFeature o2) {
-                return new Double(o2.getWebSearchScore()).compareTo(o1.getWebSearchScore());
+                return new Double(o2.getWSScore()).compareTo(o1.getWSScore());
             }
         });
         double maxSearchMatchScore = -1.0;
         for (TColumnFeature cf : allNEColumnCandidates) {
-            if (cf.getWebSearchScore() >= maxSearchMatchScore && cf.getWebSearchScore() != 0) {
-                maxSearchMatchScore = cf.getWebSearchScore();
+            if (cf.getWSScore() >= maxSearchMatchScore && cf.getWSScore() != 0) {
+                maxSearchMatchScore = cf.getWSScore();
                 Pair<Double, Boolean> entry = votes.get(cf.getColId());
                 entry = entry == null ? new Pair<>(0.0, false) : entry;
                 Double vts = entry.getKey();
@@ -364,7 +364,7 @@ public class MainColumnFinder_old {
 
 
     //key: col id; value: score
-    //currently performs following scoring: diversity; context match; 1st ne column; NO search
+    //currently performs following scoring: diversity; context score; 1st ne column; NO search
     //results are collected as number of votes by each dimension
     private Map<Integer, Double> infer_multiFeatures_without_search(List<TColumnFeature> allNEColumnCandidates) {
         Map<Integer, Double> votes = new HashMap<Integer, Double>();
@@ -372,18 +372,18 @@ public class MainColumnFinder_old {
         Collections.sort(allNEColumnCandidates, new Comparator<TColumnFeature>() {
             @Override
             public int compare(TColumnFeature o1, TColumnFeature o2) {
-                int compared = new Double(o2.getCellValueDiversity()).compareTo(o1.getCellValueDiversity());
+                int compared = new Double(o2.getUniqueCellCount()).compareTo(o1.getUniqueCellCount());
                 if (compared == 0)
-                    return new Double(o2.getTokenValueDiversity()).compareTo(o1.getTokenValueDiversity());
+                    return new Double(o2.getUniqueTokenCount()).compareTo(o1.getUniqueTokenCount());
                 return compared;
             }
         });
         double maxDiversityScore = -1.0;
         for (TColumnFeature cf : allNEColumnCandidates) {
             if (maxDiversityScore == -1.0) {
-                maxDiversityScore = cf.getCellValueDiversity() + cf.getTokenValueDiversity();
+                maxDiversityScore = cf.getUniqueCellCount() + cf.getUniqueTokenCount();
                 votes.put(cf.getColId(), 1.0);
-            } else if ((cf.getCellValueDiversity() + cf.getTokenValueDiversity()) < maxDiversityScore)
+            } else if ((cf.getUniqueCellCount() + cf.getUniqueTokenCount()) < maxDiversityScore)
                 break;
             else
                 votes.put(cf.getColId(), 1.0);
@@ -401,18 +401,18 @@ public class MainColumnFinder_old {
         Collections.sort(allNEColumnCandidates, new Comparator<TColumnFeature>() {
             @Override
             public int compare(TColumnFeature o1, TColumnFeature o2) {
-                return new Double(o2.getContextMatchScore()).compareTo(o1.getContextMatchScore());
+                return new Double(o2.getCMScore()).compareTo(o1.getCMScore());
             }
         });
         double maxContextMatchScore = -1.0;
         for (TColumnFeature cf : allNEColumnCandidates) {
             if (maxContextMatchScore == -1.0) {
-                maxContextMatchScore = cf.getContextMatchScore();
+                maxContextMatchScore = cf.getCMScore();
                 Double vts = votes.get(cf.getColId());
                 vts = vts == null ? 0 : vts;
                 vts = vts + 1;
                 votes.put(cf.getColId(), vts);
-            } else if (cf.getContextMatchScore() < maxContextMatchScore)
+            } else if (cf.getCMScore() < maxContextMatchScore)
                 break;
             else {
                 Double vts = votes.get(cf.getColId());

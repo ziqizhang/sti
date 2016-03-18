@@ -26,7 +26,7 @@ public class TripleGenerator {
 
         //column typing instances
         for (int col = 0; col < table.getNumCols(); col++) {
-            LTableColumnHeader header = table.getColumnHeader(col);
+            TColumnHeader header = table.getColumnHeader(col);
 
             List<HeaderAnnotation> bestHeaderAnnotations = tab_annotation.getBestHeaderAnnotations(col);
             if (bestHeaderAnnotations.size() == 0)
@@ -113,9 +113,9 @@ public class TripleGenerator {
             if (col == main_subject_column || related_columns_with_subject.contains(col))
                 continue;
 
-            LTableColumnHeader header = table.getColumnHeader(col);
+            TColumnHeader header = table.getColumnHeader(col);
             if (header!=null&&header.getTypes() != null) {
-                if (header.getTypes().get(0).getCandidateType().equals(DataTypeClassifier.DataType.ORDERED_NUMBER))
+                if (header.getTypes().get(0).getType().equals(DataTypeClassifier.DataType.ORDERED_NUMBER))
                     continue;
             }
             else{

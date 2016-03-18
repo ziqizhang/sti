@@ -2,8 +2,8 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.TColumnFeature;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.SubjectColumnDetector;
+import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.TColumnFeature;
+import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.sti.rep.*;
@@ -83,9 +83,9 @@ public class TMPInterpreter {
                 learning.interpret(table, tab_annotations, col);
             } else {
                 if (ignoreColumn(col)) continue;
-                if (!table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+                if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
-                /*if (table.getColumnHeader(col).getFeature().isCode_or_Acronym())
+                /*if (table.getColumnHeader(col).getFeature().isAcronymColumn())
                     continue;*/
                 interpreted_columns.add(col);
 
@@ -155,7 +155,7 @@ public class TMPInterpreter {
     /*private boolean isInterpretable(int columns_having_relations_with_main_col, Table table) {
         int totalColumns = 0;
         for (int col = 0; col < table.getNumCols(); col++) {
-            DataTypeClassifier.DataType cType = table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType();
+            DataTypeClassifier.DataType cType = table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType();
             if (cType.equals(DataTypeClassifier.DataType.ORDERED_NUMBER) ||
                     cType.equals(DataTypeClassifier.DataType.EMPTY) ||
                     cType.equals(DataTypeClassifier.DataType.LONG_TEXT))
@@ -187,8 +187,8 @@ public class TMPInterpreter {
         TColumnFeature cf = table.getColumnHeader(main_subject_column).getFeature();
         //relationScores = relationScores * cf.getValueDiversity();
 
-        double diversity = cf.getCellValueDiversity() + cf.getTokenValueDiversity();
-        return (entityScores + relationScores) * diversity * ((table.getNumRows() - cf.getEmptyCells()) / (double) table.getNumRows());
+        double diversity = cf.getUniqueCellCount() + cf.getUniqueTokenCount();
+        return (entityScores + relationScores) * diversity * ((table.getNumRows() - cf.getEmptyCellCount()) / (double) table.getNumRows());
     }
 
     private boolean ignoreColumn(Integer i) {

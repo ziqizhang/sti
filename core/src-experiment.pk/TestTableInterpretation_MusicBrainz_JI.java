@@ -6,7 +6,7 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.sti.algorithm.ji.*;
 import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.SubjectColumnDetector;
+import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.sti.rep.Table;

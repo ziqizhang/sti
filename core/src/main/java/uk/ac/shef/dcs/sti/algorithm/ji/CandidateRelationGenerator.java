@@ -33,7 +33,7 @@ public class CandidateRelationGenerator {
                 = new HashMap<Integer, DataTypeClassifier.DataType>();
         for (int c = 0; c < table.getNumCols(); c++) {
             DataTypeClassifier.DataType type =
-                    table.getColumnHeader(c).getTypes().get(0).getCandidateType();
+                    table.getColumnHeader(c).getTypes().get(0).getType();
             colTypes.put(c, type);
         }
 
@@ -49,13 +49,13 @@ public class CandidateRelationGenerator {
         }
         System.out.println("\t\t>>Relations derived from rows");
         for (int subjectColumn : subjectColumnsToConsider) {  //choose a column to be subject column (must be NE column)
-            if (!table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+            if (!table.getColumnHeader(subjectColumn).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                 continue;
 
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
                 if (subjectColumn == objectColumn||TI_JointInference.ignoreColumn(objectColumn, ignoreColumns))
                     continue;
-                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(objectColumn).getFeature().getMostDataType().getCandidateType();
+                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(objectColumn).getFeature().getMostFrequentDataType().getType();
                 if (!columnDataType.equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 System.out.print("(" + subjectColumn + "-" + objectColumn + ",");
@@ -84,12 +84,12 @@ public class CandidateRelationGenerator {
         //using pairs of column headers to compute candidate relations between columns, update tableannotation object
         System.out.println("\t\t>>Relations derived from headers");
         for (int subjectColumn : subjectColumnsToConsider) {  //choose a column to be subject column (must be NE column)
-            if (!table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+            if (!table.getColumnHeader(subjectColumn).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                 continue;
 
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
                 if (subjectColumn == objectColumn||TI_JointInference.ignoreColumn(objectColumn, ignoreColumns)) continue;
-                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(objectColumn).getFeature().getMostDataType().getCandidateType();
+                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(objectColumn).getFeature().getMostFrequentDataType().getType();
                 if (!columnDataType.equals(DataTypeClassifier.DataType.NAMED_ENTITY)) continue;
                 System.out.print("(" + subjectColumn + "-" + objectColumn + ",");
                 createRelationCandidateBetweenConceptCandidates(subjectColumn,
@@ -103,11 +103,11 @@ public class CandidateRelationGenerator {
         System.out.println("\t\t>>Update entity-relation scores");
         //further, update entity-relation scores, to account for 1:n relations
         for (int subjectColumn : subjectColumnsToConsider) {  //choose a column to be subject column (must be NE column)
-            if (!table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+            if (!table.getColumnHeader(subjectColumn).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                 continue;
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
                 if (subjectColumn == objectColumn||TI_JointInference.ignoreColumn(objectColumn, ignoreColumns)) continue;
-                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(objectColumn).getFeature().getMostDataType().getCandidateType();
+                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(objectColumn).getFeature().getMostFrequentDataType().getType();
                 if (!columnDataType.equals(DataTypeClassifier.DataType.NAMED_ENTITY)) continue;
                 System.out.print("(" + subjectColumn + "-" + objectColumn + ",");
                 for (int r = 0; r < table.getNumRows(); r++) {

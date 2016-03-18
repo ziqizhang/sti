@@ -7,7 +7,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
+import uk.ac.shef.dcs.sti.rep.TColumnHeader;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
@@ -62,7 +62,7 @@ public class TableXtractorMSN extends TableXtractor {
 
         if (actors.size() > 0) {
             Table table = new Table(sourceId, sourceId, actors.size(), 1);
-            table.setColumnHeader(0, new LTableColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue()));
+            table.setColumnHeader(0, new TColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue()));
             table.addContext(allhtmltext);
             for (LTableContext ltc : contexts)
                 table.addContext(ltc);

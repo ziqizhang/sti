@@ -275,7 +275,7 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
         if (bag_of_words_for_header != null)
             return bag_of_words_for_header;
         Set<String> bow = new HashSet<String>();
-        LTableColumnHeader header = table.getColumnHeader(column);
+        TColumnHeader header = table.getColumnHeader(column);
         if (header != null &&
                 header.getHeaderText() != null &&
                 !header.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue())) {

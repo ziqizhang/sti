@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.TColumnFeatureGenerator;
+import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.TColumnFeatureGenerator;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
@@ -31,7 +31,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
- * for each table in Limaye dataset, try to match columns with corresponding tables in the most up-to-date wikipedia page table;
+ * for each table in Limaye dataset, try to score columns with corresponding tables in the most up-to-date wikipedia page table;
  * then each cell is searched in the column, if a cell text matches a link text in any cell in the column, it is assigned the link
  */
 public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikitables {
@@ -194,10 +194,10 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
                                String annotationFile) throws IOException, TransformerException, ParserConfigurationException {
         //saveAsLimaye(table, rawFile);
         StringBuilder annotation = new StringBuilder();
-        TColumnFeatureGenerator.generateColumnDataTypes(limaye_table);
+        TColumnFeatureGenerator.setColumnDataTypes(limaye_table);
 
         for (int c = 0; c < limaye_table.getNumCols(); c++) {
-            DataTypeClassifier.DataType type = limaye_table.getColumnHeader(c).getTypes().get(0).getCandidateType();
+            DataTypeClassifier.DataType type = limaye_table.getColumnHeader(c).getTypes().get(0).getType();
             if (type.equals(DataTypeClassifier.DataType.NUMBER) || type.equals(DataTypeClassifier.DataType.DATE) ||
                     type.equals(DataTypeClassifier.DataType.ORDERED_NUMBER) ||
                     type.equals(DataTypeClassifier.DataType.LONG_TEXT) ||

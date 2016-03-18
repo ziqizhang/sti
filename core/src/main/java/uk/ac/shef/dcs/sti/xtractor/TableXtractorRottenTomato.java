@@ -7,8 +7,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.sti.STIException;
+import uk.ac.shef.dcs.sti.rep.TColumnHeader;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
@@ -71,7 +71,7 @@ public class TableXtractorRottenTomato extends TableXtractor {
                 for (LTableContext ltc : contexts)
                     table.addContext(ltc);
 
-                table.setColumnHeader(0, new LTableColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue()));
+                table.setColumnHeader(0, new TColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue()));
                 int i=0;
                 for(Node it: items){
                     String content="";

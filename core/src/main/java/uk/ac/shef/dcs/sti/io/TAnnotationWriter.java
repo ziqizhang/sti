@@ -151,7 +151,7 @@ public class TAnnotationWriter {
                             s.append("|").append(ha.getAnnotation_url());
                     }
                 }
-                if(table.getColumnHeader(c).getFeature().getMostDataType().getCandidateType().equals(
+                if(table.getColumnHeader(c).getFeature().getMostFrequentDataType().getType().equals(
                         DataTypeClassifier.DataType.NAMED_ENTITY
                 ))
                     s.append("\t\t\t___NE");
@@ -249,7 +249,7 @@ public class TAnnotationWriter {
         out.append("<tr>\n");
         for (int col = 0; col < table.getNumCols(); col++) {
             String color = col == tab_annotations.getSubjectColumn() ? " bgcolor=\"yellow\"" : "";
-            LTableColumnHeader header = table.getColumnHeader(col);
+            TColumnHeader header = table.getColumnHeader(col);
             if(header==null)
                 continue;
             out.append("\t<th").append(color).append(">").append(header.getHeaderText()).append("</th>\n");
@@ -315,7 +315,7 @@ public class TAnnotationWriter {
         StringBuilder out = new StringBuilder();
         out.append("<tr>\n");
         for (int col = 0; col < table.getNumCols(); col++) {
-            LTableColumnHeader header = table.getColumnHeader(col);
+            TColumnHeader header = table.getColumnHeader(col);
             if(header==null)
                 continue;
             out.append("\t<th>").append(header.getHeaderText()).append("</th>\n");

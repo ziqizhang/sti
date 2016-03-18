@@ -64,7 +64,7 @@ public class TableHODetectorByHTMLTag implements TableHODetector {
                     choose horizontal
              */
             if (countRowTh == elements.get(0).size()) {   //in rare occasions (mostly because of ill-used html tags
-                //you can get obscure <th> tags in a row and # of this tags wont match
+                //you can get obscure <th> tags in a row and # of this tags wont score
             } else if (countRowTh < countColTh)
                 horizontalHeader = false;
 

@@ -100,13 +100,13 @@ public class GS_Stats_Limaye {
             table = new Table(String.valueOf(tableFilename.hashCode()), tableFilename, rows.size() - 1, totalCol);
             rowModifier = 1;
             for (int j = 0; j < totalCol; j++) {
-                LTableColumnHeader header = new LTableColumnHeader(rows.get(0)[j]);
+                TColumnHeader header = new TColumnHeader(rows.get(0)[j]);
                 table.setColumnHeader(j, header);
             }
         } else {//no header, need to add false headers
             table = new Table(String.valueOf(tableFilename.hashCode()), tableFilename, rows.size(), totalCol);
             for (int j = 0; j < totalCol; j++) {
-                LTableColumnHeader header = new LTableColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue());
+                TColumnHeader header = new TColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue());
                 table.setColumnHeader(j, header);
             }
         }

@@ -222,7 +222,7 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
 
             if (overwrite || (!overwrite && score_ctx_header_text == null)) {
                 String headerText = "";
-                LTableColumnHeader header = table.getColumnHeader(column);
+                TColumnHeader header = table.getColumnHeader(column);
                 if (header != null &&
                         header.getHeaderText() != null &&
                         !header.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue())) {
@@ -330,7 +330,7 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
         List<String> bow = new ArrayList<String>();
 
         // for (int c = 0; c < table.getNumCols(); c++) {
-        LTableColumnHeader header = table.getColumnHeader(column);
+        TColumnHeader header = table.getColumnHeader(column);
         if (header != null &&
                 header.getHeaderText() != null &&
                 !header.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue())) {

@@ -9,9 +9,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.rep.TColumnHeader;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -145,13 +145,13 @@ public class DataStats_TableSize_NameLength_Analysis_LimayeNew {
                 rows.set(0, modified);
             }
             for (int j = 0; j < totalCol; j++) {
-                LTableColumnHeader header = new LTableColumnHeader(rows.get(0)[j]);
+                TColumnHeader header = new TColumnHeader(rows.get(0)[j]);
                 table.setColumnHeader(j, header);
             }
         } else {//no header, need to add false headers
             table = new Table(String.valueOf(tableFilename.hashCode()), tableFilename, rows.size(), totalCol);
             for (int j = 0; j < totalCol; j++) {
-                LTableColumnHeader header = new LTableColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue());
+                TColumnHeader header = new TColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue());
                 table.setColumnHeader(j, header);
             }
         }

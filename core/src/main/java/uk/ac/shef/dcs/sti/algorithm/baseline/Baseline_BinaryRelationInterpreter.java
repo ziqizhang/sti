@@ -31,7 +31,7 @@ public class Baseline_BinaryRelationInterpreter {
                 = new HashMap<Integer, DataTypeClassifier.DataType>();
         for (int c = 0; c < table.getNumCols(); c++) {
             DataTypeClassifier.DataType type =
-                    table.getColumnHeader(c).getTypes().get(0).getCandidateType();
+                    table.getColumnHeader(c).getTypes().get(0).getType();
             if (type.equals(DataTypeClassifier.DataType.ORDERED_NUMBER))
                 continue; //ordered numbered columns are not interesting
             else

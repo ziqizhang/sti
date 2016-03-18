@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.algorithm.smp;
 import cern.colt.matrix.ObjectMatrix2D;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.SubjectColumnDetector;
+import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.*;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
@@ -71,9 +71,9 @@ public class TI_SemanticMessagePassing {
                 }
             } else {
                 if (ignoreColumn(col, ignoreColumns)) continue;
-                if (!table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+                if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
-                /*if (table.getColumnHeader(col).getFeature().isCode_or_Acronym())
+                /*if (table.getColumnHeader(col).getFeature().isAcronymColumn())
                     continue;*/
                 //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
                 System.out.println("\t\t>> Column=" + col);
@@ -144,7 +144,7 @@ public class TI_SemanticMessagePassing {
                 columnClassifier.rankColumnConcepts(tab_annotations, table, col);
             } else {
                 if (ignoreColumn(col, ignoreColumns)) continue;
-                if (!table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+                if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 System.out.println("\t\t>> Column=" + col);
                 columnClassifier.rankColumnConcepts(tab_annotations, table, col);

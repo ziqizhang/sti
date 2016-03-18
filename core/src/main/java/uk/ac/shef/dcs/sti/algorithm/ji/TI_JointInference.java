@@ -8,7 +8,7 @@ import cc.mallet.grmm.types.FactorGraph;
 import cc.mallet.grmm.types.Variable;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.SubjectColumnDetector;
+import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.misc.TableAnnotationChecker;
 import uk.ac.shef.dcs.sti.rep.*;
@@ -85,9 +85,9 @@ public class TI_JointInference {
                 graphNonEmpty=true;
             } else {
                 if (ignoreColumn(col, ignoreColumnsLocal)) continue;
-                if (!table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+                if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
-                                /*if (table.getColumnHeader(col).getFeature().isCode_or_Acronym())
+                                /*if (table.getColumnHeader(col).getFeature().isAcronymColumn())
                     continue;*/
                 //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
                 System.out.println("\t\t>> Column=" + col);
@@ -175,7 +175,7 @@ public class TI_JointInference {
                 columnClassifier.generateCandidateConcepts(tab_annotations, table, col);
             } else {
                 if (ignoreColumn(col,ignoreColumnsLocal )) continue;
-                if (!table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+                if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 System.out.println("\t\t>> Column=" + col);
                 columnClassifier.generateCandidateConcepts(tab_annotations, table, col);

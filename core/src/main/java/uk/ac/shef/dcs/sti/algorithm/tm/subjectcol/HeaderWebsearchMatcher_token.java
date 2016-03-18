@@ -1,12 +1,10 @@
-package uk.ac.shef.dcs.sti.algorithm.tm.maincol;
+package uk.ac.shef.dcs.sti.algorithm.tm.subjectcol;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import uk.ac.shef.dcs.sti.nlp.TermFreqCounter;
 import uk.ac.shef.dcs.websearch.SearchResultParser;
 import uk.ac.shef.dcs.websearch.WebSearch;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
-import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
-import uk.ac.shef.dcs.websearch.bing.v2.BingSearchResultParser;
 import uk.ac.shef.dcs.websearch.WebSearchResultDoc;
 
 import java.io.IOException;

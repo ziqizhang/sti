@@ -39,14 +39,14 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
             Object o = preTable.get(0, c);
             if (o == null) { //a null value will be inserted by TableHODetector if no user defined header was found
                 //todo:header type
-                LTableColumnHeader header = new LTableColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue());
+                TColumnHeader header = new TColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue());
                 table.setColumnHeader(c, header);
             } else {
                 Node e = (Node) o;
                 String text = e.getTextContent();
                 String xPath = DomUtils.getXPathForNode(e);
 
-                LTableColumnHeader header = new LTableColumnHeader(text);
+                TColumnHeader header = new TColumnHeader(text);
                 header.setHeaderXPath(xPath);
 
                 //set header text

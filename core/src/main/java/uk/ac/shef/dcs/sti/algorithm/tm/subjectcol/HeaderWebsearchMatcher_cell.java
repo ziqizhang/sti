@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.algorithm.tm.maincol;
+package uk.ac.shef.dcs.sti.algorithm.tm.subjectcol;
 
 import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
 import uk.ac.shef.dcs.websearch.bing.v2.BingSearchResultParser;

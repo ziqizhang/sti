@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.algorithm.tm.maincol;
+package uk.ac.shef.dcs.sti.algorithm.tm.subjectcol;
 
 import java.io.Serializable;
 
@@ -6,12 +6,16 @@ import java.io.Serializable;
  */
 public class TColumnFeature implements Serializable {
 
+    private static final long serialVersionUID = -1208225814300474918L;
+
     private int colId;
     private int numRows;
 
-    private TColumnDataType mostDataType;
+    private TColumnDataType mostFrequentDataType;
     private boolean isFirstNEColumn;
-    private boolean isTheOnlyNEColumn;
+    private boolean isOnlyNEColumn;
+    private boolean isOnlyNonEmptyNEColumn;
+    private boolean isOnlyNonDuplicateNEColumn;
     private double cellValueDiversity;
     private double tokenValueDiversity;
     private double contextMatchScore;
@@ -41,12 +45,12 @@ public class TColumnFeature implements Serializable {
         this.numRows = numRows;
     }
 
-    public TColumnDataType getMostDataType() {
-        return mostDataType;
+    public TColumnDataType getMostFrequentDataType() {
+        return mostFrequentDataType;
     }
 
-    public void setMostDataType(TColumnDataType mostDataType) {
-        this.mostDataType = mostDataType;
+    public void setMostFrequentDataType(TColumnDataType mostFrequentDataType) {
+        this.mostFrequentDataType = mostFrequentDataType;
     }
 
     public boolean isFirstNEColumn() {
@@ -57,15 +61,15 @@ public class TColumnFeature implements Serializable {
         isFirstNEColumn = firstNEColumn;
     }
 
-    public double getCellValueDiversity() {
+    public double getUniqueCellCount() {
         return cellValueDiversity;
     }
 
-    public void setCellValueDiversity(double valueDiversity) {
+    public void setUniqueCellCount(double valueDiversity) {
         this.cellValueDiversity = valueDiversity;
     }
 
-    public double getContextMatchScore() {
+    public double getCMScore() {
         return contextMatchScore;
     }
 
@@ -73,7 +77,7 @@ public class TColumnFeature implements Serializable {
         this.contextMatchScore = contextMatchScore;
     }
 
-    public double getWebSearchScore() {
+    public double getWSScore() {
         return webSearchScore;
     }
 
@@ -81,19 +85,19 @@ public class TColumnFeature implements Serializable {
         this.webSearchScore = webSearchScore;
     }
 
-    public boolean isTheOnlyNEColumn() {
-        return isTheOnlyNEColumn;
+    public boolean isOnlyNEColumn() {
+        return isOnlyNEColumn;
     }
 
-    public void setTheOnlyNEColumn(boolean theOnlyNEColumn) {
-        isTheOnlyNEColumn = theOnlyNEColumn;
+    public void setOnlyNEColumn(boolean onlyNEColumn) {
+        isOnlyNEColumn = onlyNEColumn;
     }
 
-    public int getEmptyCells() {
+    public int getEmptyCellCount() {
         return emptyCells;
     }
 
-    public void setEmptyCells(int emptyCells) {
+    public void setEmptyCellCount(int emptyCells) {
         this.emptyCells = emptyCells;
     }
 
@@ -105,11 +109,11 @@ public class TColumnFeature implements Serializable {
         isIvalidPOS = ivalidPOS;
     }
 
-    public boolean isCode_or_Acronym() {
+    public boolean isAcronymColumn() {
         return isCode_or_Acronym;
     }
 
-    public void setCode_or_Acronym(boolean code_or_Acronym) {
+    public void setAcronymColumn(boolean code_or_Acronym) {
         isCode_or_Acronym = code_or_Acronym;
     }
 
@@ -117,11 +121,27 @@ public class TColumnFeature implements Serializable {
         return String.valueOf(colId);
     }
 
-    public double getTokenValueDiversity() {
+    public double getUniqueTokenCount() {
         return tokenValueDiversity;
     }
 
-    public void setTokenValueDiversity(double tokenValueDiversity) {
+    public void setUniqueTokenCount(double tokenValueDiversity) {
         this.tokenValueDiversity = tokenValueDiversity;
+    }
+
+    public boolean isOnlyNonEmptyNEColumn() {
+        return isOnlyNonEmptyNEColumn;
+    }
+
+    public void setIsOnlyNonEmptyNEColumn(boolean isOnlyNonEmptyNEColumn) {
+        this.isOnlyNonEmptyNEColumn = isOnlyNonEmptyNEColumn;
+    }
+
+    public boolean isOnlyNonDuplicateNEColumn() {
+        return isOnlyNonDuplicateNEColumn;
+    }
+
+    public void setIsOnlyNonDuplicateNEColumn(boolean isOnlyNonDuplicateNEColumn) {
+        this.isOnlyNonDuplicateNEColumn = isOnlyNonDuplicateNEColumn;
     }
 }

@@ -7,7 +7,7 @@ import org.w3c.dom.NodeList;
 import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
+import uk.ac.shef.dcs.sti.rep.TColumnHeader;
 import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.util.XPathUtils;
 
@@ -31,7 +31,7 @@ public class TableObjCreatorMusicBrainz implements TableObjCreator {
             Object o = preTable.get(0, c);
             if (o == null) { //a null value will be inserted by TableHODetector if no user defined header was found
                 //todo: header column type
-                LTableColumnHeader header = new LTableColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue());
+                TColumnHeader header = new TColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue());
                 table.setColumnHeader(c, header);
 
             } else {
@@ -40,7 +40,7 @@ public class TableObjCreatorMusicBrainz implements TableObjCreator {
                 String text = e.getTextContent();
                 String xPath = DomUtils.getXPathForNode(e);
 
-                LTableColumnHeader header = new LTableColumnHeader(text);
+                TColumnHeader header = new TColumnHeader(text);
                 header.setHeaderXPath(xPath);
                 table.setColumnHeader(c, header);
             }

@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.algorithm.tm.maincol;
+package uk.ac.shef.dcs.sti.algorithm.tm.subjectcol;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
@@ -12,23 +12,23 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * produces matching statistics of a table's header and its contexts. can only match headers that are NOT STOPWORDS
+ * produces matching statistics of a table's header and its contexts. can only score headers that are NOT STOPWORDS
  * <p/>
  * <p/>
  * <p/>
  * <p/>
  * the scoring algorithm is implemented in this class
  */
-class HeaderAndContextMatcher {
+class CMScorer {
 
     private double minimum_context_score = 0.5;
-    private int maximum_context_to_match = 5; //except title, caption, match a maximum of 5 context blocks around the table
+    private int maximum_context_to_match = 5; //except title, caption, score a maximum of 5 context blocks around the table
     private double major_context_weight_multiplier = 2.0; //major context blocks, i.e., titles, captions, plural word matches
     // are considered more important. if matched, their scores is multiplied by this factor
     private Lemmatizer lemmatizer;
     private List<String> stopwords;
 
-    public HeaderAndContextMatcher(String nlpResource) throws IOException {
+    public CMScorer(String nlpResource) throws IOException {
         this.lemmatizer = NLPTools.getInstance(nlpResource).getLemmatizer();
         try {
             stopwords = FileUtils.readList(nlpResource + File.separator + "stoplist.txt", false);
@@ -39,10 +39,10 @@ class HeaderAndContextMatcher {
     }
 
     //returns a map between column index and matching score
-    public Map<Integer, Double> match(Table table, int... col_indexes) {
+    public Map<Integer, Double> score(Table table, int... col_indexes) {
         Map<Integer, Double> scores = new HashMap<Integer, Double>();
 
-        //process headers to match against
+        //process headers to score against
         Map<Integer, List<String>> headerKeywords = new HashMap<Integer, List<String>>();
         for (int col_id : col_indexes) {
             List<String> searchWords = new ArrayList<String>();

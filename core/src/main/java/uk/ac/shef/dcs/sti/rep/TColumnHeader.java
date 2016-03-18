@@ -1,22 +1,25 @@
 package uk.ac.shef.dcs.sti.rep;
 
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.TColumnDataType;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.TColumnFeature;
+import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.TColumnDataType;
+import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.TColumnFeature;
 
 import java.io.Serializable;
 import java.util.List;
 
 /**
  */
-public class LTableColumnHeader implements Serializable
+public class TColumnHeader implements Serializable
 
 {
+
+    private static final long serialVersionUID = -1638925814000405913L;
+
     private String headerText;    //the raw text found in the table cell
     private String xPath; //xpath that extracts this value
     private List<TColumnDataType> type;
     private TColumnFeature feature;
 
-    public LTableColumnHeader(String text){
+    public TColumnHeader(String text){
         this.headerText=text;
     }
 

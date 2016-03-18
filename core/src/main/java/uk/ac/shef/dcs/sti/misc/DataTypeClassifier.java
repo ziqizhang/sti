@@ -206,6 +206,7 @@ public class DataTypeClassifier implements Serializable {
         NAMED_ENTITY("ne");  //strings likely to be named entities
 
         private String value;
+        private static final long serialVersionUID = -1208425578110405913L;
 
         private DataType(String value) {
             this.value = value;
@@ -218,6 +219,8 @@ public class DataTypeClassifier implements Serializable {
         public void setValue(String value) {
             this.value = value;
         }
+
+
     }
 
 }

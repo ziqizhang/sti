@@ -9,8 +9,8 @@ import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
+import uk.ac.shef.dcs.sti.rep.TColumnHeader;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
 import uk.ac.shef.dcs.util.StringUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.*;
 
@@ -185,7 +185,7 @@ public class Base_TM_no_Update_ClassificationScorer {
             Double score_ctx_header_text = ha.getScoreElements().get(HeaderAnnotation.SCORE_CTX_NAME_MATCH);
 
             if (score_ctx_header_text == null) {
-                LTableColumnHeader header = table.getColumnHeader(column);
+                TColumnHeader header = table.getColumnHeader(column);
                 if (header != null &&
                         header.getHeaderText() != null &&
                         !header.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue())) {

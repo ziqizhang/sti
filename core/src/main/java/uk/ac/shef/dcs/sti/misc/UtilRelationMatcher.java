@@ -91,7 +91,7 @@ public class UtilRelationMatcher {
                         DataTypeClassifier.DataType type_of_string2,
                         Collection<String> stopWords,
                         AbstractStringMetric stringSimilarity) {
-        //in some cases certain types do not match
+        //in some cases certain types do not score
         if (type_of_string1.equals(DataTypeClassifier.DataType.NAMED_ENTITY) &&
                 (type_of_string2.equals(DataTypeClassifier.DataType.NUMBER) || type_of_string2.equals(DataTypeClassifier.DataType.DATE)))
             return 0.0;
@@ -105,7 +105,7 @@ public class UtilRelationMatcher {
                 type_of_string2.equals(DataTypeClassifier.DataType.LONG_STRING))
             return 0.0;
 
-        //match number
+        //score number
         double score = -1.0;
         if (type_of_string1.equals(DataTypeClassifier.DataType.NUMBER) &&
                 (type_of_string2.equals(DataTypeClassifier.DataType.NUMBER))) {

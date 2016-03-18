@@ -24,7 +24,7 @@ public class RelationLearner {
                 = new HashMap<Integer, DataTypeClassifier.DataType>();
         for (int c = 0; c < table.getNumCols(); c++) {
             DataTypeClassifier.DataType type =
-                    table.getColumnHeader(c).getTypes().get(0).getCandidateType();
+                    table.getColumnHeader(c).getTypes().get(0).getType();
             colTypes.put(c, type);
         }
 
@@ -39,13 +39,13 @@ public class RelationLearner {
             }
         }
         for (int subjectColumn :subjectColumnsToConsider) {  //choose a column to be subject column (must be NE column)
-            if (!table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+            if (!table.getColumnHeader(subjectColumn).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                 continue;
 
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
                 if (subjectColumn == objectColumn)
                     continue;
-                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(subjectColumn).getFeature().getMostDataType().getCandidateType();
+                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(subjectColumn).getFeature().getMostFrequentDataType().getType();
                 if (columnDataType.equals(DataTypeClassifier.DataType.EMPTY) || columnDataType.equals(DataTypeClassifier.DataType.LONG_TEXT) ||
                         columnDataType.equals(DataTypeClassifier.DataType.ORDERED_NUMBER))
                     continue;

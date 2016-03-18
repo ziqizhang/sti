@@ -6,7 +6,7 @@ import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTableColumnHeader;
+import uk.ac.shef.dcs.sti.rep.TColumnHeader;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -45,7 +45,7 @@ public class TAnnotationWriter_SMP extends TAnnotationWriter {
                                 s.append("|").append(ha.getAnnotation_url());
                         }
                     }
-                    if (table.getColumnHeader(c).getFeature().getMostDataType().getCandidateType().equals(
+                    if (table.getColumnHeader(c).getFeature().getMostFrequentDataType().getType().equals(
                             DataTypeClassifier.DataType.NAMED_ENTITY
                     ))
                         s.append("\t\t\t___NE");
@@ -61,7 +61,7 @@ public class TAnnotationWriter_SMP extends TAnnotationWriter {
         StringBuilder out = new StringBuilder();
         out.append("<tr>\n");
         for (int col = 0; col < table.getNumCols(); col++) {
-            LTableColumnHeader header = table.getColumnHeader(col);
+            TColumnHeader header = table.getColumnHeader(col);
             if(header==null)
                 continue;
             out.append("\t<th>").append(header.getHeaderText()).append("</th>\n");

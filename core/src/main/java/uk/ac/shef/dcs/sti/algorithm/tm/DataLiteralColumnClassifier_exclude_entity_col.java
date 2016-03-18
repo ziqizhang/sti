@@ -29,8 +29,8 @@ public class DataLiteralColumnClassifier_exclude_entity_col extends DataLiteralC
             Key_SubjectCol_ObjectCol subcol_objcol = e.getKey();
             if (ignoreColumn(subcol_objcol.getObjectCol())) continue;
             /*if (table.getColumnHeader(subcol_objcol.getObjectCol()).getFeature()
-                    .getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY) &&
-                    !table.getColumnHeader(subcol_objcol.getObjectCol()).getFeature().isCode_or_Acronym()) {
+                    .getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY) &&
+                    !table.getColumnHeader(subcol_objcol.getObjectCol()).getFeature().isAcronymColumn()) {
                 if (annotations.getHeaderAnnotation(subcol_objcol.getObjectCol()) != null &&
                         annotations.getHeaderAnnotation(subcol_objcol.getObjectCol()).length > 0)
                     continue;
@@ -40,7 +40,7 @@ public class DataLiteralColumnClassifier_exclude_entity_col extends DataLiteralC
             boolean skip = false;
 
             for (int i : ne_columns) {
-                boolean isColumn_acronym_or_code = table.getColumnHeader(i).getFeature().isCode_or_Acronym();
+                boolean isColumn_acronym_or_code = table.getColumnHeader(i).getFeature().isAcronymColumn();
                 if (i == subcol_objcol.getObjectCol() && !isColumn_acronym_or_code) {
                     if (annotations.getHeaderAnnotation(i) != null &&
                             annotations.getHeaderAnnotation(i).length > 0) {

@@ -1,13 +1,9 @@
 package uk.ac.shef.dcs.sti.experiment;
 
 import javafx.util.Pair;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-import org.apache.solr.core.CoreContainer;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.SubjectColumnDetector;
-import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentTContentRowRankerImpl;
-import uk.ac.shef.dcs.sti.algorithm.tm.stopping.EntropyConvergence;
+import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;

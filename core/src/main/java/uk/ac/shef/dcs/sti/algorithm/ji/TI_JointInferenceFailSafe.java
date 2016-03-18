@@ -5,7 +5,7 @@ import cc.mallet.grmm.inference.LoopyBP;
 import cc.mallet.grmm.types.FactorGraph;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.algorithm.tm.maincol.SubjectColumnDetector;
+import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
@@ -57,9 +57,9 @@ public class TI_JointInferenceFailSafe extends TI_JointInference {
                 }
             } else {
                 if (ignoreColumn(col, ignoreColumnsLocal)) continue;
-                if (!table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+                if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
-                /*if (table.getColumnHeader(col).getFeature().isCode_or_Acronym())
+                /*if (table.getColumnHeader(col).getFeature().isAcronymColumn())
                     continue;*/
                 //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
                 System.out.println("\t\t>> Column=" + col);

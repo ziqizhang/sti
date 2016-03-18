@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.algorithm.tm.maincol;
+package uk.ac.shef.dcs.sti.algorithm.tm.subjectcol;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
@@ -62,7 +62,7 @@ class HeaderWebsearchMatcherCache {
      * @param queryId
      * @return null if no cache has been created for this queryId;
      *         an empty List object if there are no results for the queryId (i.e., the query has been executed before but no results
-     *         were found to match the query);
+     *         were found to score the query);
      */
     /*public Map<String, Double> retrieve(String queryId) throws SolrServerException, ClassNotFoundException, IOException {
         ModifiableSolrParams params = new ModifiableSolrParams();
