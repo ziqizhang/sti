@@ -11,37 +11,47 @@ import uk.ac.shef.dcs.oak.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
 import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
 
  */
 public class MainInterpreter_and_Forward_learner {
 
+    private static final Logger log = LoggerFactory.getLogger(MainInterpreter_and_Forward_learner.class);
+
     private MainColumnFinder main_col_finder;
+
     private ColumnInterpreter interpreter_column;
+
     private ColumnInterpreter_relDepend interpreter_column_with_knownReltaions;
+
     private BinaryRelationInterpreter interpreter_relation;
+
     private HeaderBinaryRelationScorer hbr_scorer;
+
     //private static Logger log = Logger.getLogger(MainInterpreter.class.getName());
     private Set<Integer> ignoreCols;
+
     private int[] forceInterpretColumn;
+
     private Backward_updater backward_updater;
 
-
     public MainInterpreter_and_Forward_learner(MainColumnFinder main_col_finder,
-                                               ColumnInterpreter interpreter_column,
-                                               ColumnInterpreter_relDepend interpreter_column_with_knownReltaions,
-                                               BinaryRelationInterpreter interpreter_relation,
-                                               int[] ignoreColumns,
-                                               int[] forceInterpretColumn,
-                                               Backward_updater backward_updater,
-                                               HeaderBinaryRelationScorer hbr_scorer) {
+            ColumnInterpreter interpreter_column,
+            ColumnInterpreter_relDepend interpreter_column_with_knownReltaions,
+            BinaryRelationInterpreter interpreter_relation,
+            int[] ignoreColumns,
+            int[] forceInterpretColumn,
+            Backward_updater backward_updater,
+            HeaderBinaryRelationScorer hbr_scorer) {
         this.main_col_finder = main_col_finder;
         this.interpreter_column = interpreter_column;
         this.interpreter_column_with_knownReltaions = interpreter_column_with_knownReltaions;
         this.interpreter_relation = interpreter_relation;
         this.ignoreCols = new HashSet<Integer>();
-        for(int i: ignoreColumns)
+        for (int i : ignoreColumns)
             ignoreCols.add(i);
         this.forceInterpretColumn = forceInterpretColumn;
         this.backward_updater = backward_updater;
@@ -50,10 +60,15 @@ public class MainInterpreter_and_Forward_learner {
 
     public LTableAnnotation start(LTable table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException, STIException {
         //1. find the main subject column of this table
-        System.out.println(">\t Detecting main column...");
+        log.info("*** Detecting main column...");
         int[] ignoreColumnsArray = new int[ignoreCols.size()];
-        for(int i=0; i<ignoreCols.size(); i++)
-            ignoreColumnsArray[i]=i;
+
+        int index = 0;
+        for (Integer i : ignoreCols) {
+            ignoreColumnsArray[index] = i;
+            index++;
+        }
+
         List<ObjObj<Integer, ObjObj<Double, Boolean>>> candidate_main_NE_columns =
                 main_col_finder.compute(table, ignoreColumnsArray);
         //ignore columns that are likely to be acronyms only, because they are highly ambiguous
@@ -67,8 +82,13 @@ public class MainInterpreter_and_Forward_learner {
         }*/
         LTableAnnotation tab_annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
         tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getMainObject());
+
+        //set also all candidates for subject column
+        tab_annotations.setCandidateNEForSubjectColumn(candidate_main_NE_columns);
+
         List<Integer> interpreted_columns = new ArrayList<Integer>();
-        System.out.println(">\t FORWARD LEARNING...");
+        log.info("*** FORWARD LEARNING...");
+        log.info("Processing table: {}", table);
         for (int col = 0; col < table.getNumCols(); col++) {
             /*if(col!=1)
                 continue;*/
@@ -77,7 +97,8 @@ public class MainInterpreter_and_Forward_learner {
                 interpreted_columns.add(col);
                 interpreter_column.interpret(table, tab_annotations, col);
             } else {
-                if (ignoreColumn(col)) continue;
+                if (ignoreColumn(col))
+                    continue;
                 if (!table.getColumnHeader(col).getFeature().getMostDataType().getCandidateType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 /*if (table.getColumnHeader(col).getFeature().isCode_or_Acronym())
@@ -92,7 +113,7 @@ public class MainInterpreter_and_Forward_learner {
         }
 
         if (backward_updater != null) {
-            System.out.println(">\t BACKWARD UPDATE...");
+            log.info("*** BACKWARD UPDATE...");
             backward_updater.update(interpreted_columns, table, tab_annotations);
         }
 
@@ -103,9 +124,10 @@ public class MainInterpreter_and_Forward_learner {
             for (ObjObj<Integer, ObjObj<Double, Boolean>> mainCol : candidate_main_NE_columns) {
                 //tab_annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
                 main_subject_column = mainCol.getMainObject();
-                if (ignoreColumn(main_subject_column)) continue;
+                if (ignoreColumn(main_subject_column))
+                    continue;
 
-                System.out.println(">\t Interpret relations with the main column, =" + main_subject_column);
+                log.info("*** Interpret relations with the main column, =" + main_subject_column);
                 int columns_having_relations_with_main_col = interpreter_relation.interpret(tab_annotations, table, main_subject_column);
                 boolean interpretable = false;
                 if (columns_having_relations_with_main_col > 0) {
@@ -131,18 +153,17 @@ public class MainInterpreter_and_Forward_learner {
                 tab_annotations = best_annotations;
             }
 
-            if (TableMinerConstants.REVISE_HBR_BY_DC && backward_updater!=null) {
+            if (TableMinerConstants.REVISE_HBR_BY_DC && backward_updater != null) {
                 List<String> domain_rep = backward_updater.construct_domain_represtation(table, tab_annotations, interpreted_columns);
                 revise_header_binary_relations(tab_annotations, domain_rep);
             }
 
             //4. consolidation-for columns that have relation with main subject column, if the column is
             // entity column, do column typing and disambiguation; otherwise, simply create header annotation
-            System.out.println(">\t Classify columns (non-NE) in relation with main column");
+            log.info("*** Classify columns (non-NE) in relation with main column");
             interpreter_column_with_knownReltaions.interpret(table, tab_annotations, interpreted_columns.toArray(new Integer[0]));
 
         }
-
 
         return tab_annotations;
     }
@@ -207,9 +228,8 @@ public class MainInterpreter_and_Forward_learner {
     }
 
     private void revise_header_binary_relations(LTableAnnotation annotation, List<String> domain_representation
-    ) {
-        for (Map.Entry<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>>
-                entry : annotation.getRelationAnnotations_across_columns().entrySet()) {
+            ) {
+        for (Map.Entry<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> entry : annotation.getRelationAnnotations_across_columns().entrySet()) {
 
             for (HeaderBinaryRelationAnnotation hbr : entry.getValue()) {
                 double domain_consensus = hbr_scorer.score_domain_consensus(hbr, domain_representation);

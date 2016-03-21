@@ -16,18 +16,24 @@ import uk.ac.shef.dcs.oak.websearch.bing.v2.BingWebSearch;
 
 import java.io.IOException;
 import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.ac.shef.dcs.oak.sti.xtractor.csv.ParserCsv;
 
 /**
 
  */
 public class ColumnFeatureGenerator {
     private HeaderAndContextMatcher ctxMatcher;
+
     private HeaderWebsearchMatcher_token websearchMatcher;
+
     private NLPTools nlpTools;
 
+    private static final Logger log = LoggerFactory.getLogger(ColumnFeatureGenerator.class);
 
     public ColumnFeatureGenerator(String cache, String nlpResource,
-                                  List<String> stopWords, String... searchAPIKeys) throws IOException {
+            List<String> stopWords, String... searchAPIKeys) throws IOException {
         ctxMatcher = new HeaderAndContextMatcher(nlpResource);
         nlpTools = NLPTools.getInstance(nlpResource);
         websearchMatcher = new HeaderWebsearchMatcher_token(
@@ -38,10 +44,10 @@ public class ColumnFeatureGenerator {
     }
 
     public ColumnFeatureGenerator(SolrServer cache, String nlpResource,
-                                  List<String> stopWords, String... searchAPIKeys) throws IOException {
+            List<String> stopWords, String... searchAPIKeys) throws IOException {
         ctxMatcher = new HeaderAndContextMatcher(nlpResource);
         websearchMatcher = new HeaderWebsearchMatcher_token(new HeaderWebsearchMatcherCache(cache),
-                new BingWebSearch(searchAPIKeys),stopWords);
+                new BingWebSearch(searchAPIKeys), stopWords);
         nlpTools = NLPTools.getInstance(nlpResource);
     }
 
@@ -67,6 +73,7 @@ public class ColumnFeatureGenerator {
 
             for (int row = 0; row < table.getNumRows(); row++) {
                 LTableContentCell tcc = table.getContentCell(row, col);
+                //                log.info("About to process table content for row and col: " + row + " " + col);
                 String textContent = tcc.getText();
                 if (textContent != null) {
                     DataTypeClassifier.DataType dt = DataTypeClassifier.classify(textContent);
@@ -180,7 +187,6 @@ public class ColumnFeatureGenerator {
             cf.setContextMatchScore(s);
         }
 
-
     }
 
     //how does each cell on each row score against a websearch result?
@@ -223,12 +229,11 @@ public class ColumnFeatureGenerator {
         return scores;
     }
 
-
     //since using web search is expensive, we can use data sampling technique to incrementally interpret main column
     public DoubleMatrix2D feature_webSearchScore_with_sampling(List<ColumnFeature> features, LTable table,
-                                                               RowSelector sampleSelector,
-                                                               StoppingCriteria stopper,
-                                                               int minimumRows) throws APIKeysDepletedException, IOException {
+            RowSelector sampleSelector,
+            StoppingCriteria stopper,
+            int minimumRows) throws APIKeysDepletedException, IOException {
 
         if (minimumRows > table.getNumRows())
             return feature_webSearchScore(features, table);
@@ -243,7 +248,6 @@ public class ColumnFeatureGenerator {
                 searchableCols.add(features.get(i).getColId());
             }
         }
-
 
         int[] rowRanking = sampleSelector.select(table);
         int rows = 0;
@@ -340,13 +344,11 @@ public class ColumnFeatureGenerator {
                     }
                 }
 
-
             }
-            if (countAcronym_or_Code > (table.getNumRows() - cf.getEmptyCells()-countAcronym_or_Code))
+            if (countAcronym_or_Code > (table.getNumRows() - cf.getEmptyCells() - countAcronym_or_Code))
                 cf.setCode_or_Acronym(true);
         }
 
     }
-
 
 }

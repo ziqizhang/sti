@@ -17,25 +17,35 @@ import java.io.IOException;
 import java.util.*;
 
 import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  */
 public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
 
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(KnowledgeBaseSearcher_Freebase.class);
+
     public static String NAME_SIMILARITY_CACHE = "similarity";
+
     private boolean commit;
+
     private FreebaseQueryHelper searcher;
-    private static Logger log = Logger.getLogger(KnowledgeBaseSearcher_Freebase.class.getName());
+
+    //private static Logger log = Logger.getLogger(KnowledgeBaseSearcher_Freebase.class.getName());
+
     protected SearchCacheSolr cacheEntity;
+
     protected SearchCacheSolr cacheConcept;
+
     protected SearchCacheSolr cacheProperty;
+
     protected Map<String, SearchCacheSolr> otherCache;
+
     protected boolean split_at_conjunction;
 
-
     public KnowledgeBaseSearcher_Freebase(String freebase_properties, boolean split_at_conjunection,
-                                          SolrServer cacheEntity, SolrServer cacheConcept,
-                                          SolrServer cacheProperty) throws IOException {
+            SolrServer cacheEntity, SolrServer cacheConcept,
+            SolrServer cacheProperty) throws IOException {
         searcher = new FreebaseQueryHelper(freebase_properties);
         if (TableMinerConstants.COMMIT_SOLR_PER_FILE)
             commit = false;
@@ -87,8 +97,9 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
             try {
                 result = (List<EntityCandidate>) cacheEntity.retrieve(toSolrKey(text));
                 if (result != null)
-                    log.warning("QUERY (cache load)=" + toSolrKey(text) + "|" + text);
+                    log.debug("QUERY (cache load)=" + toSolrKey(text) + "|" + text);
             } catch (Exception e) {
+                log.error(e.getLocalizedMessage());
             }
         }
         if (result == null) {
@@ -104,7 +115,7 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
                     if (f[0].equals("/type/object/type") &&
                             f[3].equals("n") &&
                             !ec.hasTypeId(f[2]))
-                        ec.addType(new String[]{f[2], f[1]});
+                        ec.addType(new String[] { f[2], f[1] });
                 }
             }
 
@@ -132,7 +143,8 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
                 if (queries.length > 1) {
                     for (String q : queries) {
                         q = q.trim();
-                        if (q.length() < 1) continue;
+                        if (q.length() < 1)
+                            continue;
                         result.addAll(find_matchingEntitiesForText_clientFilterTypes(q, types));
                     }
                 }
@@ -141,9 +153,9 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
             result.addAll(topics);
             try {
                 cacheEntity.cache(toSolrKey(text), result, commit);
-                log.warning("QUERY (cache save)=" + toSolrKey(text) + "|" + text);
+                log.debug("QUERY (cache save)=" + toSolrKey(text) + "|" + text);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e.getLocalizedMessage());
             }
         }
 
@@ -175,10 +187,9 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
                 ec.addType(ft);
         }
 
-        System.out.println("(QUERY_KB:" + beforeFiltering + " => " + result.size() + id);
+        log.debug("(QUERY_KB:" + beforeFiltering + " => " + result.size() + id);
         return result;
     }
-
 
     public List<String[]> find_triplesForEntity_filtered(String entityId) throws IOException {
         return find_triples_filtered(entityId, cacheEntity);
@@ -202,12 +213,13 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
             forceQuery = true;
         List<String[]> facts = new ArrayList<String[]>();
         String query = createQuery_findFacts(conceptId);
-        if (query.length() == 0) return facts;
+        if (query.length() == 0)
+            return facts;
 
         try {
             facts = (List<String[]>) cacheConcept.retrieve(toSolrKey(query));
             if (facts != null)
-                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
         } catch (Exception e) {
         }
         if (facts == null || forceQuery) {
@@ -224,7 +236,7 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
             if (!isConcept) {
                 try {
                     cacheConcept.cache(toSolrKey(query), facts, commit);
-                    log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
+                    log.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -236,14 +248,15 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
             for (String[] f : retrievedFacts) {
                 if (f[0].equals("/type/type/properties")) { //this is a property of a concept, we need to process it further
                     String propertyId = f[2];
-                    if (f[2] == null) continue;
+                    if (f[2] == null)
+                        continue;
 
                     List<String[]> triples4Property = find_triplesForProperty_filtered(propertyId);
                     for (String[] t : triples4Property) {
                         if (t[0].equals("/type/property/expected_type")) {
                             String rangeLabel = t[1];
                             String rangeURL = t[2];
-                            facts.add(new String[]{f[2], rangeLabel, rangeURL, "n"});
+                            facts.add(new String[] { f[2], rangeLabel, rangeURL, "n" });
                         }
                     }
                 } else {
@@ -252,7 +265,7 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
             }
             try {
                 cacheConcept.cache(toSolrKey(query), facts, commit);
-                log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -275,7 +288,7 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
         try {
             Object o = cacheConcept.retrieve(toSolrKey(query));
             if (o != null) {
-                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + type);
+                log.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + type);
                 return (Double) o;
             }
         } catch (Exception e) {
@@ -287,13 +300,13 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
                 result = granularity;
                 try {
                     cacheConcept.cache(toSolrKey(query), result, commit);
-                    log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + type);
+                    log.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + type);
                 } catch (Exception e) {
                     System.out.println("FAILED:" + type);
                     e.printStackTrace();
                 }
             } catch (IOException ioe) {
-                log.warning("ERROR(Instances of Type): Unable to fetch freebase page of instances of type: " + type);
+                log.warn("ERROR(Instances of Type): Unable to fetch freebase page of instances of type: " + type);
             }
         }
         if (result == null)
@@ -307,7 +320,7 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
         List<String[]> types = new ArrayList<String[]>();
         for (String[] t : triples) {
             if (t[0].equals("/type/property/expected_type")) {
-                types.add(new String[]{t[2], t[1]});
+                types.add(new String[] { t[2], t[1] });
             }
         }
         return types;
@@ -319,7 +332,7 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
         try {
             result = (List<String[]>) cacheEntity.retrieve(toSolrKey(query));
             if (result != null) {
-                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
             }
         } catch (Exception e) {
         }
@@ -328,12 +341,12 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
             List<String[]> facts = searcher.topicapi_types_of_id(id);
             for (String[] f : facts) {
                 String type = f[2]; //this is the id of the type
-                result.add(new String[]{type, f[1]});
+                result.add(new String[] { type, f[1] });
             }
             try {
                 cacheEntity.cache(toSolrKey(query), result, commit);
                 // debug_helper_method(id, facts);
-                log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -347,13 +360,14 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
             forceQuery = true;
 
         String query = createQuery_findFacts(id);
+        log.info("Query: {}", query);
         if (query.length() == 0)
             return new ArrayList<String[]>();
         List<String[]> result = null;
         try {
             result = (List<String[]>) cache.retrieve(toSolrKey(query));
             if (result != null)
-                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
         } catch (Exception e) {
         }
         if (result == null || forceQuery) {
@@ -368,9 +382,16 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
             }
             result = new ArrayList<String[]>();
             result.addAll(facts);
+            //            log.info("Results:");
+            //            for (String[] rs : result) {
+            //                for (String r : rs) {
+            //                    log.info("Result: " + r);
+            //                }
+            //                log.info("#####");
+            //            }
             try {
                 cache.cache(toSolrKey(query), result, commit);
-                log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -392,24 +413,24 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
         try {
             result = otherCache.get(NAME_SIMILARITY_CACHE).retrieve(toSolrKey(query));
             if (result != null)
-                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
         } catch (Exception e) {
         }
-        if(result==null)
+        if (result == null)
             return -1.0;
         return (Double) result;
     }
 
     public void saveSimilarity(String id1, String id2, double score, boolean biDirectional,
-                               boolean commit) {
+            boolean commit) {
         String query = id1 + "<>" + id2;
         try {
             otherCache.get(NAME_SIMILARITY_CACHE).cache(toSolrKey(query), score, commit);
-            log.warning("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
-            if(biDirectional){
+            log.warn("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
+            if (biDirectional) {
                 query = id2 + "<>" + id1;
                 otherCache.get(NAME_SIMILARITY_CACHE).cache(toSolrKey(query), score, commit);
-                log.warning("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -420,7 +441,7 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
         cacheConcept.commit();
         cacheEntity.commit();
         cacheProperty.commit();
-        for(SearchCacheSolr cache: otherCache.values())
+        for (SearchCacheSolr cache : otherCache.values())
             cache.commit();
     }
 
@@ -431,12 +452,10 @@ public class KnowledgeBaseSearcher_Freebase extends KnowledgeBaseSearcher {
         return false;
     }
 
-
     private String toSolrKey(String text) {
         //return String.valueOf(text.hashCode());
         return String.valueOf(text);
     }
-
 
     @Override
     public void finalizeConnection() {

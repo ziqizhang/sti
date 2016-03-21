@@ -7,8 +7,13 @@ import uk.ac.shef.dcs.oak.sti.rep.LTableContentCell;
 import java.util.*;
 
 /**
+ * Selects certain sample set of rows (as it is it seems that it selects all rows)
  */
 public class LTableContentRow_Sampler_nonEmpty extends RowSelector {
+    /**
+     * @param table
+     * @return Array of row numbers
+     */
     @Override
     public int[] select(LTable table) {
         int[] rs = new int[table.getNumRows()];
@@ -21,9 +26,9 @@ public class LTableContentRow_Sampler_nonEmpty extends RowSelector {
                 if (tcc.getType() != null && !tcc.getType().equals(DataTypeClassifier.DataType.UNKNOWN) &&
                         !tcc.getType().equals(DataTypeClassifier.DataType.EMPTY))
                     count_non_empty++;
-                else if(tcc.getType()==null){
+                else if (tcc.getType() == null) {
                     String cellText = tcc.getText().trim();
-                    if(cellText.length()>0)
+                    if (cellText.length() > 0)
                         count_non_empty++;
                 }
             }
@@ -38,8 +43,8 @@ public class LTableContentRow_Sampler_nonEmpty extends RowSelector {
             }
         });
 
-        for (int i=0; i<list.size(); i++){
-            rs[i]=i;
+        for (int i = 0; i < list.size(); i++) {
+            rs[i] = i;
         }
 
         return rs;
