@@ -4,6 +4,7 @@ Implementation of algorithms for semantic table implementation
 # To test TableMiner+ on top of HTML tables from IMDB:
 - download the cache, and experimental datasets, from: http://staffwww.dcs.shef.ac.uk/people/Z.Zhang/resources/tableminerplus/data.tar.gz
 - unpack data.tar.gz, then keep going to unpack contained archieves (only those related to IMDB data - cache-imdb, dataset-imdb)
+- build (mvn clean install) all the packages the sti/core depends on, which are required to run the program
 - run uk.ac.shef.dcs.oak.sti.experiment.TestTableInterpretation_IMDB with the following parameters (if you use intellij, open the project folder /sti/core, it should load all the app configurations and that saves you lots of time)
 uk.ac.shef.dcs.oak.sti.experiment.TestTableInterpretation_IMDB 1 2 3 4 5 6
 1: create the input folder which contains one HTML page from IMDB, e.g., http://www.imdb.com/title/tt0133093/ . Specify path to this folder as first param 
