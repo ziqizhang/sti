@@ -124,8 +124,8 @@ public class HeaderWebsearchMatcher_cell extends HeaderWebsearchMatcher_token {
 
 
 
-            double ordering_weight_multiplier = (candidates.size() - o) * ordering_multiplier;
-            if(!SubjectColumnDetector.use_ordering)
+            double ordering_weight_multiplier;
+            if(!WORD_ORDER_MATTERS)
                 ordering_weight_multiplier=1.0;
             double score_to_increment = offsets.get(candidate).size() * ordering_weight_multiplier * context_weight_multiplier;
 

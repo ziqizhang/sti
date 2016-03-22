@@ -8,9 +8,9 @@ import org.w3c.dom.NodeList;
 import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.rep.TColumnHeader;
+import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
-import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
@@ -43,7 +43,7 @@ public class TableXtractorRottenTomato extends TableXtractor {
 
         List<Node> tables = DomUtils.findAll(doc, "//DIV[@id='cast-info']");
         if (tables.size() > 0) {
-            List<LTableContext> contexts = new ArrayList<LTableContext>();
+            List<TContext> contexts = new ArrayList<TContext>();
             try {
                 contexts = Table_ContextExtractor_Generic.extractTableContexts(sourceId, doc);
             } catch (STIException e) {
@@ -68,7 +68,7 @@ public class TableXtractorRottenTomato extends TableXtractor {
 
                 List<Node> items = DomUtils.findAll(ul, "LI");
                 Table table = new Table(sourceId, sourceId, items.size(), 1);
-                for (LTableContext ltc : contexts)
+                for (TContext ltc : contexts)
                     table.addContext(ltc);
 
                 table.setColumnHeader(0, new TColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue()));

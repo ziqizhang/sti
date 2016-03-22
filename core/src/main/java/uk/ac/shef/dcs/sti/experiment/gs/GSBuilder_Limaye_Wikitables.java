@@ -222,7 +222,7 @@ public class GSBuilder_Limaye_Wikitables {
                     continue;
                 }
                 Table wikitable = gsBuilder.
-                        process_wikitable(theOne, f.toURI().toString(), f.toURI().toString(), original.getContexts().toArray(new LTableContext[0]));
+                        process_wikitable(theOne, f.toURI().toString(), f.toURI().toString(), original.getContexts().toArray(new TContext[0]));
 
                 if (wikitable == null) {
                     boolean fuzzy = gsBuilder.annotateTable_fuzzy(original, allLinkMap, out_gs_folder + "/" + f.getName() + ".cell.keys");
@@ -490,10 +490,10 @@ public class GSBuilder_Limaye_Wikitables {
 
 
         //write table contexts
-        for (LTableContext ltc : table.getContexts()) {
+        for (TContext ltc : table.getContexts()) {
             Element context_child = doc.createElement("context");
             Element context_score = doc.createElement("score");
-            context_score.appendChild(doc.createTextNode(String.valueOf(ltc.getRankScore())));
+            context_score.appendChild(doc.createTextNode(String.valueOf(ltc.getImportanceScore())));
             Element context_text = doc.createElement("text");
             context_text.appendChild(doc.createTextNode(ltc.getText()));
             context_child.appendChild(context_score);
@@ -588,7 +588,7 @@ public class GSBuilder_Limaye_Wikitables {
         return true;
     }
 
-    protected Table process_wikitable(Node tableNode, String tableId, String sourceId, LTableContext... contexts) {
+    protected Table process_wikitable(Node tableNode, String tableId, String sourceId, TContext... contexts) {
         Table table = xtractor.extractTable(tableNode, tableId, sourceId, contexts);
         return table;
     }

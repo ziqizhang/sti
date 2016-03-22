@@ -6,7 +6,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.any23.Any23Xtractor;
-import uk.ac.shef.dcs.sti.rep.LTableContext;
+import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.oak.any23.extension.extractor.LTriple;
 
 import java.util.ArrayList;
@@ -17,11 +17,11 @@ import java.util.List;
 public class Table_ContextExtractor_IMDB {
 
 
-    public static List<LTableContext> extract_tripleContexts(String file, Document doc) throws STIException {
+    public static List<TContext> extract_tripleContexts(String file, Document doc) throws STIException {
         List<LTriple> triples = Any23Xtractor.extract_from_file(file);
 
         //triple contexts
-        List<LTableContext> contexts = new ArrayList<LTableContext>();
+        List<TContext> contexts = new ArrayList<TContext>();
         for (LTriple lt : triples) {
             if (lt.getsXPath() != null && lt.getsXPath().toLowerCase().indexOf("table") != -1)
                 continue;
@@ -34,8 +34,8 @@ public class Table_ContextExtractor_IMDB {
             if (obj_string_value.startsWith("node") || obj_string_value.startsWith("file:/"))
                 continue;
 
-            LTableContext ltc = new LTableContext(lt.getTriple().getObject().stringValue(),
-                    LTableContext.TableContextType.CAPTION, 1.0);
+            TContext ltc = new TContext(lt.getTriple().getObject().stringValue(),
+                    TContext.TableContextType.CAPTION, 1.0);
             contexts.add(ltc);
         }
 
@@ -44,9 +44,9 @@ public class Table_ContextExtractor_IMDB {
         return contexts;
     }
 
-    public static List<LTableContext> extract_otherContexts(String file, Document doc) throws STIException {
+    public static List<TContext> extract_otherContexts(String file, Document doc) throws STIException {
         //triple contexts
-        List<LTableContext> contexts = new ArrayList<LTableContext>();
+        List<TContext> contexts = new ArrayList<TContext>();
 
 
         //paragraph contexts
@@ -61,8 +61,8 @@ public class Table_ContextExtractor_IMDB {
             text=text.trim();
             if (text.length() < 1)
                 continue;
-            LTableContext ltc = new LTableContext(text,
-                    LTableContext.TableContextType.BEFORE, 1.0);
+            TContext ltc = new TContext(text,
+                    TContext.TableContextType.BEFORE, 1.0);
 
             contexts.add(ltc);
         }
@@ -72,8 +72,8 @@ public class Table_ContextExtractor_IMDB {
             String text = n.getTextContent().trim();
             if (text.length() < 1)
                 continue;
-            LTableContext ltc = new LTableContext(text,
-                    LTableContext.TableContextType.PAGETITLE, 1.0);
+            TContext ltc = new TContext(text,
+                    TContext.TableContextType.PAGETITLE, 1.0);
             contexts.add(ltc);
         }
 

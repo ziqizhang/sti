@@ -20,8 +20,6 @@ import java.util.*;
  */
 public class SubjectColumnDetector {
 
-    public static boolean use_ordering = false;
-
     private static Logger LOG = Logger.getLogger(SubjectColumnDetector.class.getName());
     private TColumnFeatureGenerator featureGenerator;
     private TContentRowRanker tRowRanker;
@@ -136,7 +134,7 @@ public class SubjectColumnDetector {
         }*/
 
         //7.5 ====== this is a dangerous rule as it MAY overdo (have not checked thou) true positives ======
-        List<Integer> ignoreColumns = new ArrayList<Integer>();
+        List<Integer> ignoreColumns = new ArrayList<>();
         featureGenerator.setInvalidHeaderTextSyntax(featuresOfNEColumns, table);
         for (TColumnFeature cf : featuresOfNEColumns) {
             if (cf.isInvalidPOS())
@@ -145,7 +143,7 @@ public class SubjectColumnDetector {
         //if columns to be ignored due to invalid header text is less than total columns
         //to be considered,we can ignore them
         //otherwise, if we are told all columns should be ignored, dont ignore any candidate ne columns
-        if (ignoreColumns.size() != featuresOfNEColumns.size()) {
+        if (ignoreColumns.size()>0&&ignoreColumns.size() != featuresOfNEColumns.size()) {
             Iterator<TColumnFeature> it = featuresOfNEColumns.iterator();
             while (it.hasNext()) {
                 TColumnFeature cf = it.next();
@@ -167,7 +165,7 @@ public class SubjectColumnDetector {
         featureGenerator.setIsFirstNEColumn(featuresOfNEColumns);
 
         //9. generate features - context score
-        LOG.debug("Computing cm score");
+        LOG.debug("Computing cm score"); //todo more testing required for this
         featureGenerator.setCMScores(featuresOfNEColumns, table);
 
         //10. generate features - web search matcher

@@ -33,7 +33,7 @@ public class Table implements Serializable {
     private int cols; //# of columns in the table
 
     //private List<CellBinaryRelationAnnotation> relations = new ArrayList<CellBinaryRelationAnnotation>();
-    private List<LTableContext> contexts = new ArrayList<LTableContext>();
+    private List<TContext> contexts = new ArrayList<TContext>();
 
     private LTableAnnotation tableAnnotations;
 
@@ -106,11 +106,11 @@ public class Table implements Serializable {
     }
 
 
-    public List<LTableContext> getContexts() {
+    public List<TContext> getContexts() {
         return contexts;
     }
 
-    public void addContext(LTableContext context) {
+    public void addContext(TContext context) {
         contexts.add(context);
     }
 

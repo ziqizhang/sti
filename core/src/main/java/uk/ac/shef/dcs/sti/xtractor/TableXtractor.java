@@ -4,7 +4,7 @@ import cern.colt.matrix.ObjectMatrix2D;
 import org.apache.any23.extractor.html.TagSoupParser;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableContext;
+import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
 
 import java.io.*;
@@ -53,7 +53,7 @@ public abstract class TableXtractor {
      * @param sourceId
      * @return null if no valid tables are extracted; Table object if otherwise
      */
-    public Table extractTable(Node tableNode, String tableId, String sourceId, LTableContext... contexts) {
+    public Table extractTable(Node tableNode, String tableId, String sourceId, TContext... contexts) {
         /*if (sourceId.startsWith("List of U.S. state songs"))
             System.out.println();*/
         List<List<Node>> norm = normalizer.apply(tableNode);

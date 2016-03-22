@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by - on 18/03/2016.
  */
-public abstract class SubjectColumnScorer {
+abstract class SubjectColumnScorer {
 
     protected abstract Map<Integer, Pair<Double, Boolean>> score(List<TColumnFeature> featuresOfNEColumns);
 }

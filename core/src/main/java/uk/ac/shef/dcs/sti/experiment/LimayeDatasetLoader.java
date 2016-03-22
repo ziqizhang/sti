@@ -160,10 +160,10 @@ public class LimayeDatasetLoader {
                 if (textNode != null && textNode.size() > 0) {
                     String context = textNode.get(0).getTextContent();
                     if (context != null) {
-                        LTableContext ctx = null;
+                        TContext ctx = null;
                         if (i == 1)
-                            ctx = new LTableContext(context, LTableContext.TableContextType.PAGETITLE, 1.0);
-                        else ctx = new LTableContext(context, LTableContext.TableContextType.BEFORE, 1.0);
+                            ctx = new TContext(context, TContext.TableContextType.PAGETITLE, 1.0);
+                        else ctx = new TContext(context, TContext.TableContextType.BEFORE, 1.0);
 
                         table.addContext(ctx);
                     }

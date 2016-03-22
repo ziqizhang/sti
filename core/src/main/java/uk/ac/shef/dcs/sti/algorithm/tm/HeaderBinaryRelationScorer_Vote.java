@@ -223,9 +223,9 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
 
         List<String> bow = new ArrayList<String>();
         for (int i = 0; i < table.getContexts().size(); i++) {
-            LTableContext tx = table.getContexts().get(i);
-            if (tx.getType().equals(LTableContext.TableContextType.PAGETITLE) ||
-                    tx.getType().equals(LTableContext.TableContextType.CAPTION)) {
+            TContext tx = table.getContexts().get(i);
+            if (tx.getType().equals(TContext.TableContextType.PAGETITLE) ||
+                    tx.getType().equals(TContext.TableContextType.CAPTION)) {
                 bow.addAll(lemmatizer.lemmatize(
                         StringUtils.toBagOfWords(tx.getText(), true, true,TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW))
                 );
@@ -243,9 +243,9 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
 
         List<String> bow = new ArrayList<String>();
         for (int i = 0; i < table.getContexts().size(); i++) {
-            LTableContext tx = table.getContexts().get(i);
-            if (!tx.getType().equals(LTableContext.TableContextType.PAGETITLE) &&
-                    !tx.getType().equals(LTableContext.TableContextType.CAPTION)) {
+            TContext tx = table.getContexts().get(i);
+            if (!tx.getType().equals(TContext.TableContextType.PAGETITLE) &&
+                    !tx.getType().equals(TContext.TableContextType.CAPTION)) {
                 bow.addAll(lemmatizer.lemmatize(
                         StringUtils.toBagOfWords(tx.getText(), true, true,TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW))
                 );

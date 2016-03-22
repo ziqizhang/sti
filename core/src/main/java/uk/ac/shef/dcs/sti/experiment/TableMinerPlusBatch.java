@@ -231,9 +231,8 @@ public class TableMinerPlusBatch extends STIBatch {
                 System.out.println(count + "_" + sourceTableFile + " " + new Date());
                 LOG.info(">>>" + count + "_" + sourceTableFile);
 
-                if(table==null){
+                if(table==null)
                     tmp.recordFailure(count,sourceTableFile, inFile);
-                }
 
                 complete = process(tmp.interpreter,
                         table,

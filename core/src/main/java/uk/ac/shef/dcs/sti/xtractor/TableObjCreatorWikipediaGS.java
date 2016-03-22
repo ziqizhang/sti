@@ -28,10 +28,10 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
     }
 
     @Override
-    public Table create(ObjectMatrix2D preTable, String tableId, String sourceId, LTableContext... context) {
+    public Table create(ObjectMatrix2D preTable, String tableId, String sourceId, TContext... context) {
         Table table = new Table(tableId, sourceId, preTable.rows() - 1, preTable.columns());
 
-        for (LTableContext ctx : context)
+        for (TContext ctx : context)
             table.addContext(ctx);
 
         //firstly add the header row

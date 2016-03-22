@@ -59,7 +59,7 @@ public class TMPInterpreter {
             ignoreColumnsArray[index] = i;
             index++;
         }
-        List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns =
+        List<Pair<Integer, Pair<Double, Boolean>>> subjectColumnScores =
                 subjectColumnDetector.compute(table, ignoreColumnsArray);
         //ignore columns that are likely to be acronyms only, because they are highly ambiguous
         /*if (candidate_main_NE_columns.size() > 1) {
@@ -71,7 +71,7 @@ public class TMPInterpreter {
             }
         }*/
         LTableAnnotation tab_annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
-        tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getKey());
+        tab_annotations.setSubjectColumn(subjectColumnScores.get(0).getKey());
         List<Integer> interpreted_columns = new ArrayList<Integer>();
         System.out.println(">\t FORWARD LEARNING...");
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -105,7 +105,7 @@ public class TMPInterpreter {
             double best_solution_score = 0;
             int main_subject_column = -1;
             LTableAnnotation best_annotations = null;
-            for (Pair<Integer, Pair<Double, Boolean>> mainCol : candidate_main_NE_columns) {
+            for (Pair<Integer, Pair<Double, Boolean>> mainCol : subjectColumnScores) {
                 //tab_annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
                 main_subject_column = mainCol.getKey();
                 if (ignoreColumn(main_subject_column)) continue;

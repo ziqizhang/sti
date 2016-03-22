@@ -7,9 +7,9 @@ import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.TColumnFeatureGenerator;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
-import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
@@ -169,7 +169,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
                     continue;
                 }
                 Table wikitable = gsBuilder.
-                        process_wikitable(theOne, f.toURI().toString(), f.toURI().toString(), limaye_table.getContexts().toArray(new LTableContext[0]));
+                        process_wikitable(theOne, f.toURI().toString(), f.toURI().toString(), limaye_table.getContexts().toArray(new TContext[0]));
                 if (wikitable == null) {
                     System.err.println("ERROR:IRREGULAR_TABLE:" + f.getName());
                     continue;

@@ -62,6 +62,7 @@ public class BingSearch extends WebSearch{
             InputStream is = null;
             boolean keyInvalid = false;
             try {
+                //fXhmgvVQnz1aLBti87+AZlPYDXcQL0G9L2dVAav+aK0=
                 is = urlConnection.getInputStream();
             } catch (IOException ioe) {
                 System.err.println("> Bing search exception. Apps built on top may produce incorrect results.");

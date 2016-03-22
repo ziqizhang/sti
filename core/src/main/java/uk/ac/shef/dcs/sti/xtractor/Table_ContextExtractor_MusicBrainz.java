@@ -5,7 +5,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.any23.Any23Xtractor;
-import uk.ac.shef.dcs.sti.rep.LTableContext;
+import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.oak.any23.extension.extractor.LTriple;
 
 import java.util.ArrayList;
@@ -20,11 +20,11 @@ import java.util.List;
  */
 public class Table_ContextExtractor_MusicBrainz {
 
-    public static List<LTableContext> extractTableContexts(String file, Document doc) throws STIException {
+    public static List<TContext> extractTableContexts(String file, Document doc) throws STIException {
         List<LTriple> triples = Any23Xtractor.extract_from_file(file);
 
         //triple contexts
-        List<LTableContext> contexts = new ArrayList<LTableContext>();
+        List<TContext> contexts = new ArrayList<TContext>();
         for(LTriple lt : triples){
             if(lt.getsXPath()!=null&&lt.getsXPath().toLowerCase().indexOf("table")!=-1)
                 continue;
@@ -37,8 +37,8 @@ public class Table_ContextExtractor_MusicBrainz {
             if(obj_string_value.startsWith("node")||obj_string_value.startsWith("file:/")||obj_string_value.startsWith("http://"))
                 continue;
 
-            LTableContext ltc = new LTableContext(lt.getTriple().getObject().stringValue(),
-                    LTableContext.TableContextType.CAPTION, 1.0);
+            TContext ltc = new TContext(lt.getTriple().getObject().stringValue(),
+                    TContext.TableContextType.CAPTION, 1.0);
             contexts.add(ltc);
         }
 
@@ -51,8 +51,8 @@ public class Table_ContextExtractor_MusicBrainz {
             String text  =n.getTextContent().trim();
             if(text.length()<1)
                 continue;
-            LTableContext ltc = new LTableContext(text,
-                    LTableContext.TableContextType.BEFORE,1.0);
+            TContext ltc = new TContext(text,
+                    TContext.TableContextType.BEFORE,1.0);
             contexts.add(ltc);
         }
 
@@ -61,8 +61,8 @@ public class Table_ContextExtractor_MusicBrainz {
             String text  =n.getTextContent().trim();
             if(text.length()<1)
                 continue;
-            LTableContext ltc = new LTableContext(text,
-                    LTableContext.TableContextType.PAGETITLE,1.0);
+            TContext ltc = new TContext(text,
+                    TContext.TableContextType.PAGETITLE,1.0);
             contexts.add(ltc);
         }
 

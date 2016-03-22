@@ -6,9 +6,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
+import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TColumnHeader;
-import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.util.XPathUtils;
 
 /**
@@ -20,9 +20,9 @@ import uk.ac.shef.dcs.util.XPathUtils;
  */
 public class TableObjCreatorGoodreads implements TableObjCreator {
     @Override
-    public Table create(ObjectMatrix2D preTable, String tableId, String sourceId, LTableContext... contexts) {
+    public Table create(ObjectMatrix2D preTable, String tableId, String sourceId, TContext... contexts) {
         Table table = new Table(tableId, sourceId, preTable.rows() - 1, preTable.columns());
-        for (LTableContext ctx : contexts)
+        for (TContext ctx : contexts)
             table.addContext(ctx);
 
         //firstly add the header row

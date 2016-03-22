@@ -23,7 +23,7 @@ import java.util.*;
  */
 public class TColumnFeatureGenerator {
     private CMScorer cmScorer;
-    private HeaderWebsearchMatcher_token websearchMatcher;
+    private HeaderWebsearchMatcher_token wsScorer;
     private NLPTools nlpTools;
 
 
@@ -33,7 +33,7 @@ public class TColumnFeatureGenerator {
                                    String webSearchClass,
                                    String webSearchPropFile) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         cmScorer = new CMScorer(nlpResource);
-        websearchMatcher = new HeaderWebsearchMatcher_token(new HeaderWebsearchMatcherCache(cache),
+        wsScorer = new HeaderWebsearchMatcher_token(new HeaderWebsearchMatcherCache(cache),
                 new WebSearchFactory().createInstance(webSearchClass, webSearchPropFile),
                 stopWords);
         nlpTools = NLPTools.getInstance(nlpResource);
@@ -264,11 +264,11 @@ public class TColumnFeatureGenerator {
             for (int c = 0; c < searchableCols.size(); c++) {
                 int colId = searchableCols.get(c);
                 TContentCell cell = table.getContentCell(r, colId);
-                values_on_the_row[c] = websearchMatcher.normalizeString(cell.getText());
+                values_on_the_row[c] = wsScorer.normalizeString(cell.getText());
             }
 
             //perform search and compute matching scores
-            Map<String, Double> scores_on_the_row = websearchMatcher.score(values_on_the_row);
+            Map<String, Double> scores_on_the_row = wsScorer.score(values_on_the_row);
 
             // compute search results against each column in searchableCols
             for (int index = 0; index < searchableCols.size(); index++) {
@@ -297,13 +297,13 @@ public class TColumnFeatureGenerator {
             return setWSScores(features, table);
 
         DoubleMatrix2D scores = new SparseDoubleMatrix2D(table.getNumRows(), table.getNumCols());
-        Map<Object, Double> state = new HashMap<Object, Double>();
+        Map<Object, Double> state = new HashMap<>();
 
-        List<Integer> searchableCols = new ArrayList<Integer>();//which columns contain values that are searchable? (numbers ignored, for example)
-        for (int i = 0; i < features.size(); i++) {
-            DataTypeClassifier.DataType type = features.get(i).getMostFrequentDataType().getType();
+        List<Integer> searchableCols = new ArrayList<>();//which columns contain values that are searchable? (numbers ignored, for example)
+        for (TColumnFeature feature : features) {
+            DataTypeClassifier.DataType type = feature.getMostFrequentDataType().getType();
             if (type.equals(DataTypeClassifier.DataType.NAMED_ENTITY) || type.equals(DataTypeClassifier.DataType.SHORT_TEXT)) {
-                searchableCols.add(features.get(i).getColId());
+                searchableCols.add(feature.getColId());
             }
         }
 
@@ -317,11 +317,11 @@ public class TColumnFeatureGenerator {
             for (int c = 0; c < searchableCols.size(); c++) {
                 int colId = searchableCols.get(c);
                 TContentCell cell = table.getContentCell(r, colId);
-                values_in_the_cell[c] = websearchMatcher.normalizeString(cell.getText());
+                values_in_the_cell[c] = wsScorer.normalizeString(cell.getText());
             }
 
             //perform search and compute matching scores
-            Map<String, Double> scores_on_the_row = websearchMatcher.score(values_in_the_cell);
+            Map<String, Double> scores_on_the_row = wsScorer.score(values_in_the_cell);
 
             // compute search results against each column in searchableCols
             for (int index = 0; index < searchableCols.size(); index++) {
@@ -380,14 +380,13 @@ public class TColumnFeatureGenerator {
                 if (cellContent.length() == 0)
                     continue;
                 if (cellContent.length() < 15) {
-                    int countWhiteSpace = 0, countNonWhiteSpace = 0, countLetters = 0, countDigits = 0;
+                    int countWhiteSpace = 0, countLetters = 0, countDigits = 0;
                     boolean letters_are_all_cap = true;
                     for (int index = 0; index < cellContent.length(); index++) {
                         char c = cellContent.charAt(index);
                         if (Character.isWhitespace(c))
                             countWhiteSpace++;
                         else {
-                            countNonWhiteSpace++;
                             if (Character.isLetter(c)) {
                                 countLetters++;
                                 if (!Character.isUpperCase(c))

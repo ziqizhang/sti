@@ -3,15 +3,15 @@ package uk.ac.shef.dcs.sti.rep;
 import java.io.Serializable;
 
 /**
- * An LTableContext could be any textual content around an Table object.
+ * An TContext could be any textual content around an Table object.
  */
-public class LTableContext implements Serializable, Comparable<LTableContext>{
+public class TContext implements Serializable, Comparable<TContext>{
     private String text;
     private double rankScore; //how relevant is this context to the table
     private TableContextType type;
 
 
-    public LTableContext(String text, TableContextType type, double score){
+    public TContext(String text, TableContextType type, double score){
         this.text=text;
         this.rankScore=score;
         this.type=type;
@@ -24,7 +24,7 @@ public class LTableContext implements Serializable, Comparable<LTableContext>{
         this.text = text;
     }
 
-    public double getRankScore() {
+    public double getImportanceScore() {
         return rankScore;
     }
 
@@ -33,8 +33,8 @@ public class LTableContext implements Serializable, Comparable<LTableContext>{
     }
 
     @Override
-    public int compareTo(LTableContext o) {
-        return new Double(getRankScore()).compareTo(o.getRankScore());
+    public int compareTo(TContext o) {
+        return new Double(getImportanceScore()).compareTo(o.getImportanceScore());
     }
 
     public TableContextType getType() {

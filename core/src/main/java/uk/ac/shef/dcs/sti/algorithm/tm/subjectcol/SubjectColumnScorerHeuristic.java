@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by - on 18/03/2016.
  */
-public class SubjectColumnScorerHeuristic extends SubjectColumnScorer {
+ class SubjectColumnScorerHeuristic extends SubjectColumnScorer {
     private static final boolean USE_TOKEN_DIVERSITY = false;
     private static final boolean USE_MAX_SCORE_BOOST = false;
     private static final double CM_WEIGHT = 2.0; //CM score weight

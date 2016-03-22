@@ -3,8 +3,8 @@ package uk.ac.shef.dcs.sti.algorithm.tm.subjectcol;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
+import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.util.FileUtils;
 
 import java.io.File;
@@ -21,9 +21,9 @@ import java.util.*;
  */
 class CMScorer {
 
-    private double minimum_context_score = 0.5;
-    private int maximum_context_to_match = 5; //except title, caption, score a maximum of 5 context blocks around the table
-    private double major_context_weight_multiplier = 2.0; //major context blocks, i.e., titles, captions, plural word matches
+    private static final double MINIMUM_CONTEXT_SCORE = 0.5; //context blocks with an importance score lower than this will not be considered
+    private static final int MAXIMUM_CONTEXTS_TO_MATCH = 10; //except title, caption, score a maximum of 5 context blocks around the table
+    private static final double SCALAR_MAJOR_CONTEXT_WEIGHT = 2.0; //major context blocks, i.e., titles, captions, plural word matches
     // are considered more important. if matched, their scores is multiplied by this factor
     private Lemmatizer lemmatizer;
     private List<String> stopwords;
@@ -43,9 +43,9 @@ class CMScorer {
         Map<Integer, Double> scores = new HashMap<Integer, Double>();
 
         //process headers to score against
-        Map<Integer, List<String>> headerKeywords = new HashMap<Integer, List<String>>();
+        Map<Integer, List<String>> headerKeywords = new HashMap<>();
         for (int col_id : col_indexes) {
-            List<String> searchWords = new ArrayList<String>();
+            List<String> searchWords = new ArrayList<>();
 
             String keyword = table.getColumnHeader(col_id).getHeaderText();
             //searchWords.add(lemmatizer.getLemma(keyword, "NN"));
@@ -72,15 +72,15 @@ class CMScorer {
         //stop.removeAll(headerKeywords.values());
 
         //process contexts to generate word lookup maps
-        List<LTableContext> contexts = table.getContexts();
+        List<TContext> contexts = table.getContexts();
         Collections.sort(contexts);
 
         int countContextBlocks = 0;
         double score = 0.0;
-        for (LTableContext ctx : contexts) {
-            if (countContextBlocks == maximum_context_to_match)
+        for (TContext ctx : contexts) {
+            if (countContextBlocks == MAXIMUM_CONTEXTS_TO_MATCH)
                 break;
-            if (ctx.getRankScore() < minimum_context_score)
+            if (ctx.getImportanceScore() < MINIMUM_CONTEXT_SCORE)
                 continue;
 
             //collect distinct words from this context, their frequency, and plural form frequency
@@ -117,9 +117,9 @@ class CMScorer {
 
                     score = score + freq.getKey(); //if header keyword matches this word, its score is incremented by its frequency
                     score = score + freq.getValue();//if the matched word is plural, the score is further modified
-                    if (ctx.getType().equals(LTableContext.TableContextType.CAPTION)
-                            || ctx.getText().equals(LTableContext.TableContextType.PAGETITLE)) {
-                        score = score * major_context_weight_multiplier;
+                    if (ctx.getType().equals(TContext.TableContextType.CAPTION)
+                            || ctx.getType().equals(TContext.TableContextType.PAGETITLE)) {
+                        score = score * SCALAR_MAJOR_CONTEXT_WEIGHT;
                     }
                     Double prevScore = scores.get(headerKey.getKey());
                     prevScore = prevScore == null ? 0 : prevScore;
@@ -128,9 +128,9 @@ class CMScorer {
                 }
             }
 
-            //special context blocks boost the scores
-            if (ctx.getType().equals(LTableContext.TableContextType.CAPTION)
-                    || ctx.getText().equals(LTableContext.TableContextType.PAGETITLE)) {
+            //special context blocks does not count towards the maximum number of context blocks to be considered
+            if (ctx.getType().equals(TContext.TableContextType.CAPTION)
+                    || ctx.getText().equals(TContext.TableContextType.PAGETITLE)) {
             } else {
                 countContextBlocks++;
             }
@@ -139,27 +139,5 @@ class CMScorer {
         return scores;
     }
 
-    public double getMinimum_context_score() {
-        return minimum_context_score;
-    }
 
-    public void setMinimum_context_score(double minimum_context_score) {
-        this.minimum_context_score = minimum_context_score;
-    }
-
-    public int getMaximum_context_to_match() {
-        return maximum_context_to_match;
-    }
-
-    public void setMaximum_context_to_match(int maximum_context_to_match) {
-        this.maximum_context_to_match = maximum_context_to_match;
-    }
-
-    public double getMajor_context_weight_multiplier() {
-        return major_context_weight_multiplier;
-    }
-
-    public void setMajor_context_weight_multiplier(double major_context_weight_multiplier) {
-        this.major_context_weight_multiplier = major_context_weight_multiplier;
-    }
 }

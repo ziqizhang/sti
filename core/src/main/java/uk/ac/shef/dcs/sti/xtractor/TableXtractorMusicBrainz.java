@@ -5,8 +5,8 @@ import org.apache.any23.extractor.html.TagSoupParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.STIException;
+import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
@@ -38,7 +38,7 @@ public class TableXtractorMusicBrainz extends TableXtractor{
         }
 
         List<Node> tables = DomUtils.findAll(doc, "//TABLE[@class='tbl']");
-        List<LTableContext> contexts = new ArrayList<LTableContext>();
+        List<TContext> contexts = new ArrayList<TContext>();
         try {
             contexts = Table_ContextExtractor_MusicBrainz.extractTableContexts(sourceId,doc);
         } catch (STIException e) {
@@ -48,7 +48,7 @@ public class TableXtractorMusicBrainz extends TableXtractor{
         for (Node n : tables) {
             tableCount++;
 
-            LTableContext[] contexts_array = new LTableContext[contexts.size()];
+            TContext[] contexts_array = new TContext[contexts.size()];
             for (int i = 0; i < contexts.size(); i++)
                 contexts_array[i] = contexts.get(i);
             Table table = extractTable(n, String.valueOf(tableCount),

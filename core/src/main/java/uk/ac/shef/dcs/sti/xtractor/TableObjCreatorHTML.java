@@ -4,10 +4,10 @@ import cern.colt.matrix.ObjectMatrix2D;
 import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TColumnHeader;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
-import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.util.XPathUtils;
 
 /**
@@ -18,9 +18,9 @@ import uk.ac.shef.dcs.util.XPathUtils;
 public class TableObjCreatorHTML implements TableObjCreator {
 
     @Override
-    public Table create(ObjectMatrix2D preTable, String tableId, String sourceId, LTableContext... context) {
+    public Table create(ObjectMatrix2D preTable, String tableId, String sourceId, TContext... context) {
         Table table = new Table(tableId, sourceId, preTable.rows()-1, preTable.columns());
-        for (LTableContext ctx : context)
+        for (TContext ctx : context)
             table.addContext(ctx);
 
         //firstly add the header row

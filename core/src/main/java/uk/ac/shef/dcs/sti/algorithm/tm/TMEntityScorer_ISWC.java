@@ -7,7 +7,7 @@ import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
-import uk.ac.shef.dcs.sti.rep.LTableContext;
+import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.util.CollectionUtils;
@@ -118,7 +118,7 @@ public class TMEntityScorer_ISWC implements EntityScorer {
 
         /*BOW OF table table context (from paragraphs etc)*/
         bag_of_words_for_context.clear();
-        for (LTableContext tc : table.getContexts()) {
+        for (TContext tc : table.getContexts()) {
             bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tc.getText(), true, true,TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
         }
         if (lemmatizer != null)

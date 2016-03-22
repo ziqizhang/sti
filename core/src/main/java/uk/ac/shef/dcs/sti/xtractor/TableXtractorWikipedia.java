@@ -6,7 +6,7 @@ import org.apache.any23.extractor.html.TagSoupParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableContext;
+import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
@@ -48,7 +48,7 @@ public class TableXtractorWikipedia extends TableXtractor {
             tableCount++;
 
             //todo: extract contexts for table
-            LTableContext[] contexts = new LTableContext[0];
+            TContext[] contexts = new TContext[0];
 
             Table table = extractTable(tableElement, String.valueOf(tableCount),
                     sourceId, contexts);

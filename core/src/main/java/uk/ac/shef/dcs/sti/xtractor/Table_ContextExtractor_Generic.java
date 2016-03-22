@@ -4,7 +4,7 @@ import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.rep.LTableContext;
+import uk.ac.shef.dcs.sti.rep.TContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +17,10 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class Table_ContextExtractor_Generic {
-    public static List<LTableContext> extractTableContexts(String file, Document doc) throws STIException {
+    public static List<TContext> extractTableContexts(String file, Document doc) throws STIException {
 
         //triple contexts
-        List<LTableContext> contexts = new ArrayList<LTableContext>();
+        List<TContext> contexts = new ArrayList<TContext>();
 
         //paragraph contexts
         List<Node> paragraphs = DomUtils.findAll(doc, "//P");
@@ -31,8 +31,8 @@ public class Table_ContextExtractor_Generic {
             String text  =n.getTextContent().trim();
             if(text.length()<1)
                 continue;
-            LTableContext ltc = new LTableContext(text,
-                    LTableContext.TableContextType.BEFORE,1.0);
+            TContext ltc = new TContext(text,
+                    TContext.TableContextType.BEFORE,1.0);
             contexts.add(ltc);
         }
 
@@ -41,16 +41,16 @@ public class Table_ContextExtractor_Generic {
             String text  =n.getTextContent().trim();
             if(text.length()<1)
                 continue;
-            LTableContext ltc = new LTableContext(text,
-                    LTableContext.TableContextType.PAGETITLE,1.0);
+            TContext ltc = new TContext(text,
+                    TContext.TableContextType.PAGETITLE,1.0);
             contexts.add(ltc);
         }
         return contexts;
     }
 
-    public static List<LTableContext> extractTableContexts_generic_everything(String file, Document doc) throws STIException {
+    public static List<TContext> extractTableContexts_generic_everything(String file, Document doc) throws STIException {
         //triple contexts
-        List<LTableContext> contexts = new ArrayList<LTableContext>();
+        List<TContext> contexts = new ArrayList<TContext>();
 
         //paragraph contexts
         List<Node> paragraphs = DomUtils.findAll(doc, "//TABLE");
@@ -61,8 +61,8 @@ public class Table_ContextExtractor_Generic {
             String text  =n.getTextContent().trim();
             if(text.length()<1)
                 continue;
-            LTableContext ltc = new LTableContext(text,
-                    LTableContext.TableContextType.BEFORE,1.0);
+            TContext ltc = new TContext(text,
+                    TContext.TableContextType.BEFORE,1.0);
             contexts.add(ltc);
         }
 
@@ -71,8 +71,8 @@ public class Table_ContextExtractor_Generic {
             String text  =n.getTextContent().trim();
             if(text.length()<1)
                 continue;
-            LTableContext ltc = new LTableContext(text,
-                    LTableContext.TableContextType.PAGETITLE,1.0);
+            TContext ltc = new TContext(text,
+                    TContext.TableContextType.PAGETITLE,1.0);
             contexts.add(ltc);
         }
         return contexts;

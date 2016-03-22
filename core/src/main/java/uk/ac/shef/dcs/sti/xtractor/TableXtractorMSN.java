@@ -6,10 +6,10 @@ import org.jsoup.Jsoup;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TColumnHeader;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
-import uk.ac.shef.dcs.sti.rep.LTableContext;
 import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
@@ -42,19 +42,19 @@ public class TableXtractorMSN extends TableXtractor {
 
         List<Node> actors = DomUtils.findAll(doc, "//DIV[@class='MovieFeaturedCast_NameLink']");
 
-        List<LTableContext> contexts = new ArrayList<LTableContext>();
+        List<TContext> contexts = new ArrayList<TContext>();
         //  try {
         List<Node> titles = DomUtils.findAll(doc, "//TITLE");
         for (Node n : titles) {
             String text = n.getTextContent().trim();
             if (text.length() < 1)
                 continue;
-            LTableContext ltc = new LTableContext(text,
-                    LTableContext.TableContextType.PAGETITLE, 1.0);
+            TContext ltc = new TContext(text,
+                    TContext.TableContextType.PAGETITLE, 1.0);
             contexts.add(ltc);
         }
 
-        LTableContext allhtmltext = new LTableContext(Jsoup.parse(input).text(), LTableContext.TableContextType.BEFORE, 0.5);
+        TContext allhtmltext = new TContext(Jsoup.parse(input).text(), TContext.TableContextType.BEFORE, 0.5);
         /* } catch (LodieException e) {
                     e.printStackTrace();
                 }
@@ -64,7 +64,7 @@ public class TableXtractorMSN extends TableXtractor {
             Table table = new Table(sourceId, sourceId, actors.size(), 1);
             table.setColumnHeader(0, new TColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue()));
             table.addContext(allhtmltext);
-            for (LTableContext ltc : contexts)
+            for (TContext ltc : contexts)
                 table.addContext(ltc);
             for (int i = 0; i < table.getNumRows(); i++) {
                 Node n = actors.get(i);

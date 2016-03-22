@@ -18,7 +18,8 @@ public class HeaderWebsearchMatcher_token {
     protected HeaderWebsearchMatcherCache cache;
     protected WebSearch searcher;
     protected SearchResultParser resultParser;
-    protected static double TITLE_MULTIPLIER = 2.0; //if a value is found in title of a search result document, it receives higher weight
+    protected static final double TITLE_MULTIPLIER = 2.0; //if a value is found in title of a search result document, it receives higher weight
+    protected static final boolean WORD_ORDER_MATTERS = false;
     protected TermFreqCounter counter = new TermFreqCounter();
     protected List<String> stopWords;
 
@@ -181,7 +182,7 @@ public class HeaderWebsearchMatcher_token {
                 int freq = composing_token_offsets.get(candidate).size();
                 if (freq > 0) {  //exact cell value found
                     double ordering_weight_multiplier = (candidates_components.size() - o) * ordering_multiplier_components;
-                    if(!SubjectColumnDetector.use_ordering)
+                    if(!WORD_ORDER_MATTERS)
                         ordering_weight_multiplier=1.0;
                     double score_to_increment = composing_token_offsets.get(candidate).size()
                             * ordering_weight_multiplier * context_weight_multiplier;
