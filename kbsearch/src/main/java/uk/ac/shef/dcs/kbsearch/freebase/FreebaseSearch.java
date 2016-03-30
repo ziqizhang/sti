@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.kbsearch.freebase;
 
 import com.google.api.client.http.HttpResponseException;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
@@ -13,7 +14,6 @@ import uk.ac.shef.dcs.util.StringUtils;
 import java.io.IOException;
 import java.util.*;
 
-import java.util.logging.Logger;
 
 /**
  */
@@ -75,7 +75,7 @@ public class FreebaseSearch extends KBSearch {
             try {
                 result = (List<Entity>) cacheEntity.retrieve(toSolrKey(text));
                 if (result != null)
-                    log.warning("QUERY (cache load)=" + toSolrKey(text) + "|" + text);
+                    log.warn("QUERY (cache load)=" + toSolrKey(text) + "|" + text);
             } catch (Exception e) {
             }
         }
@@ -129,7 +129,7 @@ public class FreebaseSearch extends KBSearch {
             result.addAll(topics);
             try {
                 cacheEntity.cache(toSolrKey(text), result, AUTO_COMMIT);
-                log.warning("QUERY (cache save)=" + toSolrKey(text) + "|" + text);
+                log.warn("QUERY (cache save)=" + toSolrKey(text) + "|" + text);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -192,7 +192,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             facts = (List<String[]>) cacheConcept.retrieve(toSolrKey(query));
             if (facts != null)
-                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
         } catch (Exception e) {
         }
         if (facts == null || forceQuery) {
@@ -209,7 +209,7 @@ public class FreebaseSearch extends KBSearch {
             if (!isConcept) {
                 try {
                     cacheConcept.cache(toSolrKey(query), facts, AUTO_COMMIT);
-                    log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
+                    log.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -237,7 +237,7 @@ public class FreebaseSearch extends KBSearch {
             }
             try {
                 cacheConcept.cache(toSolrKey(query), facts, AUTO_COMMIT);
-                log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -260,7 +260,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             Object o = cacheConcept.retrieve(toSolrKey(query));
             if (o != null) {
-                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + type);
+                log.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + type);
                 return (Double) o;
             }
         } catch (Exception e) {
@@ -272,13 +272,13 @@ public class FreebaseSearch extends KBSearch {
                 result = granularity;
                 try {
                     cacheConcept.cache(toSolrKey(query), result, AUTO_COMMIT);
-                    log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + type);
+                    log.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + type);
                 } catch (Exception e) {
                     System.out.println("FAILED:" + type);
                     e.printStackTrace();
                 }
             } catch (IOException ioe) {
-                log.warning("ERROR(Instances of Type): Unable to fetch freebase page of instances of type: " + type);
+                log.warn("ERROR(Instances of Type): Unable to fetch freebase page of instances of type: " + type);
             }
         }
         if (result == null)
@@ -305,7 +305,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             result = (List<Clazz>) cacheEntity.retrieve(toSolrKey(query));
             if (result != null) {
-                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
             }
         } catch (Exception e) {
         }
@@ -319,7 +319,7 @@ public class FreebaseSearch extends KBSearch {
             try {
                 cacheEntity.cache(toSolrKey(query), result, AUTO_COMMIT);
                 // debug_helper_method(id, facts);
-                log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -339,7 +339,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             result = (List<String[]>) cache.retrieve(toSolrKey(query));
             if (result != null)
-                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
         } catch (Exception e) {
         }
         if (result == null || forceQuery) {
@@ -356,7 +356,7 @@ public class FreebaseSearch extends KBSearch {
             result.addAll(facts);
             try {
                 cache.cache(toSolrKey(query), result, AUTO_COMMIT);
-                log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -378,7 +378,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             result = otherCache.get(NAME_SIMILARITY_CACHE).retrieve(toSolrKey(query));
             if (result != null)
-                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
         } catch (Exception e) {
         }
         if(result==null)
@@ -391,11 +391,11 @@ public class FreebaseSearch extends KBSearch {
         String query = id1 + "<>" + id2;
         try {
             otherCache.get(NAME_SIMILARITY_CACHE).cache(toSolrKey(query), score, commit);
-            log.warning("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
+            log.warn("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
             if(biDirectional){
                 query = id2 + "<>" + id1;
                 otherCache.get(NAME_SIMILARITY_CACHE).cache(toSolrKey(query), score, commit);
-                log.warning("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
+                log.warn("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
             }
         } catch (Exception e) {
             e.printStackTrace();

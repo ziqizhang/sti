@@ -32,8 +32,6 @@ public class TableMinerPlusBatch extends STIBatch {
 
     private static final Logger LOG = Logger.getLogger(TableMinerPlusBatch.class.getName());
 
-    public static int[] IGNORE_COLUMNS = new int[]{};
-
     TMPInterpreter interpreter;
 
 

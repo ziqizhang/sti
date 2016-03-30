@@ -81,8 +81,6 @@
 		<fieldType name="pdate" class="solr.TrieDateField" precisionStep="6" positionIncrementGap="0"/>		
 		
 		
-	    <field name="payloads" type="payloads" indexed="true" stored="true"/>
-		
 		<!-- A general text field that has reasonable, generic
          cross-language defaults: it tokenizes with StandardTokenizer,
 		removes stop words from case-insensitive "stopwords.txt"
@@ -200,6 +198,7 @@
 		  and back compatibility is not guaranteed.  Names with both leading and
 		  trailing underscores (e.g. _version_) are reserved.
 	    -->
+	    <field name="_version_" type="long" indexed="true" stored="true" multiValued="false"/>
 		<field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
    	 	<field name="value" type="binary" indexed="false" stored="true" multiValued="true" omitNorms="true"/> 
 	    <field name="text" type="string"  indexed="false" stored="true" multiValued="true" omitNorms="true"/>

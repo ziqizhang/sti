@@ -26,7 +26,7 @@ public class FreebaseTypeGranularityPopulator {
             BytesRef bytesRef = doc.getBinaryValue("value");
             if(bytesRef==null)
                 continue;
-            Object object =  SerializableUtils.deserializeBase64(bytesRef.bytes);
+            Object object =  SerializationUtils.deserializeBase64(bytesRef.bytes);
             try{
                 List<EntityCandidate> entities = (List<EntityCandidate>) object;
                 for(EntityCandidate ec: entities) {

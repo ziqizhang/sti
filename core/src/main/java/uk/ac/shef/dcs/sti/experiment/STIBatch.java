@@ -4,6 +4,7 @@ import com.google.api.client.http.HttpResponseException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.algorithm.tm.TMPInterpreter;
@@ -65,6 +66,7 @@ public abstract class STIBatch {
 
     protected TAnnotationWriter writer;
 
+    private CoreContainer cores;
     private EmbeddedSolrServer entityCache;
     private EmbeddedSolrServer conceptCache;
     private EmbeddedSolrServer relationCache;
@@ -102,7 +104,11 @@ public abstract class STIBatch {
                 throw new STIException(error);
             }
 
-            entityCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_ENTITY_CACHE_CORENAME);
+            if (cores == null) {
+                entityCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_ENTITY_CACHE_CORENAME);
+                cores = entityCache.getCoreContainer();
+            } else
+                entityCache = new EmbeddedSolrServer(cores.getCore(PROPERTY_ENTITY_CACHE_CORENAME));
         }
         return entityCache;
     }
@@ -116,8 +122,11 @@ public abstract class STIBatch {
                 LOG.error(error);
                 throw new STIException(error);
             }
-
-            conceptCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_CLAZZ_CACHE_CORENAME);
+            if (cores == null) {
+                conceptCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_CLAZZ_CACHE_CORENAME);
+                cores = conceptCache.getCoreContainer();
+            } else
+                conceptCache = new EmbeddedSolrServer(cores.getCore(PROPERTY_CLAZZ_CACHE_CORENAME));
         }
         return conceptCache;
     }
@@ -131,8 +140,11 @@ public abstract class STIBatch {
                 LOG.error(error);
                 throw new STIException(error);
             }
-
-            relationCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_RELATION_CACHE_CORENAME);
+            if (cores == null) {
+                relationCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_RELATION_CACHE_CORENAME);
+                cores = relationCache.getCoreContainer();
+            } else
+                relationCache = new EmbeddedSolrServer(cores.getCore(PROPERTY_RELATION_CACHE_CORENAME));
         }
         return relationCache;
     }
@@ -146,8 +158,12 @@ public abstract class STIBatch {
                 LOG.error(error);
                 throw new STIException(error);
             }
-
-            websearchCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_WEBSEARCH_CACHE_CORENAME);
+            if(cores==null) {
+                websearchCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_WEBSEARCH_CACHE_CORENAME);
+                cores=websearchCache.getCoreContainer();
+            }
+            else
+                websearchCache=new EmbeddedSolrServer(cores.getCore(PROPERTY_WEBSEARCH_CACHE_CORENAME));
         }
         return websearchCache;
     }
@@ -312,7 +328,7 @@ public abstract class STIBatch {
         if (properties.getProperty(PROPERTY_SELECT_LIST) == null
                 || properties.getProperty(PROPERTY_SELECT_LIST).length() == 0
                 || !f.exists()) {
-            LOG.info("No specific list defined. All files will be processed: " + getAbsolutePath(PROPERTY_SELECT_LIST));
+            LOG.info("No sub-list of input files provided. All files will be processed. ");
             return new ArrayList<>();
         }
         try {

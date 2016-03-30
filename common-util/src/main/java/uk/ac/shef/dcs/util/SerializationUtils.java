@@ -9,7 +9,7 @@ import java.io.*;
  * Date: 07/05/13
  * Time: 16:20
  */
-public class SerializableUtils {
+public class SerializationUtils {
 
     public static String serializeBase64(Object obj) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
