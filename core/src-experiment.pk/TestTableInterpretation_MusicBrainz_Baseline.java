@@ -11,8 +11,8 @@ import uk.ac.shef.dcs.sti.algorithm.tm.*;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentTContentRowRankerImpl;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.algorithm.tm.stopping.EntropyConvergence;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerDummy;
@@ -90,7 +90,7 @@ public class TestTableInterpretation_MusicBrainz_Baseline {
                 disambiguator
         );
 
-        //object to interpret relations between columns
+        //object to score relations between columns
         Baseline_BinaryRelationInterpreter interpreter_relation = new Baseline_BinaryRelationInterpreter(
                 new RelationTextMatch_Scorer(0.0, stopWords)
         );
@@ -183,7 +183,7 @@ public class TestTableInterpretation_MusicBrainz_Baseline {
                                   String outFolder, boolean relationLearning) throws FileNotFoundException {
         String outFilename = sourceTableFile.replaceAll("\\\\", "/");
         try {
-            LTableAnnotation annotations = interpreter.start(table,relationLearning);
+            TAnnotation annotations = interpreter.start(table,relationLearning);
 
             int startIndex = outFilename.lastIndexOf("/");
             if (startIndex != -1) {

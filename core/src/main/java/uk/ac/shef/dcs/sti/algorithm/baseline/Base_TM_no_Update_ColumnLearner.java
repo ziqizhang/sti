@@ -27,7 +27,7 @@ public class Base_TM_no_Update_ColumnLearner {
 
     }
 
-    public void learn(Table table, LTableAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
+    public void learn(Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
 
         //1. gather list of strings from this column to be interpreted
 
@@ -91,7 +91,7 @@ public class Base_TM_no_Update_ColumnLearner {
 
     }
 
-    private List<Pair<Entity, Map<String, Double>>> collect_existing(LTableAnnotation table_annotation, int row_index, int column) {
+    private List<Pair<Entity, Map<String, Double>>> collect_existing(TAnnotation table_annotation, int row_index, int column) {
         List<Pair<Entity, Map<String, Double>>> candidates = new ArrayList<>();
         CellAnnotation[] annotations = table_annotation.getContentCellAnnotations(row_index, column);
         for (CellAnnotation can : annotations) {
@@ -119,7 +119,7 @@ public class Base_TM_no_Update_ColumnLearner {
     }
 
 
-    private void revise_disambiguation_and_create_annotation(LTableAnnotation table_annotation,
+    private void revise_disambiguation_and_create_annotation(TAnnotation table_annotation,
                                                              Table table,
                                                              Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row,
                                                              int column) {
@@ -148,7 +148,7 @@ public class Base_TM_no_Update_ColumnLearner {
     //then disambiguate those rows that contributed to the prediction to column_type_scorings
     //WARNING: SUPPORTING ROWS NOT ADDED HERE
     private void create_typing_annotations(final Map<Object, Double> state,
-                                           LTableAnnotation table_annotation,
+                                           TAnnotation table_annotation,
                                            int column) {
         if (state.size() > 0) {
             List<Object> candidate_header_annotations = new ArrayList<Object>(state.keySet());
@@ -168,7 +168,7 @@ public class Base_TM_no_Update_ColumnLearner {
 
     private List<Entity> create_entity_annotations(
             Table table,
-            LTableAnnotation table_annotation,
+            TAnnotation table_annotation,
             int table_cell_row,
             int table_cell_col,
             List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_cell) {
@@ -208,7 +208,7 @@ public class Base_TM_no_Update_ColumnLearner {
     private void update_typing_supporting_rows(List<Entity> bestCandidates,
                                                int row,
                                                int column,
-                                               LTableAnnotation table_annotation) {
+                                               TAnnotation table_annotation) {
         HeaderAnnotation[] headers = table_annotation.getHeaderAnnotation(column);
         if (headers != null) {
             for (HeaderAnnotation ha : headers) {

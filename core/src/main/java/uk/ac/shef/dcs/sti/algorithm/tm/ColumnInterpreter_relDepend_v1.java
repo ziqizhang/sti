@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 @Deprecated
 public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier {
-    private static final Logger log = Logger.getLogger(ColumnInterpreter_relDepend_v1.class.getName());
+    private static final Logger LOG = Logger.getLogger(ColumnInterpreter_relDepend_v1.class.getName());
     private KBSearcher_Freebase fbSearcher;
     private ColumnLearner_LEARN column_learner;
     private ColumnLearner_UPDATE column_updater;
@@ -33,7 +33,7 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
         this.use_reference_entity = use_reference_entity;
     }
 
-    public void interpret(Table table, LTableAnnotation annotations) throws IOException {
+    public void score(Table table, TAnnotation annotations) throws IOException {
         //for each column that has a relation with the subject column, infer its type
         Map<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>
                 relationAnnotations = annotations.getRelationAnnotations_per_row();
@@ -41,7 +41,7 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
         for (Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>
                 e : relationAnnotations.entrySet()) {
             Key_SubjectCol_ObjectCol subcol_objcol = e.getKey();
-            log.info(">>\tRelation column " + subcol_objcol.getObjectCol());
+            LOG.info(">>\tRelation column " + subcol_objcol.getObjectCol());
             Map<Integer, List<CellBinaryRelationAnnotation>> rows_annotated_with_relation = e.getValue();
             //what is the main type of this column? if the main type happens to be entities...
             List<ObjObj<String, Double>> aggregated_scores_for_relations =
@@ -73,7 +73,7 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
                         if (prop_name.equals(majority_relation_name)) {
                             String name = matched[1];
                             String id = matched[2];
-                            //if id is not null, it is likely to be an entity, so carry on to interpret the type of this column
+                            //if id is not null, it is likely to be an entity, so carry on to score the type of this column
                             if (id != null) {
                                 rows_with_entities_and_matched_scores.put(row_entry.getKey(), score);
                                 List<ObjObj<String, String>> entities_on_the_row =
@@ -91,7 +91,7 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
             }
 
             if (rows_with_entities_and_entity_ids.size() > 0) {
-                interpret(
+                score(
                         table,
                         annotations,
                         rows_with_entities_and_matched_scores,
@@ -171,8 +171,8 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
 
     }
 
-    private void interpret(Table table,
-                           LTableAnnotation table_annotation,
+    private void score(Table table,
+                           TAnnotation table_annotation,
                            Map<Integer, Double> rows_with_entities_mapped_scores,
                            Map<Integer, List<ObjObj<String, String>>> rows_with_entity_ids,
                            int column) throws IOException {

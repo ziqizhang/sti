@@ -6,8 +6,8 @@ import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 
 import java.io.IOException;
 import java.util.*;
@@ -27,7 +27,7 @@ public class ColumnClassifier {
         this.kbSearch = kbSearch;
     }
 
-    public void rankColumnConcepts(LTableAnnotation tableAnnotation, Table table, int col) throws IOException {
+    public void rankColumnConcepts(TAnnotation tableAnnotation, Table table, int col) throws IOException {
         int totalNonEmpty = 0;
         Map<String, Double> votes = new HashMap<String, Double>();
         for (int r = 0; r < table.getNumRows(); r++) {

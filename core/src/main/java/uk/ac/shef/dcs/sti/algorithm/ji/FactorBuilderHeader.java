@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.algorithm.ji;
 import cc.mallet.grmm.types.*;
 import cc.mallet.types.LabelAlphabet;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,7 @@ class FactorBuilderHeader extends FactorBuilder {
 
     protected Map<Variable, Integer> headerVarOutcomePosition = new HashMap<Variable, Integer>();
 
-    public Map<Integer, Variable> addFactors(LTableAnnotation annotation,
+    public Map<Integer, Variable> addFactors(TAnnotation annotation,
                                              FactorGraph graph,
                                              Map<Variable, String> typeOfVariable,
                                              Set<Integer> columns) {
@@ -58,7 +58,7 @@ class FactorBuilderHeader extends FactorBuilder {
         return variables;
     }
 
-    public Map<Integer, Variable> addFactors(LTableAnnotation annotation,
+    public Map<Integer, Variable> addFactors(TAnnotation annotation,
                                              FactorGraph graph,
                                              Map<Variable, String> typeOfVariable) {
         return addFactors(annotation, graph, typeOfVariable, null);

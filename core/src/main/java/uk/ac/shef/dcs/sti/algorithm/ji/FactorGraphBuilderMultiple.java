@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.algorithm.ji;
 import cc.mallet.grmm.types.FactorGraph;
 import cc.mallet.grmm.types.Variable;
 import uk.ac.shef.dcs.sti.rep.Key_SubjectCol_ObjectCol;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 
 import java.util.*;
 
@@ -15,7 +15,7 @@ public class FactorGraphBuilderMultiple extends FactorGraphBuilder {
         super(patchScores);
     }
 
-    public List<FactorGraph> buildDisconnectedGraphs(LTableAnnotation_JI_Freebase annotation,
+    public List<FactorGraph> buildDisconnectedGraphs(TAnnotation_JI_Freebase annotation,
                                                      boolean relationLearning,
                                                      String tableId) {
         List<FactorGraph> out=new ArrayList<FactorGraph>();
@@ -59,7 +59,7 @@ public class FactorGraphBuilderMultiple extends FactorGraphBuilder {
         return out;
     }
 
-    private Map<String, Set<Integer>> computeDisconnectedTableColumns(LTableAnnotation annotation,
+    private Map<String, Set<Integer>> computeDisconnectedTableColumns(TAnnotation annotation,
                                                                       boolean relationLearning) {
         Map<String, Set<Integer>> result = new HashMap<String, Set<Integer>>();
         int counter = 0;

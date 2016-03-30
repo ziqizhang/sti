@@ -16,7 +16,7 @@ public class Base_NameMatch_Disambiguator {
                                                                            int entity_row, int entity_column
     ) throws IOException {
         //do disambiguation scoring
-        //log.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
+        //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         System.out.println("\t>> Disambiguation-, position at [" + entity_row + "," + entity_column + "]: " + table.getContentCell(entity_row, entity_column) +
                 " candidates=" + candidates.size());
         List<Pair<Entity, Map<String, Double>>> disambiguationScores = new ArrayList<>();

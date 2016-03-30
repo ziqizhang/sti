@@ -4,9 +4,9 @@ import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 
 import java.io.IOException;
 import java.util.*;
@@ -17,7 +17,7 @@ import java.util.*;
 public class CandidateEntityGenerator {
     private KBSearch kbSearch;
     private JIAdaptedEntityScorer disambScorer;
-    //private static Logger log = Logger.getLogger(TCellDisambiguator.class.getName());
+    //private static Logger LOG = Logger.getLogger(TCellDisambiguator.class.getName());
 
     public CandidateEntityGenerator(KBSearch kbSearch, JIAdaptedEntityScorer disambScorer) {
         this.kbSearch = kbSearch;
@@ -25,7 +25,7 @@ public class CandidateEntityGenerator {
     }
 
     public void generateCandidateEntity(
-            LTableAnnotation tableAnnotations, Table table,
+            TAnnotation tableAnnotations, Table table,
             int row, int column
     ) throws IOException {
         List<Pair<Entity, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
@@ -61,7 +61,7 @@ public class CandidateEntityGenerator {
                                                                                           int row, int column
     ) throws IOException {
         //do disambiguation scoring
-        //log.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
+        //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         TContentCell cell = table.getContentCell(row, column);
         System.out.print("\t\t>> Candidate Entity Generator, position at (" + row + "," + column + ") " +
                 cell);

@@ -36,7 +36,7 @@ public class RelationTextMatch_Scorer {
                       List<CellAnnotation> objectCellAnnotations, int objectColumn,
                       TContentCell objectCellText,
                       DataTypeClassifier.DataType object_column_type,
-                      LTableAnnotation tableAnnotation
+                      TAnnotation tableAnnotation
     ) {
         if (subjectCellAnnotations.size() != 0) {
             if (subjectCellAnnotations.size() > 0 && UtilRelationMatcher.isValidType(object_column_type)) {

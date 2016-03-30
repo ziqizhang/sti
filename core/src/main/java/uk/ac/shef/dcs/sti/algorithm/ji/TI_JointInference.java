@@ -57,8 +57,8 @@ public class TI_JointInference {
         this.maxIteration = maxIteration;
     }
 
-    public LTableAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
-        LTableAnnotation_JI_Freebase tab_annotations = new LTableAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
+        TAnnotation_JI_Freebase tab_annotations = new TAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
         List<Integer> ignoreColumnsLocal = new ArrayList<Integer>(updateIgnoreColumns(table, ignoreCols));
         int[] ignoreColumnsLocalArray = new int[ignoreColumnsLocal.size()];
         Collections.sort(ignoreColumnsLocal);
@@ -166,7 +166,7 @@ public class TI_JointInference {
         return ignore;
     }
 
-    protected void computeClassCandidates(LTableAnnotation_JI_Freebase tab_annotations, Table table,
+    protected void computeClassCandidates(TAnnotation_JI_Freebase tab_annotations, Table table,
                                           Collection<Integer> ignoreColumnsLocal) throws IOException {
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -183,7 +183,7 @@ public class TI_JointInference {
         }
     }
 
-    protected void computeRelationCandidates(LTableAnnotation_JI_Freebase tab_annotations, Table table,
+    protected void computeRelationCandidates(TAnnotation_JI_Freebase tab_annotations, Table table,
                                              boolean useMainSubjectColumn,
                                              Collection<Integer> ignoreColumnsLocal) throws IOException {
         relationGenerator.generateCandidateRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumnsLocal);
@@ -192,7 +192,7 @@ public class TI_JointInference {
     protected boolean createFinalAnnotations(FactorGraph graph,
                                              FactorGraphBuilder graphBuilder,
                                              Inferencer infResidualBP,
-                                             LTableAnnotation_JI_Freebase tab_annotations) {
+                                             TAnnotation_JI_Freebase tab_annotations) {
         for (int i = 0; i < graph.numVariables(); i++) {
             Variable var = graph.get(i);
             Factor ptl = infResidualBP.lookupMarginal(var);

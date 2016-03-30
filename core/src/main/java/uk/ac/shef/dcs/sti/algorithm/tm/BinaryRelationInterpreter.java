@@ -22,11 +22,11 @@ public class BinaryRelationInterpreter {
     }
 
     //returns the main subject column id
-    //if -1, it means cannot interpret this table relations as no column can be considered main column for interpretation to work
+    //if -1, it means cannot score this table relations as no column can be considered main column for interpretation to work
     //so as a result of this method, the main subject column can change
     //
     //when new relation created, supporting row info is also added
-    public int interpret(LTableAnnotation annotations, Table table, int sub_column) {
+    public int interpret(TAnnotation annotations, Table table, int sub_column) {
 
         //mainColumnIndexes contains indexes of columns that are possile NEs
         Map<Integer, DataTypeClassifier.DataType> colTypes

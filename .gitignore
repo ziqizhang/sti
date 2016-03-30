@@ -52,8 +52,13 @@ graph.txt
 core/lodie.log.1
 *.csv
 *.1
-core/limaye_missed.csv
+failed.txt
 output/*
+*.log
 */target
 *.iml
 */.idea
+cache/empty/class/data/*
+cache/empty/entity/data/*
+cache/empty/relation/data/*
+cache/empty/websearch/data/*

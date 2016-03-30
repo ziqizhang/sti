@@ -4,9 +4,9 @@ import org.apache.any23.util.FileUtils;
 import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerDummy;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorMusicBrainz;
@@ -56,7 +56,7 @@ public class GSBuilder_MusicBrainz {
                 Table table = tables.get(0);
                 //gs annotator
                 System.out.println(f + ", with rows: " + table.getNumRows());
-                LTableAnnotation annotations = gsBuilder.annotate(table, queryHelper);
+                TAnnotation annotations = gsBuilder.annotate(table, queryHelper);
                 if (annotations != null) {
                     int count_annotations = 0;
                     for (int row = 0; row < table.getNumRows(); row++) {
@@ -86,10 +86,10 @@ public class GSBuilder_MusicBrainz {
         }
     }
 
-    public LTableAnnotation annotate(Table table, FreebaseQueryHelper queryHelper) throws IOException {
+    public TAnnotation annotate(Table table, FreebaseQueryHelper queryHelper) throws IOException {
         Map<String, List<FreebaseEntity>> cache_for_table = new HashMap<String, List<FreebaseEntity>>();
 
-        LTableAnnotation tableAnnotation = new LTableAnnotation(table.getNumRows(), table.getNumCols());
+        TAnnotation tableAnnotation = new TAnnotation(table.getNumRows(), table.getNumCols());
         for (int row = 0; row < table.getNumRows(); row++) {
             for (int col = 0; col < table.getNumCols(); col++) {
                 /* if(col==1)
@@ -138,7 +138,7 @@ public class GSBuilder_MusicBrainz {
     }
 
 
-    public void save(Table table, LTableAnnotation annotations, String outFolder, TAnnotationWriter writer) throws FileNotFoundException {
+    public void save(Table table, TAnnotation annotations, String outFolder, TAnnotationWriter writer) throws FileNotFoundException {
         String fileId = table.getSourceId();
         fileId = fileId.replaceAll("\\\\", "/");
         int trim = fileId.lastIndexOf("/");

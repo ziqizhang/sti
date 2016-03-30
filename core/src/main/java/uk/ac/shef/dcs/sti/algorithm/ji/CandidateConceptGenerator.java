@@ -34,7 +34,7 @@ public class CandidateConceptGenerator {
         this.multiThreads = multiThreads;
     }
 
-    public void generateCandidateConcepts(LTableAnnotation_JI_Freebase tableAnnotation, Table table, int col) throws IOException {
+    public void generateCandidateConcepts(TAnnotation_JI_Freebase tableAnnotation, Table table, int col) throws IOException {
         List<Clazz> distinctTypes = new ArrayList<>();
         Map<String, List<String>> entityId_and_conceptURLs = new HashMap<String, List<String>>();
         Map<String, String> distinctTypeStrings = new HashMap<String, String>();

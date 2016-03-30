@@ -5,9 +5,9 @@ import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.algorithm.tm.EntityScorer;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 
 import java.io.IOException;
 import java.util.*;
@@ -19,7 +19,7 @@ public class NamedEntityRanker {
 
     private KBSearch kbSearch;
     private EntityScorer disambScorer;
-    //private static Logger log = Logger.getLogger(TCellDisambiguator.class.getName());
+    //private static Logger LOG = Logger.getLogger(TCellDisambiguator.class.getName());
 
     public NamedEntityRanker(KBSearch kbSearch, EntityScorer disambScorer) {
         this.kbSearch = kbSearch;
@@ -27,7 +27,7 @@ public class NamedEntityRanker {
     }
 
     public void rankCandidateNamedEntities(
-            LTableAnnotation tableAnnotations, Table table,
+            TAnnotation tableAnnotations, Table table,
             int row, int column
     ) throws IOException {
         List<Pair<Entity, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
@@ -60,7 +60,7 @@ public class NamedEntityRanker {
                                                                                           int row, int column
     ) throws IOException {
         //do disambiguation scoring
-        //log.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
+        //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         TContentCell cell = table.getContentCell(row, column);
         System.out.print("\t\t>> NamedEntityRanker, position at (" + row + "," + column + ") " +
                 cell);

@@ -28,7 +28,7 @@ public class Base_NameMatch_ColumnLearner {
 
     }
 
-    public void interpret(Table table, LTableAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
+    public void interpret(Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
         Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidate_for_each_row =
                 new HashMap<>();
         Set<HeaderAnnotation> headerAnnotationScores = new HashSet<HeaderAnnotation>();
@@ -88,7 +88,7 @@ public class Base_NameMatch_ColumnLearner {
 
     }
 
-    private List<Pair<Entity, Map<String, Double>>> collect_existing(LTableAnnotation table_annotation, int row_index, int column) {
+    private List<Pair<Entity, Map<String, Double>>> collect_existing(TAnnotation table_annotation, int row_index, int column) {
         List<Pair<Entity, Map<String, Double>>> candidates = new ArrayList<>();
         CellAnnotation[] annotations = table_annotation.getContentCellAnnotations(row_index, column);
         for (CellAnnotation can : annotations) {
@@ -103,7 +103,7 @@ public class Base_NameMatch_ColumnLearner {
 
 
 
-    private void disambiguate(LTableAnnotation table_annotation,
+    private void disambiguate(TAnnotation table_annotation,
                               Table table,
                               Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row,
                               int column) {
@@ -135,7 +135,7 @@ public class Base_NameMatch_ColumnLearner {
     //then disambiguate those rows that contributed to the prediction to column_type_scorings
     //WARNING: SUPPORTING ROWS NOT ADDED HERE
     private void create_typing_annotations(final Map<Object, Double> state,
-                                           LTableAnnotation table_annotation,
+                                           TAnnotation table_annotation,
                                            int column) {
         List<Object> candidate_header_annotations = new ArrayList<Object>(state.keySet());
         Collections.sort(candidate_header_annotations, new Comparator<Object>() {
@@ -156,7 +156,7 @@ public class Base_NameMatch_ColumnLearner {
 
     private List<Entity> create_entity_annotations(
             Table table,
-            LTableAnnotation table_annotation,
+            TAnnotation table_annotation,
             int table_cell_row,
             int table_cell_col,
             List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_cell) {
@@ -181,7 +181,7 @@ public class Base_NameMatch_ColumnLearner {
     private void update_typing_supporting_rows(List<Entity> bestCandidates,
                                                int row,
                                                int column,
-                                               LTableAnnotation table_annotation) {
+                                               TAnnotation table_annotation) {
         HeaderAnnotation[] headers = table_annotation.getHeaderAnnotation(column);
         if (headers != null) {
             for (HeaderAnnotation ha : headers) {
@@ -196,7 +196,7 @@ public class Base_NameMatch_ColumnLearner {
 
     public void update_typing_annotations_best_candidate_contribute(List<Integer> rowsUpdated,
                                                                     int column,
-                                                                    LTableAnnotation table_annotations,
+                                                                    TAnnotation table_annotations,
                                                                     int tableRowsTotal) {
         HeaderAnnotation[] header_annotations = table_annotations.getHeaderAnnotation(column);
         //supporting rows are only added if a header for the type of the cell annotation exists

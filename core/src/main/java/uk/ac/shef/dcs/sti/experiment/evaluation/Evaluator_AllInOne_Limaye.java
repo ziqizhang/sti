@@ -219,7 +219,7 @@ public class Evaluator_AllInOne_Limaye {
                     true
             );
             cls_evaluator.evaluate_with_filter(
-                    "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/combined.log",
+                    "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/combined.LOG",
                     "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\output\\datafiltering_tmsimple_2combined",
                     "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\gs\\header_ne+prop",
                     "tmp_result/limaye_header_tm_ospd_nsc-ne.csv",

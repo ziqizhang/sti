@@ -8,7 +8,7 @@ import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
@@ -33,8 +33,8 @@ public class TI_JointInferenceFailSafe extends TI_JointInference {
         super(main_col_finder, neGenerator, columnClassifier, relationGenerator, useSubjectColumn, ignoreColumns, forceInterpretColumn, maxIteration);
     }
 
-    public LTableAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
-        LTableAnnotation_JI_Freebase tab_annotations = new LTableAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
+        TAnnotation_JI_Freebase tab_annotations = new TAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
         Set<Integer> ignoreColumnsLocal = updateIgnoreColumns(table, ignoreCols);
         int[] ignoreColumnsLocalArray = new int[ignoreColumnsLocal.size()];
         for(int i=0; i<ignoreColumnsLocal.size(); i++)

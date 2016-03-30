@@ -15,7 +15,7 @@ public class TCellDisambiguator {
 
     private KBSearch kbSearch;
     private EntityScorer disambScorer;
-    //private static Logger log = Logger.getLogger(TCellDisambiguator.class.getName());
+    //private static Logger LOG = Logger.getLogger(TCellDisambiguator.class.getName());
 
     public TCellDisambiguator(KBSearch kbSearch, EntityScorer disambScorer) {
         this.kbSearch = kbSearch;
@@ -26,7 +26,7 @@ public class TCellDisambiguator {
                                                                                          List<Integer> entity_rows, int entity_column
     ) throws IOException {
         //do disambiguation scoring
-        //log.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
+        //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         TContentCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
         System.out.println("\t>> Disambiguation-LEARN(seeding), position at (" + entity_rows + "," + entity_column + ") "+
                 sample_tcc+" candidates=" + candidates.size());
@@ -60,7 +60,7 @@ public class TCellDisambiguator {
             Entity... reference_disambiguated_entities
     ) throws IOException {
         //do disambiguation scoring
-        //log.info("\t>> Disambiguation-UPDATE , position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
+        //LOG.info("\t>> Disambiguation-UPDATE , position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         TContentCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
         if(first_phase)
             System.out.println("\t>> Disambiguation-LEARN(consolidate) , position at (" + entity_rows + "," + entity_column + ") "+sample_tcc+" candidates=" + candidates.size());

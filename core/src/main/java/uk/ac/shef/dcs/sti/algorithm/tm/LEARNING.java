@@ -3,8 +3,8 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 
 import java.io.IOException;
 import java.util.*;
@@ -30,7 +30,7 @@ public class LEARNING {
         this.max_reference_entities = max_reference_entities;
     }
 
-    public void interpret(Table table, LTableAnnotation table_annotation, int column) throws IOException {
+    public void interpret(Table table, TAnnotation table_annotation, int column) throws IOException {
         Pair<Integer, List<List<Integer>>> converge_position =
                 learnerSeeding.learn_seeding(table, table_annotation, column);
         Set<Entity> reference_entities = new HashSet<>();
@@ -45,7 +45,7 @@ public class LEARNING {
                 reference_entities);
     }
 
-    public static Set<Entity> selectReferenceEntities(Table table, LTableAnnotation table_annotation, int column, int max){
+    public static Set<Entity> selectReferenceEntities(Table table, TAnnotation table_annotation, int column, int max){
         List<CellAnnotation> selected_best_from_each_row = new ArrayList<CellAnnotation>();
         for(int i=0; i<table.getNumRows(); i++){
             List<CellAnnotation> best = table_annotation.getBestContentCellAnnotations(i, column);
@@ -59,7 +59,7 @@ public class LEARNING {
         return result;
     }
 
-    public static Set<Entity> selectReferenceEntities(Pair<Integer, int[]> converge_position, LTableAnnotation table_annotation, int column, int max){
+    public static Set<Entity> selectReferenceEntities(Pair<Integer, int[]> converge_position, TAnnotation table_annotation, int column, int max){
         Set<Entity> reference_entities = new HashSet<>();
         for (int i = 0; i < converge_position.getKey()&&i<max; i++) {
             int row = converge_position.getValue()[i];

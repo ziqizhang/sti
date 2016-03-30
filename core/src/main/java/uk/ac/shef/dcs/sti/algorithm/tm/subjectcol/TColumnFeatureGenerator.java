@@ -10,6 +10,7 @@ import uk.ac.shef.dcs.sti.algorithm.tm.stopping.StoppingCriteria;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TColumnHeader;
+import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.util.StringUtils;
 import uk.ac.shef.dcs.websearch.WebSearchFactory;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
@@ -23,7 +24,7 @@ import java.util.*;
  */
 public class TColumnFeatureGenerator {
     private CMScorer cmScorer;
-    private HeaderWebsearchMatcher_token wsScorer;
+    private WSScorer wsScorer;
     private NLPTools nlpTools;
 
 
@@ -33,7 +34,7 @@ public class TColumnFeatureGenerator {
                                    String webSearchClass,
                                    String webSearchPropFile) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         cmScorer = new CMScorer(nlpResource);
-        wsScorer = new HeaderWebsearchMatcher_token(new HeaderWebsearchMatcherCache(cache),
+        wsScorer = new WSScorer(new SolrCache(cache),
                 new WebSearchFactory().createInstance(webSearchClass, webSearchPropFile),
                 stopWords);
         nlpTools = NLPTools.getInstance(nlpResource);
@@ -264,7 +265,7 @@ public class TColumnFeatureGenerator {
             for (int c = 0; c < searchableCols.size(); c++) {
                 int colId = searchableCols.get(c);
                 TContentCell cell = table.getContentCell(r, colId);
-                values_on_the_row[c] = wsScorer.normalizeString(cell.getText());
+                values_on_the_row[c] = wsScorer.normalize(cell.getText());
             }
 
             //perform search and compute matching scores
@@ -287,7 +288,7 @@ public class TColumnFeatureGenerator {
     }
 
 
-    //since using web search is expensive, we can use data sampling technique to incrementally interpret main column
+    //since using web search is expensive, we can use data sampling technique to incrementally score main column
     protected DoubleMatrix2D setWSScores(List<TColumnFeature> features, Table table,
                                       TContentRowRanker sampleSelector,
                                       StoppingCriteria stopper,
@@ -317,11 +318,11 @@ public class TColumnFeatureGenerator {
             for (int c = 0; c < searchableCols.size(); c++) {
                 int colId = searchableCols.get(c);
                 TContentCell cell = table.getContentCell(r, colId);
-                values_in_the_cell[c] = wsScorer.normalizeString(cell.getText());
+                values_in_the_cell[c] = wsScorer.normalize(cell.getText());
             }
 
             //perform search and compute matching scores
-            Map<String, Double> scores_on_the_row = wsScorer.score(values_in_the_cell);
+            Map<String, Double> ws_on_row = wsScorer.score(values_in_the_cell);
 
             // compute search results against each column in searchableCols
             for (int index = 0; index < searchableCols.size(); index++) {
@@ -330,7 +331,7 @@ public class TColumnFeatureGenerator {
                 if (normalizedCellContent.length() < 1)
                     continue;
 
-                Double search_score = scores_on_the_row.get(normalizedCellContent);
+                Double search_score = ws_on_row.get(normalizedCellContent);
                 search_score = search_score == null ? 0 : search_score;
                 scores.set(r, colId, search_score);
 

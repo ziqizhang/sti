@@ -16,7 +16,7 @@ import uk.ac.shef.dcs.sti.algorithm.tm.stopping.EntropyConvergence;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorHTML;
@@ -97,7 +97,7 @@ public class Test_ISWC_TableInterpretation_BoxOffice {
 
         LEARNING columnInterpreter = new LEARNING(column_learnerSeeding, column_updater, TableMinerConstants.TCELLDISAMBIGUATOR_MAX_REFERENCE_ENTITIES);
 
-        //object to interpret relations between columns
+        //object to score relations between columns
         HeaderBinaryRelationScorer relation_scorer = new HeaderBinaryRelationScorer_Vote(nlpResources,
                 new Creator_RelationHierarchicalBOW_Freebase(),
                 stopWords,
@@ -209,7 +209,7 @@ public class Test_ISWC_TableInterpretation_BoxOffice {
                                   String outFolder, boolean relationLearning) throws FileNotFoundException {
         String outFilename = sourceTableFile.replaceAll("\\\\", "/");
         try {
-            LTableAnnotation annotations = interpreter.start(table, relationLearning);
+            TAnnotation annotations = interpreter.start(table, relationLearning);
 
             int startIndex = outFilename.lastIndexOf("/");
             if (startIndex != -1) {
@@ -235,7 +235,7 @@ public class Test_ISWC_TableInterpretation_BoxOffice {
     }
 
 
-    public static void write_iswc_output(Table table, LTableAnnotation tableAnnotation, String imdb_file_name, String outFile) throws IOException {
+    public static void write_iswc_output(Table table, TAnnotation tableAnnotation, String imdb_file_name, String outFile) throws IOException {
         List<HeaderAnnotation> has = tableAnnotation.getBestHeaderAnnotations(0);
         if (has != null && has.size() > 0) {
             boolean correct = false;

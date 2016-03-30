@@ -21,7 +21,7 @@ public class MainInterpreter_old {
     private LEARNING interpreter_column;
     private DataLiteralColumnClassifier interpreter_column_with_knownReltaions;
     private BinaryRelationInterpreter interpreter_relation;
-    //private static Logger log = Logger.getLogger(MainInterpreter.class.getName());
+    //private static Logger LOG = Logger.getLogger(MainInterpreter.class.getName());
     private int[] ignoreColumns;
     private int[] forceInterpretColumn;
 
@@ -39,7 +39,7 @@ public class MainInterpreter_old {
         this.forceInterpretColumn = forceInterpretColumn;
     }
 
-    public LTableAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException {
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException {
         //1. find the main subject column of this table
         System.out.println(">\t Detecting main column...");
         List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
@@ -53,15 +53,15 @@ public class MainInterpreter_old {
             }
         }*/
 
-        LTableAnnotation tab_annotations = null;
-        LTableAnnotation best_annotations = null;
+        TAnnotation tab_annotations = null;
+        TAnnotation best_annotations = null;
         int main_subject_column = 0;
         if (relationLearning) {
             double best_solution_score = 0;
 
             main_subject_column = 0;
             for (Pair<Integer, Pair<Double, Boolean>> mainCol : candidate_main_NE_columns) {
-                tab_annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
+                tab_annotations = new TAnnotation(table.getNumRows(), table.getNumCols());
                 main_subject_column = mainCol.getKey();
                 if (ignoreColumn(main_subject_column)) continue;
 
@@ -69,7 +69,7 @@ public class MainInterpreter_old {
                 System.out.println(">\t Classify and disambiguate main column " + main_subject_column);
                 interpreter_column.interpret(table, tab_annotations, main_subject_column);
 
-                //3. interpret relations
+                //3. score relations
                 System.out.println(">\t Interpret relations with the main column");
                 int columns_having_relations_with_main_col = interpreter_relation.interpret(tab_annotations, table, main_subject_column);
                 //does the main column has sufficient relations with other columns?   //if so, stop
@@ -110,7 +110,7 @@ public class MainInterpreter_old {
 
         System.out.println(">\t Interpret other columns");
         if (!relationLearning) {
-            tab_annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
+            tab_annotations = new TAnnotation(table.getNumRows(), table.getNumCols());
             main_subject_column = -1;
         }
         int count_interpreted=0;
@@ -154,7 +154,7 @@ public class MainInterpreter_old {
                 totalColumns * interpreter_relation.getThreshold_minimum_binary_relations_in_table();
     }*/
 
-    private double scoreSolution(LTableAnnotation tab_annotations, Table table, int main_subject_column) {
+    private double scoreSolution(TAnnotation tab_annotations, Table table, int main_subject_column) {
         double entityScores = 0.0;
         for (int col = 0; col < table.getNumCols(); col++) {
             for (int row = 0; row < table.getNumRows(); row++) {

@@ -18,7 +18,7 @@ import java.util.Set;
 public class DataStats {
 
     public static void main(String[] args) throws IOException {
-        /*calculate_average_query_time("D:\\Work\\lodie/lodie.log");
+        /*calculate_average_query_time("D:\\Work\\lodie/lodie.LOG");
         System.exit(0);*/
 
         /////////////////////////////////////////////// BING SEARCH CONVERGENCE ////////////////////////////////////////////////////////////
@@ -34,54 +34,54 @@ public class DataStats {
         ///////////////////////////////////////////////---DONE--- i-inf CONVERGENCE in column interpretation////////////////////////////////////////////////////////////
         /*calculate_converge_column_interpretation(
                 "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\raw",
-                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/random_nostop.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/random_nostop.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/random_nostop.csv");
         calculate_converge_column_interpretation(
                 "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\raw",
-                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/nonempty.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/nonempty.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/nonempty.csv");
         calculate_converge_column_interpretation(
                 "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\raw",
-                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/tokens.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/tokens.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/tokens.csv");
         calculate_converge_column_interpretation(
                 "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\raw",
-                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/namelength.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/namelength.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/namelength.csv");
         calculate_converge_column_interpretation(
                 "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\raw",
-                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/random.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/random.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/random.csv");
         calculate_converge_column_interpretation(
                 "E:\\Data\\table_annotation\\limaye200\\200_tables_regen\\raw",
-                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/ospd_random.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/ospd_random.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200/ospd_random.csv");
         System.exit(0);
 
 
         calculate_converge_column_interpretation(
                 "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200",
-                "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/random.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/random.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/random.csv");
         calculate_converge_column_interpretation(
                 "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200",
-                "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/nonempty.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/nonempty.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/nonempty.csv");
         calculate_converge_column_interpretation(
                 "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200",
-                "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/tokens.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/tokens.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/tokens.csv");
         calculate_converge_column_interpretation(
                 "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200",
-                "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/namelength.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/namelength.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/namelength.csv");
         calculate_converge_column_interpretation(
                 "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200",
-                "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/combined.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/combined.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/combined.csv");
         calculate_converge_column_interpretation(
                 "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200",
-                "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/ospd_random.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/ospd_random.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_baseline\\limaye200/ospd_random.csv");
         System.exit(0);
 
@@ -93,37 +93,37 @@ public class DataStats {
                 "D:\\Work\\lodie\\tmp_result/learning_phase_converengece-limaye200-tm.csv");
         calculate_converge_column_interpretation(
                 "limaye/all",
-                "E:\\Data\\table_annotation\\efficiency_analysis_data/FINAL_limayeall_tm_sysout.log",
+                "E:\\Data\\table_annotation\\efficiency_analysis_data/FINAL_limayeall_tm_sysout.LOG",
                 "D:\\Work\\lodie\\tmp_result/learning_phase_converengece-limayeall-tm.csv");
         calculate_converge_column_interpretation(
                 "musicbrainz_raw/",
-                "E:\\Data\\table_annotation\\efficiency_analysis_data/FINAL_mb_tm_sysout.log",
+                "E:\\Data\\table_annotation\\efficiency_analysis_data/FINAL_mb_tm_sysout.LOG",
                 "D:\\Work\\lodie\\tmp_result/learning_phase_converengece-musicbrainz-tm.csv");
         calculate_converge_column_interpretation(
                 "imdb_raw/",
-                "E:\\Data\\table_annotation\\efficiency_analysis_data/FINAL_imdb_tm_sysout.log",
+                "E:\\Data\\table_annotation\\efficiency_analysis_data/FINAL_imdb_tm_sysout.LOG",
                 "D:\\Work\\lodie\\tmp_result/learning_phase_converengece-imdb-tm.csv");
         System.exit(0);*/
 
 
         /////////////////////////////////////////////// ---done--- Candidate counting (overall, learn-consolidate only, new entity at update, all entity at update) ////////////////////////////////////////////////////////////
         calculate_entity_candidate_savings(
-                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\random_nostop.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\random_nostop.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\candidate_savings_random_nostop.csv");
         calculate_entity_candidate_savings(
-                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\random.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\random.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\candidate_savings_random.csv");
         calculate_entity_candidate_savings(
-                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\ospd_random.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\ospd_random.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\candidate_savings_ospd_random.csv");
         calculate_entity_candidate_savings(
-                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\nonempty.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\nonempty.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\candidate_savings_nonempty.csv");
         calculate_entity_candidate_savings(
-                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\tokens.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\tokens.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\candidate_savings_tokens.csv");
         calculate_entity_candidate_savings(
-                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\namelength.log",
+                "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\namelength.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\candidate_savings_namelength.csv");
 
 

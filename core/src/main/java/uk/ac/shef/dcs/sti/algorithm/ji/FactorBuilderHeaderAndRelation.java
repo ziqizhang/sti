@@ -21,7 +21,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
 
     public Map<String, Variable> addFactors(
             Map<Integer, Variable> columnHeaders,
-            LTableAnnotation_JI_Freebase annotation,
+            TAnnotation_JI_Freebase annotation,
             FactorGraph graph,
             Map<Variable, String> typeOfVariable,
             String tableId, Set<Integer> columns) {
@@ -144,7 +144,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
 
     public Map<String, Variable> addFactors(
             Map<Integer, Variable> columnHeaders,
-            LTableAnnotation_JI_Freebase annotation,
+            TAnnotation_JI_Freebase annotation,
             FactorGraph graph,
             Map<Variable, String> typeOfVariable,
             String tableId) {

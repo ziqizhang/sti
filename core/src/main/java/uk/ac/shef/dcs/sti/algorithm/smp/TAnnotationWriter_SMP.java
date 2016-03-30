@@ -5,7 +5,7 @@ import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.TColumnHeader;
 
 import java.io.FileNotFoundException;
@@ -19,8 +19,8 @@ public class TAnnotationWriter_SMP extends TAnnotationWriter {
         super(tripleGenerator);
     }
 
-    protected void writeHeaderKeyFile(Table table, LTableAnnotation table_annotation, String header_key) throws FileNotFoundException {
-        if (!(table_annotation instanceof LTableAnnotation_SMP_Freebase))
+    protected void writeHeaderKeyFile(Table table, TAnnotation table_annotation, String header_key) throws FileNotFoundException {
+        if (!(table_annotation instanceof TAnnotation_SMP_Freebase))
             super.writeHeaderKeyFile(table, table_annotation, header_key);
         else {
             PrintWriter p = new PrintWriter(header_key);
@@ -57,7 +57,7 @@ public class TAnnotationWriter_SMP extends TAnnotationWriter {
         }
     }
 
-    protected String writeHeader(Table table, LTableAnnotation tab_annotations) {
+    protected String writeHeader(Table table, TAnnotation tab_annotations) {
         StringBuilder out = new StringBuilder();
         out.append("<tr>\n");
         for (int col = 0; col < table.getNumCols(); col++) {

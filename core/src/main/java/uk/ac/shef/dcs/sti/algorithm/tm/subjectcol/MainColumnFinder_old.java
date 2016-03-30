@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 
 public class MainColumnFinder_old {
 
-    private static Logger log = Logger.getLogger(MainColumnFinder_old.class.getName());
+    private static Logger LOG = Logger.getLogger(MainColumnFinder_old.class.getName());
     private TColumnFeatureGenerator featureGenerator;
     private TContentRowRanker row_sampler;
     private String stoppingCriteriaClassname;
@@ -100,7 +100,7 @@ public class MainColumnFinder_old {
 
         //EXCEPTION: what if no SHORT TEXT columns found?
         if (allNEColumnCandidates.size() == 0) {
-            log.warning("This table does not contain columns that are likely to contain named entities.");
+            LOG.warning("This table does not contain columns that are likely to contain named entities.");
             Pair<Integer, Pair<Double, Boolean>> oo = new Pair<>(0,new Pair<>(1.0, false));
 
             rs.add(oo);
@@ -203,11 +203,11 @@ public class MainColumnFinder_old {
         featureGenerator.setIsFirstNEColumn(allNEColumnCandidates);
 
         //9. generate features - context score
-        log.finest("Computing context matching");
+        LOG.finest("Computing context matching");
         featureGenerator.setCMScores(allNEColumnCandidates, table);
 
         //10. generate features - web search matcher
-        log.finest("Computing web search matching (total rows " + table.getNumRows());
+        LOG.finest("Computing web search matching (total rows " + table.getNumRows());
         try {
             DoubleMatrix2D scores;
             if (row_sampler != null) {

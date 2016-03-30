@@ -22,7 +22,7 @@ public class TMPInterpreter {
     private DataLiteralColumnClassifier interpreter_column_with_knownReltaions;
     private BinaryRelationInterpreter interpreter_relation;
     private HeaderBinaryRelationScorer hbr_scorer;
-    //private static Logger log = Logger.getLogger(MainInterpreter.class.getName());
+    //private static Logger LOG = Logger.getLogger(MainInterpreter.class.getName());
     private Set<Integer> ignoreCols;
     private int[] mustdoColumns;
     private UPDATE update;
@@ -49,7 +49,7 @@ public class TMPInterpreter {
         this.hbr_scorer = hbr_scorer;
     }
 
-    public LTableAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException, STIException {
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException, STIException {
         //1. find the main subject column of this table
         System.out.println(">\t Detecting main column...");
         int[] ignoreColumnsArray = new int[ignoreCols.size()];
@@ -70,7 +70,7 @@ public class TMPInterpreter {
                     it.remove();
             }
         }*/
-        LTableAnnotation tab_annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
+        TAnnotation tab_annotations = new TAnnotation(table.getNumRows(), table.getNumCols());
         tab_annotations.setSubjectColumn(subjectColumnScores.get(0).getKey());
         List<Integer> interpreted_columns = new ArrayList<Integer>();
         System.out.println(">\t FORWARD LEARNING...");
@@ -104,9 +104,9 @@ public class TMPInterpreter {
         if (relationLearning) {
             double best_solution_score = 0;
             int main_subject_column = -1;
-            LTableAnnotation best_annotations = null;
+            TAnnotation best_annotations = null;
             for (Pair<Integer, Pair<Double, Boolean>> mainCol : subjectColumnScores) {
-                //tab_annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
+                //tab_annotations = new TAnnotation(table.getNumRows(), table.getNumCols());
                 main_subject_column = mainCol.getKey();
                 if (ignoreColumn(main_subject_column)) continue;
 
@@ -167,7 +167,7 @@ public class TMPInterpreter {
                 totalColumns * interpreter_relation.getThreshold_minimum_binary_relations_in_table();
     }*/
 
-    private double scoreSolution(LTableAnnotation tab_annotations, Table table, int main_subject_column) {
+    private double scoreSolution(TAnnotation tab_annotations, Table table, int main_subject_column) {
         double entityScores = 0.0;
         for (int col = 0; col < table.getNumCols(); col++) {
             for (int row = 0; row < table.getNumRows(); row++) {
@@ -211,7 +211,7 @@ public class TMPInterpreter {
         return false;
     }
 
-    private void revise_header_binary_relations(LTableAnnotation annotation, List<String> domain_representation
+    private void revise_header_binary_relations(TAnnotation annotation, List<String> domain_representation
     ) {
         for (Map.Entry<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>>
                 entry : annotation.getRelationAnnotations_across_columns().entrySet()) {

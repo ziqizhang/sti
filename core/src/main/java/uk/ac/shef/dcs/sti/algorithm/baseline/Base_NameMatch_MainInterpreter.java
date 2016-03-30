@@ -24,7 +24,7 @@ public class Base_NameMatch_MainInterpreter {
     private SubjectColumnDetector main_col_finder;
     private Base_NameMatch_ColumnLearner interpreter_column;
     private Baseline_BinaryRelationInterpreter interpreter_relation;
-    //private static Logger log = Logger.getLogger(MainInterpreter.class.getName());
+    //private static Logger LOG = Logger.getLogger(MainInterpreter.class.getName());
     private int[] ignoreColumns;
     private int[] forceInterpretColumn;
     private DataLiteralColumnClassifier interpreter_column_with_knownReltaions;
@@ -43,7 +43,7 @@ public class Base_NameMatch_MainInterpreter {
         this.interpreter_column_with_knownReltaions=interpreter_column_with_knownReltaions;
     }
 
-    public LTableAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException {
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException {
         //1. find the main subject column of this table
         System.out.println(">\t Detecting main column...");
         List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
@@ -56,7 +56,7 @@ public class Base_NameMatch_MainInterpreter {
                     it.remove();
             }
         }*/
-        LTableAnnotation tab_annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
+        TAnnotation tab_annotations = new TAnnotation(table.getNumRows(), table.getNumCols());
         List<Integer> interpreted_columns = new ArrayList<Integer>();
         for (int col = 0; col < table.getNumCols(); col++) {
             /*if(col!=1)
@@ -83,9 +83,9 @@ public class Base_NameMatch_MainInterpreter {
         if(relationLearning){
             double best_solution_score = 0;
             int main_subject_column = -1;
-            LTableAnnotation best_annotations = null;
+            TAnnotation best_annotations = null;
             for (Pair<Integer, Pair<Double, Boolean>> mainCol : candidate_main_NE_columns) {
-                //tab_annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
+                //tab_annotations = new TAnnotation(table.getNumRows(), table.getNumCols());
                 main_subject_column = mainCol.getKey();
                 if (ignoreColumn(main_subject_column)) continue;
 
@@ -140,7 +140,7 @@ public class Base_NameMatch_MainInterpreter {
                 totalColumns * interpreter_relation.getThreshold_minimum_binary_relations_in_table();
     }*/
 
-    private double scoreSolution(LTableAnnotation tab_annotations, Table table, int main_subject_column) {
+    private double scoreSolution(TAnnotation tab_annotations, Table table, int main_subject_column) {
         double entityScores = 0.0;
         for (int col = 0; col < table.getNumCols(); col++) {
             for (int row = 0; row < table.getNumRows(); row++) {

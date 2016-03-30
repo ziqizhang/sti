@@ -154,7 +154,7 @@ public class TableMinerPlusBatch extends STIBatch {
         BinaryRelationInterpreter interpreter_relation=null;
         DataLiteralColumnClassifier interpreter_with_knownRelations=null;
         try {
-            //object to interpret relations between columns
+            //object to score relations between columns
              relation_scorer = new HeaderBinaryRelationScorer_Vote(
                     getNLPResourcesDir(),
                     new Creator_RelationHierarchicalBOW_Freebase(),

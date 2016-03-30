@@ -13,7 +13,7 @@ import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.algorithm.tm.stopping.EntropyConvergence;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
@@ -91,7 +91,7 @@ public class TestTableInterpretation_IMDB_Baseline_Another {
                 class_scorer
         );
 
-        //object to interpret relations between columns
+        //object to score relations between columns
         Baseline_BinaryRelationInterpreter interpreter_relation = new Baseline_BinaryRelationInterpreter(
                 new RelationTextMatch_Scorer(0.0, stopWords)
         );
@@ -186,7 +186,7 @@ public class TestTableInterpretation_IMDB_Baseline_Another {
                                   String outFolder, boolean relationLearning) throws FileNotFoundException {
         String outFilename = sourceTableFile.replaceAll("\\\\", "/");
         try {
-            LTableAnnotation annotations = interpreter.start(table,relationLearning);
+            TAnnotation annotations = interpreter.start(table,relationLearning);
 
             int startIndex = outFilename.lastIndexOf("/");
             if (startIndex != -1) {

@@ -12,7 +12,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
 
     public void addFactors(Map<String, Variable> relationVariables,
                            Map<String, Variable> cellVariables,
-                           LTableAnnotation_JI_Freebase annotation,
+                           TAnnotation_JI_Freebase annotation,
                            FactorGraph graph,
                            Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection,
                            String tableId, Set<Integer> columns) {
@@ -45,7 +45,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
     private void createCellRelationFactor(Variable sbjCellVar,
                                           Variable objCellVar,
                                           Variable relationVar,
-                                          LTableAnnotation_JI_Freebase annotation,
+                                          TAnnotation_JI_Freebase annotation,
                                           FactorGraph graph,
                                           Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection,
                                           String tableId) {
@@ -124,7 +124,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
 
     public void addFactors(Map<String, Variable> relationVariables,
                            Map<String, Variable> cellVariables,
-                           LTableAnnotation_JI_Freebase annotation,
+                           TAnnotation_JI_Freebase annotation,
                            FactorGraph graph,
                            Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection,
                            String tableId) {

@@ -40,7 +40,7 @@ public class LEARNINGPreliminaryClassify {
         this.stopperParams = stoppingCriteriaParams;
     }
 
-    public Pair<Integer, List<List<Integer>>> learn_seeding(Table table, LTableAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
+    public Pair<Integer, List<List<Integer>>> learn_seeding(Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
         StoppingCriteria stopper = StoppingCriteriaInstantiator.instantiate(stopperClassname, stopperParams);
 
         //1. gather list of strings from this column to be interpreted
@@ -126,7 +126,7 @@ public class LEARNINGPreliminaryClassify {
         return new Pair<>(countProcessed, ranking);
     }
 
-    private List<Pair<Entity, Map<String, Double>>> collect_existing(LTableAnnotation table_annotation, List<Integer> rows_indexes, int column) {
+    private List<Pair<Entity, Map<String, Double>>> collect_existing(TAnnotation table_annotation, List<Integer> rows_indexes, int column) {
         List<Pair<Entity, Map<String, Double>>> candidates = new ArrayList<>();
         for (int row : rows_indexes) {
             CellAnnotation[] annotations = table_annotation.getContentCellAnnotations(row, column);
@@ -156,7 +156,7 @@ public class LEARNINGPreliminaryClassify {
     }
 
 
-    private void revise_disambiguation_and_create_annotations(LTableAnnotation table_annotation,
+    private void revise_disambiguation_and_create_annotations(TAnnotation table_annotation,
                                                               Table table,
                                                               Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row,
                                                               int column) {
@@ -185,7 +185,7 @@ public class LEARNINGPreliminaryClassify {
     //then disambiguate those rows that contributed to the prediction to column_type_scorings
     //WARNING: SUPPORTING ROWS NOT ADDED HERE
     private void create_typing_annotations(final Map<Object, Double> state,
-                                           LTableAnnotation table_annotation,
+                                           TAnnotation table_annotation,
                                            int column) {
         if (state.size() > 0) {
             List<Object> candidate_header_annotations = new ArrayList<Object>(state.keySet());
@@ -205,7 +205,7 @@ public class LEARNINGPreliminaryClassify {
 
     private List<Entity> create_entity_annotations(
             Table table,
-            LTableAnnotation table_annotation,
+            TAnnotation table_annotation,
             int table_cell_row,
             int table_cell_col,
             List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_cell) {
@@ -245,7 +245,7 @@ public class LEARNINGPreliminaryClassify {
     private void update_typing_supporting_rows(List<Entity> bestCandidates,
                                                int row,
                                                int column,
-                                               LTableAnnotation table_annotation) {
+                                               TAnnotation table_annotation) {
         HeaderAnnotation[] headers = table_annotation.getHeaderAnnotation(column);
         if (headers != null) {
             for (HeaderAnnotation ha : headers) {

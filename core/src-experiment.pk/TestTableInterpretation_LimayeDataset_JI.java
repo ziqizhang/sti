@@ -10,7 +10,7 @@ import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.util.FileUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
@@ -183,7 +183,7 @@ public class TestTableInterpretation_LimayeDataset_JI {
                                   String outFolder, boolean relationLearning) throws Exception {
         String outFilename = sourceTableFile.replaceAll("\\\\", "/");
         try {
-            LTableAnnotation annotations = interpreter.start(table, relationLearning);
+            TAnnotation annotations = interpreter.start(table, relationLearning);
 
             int startIndex = outFilename.lastIndexOf("/");
             if (startIndex != -1) {

@@ -45,13 +45,13 @@ public class UPDATE {
     public void update(
             List<Integer> interpreted_columns,
             Table table,
-            LTableAnnotation current_iteration_annotation
+            TAnnotation current_iteration_annotation
     ) throws IOException, STIException {
 
         int current_iteration = 0;
-        LTableAnnotation prev_iteration_annotation = new LTableAnnotation(current_iteration_annotation.getRows(), current_iteration_annotation.getCols());
+        TAnnotation prev_iteration_annotation = new TAnnotation(current_iteration_annotation.getRows(), current_iteration_annotation.getCols());
 
-                LTableAnnotation.copy(current_iteration_annotation, prev_iteration_annotation);
+                TAnnotation.copy(current_iteration_annotation, prev_iteration_annotation);
         List<String> domain_representation;
         Set<String> processed_entity_ids = new HashSet<String>();
         boolean converged;
@@ -71,7 +71,7 @@ public class UPDATE {
             converged = checkConvergence(prev_iteration_annotation, current_iteration_annotation,
                     table.getNumRows(), interpreted_columns);
             if (!converged)
-                prev_iteration_annotation = LTableAnnotation.copy(current_iteration_annotation,
+                prev_iteration_annotation = TAnnotation.copy(current_iteration_annotation,
                         table.getNumRows(), table.getNumCols());
             current_iteration++;*/
 
@@ -84,9 +84,9 @@ public class UPDATE {
             domain_representation = construct_domain_represtation(table, current_iteration_annotation, interpreted_columns);
             revise_header_annotation(current_iteration_annotation, domain_representation, interpreted_columns);
             //add dc scores to prev iteration's header annotations
-            prev_iteration_annotation = new LTableAnnotation(current_iteration_annotation.getRows(),
+            prev_iteration_annotation = new TAnnotation(current_iteration_annotation.getRows(),
                     current_iteration_annotation.getCols());
-            LTableAnnotation.copy(current_iteration_annotation, prev_iteration_annotation);
+            TAnnotation.copy(current_iteration_annotation, prev_iteration_annotation);
 
             //scores will be reset, then recalculated. dc scores lost
             revise_cell_disambiguation_then_reannotate_cell_and_header(processed_entity_ids,
@@ -100,10 +100,10 @@ public class UPDATE {
             converged = checkConvergence(prev_iteration_annotation, current_iteration_annotation,
                     table.getNumRows(), interpreted_columns);
             if (!converged) {
-                prev_iteration_annotation = new LTableAnnotation(current_iteration_annotation.getRows(),
+                prev_iteration_annotation = new TAnnotation(current_iteration_annotation.getRows(),
                         current_iteration_annotation.getCols());
-                LTableAnnotation.copy(current_iteration_annotation,
-                       prev_iteration_annotation);
+                TAnnotation.copy(current_iteration_annotation,
+                        prev_iteration_annotation);
             }
             current_iteration++;
         } while (!converged && current_iteration < TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS);
@@ -111,9 +111,9 @@ public class UPDATE {
         if (current_iteration >= TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS) {
             System.out.println("\t>> UPDATE CANNOT STABLIZE AFTER " + current_iteration + " ITERATIONS, Stopped");
             if (prev_iteration_annotation != null) {
-                current_iteration_annotation = new LTableAnnotation(prev_iteration_annotation.getRows(),
+                current_iteration_annotation = new TAnnotation(prev_iteration_annotation.getRows(),
                         prev_iteration_annotation.getCols());
-                LTableAnnotation.copy(prev_iteration_annotation,
+                TAnnotation.copy(prev_iteration_annotation,
                         current_iteration_annotation);
             }
         } else
@@ -121,7 +121,7 @@ public class UPDATE {
 
     }
 
-    private Set<String> initialize_processed_entity_ids(Table table, LTableAnnotation prev_iteration_annotation) {
+    private Set<String> initialize_processed_entity_ids(Table table, TAnnotation prev_iteration_annotation) {
         Set<String> ids = new HashSet<String>();
         for (int col = 0; col < table.getNumCols(); col++) {
             for (int row = 0; row < table.getNumRows(); row++) {
@@ -138,7 +138,7 @@ public class UPDATE {
 
     private void revise_cell_disambiguation_then_reannotate_cell_and_header(
             Set<String> already_built_feature_space_entity_candidates,
-            Table table, LTableAnnotation current_iteration_annotation, List<Integer> interpreted_columns) throws IOException {
+            Table table, TAnnotation current_iteration_annotation, List<Integer> interpreted_columns) throws IOException {
         for (int c : interpreted_columns) {
             List<List<Integer>> ranking = selector.select(table, c, current_iteration_annotation.getSubjectColumn());
 
@@ -187,7 +187,7 @@ public class UPDATE {
 
     }
 
-    private void revise_header_annotation(LTableAnnotation current_iteration_annotation, List<String> domain_representation,
+    private void revise_header_annotation(TAnnotation current_iteration_annotation, List<String> domain_representation,
                                           List<Integer> interpreted_columns) {
         for (int c : interpreted_columns) {
             List<HeaderAnnotation> headers = new ArrayList<HeaderAnnotation>(
@@ -203,7 +203,7 @@ public class UPDATE {
         }
     }
 
-    public List<String> construct_domain_represtation(Table table, LTableAnnotation current_iteration_annotation, List<Integer> interpreted_columns) {
+    public List<String> construct_domain_represtation(Table table, TAnnotation current_iteration_annotation, List<Integer> interpreted_columns) {
         List<String> domain = new ArrayList<String>();
         for (int c : interpreted_columns) {
             for (int r = 0; r < table.getNumRows(); r++) {
@@ -240,7 +240,7 @@ public class UPDATE {
         return domain;
     }
 
-    private boolean checkConvergence(LTableAnnotation prev_iteration_annotation, LTableAnnotation table_annotation, int totalRows, List<Integer> interpreted_columns) {
+    private boolean checkConvergence(TAnnotation prev_iteration_annotation, TAnnotation table_annotation, int totalRows, List<Integer> interpreted_columns) {
         //check header annotations
         int header_converged_count = 0;
         boolean header_converged = false;
@@ -278,7 +278,7 @@ public class UPDATE {
 
     public void update_typing_annotations_best_candidate_contribute(List<Integer> rowsUpdated,
                                                                     int column,
-                                                                    LTableAnnotation table_annotations,
+                                                                    TAnnotation table_annotations,
                                                                     Table table,
                                                                     int tableRowsTotal) {
         HeaderAnnotation[] existing_header_annotations = table_annotations.getHeaderAnnotation(column);
@@ -330,7 +330,7 @@ public class UPDATE {
     //WARNING: CURRENTLY updating does not ADD new headers
     public void update_typing_annotations_all_candidate_contribute(List<Integer> rowsUpdated,
                                                                    int column,
-                                                                   LTableAnnotation table_annotations,
+                                                                   TAnnotation table_annotations,
                                                                    Table table,
                                                                    int tableRowsTotal) {
         HeaderAnnotation[] existing_header_annotations = table_annotations.getHeaderAnnotation(column);
@@ -433,7 +433,7 @@ public class UPDATE {
 
     private void update_entity_annotations(
             Table table,
-            LTableAnnotation table_annotation,
+            TAnnotation table_annotation,
             List<Integer> table_cell_rows,
             int table_cell_col,
             List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_cell) {

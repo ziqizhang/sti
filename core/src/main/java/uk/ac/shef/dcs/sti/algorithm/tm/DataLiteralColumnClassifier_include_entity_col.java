@@ -17,7 +17,7 @@ import java.util.*;
  */
 @Deprecated
 public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralColumnClassifier {
-    //private static final Logger log = Logger.getLogger(ColumnInterpreter_relDepend_v1.class.getName());
+    //private static final Logger LOG = Logger.getLogger(ColumnInterpreter_relDepend_v1.class.getName());
     private FreebaseSearch fbSearcher;
     private TColumnClassifier classification_scorer;
     private LEARNINGPreliminaryDisamb column_updater;
@@ -39,7 +39,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
         this.selector=selector;
     }
 
-    public void interpret(Table table, LTableAnnotation annotations, Integer... ne_columns) throws IOException {
+    public void interpret(Table table, TAnnotation annotations, Integer... ne_columns) throws IOException {
         //for each column that has a relation with the subject column, infer its type
         Map<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>
                 relationAnnotations = annotations.getRelationAnnotations_per_row();
@@ -300,7 +300,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                     if (highest_scoring_relation_annotations.contains(prop_name)) {
                         String name = matched[1];
                         String id = matched[2];
-                        //if id is not null, it is likely to be an entity, so carry on to interpret the type of this column
+                        //if id is not null, it is likely to be an entity, so carry on to score the type of this column
                         if (id != null && id.length() > 0) {
                             rows_with_entities_and_matched_scores.put(row_entry.getKey(), score);
                             List<Pair<String, String>> entities_on_the_row =
@@ -339,7 +339,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                     if (highest_scoring_relation_annotation_for_column.contains(prop_name)) {
                         String name = matched[1];
                         String id = matched[2];
-                        //if id is not null, it is likely to be an entity, so carry on to interpret the type of this column
+                        //if id is not null, it is likely to be an entity, so carry on to score the type of this column
                         if (id != null) {
                             rows_with_entities_and_matched_scores.put(row_entry.getKey(), score);
                             List<Pair<String, String>> entities_on_the_row =
@@ -394,7 +394,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
     }
 
     private void interpret(Table table,
-                           LTableAnnotation table_annotation,
+                           TAnnotation table_annotation,
                            Map<Integer, Double> rows_with_entities_mapped_scores,
                            Map<Integer, List<Pair<String, String>>> rows_with_entity_ids,
                            Map<String[], Double> expected_types_of_relation,

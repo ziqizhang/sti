@@ -25,7 +25,7 @@ public class TAnnotationWriter {
     }
 
 
-    public void writeHTML(Table table, LTableAnnotation tab_annotations, String outFile) throws FileNotFoundException {
+    public void writeHTML(Table table, TAnnotation tab_annotations, String outFile) throws FileNotFoundException {
         StringBuilder table_sb = new StringBuilder();
         table_sb.append("<html><body>\n");
         String sourceId = table.getSourceId();
@@ -68,7 +68,7 @@ public class TAnnotationWriter {
 
     }
 
-    protected void writeCellKeyFile(Table table, LTableAnnotation table_annotation, String cell_key) throws FileNotFoundException {
+    protected void writeCellKeyFile(Table table, TAnnotation table_annotation, String cell_key) throws FileNotFoundException {
         PrintWriter p = new PrintWriter(cell_key);
         for (int r = 0; r < table.getNumRows(); r++) {
             for (int c = 0; c < table.getNumCols(); c++) {
@@ -98,7 +98,7 @@ public class TAnnotationWriter {
         p.close();
     }
 
-    protected void writeRelationKeyFile(LTableAnnotation table_annotation, String relation_key) throws FileNotFoundException {
+    protected void writeRelationKeyFile(TAnnotation table_annotation, String relation_key) throws FileNotFoundException {
         PrintWriter p = new PrintWriter(relation_key);
         for (Map.Entry<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> e :
                 table_annotation.getRelationAnnotations_across_columns().entrySet()) {
@@ -127,7 +127,7 @@ public class TAnnotationWriter {
         p.close();
     }
 
-    protected void writeHeaderKeyFile(Table table, LTableAnnotation table_annotation, String header_key) throws FileNotFoundException {
+    protected void writeHeaderKeyFile(Table table, TAnnotation table_annotation, String header_key) throws FileNotFoundException {
         PrintWriter p = new PrintWriter(header_key);
 
         for (int c = 0; c < table.getNumCols(); c++) {
@@ -174,7 +174,7 @@ public class TAnnotationWriter {
         p.close();
     }
 
-    protected String writeRelation_inCell(Table table, LTableAnnotation tab_annotations) {
+    protected String writeRelation_inCell(Table table, TAnnotation tab_annotations) {
         StringBuilder out = new StringBuilder();
         out.append("<tr>\n");
         for (int row = 0; row < table.getNumRows(); row++) {
@@ -244,7 +244,7 @@ public class TAnnotationWriter {
         return out.toString();
     }
 
-    protected String writeRelation_inHeader(Table table, LTableAnnotation tab_annotations) {
+    protected String writeRelation_inHeader(Table table, TAnnotation tab_annotations) {
         StringBuilder out = new StringBuilder();
         out.append("<tr>\n");
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -311,7 +311,7 @@ public class TAnnotationWriter {
     }
 
 
-    protected String writeHeader(Table table, LTableAnnotation tab_annotations) {
+    protected String writeHeader(Table table, TAnnotation tab_annotations) {
         StringBuilder out = new StringBuilder();
         out.append("<tr>\n");
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -349,7 +349,7 @@ public class TAnnotationWriter {
         return out.toString();
     }
 
-    protected String writeCell(Table table, LTableAnnotation tab_annotations) {
+    protected String writeCell(Table table, TAnnotation tab_annotations) {
         StringBuilder out = new StringBuilder();
 
         for (int row = 0; row < table.getNumRows(); row++) {

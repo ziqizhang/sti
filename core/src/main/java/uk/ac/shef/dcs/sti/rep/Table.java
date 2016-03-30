@@ -35,7 +35,7 @@ public class Table implements Serializable {
     //private List<CellBinaryRelationAnnotation> relations = new ArrayList<CellBinaryRelationAnnotation>();
     private List<TContext> contexts = new ArrayList<TContext>();
 
-    private LTableAnnotation tableAnnotations;
+    private TAnnotation tableAnnotations;
 
 
     public Table(String id, String sourceId, int rows, int cols) {
@@ -48,7 +48,7 @@ public class Table implements Serializable {
         headers = new SparseObjectMatrix1D(cols);
 
         rowXPaths = new LinkedHashMap<Integer, String>();
-        tableAnnotations = new LTableAnnotation(rows, cols);
+        tableAnnotations = new TAnnotation(rows, cols);
     }
 
     public int getNumRows() {
@@ -146,11 +146,11 @@ public class Table implements Serializable {
     }
 
 
-    public LTableAnnotation getTableAnnotations() {
+    public TAnnotation getTableAnnotations() {
         return tableAnnotations;
     }
 
-    public void setTableAnnotations(LTableAnnotation tableAnnotations) {
+    public void setTableAnnotations(TAnnotation tableAnnotations) {
         this.tableAnnotations = tableAnnotations;
     }
 

@@ -21,7 +21,7 @@ public class TripleGenerator {
         this.defaultNamespace = dummyNamespace;
     }
 
-    public List<LTableTriple> generate_newTriples(LTableAnnotation tab_annotation, Table table) {
+    public List<LTableTriple> generate_newTriples(TAnnotation tab_annotation, Table table) {
         List<LTableTriple> result = new ArrayList<>();
 
         //column typing instances

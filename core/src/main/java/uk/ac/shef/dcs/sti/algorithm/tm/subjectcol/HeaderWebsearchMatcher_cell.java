@@ -1,28 +1,26 @@
 package uk.ac.shef.dcs.sti.algorithm.tm.subjectcol;
 
+import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
-import uk.ac.shef.dcs.websearch.bing.v2.BingSearchResultParser;
 import uk.ac.shef.dcs.websearch.WebSearchResultDoc;
 
 import java.util.*;
 
 /**
  */
-public class HeaderWebsearchMatcher_cell extends HeaderWebsearchMatcher_token {
-    public HeaderWebsearchMatcher_cell(HeaderWebsearchMatcherCache cache, BingSearch searcher, List<String> stopwords) {
-        this.cache = cache;
-        this.searcher = searcher;
-        resultParser = new BingSearchResultParser();
+public class HeaderWebsearchMatcher_cell extends WSScorer {
+    public HeaderWebsearchMatcher_cell(SolrCache cache, BingSearch searcher, List<String> stopwords) {
+        super(cache, searcher,stopwords);
     }
 
-    public Map<String, Double> interpret(List<WebSearchResultDoc> searchResult, String... normalizedValues) {
+    public Map<String, Double> score(List<WebSearchResultDoc> searchResult, String... normalizedValues) {
         Map<String, Double> scores = new HashMap<String, Double>();
 
         for (WebSearchResultDoc doc : searchResult) {
             String title = doc.getTitle();
-            interpret(scores, title, TITLE_MULTIPLIER, normalizedValues);
+            score(scores, title, TITLE_WEIGHT_SCALAR, normalizedValues);
             String desc = doc.getDescription();
-            interpret(scores, desc, 1.0, normalizedValues);
+            score(scores, desc, 1.0, normalizedValues);
         }
 
         //update scores, if long terms include any short terms, long terms promoted by length_s/length_l * score_s
@@ -64,12 +62,12 @@ public class HeaderWebsearchMatcher_cell extends HeaderWebsearchMatcher_token {
         return scores;
     }
 
-    private void interpret(Map<String, Double> scores, String context, double context_weight_multiplier, String... normalizedValues) {
-        context = normalizeString(context);
+    private void score(Map<String, Double> scores, String context, double context_weight_multiplier, String... normalizedValues) {
+        context = normalize(context);
 
         Map<String, Set<Integer>> offsets = new HashMap<String, Set<Integer>>();
         for (String v : normalizedValues) {
-            //v=normalizeString(v);
+            //v=normalize(v);
             if (v.length() < 1) continue;
             Set<Integer> os = counter.countOffsets(v, context);
             offsets.put(v, os);
@@ -139,7 +137,7 @@ public class HeaderWebsearchMatcher_cell extends HeaderWebsearchMatcher_token {
 
 
 
-    public static String createQueryID(String... values) {
+    public  String createSolrCacheQuery(String... values) {
         StringBuilder sb = new StringBuilder();
         for (String v : values)
             sb.append(v).append(" ");
@@ -149,7 +147,7 @@ public class HeaderWebsearchMatcher_cell extends HeaderWebsearchMatcher_token {
 
     /*public static void main(String[] args) throws APIKeysDepletedException, IOException {
         String[] accountKeys = new String[]{"fXhmgvVQnz1aLBti87+AZlPYDXcQL0G9L2dVAav+aK0="};
-        HeaderWebsearchMatcher_token matcher = new HeaderWebsearchMatcher_token(
+        WSScorer matcher = new WSScorer(
                 new HeaderWebsearchMatcherCache("D:\\Work\\lodiedata\\tableminer_cache\\solrindex_cache\\zookeeper\\solr",
                         "collection1"),
                 new BingSearch(accountKeys), null

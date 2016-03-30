@@ -10,7 +10,7 @@ import java.util.*;
  * this simply chooses column type based on relations' expected types
  */
 public class DataLiteralColumnClassifier_exclude_entity_col extends DataLiteralColumnClassifier {
-    //private static final Logger log = Logger.getLogger(ColumnInterpreter_relDepend_v1.class.getName());
+    //private static final Logger LOG = Logger.getLogger(ColumnInterpreter_relDepend_v1.class.getName());
     private int[] ignoreColumns;
 
     public DataLiteralColumnClassifier_exclude_entity_col(
@@ -19,7 +19,7 @@ public class DataLiteralColumnClassifier_exclude_entity_col extends DataLiteralC
 
     }
 
-    public void interpret(Table table, LTableAnnotation annotations, Integer... ne_columns) throws IOException {
+    public void interpret(Table table, TAnnotation annotations, Integer... ne_columns) throws IOException {
         //for each column that has a relation with the subject column, infer its type
         Map<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>
                 relationAnnotations = annotations.getRelationAnnotations_per_row();

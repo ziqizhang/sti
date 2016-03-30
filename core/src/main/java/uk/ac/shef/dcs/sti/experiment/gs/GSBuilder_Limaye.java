@@ -11,7 +11,7 @@ import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.util.FileUtils;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -92,7 +92,7 @@ public class GSBuilder_Limaye {
                 String inFile = f.toString();
                 System.out.println(count + "_" + inFile + " " + new Date());
                 Table table = LimayeDatasetLoader.readTable(raw_file.toString(), null, null);
-                LTableAnnotation annotations = gsBuilder.readTableAnnotation(inFile, table);
+                TAnnotation annotations = gsBuilder.readTableAnnotation(inFile, table);
                 gsBuilder.save(table, annotations, outFolder, writer);
             } catch (Exception e) {
                 System.err.println("ERROR:" + f);
@@ -101,7 +101,7 @@ public class GSBuilder_Limaye {
         }
     }
 
-    public void save(Table table, LTableAnnotation annotations, String outFolder, TAnnotationWriter writer) throws FileNotFoundException {
+    public void save(Table table, TAnnotation annotations, String outFolder, TAnnotationWriter writer) throws FileNotFoundException {
         String fileId = table.getSourceId();
         fileId = fileId.replaceAll("\\\\", "/");
         int trim = fileId.lastIndexOf("/");
@@ -121,7 +121,7 @@ public class GSBuilder_Limaye {
         p.close();
     }
 
-    public LTableAnnotation readTableAnnotation(String tableAnnotationFilename,
+    public TAnnotation readTableAnnotation(String tableAnnotationFilename,
                                                 Table table) throws IOException, ParserConfigurationException, SAXException {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 
@@ -147,7 +147,7 @@ public class GSBuilder_Limaye {
                 total_columns = columns;
         }
 
-        LTableAnnotation annotations = new LTableAnnotation(table.getNumRows(), table.getNumCols());
+        TAnnotation annotations = new TAnnotation(table.getNumRows(), table.getNumCols());
         for (int i = 0; i < dataRowAnnotations.size(); i++) {
             Node row = dataRowAnnotations.get(i);
             List<Node> cols = DomUtils.findAll(row, "entity");

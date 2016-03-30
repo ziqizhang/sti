@@ -11,8 +11,8 @@ import uk.ac.shef.dcs.sti.algorithm.tm.sampler.Random;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.*;
 import uk.ac.shef.dcs.sti.algorithm.tm.stopping.EntropyConvergence;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorIMDB;
@@ -145,7 +145,7 @@ public class TestTI_DataFiltering_BaselinePlus_IMDB {
         LEARNING columnInterpreter = new LEARNING(
                 column_learnerSeeding, column_updater, TableMinerConstants.TCELLDISAMBIGUATOR_MAX_REFERENCE_ENTITIES);
 
-        //object to interpret relations between columns
+        //object to score relations between columns
         HeaderBinaryRelationScorer relation_scorer = new HeaderBinaryRelationScorer_Vote(nlpResources,
                 new Creator_RelationHierarchicalBOW_Freebase(),
                 stopWords,
@@ -280,7 +280,7 @@ public class TestTI_DataFiltering_BaselinePlus_IMDB {
                                   String outFolder, boolean relationLearning) throws FileNotFoundException {
         String outFilename = sourceTableFile.replaceAll("\\\\", "/");
         try {
-            LTableAnnotation annotations = interpreter.start(table, relationLearning);
+            TAnnotation annotations = interpreter.start(table, relationLearning);
 
             int startIndex = outFilename.lastIndexOf("/");
             if (startIndex != -1) {

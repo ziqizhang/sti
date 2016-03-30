@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.algorithm.smp;
 import cern.colt.matrix.ObjectMatrix2D;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Key_SubjectCol_ObjectCol;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.util.SubsetGenerator;
 
 import java.util.*;
@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class CellAnnotationUpdater {
 
-    public int[] update(ObjectMatrix2D messages, LTableAnnotation tableAnnotation) {
+    public int[] update(ObjectMatrix2D messages, TAnnotation tableAnnotation) {
         int countUpdateNeeded = 0, countUpdated = 0;// an update is invalid if the message requires the cell to change to
         //the same NE that it was already assigned to
         //this is possible due to relation messages
@@ -82,7 +82,7 @@ public class CellAnnotationUpdater {
      */
     private Map<Integer, List<Integer>> computeSatisfiedMessages(int r, int c,
                                                                  List<ChangeMessage> messages_for_cell,
-                                                                 LTableAnnotation tableAnnotation) {
+                                                                 TAnnotation tableAnnotation) {
         CellAnnotation[] cellAnnotations = tableAnnotation.getContentCellAnnotations(r, c);
         Map<Integer, List<Integer>> out = new HashMap<Integer, List<Integer>>();
         if (cellAnnotations == null || cellAnnotations.length == 0) //possible if message is sent by relation and request a change to its object which is not an NE
@@ -104,7 +104,7 @@ public class CellAnnotationUpdater {
         return out;
     }
 
-    private boolean checkEntityAgainstMessage(CellAnnotation ca, int row, int col, ChangeMessage m, LTableAnnotation tableAnnotation) {
+    private boolean checkEntityAgainstMessage(CellAnnotation ca, int row, int col, ChangeMessage m, TAnnotation tableAnnotation) {
         //if the change message is due to relation
         if (m instanceof ChangeMessageFromColumnsRelation) {
             ChangeMessageFromColumnsRelation message = (ChangeMessageFromColumnsRelation) m;

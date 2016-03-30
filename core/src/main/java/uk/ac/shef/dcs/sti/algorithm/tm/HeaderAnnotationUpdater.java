@@ -2,8 +2,8 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 
@@ -98,7 +98,7 @@ class HeaderAnnotationUpdater {
                                                                    int totalRows,
                                                                    HeaderAnnotation[] existing_header_annotations,
                                                                    Table table,
-                                                                   LTableAnnotation table_annotations,
+                                                                   TAnnotation table_annotations,
                                                                    TColumnClassifier classification_scorer) {
         Set<HeaderAnnotation> headers = new HashSet<HeaderAnnotation>(Arrays.asList(existing_header_annotations));
         headers = classification_scorer.score_context(

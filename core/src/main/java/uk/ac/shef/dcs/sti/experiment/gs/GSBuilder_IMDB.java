@@ -4,9 +4,9 @@ import org.apache.any23.util.FileUtils;
 import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.LTableAnnotation;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
@@ -55,7 +55,7 @@ public class GSBuilder_IMDB {
                 Table table = tables.get(0);
                 //gs annotator
                 System.out.println(f+", with rows: "+table.getNumRows());
-                LTableAnnotation annotations = gsBuilder.annotate(table, queryHelper);
+                TAnnotation annotations = gsBuilder.annotate(table, queryHelper);
                 if (annotations != null) {
                     int count_annotations = 0;
                     for (int row = 0; row < table.getNumRows(); row++) {
@@ -85,8 +85,8 @@ public class GSBuilder_IMDB {
         }
     }
 
-    public LTableAnnotation annotate(Table table, FreebaseQueryHelper queryHelper) throws IOException {
-        LTableAnnotation tableAnnotation = new LTableAnnotation(table.getNumRows(), table.getNumCols());
+    public TAnnotation annotate(Table table, FreebaseQueryHelper queryHelper) throws IOException {
+        TAnnotation tableAnnotation = new TAnnotation(table.getNumRows(), table.getNumCols());
         for (int row = 0; row < table.getNumRows(); row++) {
             TContentCell ltc = table.getContentCell(row, 0);
             String text = ltc.getText();
@@ -111,7 +111,7 @@ public class GSBuilder_IMDB {
     }
 
 
-    public void save(Table table, LTableAnnotation annotations, String outFolder, TAnnotationWriter writer) throws FileNotFoundException {
+    public void save(Table table, TAnnotation annotations, String outFolder, TAnnotationWriter writer) throws FileNotFoundException {
         String fileId = table.getSourceId();
         fileId = fileId.replaceAll("\\\\","/");
         int trim = fileId.lastIndexOf("/");

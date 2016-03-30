@@ -49,8 +49,8 @@ public class TI_SemanticMessagePassing {
         this.forceInterpretColumn = forceInterpretColumn;
     }
 
-    public LTableAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException, STIException {
-        LTableAnnotation_SMP_Freebase tab_annotations = new LTableAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException, STIException {
+        TAnnotation_SMP_Freebase tab_annotations = new TAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
 
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
@@ -90,12 +90,12 @@ public class TI_SemanticMessagePassing {
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t SEMANTIC MESSAGE PASSING");
-        LTableAnnotation_SMP_Freebase copy;
+        TAnnotation_SMP_Freebase copy;
         CellAnnotationUpdater cellAnnotationUpdater = new CellAnnotationUpdater();
         for (int i = 1; i <= halting_num_of_iterations_max; i++) {
             System.out.println("\t\t>> [ITERATION] "+i);
-            copy = new LTableAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
-            LTableAnnotation.copy(tab_annotations, copy);
+            copy = new TAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
+            TAnnotation.copy(tab_annotations, copy);
             //column concept and relation factors send message to entity factors
             System.out.println("\t\t>> COMPUTING MESSAGES");
             ObjectMatrix2D messages = new ChangeMessageBroadcaster().computeChangeMessages(tab_annotations, table);
@@ -130,12 +130,12 @@ public class TI_SemanticMessagePassing {
         return tab_annotations;
     }
 
-    private void resetClassesAndRelations(LTableAnnotation_SMP_Freebase tab_annotations) {
+    private void resetClassesAndRelations(TAnnotation_SMP_Freebase tab_annotations) {
         tab_annotations.resetHeaderAnnotations();
         tab_annotations.resetRelationAnnotations();
     }
 
-    private void computeClasses(LTableAnnotation_SMP_Freebase tab_annotations, Table table) throws IOException {
+    private void computeClasses(TAnnotation_SMP_Freebase tab_annotations, Table table) throws IOException {
         System.out.println("\t\t>> COLUMN SEMANTIC TYPE COMPUTING...");
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -152,12 +152,12 @@ public class TI_SemanticMessagePassing {
         }
     }
 
-    private void computeRelations(LTableAnnotation_SMP_Freebase tab_annotations, Table table, boolean useMainSubjectColumn){
+    private void computeRelations(TAnnotation_SMP_Freebase tab_annotations, Table table, boolean useMainSubjectColumn){
         System.out.println("\t\t>> RELATION COMPUTING...");
         relationLearner.inferRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumns);
     }
 
-    private boolean middlePointHaltingConditionReached(ObjectMatrix2D messages, LTableAnnotation tab_annotations, Table table) {
+    private boolean middlePointHaltingConditionReached(ObjectMatrix2D messages, TAnnotation tab_annotations, Table table) {
         int count_change_messages_from_header = 0, count_change_messages_from_relation = 0;
         for (int r = 0; r < messages.rows(); r++) {
             for (int c = 0; c < messages.columns(); c++) {
@@ -199,7 +199,7 @@ public class TI_SemanticMessagePassing {
         return false;
     }
 
-    private boolean haltingConditionReached(int currentIteration, int maxIterations, LTableAnnotation previous, LTableAnnotation current) {
+    private boolean haltingConditionReached(int currentIteration, int maxIterations, TAnnotation previous, TAnnotation current) {
         if (currentIteration == maxIterations)
             return true;
 

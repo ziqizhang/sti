@@ -14,7 +14,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
 
     public void addFactors(Map<String, Variable> cellVariables,
                            Map<Integer, Variable> headerVariables,
-                           LTableAnnotation_JI_Freebase annotation,
+                           TAnnotation_JI_Freebase annotation,
                            FactorGraph graph,
                            String tableId, Set<Integer> columns) {
         for (int col = 0; col < annotation.getCols(); col++) {
@@ -67,7 +67,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
 
     public void addFactors(Map<String, Variable> cellVariables,
                            Map<Integer, Variable> headerVariables,
-                           LTableAnnotation_JI_Freebase annotation,
+                           TAnnotation_JI_Freebase annotation,
                            FactorGraph graph,
                            String tableId) {
         addFactors(cellVariables, headerVariables, annotation, graph, tableId, null);

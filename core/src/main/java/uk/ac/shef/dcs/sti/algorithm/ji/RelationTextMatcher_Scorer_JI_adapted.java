@@ -25,7 +25,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                 List<CellAnnotation> subjectCellAnnotations, int subjectColumn,
                                 List<CellAnnotation> objectCellAnnotations, int objectColumn,
                                 DataTypeClassifier.DataType object_column_type,
-                                LTableAnnotation_JI_Freebase tableAnnotation
+                                TAnnotation_JI_Freebase tableAnnotation
     ) {
         if (subjectCellAnnotations.size() != 0 && objectCellAnnotations.size() != 0) {
             for (int s = 0; s < subjectCellAnnotations.size(); s++) { //for each candidate subject entity
@@ -104,7 +104,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                   List<HeaderAnnotation> objectHeaderColumnCandidates,
                                   int objCol,
                                   DataTypeClassifier.DataType objectColumnDataType,
-                                  LTableAnnotation_JI_Freebase annotation,
+                                  TAnnotation_JI_Freebase annotation,
                                   KBSearch kbSearch) throws IOException {
         if (subjectHeaderColumnCandidates.size() > 0 && objectHeaderColumnCandidates.size() > 0) {
             for (int s = 0; s < subjectHeaderColumnCandidates.size(); s++) {
@@ -147,7 +147,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
 
     }
 
-    private void createCandidateAnnotation(LTableAnnotation_JI_Freebase tableAnnotation,
+    private void createCandidateAnnotation(TAnnotation_JI_Freebase tableAnnotation,
                                            int row, int subjectColumn, int objectColumn,
                                            String[] fact,
                                            double score,
@@ -165,7 +165,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                 fact[0], matchedObjCellCandidates, subjectColumn, objectColumn, score);
     }
 
-    private void populateConceptPairAndRelationScore_instanceEvidence(LTableAnnotation_JI_Freebase tableAnnotation,
+    private void populateConceptPairAndRelationScore_instanceEvidence(TAnnotation_JI_Freebase tableAnnotation,
                                                                       CellAnnotation sbjEntity,
                                                                       int entityRow,
                                                                       String relationURL,
@@ -187,7 +187,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
         }
     }
 
-    private void populateEntityPairAndRelationScore(LTableAnnotation_JI_Freebase tableAnnotation,
+    private void populateEntityPairAndRelationScore(TAnnotation_JI_Freebase tableAnnotation,
                                                     String entityId, String relationURL, List<CellAnnotation> objEntities,
                                                     int relationFrom, int relationTo
     ) {
@@ -248,7 +248,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
     private void createCandidateAnnotation(String[] fact,
                                            HeaderAnnotation sbjCandidate,
                                            List<String> objectConcepts,
-                                           LTableAnnotation_JI_Freebase annotation,
+                                           TAnnotation_JI_Freebase annotation,
                                            int col1,
                                            int col2) {
         String relation_key = HeaderBinaryRelationAnnotation.toStringExpanded(col1, col2, fact[0]);
@@ -281,7 +281,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
     public void match_sbjCellsAndRelation(
             List<CellAnnotation> subjectCellAnnotations,
             int subjectColumn, int objectColumn,
-            LTableAnnotation_JI_Freebase tableAnnotations) {
+            TAnnotation_JI_Freebase tableAnnotations) {
         if (subjectCellAnnotations.size() > 0) {
             Key_SubjectCol_ObjectCol relationDirection = new Key_SubjectCol_ObjectCol(subjectColumn, objectColumn);
             List<HeaderBinaryRelationAnnotation> candidateRelations =

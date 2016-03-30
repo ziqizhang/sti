@@ -30,7 +30,7 @@ public class LEARNINGPreliminaryDisamb {
             int anchor,
             List<List<Integer>> ranking,
             Table table,
-            LTableAnnotation current_iteration_annotation,
+            TAnnotation current_iteration_annotation,
             int column,
             Set<Entity> reference_entities,
             Integer... skipRows) throws IOException {
@@ -138,7 +138,7 @@ public class LEARNINGPreliminaryDisamb {
     //updateHeaderScore: weather the disamb result score should be incremented to the header's score (e.g., those that contributed to the classification of the column in the first place shouldbe disregarded; while the remaining columns shouldbe considered
     private void update_entity_annotations(
             Table table,
-            LTableAnnotation table_annotation,
+            TAnnotation table_annotation,
             List<Integer> table_cell_rows,
             int table_cell_col,
             List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_cell) {
@@ -173,7 +173,7 @@ public class LEARNINGPreliminaryDisamb {
     //WARNING: CURRENTLY updating does not ADD new headers
     public void update_typing_annotations_best_candidate_contribute(List<Integer> rowsUpdated,
                                                                     int column,
-                                                                    LTableAnnotation table_annotations,
+                                                                    TAnnotation table_annotations,
                                                                     Table table,
                                                                     int tableRowsTotal) {
         HeaderAnnotation[] existing_header_annotations = table_annotations.getHeaderAnnotation(column);
@@ -211,7 +211,7 @@ public class LEARNINGPreliminaryDisamb {
     //WARNING: CURRENTLY updating does not ADD new headers
     public void update_typing_annotations_all_candidate_contribute(List<Integer> rowsUpdated,
                                                                    int column,
-                                                                   LTableAnnotation table_annotations,
+                                                                   TAnnotation table_annotations,
                                                                    Table table,
                                                                    int tableRowsTotal) {
         HeaderAnnotation[] existing_header_annotations = table_annotations.getHeaderAnnotation(column);
