@@ -67,7 +67,7 @@ public class MainInterpreter_old {
 
                 //2. disambiguate that column and other columns
                 System.out.println(">\t Classify and disambiguate main column " + main_subject_column);
-                interpreter_column.interpret(table, tab_annotations, main_subject_column);
+                interpreter_column.process(table, tab_annotations, main_subject_column);
 
                 //3. score relations
                 System.out.println(">\t Interpret relations with the main column");
@@ -119,7 +119,7 @@ public class MainInterpreter_old {
                 continue;*/
             if (forceInterpret(col)) {
                 System.out.println("\t>> Column=(forced)" + col);
-                interpreter_column.interpret(table, tab_annotations, col);
+                interpreter_column.process(table, tab_annotations, col);
             } else {
                 if (ignoreColumn(col)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
@@ -131,7 +131,7 @@ public class MainInterpreter_old {
 
                 if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
                     System.out.println("\t>> Column=" + col);
-                    interpreter_column.interpret(table, tab_annotations, col);
+                    interpreter_column.process(table, tab_annotations, col);
                 }
             }
         }
@@ -158,7 +158,7 @@ public class MainInterpreter_old {
         double entityScores = 0.0;
         for (int col = 0; col < table.getNumCols(); col++) {
             for (int row = 0; row < table.getNumRows(); row++) {
-                CellAnnotation[] cAnns = tab_annotations.getContentCellAnnotations(row, col);
+                TCellAnnotation[] cAnns = tab_annotations.getContentCellAnnotations(row, col);
                 if (cAnns != null && cAnns.length > 0) {
                     entityScores += cAnns[0].getFinalScore();
                 }

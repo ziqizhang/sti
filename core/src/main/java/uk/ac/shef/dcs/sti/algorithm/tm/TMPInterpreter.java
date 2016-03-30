@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
+import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.TColumnFeature;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
@@ -27,6 +28,7 @@ public class TMPInterpreter {
     private int[] mustdoColumns;
     private UPDATE update;
 
+    private static final Logger LOG = Logger.getLogger(TMPInterpreter.class.getName());
 
     public TMPInterpreter(SubjectColumnDetector subjectColumnDetector,
                           LEARNING learning,
@@ -51,7 +53,7 @@ public class TMPInterpreter {
 
     public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException, STIException {
         //1. find the main subject column of this table
-        System.out.println(">\t Detecting main column...");
+        LOG.info(">\t Detecting subject column...");
         int[] ignoreColumnsArray = new int[ignoreCols.size()];
 
         int index=0;
@@ -70,35 +72,36 @@ public class TMPInterpreter {
                     it.remove();
             }
         }*/
-        TAnnotation tab_annotations = new TAnnotation(table.getNumRows(), table.getNumCols());
-        tab_annotations.setSubjectColumn(subjectColumnScores.get(0).getKey());
-        List<Integer> interpreted_columns = new ArrayList<Integer>();
-        System.out.println(">\t FORWARD LEARNING...");
+        TAnnotation tableAnnotations = new TAnnotation(table.getNumRows(), table.getNumCols());
+        tableAnnotations.setSubjectColumn(subjectColumnScores.get(0).getKey());
+
+        List<Integer> annotatedColumns = new ArrayList<>();
+        LOG.info(">\t LEARNING phrase ...");
         for (int col = 0; col < table.getNumCols(); col++) {
             /*if(col!=1)
                 continue;*/
-            if (forceInterpret(col)) {
-                System.out.println("\t>> Column=(forced)" + col);
-                interpreted_columns.add(col);
-                learning.interpret(table, tab_annotations, col);
+            if (isCompulsoryColumn(col)) {
+                LOG.info("\t>> Column=(compulsory)" + col);
+                annotatedColumns.add(col);
+                learning.process(table, tableAnnotations, col);
             } else {
                 if (ignoreColumn(col)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 /*if (table.getColumnHeader(col).getFeature().isAcronymColumn())
                     continue;*/
-                interpreted_columns.add(col);
+                annotatedColumns.add(col);
 
                 //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
-                System.out.println("\t>> Column=" + col);
-                learning.interpret(table, tab_annotations, col);
+                LOG.info("\t>> Column=" + col);
+                learning.process(table, tableAnnotations, col);
                 //}
             }
         }
 
         if (update != null) {
-            System.out.println(">\t BACKWARD UPDATE...");
-            update.update(interpreted_columns, table, tab_annotations);
+            LOG.info(">\t UPDATE phase ...");
+            update.update(annotatedColumns, table, tableAnnotations);
         }
 
         if (relationLearning) {
@@ -110,46 +113,46 @@ public class TMPInterpreter {
                 main_subject_column = mainCol.getKey();
                 if (ignoreColumn(main_subject_column)) continue;
 
-                System.out.println(">\t Interpret relations with the main column, =" + main_subject_column);
-                int columns_having_relations_with_main_col = interpreter_relation.interpret(tab_annotations, table, main_subject_column);
+                LOG.info(">\t Interpret relations with the main column, =" + main_subject_column);
+                int columns_having_relations_with_main_col = interpreter_relation.interpret(tableAnnotations, table, main_subject_column);
                 boolean interpretable = false;
                 if (columns_having_relations_with_main_col > 0) {
                     interpretable = true;
                 }
                 if (interpretable) {
-                    tab_annotations.setSubjectColumn(main_subject_column);
+                    tableAnnotations.setSubjectColumn(main_subject_column);
                     break;
                 } else {
                     //the current subject column could be wrong, try differently
-                    double overall_score_of_current_solution = scoreSolution(tab_annotations, table, main_subject_column);
+                    double overall_score_of_current_solution = scoreSolution(tableAnnotations, table, main_subject_column);
                     if (overall_score_of_current_solution > best_solution_score) {
-                        tab_annotations.setSubjectColumn(main_subject_column);
-                        best_annotations = tab_annotations;
+                        tableAnnotations.setSubjectColumn(main_subject_column);
+                        best_annotations = tableAnnotations;
                         best_solution_score = overall_score_of_current_solution;
                     }
-                    tab_annotations.resetRelationAnnotations();
-                    System.err.println(">>\t Main column does not satisfy number of relations check, continue to the next main column...");
+                    tableAnnotations.resetRelationAnnotations();
+                    LOG.error(">>\t Main column does not satisfy number of relations check, continue to the next main column...");
                     continue;
                 }
             }
-            if (tab_annotations == null && best_annotations != null) {
-                tab_annotations = best_annotations;
+            if (tableAnnotations == null && best_annotations != null) {
+                tableAnnotations = best_annotations;
             }
 
             if (TableMinerConstants.REVISE_HBR_BY_DC && update !=null) {
-                List<String> domain_rep = update.construct_domain_represtation(table, tab_annotations, interpreted_columns);
-                revise_header_binary_relations(tab_annotations, domain_rep);
+                List<String> domain_rep = update.construct_domain_represtation(table, tableAnnotations, annotatedColumns);
+                revise_header_binary_relations(tableAnnotations, domain_rep);
             }
 
             //4. consolidation-for columns that have relation with main subject column, if the column is
             // entity column, do column typing and disambiguation; otherwise, simply create header annotation
-            System.out.println(">\t Classify columns (non-NE) in relation with main column");
-            interpreter_column_with_knownReltaions.interpret(table, tab_annotations, interpreted_columns.toArray(new Integer[0]));
+            LOG.info(">\t Classify columns (non-NE) in relation with main column");
+            interpreter_column_with_knownReltaions.interpret(table, tableAnnotations, annotatedColumns.toArray(new Integer[0]));
 
         }
 
 
-        return tab_annotations;
+        return tableAnnotations;
     }
 
     /*private boolean isInterpretable(int columns_having_relations_with_main_col, Table table) {
@@ -171,7 +174,7 @@ public class TMPInterpreter {
         double entityScores = 0.0;
         for (int col = 0; col < table.getNumCols(); col++) {
             for (int row = 0; row < table.getNumRows(); row++) {
-                CellAnnotation[] cAnns = tab_annotations.getContentCellAnnotations(row, col);
+                TCellAnnotation[] cAnns = tab_annotations.getContentCellAnnotations(row, col);
                 if (cAnns != null && cAnns.length > 0) {
                     entityScores += cAnns[0].getFinalScore();
                 }
@@ -201,7 +204,7 @@ public class TMPInterpreter {
         return false;
     }
 
-    private boolean forceInterpret(Integer i) {
+    private boolean isCompulsoryColumn(Integer i) {
         if (i != null) {
             for (int a : mustdoColumns) {
                 if (a == i)

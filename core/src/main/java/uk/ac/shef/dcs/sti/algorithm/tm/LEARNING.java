@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
@@ -10,45 +10,41 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created with IntelliJ IDEA.
- * User: zqz
- * Date: 18/02/14
- * Time: 21:11
- * To change this template use File | Settings | File Templates.
+ * Represents the LEARNING phase, creates preliminary column classification and cell disambiguation
  */
 public class LEARNING {
 
-    private LEARNINGPreliminaryClassify learnerSeeding;
-    private LEARNINGPreliminaryDisamb updater;
+    private LEARNINGPreliminaryClassify columnTagger;
+    private LEARNINGPreliminaryDisamb cellTagger;
     private int max_reference_entities;
 
 
-    public LEARNING(LEARNINGPreliminaryClassify learnerSeeding, LEARNINGPreliminaryDisamb updater,
+    public LEARNING(LEARNINGPreliminaryClassify columnTagger, LEARNINGPreliminaryDisamb cellTagger,
                     int max_reference_entities) {
-        this.learnerSeeding = learnerSeeding;
-        this.updater = updater;
+        this.columnTagger = columnTagger;
+        this.cellTagger = cellTagger;
         this.max_reference_entities = max_reference_entities;
     }
 
-    public void interpret(Table table, TAnnotation table_annotation, int column) throws IOException {
+    public void process(Table table, TAnnotation tableAnnotation, int column) throws IOException {
         Pair<Integer, List<List<Integer>>> converge_position =
-                learnerSeeding.learn_seeding(table, table_annotation, column);
+                columnTagger.learn_seeding(table, tableAnnotation, column);
         Set<Entity> reference_entities = new HashSet<>();
         if (max_reference_entities>0) {
-            reference_entities = selectReferenceEntities(table, table_annotation, column,max_reference_entities);
+            reference_entities = selectReferenceEntities(table, tableAnnotation, column,max_reference_entities);
         }
-        updater.learn_consolidate(converge_position.getKey(),
+        cellTagger.learn_consolidate(converge_position.getKey(),
                 converge_position.getValue(),
                 table,
-                table_annotation,
+                tableAnnotation,
                 column,
                 reference_entities);
     }
 
     public static Set<Entity> selectReferenceEntities(Table table, TAnnotation table_annotation, int column, int max){
-        List<CellAnnotation> selected_best_from_each_row = new ArrayList<CellAnnotation>();
+        List<TCellAnnotation> selected_best_from_each_row = new ArrayList<TCellAnnotation>();
         for(int i=0; i<table.getNumRows(); i++){
-            List<CellAnnotation> best = table_annotation.getBestContentCellAnnotations(i, column);
+            List<TCellAnnotation> best = table_annotation.getBestContentCellAnnotations(i, column);
             if(best!=null && best.size()>0)
                 selected_best_from_each_row.addAll(best);
         }
@@ -63,7 +59,7 @@ public class LEARNING {
         Set<Entity> reference_entities = new HashSet<>();
         for (int i = 0; i < converge_position.getKey()&&i<max; i++) {
             int row = converge_position.getValue()[i];
-            CellAnnotation[] annotations = table_annotation.getContentCellAnnotations(row, column);
+            TCellAnnotation[] annotations = table_annotation.getContentCellAnnotations(row, column);
             if (annotations != null && annotations.length > 0)
                 reference_entities.add(annotations[0].getAnnotation());
         }

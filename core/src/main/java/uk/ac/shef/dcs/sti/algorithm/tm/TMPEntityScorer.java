@@ -6,7 +6,7 @@ import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TContext;
@@ -97,7 +97,7 @@ public class TMPEntityScorer implements EntityScorer {
         bag_of_words_for_context.removeAll(stopWords);
         double contextOverlapScore = CollectionUtils.scoreCoverage_against_b(bag_of_words_for_entity, bag_of_words_for_context);
         //double contextOverlapScore = scoreOverlap(bag_of_words_for_entity, bag_of_words_for_context);
-        scoreMap.put(CellAnnotation.SCORE_CTX_ROW, contextOverlapScore * weights_of_contexts[0]);
+        scoreMap.put(TCellAnnotation.SCORE_CTX_ROW, contextOverlapScore * weights_of_contexts[0]);
         totalScore = totalScore + contextOverlapScore * weights_of_contexts[0];
 
         /*BOW OF Column context*/
@@ -113,7 +113,7 @@ public class TMPEntityScorer implements EntityScorer {
         bag_of_words_for_context.removeAll(stopWords);
         contextOverlapScore = CollectionUtils.scoreCoverage_against_b(bag_of_words_for_entity, bag_of_words_for_context);
         //contextOverlapScore = scoreOverlap(bag_of_words_for_entity, bag_of_words_for_context);
-        scoreMap.put(CellAnnotation.SCORE_CTX_COLUMN, contextOverlapScore * weights_of_contexts[1]);
+        scoreMap.put(TCellAnnotation.SCORE_CTX_COLUMN, contextOverlapScore * weights_of_contexts[1]);
         totalScore = totalScore + contextOverlapScore * weights_of_contexts[1];
 
         /*BOW OF table table context (from paragraphs etc)*/
@@ -127,7 +127,7 @@ public class TMPEntityScorer implements EntityScorer {
         //contextOverlapScore = scoreOverlap_againstEntity(bag_of_words_for_entity, bag_of_words_for_context);
         contextOverlapScore = CollectionUtils.scoreOverlap_dice_keepFrequency(bag_of_words_for_entity, bag_of_words_for_context);
         totalScore = totalScore + contextOverlapScore * weights_of_contexts[2];
-        scoreMap.put(CellAnnotation.SCORE_CTX_OTHER, contextOverlapScore * weights_of_contexts[2]);
+        scoreMap.put(TCellAnnotation.SCORE_CTX_OTHER, contextOverlapScore * weights_of_contexts[2]);
         double name_and_context_match_score = CollectionUtils.scoreOverlap_dice_keepFrequency(bag_of_words_for_entity_name,
                 bag_of_words_for_context);
 
@@ -157,7 +157,7 @@ public class TMPEntityScorer implements EntityScorer {
         }
         double score_with_other_disambiguated_reference_entities = reference_disambiguated_entities.length > 0 ? sum / reference_disambiguated_entities.length : 0;
         totalScore = totalScore + score_with_other_disambiguated_reference_entities * weights_of_contexts[4];
-        scoreMap.put(CellAnnotation.SCORE_COOCCUR_ENTITIES, score_with_other_disambiguated_reference_entities * weights_of_contexts[4]);
+        scoreMap.put(TCellAnnotation.SCORE_COOCCUR_ENTITIES, score_with_other_disambiguated_reference_entities * weights_of_contexts[4]);
 
         /* TYPE MATCH SCORE */
         if (assigned_column_semantic_types.size() > 0 && candidate.getTypes().size() > 0) {
@@ -167,7 +167,7 @@ public class TMPEntityScorer implements EntityScorer {
 /*            for (String[] type : candidate.getTypeIds())
                 types_strings.add(type[0]);*/
             double score_type_match = CollectionUtils.scoreOverlap_dice(bag_of_words_for_context, types_strings);
-            scoreMap.put(CellAnnotation.SCORE_TYPE_MATCH, score_type_match);
+            scoreMap.put(TCellAnnotation.SCORE_TYPE_MATCH, score_type_match);
         }
 
         /*NAME MATCH SCORE */
@@ -177,14 +177,14 @@ public class TMPEntityScorer implements EntityScorer {
         Set<String> intersection = new HashSet<String>(bag_of_words_for_cell_text);
         intersection.retainAll(bag_of_words_for_entity_name);
 
-        scoreMap.put(CellAnnotation.SCORE_NAME_MATCH, Math.sqrt(name_score));
+        scoreMap.put(TCellAnnotation.SCORE_NAME_MATCH, Math.sqrt(name_score));
         scoreMap.put("matched_name_tokens",(double)intersection.size());
 
         /*double name_score = NameMatch_scorer.compute_order_matters(
                 candidate,
                 cell_text,
                 other_candidate_answered_to_query);
-        scoreMap.put(CellAnnotation.SCORE_NAME_MATCH, name_score);
+        scoreMap.put(TCellAnnotation.SCORE_NAME_MATCH, name_score);
 */
         Set<String> headerTokens = new HashSet<String>(lemmatizer.lemmatize(
                 StringUtils.toBagOfWords(headerText, true, true,TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW)
@@ -192,7 +192,7 @@ public class TMPEntityScorer implements EntityScorer {
         headerTokens.removeAll(stopWords);
         double name_and_header_match_score = CollectionUtils.scoreOverlap_dice(bag_of_words_for_entity_name, headerTokens);
 
-        scoreMap.put(CellAnnotation.SCORE_NAME_MATCH_CTX, name_and_header_match_score/* +
+        scoreMap.put(TCellAnnotation.SCORE_NAME_MATCH_CTX, name_and_header_match_score/* +
                 name_and_col_match_score + name_and_context_match_score*/);
 
 
@@ -205,11 +205,11 @@ public class TMPEntityScorer implements EntityScorer {
         for (Map.Entry<String, Double> e : scoreMap.entrySet()) {
             if (e.getKey().startsWith("ctx_"))
                 sum += e.getValue();
-            if(e.getKey().equals(CellAnnotation.SCORE_NAME_MATCH))
+            if(e.getKey().equals(TCellAnnotation.SCORE_NAME_MATCH))
                 sum+=e.getValue();
         }
 
-        scoreMap.put(CellAnnotation.SCORE_FINAL, sum);
+        scoreMap.put(TCellAnnotation.SCORE_FINAL, sum);
         return sum;
     }*/
 
@@ -230,17 +230,17 @@ public class TMPEntityScorer implements EntityScorer {
         for (Map.Entry<String, Double> e : scoreMap.entrySet()) {
             if (e.getKey().startsWith("ctx_"))
                 ctx_scores += e.getValue();
-            if (e.getKey().equals(CellAnnotation.SCORE_NAME_MATCH_CTX))
+            if (e.getKey().equals(TCellAnnotation.SCORE_NAME_MATCH_CTX))
                 sum += e.getValue();
         }
-        Double nameMatch = scoreMap.get(CellAnnotation.SCORE_NAME_MATCH);
+        Double nameMatch = scoreMap.get(TCellAnnotation.SCORE_NAME_MATCH);
         if (nameMatch != null)
             nm_score = nameMatch;
 
         sum = ctx_scores+nm_score;
         sum= ctx_scores*weight_ctx+nm_score*weight_nm;
 
-        scoreMap.put(CellAnnotation.SCORE_FINAL, sum);
+        scoreMap.put(TCellAnnotation.SCORE_FINAL, sum);
         return sum;
     }
 
@@ -250,13 +250,13 @@ public class TMPEntityScorer implements EntityScorer {
         for (Map.Entry<String, Double> e : scoreMap.entrySet()) {
             if (e.getKey().startsWith("ctx_"))
                 sum += e.getValue();
-            if(e.getKey().equals(CellAnnotation.SCORE_NAME_MATCH_HEADER))
+            if(e.getKey().equals(TCellAnnotation.SCORE_NAME_MATCH_HEADER))
                 sum+=e.getValue();
         }
-        Double nameMatch = scoreMap.get(CellAnnotation.SCORE_NAME_MATCH);
+        Double nameMatch = scoreMap.get(TCellAnnotation.SCORE_NAME_MATCH);
         if (nameMatch != null)
             sum = sum *nameMatch;
-        scoreMap.put(CellAnnotation.SCORE_FINAL, sum);
+        scoreMap.put(TCellAnnotation.SCORE_FINAL, sum);
         return sum;
     }*/
 
@@ -269,14 +269,14 @@ public class TMPEntityScorer implements EntityScorer {
             int original_size_header_types = bag_of_words_for_context.size();
             bag_of_words_for_context.retainAll(candidate.getTypeIds());
             if (bag_of_words_for_context.size() == 0)
-                scoreMap.put(CellAnnotation.SCORE_TYPE_MATCH, 0.0);
+                scoreMap.put(TCellAnnotation.SCORE_TYPE_MATCH, 0.0);
             else {
                 double score_type_match = ((double) bag_of_words_for_context.size() / original_size_header_types
                         + (double) bag_of_words_for_context.size() / candidate.getTypes().size()) / 2.0;
-                scoreMap.put(CellAnnotation.SCORE_TYPE_MATCH, score_type_match);
+                scoreMap.put(TCellAnnotation.SCORE_TYPE_MATCH, score_type_match);
             }
         } else {
-            scoreMap.put(CellAnnotation.SCORE_TYPE_MATCH, 0.0);
+            scoreMap.put(TCellAnnotation.SCORE_TYPE_MATCH, 0.0);
         }
 
     }

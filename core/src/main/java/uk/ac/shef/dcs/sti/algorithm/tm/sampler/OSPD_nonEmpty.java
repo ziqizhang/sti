@@ -17,14 +17,14 @@ public class OSPD_nonEmpty extends TContentCellRanker {
 
         if (TableMinerConstants.ENFORCE_OSPD && fromCol!=subCol) {
             //firstly group by one-sense-per-discourse
-            Map<String, List<Integer>> grouped = new HashMap<String, List<Integer>>();
+            Map<String, List<Integer>> grouped = new HashMap<>();
             for (int r = 0; r < table.getNumRows(); r++) {
                 TContentCell tcc = table.getContentCell(r, fromCol);
                 String text = tcc.getText();
                 if (text.length() > 0) {
                     List<Integer> group = grouped.get(text);
                     if (group == null)
-                        group = new ArrayList<Integer>();
+                        group = new ArrayList<>();
                     group.add(r);
                     grouped.put(text, group);
                 }
@@ -57,12 +57,7 @@ public class OSPD_nonEmpty extends TContentCellRanker {
 
             }
 
-            Collections.sort(rs, new Comparator<List<Integer>>() {
-                @Override
-                public int compare(List<Integer> o1, List<Integer> o2) {
-                    return new Integer(countNonEmpty.get(o2)).compareTo(countNonEmpty.get(o1));
-                }
-            });
+            Collections.sort(rs, (o1, o2) -> new Integer(countNonEmpty.get(o2)).compareTo(countNonEmpty.get(o1)));
 
         }
         else{
@@ -89,12 +84,7 @@ public class OSPD_nonEmpty extends TContentCellRanker {
             }
 
             List<Integer> list = new ArrayList<Integer>(scores.keySet());
-            Collections.sort(list, new Comparator<Integer>() {
-                @Override
-                public int compare(Integer o1, Integer o2) {
-                    return scores.get(o2).compareTo(scores.get(o1));
-                }
-            });
+            Collections.sort(list, (o1, o2) -> scores.get(o2).compareTo(scores.get(o1)));
 
             for (int i=0; i<list.size(); i++){
                 List<Integer> block = new ArrayList<Integer>();

@@ -72,12 +72,12 @@ public class TAnnotationWriter {
         PrintWriter p = new PrintWriter(cell_key);
         for (int r = 0; r < table.getNumRows(); r++) {
             for (int c = 0; c < table.getNumCols(); c++) {
-                CellAnnotation[] cans = table_annotation.getContentCellAnnotations(r, c);
+                TCellAnnotation[] cans = table_annotation.getContentCellAnnotations(r, c);
                 if (cans != null && cans.length > 0) {
                     StringBuilder s = new StringBuilder();
                     s.append(r).append(",").append(c).append("=");
                     double prevScore=0.0;
-                    for (CellAnnotation ca : cans) {
+                    for (TCellAnnotation ca : cans) {
                         if (prevScore == 0.0) {
 
                             s.append(ca.getAnnotation().getId());
@@ -188,13 +188,13 @@ public class TAnnotationWriter {
                 if (col == tab_annotations.getSubjectColumn()) {
                     out.append("\t<td");
                     StringBuilder annotation = new StringBuilder();
-                    CellAnnotation[] cAnns = tab_annotations.getContentCellAnnotations(row, col);
+                    TCellAnnotation[] cAnns = tab_annotations.getContentCellAnnotations(row, col);
                     if (cAnns == null)
                         annotation.append(">-");
                     else {
                         annotation.append(" bgcolor=\"#00FF00\">");
                         for (int i = 0; i < cAnns.length; i++) {
-                            CellAnnotation cAnn = cAnns[i];
+                            TCellAnnotation cAnn = cAnns[i];
                             if (i == 0) { //the winning annotation
                                 annotation.append("<br><b>").append(generateCellAnnotationString(cAnn)).append("</b></br>");
                             } else if (showLosingCandidates) {  //others
@@ -363,13 +363,13 @@ public class TAnnotationWriter {
                 //then annotations
                 out.append("\t<td");
                 StringBuilder annotation = new StringBuilder();
-                CellAnnotation[] cAnns = tab_annotations.getContentCellAnnotations(row, col);
+                TCellAnnotation[] cAnns = tab_annotations.getContentCellAnnotations(row, col);
                 if (cAnns == null)
                     annotation.append(">-");
                 else {
                     annotation.append(" bgcolor=\"#00FF00\">");
                     for (int i = 0; i < cAnns.length; i++) {
-                        CellAnnotation cAnn = cAnns[i];
+                        TCellAnnotation cAnn = cAnns[i];
                         if (i == 0) { //the winning annotation
                             annotation.append("<br><b>").append(generateCellAnnotationString(cAnn)).append("</b></br>");
                         } else if (showLosingCandidates) {  //others
@@ -386,7 +386,7 @@ public class TAnnotationWriter {
         return out.toString();
     }
 
-    protected Object generateCellAnnotationString(CellAnnotation cAnn) {
+    protected Object generateCellAnnotationString(TCellAnnotation cAnn) {
         StringBuilder sb = new StringBuilder();
         sb.append("<a href=\"" + linkPrefix + cAnn.getAnnotation().getId() + "\">").
                 append(cAnn.getAnnotation().getLabel()).append("</a>").

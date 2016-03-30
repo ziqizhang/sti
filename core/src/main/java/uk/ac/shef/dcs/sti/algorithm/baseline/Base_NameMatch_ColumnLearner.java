@@ -90,11 +90,11 @@ public class Base_NameMatch_ColumnLearner {
 
     private List<Pair<Entity, Map<String, Double>>> collect_existing(TAnnotation table_annotation, int row_index, int column) {
         List<Pair<Entity, Map<String, Double>>> candidates = new ArrayList<>();
-        CellAnnotation[] annotations = table_annotation.getContentCellAnnotations(row_index, column);
-        for (CellAnnotation can : annotations) {
+        TCellAnnotation[] annotations = table_annotation.getContentCellAnnotations(row_index, column);
+        for (TCellAnnotation can : annotations) {
             Entity ec = can.getAnnotation();
-            Map<String, Double> scoreElements = can.getScore_element_map();
-            scoreElements.put(CellAnnotation.SCORE_FINAL, can.getFinalScore());
+            Map<String, Double> scoreElements = can.getScoreElements();
+            scoreElements.put(TCellAnnotation.SCORE_FINAL, can.getFinalScore());
             candidates.add(new Pair<Entity, Map<String, Double>>(ec, scoreElements));
         }
 
@@ -162,9 +162,9 @@ public class Base_NameMatch_ColumnLearner {
             List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_cell) {
 
         if (candidates_and_scores_for_cell.size() > 0) {
-            CellAnnotation[] annotationsForCell = new CellAnnotation[1];
+            TCellAnnotation[] annotationsForCell = new TCellAnnotation[1];
             Entity e = candidates_and_scores_for_cell.get(0).getKey();
-            annotationsForCell[0] = new CellAnnotation(table.getContentCell(table_cell_row, table_cell_col).getText(),
+            annotationsForCell[0] = new TCellAnnotation(table.getContentCell(table_cell_row, table_cell_col).getText(),
                     e, 1.0, new HashMap<String, Double>());
             table_annotation.setContentCellAnnotations(table_cell_row, table_cell_col, annotationsForCell);
         }
@@ -202,9 +202,9 @@ public class Base_NameMatch_ColumnLearner {
         //supporting rows are only added if a header for the type of the cell annotation exists
         if (header_annotations != null) {
             for (int row : rowsUpdated) {
-                List<CellAnnotation> bestCellAnnotations = table_annotations.getBestContentCellAnnotations(row, column);
+                List<TCellAnnotation> bestCellAnnotations = table_annotations.getBestContentCellAnnotations(row, column);
 
-                for (CellAnnotation ca : bestCellAnnotations) {
+                for (TCellAnnotation ca : bestCellAnnotations) {
                     for (HeaderAnnotation ha : header_annotations) {
                         if (ca.getAnnotation().hasType(ha.getAnnotation_url())) {
                             ha.addSupportingRow(row);

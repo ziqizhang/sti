@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.xtractor.validator;
 
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 
@@ -49,7 +49,7 @@ public class TabValWikipediaGSStrict extends TabValGeneric {
             for (int r = 0; r < table.getNumRows(); r++) {
                 TContentCell ltc = (TContentCell) table.getContentCell(r, c);
                 String tcText = ltc.getText();
-                CellAnnotation[] annotations = table.getTableAnnotations().getContentCellAnnotations(r, c);
+                TCellAnnotation[] annotations = table.getTableAnnotations().getContentCellAnnotations(r, c);
                 if (annotations.length > 0) {
                     String uri = annotations[0].getAnnotation().getId();
                     if (isWikiInternalLink(uri)) {

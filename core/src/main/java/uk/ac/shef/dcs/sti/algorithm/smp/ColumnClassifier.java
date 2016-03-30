@@ -4,7 +4,7 @@ import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
@@ -34,10 +34,10 @@ public class ColumnClassifier {
             //in case multiple NEs have the same score, we take them all
             if (!table.getContentCell(r, col).getType().equals(DataTypeClassifier.DataType.EMPTY))
                 totalNonEmpty++;
-            List<CellAnnotation> bestCellAnnotations = tableAnnotation.getBestContentCellAnnotations(r, col);
+            List<TCellAnnotation> bestCellAnnotations = tableAnnotation.getBestContentCellAnnotations(r, col);
             if (bestCellAnnotations.size() > 0) {
                 Set<String> distinctTypes = new HashSet<String>();
-                for (CellAnnotation ca : bestCellAnnotations) {
+                for (TCellAnnotation ca : bestCellAnnotations) {
                     Entity e = ca.getAnnotation();
                     distinctTypes.addAll(e.getTypeIds());
                 }

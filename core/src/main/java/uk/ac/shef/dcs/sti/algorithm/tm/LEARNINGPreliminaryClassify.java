@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
+import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.algorithm.tm.stopping.StoppingCriteria;
@@ -12,95 +13,95 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * this class interprets a column. it does classification of the column, then disambiguate entities in the column
+ * this class creates preliminary classification on a column
  */
 
 
 public class LEARNINGPreliminaryClassify {
     private TContentCellRanker selector;
     private KBSearch kbSearch;
-    private TCellDisambiguator disambiguation_learn;
-    private TColumnClassifier classifier_learn;
+    private TCellDisambiguator cellDisambiguator;
+    private TColumnClassifier columnClassifier;
 
     private String stopperClassname;
     private String[] stopperParams;
-
+    private static final Logger LOG = Logger.getLogger(LEARNINGPreliminaryClassify.class.getName());
     public LEARNINGPreliminaryClassify(TContentCellRanker selector,
                                        String stoppingCriteriaClassname,
                                        String[] stoppingCriteriaParams,
                                        KBSearch candidateFinder,
-                                       TCellDisambiguator disambiguation_learn,
-                                       TColumnClassifier algorithm) {
+                                       TCellDisambiguator cellDisambiguator,
+                                       TColumnClassifier columnClassifier) {
         this.selector = selector;
         this.kbSearch = candidateFinder;
-        this.disambiguation_learn = disambiguation_learn;
-        this.classifier_learn = algorithm;
+        this.cellDisambiguator = cellDisambiguator;
+        this.columnClassifier = columnClassifier;
 
         this.stopperClassname = stoppingCriteriaClassname;
         this.stopperParams = stoppingCriteriaParams;
     }
 
-    public Pair<Integer, List<List<Integer>>> learn_seeding(Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
+    public Pair<Integer, List<List<Integer>>> learn_seeding(Table table, TAnnotation tableAnnotation, int column, Integer... skipRows) throws IOException {
         StoppingCriteria stopper = StoppingCriteriaInstantiator.instantiate(stopperClassname, stopperParams);
 
-        //1. gather list of strings from this column to be interpreted
-        List<List<Integer>> ranking = selector.select(table, column, table_annotation.getSubjectColumn());
+        //1. gather list of strings from this column to be interpreted, rank them (for sampling)
+        List<List<Integer>> ranking = selector.select(table, column, tableAnnotation.getSubjectColumn());
 
-        //3. score column and also disambiguate initial rows in the selected sample
-        Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row =
+        //2. score column and also disambiguate initial rows in the selected sample
+        Map<Integer, List<Pair<Entity, Map<String, Double>>>> cellDisambEntityScores =
                 new HashMap<>();
-        Set<HeaderAnnotation> headerAnnotationScores = new HashSet<HeaderAnnotation>();
+        Set<HeaderAnnotation> headerClassLabelScores = new HashSet<>();
 
         int countProcessed = 0, totalRows=0;
         boolean stopped = false;
-        Map<Object, Double> state = new HashMap<Object, Double>();
+        Map<Object, Double> state = new HashMap<>();
 
-        for (List<Integer> rows_indexes : ranking) {
+        for (List<Integer> blockOfRows : ranking) {
 
             /* if(row_index<39)
             continue;*/
             /* if(row_index==13)
             System.out.println();*/
-            countProcessed++;    totalRows+=rows_indexes.size();
+            countProcessed++;    totalRows+=blockOfRows.size();
             //find candidate entities
-            TContentCell sample = table.getContentCell(rows_indexes.get(0), column);
+            TContentCell sample = table.getContentCell(blockOfRows.get(0), column);
             /*if (sample.getType().equals(DataTypeClassifier.DataType.LONG_TEXT)) {
                 System.out.println("\t\t>>> Long text cell skipped: " + rows_indexes + "," + column + " " + sample.getText());
                 continue;
             }*/
             if (sample.getText().length() < 2) {
-                System.out.println("\t\t>>> Very short text cell skipped: " + rows_indexes + "," + column + " " + sample.getText());
+                LOG.debug("\t\t>>> Very short text cell skipped: " + blockOfRows + "," + column + " " + sample.getText());
                 continue;
             }
 
-            System.out.println("\t>> Classification-LEARN(Seeding), row(s) " + rows_indexes + "," + sample);
+            LOG.info("\t>> Classification-LEARN(Seeding), row(s) " + blockOfRows + "," + sample);
 
             boolean skip = false;
             for (int row : skipRows) {
-                if (rows_indexes.contains(row)) {
+                if (blockOfRows.contains(row)) {
                     skip = true;
                     break;
                 }
             }
 
-            List<Pair<Entity, Map<String, Double>>> candidates_and_scores_on_this_block;
+            List<Pair<Entity, Map<String, Double>>> entityScoresForBlock;
             if (skip) {
-                candidates_and_scores_on_this_block = collect_existing(table_annotation, rows_indexes, column);
+                entityScoresForBlock = collectScores(tableAnnotation, blockOfRows, column);
             } else {
                 List<Entity> candidates = kbSearch.findEntityCandidates(sample.getText());
                 //do disambiguation scoring
-                candidates_and_scores_on_this_block =
-                        disambiguation_learn.disambiguate_learn_seeding(
-                                candidates, table, rows_indexes, column
+                entityScoresForBlock =
+                        cellDisambiguator.disambiguate_learn_seeding(
+                                candidates, table, blockOfRows, column
                         );
-                for (int ri : rows_indexes) {
-                    candidates_and_scores_for_each_row.put(ri, candidates_and_scores_on_this_block);
+                for (int ri : blockOfRows) {
+                    cellDisambEntityScores.put(ri, entityScoresForBlock);
                 }
             }
 
             //run algorithm to learn column typing; header annotation scores are updated constantly, but supporting rows are not.
             state = createState(
-                    classifier_learn.score(candidates_and_scores_on_this_block, headerAnnotationScores, table, rows_indexes, column),
+                    columnClassifier.score(entityScoresForBlock, headerClassLabelScores, table, blockOfRows, column),
                     //table.getNumRows()
                     totalRows
             );
@@ -109,10 +110,10 @@ public class LEARNINGPreliminaryClassify {
             if (stop) {
                 System.out.println("\t>> Classification-LEARN(seeding) converged, rows:"+totalRows);
                 //state is stable. annotate using the type, and disambiguate entities
-                create_typing_annotations(state, table_annotation, column);
+                create_typing_annotations(state, tableAnnotation, column);
                 //then use classification results to revise disambiguation
-                System.out.println("\t>> Disambiguation-LEARN(seeding revise " + candidates_and_scores_for_each_row.size() + " rows)");
-                revise_disambiguation_and_create_annotations(table_annotation, table, candidates_and_scores_for_each_row, column);
+                System.out.println("\t>> Disambiguation-LEARN(seeding revise " + cellDisambEntityScores.size() + " rows)");
+                revise_disambiguation_and_create_annotations(tableAnnotation, table, cellDisambEntityScores, column);
                 stopped = true;
                 break;  //exit loop
             }
@@ -120,20 +121,20 @@ public class LEARNINGPreliminaryClassify {
 
         if (!stopped) {
             System.out.println("\t>> Classification-LEARN(seeding) no convergence");
-            create_typing_annotations(state, table_annotation, column); //supporting rows not added
-            revise_disambiguation_and_create_annotations(table_annotation, table, candidates_and_scores_for_each_row, column);
+            create_typing_annotations(state, tableAnnotation, column); //supporting rows not added
+            revise_disambiguation_and_create_annotations(tableAnnotation, table, cellDisambEntityScores, column);
         }
         return new Pair<>(countProcessed, ranking);
     }
 
-    private List<Pair<Entity, Map<String, Double>>> collect_existing(TAnnotation table_annotation, List<Integer> rows_indexes, int column) {
+    private List<Pair<Entity, Map<String, Double>>> collectScores(TAnnotation tableAnnotation, List<Integer> blockOfRows, int column) {
         List<Pair<Entity, Map<String, Double>>> candidates = new ArrayList<>();
-        for (int row : rows_indexes) {
-            CellAnnotation[] annotations = table_annotation.getContentCellAnnotations(row, column);
-            for (CellAnnotation can : annotations) {
+        for (int row : blockOfRows) {
+            TCellAnnotation[] annotations = tableAnnotation.getContentCellAnnotations(row, column);
+            for (TCellAnnotation can : annotations) {
                 Entity ec = can.getAnnotation();
-                Map<String, Double> scoreElements = can.getScore_element_map();
-                scoreElements.put(CellAnnotation.SCORE_FINAL, can.getFinalScore());
+                Map<String, Double> scoreElements = can.getScoreElements();
+                scoreElements.put(TCellAnnotation.SCORE_FINAL, can.getFinalScore());
                 candidates.add(new Pair<>(ec, scoreElements));
             }
 
@@ -148,7 +149,7 @@ public class LEARNINGPreliminaryClassify {
             //Map<String, Double> scoreElements =ha.getScoreElements();
             ha.getScoreElements().put(
                     HeaderAnnotation.FINAL,
-                    classifier_learn.compute_final_score(ha, tableRowsTotal).get(HeaderAnnotation.FINAL)
+                    columnClassifier.compute_final_score(ha, tableRowsTotal).get(HeaderAnnotation.FINAL)
             );
             state.put(ha, ha.getFinalScore());
         }
@@ -172,7 +173,7 @@ public class LEARNINGPreliminaryClassify {
             if (entities_for_this_cell_and_scores.size() == 0)
                 continue;
 
-            List<Pair<Entity, Map<String, Double>>> revised = disambiguation_learn.revise(entities_for_this_cell_and_scores, types);
+            List<Pair<Entity, Map<String, Double>>> revised = cellDisambiguator.revise(entities_for_this_cell_and_scores, types);
             if (revised.size() != 0)
                 entities_for_this_cell_and_scores = revised;
             List<Entity> best_entities = create_entity_annotations(table, table_annotation, row, column, entities_for_this_cell_and_scores
@@ -213,21 +214,21 @@ public class LEARNINGPreliminaryClassify {
         Collections.sort(candidates_and_scores_for_cell, new Comparator<Pair<Entity, Map<String, Double>>>() {
             @Override
             public int compare(Pair<Entity, Map<String, Double>> o1, Pair<Entity, Map<String, Double>> o2) {
-                Double o2_score = o2.getValue().get(CellAnnotation.SCORE_FINAL);
-                Double o1_score = o1.getValue().get(CellAnnotation.SCORE_FINAL);
+                Double o2_score = o2.getValue().get(TCellAnnotation.SCORE_FINAL);
+                Double o1_score = o1.getValue().get(TCellAnnotation.SCORE_FINAL);
                 return o2_score.compareTo(o1_score);
             }
         });
 
         double max = 0.0;
-        CellAnnotation[] annotationsForCell = new CellAnnotation[candidates_and_scores_for_cell.size()];
+        TCellAnnotation[] annotationsForCell = new TCellAnnotation[candidates_and_scores_for_cell.size()];
         for (int i = 0; i < candidates_and_scores_for_cell.size(); i++) {
             Pair<Entity, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
-            double score = e.getValue().get(CellAnnotation.SCORE_FINAL);
+            double score = e.getValue().get(TCellAnnotation.SCORE_FINAL);
             if (score > max)
                 max = score;
-            annotationsForCell[i] = new CellAnnotation(table.getContentCell(table_cell_row, table_cell_col).getText(),
-                    e.getKey(), e.getValue().get(CellAnnotation.SCORE_FINAL), e.getValue());
+            annotationsForCell[i] = new TCellAnnotation(table.getContentCell(table_cell_row, table_cell_col).getText(),
+                    e.getKey(), e.getValue().get(TCellAnnotation.SCORE_FINAL), e.getValue());
 
         }
         table_annotation.setContentCellAnnotations(table_cell_row, table_cell_col, annotationsForCell);
@@ -235,7 +236,7 @@ public class LEARNINGPreliminaryClassify {
         List<Entity> best = new ArrayList<>();
         for (int i = 0; i < candidates_and_scores_for_cell.size(); i++) {
             Pair<Entity, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
-            double score = e.getValue().get(CellAnnotation.SCORE_FINAL);
+            double score = e.getValue().get(TCellAnnotation.SCORE_FINAL);
             if (score == max)
                 best.add(e.getKey());
         }

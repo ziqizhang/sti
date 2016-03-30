@@ -12,6 +12,7 @@ import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -19,8 +20,6 @@ import org.json.simple.parser.ParseException;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.util.CollectionUtils;
 import uk.ac.shef.dcs.util.StringUtils;
-
-import java.util.logging.Logger;
 
 
 /**
@@ -33,7 +32,7 @@ import java.util.logging.Logger;
 public class FreebaseQueryHelper {
 
 
-    public static Logger log = Logger.getLogger(FreebaseQueryHelper.class.getName());
+    public static Logger LOG = Logger.getLogger(FreebaseQueryHelper.class.getName());
     //private String BASE_QUERY_URL="https://www.googleapis.com/freebase/v1/mqlread";
     private JSONParser jsonParser;
     private FreebaseQueryInterrupter interrupter;
@@ -71,7 +70,7 @@ public class FreebaseQueryHelper {
     //given a topic id, returns its facts. result is a list of string array, where in each array, value 0 is the property name; value 1 is the value;
     //value 2 could be null or a string, when it is an id of a topic (if null then value of property is not topic); value 4 is "y" or "n", meaning if
     //if the property is a nested property of the topic of interest.
-    public List<String[]> topicapi_facts_of_id(String id) throws IOException {
+    public List<String[]> topicapi_getFactsOfTopic(String id) throws IOException {
         Date start = new Date();
         List<String[]> res = new ArrayList<String[]>();
         GenericUrl url = new GenericUrl(properties.get(FB_QUERY_API_URL_TOPIC).toString() + id);
@@ -82,11 +81,11 @@ public class FreebaseQueryHelper {
         try {
             JSONObject topic = (JSONObject) jsonParser.parse(httpResponse.parseAsString());
             JSONObject properties = (JSONObject) topic.get("property");
-            parseProperties_of_topicapi(properties, res, false);
+            parsePropertiesOfTopicAPI(properties, res, false);
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
-        log.warning("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
         return res;
 
     }
@@ -103,11 +102,11 @@ public class FreebaseQueryHelper {
             JSONObject topic = (JSONObject) jsonParser.parse(httpResponse.parseAsString());
             JSONObject properties = (JSONObject) topic.get("property");
             if(properties!=null)
-                parseProperties_of_topicapi(properties, res, false);
+                parsePropertiesOfTopicAPI(properties, res, false);
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
-        log.warning("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
         return res;
 
     }
@@ -125,16 +124,16 @@ public class FreebaseQueryHelper {
         try {
             JSONObject topic = (JSONObject) jsonParser.parse(httpResponse.parseAsString());
             JSONObject properties = (JSONObject) topic.get("property");
-            parseProperties_of_topicapi(properties, res, false);
+            parsePropertiesOfTopicAPI(properties, res, false);
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
-        log.warning("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
         return res;
 
     }
 
-    private void parseProperties_of_topicapi(JSONObject json, List<String[]> out, boolean nested) {
+    private void parsePropertiesOfTopicAPI(JSONObject json, List<String[]> out, boolean nested) {
         /*if(json==null)
             System.out.println();*/
         Iterator<String> prop_keys = json.keySet().iterator();
@@ -153,8 +152,8 @@ public class FreebaseQueryHelper {
         }
     }
 
-    private FreebaseEntity parseProperties_of_searchapi(JSONObject json) {
-        FreebaseEntity obj = new FreebaseEntity(json.get("mid").toString());
+    private FreebaseTopic parseProperties_of_searchapi(JSONObject json) {
+        FreebaseTopic obj = new FreebaseTopic(json.get("mid").toString());
         Object o = json.get("mid");
         if (o != null)
             obj.setId(o.toString());
@@ -174,7 +173,7 @@ public class FreebaseQueryHelper {
             if (skipCompound) {
                 more_props = key.get("property");
                 if (more_props != null)
-                    parseProperties_of_topicapi((JSONObject) more_props, out, true);
+                    parsePropertiesOfTopicAPI((JSONObject) more_props, out, true);
                 continue;
             }
 
@@ -197,8 +196,8 @@ public class FreebaseQueryHelper {
 
 
     //operator - any means or; all means and
-    public List<FreebaseEntity> searchapi_topics_with_name_and_type(String name, String operator, boolean tokenMatch, int maxResult, String... types) throws IOException {
-        Set<String> query_tokens = new HashSet<String>();
+    public List<FreebaseTopic> searchapi_getTopicsByNameAndType(String name, String operator, boolean tokenMatch, int maxResult, String... types) throws IOException {
+        Set<String> query_tokens = new HashSet<>();
         for (String t : name.split("[\\s+/\\-,]")) {
             t = t.trim();
             if (t.length() > 0)
@@ -208,7 +207,7 @@ public class FreebaseQueryHelper {
         Date start = new Date();
         HttpTransport httpTransport = new NetHttpTransport();
         HttpRequestFactory requestFactory = httpTransport.createRequestFactory();
-        List<FreebaseEntity> res = new ArrayList<FreebaseEntity>();
+        List<FreebaseTopic> res = new ArrayList<>();
 
         GenericUrl url = new GenericUrl(properties.get(FB_QUERY_API_URL_SEARCH).toString());
         url.put("query", name);
@@ -232,7 +231,7 @@ public class FreebaseQueryHelper {
             JSONArray results = (JSONArray) response.get("result");
             int count = 0;
             for (Object result : results) {
-                FreebaseEntity top = parseProperties_of_searchapi((JSONObject) result);
+                FreebaseTopic top = parseProperties_of_searchapi((JSONObject) result);
 
                 if (count < maxResult) {
                     if (tokenMatch) {
@@ -257,12 +256,12 @@ public class FreebaseQueryHelper {
             e.printStackTrace();
         }
 
-        log.warning("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
         return res;
     }
 
 
-    public List<FreebaseEntity> mql_topics_with_name(int maxResults, String name, String operator, String... types) throws IOException {
+    public List<FreebaseTopic> mql_topics_with_name(int maxResults, String name, String operator, String... types) throws IOException {
         Set<String> query_tokens = new HashSet<String>();
         for (String t : name.split("\\s+")) {
             t = t.trim();
@@ -273,9 +272,9 @@ public class FreebaseQueryHelper {
         Date start = new Date();
         HttpTransport httpTransport = new NetHttpTransport();
         HttpRequestFactory requestFactory = httpTransport.createRequestFactory();
-        List<FreebaseEntity> res = new ArrayList<FreebaseEntity>();
+        List<FreebaseTopic> res = new ArrayList<FreebaseTopic>();
 
-        final Map<FreebaseEntity, Double> candidates = new HashMap<FreebaseEntity, Double>();
+        final Map<FreebaseTopic, Double> candidates = new HashMap<FreebaseTopic, Double>();
         int limit = 20;
         int iterations = maxResults % limit;
         iterations = iterations == 0 ? maxResults / limit : maxResults / limit + 1;
@@ -327,7 +326,7 @@ public class FreebaseQueryHelper {
                     JSONObject obj = (JSONObject) result;
                     String id = obj.get("mid").toString();
                     String e_name = obj.get("name").toString();
-                    FreebaseEntity ent = new FreebaseEntity(id);
+                    FreebaseTopic ent = new FreebaseTopic(id);
                     ent.setLabel(e_name);
                     if (obj.get("/type/object/type") != null) {
                         JSONArray jsonArray = (JSONArray) obj.get("/type/object/type");
@@ -353,7 +352,7 @@ public class FreebaseQueryHelper {
 
         }
 
-        log.warning("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
         res.addAll(candidates.keySet());
         Collections.sort(res, (o1, o2) -> candidates.get(o2).compareTo(candidates.get(o1)));
         return res;
@@ -390,7 +389,7 @@ public class FreebaseQueryHelper {
             e.printStackTrace();
         }
 
-        log.warning("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
 
         return res;
     }
@@ -442,7 +441,7 @@ public class FreebaseQueryHelper {
                 e.printStackTrace();
             }
         }
-        log.warning("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
 
         return res;
     }
@@ -493,7 +492,7 @@ public class FreebaseQueryHelper {
                 e.printStackTrace();
             }
         }
-        log.warning("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
 
         return res;
     }
@@ -530,7 +529,7 @@ public class FreebaseQueryHelper {
             }
         }
         in.close();
-        log.warning("\tFetchingFreebasePage:" + (new Date().getTime() - startTime.getTime()));
+        LOG.info("\tFetchingFreebasePage:" + (new Date().getTime() - startTime.getTime()));
         if(result!=null && result.length()>0)
             return new Double(result);
         return 0.0;

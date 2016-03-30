@@ -91,25 +91,25 @@ public class WSScorer {
     private void score(Map<String, Double> scores, String context, double contextWeightScalar, String... normalizedValues) {
         context = normalize(context);
 
-        Map<String, Set<Integer>> offsets = new HashMap<String, Set<Integer>>();
+        Map<String, Set<Integer>> offsets = new HashMap<>();
         for (String v : normalizedValues) {
             //v=normalize(v);
-            if (v.length() < 1) continue;
+            if (v.length() < 1) continue; //ignore 1 char tokens
             Set<Integer> os = counter.countOffsets(v, context);
             offsets.put(v, os);
         }
 
-        Map<String, Set<String>> original_to_composing_tokens = new HashMap<String, Set<String>>();
-        Map<String, Set<Integer>> composing_token_offsets = new HashMap<String, Set<Integer>>();
+        Map<String, Set<String>> phrase_to_composing_tokens = new HashMap<>();
+        Map<String, Set<Integer>> composing_token_offsets = new HashMap<>();
         //then the composing tokens for each normalizedValue
         for (String v : normalizedValues) {
             String[] toks = v.split("\\s+");
             if (toks.length == 1)
                 continue;
-            Set<String> composing_toks = new HashSet<String>();
+            Set<String> composing_toks = new HashSet<>();
             for (String t : toks) {
-                t = t.trim();
-                if (isInvalidToken(t)) continue;
+                //t = t.trim();
+                if (ignore(t)) continue;
                 composing_toks.add(t);
                 if (offsets.get(t) != null) {
                     composing_token_offsets.put(t, offsets.get(t));
@@ -118,9 +118,9 @@ public class WSScorer {
                     composing_token_offsets.put(t, os);
                 }
             }
-            original_to_composing_tokens.put(v, composing_toks);
+            phrase_to_composing_tokens.put(v, composing_toks);
         }
-        //removing inclusion among cell values
+        //discount double counting due to string inclusion between cells
         for (String a : offsets.keySet()) {
             for (String b : offsets.keySet()) {
                 if (a.equals(b)) continue;
@@ -136,7 +136,7 @@ public class WSScorer {
                 }
             }
         }
-        //removing inclusion of composing tokens of cell values
+        //discount double counting due to string inclusion between a cell's value and its composing tokens
         for (String a : offsets.keySet()) {
             for (String b : composing_token_offsets.keySet()) {
                 if (a.equals(b)) continue;
@@ -148,9 +148,8 @@ public class WSScorer {
             }
         }
 
-
         //second of all, understand ordering
-        final Map<String, Integer> firstAppearance_original = new HashMap<String, Integer>();
+        final Map<String, Integer> firstOccurrenceOfPhrase = new HashMap<>();
         for (Map.Entry<String, Set<Integer>> entry : offsets.entrySet()) {
             if (entry.getValue().size() == 0)
                 continue;
@@ -159,9 +158,9 @@ public class WSScorer {
                 if (i < min)
                     min = i;
             }
-            firstAppearance_original.put(entry.getKey(), min);
+            firstOccurrenceOfPhrase.put(entry.getKey(), min);
         }
-        final Map<String, Integer> firstAppearance_components = new HashMap<String, Integer>();
+        final Map<String, Integer> firstOccurrenceOfComposingTokens = new HashMap<>();
         for (Map.Entry<String, Set<Integer>> entry : composing_token_offsets.entrySet()) {
             if (entry.getValue().size() == 0)
                 continue;
@@ -170,60 +169,52 @@ public class WSScorer {
                 if (i < min)
                     min = i;
             }
-            firstAppearance_components.put(entry.getKey(), min);
+            firstOccurrenceOfComposingTokens.put(entry.getKey(), min);
         }
 
-        List<String> candidates_original = new ArrayList<String>(firstAppearance_original.keySet());
-        Collections.sort(candidates_original, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return new Integer(firstAppearance_original.get(o1)).compareTo(firstAppearance_original.get(o2));
-            }
-        });
+        List<String> original_phrases = new ArrayList<>(firstOccurrenceOfPhrase.keySet());
+        Collections.sort(original_phrases, (o1, o2)
+                -> new Integer(firstOccurrenceOfPhrase.get(o1)).compareTo(firstOccurrenceOfPhrase.get(o2)));
 
-        List<String> candidates_components = new ArrayList<String>(firstAppearance_components.keySet());
-        Collections.sort(candidates_components, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return new Integer(firstAppearance_components.get(o1)).compareTo(firstAppearance_components.get(o2));
-            }
-        });
+        List<String> composing_tokens = new ArrayList<>(firstOccurrenceOfComposingTokens.keySet());
+        Collections.sort(composing_tokens, (o1, o2)
+                -> new Integer(firstOccurrenceOfComposingTokens.get(o1)).compareTo(firstOccurrenceOfComposingTokens.get(o2)));
 
 
         //last of all, compute scores
-        double ordering_multiplier_original = 1.0 / candidates_original.size();
-        double ordering_multiplier_components = 1.0 / candidates_components.size();
+        double ordering_multiplier_original = 1.0 / original_phrases.size();
+        double order_scalar_composing_tokens = 1.0 / composing_tokens.size();
 
-        for (int o = 0; o < candidates_original.size(); o++) {
-            String candidate = candidates_original.get(o);
-            if (offsets.get(candidate) != null) {
-                int freq = offsets.get(candidate).size();
+        for (int o = 0; o < original_phrases.size(); o++) {
+            String phrase = original_phrases.get(o);
+            if (offsets.get(phrase) != null) {
+                int freq = offsets.get(phrase).size();
                 if (freq > 0) {  //exact cell value found
-                    double ordering_weight_multiplier = (candidates_original.size() - o) * ordering_multiplier_original;
-                    double score_to_increment = offsets.get(candidate).size() * /*ordering_weight_multiplier*/1.0 * contextWeightScalar;
+                    //double ordering_weight_multiplier = (original_phrases.size() - o) * ordering_multiplier_original;
+                    double score_to_increment = offsets.get(phrase).size() * /*ordering_weight_multiplier*/1.0 * contextWeightScalar;
 
-                    Double score = scores.get(candidate);
+                    Double score = scores.get(phrase);
                     score = score == null ? 0.0 : score;
                     score = score + score_to_increment;
-                    scores.put(candidate, score);
+                    scores.put(phrase, score);
                 }
             }
         }
-        for (int o = 0; o < candidates_components.size(); o++) {
-            String candidate = candidates_components.get(o);
+        for (int o = 0; o < composing_tokens.size(); o++) {
+            String candidate = composing_tokens.get(o);
             if (composing_token_offsets.get(candidate) != null) {
                 int freq = composing_token_offsets.get(candidate).size();
                 if (freq > 0) {  //exact cell value found
-                    double ordering_weight_multiplier = (candidates_components.size() - o) * ordering_multiplier_components;
+                    double order_weight_scalar = (composing_tokens.size() - o) * order_scalar_composing_tokens;
                     if(!WORD_ORDER_MATTERS)
-                        ordering_weight_multiplier=1.0;
+                        order_weight_scalar=1.0;
                     double score_to_increment = composing_token_offsets.get(candidate).size()
-                            * ordering_weight_multiplier * contextWeightScalar;
+                            * order_weight_scalar * contextWeightScalar;
 
                     //find corresponding parent cell value
-                    for (Map.Entry<String, Set<String>> e : original_to_composing_tokens.entrySet()) {
+                    for (Map.Entry<String, Set<String>> e : phrase_to_composing_tokens.entrySet()) {
                         if (e.getValue().contains(candidate)) {
-                            score_to_increment = modify_score_by_composing_tokens(
+                            score_to_increment = boostScoreByComposingTokens(
                                     score_to_increment, e.getKey()
                             );
                             Double score = scores.get(e.getKey());
@@ -238,11 +229,11 @@ public class WSScorer {
 
     }
 
-    private boolean isInvalidToken(String t) {
-        if (t.length() < 2 || stopWords.contains(t.toLowerCase()))
+    private boolean ignore(String t) {
+        if (stopWords.contains(t))
             return true;
         try {
-            Long.valueOf(t.trim());
+            Long.valueOf(t); //ignore numbers
             return true;
         } catch (Exception e) {
         }
@@ -250,7 +241,7 @@ public class WSScorer {
     }
 
 
-    private double modify_score_by_composing_tokens(
+    private double boostScoreByComposingTokens(
             double score_to_increment_by_component,
             String original) {
         int length = original.split("\\s+").length;
@@ -259,20 +250,17 @@ public class WSScorer {
     }
 
 
-
     protected String normalize(String value) {
         return value.replaceAll("[^\\p{L}\\s\\d]", " ").replaceAll("\\s+", " ").trim().toLowerCase();
     }
 
-    //if a pair (start, end) where start is a value from toRemove and end=start+length, is found in removeFrom, it is removed
-    //from "removeFrom"
-    protected void removeOverlapOffsets(Set<Integer> removeFrom, Set<Integer> toRemove, int length) {
-        Iterator<Integer> it = removeFrom.iterator();
+    //remove short phrase's start offsets if it is part of a longer phrase
+    protected void removeOverlapOffsets(Set<Integer> shorterPhraseStarts, Set<Integer> longerPhraseStarts, int longerPhraseLength) {
+        Iterator<Integer> it = shorterPhraseStarts.iterator();
         while (it.hasNext()) {
             Integer s = it.next();
-
-            for (int st : toRemove) {
-                if (st <= s && s < st + length) {
+            for (int st : longerPhraseStarts) {
+                if (st <= s && s < st + longerPhraseLength) { //the shorter phrase's start is included in the longer phrase boundary
                     it.remove();
                     break;
                 }

@@ -110,7 +110,7 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
         r = r - 1;
         table.setContentCell(r, c, cell);
 
-        LinkedHashSet<CellAnnotation> wikiAnnotations = new LinkedHashSet<CellAnnotation>();
+        LinkedHashSet<TCellAnnotation> wikiAnnotations = new LinkedHashSet<TCellAnnotation>();
         //firstly always add the entire text string in this cell
         List<Node> it = DomUtils.findAllByTag(tableCell, "A");
         if (it.size() > 0) {
@@ -128,7 +128,7 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
                 if (text.length() == 0)
                     continue;
 
-                wikiAnnotations.add(new CellAnnotation
+                wikiAnnotations.add(new TCellAnnotation
                         (text, new Entity(uri, uri), 1.0, new HashMap<String, Double>()));
                 if (only_take_first_link_in_list_like_cell)
                     break;
@@ -146,7 +146,7 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
             }
         }*/
 
-        table.getTableAnnotations().setContentCellAnnotations(r, c, wikiAnnotations.toArray(new CellAnnotation[0]));
+        table.getTableAnnotations().setContentCellAnnotations(r, c, wikiAnnotations.toArray(new TCellAnnotation[0]));
 
     }
 

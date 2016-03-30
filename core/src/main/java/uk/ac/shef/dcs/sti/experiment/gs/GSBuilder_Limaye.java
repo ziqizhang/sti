@@ -9,7 +9,7 @@ import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.experiment.LimayeDatasetLoader;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.util.FileUtils;
@@ -112,7 +112,7 @@ public class GSBuilder_Limaye {
         PrintWriter p = new PrintWriter(annotation_keys);
         for (int row = 0; row < table.getNumRows(); row++) {
             for (int col = 0; col < table.getNumCols(); col++) {
-                CellAnnotation[] anns = annotations.getContentCellAnnotations(row, col);
+                TCellAnnotation[] anns = annotations.getContentCellAnnotations(row, col);
                 if (anns != null && anns.length > 0) {
                     p.println(row + "," + col + "," + anns[0].getAnnotation().getId());
                 }
@@ -158,7 +158,7 @@ public class GSBuilder_Limaye {
                 }
                 String wikipedia_title = htmlCell.getTextContent().trim();
                 try {
-                    CellAnnotation[] cellAnnotations = createCellAnnotation(wikipedia_title);
+                    TCellAnnotation[] cellAnnotations = createCellAnnotation(wikipedia_title);
                     System.out.println("\t row=" + i + ",col=" + j);
                     if (cellAnnotations != null)
                         annotations.setContentCellAnnotations(i, j, cellAnnotations);
@@ -174,15 +174,15 @@ public class GSBuilder_Limaye {
         return annotations;
     }
 
-    public CellAnnotation[] createCellAnnotation(String wikipedia_title) throws IOException {
+    public TCellAnnotation[] createCellAnnotation(String wikipedia_title) throws IOException {
         String wiki_page_id = queryWikipediaPageId(wikipedia_title);
         List<String> list = queryHelper.mqlapi_topic_mids_with_wikipedia_pageid(wiki_page_id);
         if (list == null || list.size() == 0)
             return null;
 
         Entity ec = new Entity(list.get(0), wikipedia_title);
-        CellAnnotation ca = new CellAnnotation(wikipedia_title, ec, 1.0, new HashMap<String, Double>());
-        return new CellAnnotation[]{ca};
+        TCellAnnotation ca = new TCellAnnotation(wikipedia_title, ec, 1.0, new HashMap<String, Double>());
+        return new TCellAnnotation[]{ca};
     }
 
     private static String queryWikipediaPageId(String wikipedia_title) throws IOException {

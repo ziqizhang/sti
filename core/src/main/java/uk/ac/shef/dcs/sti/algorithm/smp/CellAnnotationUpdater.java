@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.smp;
 
 import cern.colt.matrix.ObjectMatrix2D;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Key_SubjectCol_ObjectCol;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.util.SubsetGenerator;
@@ -31,9 +31,9 @@ public class CellAnnotationUpdater {
                 //not all messages can be satisfied. compute the preferences of the combinations of messages satisfied
                 List<String> messagesPreferenceSorted = createSortedPreferenceKeys(messages_for_cell.size());
 
-                CellAnnotation[] candidateAnnotations = tableAnnotation.getContentCellAnnotations(r, c);
-                //key- the index of CellAnnotation in the CellAnnotation[] object returned by #tableAnnotation.get...(r, c)
-                //value- list of indexes (as appearing in messages_for_cell of messages satisfied by the CellAnnotation identified by 'key'
+                TCellAnnotation[] candidateAnnotations = tableAnnotation.getContentCellAnnotations(r, c);
+                //key- the index of TCellAnnotation in the TCellAnnotation[] object returned by #tableAnnotation.get...(r, c)
+                //value- list of indexes (as appearing in messages_for_cell of messages satisfied by the TCellAnnotation identified by 'key'
                 Map<Integer, List<Integer>> annotation_satisfies_messages =
                         computeSatisfiedMessages(r, c, messages_for_cell, tableAnnotation);
                 //indexes of candidate entity annotation for the cell (r, c)
@@ -42,7 +42,7 @@ public class CellAnnotationUpdater {
                 //retrieve actual annotation based on their indexes...
                 if (bestAnnotations.size() > 0) {
                     boolean isValidUpdate = false;
-                    List<CellAnnotation> currentBestAnnotations = tableAnnotation.getBestContentCellAnnotations(r, c);
+                    List<TCellAnnotation> currentBestAnnotations = tableAnnotation.getBestContentCellAnnotations(r, c);
                     double currentMaxScore = currentBestAnnotations.get(0).getFinalScore();
                     double arbitraryNewScore = currentMaxScore + 0.000001;
 
@@ -77,19 +77,19 @@ public class CellAnnotationUpdater {
      * @param c                 column id
      * @param messages_for_cell change messages for the cell (r, c)
      * @param tableAnnotation
-     * @return key- the index of CellAnnotation in the CellAnnotation[] object returned by #tableAnnotation.get...(r, c)
-     * value- list of indexes (as appearing in messages_for_cell of messages satisfied by the CellAnnotation identified by 'key'
+     * @return key- the index of TCellAnnotation in the TCellAnnotation[] object returned by #tableAnnotation.get...(r, c)
+     * value- list of indexes (as appearing in messages_for_cell of messages satisfied by the TCellAnnotation identified by 'key'
      */
     private Map<Integer, List<Integer>> computeSatisfiedMessages(int r, int c,
                                                                  List<ChangeMessage> messages_for_cell,
                                                                  TAnnotation tableAnnotation) {
-        CellAnnotation[] cellAnnotations = tableAnnotation.getContentCellAnnotations(r, c);
+        TCellAnnotation[] cellAnnotations = tableAnnotation.getContentCellAnnotations(r, c);
         Map<Integer, List<Integer>> out = new HashMap<Integer, List<Integer>>();
         if (cellAnnotations == null || cellAnnotations.length == 0) //possible if message is sent by relation and request a change to its object which is not an NE
             return out;
 
         for (int i = 0; i < cellAnnotations.length; i++) {    //go through every candidate annotation for the cell, count # of messages that each candidate satisfies
-            CellAnnotation ca = cellAnnotations[i];
+            TCellAnnotation ca = cellAnnotations[i];
             List<Integer> satisfied_messages = new ArrayList<Integer>();
 
             for (int j = 0; j < messages_for_cell.size(); j++) { //go through each message to check against that candidate
@@ -104,7 +104,7 @@ public class CellAnnotationUpdater {
         return out;
     }
 
-    private boolean checkEntityAgainstMessage(CellAnnotation ca, int row, int col, ChangeMessage m, TAnnotation tableAnnotation) {
+    private boolean checkEntityAgainstMessage(TCellAnnotation ca, int row, int col, ChangeMessage m, TAnnotation tableAnnotation) {
         //if the change message is due to relation
         if (m instanceof ChangeMessageFromColumnsRelation) {
             ChangeMessageFromColumnsRelation message = (ChangeMessageFromColumnsRelation) m;
@@ -116,15 +116,15 @@ public class CellAnnotationUpdater {
                     return true;
                 else return false;
             } else { //if the current cell's NE is the object in the relation, first we need to
-                //find the subject CellAnnotation
+                //find the subject TCellAnnotation
                 for (Key_SubjectCol_ObjectCol relation_subobjKey : tableAnnotation.getRelationAnnotations_across_columns().keySet()) {
                     if (relation_subobjKey.getObjectCol() == col) {
-                        CellAnnotation[] subjectCellAnnotations = tableAnnotation.getContentCellAnnotations(row, relation_subobjKey.getSubjectCol());
-                        //check if any fact of any candidate subject CellAnnotation mentions ca
-                        //note that we do not need to fix the candidate subject CellAnnotation at this stage.
+                        TCellAnnotation[] subjectCellAnnotations = tableAnnotation.getContentCellAnnotations(row, relation_subobjKey.getSubjectCol());
+                        //check if any fact of any candidate subject TCellAnnotation mentions ca
+                        //note that we do not need to fix the candidate subject TCellAnnotation at this stage.
                         //because another message should have been sent to the cell that corresponds to the subject cell
                         //and that ensures the subject's cell's annotation will be dealt with separately
-                        for (CellAnnotation subjectCellAnnotation : subjectCellAnnotations) {
+                        for (TCellAnnotation subjectCellAnnotation : subjectCellAnnotations) {
                             for (String[] fact : subjectCellAnnotation.getAnnotation().getTriples()) {
                                 if (fact[1].equals(ca.getAnnotation().getId())) {
                                     return true;
@@ -143,11 +143,11 @@ public class CellAnnotationUpdater {
         return false;
     }
 
-    //key-index of the CellAnnotation in the list of candidate CellAnnotations for the cell ranked by their score
-    //value-list of indexes of satisfied messages by this CellAnnotation.
+    //key-index of the TCellAnnotation in the list of candidate CellAnnotations for the cell ranked by their score
+    //value-list of indexes of satisfied messages by this TCellAnnotation.
     private List<Integer> select(Map<Integer, List<Integer>> annotation_satisfies_messages,
                                  List<String> messagePreferencesSorted,
-                                 CellAnnotation[] candidateAnnotationsInCell
+                                 TCellAnnotation[] candidateAnnotationsInCell
                                  ) {
         int bestPreferenceIndex = Integer.MAX_VALUE;
         List<Integer> bestAnnotations = new ArrayList<Integer>();
@@ -190,14 +190,14 @@ public class CellAnnotationUpdater {
         //prune bestAnnotations, if there are multiple ones chosen by messages, select only the highest scoring ones
         double maxScore=0.0;
         for(int i: bestAnnotations){
-            CellAnnotation ca = candidateAnnotationsInCell[i];
+            TCellAnnotation ca = candidateAnnotationsInCell[i];
             if(ca.getFinalScore()>maxScore)
                 maxScore=ca.getFinalScore();
         }
         Iterator<Integer> it = bestAnnotations.iterator();
         while(it.hasNext()) {
             int index=it.next();
-            CellAnnotation ca = candidateAnnotationsInCell[index];
+            TCellAnnotation ca = candidateAnnotationsInCell[index];
             if(ca.getFinalScore()!=maxScore)
                 it.remove();
         }

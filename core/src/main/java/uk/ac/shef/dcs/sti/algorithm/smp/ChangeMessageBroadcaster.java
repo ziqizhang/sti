@@ -31,7 +31,7 @@ public class ChangeMessageBroadcaster {
                 continue;
 
             for (int row = 0; row < table.getNumRows(); row++) {
-                List<CellAnnotation> cellAnnotations = tableAnnotation.getBestContentCellAnnotations(row, col);
+                List<TCellAnnotation> cellAnnotations = tableAnnotation.getBestContentCellAnnotations(row, col);
                 if (cellAnnotations.size() == 0)
                     continue;
 
@@ -39,7 +39,7 @@ public class ChangeMessageBroadcaster {
                 for (HeaderAnnotation ha : bestHeaderAnnotations)
                     headerAnnotationStrings.add(ha.getAnnotation_url());
                 boolean sendChange = false;
-                for (CellAnnotation best : cellAnnotations) { //this cell can have multiple annotations with the same highest score
+                for (TCellAnnotation best : cellAnnotations) { //this cell can have multiple annotations with the same highest score
                     //we need to check everyone of them. if any one's type does not overlap with the header annotations, it need changing
                     List<String> copy = new ArrayList<String>(headerAnnotationStrings);
                     copy.retainAll(best.getAnnotation().getTypeIds());

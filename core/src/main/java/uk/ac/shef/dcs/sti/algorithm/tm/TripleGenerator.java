@@ -39,11 +39,11 @@ public class TripleGenerator {
                     /*if (final_type_for_the_column.getSupportingRows().contains(row))
                         continue;*/
                     TContentCell tcc = table.getContentCell(row, col);
-                    CellAnnotation[] cell_annotations = tab_annotation.getContentCellAnnotations(row, col);
+                    TCellAnnotation[] cell_annotations = tab_annotation.getContentCellAnnotations(row, col);
                     if (cell_annotations == null || cell_annotations.length == 0) //no entity found for this cell
                         continue;
 
-                    CellAnnotation final_cell_annotation = cell_annotations[0];
+                    TCellAnnotation final_cell_annotation = cell_annotations[0];
                     Entity entity = final_cell_annotation.getAnnotation();
 
                     //new triple
@@ -82,12 +82,12 @@ public class TripleGenerator {
 
                 TContentCell subject_cell = table.getContentCell(row, subCol);
                 TContentCell object_cell = table.getContentCell(row, objCol);
-                CellAnnotation[] subject_cell_annotations = tab_annotation.getContentCellAnnotations(row, subCol);
+                TCellAnnotation[] subject_cell_annotations = tab_annotation.getContentCellAnnotations(row, subCol);
                 if (subject_cell_annotations == null || subject_cell_annotations.length == 0)
                     continue;
-                CellAnnotation final_subject_cell_annotation = subject_cell_annotations[0];
-                CellAnnotation[] object_cell_annotations = tab_annotation.getContentCellAnnotations(row, objCol);
-                CellAnnotation final_object_cell_annotation = object_cell_annotations == null || object_cell_annotations.length == 0 ? null : object_cell_annotations[0];
+                TCellAnnotation final_subject_cell_annotation = subject_cell_annotations[0];
+                TCellAnnotation[] object_cell_annotations = tab_annotation.getContentCellAnnotations(row, objCol);
+                TCellAnnotation final_object_cell_annotation = object_cell_annotations == null || object_cell_annotations.length == 0 ? null : object_cell_annotations[0];
 
                 LTableTriple triple = new LTableTriple();
                 triple.setSubject_position(new int[]{row, subCol});
@@ -125,10 +125,10 @@ public class TripleGenerator {
             for (int row = 0; row < table.getNumRows(); row++) {
                 TContentCell subject_cell = table.getContentCell(row, main_subject_column);
                 TContentCell object_cell = table.getContentCell(row, col);
-                CellAnnotation[] subject_cell_annotations = tab_annotation.getContentCellAnnotations(row, main_subject_column);
+                TCellAnnotation[] subject_cell_annotations = tab_annotation.getContentCellAnnotations(row, main_subject_column);
                 if (subject_cell_annotations == null || subject_cell_annotations.length == 0)
                     continue;
-                CellAnnotation final_subject_cell_annotation = subject_cell_annotations[0];
+                TCellAnnotation final_subject_cell_annotation = subject_cell_annotations[0];
 
                 LTableTriple triple = new LTableTriple();
                 triple.setSubject_position(new int[]{row, main_subject_column});

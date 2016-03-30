@@ -64,7 +64,7 @@ public class TMPTColumnClassifier implements TColumnClassifier {
         for (Pair<Entity, Map<String, Double>> es : input) { //each candidate entity in this cell
             Entity entity = es.getKey();
             //each assigned type receives a score of 1, and the bonus score due to disambiguation result
-            double entity_disamb_score = es.getValue().get(CellAnnotation.SCORE_FINAL);
+            double entity_disamb_score = es.getValue().get(TCellAnnotation.SCORE_FINAL);
             for (Clazz type : entity.getTypes()) {
                 String url = type.getId();
                 header_annotation_and_text.put(url, type.getLabel());
@@ -131,7 +131,7 @@ public class TMPTColumnClassifier implements TColumnClassifier {
         for (Pair<Entity, Map<String, Double>> es : input) { //each candidate entity in this cell
             Entity entity = es.getKey();
             //each assigned type receives a score of 1, and the bonus score due to disambiguation result
-            double entity_disamb_score = es.getValue().get(CellAnnotation.SCORE_FINAL);
+            double entity_disamb_score = es.getValue().get(TCellAnnotation.SCORE_FINAL);
             if (entity_disamb_score > best_score) {
                 best_score = entity_disamb_score;
                 entity_with_highest_disamb_score = entity;
@@ -146,7 +146,7 @@ public class TMPTColumnClassifier implements TColumnClassifier {
 
         for (Pair<Entity, Map<String, Double>> es : input) {
             Entity current_candidate = es.getKey();
-            double entity_disamb_score = es.getValue().get(CellAnnotation.SCORE_FINAL);
+            double entity_disamb_score = es.getValue().get(TCellAnnotation.SCORE_FINAL);
             if (entity_disamb_score != best_score)
                 continue;
 

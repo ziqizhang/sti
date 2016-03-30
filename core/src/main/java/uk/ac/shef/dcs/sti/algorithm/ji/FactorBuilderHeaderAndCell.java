@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import cc.mallet.grmm.types.*;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,14 +24,14 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
             if (headerVar == null) continue;
 
             for (int row = 0; row < annotation.getRows(); row++) {
-                CellAnnotation[] candidateEntityAnnotations = annotation.getContentCellAnnotations(row, col);
+                TCellAnnotation[] candidateEntityAnnotations = annotation.getContentCellAnnotations(row, col);
                 if (candidateEntityAnnotations.length == 0) continue;
                 Variable cellVar = cellVariables.get(row + "," + col);
                 if (cellVar == null) continue;
 
                 Map<String, Double> affinity_values_between_variable_outcomes = new HashMap<String, Double>();
                 //go thru every candidate cell entity
-                for (CellAnnotation ca : candidateEntityAnnotations) {
+                for (TCellAnnotation ca : candidateEntityAnnotations) {
                     //which concept it has a relation with
                     String entId = ca.getAnnotation().getId();
                     int cellVarOutcomeIndex = cellVar.getLabelAlphabet().lookupIndex(entId, false);

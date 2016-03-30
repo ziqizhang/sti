@@ -37,8 +37,8 @@ public class StringUtils {
         return rs;
     }
 
-    public static List<String> toAlphaNumericTokens(String value, boolean lowercase) {
-        List<String> query_tokens = new ArrayList<String>();
+    public static List<String> splitToAlphaNumericTokens(String value, boolean lowercase) {
+        List<String> query_tokens = new ArrayList<>();
         for (String t : toAlphaNumericWhitechar(value).split("\\s+")) {
             if(t.length()==0)
                 continue;

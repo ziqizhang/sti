@@ -4,7 +4,7 @@ import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.algorithm.tm.EntityScorer;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
@@ -33,7 +33,7 @@ public class NamedEntityRanker {
         List<Pair<Entity, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
         List<Pair<Entity, Double>> sorted = new ArrayList<>();
         for (Pair<Entity, Map<String, Double>> e : scores) {
-            double score = e.getValue().get(CellAnnotation.SCORE_FINAL);
+            double score = e.getValue().get(TCellAnnotation.SCORE_FINAL);
             sorted.add(new Pair<>(e.getKey(), score));
         }
         Collections.sort(sorted, new Comparator<Pair<Entity, Double>>() {
@@ -44,11 +44,11 @@ public class NamedEntityRanker {
         });
 
         TContentCell tcc = table.getContentCell(row, column);
-        CellAnnotation[] annotations = new CellAnnotation[scores.size()];
+        TCellAnnotation[] annotations = new TCellAnnotation[scores.size()];
         int i = 0;
         for (Pair<Entity, Map<String, Double>> oo : scores) {
-            CellAnnotation ca = new CellAnnotation(tcc.getText(), oo.getKey(),
-                    oo.getValue().get(CellAnnotation.SCORE_FINAL), oo.getValue());
+            TCellAnnotation ca = new TCellAnnotation(tcc.getText(), oo.getKey(),
+                    oo.getValue().get(TCellAnnotation.SCORE_FINAL), oo.getValue());
             annotations[i] = ca;
             i++;
         }

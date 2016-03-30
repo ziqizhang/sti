@@ -93,11 +93,11 @@ public class Base_TM_no_Update_ColumnLearner {
 
     private List<Pair<Entity, Map<String, Double>>> collect_existing(TAnnotation table_annotation, int row_index, int column) {
         List<Pair<Entity, Map<String, Double>>> candidates = new ArrayList<>();
-        CellAnnotation[] annotations = table_annotation.getContentCellAnnotations(row_index, column);
-        for (CellAnnotation can : annotations) {
+        TCellAnnotation[] annotations = table_annotation.getContentCellAnnotations(row_index, column);
+        for (TCellAnnotation can : annotations) {
             Entity ec = can.getAnnotation();
-            Map<String, Double> scoreElements = can.getScore_element_map();
-            scoreElements.put(CellAnnotation.SCORE_FINAL, can.getFinalScore());
+            Map<String, Double> scoreElements = can.getScoreElements();
+            scoreElements.put(TCellAnnotation.SCORE_FINAL, can.getFinalScore());
             candidates.add(new Pair<>(ec, scoreElements));
         }
 
@@ -183,13 +183,13 @@ public class Base_TM_no_Update_ColumnLearner {
         });
 
         double max = 0.0;
-        CellAnnotation[] annotationsForCell = new CellAnnotation[candidates_and_scores_for_cell.size()];
+        TCellAnnotation[] annotationsForCell = new TCellAnnotation[candidates_and_scores_for_cell.size()];
         for (int i = 0; i < candidates_and_scores_for_cell.size(); i++) {
             Pair<Entity, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
             double score = e.getValue().get("final");
             if (score > max)
                 max = score;
-            annotationsForCell[i] = new CellAnnotation(table.getContentCell(table_cell_row, table_cell_col).getText(),
+            annotationsForCell[i] = new TCellAnnotation(table.getContentCell(table_cell_row, table_cell_col).getText(),
                     e.getKey(), e.getValue().get("final"), e.getValue());
 
         }

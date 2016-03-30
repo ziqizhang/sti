@@ -4,7 +4,7 @@ import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
@@ -102,7 +102,7 @@ public class BaselinePlusEntityScorer implements EntityScorer {
         bag_of_words_for_context.removeAll(stopWords);
         double contextOverlapScore = CollectionUtils.scoreCoverage_against_b(bag_of_words_for_entity, bag_of_words_for_context);
         //double contextOverlapScore = scoreOverlap(bag_of_words_for_entity, bag_of_words_for_context);
-        scoreMap.put(CellAnnotation.SCORE_CTX_ROW, contextOverlapScore);
+        scoreMap.put(TCellAnnotation.SCORE_CTX_ROW, contextOverlapScore);
 
 
         /*BOW OF Column context*/
@@ -118,7 +118,7 @@ public class BaselinePlusEntityScorer implements EntityScorer {
         bag_of_words_for_context.removeAll(stopWords);
         contextOverlapScore = CollectionUtils.scoreCoverage_against_b(bag_of_words_for_entity, bag_of_words_for_context);
         //contextOverlapScore = scoreOverlap(bag_of_words_for_entity, bag_of_words_for_context);
-        scoreMap.put(CellAnnotation.SCORE_CTX_COLUMN, contextOverlapScore);*/
+        scoreMap.put(TCellAnnotation.SCORE_CTX_COLUMN, contextOverlapScore);*/
 
 
         /*NAME MATCH SCORE */
@@ -131,7 +131,7 @@ public class BaselinePlusEntityScorer implements EntityScorer {
         Set<String> intersection = new HashSet<String>(bag_of_words_for_cell_text);
         intersection.retainAll(bag_of_words_for_entity_name);
 
-        scoreMap.put(CellAnnotation.SCORE_NAME_MATCH, Math.sqrt(name_score));
+        scoreMap.put(TCellAnnotation.SCORE_NAME_MATCH, Math.sqrt(name_score));
         scoreMap.put("matched_name_tokens",(double)intersection.size());
 
 
@@ -143,7 +143,7 @@ public class BaselinePlusEntityScorer implements EntityScorer {
                 StringUtils.toAlphaNumericWhitechar(cell_text),
                 StringUtils.toAlphaNumericWhitechar(entity_name));
         *//*
-        scoreMap.put(CellAnnotation.SCORE_NAME_MATCH, stringSim);*/
+        scoreMap.put(TCellAnnotation.SCORE_NAME_MATCH, stringSim);*/
 
         return scoreMap;
     }
@@ -153,11 +153,11 @@ public class BaselinePlusEntityScorer implements EntityScorer {
         for (Map.Entry<String, Double> e : scoreMap.entrySet()) {
             if (e.getKey().startsWith("ctx_"))
                 sum += e.getValue();
-            if (e.getKey().equals(CellAnnotation.SCORE_NAME_MATCH))
+            if (e.getKey().equals(TCellAnnotation.SCORE_NAME_MATCH))
                 sum += e.getValue();
         }
 
-        scoreMap.put(CellAnnotation.SCORE_FINAL, sum);
+        scoreMap.put(TCellAnnotation.SCORE_FINAL, sum);
         return sum;
     }
 }

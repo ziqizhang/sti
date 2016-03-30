@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.experiment.gs;
 import org.apache.any23.util.FileUtils;
 import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
@@ -12,7 +12,7 @@ import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorIMDB;
 import uk.ac.shef.dcs.sti.xtractor.TableXtractorIMDB;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseEntity;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseTopic;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 
 import java.io.*;
@@ -60,7 +60,7 @@ public class GSBuilder_IMDB {
                     int count_annotations = 0;
                     for (int row = 0; row < table.getNumRows(); row++) {
                         for (int col = 0; col < table.getNumCols(); col++) {
-                            CellAnnotation[] cas = annotations.getContentCellAnnotations(row, col);
+                            TCellAnnotation[] cas = annotations.getContentCellAnnotations(row, col);
                             if (cas != null && cas.length > 0)
                                 count_annotations++;
                         }
@@ -100,11 +100,11 @@ public class GSBuilder_IMDB {
                 continue;
 
             String imdb_id = text.substring(start, end).trim();
-            List<FreebaseEntity> list = queryHelper.searchapi_topics_with_name_and_type(imdb_id, "any", false, 5);
+            List<FreebaseTopic> list = queryHelper.searchapi_getTopicsByNameAndType(imdb_id, "any", false, 5);
             if (list == null || list.size() == 0)
                 continue;
-            CellAnnotation[] cas = new CellAnnotation[1];
-            cas[0] = new CellAnnotation(text, list.get(0), 1.0, new HashMap<String, Double>());
+            TCellAnnotation[] cas = new TCellAnnotation[1];
+            cas[0] = new TCellAnnotation(text, list.get(0), 1.0, new HashMap<String, Double>());
             tableAnnotation.setContentCellAnnotations(row, 1, cas);
         }
         return tableAnnotation;
@@ -122,7 +122,7 @@ public class GSBuilder_IMDB {
         PrintWriter p = new PrintWriter(annotation_keys);
         for (int row = 0; row < table.getNumRows(); row++) {
             for (int col = 0; col < table.getNumCols(); col++) {
-                CellAnnotation[] anns = annotations.getContentCellAnnotations(row, col);
+                TCellAnnotation[] anns = annotations.getContentCellAnnotations(row, col);
                 if (anns != null && anns.length > 0) {
                     p.println(row + "," + col + "," + anns[0].getAnnotation().getId());
                 }

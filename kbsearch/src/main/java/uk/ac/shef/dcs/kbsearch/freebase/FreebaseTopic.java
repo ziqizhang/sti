@@ -10,12 +10,12 @@ import uk.ac.shef.dcs.kbsearch.rep.Entity;
  * Time: 13:12
  * To change this template use File | Settings | File Templates.
  */
-public class FreebaseEntity extends Entity{
+public class FreebaseTopic extends Entity{
     private String mid;
     private String language;
     private double score;
 
-    public FreebaseEntity(String mid){
+    public FreebaseTopic(String mid){
         super(mid, mid);
         this.mid=mid;
     }

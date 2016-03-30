@@ -1,5 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.tm.stopping;
 
+import org.apache.log4j.Logger;
+
 import java.util.HashSet;
 import java.util.Map;
 
@@ -14,6 +16,8 @@ public class EntropyConvergence extends StoppingCriteria {
     private int minimum_iterations;
     private int current_iteration;
     private double convergence_threshold = 0.01;
+
+    private static final Logger LOG = Logger.getLogger(EntropyConvergence.class.getName());
 
     //minimum #
     public EntropyConvergence(double minimum_state_score_sum, int minimum_iterations, double convergence_threshold) {
@@ -56,7 +60,7 @@ public class EntropyConvergence extends StoppingCriteria {
             return false;
 
         if (has_converged){
-            System.out.println("\tConvergence iteration="+current_iteration+", potential max="+max+", savings="+((double)(max-current_iteration)/max));
+            LOG.debug("\tConvergence iteration=" + current_iteration + ", potential max=" + max + ", savings=" + ((double) (max - current_iteration) / max));
             if(current_iteration>20)
                 System.out.println();
             //previous_iteration_entropy=0.0;//reset
@@ -65,7 +69,7 @@ public class EntropyConvergence extends StoppingCriteria {
         }
 
         if(current_iteration==max)
-            System.out.println("\t(negative)Convergence iteration="+current_iteration+", potential max="+max+", savings="+((double)(max-current_iteration)/max));
+            LOG.debug("\t(negative)Convergence iteration="+current_iteration+", potential max="+max+", savings="+((double)(max-current_iteration)/max));
 
         return false;
     }

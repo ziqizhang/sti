@@ -217,12 +217,12 @@ public class LimayeDatasetLoader {
                 if (htmlCell.getTextContent() == null || htmlCell.getTextContent().length() == 0) {
                     continue;
                 }
-                CellAnnotation cellAnnotation = new CellAnnotation(
+                TCellAnnotation cellAnnotation = new TCellAnnotation(
                         table.getContentCell(i, j).getText(), new Entity(htmlCell.getTextContent(), htmlCell.getTextContent()), 1.0, new HashMap<String, Double>()
                 );
 
                 table.getTableAnnotations().setContentCellAnnotations(
-                        i, j, new CellAnnotation[]{cellAnnotation}
+                        i, j, new TCellAnnotation[]{cellAnnotation}
                 );
             }
 

@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.experiment.gs;
 import org.apache.any23.util.FileUtils;
 import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
@@ -12,7 +12,7 @@ import uk.ac.shef.dcs.sti.xtractor.TableNormalizerDummy;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorMusicBrainz;
 import uk.ac.shef.dcs.sti.xtractor.TableXtractorMusicBrainz;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseEntity;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseTopic;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 
 import java.io.*;
@@ -61,7 +61,7 @@ public class GSBuilder_MusicBrainz {
                     int count_annotations = 0;
                     for (int row = 0; row < table.getNumRows(); row++) {
                         for (int col = 0; col < table.getNumCols(); col++) {
-                            CellAnnotation[] cas = annotations.getContentCellAnnotations(row, col);
+                            TCellAnnotation[] cas = annotations.getContentCellAnnotations(row, col);
                             if (cas != null && cas.length > 0)
                                 count_annotations++;
                         }
@@ -87,7 +87,7 @@ public class GSBuilder_MusicBrainz {
     }
 
     public TAnnotation annotate(Table table, FreebaseQueryHelper queryHelper) throws IOException {
-        Map<String, List<FreebaseEntity>> cache_for_table = new HashMap<String, List<FreebaseEntity>>();
+        Map<String, List<FreebaseTopic>> cache_for_table = new HashMap<String, List<FreebaseTopic>>();
 
         TAnnotation tableAnnotation = new TAnnotation(table.getNumRows(), table.getNumCols());
         for (int row = 0; row < table.getNumRows(); row++) {
@@ -119,17 +119,17 @@ public class GSBuilder_MusicBrainz {
                         System.out.println();
                     }
 
-                    List<FreebaseEntity> list = cache_for_table.get(music_brainz_id);
+                    List<FreebaseTopic> list = cache_for_table.get(music_brainz_id);
                     if (list == null) {
-                        list = queryHelper.searchapi_topics_with_name_and_type(music_brainz_id, "any", false, 5);
+                        list = queryHelper.searchapi_getTopicsByNameAndType(music_brainz_id, "any", false, 5);
                         if (list == null)
-                            list = new ArrayList<FreebaseEntity>();
+                            list = new ArrayList<FreebaseTopic>();
                         cache_for_table.put(music_brainz_id, list);
                     }
                     if (list.size() == 0)
                         continue;
-                    CellAnnotation[] cas = new CellAnnotation[1];
-                    cas[0] = new CellAnnotation(text, list.get(0), 1.0, new HashMap<String, Double>());
+                    TCellAnnotation[] cas = new TCellAnnotation[1];
+                    cas[0] = new TCellAnnotation(text, list.get(0), 1.0, new HashMap<String, Double>());
                     tableAnnotation.setContentCellAnnotations(row, col, cas);
                 }
             }
@@ -149,7 +149,7 @@ public class GSBuilder_MusicBrainz {
         PrintWriter p = new PrintWriter(annotation_keys);
         for (int row = 0; row < table.getNumRows(); row++) {
             for (int col = 0; col < table.getNumCols(); col++) {
-                CellAnnotation[] anns = annotations.getContentCellAnnotations(row, col);
+                TCellAnnotation[] anns = annotations.getContentCellAnnotations(row, col);
                 if (anns != null && anns.length > 0) {
                     p.println(row + "," + col + "," + anns[0].getAnnotation().getId());
                 }

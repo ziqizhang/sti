@@ -133,7 +133,7 @@ public class Base_SL_no_Update_MainInterpreter {
         double entityScores = 0.0;
         for (int col = 0; col < table.getNumCols(); col++) {
             for (int row = 0; row < table.getNumRows(); row++) {
-                CellAnnotation[] cAnns = tab_annotations.getContentCellAnnotations(row, col);
+                TCellAnnotation[] cAnns = tab_annotations.getContentCellAnnotations(row, col);
                 if (cAnns != null && cAnns.length > 0) {
                     entityScores += cAnns[0].getFinalScore();
                 }

@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
@@ -18,7 +18,7 @@ import java.util.*;
  */
 class HeaderAnnotationUpdater {
 
-    public static void add(CellAnnotation ca, int column,
+    public static void add(TCellAnnotation ca, int column,
                            Table table,
                            HeaderAnnotation[] existing_header_annotations,
                            Set<HeaderAnnotation> new_header_annotation_placeholders
@@ -107,9 +107,9 @@ class HeaderAnnotationUpdater {
 
 
         for (int row : rows) {
-            List<CellAnnotation> bestCellAnnotations = table_annotations.getBestContentCellAnnotations(row, column);
+            List<TCellAnnotation> bestCellAnnotations = table_annotations.getBestContentCellAnnotations(row, column);
             Set<String> types_already_received_votes_by_cell=new HashSet<String>();
-            for (CellAnnotation ca : bestCellAnnotations) {
+            for (TCellAnnotation ca : bestCellAnnotations) {
                 for (HeaderAnnotation ha : existing_header_annotations) {
                     if (ca.getAnnotation().hasType(ha.getAnnotation_url())) {
                         ha.addSupportingRow(row);

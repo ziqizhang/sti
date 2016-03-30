@@ -22,14 +22,14 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
     }
 
     public void match_cellPairs(int row,
-                                List<CellAnnotation> subjectCellAnnotations, int subjectColumn,
-                                List<CellAnnotation> objectCellAnnotations, int objectColumn,
+                                List<TCellAnnotation> subjectCellAnnotations, int subjectColumn,
+                                List<TCellAnnotation> objectCellAnnotations, int objectColumn,
                                 DataTypeClassifier.DataType object_column_type,
                                 TAnnotation_JI_Freebase tableAnnotation
     ) {
         if (subjectCellAnnotations.size() != 0 && objectCellAnnotations.size() != 0) {
             for (int s = 0; s < subjectCellAnnotations.size(); s++) { //for each candidate subject entity
-                CellAnnotation sbjEntity = subjectCellAnnotations.get(s);
+                TCellAnnotation sbjEntity = subjectCellAnnotations.get(s);
                 List<String[]> sbjEntityFacts = sbjEntity.getAnnotation().getTriples(); //get the facts of that sbj ent
                 sbjEntityFacts = FreebaseSearchResultFilter.filterRelations(sbjEntityFacts);
                 Map<Integer, DataTypeClassifier.DataType> fact_data_types = classifyFactObjDataType(
@@ -38,7 +38,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
 
                 final Map<Integer, Double> factIdx_matchedScores = new HashMap<Integer, Double>();
                 //key - index of fact; value- list of candidate entity from the obj cell matched the fact, or null if no candidate entities
-                Map<Integer, List<CellAnnotation>> factIdx_matchedObjCellCandidates = new HashMap<Integer, List<CellAnnotation>>();
+                Map<Integer, List<TCellAnnotation>> factIdx_matchedObjCellCandidates = new HashMap<Integer, List<TCellAnnotation>>();
                 //now go thru each fact
                 for (int index = 0; index < sbjEntityFacts.size(); index++) {
                     DataTypeClassifier.DataType type_of_fact_value = fact_data_types.get(index);
@@ -48,9 +48,9 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                     }
                     double maxScore = 0.0; //maximum score between this fact's obj and any candidate entity in the obj cell
                     //this fact may score multiple candidate NEs for the object cell
-                    Map<Double, List<CellAnnotation>> mctScore_objCellCandidates = new HashMap<Double, List<CellAnnotation>>();
+                    Map<Double, List<TCellAnnotation>> mctScore_objCellCandidates = new HashMap<Double, List<TCellAnnotation>>();
                     for (int o = 0; o < objectCellAnnotations.size(); o++) {
-                        CellAnnotation objectEntity = objectCellAnnotations.get(o);
+                        TCellAnnotation objectEntity = objectCellAnnotations.get(o);
                         double scoreAgainstObjEntityLabel = UtilRelationMatcher.score(
                                 objectEntity.getAnnotation().getLabel(), object_column_type, fact[1], type_of_fact_value, stopWords, stringSimilarityMetric);
                         double scoreAgainstObjEntityId = 0.0;
@@ -60,8 +60,8 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                         double finalScore = scoreAgainstObjEntityId > scoreAgainstObjEntityLabel ? scoreAgainstObjEntityId :
                                 scoreAgainstObjEntityLabel;
 
-                        List<CellAnnotation> candidates = mctScore_objCellCandidates.get(finalScore);
-                        if (candidates == null) candidates = new ArrayList<CellAnnotation>();
+                        List<TCellAnnotation> candidates = mctScore_objCellCandidates.get(finalScore);
+                        if (candidates == null) candidates = new ArrayList<TCellAnnotation>();
                         candidates.add(objectEntity);
                         mctScore_objCellCandidates.put(finalScore, candidates);
                         if (maxScore < finalScore)
@@ -86,7 +86,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                 for (Map.Entry<Integer, Double> e : factIdx_matchedScores.entrySet()) {
                     int index = e.getKey();
                     Double score = e.getValue();
-                    List<CellAnnotation> objEntities = factIdx_matchedObjCellCandidates.get(index);
+                    List<TCellAnnotation> objEntities = factIdx_matchedObjCellCandidates.get(index);
                     if (score.equals(highestScore) && objEntities != null && objEntities.size() > 0) {
                         String[] fact = sbjEntityFacts.get(index);
                         createCandidateAnnotation(tableAnnotation,
@@ -151,8 +151,8 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                            int row, int subjectColumn, int objectColumn,
                                            String[] fact,
                                            double score,
-                                           CellAnnotation sbjEntity,
-                                           List<CellAnnotation> matchedObjCellCandidates) {
+                                           TCellAnnotation sbjEntity,
+                                           List<TCellAnnotation> matchedObjCellCandidates) {
         tableAnnotation.addRelationAnnotation_per_row(new CellBinaryRelationAnnotation(
                 new Key_SubjectCol_ObjectCol(subjectColumn, objectColumn), row, fact[0], fact[0],
                 new ArrayList<String[]>(), score
@@ -166,15 +166,15 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
     }
 
     private void populateConceptPairAndRelationScore_instanceEvidence(TAnnotation_JI_Freebase tableAnnotation,
-                                                                      CellAnnotation sbjEntity,
+                                                                      TCellAnnotation sbjEntity,
                                                                       int entityRow,
                                                                       String relationURL,
-                                                                      List<CellAnnotation> matchedObjCellCandidates,
+                                                                      List<TCellAnnotation> matchedObjCellCandidates,
                                                                       int relationFrom, int relationTo,
                                                                       double maxScore) {
         //todo: false relation added to highly general types (person, religious_leader_title), maybe use only most specific type of sbj, obj
         for (Clazz sbjType : FreebaseSearchResultFilter.filterTypes(sbjEntity.getAnnotation().getTypes())) {
-            for (CellAnnotation objEntity : matchedObjCellCandidates) {
+            for (TCellAnnotation objEntity : matchedObjCellCandidates) {
                 for (Clazz objType : FreebaseSearchResultFilter.filterTypes(objEntity.getAnnotation().getTypes())) {
                     if (sbjType.getId().equals(objType.getId())) continue;
                     tableAnnotation.setScore_conceptPairAndRelation_instanceEvidence(entityRow,
@@ -188,10 +188,10 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
     }
 
     private void populateEntityPairAndRelationScore(TAnnotation_JI_Freebase tableAnnotation,
-                                                    String entityId, String relationURL, List<CellAnnotation> objEntities,
+                                                    String entityId, String relationURL, List<TCellAnnotation> objEntities,
                                                     int relationFrom, int relationTo
     ) {
-        for (CellAnnotation objEntity : objEntities)
+        for (TCellAnnotation objEntity : objEntities)
             tableAnnotation.setScore_entityPairAndRelation(entityId,
                     objEntity.getAnnotation().getId(),
                     HeaderBinaryRelationAnnotation.toStringExpanded(
@@ -279,7 +279,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
     }
 
     public void match_sbjCellsAndRelation(
-            List<CellAnnotation> subjectCellAnnotations,
+            List<TCellAnnotation> subjectCellAnnotations,
             int subjectColumn, int objectColumn,
             TAnnotation_JI_Freebase tableAnnotations) {
         if (subjectCellAnnotations.size() > 0) {
@@ -288,7 +288,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                     tableAnnotations.getRelationAnnotations_across_columns().get(relationDirection);
             if (candidateRelations != null && candidateRelations.size() > 0) {
                 for (int s = 0; s < subjectCellAnnotations.size(); s++) { //for each candidate subject entity
-                    CellAnnotation sbjEntity = subjectCellAnnotations.get(s);
+                    TCellAnnotation sbjEntity = subjectCellAnnotations.get(s);
                     List<String[]> sbjEntityFacts = sbjEntity.getAnnotation().getTriples(); //get the facts of that sbj ent
                     sbjEntityFacts = FreebaseSearchResultFilter.filterRelations(sbjEntityFacts);
 

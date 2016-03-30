@@ -450,19 +450,19 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
 
                 ec.getTypes().addAll(candidate_types);
                 Map<String, Double> score_elements = new HashMap<String, Double>();
-                score_elements.put(CellAnnotation.SCORE_FINAL, mapped_score);
-                CellAnnotation ca = new CellAnnotation(table.getContentCell(row, column).getText(),
+                score_elements.put(TCellAnnotation.SCORE_FINAL, mapped_score);
+                TCellAnnotation ca = new TCellAnnotation(table.getContentCell(row, column).getText(),
                         ec, mapped_score, score_elements
                 );
-                CellAnnotation[] cAnns = table_annotation.getContentCellAnnotations(row, column);
-                List<CellAnnotation> new_cAnns = new ArrayList<CellAnnotation>();
+                TCellAnnotation[] cAnns = table_annotation.getContentCellAnnotations(row, column);
+                List<TCellAnnotation> new_cAnns = new ArrayList<TCellAnnotation>();
                 if (cAnns != null) {
-                    for (CellAnnotation c : cAnns)
+                    for (TCellAnnotation c : cAnns)
                         new_cAnns.add(c);
                 }
                 new_cAnns.add(ca);
                 Collections.sort(new_cAnns);
-                table_annotation.setContentCellAnnotations(row, column, new_cAnns.toArray(new CellAnnotation[0]));
+                table_annotation.setContentCellAnnotations(row, column, new_cAnns.toArray(new TCellAnnotation[0]));
             }
         }
 

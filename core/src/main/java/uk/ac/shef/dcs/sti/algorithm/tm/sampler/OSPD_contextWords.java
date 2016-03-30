@@ -54,7 +54,7 @@ public class OSPD_contextWords extends TContentCellRanker {
                     for (int c = 0; c < table.getNumCols(); c++) {
                         TContentCell tcc = table.getContentCell(rows.get(i), c);
 
-                        List<String> tokens = StringUtils.toAlphaNumericTokens(tcc.getText().trim(),true);
+                        List<String> tokens = StringUtils.splitToAlphaNumericTokens(tcc.getText().trim(), true);
                         tokens.removeAll(stopwords);
 
                         if (tokens.size() > 0)
@@ -89,7 +89,7 @@ public class OSPD_contextWords extends TContentCellRanker {
                 for (int c = 0; c < table.getNumCols(); c++) {
                     TContentCell tcc = table.getContentCell(r, c);
 
-                    List<String> tokens = StringUtils.toAlphaNumericTokens(tcc.getText().trim(),true);
+                    List<String> tokens = StringUtils.splitToAlphaNumericTokens(tcc.getText().trim(), true);
                     tokens.removeAll(stopwords);
 
                     if (tokens.size() > 0)

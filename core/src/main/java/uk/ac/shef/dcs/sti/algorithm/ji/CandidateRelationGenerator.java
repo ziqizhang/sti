@@ -61,8 +61,8 @@ public class CandidateRelationGenerator {
                 System.out.print("(" + subjectColumn + "-" + objectColumn + ",");
                 for (int r = 0; r < table.getNumRows(); r++) {
                     //in JI, all candidate NEs (the disambiguated NE) is needed from each cell to aggregate candidate relation
-                    CellAnnotation[] subjectCells = tableAnnotations.getContentCellAnnotations(r, subjectColumn);
-                    CellAnnotation[] objectCells = tableAnnotations.getContentCellAnnotations(r, objectColumn);
+                    TCellAnnotation[] subjectCells = tableAnnotations.getContentCellAnnotations(r, subjectColumn);
+                    TCellAnnotation[] objectCells = tableAnnotations.getContentCellAnnotations(r, objectColumn);
                     //matches obj of facts of subject entities against object cell text and candidate entity labels.
                     //also create evidence for entity-relation, concept-relation
                     matcher.match_cellPairs(r,
@@ -112,8 +112,8 @@ public class CandidateRelationGenerator {
                 System.out.print("(" + subjectColumn + "-" + objectColumn + ",");
                 for (int r = 0; r < table.getNumRows(); r++) {
                     //in JI, all candidate NEs (the disambiguated NE) is needed from each cell to aggregate candidate relation
-                    CellAnnotation[] subjectCells = tableAnnotations.getContentCellAnnotations(r, subjectColumn);
-                    CellAnnotation[] objectCells = tableAnnotations.getContentCellAnnotations(r,objectColumn);
+                    TCellAnnotation[] subjectCells = tableAnnotations.getContentCellAnnotations(r, subjectColumn);
+                    TCellAnnotation[] objectCells = tableAnnotations.getContentCellAnnotations(r,objectColumn);
                     if(objectCells.length==0 || subjectCells.length==0) continue;
                     //matches obj of facts of subject entities against object cell text and candidate entity labels.
                     //also create evidence for entity-relation, concept-relation

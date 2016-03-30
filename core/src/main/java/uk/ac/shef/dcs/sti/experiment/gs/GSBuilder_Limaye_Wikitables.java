@@ -467,9 +467,9 @@ public class GSBuilder_Limaye_Wikitables {
                 }
                 //table.getTableAnnotations().getContentCellAnnotations(r, c);
 
-                CellAnnotation[] annotations = table.getTableAnnotations().getContentCellAnnotations(r, c);
+                TCellAnnotation[] annotations = table.getTableAnnotations().getContentCellAnnotations(r, c);
                 if (annotations != null && annotations.length > 0) {
-                    CellAnnotation ca = annotations[0];
+                    TCellAnnotation ca = annotations[0];
                     wikilink = ca.getAnnotation().getId();
                     if (wikilink.startsWith("/wiki/"))
                         wikilink = wikilink.substring(6).trim();
@@ -542,10 +542,10 @@ public class GSBuilder_Limaye_Wikitables {
                 System.out.println("\t\tr=" + r + ",c=" + c);
                 TContentCell tcc = originalTable.getContentCell(r, c);
                 if (tcc != null) {
-                    CellAnnotation[] annotations = originalTable.getTableAnnotations().getContentCellAnnotations(r, c);
+                    TCellAnnotation[] annotations = originalTable.getTableAnnotations().getContentCellAnnotations(r, c);
                     String wikiTitle = "";
                     if (annotations != null && annotations.length > 0) {
-                        CellAnnotation ca = annotations[0];
+                        TCellAnnotation ca = annotations[0];
                         wikiTitle = ca.getAnnotation().getId();
                         if (wikiTitle.startsWith("/wiki/")) {
                             wikiTitle = wikiTitle.substring(6).trim();
@@ -571,7 +571,7 @@ public class GSBuilder_Limaye_Wikitables {
         if (originalTable.getTableAnnotations() != null) {
             for (int r = 0; r < originalTable.getNumRows(); r++) {
                 for (int c = 0; c < originalTable.getNumCols(); c++) {
-                    CellAnnotation[] annotations = originalTable.getTableAnnotations().getContentCellAnnotations(r, c);
+                    TCellAnnotation[] annotations = originalTable.getTableAnnotations().getContentCellAnnotations(r, c);
                     if (annotations != null && annotations.length > 0)
                         count_original_annotations++;
                 }
@@ -852,10 +852,10 @@ public class GSBuilder_Limaye_Wikitables {
         if (originalTable.getTableAnnotations() != null) {
             for (int r = 0; r < originalTable.getNumRows(); r++) {
                 for (int c = 0; c < originalTable.getNumCols(); c++) {
-                    CellAnnotation[] annotations = originalTable.getTableAnnotations().getContentCellAnnotations(r, c);
+                    TCellAnnotation[] annotations = originalTable.getTableAnnotations().getContentCellAnnotations(r, c);
                     if (annotations != null && annotations.length > 0) {
                         count_original_annotations++;
-                        originalTable.getTableAnnotations().setContentCellAnnotations(r, c,new CellAnnotation[0]);
+                        originalTable.getTableAnnotations().setContentCellAnnotations(r, c,new TCellAnnotation[0]);
                     }
                 }
             }
@@ -894,10 +894,10 @@ public class GSBuilder_Limaye_Wikitables {
                             if (fb_id != null && fb_id.length() > 0) {
                                 annotation.append(r + "," + c + "=").append(fb_id).append("\n");
                             }
-                            CellAnnotation ca =
-                                    new CellAnnotation(tcc.getText(), new Entity(wikiTitle, wikiTitle), 1.0, new HashMap<String, Double>());
+                            TCellAnnotation ca =
+                                    new TCellAnnotation(tcc.getText(), new Entity(wikiTitle, wikiTitle), 1.0, new HashMap<String, Double>());
                             originalTable.getTableAnnotations().setContentCellAnnotations(
-                                    r, c, new CellAnnotation[]{ca}
+                                    r, c, new TCellAnnotation[]{ca}
                             );
                         }
                     }

@@ -16,7 +16,7 @@ public class TAnnotation {
     protected int cols;
     protected int subjectColumn;
     protected ObjectMatrix1D headerAnnotations; //each object in the matrix is an array of HeaderAnnotation
-    protected ObjectMatrix2D contentAnnotations; //each object in the matrix is an array of CellAnnotation
+    protected ObjectMatrix2D contentAnnotations; //each object in the matrix is an array of TCellAnnotation
     protected Map<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> relationAnnotations_per_row; //first key being the sub-obj column; second key is the row index
     private Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> relationAnnotations_across_columns;
 
@@ -72,12 +72,12 @@ public class TAnnotation {
 
         for(int row=0; row<source.getRows();row++){
             for(int col=0; col<source.getCols(); col++){
-                CellAnnotation[] annotations = source.getContentCellAnnotations(row, col);
+                TCellAnnotation[] annotations = source.getContentCellAnnotations(row, col);
                 if(annotations==null)
                     continue;
-                CellAnnotation[] copy = new CellAnnotation[annotations.length];
+                TCellAnnotation[] copy = new TCellAnnotation[annotations.length];
                 for(int index=0; index<annotations.length;index++)
-                    copy[index]=CellAnnotation.copy(annotations[index]);
+                    copy[index]= TCellAnnotation.copy(annotations[index]);
                 target.setContentCellAnnotations(row, col,copy);
             }
         }
@@ -127,29 +127,29 @@ public class TAnnotation {
         return result;
     }
 
-    public void setContentCellAnnotations(int row, int col, CellAnnotation[] annotations){
-        Set<CellAnnotation> deduplicateCheck = new HashSet<CellAnnotation>(Arrays.asList(annotations));
+    public void setContentCellAnnotations(int row, int col, TCellAnnotation[] annotations){
+        Set<TCellAnnotation> deduplicateCheck = new HashSet<TCellAnnotation>(Arrays.asList(annotations));
         if(deduplicateCheck.size()!=annotations.length)
             System.err.println("duplicate cell anntoations "+row+","+col+":"+deduplicateCheck);
         contentAnnotations.set(row, col, annotations);
     }
-    public CellAnnotation[] getContentCellAnnotations(int row, int col){
+    public TCellAnnotation[] getContentCellAnnotations(int row, int col){
         Object o = contentAnnotations.get(row, col);
         if(o==null)
-            return new CellAnnotation[0];
-        CellAnnotation[] ca = (CellAnnotation[]) o;
+            return new TCellAnnotation[0];
+        TCellAnnotation[] ca = (TCellAnnotation[]) o;
         Arrays.sort(ca);
         return ca;
     }
 
-    public List<CellAnnotation> getBestContentCellAnnotations(int row, int col){
-        CellAnnotation[] annotations =getContentCellAnnotations(row, col);
+    public List<TCellAnnotation> getBestContentCellAnnotations(int row, int col){
+        TCellAnnotation[] annotations =getContentCellAnnotations(row, col);
 
-        List<CellAnnotation> result = new ArrayList<CellAnnotation>();
+        List<TCellAnnotation> result = new ArrayList<TCellAnnotation>();
         if(annotations==null||annotations.length==0)
             return result;
         double prevScore = 0.0;
-        for(CellAnnotation c: annotations){
+        for(TCellAnnotation c: annotations){
             if(prevScore==0.0){
                 prevScore=c.getFinalScore();
                 result.add(c);

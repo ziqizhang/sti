@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 
@@ -17,10 +17,10 @@ public class ONPSPD_Enforcer {
         Map<Integer, Set<Integer>> elements_to_update = new HashMap<Integer, Set<Integer>>();
 
         for (int r = 0; r < table.getNumRows(); r++) {
-            CellAnnotation[] annotations = table_annotation.getContentCellAnnotations(r, col);
+            TCellAnnotation[] annotations = table_annotation.getContentCellAnnotations(r, col);
             if (annotations != null && annotations.length > 0) {
                 for (int i = 0; i < annotations.length; i++) {
-                    CellAnnotation ca = annotations[i];
+                    TCellAnnotation ca = annotations[i];
                     String entityId = ca.getAnnotation().getId();
                     Set<String> cellTexts = entityId_to_cellTexts.get(entityId);
 
@@ -41,11 +41,11 @@ public class ONPSPD_Enforcer {
         }
 
         for (int r = 0; r < table.getNumRows(); r++) {
-            CellAnnotation[] annotations = table_annotation.getContentCellAnnotations(r, col);
-            List<CellAnnotation> revised = new ArrayList<CellAnnotation>();
+            TCellAnnotation[] annotations = table_annotation.getContentCellAnnotations(r, col);
+            List<TCellAnnotation> revised = new ArrayList<TCellAnnotation>();
             if (annotations != null && annotations.length > 0) {
                 for (int i = 0; i < annotations.length; i++) {
-                    CellAnnotation ca = annotations[i];
+                    TCellAnnotation ca = annotations[i];
                     String entityId = ca.getAnnotation().getId();
                     Set<String> cellTexts = entityId_to_cellTexts.get(entityId);
 
@@ -59,7 +59,7 @@ public class ONPSPD_Enforcer {
                 }
                 if (revised.size() != 0) {
                     Collections.sort(revised);
-                    table_annotation.setContentCellAnnotations(r, col, revised.toArray(new CellAnnotation[0]));
+                    table_annotation.setContentCellAnnotations(r, col, revised.toArray(new TCellAnnotation[0]));
                 }
             }
         }

@@ -146,8 +146,8 @@ public class LEARNINGPreliminaryDisamb {
         Collections.sort(candidates_and_scores_for_cell, new Comparator<Pair<Entity, Map<String, Double>>>() {
             @Override
             public int compare(Pair<Entity, Map<String, Double>> o1, Pair<Entity, Map<String, Double>> o2) {
-                Double o2_score = o2.getValue().get(CellAnnotation.SCORE_FINAL);
-                Double o1_score = o1.getValue().get(CellAnnotation.SCORE_FINAL);
+                Double o2_score = o2.getValue().get(TCellAnnotation.SCORE_FINAL);
+                Double o1_score = o1.getValue().get(TCellAnnotation.SCORE_FINAL);
                 return o2_score.compareTo(o1_score);
             }
         });
@@ -155,10 +155,10 @@ public class LEARNINGPreliminaryDisamb {
         String sampleCellText = table.getContentCell(table_cell_rows.get(0), table_cell_col).getText();
 
         for (int row : table_cell_rows) {
-            CellAnnotation[] annotationsForCell = new CellAnnotation[candidates_and_scores_for_cell.size()];
+            TCellAnnotation[] annotationsForCell = new TCellAnnotation[candidates_and_scores_for_cell.size()];
             for (int i = 0; i < candidates_and_scores_for_cell.size(); i++) {
                 Pair<Entity, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
-                annotationsForCell[i] = new CellAnnotation(sampleCellText,
+                annotationsForCell[i] = new TCellAnnotation(sampleCellText,
                         e.getKey(), e.getValue().get("final"), e.getValue());
                 /*if(table_cell_row==5 &&table_cell_col==4)
                 System.out.println(i);*/
@@ -183,8 +183,8 @@ public class LEARNINGPreliminaryDisamb {
         Set<HeaderAnnotation> add = new HashSet<HeaderAnnotation>();
         //any new headers due to disambiguation-update?
         for (int row : rowsUpdated) {
-            List<CellAnnotation> bestCellAnnotations = table_annotations.getBestContentCellAnnotations(row, column);
-            for (CellAnnotation ca : bestCellAnnotations) {
+            List<TCellAnnotation> bestCellAnnotations = table_annotations.getBestContentCellAnnotations(row, column);
+            for (TCellAnnotation ca : bestCellAnnotations) {
                 HeaderAnnotationUpdater.add(ca, column, table, existing_header_annotations, add);
             }
         }
@@ -220,11 +220,11 @@ public class LEARNINGPreliminaryDisamb {
         //supporting rows are only added if a header for the type of the cell annotation exists
 
         for (int row : rowsUpdated) {
-            CellAnnotation[] cellAnnotations = table_annotations.getContentCellAnnotations(row, column);
+            TCellAnnotation[] cellAnnotations = table_annotations.getContentCellAnnotations(row, column);
 
             Map<String, Double> header_annotation_url_and_max_score = new HashMap<String, Double>();
             Map<String, String> header_annotation_url_and_label = new HashMap<String, String>();
-            for (CellAnnotation ca : cellAnnotations) {
+            for (TCellAnnotation ca : cellAnnotations) {
                 List<Clazz> types = ca.getAnnotation().getTypes();
                 double disamb_score = ca.getFinalScore();
                 for (Clazz t : types) {

@@ -4,7 +4,7 @@ import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
@@ -94,7 +94,7 @@ public class Base_TM_no_Update_EntityDisambiguationScorer {
         bag_of_words_for_context.removeAll(stopWords);
         double contextOverlapScore = CollectionUtils.scoreCoverage_against_b(bag_of_words_for_entity, bag_of_words_for_context);
         //double contextOverlapScore = scoreOverlap(bag_of_words_for_entity, bag_of_words_for_context);
-        scoreMap.put(CellAnnotation.SCORE_CTX_ROW, contextOverlapScore);
+        scoreMap.put(TCellAnnotation.SCORE_CTX_ROW, contextOverlapScore);
 
 
 
@@ -119,7 +119,7 @@ public class Base_TM_no_Update_EntityDisambiguationScorer {
             /*for(String[] type: candidate.getTypes())
                 types_strings.add(type[0]);*/
             double score_type_match = CollectionUtils.scoreOverlap_dice(bag_of_words_for_context, types_strings);
-            scoreMap.put(CellAnnotation.SCORE_TYPE_MATCH, score_type_match);
+            scoreMap.put(TCellAnnotation.SCORE_TYPE_MATCH, score_type_match);
         }
 
         /*NAME MATCH SCORE */
@@ -138,7 +138,7 @@ public class Base_TM_no_Update_EntityDisambiguationScorer {
         /*double stringSim = stringSimilarityMetric.getSimilarity(
                 StringUtils.toAlphaNumericWhitechar(cell_text),
                 StringUtils.toAlphaNumericWhitechar(entity_name));
-        */scoreMap.put(CellAnnotation.SCORE_NAME_MATCH, stringSim);
+        */scoreMap.put(TCellAnnotation.SCORE_NAME_MATCH, stringSim);
 
         return scoreMap;
     }
@@ -148,11 +148,11 @@ public class Base_TM_no_Update_EntityDisambiguationScorer {
         for (Map.Entry<String, Double> e : scoreMap.entrySet()) {
             if (e.getKey().startsWith("ctx_"))
                 sum += e.getValue();
-            if(e.getKey().equals(CellAnnotation.SCORE_NAME_MATCH))
+            if(e.getKey().equals(TCellAnnotation.SCORE_NAME_MATCH))
                 sum+=e.getValue();
         }
 
-        scoreMap.put(CellAnnotation.SCORE_FINAL, sum);
+        scoreMap.put(TCellAnnotation.SCORE_FINAL, sum);
         return sum;
     }
 

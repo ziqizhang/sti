@@ -32,8 +32,8 @@ public class RelationTextMatch_Scorer {
      * @return
      */
     public void match(int row,
-                      List<CellAnnotation> subjectCellAnnotations, int subjectColumn,
-                      List<CellAnnotation> objectCellAnnotations, int objectColumn,
+                      List<TCellAnnotation> subjectCellAnnotations, int subjectColumn,
+                      List<TCellAnnotation> objectCellAnnotations, int objectColumn,
                       TContentCell objectCellText,
                       DataTypeClassifier.DataType object_column_type,
                       TAnnotation tableAnnotation
@@ -41,7 +41,7 @@ public class RelationTextMatch_Scorer {
         if (subjectCellAnnotations.size() != 0) {
             if (subjectCellAnnotations.size() > 0 && UtilRelationMatcher.isValidType(object_column_type)) {
                 for (int s = 0; s < subjectCellAnnotations.size(); s++) {
-                    CellAnnotation subjectEntity = subjectCellAnnotations.get(s);
+                    TCellAnnotation subjectEntity = subjectCellAnnotations.get(s);
                     List<String[]> subject_entity_facts = subjectEntity.getAnnotation().getTriples();
                     FreebaseSearchResultFilter.filterRelations(subject_entity_facts);
                     Map<Integer, DataTypeClassifier.DataType> fact_data_types = classifyFactObjDataType(

@@ -86,7 +86,7 @@ public class DataTypeClassifier implements Serializable {
         //is it empty
         if (text.length() < 1)
             return DataType.EMPTY;
-        tokens = /*StringUtils.toAlphaNumericTokens(text,false).toArray(new String[0]);//*/text.split("\\s+");
+        tokens = /*StringUtils.splitToAlphaNumericTokens(text,false).toArray(new String[0]);//*/text.split("\\s+");
 
         //is it date (we do not use regex, but only looks for months terms)
         int countMonthTerms = 0;

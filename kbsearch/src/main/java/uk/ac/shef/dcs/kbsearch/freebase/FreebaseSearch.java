@@ -19,7 +19,7 @@ import java.util.*;
  */
 public class FreebaseSearch extends KBSearch {
 
-    private static Logger log = Logger.getLogger(FreebaseSearch.class.getName());
+    private static Logger LOG = Logger.getLogger(FreebaseSearch.class.getName());
     public static String NAME_SIMILARITY_CACHE = "similarity";
     private static final boolean AUTO_COMMIT =true;
 
@@ -48,23 +48,23 @@ public class FreebaseSearch extends KBSearch {
     @Override
     public List<Entity> findEntityCandidates(String content) throws IOException {
         String query = createQuery_findEntities(content);
-        return find_matchingEntitiesForText_clientFilterTypes(query);
+        return find_matchingEntitiesForText(query);
     }
 
     @Override
     public List<Entity> findEntityCandidatesOfTypes(String content, String... types) throws IOException {
         String query = createQuery_findEntities(content);
-        return find_matchingEntitiesForText_clientFilterTypes(query, types);
+        return find_matchingEntitiesForText(query, types);
     }
 
-    protected List<Entity> find_matchingEntitiesForText_clientFilterTypes(String text, String... types) throws IOException {
+    protected List<Entity> find_matchingEntitiesForText(String text, String... types) throws IOException {
         boolean forceQuery = false;
         text = StringEscapeUtils.unescapeXml(text);
         int bracket = text.indexOf("(");
         if (bracket != -1) {
             text = text.substring(0, bracket).trim();
         }
-        List<String> query_tokens = StringUtils.toAlphaNumericTokens(text, true);
+        List<String> query_tokens = StringUtils.splitToAlphaNumericTokens(text, true);
         if (query_tokens.size() == 0)
             return new ArrayList<>();
         if (ALWAYS_CALL_REMOTE_SEARCHAPI)
@@ -75,16 +75,16 @@ public class FreebaseSearch extends KBSearch {
             try {
                 result = (List<Entity>) cacheEntity.retrieve(toSolrKey(text));
                 if (result != null)
-                    log.warn("QUERY (cache load)=" + toSolrKey(text) + "|" + text);
+                    LOG.info("QUERY (cache load)=" + toSolrKey(text) + "|" + text);
             } catch (Exception e) {
             }
         }
         if (result == null) {
             result = new ArrayList<>();
-            //List<EntityCandidate_FreebaseTopic> topics = searcher.searchapi_topics_with_name_and_type(text, "any",true,15,types);
-            List<FreebaseEntity> topics = searcher.searchapi_topics_with_name_and_type(text, "any", true, 20); //search api does not retrieve complete types, find types for them
-            for (FreebaseEntity ec : topics) {
-                //find_triplesForEntityId()
+            //firstly fetch candidate freebase topics
+            List<FreebaseTopic> topics = searcher.searchapi_getTopicsByNameAndType(text, "any", true, 20); //search api does not retrieve complete types, find types for them
+            for (FreebaseTopic ec : topics) {
+                //Next get triples for each topic
                 //instantiate facts and types
                 List<String[]> facts = findTriplesOfEntityCandidates(ec);
                 ec.setTriples(facts);
@@ -96,10 +96,10 @@ public class FreebaseSearch extends KBSearch {
                 }
             }
 
-            Iterator<FreebaseEntity> it = topics.iterator();
+            Iterator<FreebaseTopic> it = topics.iterator();
             while (it.hasNext()) {
-                FreebaseEntity ec = it.next();
-                List<String> cell_text_tokens = StringUtils.toAlphaNumericTokens(ec.getLabel(), true);
+                FreebaseTopic ec = it.next();
+                List<String> cell_text_tokens = StringUtils.splitToAlphaNumericTokens(ec.getLabel(), true);
                 int size = cell_text_tokens.size();
                 cell_text_tokens.removeAll(query_tokens);
                 if (cell_text_tokens.size() == size)
@@ -121,7 +121,7 @@ public class FreebaseSearch extends KBSearch {
                     for (String q : queries) {
                         q = q.trim();
                         if (q.length() < 1) continue;
-                        result.addAll(find_matchingEntitiesForText_clientFilterTypes(q, types));
+                        result.addAll(find_matchingEntitiesForText(q, types));
                     }
                 }
             }
@@ -129,7 +129,7 @@ public class FreebaseSearch extends KBSearch {
             result.addAll(topics);
             try {
                 cacheEntity.cache(toSolrKey(text), result, AUTO_COMMIT);
-                log.warn("QUERY (cache save)=" + toSolrKey(text) + "|" + text);
+                LOG.warn("QUERY (cache save)=" + toSolrKey(text) + "|" + text);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -169,14 +169,14 @@ public class FreebaseSearch extends KBSearch {
 
 
     protected List<String[]> findTriplesOfEntityCandidates(String entityId) throws IOException {
-        return find_triples_filtered(entityId, cacheEntity);
+        return find_triples(entityId, cacheEntity);
     }
 
 
 
     @Override
     protected List<String[]> findTriplesOfProperty(String propertyId) throws IOException {
-        return find_triples_filtered(propertyId, cacheProperty);
+        return find_triples(propertyId, cacheProperty);
     }
 
     @Override
@@ -192,12 +192,12 @@ public class FreebaseSearch extends KBSearch {
         try {
             facts = (List<String[]>) cacheConcept.retrieve(toSolrKey(query));
             if (facts != null)
-                log.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+                LOG.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
         } catch (Exception e) {
         }
         if (facts == null || forceQuery) {
             facts = new ArrayList<>();
-            List<String[]> retrievedFacts = searcher.topicapi_facts_of_id(conceptId);
+            List<String[]> retrievedFacts = searcher.topicapi_getFactsOfTopic(conceptId);
             //check firstly, is this a concept?
             boolean isConcept = false;
             for (String[] f : retrievedFacts) {
@@ -209,7 +209,7 @@ public class FreebaseSearch extends KBSearch {
             if (!isConcept) {
                 try {
                     cacheConcept.cache(toSolrKey(query), facts, AUTO_COMMIT);
-                    log.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
+                    LOG.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -237,7 +237,7 @@ public class FreebaseSearch extends KBSearch {
             }
             try {
                 cacheConcept.cache(toSolrKey(query), facts, AUTO_COMMIT);
-                log.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
+                LOG.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -260,7 +260,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             Object o = cacheConcept.retrieve(toSolrKey(query));
             if (o != null) {
-                log.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + type);
+                LOG.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + type);
                 return (Double) o;
             }
         } catch (Exception e) {
@@ -272,13 +272,13 @@ public class FreebaseSearch extends KBSearch {
                 result = granularity;
                 try {
                     cacheConcept.cache(toSolrKey(query), result, AUTO_COMMIT);
-                    log.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + type);
+                    LOG.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + type);
                 } catch (Exception e) {
                     System.out.println("FAILED:" + type);
                     e.printStackTrace();
                 }
             } catch (IOException ioe) {
-                log.warn("ERROR(Instances of Type): Unable to fetch freebase page of instances of type: " + type);
+                LOG.warn("ERROR(Instances of Type): Unable to fetch freebase page of instances of type: " + type);
             }
         }
         if (result == null)
@@ -305,7 +305,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             result = (List<Clazz>) cacheEntity.retrieve(toSolrKey(query));
             if (result != null) {
-                log.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+                LOG.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
             }
         } catch (Exception e) {
         }
@@ -319,7 +319,7 @@ public class FreebaseSearch extends KBSearch {
             try {
                 cacheEntity.cache(toSolrKey(query), result, AUTO_COMMIT);
                 // debug_helper_method(id, facts);
-                log.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
+                LOG.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -327,7 +327,7 @@ public class FreebaseSearch extends KBSearch {
         return FreebaseSearchResultFilter.filterTypes(result);
     }
 
-    private List<String[]> find_triples_filtered(String id, SolrCache cache) throws IOException {
+    private List<String[]> find_triples(String id, SolrCache cache) throws IOException {
         boolean forceQuery = false;
         if (ALWAYS_CALL_REMOTE_TOPICAPI)
             forceQuery = true;
@@ -339,13 +339,13 @@ public class FreebaseSearch extends KBSearch {
         try {
             result = (List<String[]>) cache.retrieve(toSolrKey(query));
             if (result != null)
-                log.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+                LOG.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
         } catch (Exception e) {
         }
         if (result == null || forceQuery) {
             List<String[]> facts;
             try {
-                facts = searcher.topicapi_facts_of_id(id);
+                facts = searcher.topicapi_getFactsOfTopic(id);
             } catch (HttpResponseException e) {
                 if (donotRepeatQuery(e))
                     facts = new ArrayList<>();
@@ -356,7 +356,7 @@ public class FreebaseSearch extends KBSearch {
             result.addAll(facts);
             try {
                 cache.cache(toSolrKey(query), result, AUTO_COMMIT);
-                log.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
+                LOG.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -378,7 +378,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             result = otherCache.get(NAME_SIMILARITY_CACHE).retrieve(toSolrKey(query));
             if (result != null)
-                log.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+                LOG.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
         } catch (Exception e) {
         }
         if(result==null)
@@ -391,11 +391,11 @@ public class FreebaseSearch extends KBSearch {
         String query = id1 + "<>" + id2;
         try {
             otherCache.get(NAME_SIMILARITY_CACHE).cache(toSolrKey(query), score, commit);
-            log.warn("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
+            LOG.warn("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
             if(biDirectional){
                 query = id2 + "<>" + id1;
                 otherCache.get(NAME_SIMILARITY_CACHE).cache(toSolrKey(query), score, commit);
-                log.warn("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
+                LOG.warn("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
             }
         } catch (Exception e) {
             e.printStackTrace();

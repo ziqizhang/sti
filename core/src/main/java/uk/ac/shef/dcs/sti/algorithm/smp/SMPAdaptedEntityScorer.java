@@ -5,7 +5,7 @@ import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.algorithm.tm.EntityScorer;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
@@ -133,7 +133,7 @@ public class SMPAdaptedEntityScorer implements EntityScorer {
         for (Map.Entry<String, Double> e : scoreMap.entrySet()) {
             total += e.getValue();
         }
-        scoreMap.put(CellAnnotation.SCORE_FINAL, total);
+        scoreMap.put(TCellAnnotation.SCORE_FINAL, total);
         return total;
     }
 }

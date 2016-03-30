@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  Annotation for an entity or a concept
  */
-public class CellAnnotation implements Serializable, Comparable<CellAnnotation>{
+public class TCellAnnotation implements Serializable, Comparable<TCellAnnotation>{
 
     public static final String SCORE_FINAL="final";
     public static final String SCORE_NAME_MATCH="name_match";
@@ -25,18 +25,18 @@ public class CellAnnotation implements Serializable, Comparable<CellAnnotation>{
     private Map<String, Double> score_element_map;
     private double finalScore;
 
-    public CellAnnotation(String term, Entity annotation, double score, Map<String, Double> score_elements){
+    public TCellAnnotation(String term, Entity annotation, double score, Map<String, Double> score_elements){
         this.term=term;
         this.annotation=annotation;
         this.finalScore =score;
         this.score_element_map=score_elements;
     }
 
-    public static CellAnnotation copy(CellAnnotation ca){
-        CellAnnotation newCa = new CellAnnotation(ca.getTerm(),
+    public static TCellAnnotation copy(TCellAnnotation ca){
+        TCellAnnotation newCa = new TCellAnnotation(ca.getTerm(),
                 ca.getAnnotation(),
                 ca.getFinalScore(),
-                new HashMap<>(ca.getScore_element_map()));
+                new HashMap<>(ca.getScoreElements()));
         return newCa;
     }
 
@@ -69,13 +69,13 @@ public class CellAnnotation implements Serializable, Comparable<CellAnnotation>{
     }
 
     @Override
-    public int compareTo(CellAnnotation o) {
+    public int compareTo(TCellAnnotation o) {
 
         return new Double(o.getFinalScore()).compareTo(getFinalScore());
 
     }
 
-    public Map<String, Double> getScore_element_map() {
+    public Map<String, Double> getScoreElements() {
         return score_element_map;
     }
 
@@ -84,8 +84,8 @@ public class CellAnnotation implements Serializable, Comparable<CellAnnotation>{
     }
 
     public boolean equals(Object o){
-        if(o instanceof CellAnnotation){
-            CellAnnotation ca = (CellAnnotation) o;
+        if(o instanceof TCellAnnotation){
+            TCellAnnotation ca = (TCellAnnotation) o;
             return ca.getAnnotation().equals(getAnnotation()) && ca.getTerm().equals(getTerm());
         }
         return false;

@@ -214,7 +214,7 @@ public class DataStats_TableSize_NameLength_Anaylsis_LimayeOld {
                         continue;
                     }
                     String textContent=table.getContentCell(i, j).getText();
-                    CellAnnotation cellAnnotation = new CellAnnotation(
+                    TCellAnnotation cellAnnotation = new TCellAnnotation(
                             textContent, new Entity(htmlCell.getTextContent(), htmlCell.getTextContent()), 1.0, new HashMap<String, Double>()
                     );
 
@@ -230,7 +230,7 @@ public class DataStats_TableSize_NameLength_Anaylsis_LimayeOld {
                     nlPrinter.println(length);
 
                     table.getTableAnnotations().setContentCellAnnotations(
-                            i, j, new CellAnnotation[]{cellAnnotation}
+                            i, j, new TCellAnnotation[]{cellAnnotation}
                     );
                     columns_with_annotated_entities.add(j);
                 }

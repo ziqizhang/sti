@@ -188,13 +188,13 @@ public class GS_Stats_Limaye {
                 if (htmlCell.getTextContent() == null || htmlCell.getTextContent().length() == 0) {
                     continue;
                 }
-                /*CellAnnotation cellAnnotation = new CellAnnotation(
+                /*TCellAnnotation cellAnnotation = new TCellAnnotation(
                         table.getContentCell(i + 1, j).getText(), new EntityCandidate(htmlCell.getTextContent(), htmlCell.getTextContent()), 1.0,new HashMap<String, Double>()
                 );*/
 
                 countCellAnnotations++;
                 /*table.getTableAnnotations().setContentCellAnnotations(
-                        i + 1, j, new CellAnnotation[]{cellAnnotation}
+                        i + 1, j, new TCellAnnotation[]{cellAnnotation}
                 );*/
             }
         }

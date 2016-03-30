@@ -11,6 +11,8 @@ import java.io.Serializable;
  */
 public class TContentCell implements Serializable {
 
+    private static final long serialVersionUID = -8136725814000405913L;
+
     private String text;    //the raw text found in the table cell
     private String other_text;
     private String xPath; //xpath that extracts this value
@@ -24,7 +26,7 @@ public class TContentCell implements Serializable {
 
 
     public String toString(){
-        return "("+getText()+")"+ getType();
+        return "("+getText()+") "+ getType();
     }
 
     public String getText() {

@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import uk.ac.shef.dcs.sti.algorithm.tm.EntityScorer;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
@@ -64,7 +64,7 @@ public class JIAdaptedEntityScorer implements EntityScorer {
 
     @Override
     public double computeFinal(Map<String, Double> scoreMap, String cellTextOriginal) {
-        scoreMap.put(CellAnnotation.SCORE_FINAL, scoreMap.get(SCORE_CELL_FACTOR));
+        scoreMap.put(TCellAnnotation.SCORE_FINAL, scoreMap.get(SCORE_CELL_FACTOR));
         return scoreMap.get(SCORE_CELL_FACTOR);
     }
 }

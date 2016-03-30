@@ -13,6 +13,8 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class HeaderAnnotation implements Comparable<HeaderAnnotation> {
+    private static final long serialVersionUID = -6208426814708405913L;
+
     public static final String SUM_ENTITY_DISAMB ="sum_entity_disamb";
     public static final String SUM_ENTITY_VOTE ="sum_entity_vote";
     public static final String SCORE_ENTITY_DISAMB ="entity_disamb_score";

@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import cc.mallet.grmm.types.*;
 import cc.mallet.types.LabelAlphabet;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 
 import java.util.*;
@@ -24,7 +24,7 @@ class FactorBuilderCell extends FactorBuilder{
                 if(columns!=null&&!columns.contains(col)) continue;
                 Variable dummyCell = createDummyVariable("dummyCell("+row+","+col+")");
 
-                CellAnnotation[] candidateEntityAnnotations = annotation.getContentCellAnnotations(row, col);
+                TCellAnnotation[] candidateEntityAnnotations = annotation.getContentCellAnnotations(row, col);
                 if (candidateEntityAnnotations.length == 0)
                     continue;
                 String cellPosition = String.valueOf(row) + "," + String.valueOf(col);
@@ -33,8 +33,8 @@ class FactorBuilderCell extends FactorBuilder{
                 List<Double> scores=new ArrayList<Double>();
 
                 for (int i = 0; i < candidateEntityAnnotations.length; i++) {
-                    CellAnnotation ca = candidateEntityAnnotations[i];
-                    double score=ca.getScore_element_map().get(
+                    TCellAnnotation ca = candidateEntityAnnotations[i];
+                    double score=ca.getScoreElements().get(
                             JIAdaptedEntityScorer.SCORE_CELL_FACTOR);
                     if(score==0)
                         continue;

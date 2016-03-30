@@ -205,9 +205,9 @@ public class TI_JointInference {
                 int[] position = graphBuilder.getCellPosition(var);
                 if (position == null)
                     continue;
-                CellAnnotation[] candidateCellAnnotations = tab_annotations.getContentCellAnnotations(position[0], position[1]);
+                TCellAnnotation[] candidateCellAnnotations = tab_annotations.getContentCellAnnotations(position[0], position[1]);
 
-                for (CellAnnotation ca : candidateCellAnnotations) {
+                for (TCellAnnotation ca : candidateCellAnnotations) {
                     AssignmentIterator it = ptl.assignmentIterator();
                     boolean found = false;
                     while (it.hasNext()) {

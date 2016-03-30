@@ -230,8 +230,8 @@ public class TI_SemanticMessagePassing {
         boolean cell_converged = true;
         for (int c=0; c<previous.getCols(); c++) {
             for (int row = 0; row < previous.getRows(); row++) {
-                List<CellAnnotation> cell_prev_annotations = previous.getBestContentCellAnnotations(row, c);
-                List<CellAnnotation> cell_current_annotations = current.getBestContentCellAnnotations(row, c);
+                List<TCellAnnotation> cell_prev_annotations = previous.getBestContentCellAnnotations(row, c);
+                List<TCellAnnotation> cell_current_annotations = current.getBestContentCellAnnotations(row, c);
                 if (cell_current_annotations.size() == cell_prev_annotations.size()) {
                     cell_current_annotations.retainAll(cell_prev_annotations);
                     if (cell_current_annotations.size() != cell_prev_annotations.size())

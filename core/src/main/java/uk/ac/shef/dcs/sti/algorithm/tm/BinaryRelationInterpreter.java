@@ -44,11 +44,11 @@ public class BinaryRelationInterpreter {
         //for each row, get the annotation for that (row, col)
         for (int row = 0; row < table.getNumRows(); row++) {
             //get annotation for this cell
-            CellAnnotation[] candidate_annotations_for_cell =
+            TCellAnnotation[] candidate_annotations_for_cell =
                     annotations.getContentCellAnnotations(row, sub_column);
             if (candidate_annotations_for_cell == null || candidate_annotations_for_cell.length == 0)
                 continue;
-            CellAnnotation final_annotation = candidate_annotations_for_cell[0];
+            TCellAnnotation final_annotation = candidate_annotations_for_cell[0];
 
 
             //fetch facts of that entity

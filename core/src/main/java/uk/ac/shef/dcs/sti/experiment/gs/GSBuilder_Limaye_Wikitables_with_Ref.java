@@ -6,7 +6,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.TColumnFeatureGenerator;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
@@ -216,10 +216,10 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
                 limaye_cell_text=StringUtils.stripAccents(limaye_cell_text);
 
                 double bestScore = 0.0;
-                CellAnnotation bestAnnotation = null;
+                TCellAnnotation bestAnnotation = null;
                 for (int wr = 0; wr < wikitable.getNumRows(); wr++) {
-                    CellAnnotation[] annotations = wikitable.getTableAnnotations().getContentCellAnnotations(wr, matchedCol);
-                    for (CellAnnotation ca : annotations) {
+                    TCellAnnotation[] annotations = wikitable.getTableAnnotations().getContentCellAnnotations(wr, matchedCol);
+                    for (TCellAnnotation ca : annotations) {
                         double matched_score = stringSim.getSimilarity(limaye_cell_text,
                                 ca.getTerm());
                         if (matched_score > bestScore) {
@@ -286,8 +286,8 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
         String text = "";
 
         for (int r = 0; r < table.getNumRows(); r++) {
-            CellAnnotation[] annotations = table.getTableAnnotations().getContentCellAnnotations(r, c);
-            for (CellAnnotation ca : annotations) {
+            TCellAnnotation[] annotations = table.getTableAnnotations().getContentCellAnnotations(r, c);
+            for (TCellAnnotation ca : annotations) {
                 text += ca.getTerm() + " ";
             }
         }

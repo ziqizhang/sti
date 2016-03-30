@@ -205,7 +205,7 @@ public class TableMinerPlusBatch extends STIBatch {
         int count = 0;
         List<File> all = Arrays.asList(new File(inFolder).listFiles());
         Collections.sort(all);
-        System.out.println(all.size());
+        LOG.info("Initialization complete. Begin STI. Total input files="+all.size()+"\n");
 
         List<Integer> previouslyFailed = tmp.loadPreviouslyFailed();
         int start=tmp.getStartIndex();
@@ -226,7 +226,7 @@ public class TableMinerPlusBatch extends STIBatch {
                 String sourceTableFile = inFile;
                 if (sourceTableFile.startsWith("\"") && sourceTableFile.endsWith("\""))
                     sourceTableFile = sourceTableFile.substring(1, sourceTableFile.length() - 1).trim();
-                System.out.println(count + "_" + sourceTableFile + " " + new Date());
+                //System.out.println(count + "_" + sourceTableFile + " " + new Date());
                 LOG.info(">>>" + count + "_" + sourceTableFile);
 
                 if(table==null)

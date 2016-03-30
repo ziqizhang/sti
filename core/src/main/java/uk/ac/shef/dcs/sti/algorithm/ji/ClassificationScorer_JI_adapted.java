@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.TColumnHeader;
 import uk.ac.shef.dcs.sti.util.CosineSimilarity;
@@ -51,7 +51,7 @@ public class ClassificationScorer_JI_adapted  {
     }
 
     public double compute_final_score(Map<String, Double> scoreMap) {
-        scoreMap.put(CellAnnotation.SCORE_FINAL, scoreMap.get(SCORE_HEADER_FACTOR));
+        scoreMap.put(TCellAnnotation.SCORE_FINAL, scoreMap.get(SCORE_HEADER_FACTOR));
         return scoreMap.get(SCORE_HEADER_FACTOR);
     }
 }

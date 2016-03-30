@@ -125,10 +125,10 @@ public class UPDATE {
         Set<String> ids = new HashSet<String>();
         for (int col = 0; col < table.getNumCols(); col++) {
             for (int row = 0; row < table.getNumRows(); row++) {
-                CellAnnotation[] cas = prev_iteration_annotation.getContentCellAnnotations(row, col);
+                TCellAnnotation[] cas = prev_iteration_annotation.getContentCellAnnotations(row, col);
                 if (cas == null)
                     continue;
-                for (CellAnnotation ca : cas) {
+                for (TCellAnnotation ca : cas) {
                     ids.add(ca.getAnnotation().getId());
                 }
             }
@@ -207,7 +207,7 @@ public class UPDATE {
         List<String> domain = new ArrayList<String>();
         for (int c : interpreted_columns) {
             for (int r = 0; r < table.getNumRows(); r++) {
-                CellAnnotation[] annotations = current_iteration_annotation.getContentCellAnnotations(r, c);
+                TCellAnnotation[] annotations = current_iteration_annotation.getContentCellAnnotations(r, c);
                 if (annotations != null && annotations.length > 0) {
                     Entity ec = annotations[0].getAnnotation();
                     try {
@@ -227,7 +227,7 @@ public class UPDATE {
             if (fact[0].equals("/common/topic/description")) {
                 String[] sentences = NLPTools.getInstance(nlpTools_folder).getSentenceSplitter().sentDetect(fact[1]);
                 String first = sentences.length > 0 ? sentences[0] : "";
-                List<String> tokens = StringUtils.toAlphaNumericTokens(first, true);
+                List<String> tokens = StringUtils.splitToAlphaNumericTokens(first, true);
                 Iterator<String> it = tokens.iterator();
                 while (it.hasNext()) {
                     String tok = it.next();
@@ -264,8 +264,8 @@ public class UPDATE {
         boolean cell_converged = true;
         for (int c : interpreted_columns) {
             for (int row = 0; row < totalRows; row++) {
-                List<CellAnnotation> cell_prev_annotations = prev_iteration_annotation.getBestContentCellAnnotations(row, c);
-                List<CellAnnotation> cell_current_annotations = table_annotation.getBestContentCellAnnotations(row, c);
+                List<TCellAnnotation> cell_prev_annotations = prev_iteration_annotation.getBestContentCellAnnotations(row, c);
+                List<TCellAnnotation> cell_current_annotations = table_annotation.getBestContentCellAnnotations(row, c);
                 if (cell_current_annotations.size() == cell_prev_annotations.size()) {
                     cell_current_annotations.retainAll(cell_prev_annotations);
                     if (cell_current_annotations.size() != cell_prev_annotations.size())
@@ -289,8 +289,8 @@ public class UPDATE {
         Set<HeaderAnnotation> add = new HashSet<HeaderAnnotation>();
         //any new headers due to disambiguation-update?
         for (int row : rowsUpdated) {
-            List<CellAnnotation> bestCellAnnotations = table_annotations.getBestContentCellAnnotations(row, column);
-            for (CellAnnotation ca : bestCellAnnotations) {
+            List<TCellAnnotation> bestCellAnnotations = table_annotations.getBestContentCellAnnotations(row, column);
+            for (TCellAnnotation ca : bestCellAnnotations) {
                 HeaderAnnotationUpdater.add(ca, column, table, existing_header_annotations, add);
             }
         }
@@ -339,11 +339,11 @@ public class UPDATE {
         //supporting rows are only added if a header for the type of the cell annotation exists
 
         for (int row : rowsUpdated) {
-            CellAnnotation[] cellAnnotations = table_annotations.getContentCellAnnotations(row, column);
+            TCellAnnotation[] cellAnnotations = table_annotations.getContentCellAnnotations(row, column);
 
             Map<String, Double> header_annotation_url_and_max_score = new HashMap<String, Double>();
             Map<String, String> header_annotation_url_and_label = new HashMap<String, String>();
-            for (CellAnnotation ca : cellAnnotations) {
+            for (TCellAnnotation ca : cellAnnotations) {
                 List<Clazz> types = ca.getAnnotation().getTypes();
                 double disamb_score = ca.getFinalScore();
                 for (Clazz t : types) {
@@ -439,18 +439,18 @@ public class UPDATE {
             List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_cell) {
 
         Collections.sort(candidates_and_scores_for_cell, (o1, o2) -> {
-            Double o2_score = o2.getValue().get(CellAnnotation.SCORE_FINAL);
-            Double o1_score = o1.getValue().get(CellAnnotation.SCORE_FINAL);
+            Double o2_score = o2.getValue().get(TCellAnnotation.SCORE_FINAL);
+            Double o1_score = o1.getValue().get(TCellAnnotation.SCORE_FINAL);
             return o2_score.compareTo(o1_score);
         });
 
         String sampleCellText = table.getContentCell(table_cell_rows.get(0), table_cell_col).getText();
 
         for (int row : table_cell_rows) {
-            CellAnnotation[] annotationsForCell = new CellAnnotation[candidates_and_scores_for_cell.size()];
+            TCellAnnotation[] annotationsForCell = new TCellAnnotation[candidates_and_scores_for_cell.size()];
             for (int i = 0; i < candidates_and_scores_for_cell.size(); i++) {
                 Pair<Entity, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
-                annotationsForCell[i] = new CellAnnotation(sampleCellText,
+                annotationsForCell[i] = new TCellAnnotation(sampleCellText,
                         e.getKey(), e.getValue().get("final"), e.getValue());
                 /*if(table_cell_row==5 &&table_cell_col==4)
                 System.out.println(i);*/

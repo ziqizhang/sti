@@ -5,7 +5,7 @@ import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
-import uk.ac.shef.dcs.sti.rep.CellAnnotation;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 
@@ -41,11 +41,11 @@ public class CandidateConceptGenerator {
         Set<String> distinctEntityIds = new HashSet<String>();
         List<Entity> distinctEntities = new ArrayList<>();
         for (int r = 0; r < table.getNumRows(); r++) {
-            CellAnnotation[] cellAnnotations = tableAnnotation.getContentCellAnnotations(r, col);
+            TCellAnnotation[] cellAnnotations = tableAnnotation.getContentCellAnnotations(r, col);
             if (cellAnnotations.length > 0) {
-                for (CellAnnotation ca : cellAnnotations) {
+                for (TCellAnnotation ca : cellAnnotations) {
                     Entity e = ca.getAnnotation();
-                    if (ca.getScore_element_map().get(
+                    if (ca.getScoreElements().get(
                             JIAdaptedEntityScorer.SCORE_CELL_FACTOR) ==0.0){
                         continue;
                     }
