@@ -14,15 +14,13 @@ public class Attribute implements Serializable{
     private String relation;
     private String value;
     private String valueURI; //in case 'value' is a resource, define its URI if available
-    private Map<String, String> otherInfo = new HashMap<>();
+    private boolean isDirect=true; //if this attribute is a direct attribute. this is generally 'true'. for freebase,
+                              //triples that form an indirect relation with a resource can be returned. In which case this
+                              //is used to indicate whether the attribute is a direct attribute of the resource or not
 
     public Attribute(String property, String v) {
         this.relation=property;
         this.value=v;
-    }
-
-    public String getRelation() {
-        return relation;
     }
 
     public void setRelation(String relation) {
@@ -37,8 +35,8 @@ public class Attribute implements Serializable{
         this.value = value;
     }
 
-    public Map<String, String> getOtherInfo() {
-        return otherInfo;
+    public String getRelation() {
+        return relation;
     }
 
     public String getValueURI() {
@@ -55,5 +53,13 @@ public class Attribute implements Serializable{
             return a.getRelation().equals(this.getRelation()) && a.getValue().equals(this.getValue());
         }
         return false;
+    }
+
+    public boolean isDirect() {
+        return isDirect;
+    }
+
+    public void setIsDirect(boolean isDirect) {
+        this.isDirect = isDirect;
     }
 }

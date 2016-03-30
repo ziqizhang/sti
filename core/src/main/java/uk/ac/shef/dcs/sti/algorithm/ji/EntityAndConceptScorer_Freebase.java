@@ -91,10 +91,10 @@ public class EntityAndConceptScorer_Freebase {
         if(score==-1.0) {
             List<Attribute> entity_triples = entity.getAttributes();
         /* BOW OF THE ENTITY*/
-            List<String> bag_of_words_for_entity = new ArrayList<String>();
+            List<String> bag_of_words_for_entity = new ArrayList<>();
             for (Attribute f : entity_triples) {
                 if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE &&
-                        f.getOtherInfo().get(FreebaseQueryHelper.FB_NESTED_TRIPLE_OF_TOPIC).equals("y"))
+                        !f.isDirect())
                     continue;
                 if (FreebaseSearchResultFilter.ignoreFactFromBOW(f.getRelation()))
                     continue;
@@ -112,7 +112,7 @@ public class EntityAndConceptScorer_Freebase {
             List<String> bag_of_words_for_concept = new ArrayList<>();
             for (Attribute f : concept_triples) {
                 if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE
-                        && f.getOtherInfo().get(FreebaseQueryHelper.FB_NESTED_TRIPLE_OF_TOPIC).equals("y"))
+                        && !f.isDirect())
                     continue;
                 if (FreebaseSearchResultFilter.ignoreFactFromBOW(f.getRelation()))
                     continue;

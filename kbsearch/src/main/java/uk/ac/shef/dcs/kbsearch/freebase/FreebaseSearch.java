@@ -91,7 +91,7 @@ public class FreebaseSearch extends KBSearch {
                 ec.setAttributes(attributes);
                 for (Attribute attr: attributes) {
                     if (attr.getRelation().equals("/type/object/type") &&
-                            attr.getOtherInfo().get(FreebaseQueryHelper.FB_NESTED_TRIPLE_OF_TOPIC).equals("n") &&
+                            attr.isDirect() &&
                             !ec.hasType(attr.getValueURI()))
                         ec.addType(new Clazz(attr.getValueURI(), attr.getValue()));
                 }
@@ -231,7 +231,7 @@ public class FreebaseSearch extends KBSearch {
                             String rangeURL = t.getValueURI();
                             Attribute attr = new Attribute(f.getValueURI(), rangeLabel);
                             attr.setValueURI(rangeURL);
-                            attr.getOtherInfo().put(FreebaseQueryHelper.FB_NESTED_TRIPLE_OF_TOPIC,"n");
+                            attr.setIsDirect(true);
 
                             //attributes.add(new String[]{f[2], rangeLabel, rangeURL, "n"});
                         }

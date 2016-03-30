@@ -41,8 +41,6 @@ public class FreebaseQueryHelper {
     private HttpRequestFactory requestFactory;
     private Properties properties;
 
-    public static final String FB_NESTED_TRIPLE_OF_TOPIC="freebase_nested_triple_of_topic";
-
     private static final String FB_MAX_QUERY_PER_SECOND="fb.query.max.sec";
 
     private static final String FB_MAX_QUERY_PER_DAY="fb.query.max.day";
@@ -169,7 +167,6 @@ public class FreebaseQueryHelper {
     private void parsePropertyValues(JSONArray json, String property, List<Attribute> out, boolean nested, boolean skipCompound) {
         Iterator entry = json.iterator();
         Object val = null, id = null, mid = null, more_props = null;
-        String nested_flag = nested ? "y" : "n";
         while (entry.hasNext()) {
             JSONObject key = (JSONObject) entry.next();
             if (skipCompound) {
@@ -189,7 +186,7 @@ public class FreebaseQueryHelper {
             mid = key.get("mid");
             if (id == null && mid != null) id = mid;
             Attribute attr = new Attribute(property, val.toString());
-            attr.getOtherInfo().put(FB_NESTED_TRIPLE_OF_TOPIC, nested_flag);
+            attr.setIsDirect(nested);
             if (val != null && id != null) {
                 attr.setValueURI(id.toString());
                 out.add(attr);

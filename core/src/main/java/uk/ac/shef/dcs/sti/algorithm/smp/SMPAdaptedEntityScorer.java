@@ -68,7 +68,7 @@ public class SMPAdaptedEntityScorer implements EntityScorer {
         List<String> bag_of_words_for_entity = new ArrayList<String>();
         for (Attribute f : facts) {
             if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE &&
-                    f.getOtherInfo().get(FreebaseQueryHelper.FB_NESTED_TRIPLE_OF_TOPIC).equals("y"))
+                    !f.isDirect())
                 continue;
             if (FreebaseSearchResultFilter.ignoreFactFromBOW(f.getRelation()))
                 continue;
@@ -118,7 +118,8 @@ public class SMPAdaptedEntityScorer implements EntityScorer {
         double totalAliases = 1.0, totalScore = baseScore;
 
         for (Attribute f : facts) {
-            if (f.getRelation().equalsIgnoreCase("/common/topic/alias") && f.getOtherInfo().get(FreebaseQueryHelper.FB_NESTED_TRIPLE_OF_TOPIC).equalsIgnoreCase("n")) {
+            if (f.getRelation().equalsIgnoreCase("/common/topic/alias")
+                    && f.isDirect()) {
                 String v = f.getValue().trim();
                 if (v.length() > 0) {
                     double score = lev.getSimilarity(text, v);

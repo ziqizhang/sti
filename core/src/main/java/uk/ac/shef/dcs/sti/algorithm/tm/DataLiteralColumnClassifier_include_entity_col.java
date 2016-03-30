@@ -296,7 +296,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                 double score = cbr.getScore();
 
                 for (Attribute matched : matched_values) {
-                    if(matched.getOtherInfo().get(FreebaseQueryHelper.FB_NESTED_TRIPLE_OF_TOPIC).equals("y"))
+                    if(!matched.isDirect())
                         continue;
                     String prop_name = matched.getRelation();
                     if (highest_scoring_relation_annotations.contains(prop_name)) {
