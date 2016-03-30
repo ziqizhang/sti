@@ -37,8 +37,8 @@ public class TAnnotationWriter {
         sourceId = sourceId.substring(trimStart + 1, trimEnd);
 
         List<LTableTriple> triples = tripleGenerator.generate_newTriples(tab_annotations, table);
-        table_sb.append("source:" + sourceId + " with " + triples.size() + "<a href=\"" + outFile + ".triples.html\"> new triples</a>.");
-        writeTriples(triples, outFile + ".triples.html");
+        table_sb.append("source:" + sourceId + " with " + triples.size() + "<a href=\"" + outFile + ".attributes.html\"> new attributes</a>.");
+        writeTriples(triples, outFile + ".attributes.html");
 
         table_sb.append("<h1>Table column types and entity disambiguation</h1>\n");
         table_sb.append("<table border=\"1\">");

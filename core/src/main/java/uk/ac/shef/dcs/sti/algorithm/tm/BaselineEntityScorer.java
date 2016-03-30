@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
@@ -58,12 +59,12 @@ public class BaselineEntityScorer implements EntityScorer {
         String headerText = table.getColumnHeader(entity_source_column).getHeaderText();
 
         /* BOW OF THE ENTITY*/
-        List<String[]> facts = candidate.getTriples();
+        List<Attribute> facts = candidate.getAttributes();
         List<String> bag_of_words_for_entity = new ArrayList<String>();
-        for (String[] f : facts) {
-            if (FreebaseSearchResultFilter.ignoreFactFromBOW(f[0]))
+        for (Attribute f : facts) {
+            if (FreebaseSearchResultFilter.ignoreFactFromBOW(f.getRelation()))
                 continue;
-            String value = f[1];
+            String value = f.getValue();
             if (!StringUtils.isPath(value))
                 bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
             else

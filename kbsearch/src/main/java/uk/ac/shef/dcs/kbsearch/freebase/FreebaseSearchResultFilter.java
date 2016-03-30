@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.kbsearch.freebase;
 
 import uk.ac.shef.dcs.kbsearch.KBSearchResultFilter;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 
 import java.util.ArrayList;
@@ -21,10 +22,10 @@ public class FreebaseSearchResultFilter extends KBSearchResultFilter {
 
 
     //todo MOVE THESE "stop" LIST TO FILES
-    private static List<String> PREDICATES_TO_IGNORE_FROM_FACTS = new ArrayList<String>();
+    private static List<String> FACTS_TO_IGNORE_BY_PREDICATES = new ArrayList<>();
 
     static {
-        PREDICATES_TO_IGNORE_FROM_FACTS = Arrays.asList(
+        FACTS_TO_IGNORE_BY_PREDICATES = Arrays.asList(
                 new String[]{
                         "/type/permission/controls",
                         "/media_common/creative_work/credit",
@@ -106,10 +107,10 @@ public class FreebaseSearchResultFilter extends KBSearchResultFilter {
         return false;
     }
 
-    public static List<String[]> filterRelations(List<String[]> facts){
-        List<String[]> r = new ArrayList<String[]>();
-        for(String [] t: facts) {
-            String url = t[0];
+    public static List<Attribute> filterRelations(List<Attribute> facts){
+        List<Attribute> r = new ArrayList<>();
+        for(Attribute t: facts) {
+            String url = t.getRelation();
             if (ignoreRelation(url)) continue;
             r.add(t);
         }
@@ -121,8 +122,8 @@ public class FreebaseSearchResultFilter extends KBSearchResultFilter {
         return false; //predicate should have been fitltered by calling ignorePreidcate_from_triple
     }
 
-    protected static boolean ignoreFactWithPredicate(String s) {
-        if (PREDICATES_TO_IGNORE_FROM_FACTS.contains(s))
+    protected static boolean ignoreFactByPredicate(String s) {
+        if (FACTS_TO_IGNORE_BY_PREDICATES.contains(s))
             return true;
         return false;
     }

@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
@@ -223,9 +224,9 @@ public class UPDATE {
 
     private Collection<? extends String> build_domain_rep_for_entity(Entity ec) throws IOException {
         List<String> domain = new ArrayList<String>();
-        for (String[] fact : ec.getTriples()) {
-            if (fact[0].equals("/common/topic/description")) {
-                String[] sentences = NLPTools.getInstance(nlpTools_folder).getSentenceSplitter().sentDetect(fact[1]);
+        for (Attribute fact : ec.getAttributes()) {
+            if (fact.getRelation().equals("/common/topic/description")) {
+                String[] sentences = NLPTools.getInstance(nlpTools_folder).getSentenceSplitter().sentDetect(fact.getValue());
                 String first = sentences.length > 0 ? sentences[0] : "";
                 List<String> tokens = StringUtils.splitToAlphaNumericTokens(first, true);
                 Iterator<String> it = tokens.iterator();

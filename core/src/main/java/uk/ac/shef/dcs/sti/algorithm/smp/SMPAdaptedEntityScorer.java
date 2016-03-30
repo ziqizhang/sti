@@ -1,6 +1,8 @@
 package uk.ac.shef.dcs.sti.algorithm.smp;
 
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.algorithm.tm.EntityScorer;
@@ -62,14 +64,15 @@ public class SMPAdaptedEntityScorer implements EntityScorer {
 
         //column header and row values
          /* BOW OF THE ENTITY*/
-        List<String[]> facts = candidate.getTriples();
+        List<Attribute> facts = candidate.getAttributes();
         List<String> bag_of_words_for_entity = new ArrayList<String>();
-        for (String[] f : facts) {
-            if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
+        for (Attribute f : facts) {
+            if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE &&
+                    f.getOtherInfo().get(FreebaseQueryHelper.FB_NESTED_TRIPLE_OF_TOPIC).equals("y"))
                 continue;
-            if (FreebaseSearchResultFilter.ignoreFactFromBOW(f[0]))
+            if (FreebaseSearchResultFilter.ignoreFactFromBOW(f.getRelation()))
                 continue;
-            String value = f[1];
+            String value = f.getValue();
             if (!StringUtils.isPath(value))
                 bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
             else
@@ -110,13 +113,13 @@ public class SMPAdaptedEntityScorer implements EntityScorer {
     }
 
     private double calculateStringSimilarity(String text, Entity candidate, AbstractStringMetric lev) {
-        List<String[]> facts = candidate.getTriples();
+        List<Attribute> facts = candidate.getAttributes();
         double baseScore = lev.getSimilarity(text, candidate.getLabel());
         double totalAliases = 1.0, totalScore = baseScore;
 
-        for (String[] f : facts) {
-            if (f[0].equalsIgnoreCase("/common/topic/alias") && f[f.length - 1].equalsIgnoreCase("n")) {
-                String v = f[1].trim();
+        for (Attribute f : facts) {
+            if (f.getRelation().equalsIgnoreCase("/common/topic/alias") && f.getOtherInfo().get(FreebaseQueryHelper.FB_NESTED_TRIPLE_OF_TOPIC).equalsIgnoreCase("n")) {
+                String v = f.getValue().trim();
                 if (v.length() > 0) {
                     double score = lev.getSimilarity(text, v);
                     totalScore += score;

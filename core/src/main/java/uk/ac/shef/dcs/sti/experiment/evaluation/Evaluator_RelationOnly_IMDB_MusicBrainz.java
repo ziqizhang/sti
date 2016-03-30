@@ -185,7 +185,7 @@ public class Evaluator_RelationOnly_IMDB_MusicBrainz {
             for (String s : unique_sorted) {
                 if (s.startsWith("/m/")) {
                     try {
-                        List<String[]> facts = fb.topicapi_facts_of_id_with_filter(s, "/type/object/name");
+                        List<String[]> facts = fb.topicapi_getFactsOfTopicID(s, "/type/object/name");
                         ;
                         if (facts.size() > 0)
                             s = s + ":" + facts.get(0)[1];

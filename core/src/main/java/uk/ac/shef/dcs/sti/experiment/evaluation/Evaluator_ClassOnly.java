@@ -125,7 +125,7 @@ public class Evaluator_ClassOnly {
                 System.out.println(filename);
                 /* if(filename.contains("Wisden"))
                 System.out.println();*/
-                //if (!filename.contains(".triples") && !filename.contains(".keys") && !processed.contains(filename)) {
+                //if (!filename.contains(".attributes") && !filename.contains(".keys") && !processed.contains(filename)) {
                 String entity_gs = gsFile.getParent() + "/" + filename + ".cell.keys";
                 processed.add(entity_gs);
                 String header_gs = gsFile.getParent() + "/" + filename + ".header.keys";
@@ -224,7 +224,7 @@ public class Evaluator_ClassOnly {
                 System.out.println(filename);
                 /* if(filename.contains("Wisden"))
                 System.out.println();*/
-                //if (!filename.contains(".triples") && !filename.contains(".keys") && !processed.contains(filename)) {
+                //if (!filename.contains(".attributes") && !filename.contains(".keys") && !processed.contains(filename)) {
                 String entity_gs = gsFile.getParent() + "/" + filename + ".cell.keys";
                 processed.add(entity_gs);
                 String header_gs = gsFile.getParent() + "/" + filename + ".header.keys";

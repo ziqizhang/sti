@@ -65,7 +65,7 @@ public class Evaluator_Generic_Classification_ignoreUpdateIterations {
 
             String filename = gsFile.getName();
             if (filename.endsWith(".htm") || filename.endsWith(".html")) {
-                if (!filename.contains(".triples") && !filename.contains(".keys") && !processed.contains(filename)) {
+                if (!filename.contains(".attributes") && !filename.contains(".keys") && !processed.contains(filename)) {
                     String header_gs = gsFile.toString() + ".header.keys";
 
                     gs_headers = LTableAnnotationKeyFileReader.readHeaderAnnotation(header_gs,true,gs_NE_only);

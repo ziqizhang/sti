@@ -111,7 +111,7 @@ public class Base_SL_no_Update_MainInterpreter {
         return tab_annotations;
 
 
-        //ignore columns that are likely to be acronyms only, because they are highly ambiguous
+        //ignoreFactByPredicate columns that are likely to be acronyms only, because they are highly ambiguous
     }
 
     /*private boolean isInterpretable(int columns_having_relations_with_main_col, Table table) {

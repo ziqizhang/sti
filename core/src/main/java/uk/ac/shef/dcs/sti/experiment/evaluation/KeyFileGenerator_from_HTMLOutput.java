@@ -21,7 +21,7 @@ public class KeyFileGenerator_from_HTMLOutput {
         //String inFolder = "E:\\Data\\table annotation\\freebase_crawl\\film_film\\imdb_computed";
         //String outFolder = "E:\\Data\\table annotation\\freebase_crawl\\film_film\\imdb_compted_reformatted";
         for (File f : new File(inFolder).listFiles()) {
-            if (f.toString().endsWith("triples.html"))
+            if (f.toString().endsWith("attributes.html"))
                 continue;
             generator.createKeyFiles(f.toString(), outFolder);
         }

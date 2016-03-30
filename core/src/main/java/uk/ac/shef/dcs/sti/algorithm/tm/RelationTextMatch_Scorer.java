@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.misc.UtilRelationMatcher;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
@@ -24,10 +25,10 @@ public class RelationTextMatch_Scorer {
     }
 
 
-    public Map<Integer, List<Pair<String[], Double>>> match(List<String[]> facts,
+    public Map<Integer, List<Pair<Attribute, Double>>> match(List<Attribute> facts,
                                                         Map<Integer, String> values_on_the_row,
                                                         Map<Integer, DataTypeClassifier.DataType> column_types) {
-        Map<Integer, List<Pair<String[], Double>>> matching_scores =
+        Map<Integer, List<Pair<Attribute, Double>>> matching_scores =
                 new HashMap<>();
         //filter facts to remove predicates that are not useful relations
         facts = FreebaseSearchResultFilter.filterRelations(facts);
@@ -35,11 +36,10 @@ public class RelationTextMatch_Scorer {
 
         Map<Integer, DataTypeClassifier.DataType> fact_data_types = new HashMap<Integer, DataTypeClassifier.DataType>();
         for (int index = 0; index < facts.size(); index++) {
-            String[] fact = facts.get(index);
-            String prop = fact[0];
-            String val = fact[1];
-            String id_of_val = fact[2];
-            String nested = fact[3];
+            Attribute fact = facts.get(index);
+            String prop = fact.getRelation();
+            String val = fact.getValue();
+            String id_of_val = fact.getValueURI();
 
             if (id_of_val != null)
                 fact_data_types.put(index, DataTypeClassifier.DataType.NAMED_ENTITY);
@@ -61,7 +61,7 @@ public class RelationTextMatch_Scorer {
             Map<Integer, Double> fact_matched_scores = new HashMap<Integer, Double>();
             for (int index = 0; index < facts.size(); index++) {
                 DataTypeClassifier.DataType type_of_fact_value = fact_data_types.get(index);
-                String[] fact = facts.get(index);
+                Attribute fact = facts.get(index);
                 /* if (stopProperties.contains(fact[0]))
                                     continue;
                 */
@@ -71,7 +71,7 @@ public class RelationTextMatch_Scorer {
 
                 /*if(fact[0].contains("contains"))
                     System.out.println();*/
-                double score = UtilRelationMatcher.score(value_on_this_row, type_of_table_row_value, fact[1], type_of_fact_value,stopWords, string_sim_levenstein);
+                double score = UtilRelationMatcher.score(value_on_this_row, type_of_table_row_value, fact.getValue(), type_of_fact_value,stopWords, string_sim_levenstein);
                 if (score > maxScore) {
                     maxScore = score;
                 }
@@ -80,12 +80,12 @@ public class RelationTextMatch_Scorer {
 
 
             if (maxScore >= minimum_match_score&&maxScore!=0.0) {
-                List<Pair<String[], Double>> list = new ArrayList<>();
+                List<Pair<Attribute, Double>> list = new ArrayList<>();
                 for(Map.Entry<Integer, Double> nexte: fact_matched_scores.entrySet()){
                     if(nexte.getValue()==maxScore){
 
-                        String[] string_array_of_matched_fact = facts.get(nexte.getKey());
-                        Pair<String[], Double> score_obj = new Pair<>(string_array_of_matched_fact,
+                        Attribute string_array_of_matched_fact = facts.get(nexte.getKey());
+                        Pair<Attribute, Double> score_obj = new Pair<>(string_array_of_matched_fact,
                                 maxScore);
                         list.add(score_obj);
                     }

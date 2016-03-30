@@ -55,7 +55,7 @@ public abstract class STIBatch {
     protected static final String PROPERTY_KBSEARCH_CLASS = "sti.kbsearch.class";
     protected static final String PROPERTY_KBSEARCH_TRY_FUZZY_KEYWORD = "sti.kbsearch.tryfuzzykeyword";
 
-    protected static final String PROPERTY_IGNORE_COLUMNS = "sti.columns.ignore";
+    protected static final String PROPERTY_IGNORE_COLUMNS = "sti.columns.ignoreFactByPredicate";
     protected static final String PROPERTY_MUSTDO_COLUMNS = "sti.columns.mustdo";
 
     protected static final String PROPERTY_OUTPUT_TRIPLE_KB_NAMESPACE = "sti.output.triple.namespace.kb";

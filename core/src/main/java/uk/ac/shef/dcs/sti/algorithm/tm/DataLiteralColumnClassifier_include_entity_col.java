@@ -1,7 +1,9 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
@@ -97,7 +99,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                         rows_with_entities_and_entity_ids);
             }
             if (rows_with_entities_and_entity_ids.size() > 0) {
-                Map<String[], Double> expected_types_of_relation;
+                Map<Clazz, Double> expected_types_of_relation;
                 if (TableMinerConstants.CLASSIFICATION_CANDIDATE_CONTRIBUTION_METHOD == 0) {
                     expected_types_of_relation = create_candidate_type_objects_best_contribute(sorted_scores_for_relations);
                 } else {
@@ -290,16 +292,16 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                 /*if(prevMaxScore!=1.0)
                     continue;*/
 
-                List<String[]> matched_values = cbr.getMatched_values();
+                List<Attribute> matched_values = cbr.getMatched_values();
                 double score = cbr.getScore();
 
-                for (String[] matched : matched_values) {
-                    if(matched[3].equals("y"))
+                for (Attribute matched : matched_values) {
+                    if(matched.getOtherInfo().get(FreebaseQueryHelper.FB_NESTED_TRIPLE_OF_TOPIC).equals("y"))
                         continue;
-                    String prop_name = matched[0];
+                    String prop_name = matched.getRelation();
                     if (highest_scoring_relation_annotations.contains(prop_name)) {
-                        String name = matched[1];
-                        String id = matched[2];
+                        String name = matched.getValue();
+                        String id = matched.getValueURI();
                         //if id is not null, it is likely to be an entity, so carry on to score the type of this column
                         if (id != null && id.length() > 0) {
                             rows_with_entities_and_matched_scores.put(row_entry.getKey(), score);
@@ -330,15 +332,15 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                 rows_annotated_with_relation.entrySet()) {//key-row id; value:candidate binary relation detected on this row
             //Collections.sort(row_entry.getValue());
             for (CellBinaryRelationAnnotation cbr : row_entry.getValue()) {
-                List<String[]> matched_values = cbr.getMatched_values();
+                List<Attribute> matched_values = cbr.getMatched_values();
                 double score = cbr.getScore();
                 if(score!=1.0)
                     continue;
-                for (String[] matched : matched_values) {
-                    String prop_name = matched[0];
+                for (Attribute matched : matched_values) {
+                    String prop_name = matched.getRelation();
                     if (highest_scoring_relation_annotation_for_column.contains(prop_name)) {
-                        String name = matched[1];
-                        String id = matched[2];
+                        String name = matched.getValue();
+                        String id = matched.getValueURI();
                         //if id is not null, it is likely to be an entity, so carry on to score the type of this column
                         if (id != null) {
                             rows_with_entities_and_matched_scores.put(row_entry.getKey(), score);
@@ -356,9 +358,9 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
         }
     }
 
-    private Map<String[], Double> create_candidate_type_objects_best_contribute(
+    private Map<Clazz, Double> create_candidate_type_objects_best_contribute(
             List<Pair<String, Double>> aggregated_scores_for_relations) throws IOException {
-        Map<String[], Double> expected_types_of_relation = new HashMap<String[], Double>();
+        Map<Clazz, Double> expected_types_of_relation = new HashMap<>();
         double prevMax = 0.0;
         for (Pair<String, Double> oo : aggregated_scores_for_relations) {
             String relation_name = null;
@@ -371,22 +373,22 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                 break;
             }
             if (relation_name != null) {
-                List<String[]> types_of_relation = fbSearcher.find_expected_types_of_relation(relation_name);
-                for(String[] tor: types_of_relation)
+                List<Clazz> types_of_relation = fbSearcher.find_rangeOfRelation(relation_name);
+                for(Clazz tor: types_of_relation)
                     expected_types_of_relation.put(tor, oo.getValue());
             }
         }
         return expected_types_of_relation;
     }
 
-    private Map<String[], Double> create_candidate_type_objects_all_contribute(
+    private Map<Clazz, Double> create_candidate_type_objects_all_contribute(
             List<Pair<String, Double>> aggregated_scores_for_relations) throws IOException {
-        Map<String[], Double> expected_types_of_relation = new HashMap<String[], Double>();
+        Map<Clazz, Double> expected_types_of_relation = new HashMap<>();
         for (Pair<String, Double> oo : aggregated_scores_for_relations) {
             String relation_name = oo.getKey();
             if (relation_name != null) {
-                List<String[]> types_of_relation = fbSearcher.find_expected_types_of_relation(relation_name);
-                for(String[] tor: types_of_relation)
+                List<Clazz> types_of_relation = fbSearcher.find_rangeOfRelation(relation_name);
+                for(Clazz tor: types_of_relation)
                     expected_types_of_relation.put(tor, oo.getValue());
             }
         }
@@ -397,7 +399,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                            TAnnotation table_annotation,
                            Map<Integer, Double> rows_with_entities_mapped_scores,
                            Map<Integer, List<Pair<String, String>>> rows_with_entity_ids,
-                           Map<String[], Double> expected_types_of_relation,
+                           Map<Clazz, Double> expected_types_of_relation,
                            int column,
                            boolean use_only_typing_candidates_from_relations_with_main_col) throws IOException {
 
@@ -475,9 +477,9 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
         if (!use_only_typing_candidates_from_relations_with_main_col)
             headerAnnotations.addAll(header_annotation_contributed_from_cells.values());
 
-        for (String[] e : expected_types_of_relation.keySet()) {
-            String type = e[0];
-            String label = e[1];
+        for (Clazz e : expected_types_of_relation.keySet()) {
+            String type = e.getId();
+            String label = e.getLabel();
             double score_from_relation = expected_types_of_relation.get(e);
             HeaderAnnotation ha = new HeaderAnnotation(table.getColumnHeader(column).getHeaderText(),
                     type, label, 0.0);

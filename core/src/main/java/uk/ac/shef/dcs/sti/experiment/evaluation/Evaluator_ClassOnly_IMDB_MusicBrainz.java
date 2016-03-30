@@ -1,5 +1,6 @@
 package uk.ac.shef.dcs.sti.experiment.evaluation;
 
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.io.LTableAnnotationKeyFileReader;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 
@@ -186,10 +187,10 @@ public class Evaluator_ClassOnly_IMDB_MusicBrainz {
             for (String s : unique_sorted) {
                 if (s.startsWith("/m/")) {
                     try {
-                        List<String[]> facts = fb.topicapi_facts_of_id_with_filter(s, "/type/object/name");
+                        List<Attribute> facts = fb.topicapi_getFactsOfTopicID(s, "/type/object/name");
                         ;
                         if (facts.size() > 0)
-                            s = s + ":" + facts.get(0)[1];
+                            s = s + ":" + facts.get(0).getValue();
                     } catch (Exception e) {
 
                     }

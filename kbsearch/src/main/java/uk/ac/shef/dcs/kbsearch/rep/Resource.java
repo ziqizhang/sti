@@ -11,13 +11,13 @@ public abstract class Resource implements Serializable{
 
     protected String id;
     protected String label;
-    protected List<String[]> triples;
+    protected List<Attribute> attributes;
 
-    public List<String[]> getTriples(){
-        return triples;
+    public List<Attribute> getAttributes(){
+        return attributes;
     }
-    public void setTriples(List<String[]> triples){
-        this.triples=triples;
+    public void setAttributes(List<Attribute> attributes){
+        this.attributes = attributes;
     }
 
     public String getId(){

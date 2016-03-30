@@ -3,6 +3,7 @@ package uk.ac.shef.dcs.sti.experiment.evaluation;
 import info.aduna.io.FileUtil;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.io.LTableAnnotationKeyFileReader;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.util.FileUtils;
@@ -323,7 +324,7 @@ public class LimayeDataset_Entity_Discrepancy_Analysis_Generic {
                     line.append("\t" + reference_entity_annotation_folder_identifier + "=").
                             append(reference_entity_annotation + "|").append(
                             extractName(
-                                    searcher.findTriplesOfEntityCandidates(new Entity(reference_entity_annotation, reference_entity_annotation)))
+                                    searcher.findAttributesOfEntityCandidates(new Entity(reference_entity_annotation, reference_entity_annotation)))
                     );
 
                     for (Map.Entry<String, Map<String, String>> e : map_method_id_to_entity_annotations.entrySet()) {
@@ -339,7 +340,7 @@ public class LimayeDataset_Entity_Discrepancy_Analysis_Generic {
                             line.append("\t").append(methodKey).append("=").append(ann).append("|null");
                         } else {
                             line.append("\t").append(methodKey).append("=").append(ann).append("|").append(
-                                    extractName(searcher.findTriplesOfEntityCandidates(new Entity(ann, ann)))
+                                    extractName(searcher.findAttributesOfEntityCandidates(new Entity(ann, ann)))
 
                             );
                         }
@@ -353,10 +354,10 @@ public class LimayeDataset_Entity_Discrepancy_Analysis_Generic {
         }
     }
 
-    private static String extractName(List<String[]> typesForEntityId) {
-        for (String[] a : typesForEntityId) {
-            if (a[0].equals("/type/object/name"))
-                return a[1];
+    private static String extractName(List<Attribute> typesForEntityId) {
+        for (Attribute a : typesForEntityId) {
+            if (a.getRelation().equals("/type/object/name"))
+                return a.getValue();
         }
         return "null";  //To change body of created methods use File | Settings | File Templates.
     }

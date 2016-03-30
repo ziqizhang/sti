@@ -35,7 +35,7 @@ public class ObjectToString {
             String content = "";
             for (Entity e : ec) {
                 content = content + e.getId() + " " + e.getLabel() + " "
-                        + string_array_list_toString(e.getTriples()) + " " + string_array_list_toString(e.getTypes());
+                        + string_array_list_toString(e.getAttributes()) + " " + string_array_list_toString(e.getTypes());
 
             }
             return content;

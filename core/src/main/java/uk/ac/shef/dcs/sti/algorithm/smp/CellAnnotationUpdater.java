@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.smp;
 
 import cern.colt.matrix.ObjectMatrix2D;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Key_SubjectCol_ObjectCol;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
@@ -111,7 +112,7 @@ public class CellAnnotationUpdater {
             if (message.getFlag_subOrObj() == 0) { //the current cell's NE is the subject in the relation that sends the "change" message
                 //we need to fetch all facts of a candidate entity annotation, check if any fact uses a relation same as identified
                 //in the message
-                List<String[]> facts = ca.getAnnotation().getTriples();
+                List<Attribute> facts = ca.getAnnotation().getAttributes();
                 if (containsRelation(facts, message.getLabels()))
                     return true;
                 else return false;
@@ -125,8 +126,8 @@ public class CellAnnotationUpdater {
                         //because another message should have been sent to the cell that corresponds to the subject cell
                         //and that ensures the subject's cell's annotation will be dealt with separately
                         for (TCellAnnotation subjectCellAnnotation : subjectCellAnnotations) {
-                            for (String[] fact : subjectCellAnnotation.getAnnotation().getTriples()) {
-                                if (fact[1].equals(ca.getAnnotation().getId())) {
+                            for (Attribute fact : subjectCellAnnotation.getAnnotation().getAttributes()) {
+                                if (fact.getValue().equals(ca.getAnnotation().getId())) {
                                     return true;
                                 }
                             }
@@ -249,9 +250,9 @@ public class CellAnnotationUpdater {
         return rs;
     }
 
-    private boolean containsRelation(List<String[]> facts, List<String> labels) {
-        for (String[] fact : facts) {
-            if (labels.contains(fact[0]))
+    private boolean containsRelation(List<Attribute> facts, List<String> labels) {
+        for (Attribute fact : facts) {
+            if (labels.contains(fact.getRelation()))
                 return true;
         }
         return false;

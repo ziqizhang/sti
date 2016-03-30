@@ -2,9 +2,8 @@ package uk.ac.shef.dcs.sti.experiment.evaluation;
 
 import info.aduna.io.FileUtil;
 import org.apache.solr.client.solrj.SolrServer;
-import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.io.LTableAnnotationKeyFileReader;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.util.FileUtils;
@@ -176,7 +175,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
             /* if(filename.toLowerCase().contains("9587"))
             System.out.println();*/
             if (filename.endsWith(".htm") || filename.endsWith(".html")) {
-                if (!filename.contains(".triples") && !filename.contains(".keys") && !processed.contains(filename)) {
+                if (!filename.contains(".attributes") && !filename.contains(".keys") && !processed.contains(filename)) {
                     String tableminer_entity_gs_file = tableminer_entity_file.toString() + ".cell.keys";
                     String baseline_entity_gs_file = inFolder_baseline + "/" + tableminer_entity_file.getName() + ".cell.keys";
                     System.out.println(tableminer_entity_file);
@@ -207,7 +206,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
                                 String answer = appendBestAnswer(tableminer_answer);
                                 if (answer.equals("null")) {
                                 } else {
-                                    answer = answer + "|" + extractName(searcher.findTriplesOfEntityCandidates(new Entity(answer, answer)));
+                                    answer = answer + "|" + extractName(searcher.findAttributesOfEntityCandidates(new Entity(answer, answer)));
                                 }
                                 line.append(answer).append("\t");
                                 line.append("\tbs=");
@@ -215,7 +214,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
                                 answer = appendBestAnswer(baseline_answer);
                                 if (answer.equals("null")) {
                                 } else {
-                                    answer = answer + "|" + extractName(searcher.findTriplesOfEntityCandidates(new Entity(answer, answer)));
+                                    answer = answer + "|" + extractName(searcher.findAttributesOfEntityCandidates(new Entity(answer, answer)));
                                 }
                                 line.append(answer);
                             }
@@ -240,10 +239,10 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
         }
     }
 
-    private static String extractName(List<String[]> typesForEntityId) {
-        for (String[] a : typesForEntityId) {
-            if (a[0].equals("/type/object/name"))
-                return a[1];
+    private static String extractName(List<Attribute> typesForEntityId) {
+        for (Attribute a : typesForEntityId) {
+            if (a.getRelation().equals("/type/object/name"))
+                return a.getValue();
         }
         return "null";  //To change body of created methods use File | Settings | File Templates.
     }

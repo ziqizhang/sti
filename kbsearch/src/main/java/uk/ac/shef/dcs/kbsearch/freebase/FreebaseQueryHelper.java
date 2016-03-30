@@ -17,6 +17,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.util.CollectionUtils;
 import uk.ac.shef.dcs.util.StringUtils;
@@ -40,6 +41,7 @@ public class FreebaseQueryHelper {
     private HttpRequestFactory requestFactory;
     private Properties properties;
 
+    public static final String FB_NESTED_TRIPLE_OF_TOPIC="freebase_nested_triple_of_topic";
 
     private static final String FB_MAX_QUERY_PER_SECOND="fb.query.max.sec";
 
@@ -70,9 +72,9 @@ public class FreebaseQueryHelper {
     //given a topic id, returns its facts. result is a list of string array, where in each array, value 0 is the property name; value 1 is the value;
     //value 2 could be null or a string, when it is an id of a topic (if null then value of property is not topic); value 4 is "y" or "n", meaning if
     //if the property is a nested property of the topic of interest.
-    public List<String[]> topicapi_getFactsOfTopic(String id) throws IOException {
+    public List<Attribute> topicapi_getAttributesOfTopic(String id) throws IOException {
         Date start = new Date();
-        List<String[]> res = new ArrayList<String[]>();
+        List<Attribute> res = new ArrayList<>();
         GenericUrl url = new GenericUrl(properties.get(FB_QUERY_API_URL_TOPIC).toString() + id);
         url.put("key", properties.get(FB_QUERY_API_KEY));
         url.put("limit", 100);
@@ -90,9 +92,9 @@ public class FreebaseQueryHelper {
 
     }
 
-    public List<String[]> topicapi_types_of_id(String id) throws IOException {
+    public List<Attribute> topicapi_getTypesOfTopicID(String id) throws IOException {
         Date start = new Date();
-        List<String[]> res = new ArrayList<String[]>();
+        List<Attribute> res = new ArrayList<>();
         GenericUrl url = new GenericUrl(properties.get(FB_QUERY_API_URL_TOPIC).toString() + id);
         url.put("key", properties.get(FB_QUERY_API_KEY));
         url.put("filter", "/type/object/type");
@@ -112,9 +114,9 @@ public class FreebaseQueryHelper {
     }
 
     //[] = {property, val.toString(), id.toString(), nested_flag}  (nested flag=y/n)
-    public List<String[]> topicapi_facts_of_id_with_filter(String id, String filter) throws IOException {
+    public List<Attribute> topicapi_getFactsOfTopicID(String id, String filter) throws IOException {
         Date start = new Date();
-        List<String[]> res = new ArrayList<String[]>();
+        List<Attribute> res = new ArrayList<>();
         GenericUrl url = new GenericUrl(properties.get(FB_QUERY_API_URL_TOPIC).toString() + id);
         url.put("key", properties.get(FB_QUERY_API_KEY));
         url.put("filter", filter);
@@ -133,7 +135,7 @@ public class FreebaseQueryHelper {
 
     }
 
-    private void parsePropertiesOfTopicAPI(JSONObject json, List<String[]> out, boolean nested) {
+    private void parsePropertiesOfTopicAPI(JSONObject json, List<Attribute> out, boolean nested) {
         /*if(json==null)
             System.out.println();*/
         Iterator<String> prop_keys = json.keySet().iterator();
@@ -164,7 +166,7 @@ public class FreebaseQueryHelper {
         return obj;
     }
 
-    private void parsePropertyValues(JSONArray json, String property, List<String[]> out, boolean nested, boolean skipCompound) {
+    private void parsePropertyValues(JSONArray json, String property, List<Attribute> out, boolean nested, boolean skipCompound) {
         Iterator entry = json.iterator();
         Object val = null, id = null, mid = null, more_props = null;
         String nested_flag = nested ? "y" : "n";
@@ -186,10 +188,15 @@ public class FreebaseQueryHelper {
             id = key.get("id");
             mid = key.get("mid");
             if (id == null && mid != null) id = mid;
-            if (val != null && id != null)
-                out.add(new String[]{property, val.toString(), id.toString(), nested_flag});
-            else if (val != null)
-                out.add(new String[]{property, val.toString(), null, nested_flag});
+            Attribute attr = new Attribute(property, val.toString());
+            attr.getOtherInfo().put(FB_NESTED_TRIPLE_OF_TOPIC, nested_flag);
+            if (val != null && id != null) {
+                attr.setValueURI(id.toString());
+                out.add(attr);
+            }
+            else if (val != null) {
+                out.add(attr);
+            }
         }
 
     }

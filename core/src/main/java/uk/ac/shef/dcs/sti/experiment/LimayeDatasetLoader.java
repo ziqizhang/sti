@@ -171,7 +171,7 @@ public class LimayeDatasetLoader {
             }
         }
         if (table.getContexts().size() > 1)
-            table.getContexts().remove(1);  //always ignore the 2nd context as it is the header of the table
+            table.getContexts().remove(1);  //always ignoreFactByPredicate the 2nd context as it is the header of the table
 
         //dump the original html snippet to a human readable html format
         if (htmlRepository != null) {

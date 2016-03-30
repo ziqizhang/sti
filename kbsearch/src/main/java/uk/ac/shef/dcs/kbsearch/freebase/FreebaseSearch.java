@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.util.SolrCache;
@@ -84,15 +85,15 @@ public class FreebaseSearch extends KBSearch {
             //firstly fetch candidate freebase topics
             List<FreebaseTopic> topics = searcher.searchapi_getTopicsByNameAndType(text, "any", true, 20); //search api does not retrieve complete types, find types for them
             for (FreebaseTopic ec : topics) {
-                //Next get triples for each topic
+                //Next get attributes for each topic
                 //instantiate facts and types
-                List<String[]> facts = findTriplesOfEntityCandidates(ec);
-                ec.setTriples(facts);
-                for (String[] f : facts) {
-                    if (f[0].equals("/type/object/type") &&
-                            f[3].equals("n") &&
-                            !ec.hasType(f[2]))
-                        ec.addType(new Clazz(f[2], f[1]));
+                List<Attribute> attributes = findAttributesOfEntityCandidates(ec);
+                ec.setAttributes(attributes);
+                for (Attribute attr: attributes) {
+                    if (attr.getRelation().equals("/type/object/type") &&
+                            attr.getOtherInfo().get(FreebaseQueryHelper.FB_NESTED_TRIPLE_OF_TOPIC).equals("n") &&
+                            !ec.hasType(attr.getValueURI()))
+                        ec.addType(new Clazz(attr.getValueURI(), attr.getValue()));
                 }
             }
 
@@ -168,75 +169,79 @@ public class FreebaseSearch extends KBSearch {
     }
 
 
-    protected List<String[]> findTriplesOfEntityCandidates(String entityId) throws IOException {
+    protected List<Attribute> findAttributesOfEntityCandidates(String entityId) throws IOException {
         return find_triples(entityId, cacheEntity);
     }
 
 
 
     @Override
-    protected List<String[]> findTriplesOfProperty(String propertyId) throws IOException {
+    protected List<Attribute> findAttributesOfProperty(String propertyId) throws IOException {
         return find_triples(propertyId, cacheProperty);
     }
 
     @Override
-    public List<String[]> findTriplesOfConcept(String conceptId) throws IOException {
+    public List<Attribute> findAttributesOfConcept(String conceptId) throws IOException {
         //return find_triplesForEntity(conceptId);
         boolean forceQuery = false;
         if (ALWAYS_CALL_REMOTE_TOPICAPI)
             forceQuery = true;
-        List<String[]> facts = new ArrayList<String[]>();
+        List<Attribute> attributes = new ArrayList<>();
         String query = createQuery_findFacts(conceptId);
-        if (query.length() == 0) return facts;
+        if (query.length() == 0) return attributes;
 
         try {
-            facts = (List<String[]>) cacheConcept.retrieve(toSolrKey(query));
-            if (facts != null)
+            attributes = (List<Attribute>) cacheConcept.retrieve(toSolrKey(query));
+            if (attributes != null)
                 LOG.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
         } catch (Exception e) {
         }
-        if (facts == null || forceQuery) {
-            facts = new ArrayList<>();
-            List<String[]> retrievedFacts = searcher.topicapi_getFactsOfTopic(conceptId);
+        if (attributes == null || forceQuery) {
+            attributes = new ArrayList<>();
+            List<Attribute> retrievedAttributes = searcher.topicapi_getAttributesOfTopic(conceptId);
             //check firstly, is this a concept?
             boolean isConcept = false;
-            for (String[] f : retrievedFacts) {
-                if (f[0].equals("/type/object/type") && f[2] != null && f[2].equals("/type/type")) {
+            for (Attribute f : retrievedAttributes) {
+                if (f.getRelation().equals("/type/object/type") && f.getValueURI() != null && f.getValueURI().equals("/type/type")) {
                     isConcept = true;
                     break;
                 }
             }
             if (!isConcept) {
                 try {
-                    cacheConcept.cache(toSolrKey(query), facts, AUTO_COMMIT);
+                    cacheConcept.cache(toSolrKey(query), attributes, AUTO_COMMIT);
                     LOG.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                return facts;
+                return attributes;
             }
 
             //ok, this is a concept. We need to deep-fetch its properties, and find out the range of their properties
-            System.out.println(">>" + retrievedFacts.size());
-            for (String[] f : retrievedFacts) {
-                if (f[0].equals("/type/type/properties")) { //this is a property of a concept, we need to process it further
-                    String propertyId = f[2];
-                    if (f[2] == null) continue;
+            System.out.println(">>" + retrievedAttributes.size());
+            for (Attribute f : retrievedAttributes) {
+                if (f.getRelation().equals("/type/type/properties")) { //this is a property of a concept, we need to process it further
+                    String propertyId = f.getValueURI();
+                    if (propertyId == null) continue;
 
-                    List<String[]> triples4Property = findTriplesOfProperty(propertyId);
-                    for (String[] t : triples4Property) {
-                        if (t[0].equals("/type/property/expected_type")) {
-                            String rangeLabel = t[1];
-                            String rangeURL = t[2];
-                            facts.add(new String[]{f[2], rangeLabel, rangeURL, "n"});
+                    List<Attribute> attrOfProperty = findAttributesOfProperty(propertyId);
+                    for (Attribute t : attrOfProperty) {
+                        if (t.getRelation().equals("/type/property/expected_type")) {
+                            String rangeLabel = t.getValue();
+                            String rangeURL = t.getValueURI();
+                            Attribute attr = new Attribute(f.getValueURI(), rangeLabel);
+                            attr.setValueURI(rangeURL);
+                            attr.getOtherInfo().put(FreebaseQueryHelper.FB_NESTED_TRIPLE_OF_TOPIC,"n");
+
+                            //attributes.add(new String[]{f[2], rangeLabel, rangeURL, "n"});
                         }
                     }
                 } else {
-                    facts.add(f);
+                    attributes.add(f);
                 }
             }
             try {
-                cacheConcept.cache(toSolrKey(query), facts, AUTO_COMMIT);
+                cacheConcept.cache(toSolrKey(query), attributes, AUTO_COMMIT);
                 LOG.warn("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -244,13 +249,13 @@ public class FreebaseSearch extends KBSearch {
         }
 
         //filtering
-        Iterator<String[]> it = facts.iterator();
+        Iterator<Attribute> it = attributes.iterator();
         while (it.hasNext()) {
-            String[] f = it.next();
-            if (FreebaseSearchResultFilter.ignoreFactWithPredicate(f[0]))
+            Attribute f = it.next();
+            if (FreebaseSearchResultFilter.ignoreFactByPredicate(f.getRelation()))
                 it.remove();
         }
-        return facts;
+        return attributes;
     }
 
     @Override
@@ -287,13 +292,13 @@ public class FreebaseSearch extends KBSearch {
     }
 
     @Override
-    public List<String[]> find_expected_types_of_relation(String majority_relation_name) throws IOException {
-        List<String[]> triples =
-                findTriplesOfEntityCandidates(new Entity(majority_relation_name, majority_relation_name));
-        List<String[]> types = new ArrayList<String[]>();
-        for (String[] t : triples) {
-            if (t[0].equals("/type/property/expected_type")) {
-                types.add(new String[]{t[2], t[1]});
+    public List<Clazz> find_rangeOfRelation(String relationURI) throws IOException {
+        List<Attribute> attributes =
+                findAttributesOfEntityCandidates(new Entity(relationURI, relationURI));
+        List<Clazz> types = new ArrayList<>();
+        for (Attribute attr : attributes) {
+            if (attr.getRelation().equals("/type/property/expected_type")) {
+                types.add(new Clazz(attr.getValueURI(), attr.getValue()));
             }
         }
         return types;
@@ -310,11 +315,11 @@ public class FreebaseSearch extends KBSearch {
         } catch (Exception e) {
         }
         if (result == null) {
-            result = new ArrayList<Clazz>();
-            List<String[]> facts = searcher.topicapi_types_of_id(id);
-            for (String[] f : facts) {
-                String type = f[2]; //this is the id of the type
-                result.add(new Clazz(type, f[1]));
+            result = new ArrayList<>();
+            List<Attribute> attributes = searcher.topicapi_getTypesOfTopicID(id);
+            for (Attribute attr : attributes) {
+                String type = attr.getValueURI(); //this is the id of the type
+                result.add(new Clazz(type, attr.getValue()));
             }
             try {
                 cacheEntity.cache(toSolrKey(query), result, AUTO_COMMIT);
@@ -327,7 +332,7 @@ public class FreebaseSearch extends KBSearch {
         return FreebaseSearchResultFilter.filterTypes(result);
     }
 
-    private List<String[]> find_triples(String id, SolrCache cache) throws IOException {
+    private List<Attribute> find_triples(String id, SolrCache cache) throws IOException {
         boolean forceQuery = false;
         if (ALWAYS_CALL_REMOTE_TOPICAPI)
             forceQuery = true;
@@ -335,17 +340,17 @@ public class FreebaseSearch extends KBSearch {
         String query = createQuery_findFacts(id);
         if (query.length() == 0)
             return new ArrayList<>();
-        List<String[]> result = null;
+        List<Attribute> result = null;
         try {
-            result = (List<String[]>) cache.retrieve(toSolrKey(query));
+            result = (List<Attribute>) cache.retrieve(toSolrKey(query));
             if (result != null)
                 LOG.warn("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
         } catch (Exception e) {
         }
         if (result == null || forceQuery) {
-            List<String[]> facts;
+            List<Attribute> facts;
             try {
-                facts = searcher.topicapi_getFactsOfTopic(id);
+                facts = searcher.topicapi_getAttributesOfTopic(id);
             } catch (HttpResponseException e) {
                 if (donotRepeatQuery(e))
                     facts = new ArrayList<>();
@@ -363,10 +368,10 @@ public class FreebaseSearch extends KBSearch {
         }
 
         //filtering
-        Iterator<String[]> it = result.iterator();
+        Iterator<Attribute> it = result.iterator();
         while (it.hasNext()) {
-            String[] fact = it.next();
-            if (FreebaseSearchResultFilter.ignoreFactWithPredicate(fact[0]))
+            Attribute attr = it.next();
+            if (FreebaseSearchResultFilter.ignoreFactByPredicate(attr.getRelation()))
                 it.remove();
         }
         return result;

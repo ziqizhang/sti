@@ -141,8 +141,8 @@ public class SubjectColumnDetector {
                 ignoreColumns.add(cf.getColId());
         }
         //if columns to be ignored due to invalid header text is less than total columns
-        //to be considered,we can ignore them
-        //otherwise, if we are told all columns should be ignored, dont ignore any candidate ne columns
+        //to be considered,we can ignoreFactByPredicate them
+        //otherwise, if we are told all columns should be ignored, dont ignoreFactByPredicate any candidate ne columns
         if (ignoreColumns.size()>0&&ignoreColumns.size() != featuresOfNEColumns.size()) {
             Iterator<TColumnFeature> it = featuresOfNEColumns.iterator();
             while (it.hasNext()) {

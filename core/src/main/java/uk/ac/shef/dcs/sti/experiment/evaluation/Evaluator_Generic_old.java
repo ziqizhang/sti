@@ -59,7 +59,7 @@ public class Evaluator_Generic_old {
             String filename = gsFile.getName();
 
             if (filename.endsWith(".htm") || filename.endsWith(".html")) {
-                if (!filename.contains(".triples") && !filename.contains(".keys") && !processed.contains(filename)) {
+                if (!filename.contains(".attributes") && !filename.contains(".keys") && !processed.contains(filename)) {
                     String entity_gs = gsFile.toString() + ".cell.keys";
                     String header_gs = gsFile.toString() + ".header.keys";
                     String binary = gsFile.toString() + ".relation.keys";

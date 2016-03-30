@@ -19,7 +19,7 @@ public class TI_SemanticMessagePassing {
     //main column finder is needed to generate data features of each column (e.g., data type in a column),
     //even though we do not use it to find the main column in SMP
     private SubjectColumnDetector main_col_finder;
-    //if there are any columns we want to ignore
+    //if there are any columns we want to ignoreFactByPredicate
     private int[] ignoreColumns;
     private int[] forceInterpretColumn;
     private NamedEntityRanker neRanker;

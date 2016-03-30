@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.algorithm.tm.TMPEntityScorer;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.Table;
@@ -29,15 +30,15 @@ public class Base_TM_no_Update_Disambiguator {
         List<Pair<Entity, Map<String, Double>>> disambiguationScores = new ArrayList<>();
         for (Entity c : candidates) {
             //find facts of each entity
-            if (c.getTriples() == null || c.getTriples().size() == 0) {
-                List<String[]> facts = kbSearch.findTriplesOfEntityCandidates(c);
-                c.setTriples(facts);
+            if (c.getAttributes() == null || c.getAttributes().size() == 0) {
+                List<Attribute> facts = kbSearch.findAttributesOfEntityCandidates(c);
+                c.setAttributes(facts);
             }
             Map<String, Double> scoreMap = disambScorer.
                     score(c,
-                            new ArrayList<Entity>(),
+                            new ArrayList<>(),
                             entity_column,
-                            entity_row, table, new HashSet<String>());
+                            entity_row, table, new HashSet<>());
             Base_TM_no_Update_EntityDisambiguationScorer.compute_final_score(scoreMap);
             Pair<Entity, Map<String, Double>> entry = new Pair<>(c,scoreMap);
             disambiguationScores.add(entry);

@@ -1,6 +1,8 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
@@ -58,14 +60,15 @@ public class TMEntityScorer_ISWC implements EntityScorer {
 
 
         /* BOW OF THE ENTITY*/
-        List<String[]> facts = candidate.getTriples();
+        List<Attribute> facts = candidate.getAttributes();
         List<String> bag_of_words_for_entity = new ArrayList<String>();
-        for (String[] f : facts) {
-            if(!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
+        for (Attribute f : facts) {
+            if(!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE &&
+                    f.getOtherInfo().get(FreebaseQueryHelper.FB_NESTED_TRIPLE_OF_TOPIC).equals("y"))
                 continue;
-            if (FreebaseSearchResultFilter.ignoreFactFromBOW(f[0]))
+            if (FreebaseSearchResultFilter.ignoreFactFromBOW(f.getRelation()))
                 continue;
-            String value = f[1];
+            String value = f.getValue();
             if (!StringUtils.isPath(value))
                 bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true,TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
             else
@@ -140,8 +143,8 @@ public class TMEntityScorer_ISWC implements EntityScorer {
         for (Entity ec : reference_non_duplicate) {
             bag_of_words_for_context.clear();
 
-            for (String[] f : ec.getTriples()) {
-                String value = f[1];
+            for (Attribute f : ec.getAttributes()) {
+                String value = f.getValue();
                 if (!StringUtils.isPath(value))
                     bag_of_words_for_context.addAll(StringUtils.toBagOfWords(value, true, true,TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
                 else

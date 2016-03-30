@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
@@ -33,9 +34,9 @@ public class TCellDisambiguator {
         List<Pair<Entity, Map<String, Double>>> disambiguationScores = new ArrayList<>();
         for (Entity c : candidates) {
             //find facts of each entity
-            if (c.getTriples() == null || c.getTriples().size() == 0) {
-                List<String[]> facts = kbSearch.findTriplesOfEntityCandidates(c);
-                c.setTriples(facts);
+            if (c.getAttributes() == null || c.getAttributes().size() == 0) {
+                List<Attribute> facts = kbSearch.findAttributesOfEntityCandidates(c);
+                c.setAttributes(facts);
             }
             Map<String, Double> scoreMap = disambScorer.
                     score(c, candidates,
@@ -70,9 +71,9 @@ public class TCellDisambiguator {
 
         for (Entity c : candidates) {
             //find facts of each entity
-            if (c.getTriples() == null || c.getTriples().size() == 0) {
-                List<String[]> facts = kbSearch.findTriplesOfEntityCandidates(c);
-                c.setTriples(facts);
+            if (c.getAttributes() == null || c.getAttributes().size() == 0) {
+                List<Attribute> facts = kbSearch.findAttributesOfEntityCandidates(c);
+                c.setAttributes(facts);
             }
             Map<String, Double> scoreMap = disambScorer.
                     score(c,candidates,

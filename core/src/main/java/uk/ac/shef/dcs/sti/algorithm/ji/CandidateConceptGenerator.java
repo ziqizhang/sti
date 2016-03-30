@@ -3,6 +3,7 @@ package uk.ac.shef.dcs.sti.algorithm.ji;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
@@ -70,9 +71,9 @@ public class CandidateConceptGenerator {
         for(Map.Entry<String, String> ent: distinctTypeStrings.entrySet()){
             String conceptId = ent.getKey();
             String conceptName = ent.getValue();
-            List<String[]> triples = kbSearch.findTriplesOfConcept(conceptId);
+            List<Attribute> triples = kbSearch.findAttributesOfConcept(conceptId);
             Clazz concept = new Clazz(conceptId, conceptName);
-            concept.setTriples(triples);
+            concept.setAttributes(triples);
             distinctTypes.add(concept);
         }
 

@@ -2,6 +2,8 @@ package uk.ac.shef.dcs.kbsearch;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
+import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.util.SolrCache;
 
@@ -51,46 +53,46 @@ public abstract class KBSearch {
     public abstract List<Entity> findEntityCandidatesOfTypes(String content, String... types) throws IOException;
 
     /**
-     * get triples that contain the entity candidate
+     * get attributes that contain the entity candidate
      *
-     * It is up to implementing class to decide whether the entity must be subject/object/either of triples
+     * It is up to implementing class to decide whether the entity must be subject/object/either of attributes
      *
      *
      * @param ec
-     * @return a list of triples, each of which is represented as a string array. It is up to implementing class
+     * @return a list of attributes, each of which is represented as a string array. It is up to implementing class
      * to decide what the array should be
      * @throws IOException
      */
-    public List<String[]> findTriplesOfEntityCandidates(Entity ec) throws IOException {
-        return findTriplesOfEntityCandidates(ec.getId());
+    public List<Attribute> findAttributesOfEntityCandidates(Entity ec) throws IOException {
+        return findAttributesOfEntityCandidates(ec.getId());
     }
 
     /**
      *
      */
-    protected abstract List<String[]> findTriplesOfEntityCandidates(String entityId) throws IOException;
+    protected abstract List<Attribute> findAttributesOfEntityCandidates(String entityId) throws IOException;
 
     /**
-     * get triples that contain the concept
+     * get attributes that contain the concept
      *
-     * It is up to implementing class to decide whether the concept must be subject/object/either of triples
+     * It is up to implementing class to decide whether the concept must be subject/object/either of attributes
      *
      *
-     * @return a list of triples, each of which is represented as a string array. It is up to implementing class
+     * @return a list of attributes, each of which is represented as a string array. It is up to implementing class
      * to decide what the array should be
      * @throws IOException
      */
-    public abstract List<String[]> findTriplesOfConcept(String conceptId) throws IOException;
+    public abstract List<Attribute> findAttributesOfConcept(String conceptId) throws IOException;
 
     /**
-     * get triples that contain the property
+     * get attributes that contain the property
      *
      *
-     * @return a list of triples, each of which is represented as a string array. It is up to implementing class
+     * @return a list of attributes, each of which is represented as a string array. It is up to implementing class
      * to decide what the array should be
      * @throws IOException
      */
-    protected abstract List<String[]> findTriplesOfProperty(String propertyId) throws IOException;
+    protected abstract List<Attribute> findAttributesOfProperty(String propertyId) throws IOException;
 
     public abstract double find_granularityForConcept(String type) throws IOException;
 
@@ -109,7 +111,7 @@ public abstract class KBSearch {
     protected String createQuery_findGranularity(String query) {
         return "GRANULARITY_" + query;
     }
-    public abstract List<String[]> find_expected_types_of_relation(String majority_relation_name) throws IOException;
+    public abstract List<Clazz> find_rangeOfRelation(String relationURI) throws IOException;
 
     public abstract void finalizeConnection() throws IOException;
 

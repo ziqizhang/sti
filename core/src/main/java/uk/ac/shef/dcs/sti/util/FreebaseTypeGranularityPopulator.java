@@ -80,7 +80,7 @@ public class FreebaseTypeGranularityPopulator {
             System.out.println(count + "_" + t);
             try {
                 kbSeacher.find_granularityForConcept(t);
-                kbSeacher.findTriplesOfConcept(t);
+                kbSeacher.findAttributesOfConcept(t);
                 count++;
             } catch (Exception e) {
                 e.printStackTrace();

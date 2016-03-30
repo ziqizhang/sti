@@ -1,5 +1,6 @@
 package uk.ac.shef.dcs.sti.rep;
 
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.util.CollectionUtils;
 
 import java.io.Serializable;
@@ -17,7 +18,7 @@ public class CellBinaryRelationAnnotation implements Serializable, Comparable<Ce
     private String annotation_url;
     private String annotation_label;
 
-    private List<String[]> matched_values;
+    private List<Attribute> matched_values;
     private double score;
 
     private boolean dummy; //true if this relation is created as a dummy relation, i.e., not supported by evidence in the KB
@@ -28,7 +29,7 @@ public class CellBinaryRelationAnnotation implements Serializable, Comparable<Ce
                                         int row,
                                         String relation_annotation,
                                         String relation_label,
-                                        List<String[]> matched_values, double score){
+                                        List<Attribute> matched_values, double score){
         this.subject_object_key=key;
         this.row=row;
         this.annotation_url = relation_annotation;
@@ -86,20 +87,17 @@ public class CellBinaryRelationAnnotation implements Serializable, Comparable<Ce
         this.subject_object_key = subject_object_key;
     }
 
-    public List<String[]> getMatched_values() {
+    public List<Attribute> getMatched_values() {
         return matched_values;
     }
 
-    public void setMatched_values(List<String[]> matched_values) {
+    public void setMatched_values(List<Attribute> matched_values) {
         this.matched_values = matched_values;
     }
 
-    public void addMatched_values(List<String[]> values_to_add){
-        for(String[] vta: values_to_add){
-            if(CollectionUtils.array_list_contains(
-                    matched_values, vta
-            )){}
-            else
+    public void addMatched_values(List<Attribute> values_to_add){
+        for(Attribute vta: values_to_add){
+            if(!matched_values.contains(vta))
                 matched_values.add(vta);
         }
 

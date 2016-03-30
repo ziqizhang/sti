@@ -142,7 +142,7 @@ public class Evaluator_RelationOnly {
                 System.out.println(filename);
                 /* if(filename.contains("Wisden"))
                 System.out.println();*/
-                //if (!filename.contains(".triples") && !filename.contains(".keys") && !processed.contains(filename)) {
+                //if (!filename.contains(".attributes") && !filename.contains(".keys") && !processed.contains(filename)) {
 
                 String binary = gsFile.getParent()+"/"+filename + ".relation.keys";
                 processed.add(binary);

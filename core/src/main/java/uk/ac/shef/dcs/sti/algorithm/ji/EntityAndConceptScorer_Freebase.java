@@ -1,7 +1,9 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
+import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
@@ -87,15 +89,16 @@ public class EntityAndConceptScorer_Freebase {
         if(score!=-1)
             fromCache="cache";
         if(score==-1.0) {
-            List<String[]> entity_triples = entity.getTriples();
+            List<Attribute> entity_triples = entity.getAttributes();
         /* BOW OF THE ENTITY*/
             List<String> bag_of_words_for_entity = new ArrayList<String>();
-            for (String[] f : entity_triples) {
-                if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
+            for (Attribute f : entity_triples) {
+                if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE &&
+                        f.getOtherInfo().get(FreebaseQueryHelper.FB_NESTED_TRIPLE_OF_TOPIC).equals("y"))
                     continue;
-                if (FreebaseSearchResultFilter.ignoreFactFromBOW(f[0]))
+                if (FreebaseSearchResultFilter.ignoreFactFromBOW(f.getRelation()))
                     continue;
-                String value = f[1];
+                String value = f.getValue();
                 if (!StringUtils.isPath(value))
                     bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
                 else
@@ -105,14 +108,15 @@ public class EntityAndConceptScorer_Freebase {
                 bag_of_words_for_entity = lemmatizer.lemmatize(bag_of_words_for_entity);
             bag_of_words_for_entity.removeAll(stopWords);
 
-            List<String[]> concept_triples = concept.getTriples();
-            List<String> bag_of_words_for_concept = new ArrayList<String>();
-            for (String[] f : concept_triples) {
-                if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
+            List<Attribute> concept_triples = concept.getAttributes();
+            List<String> bag_of_words_for_concept = new ArrayList<>();
+            for (Attribute f : concept_triples) {
+                if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE
+                        && f.getOtherInfo().get(FreebaseQueryHelper.FB_NESTED_TRIPLE_OF_TOPIC).equals("y"))
                     continue;
-                if (FreebaseSearchResultFilter.ignoreFactFromBOW(f[0]))
+                if (FreebaseSearchResultFilter.ignoreFactFromBOW(f.getRelation()))
                     continue;
-                String value = f[1];
+                String value = f.getValue();
                 if (!StringUtils.isPath(value))
                     bag_of_words_for_concept.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
                 else

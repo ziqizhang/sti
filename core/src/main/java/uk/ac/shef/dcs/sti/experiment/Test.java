@@ -35,7 +35,7 @@ public class Test {
         String checkListFolder="E:\\Data\\lodie_corpus_consolidated\\iswc_output_selected\\goodreads-test-3000";
         String outCopyFolder = "E:\\Data\\lodie_corpus_consolidated\\iswc_output_selected\\new";
         for(File f: new File(checkListFolder).listFiles()){
-            if(f.getName().endsWith(".html")&&!f.getName().contains("triples")){
+            if(f.getName().endsWith(".html")&&!f.getName().contains("attributes")){
                 String name = f.getName();
                 name=name.substring(0, name.lastIndexOf(".html")).trim();
                 String rawFifle = rawFileFolder+"/"+name;
