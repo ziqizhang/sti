@@ -1,7 +1,6 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
@@ -44,8 +43,6 @@ public class EntityAndConceptScorer_Freebase {
         for (String[] f : entity_triples) {
             if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
                 continue;
-            if (FreebaseSearchResultFilter.ignoreFactFromBOW(f[0]))
-                continue;
             String value = f[1];
             if (!StringUtils.isPath(value))
                 bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
@@ -59,8 +56,6 @@ public class EntityAndConceptScorer_Freebase {
         List<String> bag_of_words_for_concept = new ArrayList<String>();
         for (String[] f : concept_triples) {
             if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
-                continue;
-            if (FreebaseSearchResultFilter.ignoreFactFromBOW(f[0]))
                 continue;
             String value = f[1];
             if (!StringUtils.isPath(value))
@@ -96,8 +91,7 @@ public class EntityAndConceptScorer_Freebase {
                 if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE &&
                         !f.isDirect())
                     continue;
-                if (FreebaseSearchResultFilter.ignoreFactFromBOW(f.getRelation()))
-                    continue;
+
                 String value = f.getValue();
                 if (!StringUtils.isPath(value))
                     bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
@@ -113,8 +107,6 @@ public class EntityAndConceptScorer_Freebase {
             for (Attribute f : concept_triples) {
                 if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE
                         && !f.isDirect())
-                    continue;
-                if (FreebaseSearchResultFilter.ignoreFactFromBOW(f.getRelation()))
                     continue;
                 String value = f.getValue();
                 if (!StringUtils.isPath(value))

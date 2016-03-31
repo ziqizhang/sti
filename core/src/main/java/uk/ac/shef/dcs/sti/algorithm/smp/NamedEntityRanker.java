@@ -75,7 +75,7 @@ public class NamedEntityRanker {
         for (Entity c : candidates) {
             //find facts of each entity
             if (c.getAttributes() == null || c.getAttributes().size() == 0) {
-                List<Attribute> facts = kbSearch.findAttributesOfEntityCandidates(c);
+                List<Attribute> facts = kbSearch.findAttributesOfEntities(c);
                 c.setAttributes(facts);
             }
             Map<String, Double> scoreMap = disambScorer.

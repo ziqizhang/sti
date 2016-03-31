@@ -22,6 +22,10 @@ public abstract class KBSearch {
     protected boolean fuzzyKeywords;
     protected Properties properties = new Properties();
 
+    protected static final String KB_SEARCH_RESULT_STOPLIST="kb.search.result.stoplistfile";
+
+    protected KBSearchResultFilter resultFilter;
+
     public KBSearch(String kbSearchPropertyFile, Boolean fuzzyKeywords,
                     EmbeddedSolrServer cacheEntity, EmbeddedSolrServer cacheConcept,
                     EmbeddedSolrServer cacheProperty) throws IOException {
@@ -33,8 +37,12 @@ public abstract class KBSearch {
         if (cacheProperty != null)
             this.cacheProperty = new SolrCache(cacheProperty);
         this.fuzzyKeywords = fuzzyKeywords;
+
     }
 
+    public KBSearchResultFilter getResultFilter(){
+        return resultFilter;
+    }
     /**
      * given a content cell, fetch candidate entities from a KB
      * @param content
@@ -63,14 +71,14 @@ public abstract class KBSearch {
      * to decide what the array should be
      * @throws IOException
      */
-    public List<Attribute> findAttributesOfEntityCandidates(Entity ec) throws IOException {
-        return findAttributesOfEntityCandidates(ec.getId());
+    public List<Attribute> findAttributesOfEntities(Entity ec) throws IOException {
+        return findAttributesOfEntities(ec.getId());
     }
 
     /**
      *
      */
-    protected abstract List<Attribute> findAttributesOfEntityCandidates(String entityId) throws IOException;
+    protected abstract List<Attribute> findAttributesOfEntities(String entityId) throws IOException;
 
     /**
      * get attributes that contain the concept

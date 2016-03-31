@@ -30,8 +30,6 @@ public class RelationTextMatch_Scorer {
                                                         Map<Integer, DataTypeClassifier.DataType> column_types) {
         Map<Integer, List<Pair<Attribute, Double>>> matching_scores =
                 new HashMap<>();
-        //filter facts to remove predicates that are not useful relations
-        facts = FreebaseSearchResultFilter.filterRelations(facts);
         //typing facts
 
         Map<Integer, DataTypeClassifier.DataType> fact_data_types = new HashMap<Integer, DataTypeClassifier.DataType>();

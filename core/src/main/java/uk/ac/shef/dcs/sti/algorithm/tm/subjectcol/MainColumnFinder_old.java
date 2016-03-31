@@ -179,8 +179,8 @@ public class MainColumnFinder_old {
             if (cf.isInvalidPOS())
                 ignoreColumns.add(cf.getColId());
         }
-        //if columns to be ignored due to invalid header text is less than total columns to be considered,we can ignoreFactByPredicate them
-        //otherwise, if we are told all columns should be ignored, dont ignoreFactByPredicate any candidate ne columns
+        //if columns to be ignored due to invalid header text is less than total columns to be considered,we can isValidAttribute them
+        //otherwise, if we are told all columns should be ignored, dont isValidAttribute any candidate ne columns
         if (ignoreColumns.size() != allNEColumnCandidates.size()) {
             Iterator<TColumnFeature> it = allNEColumnCandidates.iterator();
             while (it.hasNext()) {

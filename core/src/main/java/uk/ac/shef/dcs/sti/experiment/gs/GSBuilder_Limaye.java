@@ -4,10 +4,10 @@ import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
 import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.experiment.LimayeDatasetLoader;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
@@ -31,9 +31,9 @@ import java.util.*;
  */
 public class GSBuilder_Limaye {
 
-    private FreebaseQueryHelper queryHelper;
+    private FreebaseQueryProxy queryHelper;
 
-    public GSBuilder_Limaye(FreebaseQueryHelper queryHelper) {
+    public GSBuilder_Limaye(FreebaseQueryProxy queryHelper) {
         this.queryHelper = queryHelper;
     }
 
@@ -48,7 +48,7 @@ public class GSBuilder_Limaye {
 
 
         //todo:this will not work
-        FreebaseQueryHelper queryHelper = null;//new FreebaseQueryHelper(args[3]);
+        FreebaseQueryProxy queryHelper = null;//new FreebaseQueryProxy(args[3]);
         TAnnotationWriter writer = new TAnnotationWriter(new TripleGenerator("http://www.freebase.com", "http://dcs.shef.ac.uk"));
         String in_raw_file_folder = args[0];
         String in_gs_file_folder = args[1];

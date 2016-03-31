@@ -1,6 +1,5 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
@@ -65,8 +64,6 @@ public class TMEntityScorer_ISWC implements EntityScorer {
         for (Attribute f : facts) {
             if(!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE &&
                     !f.isDirect())
-                continue;
-            if (FreebaseSearchResultFilter.ignoreFactFromBOW(f.getRelation()))
                 continue;
             String value = f.getValue();
             if (!StringUtils.isPath(value))

@@ -206,7 +206,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
                                 String answer = appendBestAnswer(tableminer_answer);
                                 if (answer.equals("null")) {
                                 } else {
-                                    answer = answer + "|" + extractName(searcher.findAttributesOfEntityCandidates(new Entity(answer, answer)));
+                                    answer = answer + "|" + extractName(searcher.findAttributesOfEntities(new Entity(answer, answer)));
                                 }
                                 line.append(answer).append("\t");
                                 line.append("\tbs=");
@@ -214,7 +214,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
                                 answer = appendBestAnswer(baseline_answer);
                                 if (answer.equals("null")) {
                                 } else {
-                                    answer = answer + "|" + extractName(searcher.findAttributesOfEntityCandidates(new Entity(answer, answer)));
+                                    answer = answer + "|" + extractName(searcher.findAttributesOfEntities(new Entity(answer, answer)));
                                 }
                                 line.append(answer);
                             }

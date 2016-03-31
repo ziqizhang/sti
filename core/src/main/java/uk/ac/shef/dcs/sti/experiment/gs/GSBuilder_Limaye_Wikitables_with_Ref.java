@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.TColumnFeatureGenerator;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
@@ -17,7 +18,6 @@ import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorWikipediaGS;
 import uk.ac.shef.dcs.sti.xtractor.TableXtractorWikipedia;
 import uk.ac.shef.dcs.sti.experiment.LimayeDatasetLoader;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.util.FileUtils;
 import uk.ac.shef.dcs.websearch.WebSearchFactory;
 import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
@@ -37,7 +37,7 @@ import java.util.*;
 public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikitables {
     private Levenshtein stringSim = new Levenshtein();
 
-    public GSBuilder_Limaye_Wikitables_with_Ref(FreebaseQueryHelper queryHelper,
+    public GSBuilder_Limaye_Wikitables_with_Ref(FreebaseQueryProxy queryHelper,
                                                 SolrCache cache_solr,
                                                 TableXtractorWikipedia xtractor,
                                                 String propertyFile) {
@@ -72,7 +72,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
         System.exit(0);*/
 
 //todo: this will not work!
-        FreebaseQueryHelper queryHelper =null; //= new FreebaseQueryHelper(args[2]);
+        FreebaseQueryProxy queryHelper =null; //= new FreebaseQueryProxy(args[2]);
         String in_original_limaye_folder = args[0];
         String out_gs_folder = args[1];
         String solrCache = args[3];

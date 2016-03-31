@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.sti.experiment.evaluation;
 
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.io.LTableAnnotationKeyFileReader;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -108,7 +108,7 @@ public class Evaluator_ClassOnly_IMDB_MusicBrainz {
                          String out_result_file,
                          String out_missed_file, boolean gs_NE_only) throws IOException {
         //todo: this will not work
-        FreebaseQueryHelper fb = null;//new FreebaseQueryHelper("D:\\Work\\sti\\dist/sti.properties");
+        FreebaseQueryProxy fb = null;//new FreebaseQueryProxy("D:\\Work\\sti\\dist/sti.properties");
         PrintWriter p = new PrintWriter(out_result_file);
         p.println("File,HEADER(0)_cp_y, gs_y, cp_n, p,r,f," +
                 "HEADER(1)_cp_y, gs_y, cp_n, p,r,f");

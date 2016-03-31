@@ -52,7 +52,7 @@ public class CandidateConceptGenerator {
                     }
                     if(!distinctEntities.contains(e))
                         distinctEntities.add(e);
-                    for (Clazz type : FreebaseSearchResultFilter.filterTypes(e.getTypes())) {
+                    for (Clazz type : e.getTypes()) {
                         String url = type.getId();
                         String label = type.getLabel();
                         distinctTypeStrings.put(url, label);

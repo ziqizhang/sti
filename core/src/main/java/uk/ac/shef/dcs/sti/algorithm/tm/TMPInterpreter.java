@@ -63,7 +63,7 @@ public class TMPInterpreter {
         }
         List<Pair<Integer, Pair<Double, Boolean>>> subjectColumnScores =
                 subjectColumnDetector.compute(table, ignoreColumnsArray);
-        //ignoreFactByPredicate columns that are likely to be acronyms only, because they are highly ambiguous
+        //isValidAttribute columns that are likely to be acronyms only, because they are highly ambiguous
         /*if (candidate_main_NE_columns.size() > 1) {
             Iterator<ObjObj<Integer, ObjObj<Double, Boolean>>> it = candidate_main_NE_columns.iterator();
             while (it.hasNext()) {

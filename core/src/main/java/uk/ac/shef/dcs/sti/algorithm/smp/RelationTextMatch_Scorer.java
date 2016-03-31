@@ -44,7 +44,6 @@ public class RelationTextMatch_Scorer {
                 for (int s = 0; s < subjectCellAnnotations.size(); s++) {
                     TCellAnnotation subjectEntity = subjectCellAnnotations.get(s);
                     List<Attribute> subject_entity_facts = subjectEntity.getAnnotation().getAttributes();
-                    FreebaseSearchResultFilter.filterRelations(subject_entity_facts);
                     Map<Integer, DataTypeClassifier.DataType> fact_data_types = classifyFactObjDataType(
                             subject_entity_facts
                     );

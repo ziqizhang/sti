@@ -1,7 +1,6 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentCellRanker;

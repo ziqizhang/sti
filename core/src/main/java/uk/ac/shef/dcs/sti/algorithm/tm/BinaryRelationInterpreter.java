@@ -57,7 +57,6 @@ public class BinaryRelationInterpreter {
                 System.out.println();*/
             List<Attribute> facts = /*candidateFinder.find_triplesForEntity(final_annotation.getAnnotation())*/
                     final_annotation.getAnnotation().getAttributes();
-            facts= FreebaseSearchResultFilter.filterRelations(facts);
             Map<Integer, String> values_to_match_on_the_row = new HashMap<>();
             for (int col : colTypes.keySet()) {
                 if (col != sub_column) {

@@ -25,7 +25,7 @@ public class TI_JointInference {
     //main column finder is needed to generate data features of each column (e.g., data type in a column),
     //even though we do not use it to find the main column in SMP
     protected SubjectColumnDetector main_col_finder;
-    //if there are any columns we want to ignoreFactByPredicate
+    //if there are any columns we want to isValidAttribute
     protected int[] ignoreCols;
     protected int[] forceInterpretColumn;
     protected int maxIteration;

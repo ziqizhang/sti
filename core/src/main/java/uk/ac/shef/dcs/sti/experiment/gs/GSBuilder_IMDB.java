@@ -13,7 +13,7 @@ import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorIMDB;
 import uk.ac.shef.dcs.sti.xtractor.TableXtractorIMDB;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseTopic;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
 
 import java.io.*;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ public class GSBuilder_IMDB {
     public static void main(String[] args) throws IOException {
         GSBuilder_IMDB gsBuilder = new GSBuilder_IMDB();
         //todo:this will not work
-        FreebaseQueryHelper queryHelper = null; //new FreebaseQueryHelper(args[2]);
+        FreebaseQueryProxy queryHelper = null; //new FreebaseQueryProxy(args[2]);
         TAnnotationWriter writer = new TAnnotationWriter(new TripleGenerator("http://www.freebase.com", "http://dcs.shef.ac.uk"));
         String inFolder = args[0];
         String outFolder = args[1];
@@ -85,7 +85,7 @@ public class GSBuilder_IMDB {
         }
     }
 
-    public TAnnotation annotate(Table table, FreebaseQueryHelper queryHelper) throws IOException {
+    public TAnnotation annotate(Table table, FreebaseQueryProxy queryHelper) throws IOException {
         TAnnotation tableAnnotation = new TAnnotation(table.getNumRows(), table.getNumCols());
         for (int row = 0; row < table.getNumRows(); row++) {
             TContentCell ltc = table.getContentCell(row, 0);

@@ -62,8 +62,6 @@ public class BaselineEntityScorer implements EntityScorer {
         List<Attribute> facts = candidate.getAttributes();
         List<String> bag_of_words_for_entity = new ArrayList<String>();
         for (Attribute f : facts) {
-            if (FreebaseSearchResultFilter.ignoreFactFromBOW(f.getRelation()))
-                continue;
             String value = f.getValue();
             if (!StringUtils.isPath(value))
                 bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));

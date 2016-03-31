@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.experiment.evaluation;
 
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
 import uk.ac.shef.dcs.sti.io.LTableAnnotationKeyFileReader;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -121,7 +121,7 @@ public class Evaluator_RelationOnly_IMDB_MusicBrainz {
         p.println("File,REL(0)_cp_y, gs_y, cp_n, p,r,f," +
                 "REL(1)_cp_y, gs_y, cp_n, p,r,f");
         //todo: this will not work
-        FreebaseQueryHelper fb = null;//new FreebaseQueryHelper("D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties");
+        FreebaseQueryProxy fb = null;//new FreebaseQueryProxy("D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties");
 
         PrintWriter out_missed_writer = new PrintWriter(out_missed_file);
         Set<String> processed = new HashSet<String>();

@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.experiment.gs;
 
 import org.apache.any23.util.FileUtils;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
 import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
@@ -13,7 +14,6 @@ import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorMusicBrainz;
 import uk.ac.shef.dcs.sti.xtractor.TableXtractorMusicBrainz;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseTopic;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class GSBuilder_MusicBrainz {
     public static void main(String[] args) throws IOException {
         GSBuilder_MusicBrainz gsBuilder = new GSBuilder_MusicBrainz();
         //todo:this willn ot work
-        FreebaseQueryHelper queryHelper = null;//new FreebaseQueryHelper(args[2]);
+        FreebaseQueryProxy queryHelper = null;//new FreebaseQueryProxy(args[2]);
         TAnnotationWriter writer = new TAnnotationWriter(new TripleGenerator("http://www.musicbrainz.org", "http://dcs.shef.ac.uk"));
         String inFolder = args[0];
         String outFolder = args[1];
@@ -86,7 +86,7 @@ public class GSBuilder_MusicBrainz {
         }
     }
 
-    public TAnnotation annotate(Table table, FreebaseQueryHelper queryHelper) throws IOException {
+    public TAnnotation annotate(Table table, FreebaseQueryProxy queryHelper) throws IOException {
         Map<String, List<FreebaseTopic>> cache_for_table = new HashMap<String, List<FreebaseTopic>>();
 
         TAnnotation tableAnnotation = new TAnnotation(table.getNumRows(), table.getNumCols());

@@ -30,10 +30,10 @@ import uk.ac.shef.dcs.util.StringUtils;
  * Time: 22:06
  * To change this template use File | Settings | File Templates.
  */
-public class FreebaseQueryHelper {
+public class FreebaseQueryProxy {
 
 
-    public static Logger LOG = Logger.getLogger(FreebaseQueryHelper.class.getName());
+    public static Logger LOG = Logger.getLogger(FreebaseQueryProxy.class.getName());
     //private String BASE_QUERY_URL="https://www.googleapis.com/freebase/v1/mqlread";
     private JSONParser jsonParser;
     private FreebaseQueryInterrupter interrupter;
@@ -57,7 +57,7 @@ public class FreebaseQueryHelper {
 
     private static final String FB_QUERY_PARAM_LIMIT="fb.query.param.limit";
 
-    public FreebaseQueryHelper(Properties properties) throws IOException {
+    public FreebaseQueryProxy(Properties properties) throws IOException {
         this.properties=properties;
         interrupter = new FreebaseQueryInterrupter(Integer.valueOf(properties.get(FB_MAX_QUERY_PER_SECOND).toString()),
                 Integer.valueOf(properties.get(FB_MAX_QUERY_PER_DAY).toString()));
@@ -81,7 +81,7 @@ public class FreebaseQueryHelper {
         try {
             JSONObject topic = (JSONObject) jsonParser.parse(httpResponse.parseAsString());
             JSONObject properties = (JSONObject) topic.get("property");
-            parsePropertiesOfTopicAPI(properties, res, false);
+            parseTopicAPIResult(properties, res, false);
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
@@ -102,7 +102,7 @@ public class FreebaseQueryHelper {
             JSONObject topic = (JSONObject) jsonParser.parse(httpResponse.parseAsString());
             JSONObject properties = (JSONObject) topic.get("property");
             if(properties!=null)
-                parsePropertiesOfTopicAPI(properties, res, false);
+                parseTopicAPIResult(properties, res, false);
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
@@ -124,7 +124,7 @@ public class FreebaseQueryHelper {
         try {
             JSONObject topic = (JSONObject) jsonParser.parse(httpResponse.parseAsString());
             JSONObject properties = (JSONObject) topic.get("property");
-            parsePropertiesOfTopicAPI(properties, res, false);
+            parseTopicAPIResult(properties, res, false);
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
@@ -133,7 +133,7 @@ public class FreebaseQueryHelper {
 
     }
 
-    private void parsePropertiesOfTopicAPI(JSONObject json, List<Attribute> out, boolean nested) {
+    private void parseTopicAPIResult(JSONObject json, List<Attribute> out, boolean nested) {
         /*if(json==null)
             System.out.println();*/
         Iterator<String> prop_keys = json.keySet().iterator();
@@ -152,7 +152,7 @@ public class FreebaseQueryHelper {
         }
     }
 
-    private FreebaseTopic parseProperties_of_searchapi(JSONObject json) {
+    private FreebaseTopic parseSearchAPIResult(JSONObject json) {
         FreebaseTopic obj = new FreebaseTopic(json.get("mid").toString());
         Object o = json.get("mid");
         if (o != null)
@@ -172,7 +172,7 @@ public class FreebaseQueryHelper {
             if (skipCompound) {
                 more_props = key.get("property");
                 if (more_props != null)
-                    parsePropertiesOfTopicAPI((JSONObject) more_props, out, true);
+                    parseTopicAPIResult((JSONObject) more_props, out, true);
                 continue;
             }
 
@@ -235,7 +235,7 @@ public class FreebaseQueryHelper {
             JSONArray results = (JSONArray) response.get("result");
             int count = 0;
             for (Object result : results) {
-                FreebaseTopic top = parseProperties_of_searchapi((JSONObject) result);
+                FreebaseTopic top = parseSearchAPIResult((JSONObject) result);
 
                 if (count < maxResult) {
                     if (tokenMatch) {
@@ -502,7 +502,7 @@ public class FreebaseQueryHelper {
     }
 
     /*public static void main(String[] args) throws IOException {
-        FreebaseQueryHelper helper = new FreebaseQueryHelper("D:\\Work\\lodiedata\\tableminer_gs/freebase.properties");
+        FreebaseQueryProxy helper = new FreebaseQueryProxy("D:\\Work\\lodiedata\\tableminer_gs/freebase.properties");
         List<String> artist= helper.mqlapi_instances_of_type("/music/artist",10000);
         System.out.println(artist);
     }*/

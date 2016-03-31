@@ -32,7 +32,6 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
             for (int s = 0; s < subjectCellAnnotations.size(); s++) { //for each candidate subject entity
                 TCellAnnotation sbjEntity = subjectCellAnnotations.get(s);
                 List<Attribute> sbjEntityFacts = sbjEntity.getAnnotation().getAttributes(); //get the facts of that sbj ent
-                sbjEntityFacts = FreebaseSearchResultFilter.filterRelations(sbjEntityFacts);
                 Map<Integer, DataTypeClassifier.DataType> fact_data_types = classifyFactObjDataType(
                         sbjEntityFacts
                 );
@@ -111,7 +110,6 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
             for (int s = 0; s < subjectHeaderColumnCandidates.size(); s++) {
                 HeaderAnnotation sbjCandidates = subjectHeaderColumnCandidates.get(s);
                 List<Attribute> sbjCandidateFacts = kbSearch.findAttributesOfConcept(sbjCandidates.getAnnotation_url());
-                sbjCandidateFacts = FreebaseSearchResultFilter.filterRelations(sbjCandidateFacts);
                 Map<Integer, DataTypeClassifier.DataType> factObjDataTypes = classifyFactObjDataType(
                         sbjCandidateFacts
                 );
@@ -174,9 +172,9 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                                                       int relationFrom, int relationTo,
                                                                       double maxScore) {
         //todo: false relation added to highly general types (person, religious_leader_title), maybe use only most specific type of sbj, obj
-        for (Clazz sbjType : FreebaseSearchResultFilter.filterTypes(sbjEntity.getAnnotation().getTypes())) {
+        for (Clazz sbjType : sbjEntity.getAnnotation().getTypes()) {
             for (TCellAnnotation objEntity : matchedObjCellCandidates) {
-                for (Clazz objType : FreebaseSearchResultFilter.filterTypes(objEntity.getAnnotation().getTypes())) {
+                for (Clazz objType : objEntity.getAnnotation().getTypes()) {
                     if (sbjType.getId().equals(objType.getId())) continue;
                     tableAnnotation.setScore_conceptPairAndRelation_instanceEvidence(entityRow,
                             sbjType.getId(),
@@ -291,7 +289,6 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                 for (int s = 0; s < subjectCellAnnotations.size(); s++) { //for each candidate subject entity
                     TCellAnnotation sbjEntity = subjectCellAnnotations.get(s);
                     List<Attribute> sbjEntityFacts = sbjEntity.getAnnotation().getAttributes(); //get the facts of that sbj ent
-                    sbjEntityFacts = FreebaseSearchResultFilter.filterRelations(sbjEntityFacts);
 
                     for (Attribute f : sbjEntityFacts) {
                         for (HeaderBinaryRelationAnnotation hbr : candidateRelations) {

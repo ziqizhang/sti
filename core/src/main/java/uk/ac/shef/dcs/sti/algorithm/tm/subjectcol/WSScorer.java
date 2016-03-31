@@ -94,7 +94,7 @@ public class WSScorer {
         Map<String, Set<Integer>> offsets = new HashMap<>();
         for (String v : normalizedValues) {
             //v=normalize(v);
-            if (v.length() < 1) continue; //ignoreFactByPredicate 1 char tokens
+            if (v.length() < 1) continue; //isValidAttribute 1 char tokens
             Set<Integer> os = counter.countOffsets(v, context);
             offsets.put(v, os);
         }
@@ -233,7 +233,7 @@ public class WSScorer {
         if (stopWords.contains(t))
             return true;
         try {
-            Long.valueOf(t); //ignoreFactByPredicate numbers
+            Long.valueOf(t); //isValidAttribute numbers
             return true;
         } catch (Exception e) {
         }

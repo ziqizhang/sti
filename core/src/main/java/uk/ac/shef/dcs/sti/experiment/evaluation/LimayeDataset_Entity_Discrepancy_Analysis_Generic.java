@@ -324,7 +324,7 @@ public class LimayeDataset_Entity_Discrepancy_Analysis_Generic {
                     line.append("\t" + reference_entity_annotation_folder_identifier + "=").
                             append(reference_entity_annotation + "|").append(
                             extractName(
-                                    searcher.findAttributesOfEntityCandidates(new Entity(reference_entity_annotation, reference_entity_annotation)))
+                                    searcher.findAttributesOfEntities(new Entity(reference_entity_annotation, reference_entity_annotation)))
                     );
 
                     for (Map.Entry<String, Map<String, String>> e : map_method_id_to_entity_annotations.entrySet()) {
@@ -340,7 +340,7 @@ public class LimayeDataset_Entity_Discrepancy_Analysis_Generic {
                             line.append("\t").append(methodKey).append("=").append(ann).append("|null");
                         } else {
                             line.append("\t").append(methodKey).append("=").append(ann).append("|").append(
-                                    extractName(searcher.findAttributesOfEntityCandidates(new Entity(ann, ann)))
+                                    extractName(searcher.findAttributesOfEntities(new Entity(ann, ann)))
 
                             );
                         }

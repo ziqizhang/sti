@@ -43,7 +43,7 @@ public class MainInterpreter_old {
         //1. find the main subject column of this table
         System.out.println(">\t Detecting main column...");
         List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
-        //ignoreFactByPredicate columns that are likely to be acronyms only, because they are highly ambiguous
+        //isValidAttribute columns that are likely to be acronyms only, because they are highly ambiguous
         /*if (candidate_main_NE_columns.size() > 1) {
             Iterator<ObjObj<Integer, ObjObj<Double, Boolean>>> it = candidate_main_NE_columns.iterator();
             while (it.hasNext()) {

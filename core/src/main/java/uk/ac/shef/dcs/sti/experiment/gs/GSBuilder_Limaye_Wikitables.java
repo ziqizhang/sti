@@ -10,6 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
 import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.TColumnFeatureGenerator;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
@@ -21,7 +22,6 @@ import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorWikipediaGS;
 import uk.ac.shef.dcs.sti.xtractor.TableXtractorWikipedia;
 import uk.ac.shef.dcs.sti.experiment.LimayeDatasetLoader;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryHelper;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.util.CollectionUtils;
 import uk.ac.shef.dcs.util.FileUtils;
@@ -51,7 +51,7 @@ import java.util.logging.Logger;
 /**
  */
 public class GSBuilder_Limaye_Wikitables {
-    protected FreebaseQueryHelper queryHelper;
+    protected FreebaseQueryProxy queryHelper;
     protected SolrCache solrCache;
     protected TableXtractorWikipedia xtractor;
     protected WebSearch searcher;
@@ -61,7 +61,7 @@ public class GSBuilder_Limaye_Wikitables {
 
     protected static Logger log = Logger.getLogger(GSBuilder_Limaye_Wikitables.class.getName());
 
-    public GSBuilder_Limaye_Wikitables(FreebaseQueryHelper queryHelper,
+    public GSBuilder_Limaye_Wikitables(FreebaseQueryProxy queryHelper,
                                        SolrCache cache_solr,
                                        TableXtractorWikipedia xtractor,
                                        String propertyFile) throws IOException {
@@ -103,7 +103,7 @@ public class GSBuilder_Limaye_Wikitables {
         System.exit(0);*/
 
 //todo: this will not work
-        FreebaseQueryHelper queryHelper = null; //new FreebaseQueryHelper(args[3]);
+        FreebaseQueryProxy queryHelper = null; //new FreebaseQueryProxy(args[3]);
         String in_original_limaye_folder = args[0];
         String in_original_limaye_annotation_folder = args[1];
         String out_gs_folder = args[2];
