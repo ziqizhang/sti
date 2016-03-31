@@ -26,7 +26,7 @@ public class ChangeMessageBroadcaster {
         ObjectMatrix2D messages = new SparseObjectMatrix2D(table.getNumRows(), table.getNumCols());
         //messages by column header
         for (int col = 0; col < table.getNumCols(); col++) {
-            List<HeaderAnnotation> bestHeaderAnnotations = tableAnnotation.getBestHeaderAnnotations(col);
+            List<TColumnHeaderAnnotation> bestHeaderAnnotations = tableAnnotation.getBestHeaderAnnotations(col);
             if (bestHeaderAnnotations.size() == 0)
                 continue;
 
@@ -36,8 +36,8 @@ public class ChangeMessageBroadcaster {
                     continue;
 
                 List<String> headerAnnotationStrings = new ArrayList<String>();
-                for (HeaderAnnotation ha : bestHeaderAnnotations)
-                    headerAnnotationStrings.add(ha.getAnnotation_url());
+                for (TColumnHeaderAnnotation ha : bestHeaderAnnotations)
+                    headerAnnotationStrings.add(ha.getAnnotation().getId());
                 boolean sendChange = false;
                 for (TCellAnnotation best : cellAnnotations) { //this cell can have multiple annotations with the same highest score
                     //we need to check everyone of them. if any one's type does not overlap with the header annotations, it need changing
@@ -50,9 +50,9 @@ public class ChangeMessageBroadcaster {
                 }
                 if (sendChange) {
                     ChangeMessage m = new ChangeMessage();
-                    for (HeaderAnnotation ha : bestHeaderAnnotations) {
+                    for (TColumnHeaderAnnotation ha : bestHeaderAnnotations) {
                         m.setConfidence(ha.getFinalScore());
-                        m.addLabel(ha.getAnnotation_url());
+                        m.addLabel(ha.getAnnotation().getId());
                         updateMessageForCell(messages, row, col, m);
                     }
                 }

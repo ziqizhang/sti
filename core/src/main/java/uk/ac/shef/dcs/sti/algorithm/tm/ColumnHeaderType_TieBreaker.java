@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
-import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
+import uk.ac.shef.dcs.sti.rep.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 
@@ -13,11 +13,11 @@ public class ColumnHeaderType_TieBreaker {
     public static List<String> consistent_domain_freebase(List<String> candidateTypes, TAnnotation tab_annotations, Table table) {
         Set<String> domain_words = new HashSet<String>();
         for (int col = 0; col < table.getNumCols(); col++) {
-            List<HeaderAnnotation> annotations = tab_annotations.getBestHeaderAnnotations(col);
+            List<TColumnHeaderAnnotation> annotations = tab_annotations.getBestHeaderAnnotations(col);
             if (annotations == null || annotations.size() == 0)
                 continue;
-            for (HeaderAnnotation ha : annotations) {
-                String type = ha.getAnnotation_url();
+            for (TColumnHeaderAnnotation ha : annotations) {
+                String type = ha.getAnnotation().getId();
                 int slash = type.lastIndexOf("/");
                 if (slash != -1)
                     type = type.substring(0, slash).trim();

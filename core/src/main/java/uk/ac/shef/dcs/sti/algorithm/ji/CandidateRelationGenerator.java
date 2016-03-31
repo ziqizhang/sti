@@ -160,8 +160,8 @@ public class CandidateRelationGenerator {
                                                                  TAnnotation_JI_Freebase annotation,
                                                                  Map<Integer, DataTypeClassifier.DataType> colTypes,
                                                                  KBSearch kbSearch) throws KBSearchException {
-        HeaderAnnotation[] candidates_col1 = annotation.getHeaderAnnotation(sbjCol);
-        HeaderAnnotation[] candidates_col2 = annotation.getHeaderAnnotation(objCol);
+        TColumnHeaderAnnotation[] candidates_col1 = annotation.getHeaderAnnotation(sbjCol);
+        TColumnHeaderAnnotation[] candidates_col2 = annotation.getHeaderAnnotation(objCol);
         matcher.match_headerPairs(
                 Arrays.asList(candidates_col1),
                 sbjCol,

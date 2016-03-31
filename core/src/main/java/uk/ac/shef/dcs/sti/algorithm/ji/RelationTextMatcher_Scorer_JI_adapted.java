@@ -10,7 +10,6 @@ import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.sti.rep.*;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -99,17 +98,17 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
     }//if block checking whether the potential subject-object cell pairs are valid
 
 
-    public void match_headerPairs(List<HeaderAnnotation> subjectHeaderColumnCandidates,
+    public void match_headerPairs(List<TColumnHeaderAnnotation> subjectHeaderColumnCandidates,
                                   int sbjCol,
-                                  List<HeaderAnnotation> objectHeaderColumnCandidates,
+                                  List<TColumnHeaderAnnotation> objectHeaderColumnCandidates,
                                   int objCol,
                                   DataTypeClassifier.DataType objectColumnDataType,
                                   TAnnotation_JI_Freebase annotation,
                                   KBSearch kbSearch) throws KBSearchException {
         if (subjectHeaderColumnCandidates.size() > 0 && objectHeaderColumnCandidates.size() > 0) {
             for (int s = 0; s < subjectHeaderColumnCandidates.size(); s++) {
-                HeaderAnnotation sbjCandidates = subjectHeaderColumnCandidates.get(s);
-                List<Attribute> sbjCandidateFacts = kbSearch.findAttributesOfClazz(sbjCandidates.getAnnotation_url());
+                TColumnHeaderAnnotation sbjCandidates = subjectHeaderColumnCandidates.get(s);
+                List<Attribute> sbjCandidateFacts = kbSearch.findAttributesOfClazz(sbjCandidates.getAnnotation().getId());
                 Map<Integer, DataTypeClassifier.DataType> factObjDataTypes = classifyFactObjDataType(
                         sbjCandidateFacts
                 );
@@ -199,7 +198,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
 
     private void scoreAgainstSbjFacts(
             DataTypeClassifier.DataType objectColumnDataType,
-            List<HeaderAnnotation> objectHeaderColumnCandidates,
+            List<TColumnHeaderAnnotation> objectHeaderColumnCandidates,
             List<Attribute> sbjCandidateFacts,
             Map<Integer, DataTypeClassifier.DataType> fact_data_types,
             Map<Integer, Double> factIdx_matchedScores,
@@ -217,8 +216,8 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
             double maxScore = 0.0;
             Map<Double, List<String>> mchScore_objHeaderCandidates = new HashMap<Double, List<String>>();
             for (int o = 0; o < objectHeaderColumnCandidates.size(); o++) {
-                String objHeaderConceptURL = objectHeaderColumnCandidates.get(o).getAnnotation_url();
-                String objHeaderConceptLabel = objectHeaderColumnCandidates.get(o).getAnnotation_label();
+                String objHeaderConceptURL = objectHeaderColumnCandidates.get(o).getAnnotation().getId();
+                String objHeaderConceptLabel = objectHeaderColumnCandidates.get(o).getAnnotation().getLabel();
 
                 if (objHeaderConceptURL != null) {
                     double scoreAgainstObjHeaderConcept = UtilRelationMatcher.
@@ -245,13 +244,13 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
     }
 
     private void createCandidateAnnotation(Attribute fact,
-                                           HeaderAnnotation sbjCandidate,
+                                           TColumnHeaderAnnotation sbjCandidate,
                                            List<String> objectConcepts,
                                            TAnnotation_JI_Freebase annotation,
                                            int col1,
                                            int col2) {
         String relation_key = HeaderBinaryRelationAnnotation.toStringExpanded(col1, col2, fact.getRelation());
-        String subjectConcept = sbjCandidate.getAnnotation_url();
+        String subjectConcept = sbjCandidate.getAnnotation().getId();
         if (objectConcepts != null) {
             for (String oc : objectConcepts) {
                 annotation.setScore_conceptPairAndRelation_conceptEvidence(subjectConcept, relation_key, oc, 1.0);

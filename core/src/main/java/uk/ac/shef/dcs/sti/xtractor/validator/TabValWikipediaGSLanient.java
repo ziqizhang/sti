@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.xtractor.validator;
 
-import uk.ac.shef.dcs.sti.rep.TContentCell;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 
 /**
@@ -51,7 +51,7 @@ public class TabValWikipediaGSLanient extends TabValGeneric {
         for (int c = 0; c < table.getNumCols(); c++) {
             int countLengthyPerCol = 0, countNumericPerCol = 0;
             for (int r = 0; r < table.getNumRows(); r++) {
-                TContentCell ltc = (TContentCell) table.getContentCell(r, c);
+                TCell ltc = (TCell) table.getContentCell(r, c);
                 String tcText = ltc.getText();
                 if (isEmptyMediaWikiString(tcText))
                     countEmpty++;
@@ -104,7 +104,7 @@ public class TabValWikipediaGSLanient extends TabValGeneric {
 
 
     @Deprecated
-    public static boolean isLengthyCell(TContentCell tc) {
+    public static boolean isLengthyCell(TCell tc) {
         /*if (tc.getValuesAndURIs().size() > THRESHOLD_LENGTHY_CELL_MAXMULTIVALUEITEM)
             return true;
 
@@ -125,7 +125,7 @@ public class TabValWikipediaGSLanient extends TabValGeneric {
     }
 
     @Deprecated
-    public static boolean isMultiValuedCell(TContentCell tc) {
+    public static boolean isMultiValuedCell(TCell tc) {
         //return tc.getValuesAndURIs().size() > 1;
         return false;
     }

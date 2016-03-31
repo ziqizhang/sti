@@ -7,7 +7,7 @@ import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentRowRanker;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.algorithm.tm.stopping.StoppingCriteria;
-import uk.ac.shef.dcs.sti.rep.TContentCell;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TColumnHeader;
 import uk.ac.shef.dcs.util.SolrCache;
@@ -71,7 +71,7 @@ public class TColumnFeatureGenerator {
             boolean hasParagraph=false;
 
             for (int row = 0; row < table.getNumRows(); row++) {
-                TContentCell tcc = table.getContentCell(row, col);
+                TCell tcc = table.getContentCell(row, col);
                 String textContent = tcc.getText();
                 if (textContent != null) {
                     DataTypeClassifier.DataType dt = DataTypeClassifier.classify(textContent);
@@ -213,7 +213,7 @@ public class TColumnFeatureGenerator {
             Set<String> uniqueTokens_onRows = new HashSet<>();
             int totalTokens = 0;
             for (int r = 0; r < table.getNumRows(); r++) {
-                TContentCell c = table.getContentCell(r, col);
+                TCell c = table.getContentCell(r, col);
                 uniqueValues_onRows.add(c.getText());
 
                 for (String tok : c.getText().split("\\s+")) {
@@ -264,7 +264,7 @@ public class TColumnFeatureGenerator {
             String[] values_on_the_row = new String[searchableCols.size()];
             for (int c = 0; c < searchableCols.size(); c++) {
                 int colId = searchableCols.get(c);
-                TContentCell cell = table.getContentCell(r, colId);
+                TCell cell = table.getContentCell(r, colId);
                 values_on_the_row[c] = wsScorer.normalize(cell.getText());
             }
 
@@ -317,7 +317,7 @@ public class TColumnFeatureGenerator {
             String[] values_in_the_cell = new String[searchableCols.size()];
             for (int c = 0; c < searchableCols.size(); c++) {
                 int colId = searchableCols.get(c);
-                TContentCell cell = table.getContentCell(r, colId);
+                TCell cell = table.getContentCell(r, colId);
                 values_in_the_cell[c] = wsScorer.normalize(cell.getText());
             }
 

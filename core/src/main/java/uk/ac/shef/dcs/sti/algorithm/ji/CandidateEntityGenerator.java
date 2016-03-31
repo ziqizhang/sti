@@ -5,12 +5,11 @@ import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
-import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -42,7 +41,7 @@ public class CandidateEntityGenerator {
                 return o2.getValue().compareTo(o1.getValue());
             }
         });
-        TContentCell tcc = table.getContentCell(row, column);
+        TCell tcc = table.getContentCell(row, column);
         String text = tcc.getText().trim().replaceAll("[^a-zA-Z0-9]", "");
         if (text.length() > 2) {
             TCellAnnotation[] annotations = new TCellAnnotation[scores.size()];
@@ -64,7 +63,7 @@ public class CandidateEntityGenerator {
     ) throws KBSearchException {
         //do disambiguation scoring
         //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
-        TContentCell cell = table.getContentCell(row, column);
+        TCell cell = table.getContentCell(row, column);
         System.out.print("\t\t>> Candidate Entity Generator, position at (" + row + "," + column + ") " +
                 cell);
        /* if(row==11)

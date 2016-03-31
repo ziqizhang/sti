@@ -101,10 +101,10 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
             } else {
                 //the related column is not entity column, simply create header annotation using the most frequent
                 //relation label
-                HeaderAnnotation[] hAnnotations = new HeaderAnnotation[aggregated_scores_for_relations.size()];
+                TColumnHeaderAnnotation[] hAnnotations = new TColumnHeaderAnnotation[aggregated_scores_for_relations.size()];
                 for (int i = 0; i < aggregated_scores_for_relations.size(); i++) {
                     ObjObj<String, Double> candidate = aggregated_scores_for_relations.get(i);
-                    HeaderAnnotation hAnn = new HeaderAnnotation(table.getColumnHeader(subcol_objcol.getObjectCol()).getHeaderText(),
+                    TColumnHeaderAnnotation hAnn = new TColumnHeaderAnnotation(table.getColumnHeader(subcol_objcol.getObjectCol()).getHeaderText(),
                             candidate.getMainObject(), candidate.getMainObject(),
                             candidate.getOtherObject());
                     hAnnotations[i] = hAnn;
@@ -177,7 +177,7 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
                            Map<Integer, List<ObjObj<String, String>>> rows_with_entity_ids,
                            int column) throws IOException {
 
-        //Map<String, HeaderAnnotation> candidate_header_annotations = new HashMap<String, HeaderAnnotation>();
+        //Map<String, TColumnHeaderAnnotation> candidate_header_annotations = new HashMap<String, TColumnHeaderAnnotation>();
         //count types that are known for already mapped entities (using their ids)
 
         //1 initialise candidate entities on every row, create the "skip rows" list used by ColumnLearner_LEARN.learn method
@@ -210,9 +210,9 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
                 //update header annotation
                 */
 /*for (String[] ct : candidate_types) {
-                    HeaderAnnotation hAnn = candidate_header_annotations.get(ct);
+                    TColumnHeaderAnnotation hAnn = candidate_header_annotations.get(ct);
                     if (hAnn == null)
-                        hAnn = new HeaderAnnotation(table.getColumnHeader(column).getHeaderText(), ct[0], ct[1], 0.0);
+                        hAnn = new TColumnHeaderAnnotation(table.getColumnHeader(column).getHeaderText(), ct[0], ct[1], 0.0);
                     hAnn.addSupportingRow(row);
                     hAnn.setScore(hAnn.getScore() + mapped_score);
                     candidate_header_annotations.put(ct[0], hAnn);

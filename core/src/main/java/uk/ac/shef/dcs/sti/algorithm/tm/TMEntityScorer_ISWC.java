@@ -6,7 +6,7 @@ import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.TContentCell;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
@@ -54,7 +54,7 @@ public class TMEntityScorer_ISWC extends EntityScorer {
         String headerText = table.getColumnHeader(sourceColumnIndex).getHeaderText();
 
         String entity_name = candidate.getLabel();
-        Set<String> bag_of_words_for_entity_name = new HashSet<String>(StringUtils.toBagOfWords(entity_name, true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+        Set<String> bag_of_words_for_entity_name = new HashSet<String>(StringUtils.toBagOfWords(entity_name, true, true,TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
 
 
         /* BOW OF THE ENTITY*/
@@ -66,7 +66,7 @@ public class TMEntityScorer_ISWC extends EntityScorer {
                 continue;
             String value = f.getValue();
             if (!StringUtils.isPath(value))
-                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true,TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
             else
                 bag_of_words_for_entity.add(value);
         }
@@ -84,12 +84,12 @@ public class TMEntityScorer_ISWC extends EntityScorer {
                         DataTypeClassifier.DataType.ORDERED_NUMBER
                 ))
                     continue;
-                TContentCell tcc = table.getContentCell(row, col);
-                bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+                TCell tcc = table.getContentCell(row, col);
+                bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true,TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
             }
         }
         bag_of_words_for_context.addAll(StringUtils.toBagOfWords(   //also add the column header as the row context of this entity
-                headerText, true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+                headerText, true, true,TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
 
         if (lemmatizer != null)
             bag_of_words_for_context = lemmatizer.lemmatize(bag_of_words_for_context);
@@ -104,8 +104,8 @@ public class TMEntityScorer_ISWC extends EntityScorer {
         for (int row = 0; row < table.getNumRows(); row++) {
             if (otherRows.contains(row))
                 continue;
-            TContentCell tcc = table.getContentCell(row, sourceColumnIndex);
-            bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+            TCell tcc = table.getContentCell(row, sourceColumnIndex);
+            bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true,TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
         }
         if (lemmatizer != null)
             bag_of_words_for_context = lemmatizer.lemmatize(bag_of_words_for_context);
@@ -118,7 +118,7 @@ public class TMEntityScorer_ISWC extends EntityScorer {
         /*BOW OF table table context (from paragraphs etc)*/
         bag_of_words_for_context.clear();
         for (TContext tc : table.getContexts()) {
-            bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tc.getText(), true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+            bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tc.getText(), true, true,TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
         }
         if (lemmatizer != null)
             bag_of_words_for_context = lemmatizer.lemmatize(bag_of_words_for_context);
@@ -142,7 +142,7 @@ public class TMEntityScorer_ISWC extends EntityScorer {
             for (Attribute f : ec.getAttributes()) {
                 String value = f.getValue();
                 if (!StringUtils.isPath(value))
-                    bag_of_words_for_context.addAll(StringUtils.toBagOfWords(value, true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+                    bag_of_words_for_context.addAll(StringUtils.toBagOfWords(value, true, true,TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
                 else
                     bag_of_words_for_context.add(value);
             }
@@ -171,7 +171,7 @@ public class TMEntityScorer_ISWC extends EntityScorer {
 
         /*NAME MATCH SCORE */
         String cell_text = table.getContentCell(otherRows.get(0), sourceColumnIndex).getText();
-        Set<String> bag_of_words_for_cell_text = new HashSet<String>(StringUtils.toBagOfWords(cell_text, true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+        Set<String> bag_of_words_for_cell_text = new HashSet<String>(StringUtils.toBagOfWords(cell_text, true, true,TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
         double name_score = CollectionUtils.computeDice(bag_of_words_for_cell_text, bag_of_words_for_entity_name);
         Set<String> intersection = new HashSet<String>(bag_of_words_for_cell_text);
         intersection.retainAll(bag_of_words_for_entity_name);
@@ -186,7 +186,7 @@ public class TMEntityScorer_ISWC extends EntityScorer {
         scoreMap.put(TCellAnnotation.SCORE_NAME_MATCH, name_score);
 */
         Set<String> headerTokens = new HashSet<String>(lemmatizer.lemmatize(
-                StringUtils.toBagOfWords(headerText, true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR)
+                StringUtils.toBagOfWords(headerText, true, true,TableMinerConstants.BOW_DISCARD_SINGLE_CHAR)
         ));
         headerTokens.removeAll(stopWords);
         double name_and_header_match_score = CollectionUtils.computeDice(bag_of_words_for_entity_name, headerTokens);

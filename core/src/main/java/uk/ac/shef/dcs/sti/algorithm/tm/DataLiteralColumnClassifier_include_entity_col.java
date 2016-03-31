@@ -11,7 +11,6 @@ import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.*;
 import uk.ac.shef.dcs.util.CollectionUtils;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -87,24 +86,17 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                     new HashMap<>();
 
             //for those candidates that belong to the major property/relation, are they entities?
-            if (TableMinerConstants.CLASSIFICATION_CANDIDATE_CONTRIBUTION_METHOD == 0)
+
                 select_candidate_entities_by_best_relation(rows_annotated_with_relation,
                         highest_scoring_relation_annotations,
                         rows_with_entities_and_matched_scores,
                         rows_with_entities_and_entity_ids);
-            else {
-                select_candidate_entities_by_all_relation(rows_annotated_with_relation,
-                        highest_scoring_relation_annotations,
-                        rows_with_entities_and_matched_scores,
-                        rows_with_entities_and_entity_ids);
-            }
+
             if (rows_with_entities_and_entity_ids.size() > 0) {
                 Map<Clazz, Double> expected_types_of_relation;
-                if (TableMinerConstants.CLASSIFICATION_CANDIDATE_CONTRIBUTION_METHOD == 0) {
+
                     expected_types_of_relation = create_candidate_type_objects_best_contribute(sorted_scores_for_relations);
-                } else {
-                    expected_types_of_relation = create_candidate_type_objects_all_contribute(sorted_scores_for_relations);
-                }
+
                 interpret(
                         table,
                         annotations,
@@ -117,30 +109,30 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
             } else {
                 //the related column is not entity column, simply create header annotation using the most frequent
                 //relation label
-                Set<HeaderAnnotation> candidates = new HashSet<HeaderAnnotation>();
+                Set<TColumnHeaderAnnotation> candidates = new HashSet<TColumnHeaderAnnotation>();
                 List<HeaderBinaryRelationAnnotation> relations =
                         annotations.getRelationAnnotations_across_columns().
                                 get(subcol_objcol);
                 for (HeaderBinaryRelationAnnotation hbr : relations) {
-                    HeaderAnnotation hAnn = new HeaderAnnotation(table.getColumnHeader(subcol_objcol.getObjectCol()).getHeaderText(),
-                            hbr.getAnnotation_url(), hbr.getAnnotation_label(),
+                    TColumnHeaderAnnotation hAnn = new TColumnHeaderAnnotation(table.getColumnHeader(subcol_objcol.getObjectCol()).getHeaderText(),
+                            new Clazz(hbr.getAnnotation_url(), hbr.getAnnotation_label()),
                             hbr.getFinalScore());
                     candidates.add(hAnn);
                 }
-                /* classification_scorer.score_context(candidates, table, subcol_objcol.getObjectCol(), false);
-                                for (HeaderAnnotation ha : candidates)
+                /* classification_scorer.computeCCScore(candidates, table, subcol_objcol.getObjectCol(), false);
+                                for (TColumnHeaderAnnotation ha : candidates)
                                     classification_scorer.computeFinal(ha, table.getNumRows());
-                                List<HeaderAnnotation> sorted = new ArrayList<HeaderAnnotation>(candidates);
+                                List<TColumnHeaderAnnotation> sorted = new ArrayList<TColumnHeaderAnnotation>(candidates);
                                 Collections.sort(sorted);
-                                HeaderAnnotation[] hAnnotations = new HeaderAnnotation[aggregated_scores_for_relations.size()];
+                                TColumnHeaderAnnotation[] hAnnotations = new TColumnHeaderAnnotation[aggregated_scores_for_relations.size()];
                                 for (int i = 0; i < hAnnotations.length; i++) {
                                     hAnnotations[i] = sorted.get(i);
                                 }
 
                 */
-                List<HeaderAnnotation> sorted = new ArrayList<HeaderAnnotation>(candidates);
+                List<TColumnHeaderAnnotation> sorted = new ArrayList<TColumnHeaderAnnotation>(candidates);
                 Collections.sort(sorted);
-                annotations.setHeaderAnnotation(subcol_objcol.getObjectCol(), sorted.toArray(new HeaderAnnotation[0]));
+                annotations.setHeaderAnnotation(subcol_objcol.getObjectCol(), sorted.toArray(new TColumnHeaderAnnotation[0]));
             }
             //}
         }
@@ -243,7 +235,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
         for (String k : binary_relation_disamb_score.keySet()) {
             double score_entity_disamb = binary_relation_disamb_score.get(k);
             double sum_entity_vote = (double) binary_relation_sum_vote.get(k);
-            double final_score = TMPTColumnClassifier.compute_typing_base_score(score_entity_disamb, sum_entity_vote, tableRowsTotal);
+            double final_score = TMPColumnClassifier.compute_typing_base_score(score_entity_disamb, sum_entity_vote, tableRowsTotal);
 
             frequent_column_binary_relation_counting.put(k, final_score);
         }
@@ -403,7 +395,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                            int column,
                            boolean use_only_typing_candidates_from_relations_with_main_col) throws KBSearchException {
 
-        //Map<String, HeaderAnnotation> candidate_header_annotations = new HashMap<String, HeaderAnnotation>();
+        //Map<String, TColumnHeaderAnnotation> candidate_header_annotations = new HashMap<String, TColumnHeaderAnnotation>();
         //count types that are known for already mapped entities (using their ids)
         Set<Entity> reference_entities = new HashSet<>();
 
@@ -411,11 +403,11 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
         Map<Integer, Integer> map_rows_to_already_solved_rows_if_any = new HashMap<Integer, Integer>();
         Set<Integer> already_selected_cells_at_row = new HashSet<Integer>(rows_with_entities_mapped_scores.keySet());
         for(int r=0; r<table.getNumRows(); r++){
-            TContentCell tcc = table.getContentCell(r,column);
+            TCell tcc = table.getContentCell(r,column);
             String text = tcc.getText().trim();
 
             for(int already_selected_row: already_selected_cells_at_row){
-                TContentCell a_tcc = table.getContentCell(already_selected_row,column);
+                TCell a_tcc = table.getContentCell(already_selected_row,column);
                 String a_text = a_tcc.getText().trim();
                 if(text.equals(a_text)){
                     rows_with_entities_mapped_scores.put(r, rows_with_entities_mapped_scores.get(already_selected_row));
@@ -427,7 +419,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
 
 
         //1 initialise candidate entities on every row, create the "skip rows" list used by ColumnLearner_LEARN.learn method
-        Map<String, HeaderAnnotation> header_annotation_contributed_from_cells = new HashMap<String, HeaderAnnotation>();
+        Map<String, TColumnHeaderAnnotation> header_annotation_contributed_from_cells = new HashMap<String, TColumnHeaderAnnotation>();
         for (Map.Entry<Integer, Double> e : rows_with_entities_mapped_scores.entrySet()) {
             int row = e.getKey();
             double mapped_score = e.getValue();
@@ -473,43 +465,38 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
         //do update
         List<List<Integer>> rankings = selector.select(table, column, table_annotation.getSubjectColumn());
 
-        Set<HeaderAnnotation> headerAnnotations = new HashSet<HeaderAnnotation>();
+        Set<TColumnHeaderAnnotation> headerAnnotations = new HashSet<TColumnHeaderAnnotation>();
         if (!use_only_typing_candidates_from_relations_with_main_col)
             headerAnnotations.addAll(header_annotation_contributed_from_cells.values());
 
         for (Clazz e : expected_types_of_relation.keySet()) {
-            String type = e.getId();
-            String label = e.getLabel();
+
             double score_from_relation = expected_types_of_relation.get(e);
-            HeaderAnnotation ha = new HeaderAnnotation(table.getColumnHeader(column).getHeaderText(),
-                    type, label, 0.0);
+            TColumnHeaderAnnotation ha = new TColumnHeaderAnnotation(table.getColumnHeader(column).getHeaderText(),
+                    e, 0.0);
             boolean found=false;
-            for(HeaderAnnotation added: headerAnnotations){
+            for(TColumnHeaderAnnotation added: headerAnnotations){
                 if(added.equals(ha)&&TableMinerConstants.RELATION_ALSO_CONTRIBUTES_TO_COLUMN_HEADER_SCORE){
-                    added.getScoreElements().put(HeaderAnnotation.SCORE_CTX_RELATION_IF_ANY, score_from_relation);
+                    added.getScoreElements().put(TColumnHeaderAnnotation.SCORE_CTX_RELATION_IF_ANY, score_from_relation);
                     found=true;
                     break;
                 }
             }
             if(!found){
                 if(TableMinerConstants.RELATION_ALSO_CONTRIBUTES_TO_COLUMN_HEADER_SCORE)
-                    ha.getScoreElements().put(HeaderAnnotation.SCORE_CTX_RELATION_IF_ANY, score_from_relation);
+                    ha.getScoreElements().put(TColumnHeaderAnnotation.SCORE_CTX_RELATION_IF_ANY, score_from_relation);
                 headerAnnotations.add(ha);
             }
         }
 
-        headerAnnotations = classification_scorer.score_context(headerAnnotations, table, column, false);
-        table_annotation.setHeaderAnnotation(column, headerAnnotations.toArray(new HeaderAnnotation[0]));
+        headerAnnotations = classification_scorer.computeCCScore(headerAnnotations, table, column);
+        table_annotation.setHeaderAnnotation(column, headerAnnotations.toArray(new TColumnHeaderAnnotation[0]));
         //this is updating header annotations given by relation
-        if (TableMinerConstants.CLASSIFICATION_CANDIDATE_CONTRIBUTION_METHOD == 0) {
+
             column_updater.update_typing_annotations_best_candidate_contribute(
                     new ArrayList<Integer>(rows_with_entity_ids.keySet()),
                     column, table_annotation, table, table.getNumRows());
-        } else {
-            column_updater.update_typing_annotations_all_candidate_contribute(
-                    new ArrayList<>(rows_with_entity_ids.keySet()),
-                    column, table_annotation, table, table.getNumRows());
-        }
+
 
         if (max_reference_entity_for_disambiguation == 0)
             reference_entities = new HashSet<Entity>();
@@ -524,13 +511,12 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                 rows_with_entity_ids.keySet().toArray(new Integer[0]));
     }
 
-    private void initialize_candidate_header_typings(Map<String, HeaderAnnotation> contribution_from_cells,
+    private void initialize_candidate_header_typings(Map<String, TColumnHeaderAnnotation> contribution_from_cells,
                                                      List<Clazz> candidate_types, String headerText) {
         for (Clazz ct : candidate_types) {
             String url = ct.getId();
-            String label = ct.getLabel();
-            HeaderAnnotation ha = contribution_from_cells.get(url);
-            ha = ha == null ? new HeaderAnnotation(headerText, url, label, 0.0) : ha;
+            TColumnHeaderAnnotation ha = contribution_from_cells.get(url);
+            ha = ha == null ? new TColumnHeaderAnnotation(headerText, ct, 0.0) : ha;
             contribution_from_cells.put(url, ha);
         }
     }

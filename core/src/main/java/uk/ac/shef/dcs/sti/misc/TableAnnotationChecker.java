@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.misc;
 
 import uk.ac.shef.dcs.sti.algorithm.ji.TAnnotation_JI_Freebase;
-import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
+import uk.ac.shef.dcs.sti.rep.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 
 import java.util.HashMap;
@@ -16,7 +16,7 @@ public class TableAnnotationChecker {
         Map<String, Integer> countCell = new HashMap<String, Integer>();
 
         for(int col=0; col<annotation.getCols(); col++){
-            HeaderAnnotation[] ha=annotation.getHeaderAnnotation(col);
+            TColumnHeaderAnnotation[] ha=annotation.getHeaderAnnotation(col);
             countHeader.put(String.valueOf(col), ha.length);
             for(int row=0; row<annotation.getRows(); row++){
                 countCell.put(row+","+col, annotation.getContentCellAnnotations(row, col).length);
@@ -30,7 +30,7 @@ public class TableAnnotationChecker {
 
     public static boolean hasAnnotation(TAnnotation_JI_Freebase tab_annotations) {
         for(int col=0; col<tab_annotations.getCols(); col++){
-            HeaderAnnotation[] ha=tab_annotations.getHeaderAnnotation(col);
+            TColumnHeaderAnnotation[] ha=tab_annotations.getHeaderAnnotation(col);
             if(ha.length>0)
                 return true;
             for(int row=0; row<tab_annotations.getRows(); row++){

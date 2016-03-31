@@ -11,6 +11,8 @@ import java.util.Map;
  */
 public class TCellAnnotation implements Serializable, Comparable<TCellAnnotation>{
 
+    private static final long serialVersionUID = -8136725814000843856L;
+
     public static final String SCORE_FINAL="final";
     public static final String SCORE_NAME_MATCH="name_match";
     public static final String SCORE_IN_CTX_COLUMN_HEADER ="ctx_column_header";

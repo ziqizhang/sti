@@ -9,8 +9,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.TColumnHeader;
-import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -160,7 +160,7 @@ public class DataStats_TableSize_NameLength_Analysis_LimayeNew {
             String[] cells = rows.get(r);
             String[] cells_other_text = rows_with_other_text.get(r);
             for (int c = 0; c < cells.length; c++) {
-                TContentCell cell = new TContentCell(cells[c]);
+                TCell cell = new TCell(cells[c]);
                 String other = cells_other_text[c];
                 if(other!=null&&other.length()>0)
                     cell.setOther_text(other);

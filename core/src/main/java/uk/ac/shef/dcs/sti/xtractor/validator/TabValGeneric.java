@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.xtractor.validator;
 
-import uk.ac.shef.dcs.sti.rep.TContentCell;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 
 /**
@@ -46,7 +46,7 @@ public class TabValGeneric extends ContentValidator implements TableValidator {
             int countLengthyPerCol = 0, countNumericPerCol = 0, countEmptyPerCol = 0, countLinksPerCol = 0;
 
             for (int r = 0; r < table.getNumRows(); r++) {
-                TContentCell ltc = (TContentCell) table.getContentCell(r, c);
+                TCell ltc = (TCell) table.getContentCell(r, c);
                 String tcText = ltc.getText();
 
                 if (isLinkCell(ltc)) {
@@ -101,7 +101,7 @@ public class TabValGeneric extends ContentValidator implements TableValidator {
     }
 
     @Deprecated
-    public static boolean isLengthyCell(TContentCell tc) {
+    public static boolean isLengthyCell(TCell tc) {
        /* if (tc.getValuesAndURIs().size() > 1)
             return true;
 
@@ -115,14 +115,14 @@ public class TabValGeneric extends ContentValidator implements TableValidator {
     }
 
     @Deprecated
-    public static boolean isLinkCell(TContentCell tc) {
+    public static boolean isLinkCell(TCell tc) {
         /*return tc.getValuesAndURIs().size() > 0;*/
         return false;
     }
 
-    public static boolean tooManyLengthyCellsInColumn(TContentCell[] cells) {
+    public static boolean tooManyLengthyCellsInColumn(TCell[] cells) {
         int countLengthyPerCol = 0;
-        for (TContentCell ltc : cells) {
+        for (TCell ltc : cells) {
             if (isLengthyCell(ltc)) {
                 countLengthyPerCol++;
             }
@@ -130,8 +130,8 @@ public class TabValGeneric extends ContentValidator implements TableValidator {
         return countLengthyPerCol > cells.length * THRESHOLD_MAX_ALLOWED_LENGTHY_CELLS_IN_COLUMN;
     }
 
-    public static boolean hasLengthyCellsInColumn(TContentCell[] cells) {
-        for (TContentCell ltc : cells) {
+    public static boolean hasLengthyCellsInColumn(TCell[] cells) {
+        for (TCell ltc : cells) {
             if (isLengthyCell(ltc)) {
                 return true;
             }
@@ -139,9 +139,9 @@ public class TabValGeneric extends ContentValidator implements TableValidator {
         return false;
     }
 
-    public static boolean tooManyEmptyCellsInColumn(TContentCell[] cells) {
+    public static boolean tooManyEmptyCellsInColumn(TCell[] cells) {
         int countEmptyPerCol = 0;
-        for (TContentCell ltc : cells) {
+        for (TCell ltc : cells) {
             if (isEmptyString(ltc.getText())) {
                 countEmptyPerCol++;
             }
@@ -149,9 +149,9 @@ public class TabValGeneric extends ContentValidator implements TableValidator {
         return countEmptyPerCol > cells.length * THRESHOLD_MAX_ALLOWED_EMPTY_CELLS_IN_COLUMN;
     }
 
-    public static boolean hasEmptyCellsInColumn(TContentCell[] cells) {
+    public static boolean hasEmptyCellsInColumn(TCell[] cells) {
 
-        for (TContentCell ltc : cells) {
+        for (TCell ltc : cells) {
             if (isEmptyString(ltc.getText())) {
                 return true;
             }
@@ -159,9 +159,9 @@ public class TabValGeneric extends ContentValidator implements TableValidator {
         return false;
     }
 
-    public static boolean tooManyNumericCellsInColumn(TContentCell[] cells) {
+    public static boolean tooManyNumericCellsInColumn(TCell[] cells) {
         int countNumericPerCol = 0;
-        for (TContentCell ltc : cells) {
+        for (TCell ltc : cells) {
             if (isNumericContent(ltc.getText())) {
                 countNumericPerCol++;
             }
@@ -169,8 +169,8 @@ public class TabValGeneric extends ContentValidator implements TableValidator {
         return countNumericPerCol > cells.length * THRESHOLD_MAX_ALLOWED_NUMERIC_CELLS_IN_COLUMN;
     }
 
-    public static boolean hasNumericCellsInColumn(TContentCell[] cells) {
-        for (TContentCell ltc : cells) {
+    public static boolean hasNumericCellsInColumn(TCell[] cells) {
+        for (TCell ltc : cells) {
             if (isNumericContent(ltc.getText())) {
                 return true;
             }
@@ -178,9 +178,9 @@ public class TabValGeneric extends ContentValidator implements TableValidator {
         return false;
     }
 
-    public static boolean tooManyLinkCellsInColumn(TContentCell[] cells) {
+    public static boolean tooManyLinkCellsInColumn(TCell[] cells) {
         int countLinkCellPerCol = 0;
-        for (TContentCell ltc : cells) {
+        for (TCell ltc : cells) {
             if (isLinkCell(ltc)) {
                 countLinkCellPerCol++;
             }
@@ -188,8 +188,8 @@ public class TabValGeneric extends ContentValidator implements TableValidator {
         return countLinkCellPerCol > cells.length * THRESHOLD_MAX_ALLOWED_LINK_CELLS_IN_COLUMN;
     }
 
-    public static boolean hasLinkCellsInColumn(TContentCell[] cells) {
-        for (TContentCell ltc : cells) {
+    public static boolean hasLinkCellsInColumn(TCell[] cells) {
+        for (TCell ltc : cells) {
             if (isLinkCell(ltc)) {
                 return true;
             }

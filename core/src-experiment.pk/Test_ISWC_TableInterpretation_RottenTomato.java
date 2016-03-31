@@ -13,9 +13,9 @@ import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.OSPD_nonEmpty;
 import uk.ac.shef.dcs.sti.algorithm.tm.stopping.EntropyConvergence;
-import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
+import uk.ac.shef.dcs.sti.rep.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
-import uk.ac.shef.dcs.sti.rep.TContentCell;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
@@ -78,7 +78,7 @@ public class Test_ISWC_TableInterpretation_RottenTomato {
                 stopWords,
                 new double[]{1.0, 0.5, 0.5, 1.0, 1.0}, //row,column, tablecontext other,refent, tablecontext pagetitle (unused)
                 nlpResources));
-        TColumnClassifier class_scorer = new TMPTColumnClassifier(nlpResources,
+        TColumnClassifier class_scorer = new TMPColumnClassifier(nlpResources,
                 new Creator_ConceptHierarchicalBOW_Freebase(),
                 stopWords,
                 new double[]{1.0, 1.0, 1.0, 1.0}         //all 1.0    //header,column,tablecontext other, page title+caption
@@ -240,10 +240,10 @@ public class Test_ISWC_TableInterpretation_RottenTomato {
 
 
     public static void write_iswc_output(Table table, TAnnotation tableAnnotation, String imdb_file_name, String outFile) throws IOException {
-        List<HeaderAnnotation> has = tableAnnotation.getBestHeaderAnnotations(0);        ;
+        List<TColumnHeaderAnnotation> has = tableAnnotation.getBestHeaderAnnotations(0);        ;
         if (has != null && has.size() > 0) {
             boolean correct = false;
-            for (HeaderAnnotation ha : has) {
+            for (TColumnHeaderAnnotation ha : has) {
                 System.out.println("-----"+ha.getAnnotation_label());
                 if (ha.getAnnotation_url().equals("/tv/tv_actor")
                         || ha.getAnnotation_url().equals("/film/actor")
@@ -262,7 +262,7 @@ public class Test_ISWC_TableInterpretation_RottenTomato {
                 String append = "";
                 int count=0;
                 for(int r=0; r<table.getNumRows(); r++){
-                    TContentCell tcc =table.getContentCell(r, 0);
+                    TCell tcc =table.getContentCell(r, 0);
                     if(tcc!=null && tcc.getText()!=null && tcc.getText().length()>0){
                         count++;
                         append+=tcc.getText()+"\t";

@@ -20,7 +20,7 @@ import java.util.*;
  */
 public class FreebaseSearch extends KBSearch {
 
-    private static Logger LOG = Logger.getLogger(FreebaseSearch.class.getName());
+    private static final Logger LOG = Logger.getLogger(FreebaseSearch.class.getName());
     public static String PROPERTY_SIMILARITY_CACHE_CORENAME = "similarity";
     private static final boolean AUTO_COMMIT = true;
 
@@ -198,7 +198,7 @@ public class FreebaseSearch extends KBSearch {
             ec.getAttributes().addAll(filteredAttributes);*/
         }
 
-        LOG.info("(QUERY_KB:" + beforeFiltering + " => " + result.size() + id);
+        //LOG.info("(QUERY_KB:" + beforeFiltering + " => " + result.size() + id);
         return result;
     }
 

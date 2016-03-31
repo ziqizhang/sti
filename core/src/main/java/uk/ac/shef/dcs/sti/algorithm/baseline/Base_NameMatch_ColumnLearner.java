@@ -3,10 +3,10 @@ package uk.ac.shef.dcs.sti.algorithm.baseline;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
+import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.*;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -32,7 +32,7 @@ public class Base_NameMatch_ColumnLearner {
     public void interpret(Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws KBSearchException {
         Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidate_for_each_row =
                 new HashMap<>();
-        Set<HeaderAnnotation> headerAnnotationScores = new HashSet<HeaderAnnotation>();
+        Set<TColumnHeaderAnnotation> headerAnnotationScores = new HashSet<TColumnHeaderAnnotation>();
 
 
         for (int row_index = 0; row_index < table.getNumRows(); row_index++) {
@@ -40,7 +40,7 @@ public class Base_NameMatch_ColumnLearner {
             /* if(row_index==13)
             System.out.println();*/
             //find candidate entities
-            TContentCell tcc = table.getContentCell(row_index, column);
+            TCell tcc = table.getContentCell(row_index, column);
             System.out.println("\t>> Classification-, row " + row_index + "," + tcc);
 
             if (tcc.getText().length() < 2) {
@@ -108,10 +108,10 @@ public class Base_NameMatch_ColumnLearner {
                               Table table,
                               Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row,
                               int column) {
-        List<HeaderAnnotation> bestHeaderAnnotations = table_annotation.getBestHeaderAnnotations(column);
+        List<TColumnHeaderAnnotation> bestHeaderAnnotations = table_annotation.getBestHeaderAnnotations(column);
         List<String> types = new ArrayList<String>();
-        for (HeaderAnnotation ha : bestHeaderAnnotations)
-            types.add(ha.getAnnotation_url());
+        for (TColumnHeaderAnnotation ha : bestHeaderAnnotations)
+            types.add(ha.getAnnotation().getId());
 
         for (Map.Entry<Integer, List<Pair<Entity, Map<String, Double>>>> e :
                 candidates_and_scores_for_each_row.entrySet()) {
@@ -146,10 +146,10 @@ public class Base_NameMatch_ColumnLearner {
             }
         });
         //insert column type annotations
-        HeaderAnnotation[] final_header_annotations = new HeaderAnnotation[candidate_header_annotations.size()];
+        TColumnHeaderAnnotation[] final_header_annotations = new TColumnHeaderAnnotation[candidate_header_annotations.size()];
         for (int i = 0; i < candidate_header_annotations.size(); i++){
             String url = candidate_header_annotations.get(i).toString();
-            HeaderAnnotation ha = new HeaderAnnotation(url,url,url,state.get(url));
+            TColumnHeaderAnnotation ha = new TColumnHeaderAnnotation(url,new Clazz(url,url),state.get(url));
             final_header_annotations[i] = ha;
         }
         table_annotation.setHeaderAnnotation(column, final_header_annotations);
@@ -183,11 +183,11 @@ public class Base_NameMatch_ColumnLearner {
                                                int row,
                                                int column,
                                                TAnnotation table_annotation) {
-        HeaderAnnotation[] headers = table_annotation.getHeaderAnnotation(column);
+        TColumnHeaderAnnotation[] headers = table_annotation.getHeaderAnnotation(column);
         if (headers != null) {
-            for (HeaderAnnotation ha : headers) {
+            for (TColumnHeaderAnnotation ha : headers) {
                 for (Entity ec : bestCandidates) {
-                    if (ec.getTypeIds().contains(ha.getAnnotation_url()))
+                    if (ec.getTypeIds().contains(ha.getAnnotation().getId()))
                         ha.addSupportingRow(row);
                 }
             }
@@ -199,19 +199,19 @@ public class Base_NameMatch_ColumnLearner {
                                                                     int column,
                                                                     TAnnotation table_annotations,
                                                                     int tableRowsTotal) {
-        HeaderAnnotation[] header_annotations = table_annotations.getHeaderAnnotation(column);
+        TColumnHeaderAnnotation[] header_annotations = table_annotations.getHeaderAnnotation(column);
         //supporting rows are only added if a header for the type of the cell annotation exists
         if (header_annotations != null) {
             for (int row : rowsUpdated) {
                 List<TCellAnnotation> bestCellAnnotations = table_annotations.getBestContentCellAnnotations(row, column);
 
                 for (TCellAnnotation ca : bestCellAnnotations) {
-                    for (HeaderAnnotation ha : header_annotations) {
-                        if (ca.getAnnotation().hasType(ha.getAnnotation_url())) {
+                    for (TColumnHeaderAnnotation ha : header_annotations) {
+                        if (ca.getAnnotation().hasType(ha.getAnnotation().getId())) {
                             ha.addSupportingRow(row);
                         }
                         /* if(ha.getAnnotation().equals("/periodicals/newspaper_circulation_area"))
-                        p.println(cAnn.getTerm()+","+ha.getFinalScore());*/
+                        p.println(cAnn.getHeaderText()+","+ha.getFinalScore());*/
                     }
                 }
                 //p.close();
@@ -219,9 +219,9 @@ public class Base_NameMatch_ColumnLearner {
             }
 
             //final update to compute revised typing scores, then sort them
-            List<HeaderAnnotation> resort = new ArrayList<HeaderAnnotation>(Arrays.asList(header_annotations));
+            List<TColumnHeaderAnnotation> resort = new ArrayList<TColumnHeaderAnnotation>(Arrays.asList(header_annotations));
             Collections.sort(resort);
-            table_annotations.setHeaderAnnotation(column, resort.toArray(new HeaderAnnotation[0]));
+            table_annotations.setHeaderAnnotation(column, resort.toArray(new TColumnHeaderAnnotation[0]));
         }
     }
 }

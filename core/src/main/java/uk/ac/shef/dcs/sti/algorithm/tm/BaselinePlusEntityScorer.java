@@ -4,9 +4,9 @@ import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.util.CollectionUtils;
@@ -67,7 +67,7 @@ public class BaselinePlusEntityScorer extends EntityScorer {
         for (Attribute f : facts) {
             String value = f.getValue();
             if (!StringUtils.isPath(value))
-                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
             else
                 bag_of_words_for_entity.add(value);
         }
@@ -85,15 +85,15 @@ public class BaselinePlusEntityScorer extends EntityScorer {
                         DataTypeClassifier.DataType.ORDERED_NUMBER
                 ))
                     continue;
-                TContentCell tcc = table.getContentCell(row, col);
-                bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+                TCell tcc = table.getContentCell(row, col);
+                bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
             }
             bag_of_words_for_context.addAll(StringUtils.toBagOfWords(   //also add the column header as the row context of this entity
-                    headerText, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+                    headerText, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
         }
 
         bag_of_words_for_context.addAll(StringUtils.toBagOfWords(   //also add the column header as the row context of this entity
-                headerText, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+                headerText, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
 
         if (lemmatizer != null)
             bag_of_words_for_context = lemmatizer.lemmatize(bag_of_words_for_context);
@@ -108,8 +108,8 @@ public class BaselinePlusEntityScorer extends EntityScorer {
         for (int row = 0; row < table.getNumRows(); row++) {
             if (entity_source_rows.contains(row))
                 continue;
-            TContentCell tcc = table.getContentCell(row, entity_source_column);
-            bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+            TCell tcc = table.getContentCell(row, entity_source_column);
+            bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true,TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
         }
         if (lemmatizer != null)
             bag_of_words_for_context = lemmatizer.lemmatize(bag_of_words_for_context);
@@ -121,10 +121,10 @@ public class BaselinePlusEntityScorer extends EntityScorer {
 
         /*NAME MATCH SCORE */
         String entity_name = candidate.getLabel();
-        Set<String> bag_of_words_for_entity_name = new HashSet<String>(StringUtils.toBagOfWords(entity_name, true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+        Set<String> bag_of_words_for_entity_name = new HashSet<String>(StringUtils.toBagOfWords(entity_name, true, true,TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
 
         String cell_text = table.getContentCell(otherRows.get(0), sourceColumnIndex).getText();
-        Set<String> bag_of_words_for_cell_text = new HashSet<String>(StringUtils.toBagOfWords(cell_text, true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+        Set<String> bag_of_words_for_cell_text = new HashSet<String>(StringUtils.toBagOfWords(cell_text, true, true,TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
         double name_score = CollectionUtils.computeDice(bag_of_words_for_cell_text, bag_of_words_for_entity_name);
         Set<String> intersection = new HashSet<String>(bag_of_words_for_cell_text);
         intersection.retainAll(bag_of_words_for_entity_name);

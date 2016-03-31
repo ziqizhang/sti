@@ -1,6 +1,5 @@
 package uk.ac.shef.dcs.sti.algorithm.smp;
 
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.misc.UtilRelationMatcher;
@@ -35,7 +34,7 @@ public class RelationTextMatch_Scorer {
     public void match(int row,
                       List<TCellAnnotation> subjectCellAnnotations, int subjectColumn,
                       List<TCellAnnotation> objectCellAnnotations, int objectColumn,
-                      TContentCell objectCellText,
+                      TCell objectCellText,
                       DataTypeClassifier.DataType object_column_type,
                       TAnnotation tableAnnotation
     ) {

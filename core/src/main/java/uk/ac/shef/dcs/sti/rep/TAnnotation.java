@@ -15,7 +15,7 @@ public class TAnnotation {
     protected int rows;
     protected int cols;
     protected int subjectColumn;
-    protected ObjectMatrix1D headerAnnotations; //each object in the matrix is an array of HeaderAnnotation
+    protected ObjectMatrix1D headerAnnotations; //each object in the matrix is an array of TColumnHeaderAnnotation
     protected ObjectMatrix2D contentAnnotations; //each object in the matrix is an array of TCellAnnotation
     protected Map<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> relationAnnotations_per_row; //first key being the sub-obj column; second key is the row index
     private Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> relationAnnotations_across_columns;
@@ -59,13 +59,13 @@ public class TAnnotation {
             throw new STIException("Source and target table annotation object has different dimensions!");
 
         for(int col=0; col<source.getCols(); col++){
-            HeaderAnnotation[] annotations = source.getHeaderAnnotation(col);
+            TColumnHeaderAnnotation[] annotations = source.getHeaderAnnotation(col);
             if(annotations==null)
                 continue;
-            HeaderAnnotation[] copy = new HeaderAnnotation[annotations.length];
+            TColumnHeaderAnnotation[] copy = new TColumnHeaderAnnotation[annotations.length];
             for(int index=0; index<annotations.length; index++){
-                HeaderAnnotation ann = annotations[index];
-                copy[index]=HeaderAnnotation.copy(ann);
+                TColumnHeaderAnnotation ann = annotations[index];
+                copy[index]= TColumnHeaderAnnotation.copy(ann);
             }
             target.setHeaderAnnotation(col, copy);
         }
@@ -89,31 +89,31 @@ public class TAnnotation {
         );
     }
 
-    public void setHeaderAnnotation(int headerCol, HeaderAnnotation[] annotations){
-        Set<HeaderAnnotation> deduplicateCheck = new HashSet<HeaderAnnotation>(Arrays.asList(annotations));
+    public void setHeaderAnnotation(int headerCol, TColumnHeaderAnnotation[] annotations){
+        Set<TColumnHeaderAnnotation> deduplicateCheck = new HashSet<TColumnHeaderAnnotation>(Arrays.asList(annotations));
         if(deduplicateCheck.size()!=annotations.length)
             System.err.println("duplicate header anntoations "+headerCol+":"+deduplicateCheck);
 
         headerAnnotations.set(headerCol, annotations);
     }
-    public HeaderAnnotation[] getHeaderAnnotation(int headerCol){
+    public TColumnHeaderAnnotation[] getHeaderAnnotation(int headerCol){
         Object o=headerAnnotations.get(headerCol);
         if(o==null)
-            return new HeaderAnnotation[0];
-        HeaderAnnotation[] ha = (HeaderAnnotation[]) o;
+            return new TColumnHeaderAnnotation[0];
+        TColumnHeaderAnnotation[] ha = (TColumnHeaderAnnotation[]) o;
         Arrays.sort(ha);
 
         return ha;
     }
 
-    public List<HeaderAnnotation> getBestHeaderAnnotations(int headerCol){
-        HeaderAnnotation[] annotations =getHeaderAnnotation(headerCol);
+    public List<TColumnHeaderAnnotation> getBestHeaderAnnotations(int headerCol){
+        TColumnHeaderAnnotation[] annotations =getHeaderAnnotation(headerCol);
 
-        List<HeaderAnnotation> result = new ArrayList<HeaderAnnotation>();
+        List<TColumnHeaderAnnotation> result = new ArrayList<TColumnHeaderAnnotation>();
         if(annotations==null||annotations.length==0)
             return result;
         double prevScore = 0.0;
-        for(HeaderAnnotation h: annotations){
+        for(TColumnHeaderAnnotation h: annotations){
             if(prevScore==0.0){
                 prevScore=h.getFinalScore();
                 result.add(h);

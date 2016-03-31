@@ -4,9 +4,9 @@ import org.apache.any23.util.FileUtils;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
 import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
-import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerDummy;
@@ -94,7 +94,7 @@ public class GSBuilder_MusicBrainz {
             for (int col = 0; col < table.getNumCols(); col++) {
                 /* if(col==1)
                 System.out.println();*/
-                TContentCell ltc = table.getContentCell(row, col);
+                TCell ltc = table.getContentCell(row, col);
                 String text = ltc.getText();
                 String url = ltc.getOther_text();
 

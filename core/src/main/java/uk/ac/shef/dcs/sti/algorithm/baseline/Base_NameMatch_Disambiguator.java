@@ -2,10 +2,9 @@ package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
-import uk.ac.shef.dcs.sti.rep.TContentCell;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -23,7 +22,7 @@ public class Base_NameMatch_Disambiguator {
         if (candidates.size() > 0) {
             List<Entity> candidatesCopy = new ArrayList<>();
             for (Entity ec : candidates) {
-                TContentCell tcc = table.getContentCell(entity_row, entity_column);
+                TCell tcc = table.getContentCell(entity_row, entity_column);
                 if (tcc.getText() != null) {
                     if (ec.getLabel().equalsIgnoreCase(tcc.getText().trim()))
                         candidatesCopy.add(ec);

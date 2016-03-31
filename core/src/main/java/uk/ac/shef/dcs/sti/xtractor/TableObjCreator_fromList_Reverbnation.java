@@ -4,9 +4,9 @@ import cern.colt.matrix.ObjectMatrix2D;
 import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.TColumnHeader;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.dcs.util.XPathUtils;
 
@@ -51,7 +51,7 @@ public class TableObjCreator_fromList_Reverbnation implements TableObjCreator {
                 Node e = (Node) preTable.get(r, c);
                 String song = findSongNode(e);
                 if(song!=null){
-                    TContentCell cell = new TContentCell(song);
+                    TCell cell = new TCell(song);
 
                     table.setContentCell(r - 1, c, cell);
                 }

@@ -7,6 +7,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.sti.rep.*;
 
@@ -114,7 +115,7 @@ public class GS_Stats_Limaye {
         for (int r = rowModifier; r < rows.size(); r++) {
             String[] cells = rows.get(r);
             for (int c = 0; c < cells.length; c++) {
-                TContentCell cell = new TContentCell(cells[c]);
+                TCell cell = new TCell(cells[c]);
                 table.setContentCell(r - rowModifier, c, cell);
             }
         }
@@ -161,21 +162,21 @@ public class GS_Stats_Limaye {
         for (int i = 0; i < headerAnnotations.size(); i++) {
             Node header = headerAnnotations.get(i);
             int col = Integer.valueOf(header.getAttributes().getNamedItem("col").getTextContent());
-            //TContentCell headerCell = table.getHeaderForColumn(col);
+            //TCell headerCell = table.getHeaderForColumn(col);
             NodeList annotations = header.getChildNodes();
-            List<HeaderAnnotation> hAnnotations = new ArrayList<HeaderAnnotation>();
+            List<TColumnHeaderAnnotation> hAnnotations = new ArrayList<TColumnHeaderAnnotation>();
             for (int j = 0; j < annotations.getLength(); j++) {
                 Node n = annotations.item(j);
                 if (n.getNodeName().equals("anno")) {
-                    HeaderAnnotation a = new HeaderAnnotation(table.getColumnHeader(col).getHeaderText(),
-                            n.getAttributes().getNamedItem("name").getTextContent(),
-                            n.getAttributes().getNamedItem("name").getTextContent(),
+                    TColumnHeaderAnnotation a = new TColumnHeaderAnnotation(table.getColumnHeader(col).getHeaderText(),
+                            new Clazz(n.getAttributes().getNamedItem("name").getTextContent(),
+                            n.getAttributes().getNamedItem("name").getTextContent()),
                             Double.valueOf(n.getAttributes().getNamedItem("value").getTextContent().trim()));
 
                     hAnnotations.add(a);
                 }
             }
-            table.getTableAnnotations().setHeaderAnnotation(col, hAnnotations.toArray(new HeaderAnnotation[0]));
+            table.getTableAnnotations().setHeaderAnnotation(col, hAnnotations.toArray(new TColumnHeaderAnnotation[0]));
         }
         //read the data rows annotations
         List<Node> dataRowAnnotations = DomUtils.findAll(domAnnotatedTable, "//cellAnnotatoons/row");

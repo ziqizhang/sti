@@ -8,7 +8,7 @@ import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
-import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
+import uk.ac.shef.dcs.sti.rep.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.TColumnHeader;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.util.StringUtils;
@@ -40,24 +40,22 @@ public class Base_TM_no_Update_ClassificationScorer {
         //this.stringSimilarityMetric=new CosineSimilarity();
     }
 
-    public Set<HeaderAnnotation> score(List<Pair<Entity, Map<String, Double>>> input,
-                                       Set<HeaderAnnotation> headerAnnotations_prev,
+    public Set<TColumnHeaderAnnotation> score(List<Pair<Entity, Map<String, Double>>> input,
+                                       Set<TColumnHeaderAnnotation> headerAnnotations_prev,
                                        Table table,
                                        int row, int column) {
-        Set<HeaderAnnotation> candidates=new HashSet<HeaderAnnotation>();
-        if (TableMinerConstants.CLASSIFICATION_CANDIDATE_CONTRIBUTION_METHOD == 1)
-            candidates = score_entity_all_candidate_vote(input, headerAnnotations_prev, table, row, column);
-        else
+        Set<TColumnHeaderAnnotation> candidates=new HashSet<>();
+
             candidates = score_entity_best_candidate_vote(input, headerAnnotations_prev, table, row, column);
         candidates = score_context(candidates, table, column, false);
 
         return candidates;
     }
 
-    public Set<HeaderAnnotation> score_entity_best_candidate_vote(List<Pair<Entity, Map<String, Double>>> input,
-                                                                  Set<HeaderAnnotation> headerAnnotations_prev, Table table,
+    public Set<TColumnHeaderAnnotation> score_entity_best_candidate_vote(List<Pair<Entity, Map<String, Double>>> input,
+                                                                  Set<TColumnHeaderAnnotation> headerAnnotations_prev, Table table,
                                                                   int row, int column) {
-        final Set<HeaderAnnotation> candidate_header_annotations =
+        final Set<TColumnHeaderAnnotation> candidate_header_annotations =
                 headerAnnotations_prev;
         //for this row
         Entity entity_with_highest_disamb_score = null;
@@ -95,32 +93,31 @@ public class Base_TM_no_Update_ClassificationScorer {
 
             //consolidate scores from this cell
             for (Clazz type : type_voted_by_this_cell) {
-                if (TableMinerConstants.BEST_CANDIDATE_CONTRIBUTE_COUNT_ONLY_ONCE
-                        && types_already_received_votes_by_cell.contains(type.getId()))
+                if (types_already_received_votes_by_cell.contains(type.getId()))
                     continue;
 
                 types_already_received_votes_by_cell.add(type.getLabel());
                 String headerText = table.getColumnHeader(column).getHeaderText();
 
-                HeaderAnnotation hAnnotation = null;
-                for (HeaderAnnotation key : candidate_header_annotations) {
-                    if (key.getTerm().equals(headerText) && key.getAnnotation_url().equals(type.getId()
+                TColumnHeaderAnnotation hAnnotation = null;
+                for (TColumnHeaderAnnotation key : candidate_header_annotations) {
+                    if (key.getHeaderText().equals(headerText) && key.getAnnotation().getId().equals(type.getId()
                     )) {
                         hAnnotation = key;
                         break;
                     }
                 }
                 if (hAnnotation == null) {
-                    hAnnotation = new HeaderAnnotation(headerText, type.getId(), type.getLabel(), 0.0);
+                    hAnnotation = new TColumnHeaderAnnotation(headerText, type, 0.0);
                 }
 
                 Map<String, Double> tmp_score_elements = hAnnotation.getScoreElements();
                 if (tmp_score_elements == null || tmp_score_elements.size() == 0) {
                     tmp_score_elements = new HashMap<String, Double>();
-                    tmp_score_elements.put(HeaderAnnotation.SUM_ENTITY_VOTE, 0.0);
+                    tmp_score_elements.put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE, 0.0);
                 }
-                tmp_score_elements.put(HeaderAnnotation.SUM_ENTITY_VOTE,
-                        tmp_score_elements.get(HeaderAnnotation.SUM_ENTITY_VOTE) + 1.0);
+                tmp_score_elements.put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE,
+                        tmp_score_elements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE) + 1.0);
                 hAnnotation.setScoreElements(tmp_score_elements);
 
                 candidate_header_annotations.add(hAnnotation);
@@ -131,10 +128,10 @@ public class Base_TM_no_Update_ClassificationScorer {
     }
 
 
-    public Set<HeaderAnnotation> score_entity_all_candidate_vote(List<Pair<Entity, Map<String, Double>>> input,
-                                                                 Set<HeaderAnnotation> headerAnnotations_prev, Table table,
+    public Set<TColumnHeaderAnnotation> score_entity_all_candidate_vote(List<Pair<Entity, Map<String, Double>>> input,
+                                                                 Set<TColumnHeaderAnnotation> headerAnnotations_prev, Table table,
                                                                  int row, int column) {
-        final Set<HeaderAnnotation> candidate_header_annotations =
+        final Set<TColumnHeaderAnnotation> candidate_header_annotations =
                 headerAnnotations_prev;
 
         if (input.size() == 0) {
@@ -152,25 +149,25 @@ public class Base_TM_no_Update_ClassificationScorer {
             for (Clazz type : type_voted_by_this_cell) {
                 String headerText = table.getColumnHeader(column).getHeaderText();
 
-                HeaderAnnotation hAnnotation = null;
-                for (HeaderAnnotation key : candidate_header_annotations) {
-                    if (key.getTerm().equals(headerText) && key.getAnnotation_url().equals(type.getId()
+                TColumnHeaderAnnotation hAnnotation = null;
+                for (TColumnHeaderAnnotation key : candidate_header_annotations) {
+                    if (key.getHeaderText().equals(headerText) && key.getAnnotation().getId().equals(type.getId()
                     )) {
                         hAnnotation = key;
                         break;
                     }
                 }
                 if (hAnnotation == null) {
-                    hAnnotation = new HeaderAnnotation(headerText, type.getId(), type.getLabel(), 0.0);
+                    hAnnotation = new TColumnHeaderAnnotation(headerText, type, 0.0);
                 }
 
                 Map<String, Double> tmp_score_elements = hAnnotation.getScoreElements();
                 if (tmp_score_elements == null || tmp_score_elements.size() == 0) {
                     tmp_score_elements = new HashMap<>();
-                    tmp_score_elements.put(HeaderAnnotation.SUM_ENTITY_VOTE, 0.0);
+                    tmp_score_elements.put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE, 0.0);
                 }
-                tmp_score_elements.put(HeaderAnnotation.SUM_ENTITY_VOTE,
-                        tmp_score_elements.get(HeaderAnnotation.SUM_ENTITY_VOTE) + 1.0);
+                tmp_score_elements.put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE,
+                        tmp_score_elements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE) + 1.0);
                 hAnnotation.setScoreElements(tmp_score_elements);
 
                 candidate_header_annotations.add(hAnnotation);
@@ -180,9 +177,9 @@ public class Base_TM_no_Update_ClassificationScorer {
         return candidate_header_annotations;
     }
 
-    public Set<HeaderAnnotation> score_context(Set<HeaderAnnotation> candidates, Table table, int column, boolean overwrite) {
-        for (HeaderAnnotation ha : candidates) {
-            Double score_ctx_header_text = ha.getScoreElements().get(HeaderAnnotation.SCORE_CTX_NAME_MATCH);
+    public Set<TColumnHeaderAnnotation> score_context(Set<TColumnHeaderAnnotation> candidates, Table table, int column, boolean overwrite) {
+        for (TColumnHeaderAnnotation ha : candidates) {
+            Double score_ctx_header_text = ha.getScoreElements().get(TColumnHeaderAnnotation.SCORE_CTX_IN_HEADER);
 
             if (score_ctx_header_text == null) {
                 TColumnHeader header = table.getColumnHeader(column);
@@ -192,8 +189,8 @@ public class Base_TM_no_Update_ClassificationScorer {
                     //double score = CollectionUtils.diceCoefficientOptimized(header.getHeaderText(), ha.getAnnotation_label());
                     double score = stringSimilarityMetric.getSimilarity(
                             StringUtils.toAlphaNumericWhitechar(header.getHeaderText()),
-                            StringUtils.toAlphaNumericWhitechar(ha.getAnnotation_label()));
-                    ha.getScoreElements().put(HeaderAnnotation.SCORE_CTX_NAME_MATCH, score);
+                            StringUtils.toAlphaNumericWhitechar(ha.getAnnotation().getLabel()));
+                    ha.getScoreElements().put(TColumnHeaderAnnotation.SCORE_CTX_IN_HEADER, score);
                 }
             }
         }
@@ -203,19 +200,19 @@ public class Base_TM_no_Update_ClassificationScorer {
     }
 
 
-    public Map<String, Double> compute_final_score(HeaderAnnotation ha, int tableRowsTotal) {
+    public Map<String, Double> compute_final_score(TColumnHeaderAnnotation ha, int tableRowsTotal) {
         Map<String, Double> scoreElements = ha.getScoreElements();
-        double sum_entity_vote = scoreElements.get(HeaderAnnotation.SUM_ENTITY_VOTE);
+        double sum_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE);
         double score_entity_vote = sum_entity_vote / (double) tableRowsTotal;
-        scoreElements.put(HeaderAnnotation.SCORE_ENTITY_VOTE, score_entity_vote);
+        scoreElements.put(TColumnHeaderAnnotation.SCORE_ENTITY_VOTE, score_entity_vote);
 
         double finalScore = score_entity_vote;
-        Double namematch = scoreElements.get(HeaderAnnotation.SCORE_CTX_NAME_MATCH);
+        Double namematch = scoreElements.get(TColumnHeaderAnnotation.SCORE_CTX_IN_HEADER);
         if (namematch != null) {
             finalScore = finalScore + namematch;
         }
 
-        scoreElements.put(HeaderAnnotation.FINAL, finalScore);
+        scoreElements.put(TColumnHeaderAnnotation.FINAL, finalScore);
         ha.setFinalScore(finalScore);
         return scoreElements;
     }

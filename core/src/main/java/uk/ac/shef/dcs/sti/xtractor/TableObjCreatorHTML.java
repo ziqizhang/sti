@@ -4,10 +4,10 @@ import cern.colt.matrix.ObjectMatrix2D;
 import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TColumnHeader;
-import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.util.XPathUtils;
 
 /**
@@ -50,7 +50,7 @@ public class TableObjCreatorHTML implements TableObjCreator {
                 String text = e.getTextContent();
                 String xPath= DomUtils.getXPathForNode(e);
 
-                TContentCell cell = new TContentCell(text);
+                TCell cell = new TCell(text);
                 cell.setText(text);
                 cell.setxPath(xPath);
                 //todo: content cell type

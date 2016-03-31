@@ -1,9 +1,9 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import uk.ac.shef.dcs.sti.algorithm.tm.EntityScorer;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
-import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.util.CosineSimilarity;
 import uk.ac.shef.dcs.sti.util.JaccardSimilarity;
@@ -43,7 +43,7 @@ public class JIAdaptedEntityScorer extends EntityScorer {
                                      Set<String> preliminaryColumnLabel,
                                      Entity... referenceEntities) {
 
-        TContentCell cell = table.getContentCell(sourceRowIndex, sourceColumnIndex);
+        TCell cell = table.getContentCell(sourceRowIndex, sourceColumnIndex);
         double levScore = calculateStringSimilarity(cell.getText(), candidate, lev);
         //dice between NE and cell text
         double jaccardScore = calculateStringSimilarity(cell.getText(), candidate, jaccard);

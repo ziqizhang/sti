@@ -43,95 +43,25 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
 
 
     @Override
-    public Set<HeaderAnnotation> score(List<Pair<Entity, Map<String, Double>>> input,
-                                       Set<HeaderAnnotation> headerAnnotations_prev,
+    public Set<TColumnHeaderAnnotation> score(List<Pair<Entity, Map<String, Double>>> input,
+                                       Set<TColumnHeaderAnnotation> headerAnnotationCandidates,
                                        Table table,
                                        List<Integer> rows, int column) {
-        Set<HeaderAnnotation> candidates = new HashSet<HeaderAnnotation>();
-        if (TableMinerConstants.CLASSIFICATION_CANDIDATE_CONTRIBUTION_METHOD == 0) {
+        Set<TColumnHeaderAnnotation> candidates = new HashSet<TColumnHeaderAnnotation>();
+
             for (int row : rows)
-                candidates = score_entity_best_candidate_contribute(input, headerAnnotations_prev, table, row, column);
-        } else {
-            for (int row : rows)
-                candidates = score_entity_all_candidate_contribute(input, headerAnnotations_prev, table, row, column);
-        }
-        candidates = score_context(candidates, table, column, false);
+                candidates = score_entity_best_candidate_contribute(input, headerAnnotationCandidates, table, row, column);
+
+        candidates = computeCCScore(candidates, table, column);
 
         return candidates;
     }
 
-    public Set<HeaderAnnotation> score_entity_all_candidate_contribute(List<Pair<Entity, Map<String, Double>>> input,
-                                                                       Set<HeaderAnnotation> headerAnnotations_prev, Table table,
-                                                                       int row, int column) {
-        final Set<HeaderAnnotation> candidate_header_annotations =
-                headerAnnotations_prev;
-
-        //for this row
-        Map<String, Double> tmp_header_annotation_and_max_score = new HashMap<String, Double>();
-        Map<String, String> header_annotation_and_text = new HashMap<String, String>();
-
-        for (Pair<Entity, Map<String, Double>> es : input) { //each candidate entity in this cell
-            Entity entity = es.getKey();
-            //each assigned type receives a score of 1, and the bonus score due to disambiguation result
-            double entity_disamb_score = es.getValue().get(TCellAnnotation.SCORE_FINAL);
-            for (Clazz type : entity.getTypes()) {
-                String url = type.getId();
-                header_annotation_and_text.put(url, type.getLabel());
-                Double score = tmp_header_annotation_and_max_score.get(url);
-                score = score == null ? 0 : score;
-                if (entity_disamb_score > score) {
-                    tmp_header_annotation_and_max_score.put(url, entity_disamb_score);
-                    /*if(score!=0)
-                        System.out.println();*/
-                }
-            }
-        }
-        if (input.size() == 0 || tmp_header_annotation_and_max_score.size() == 0) {
-            //this entity has a score of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
-            System.out.print("x(" + row + "," + column + ")");
-            return candidate_header_annotations;
-        }
-
-        //consolidate scores from this cell
-        for (Map.Entry<String, Double> e : tmp_header_annotation_and_max_score.entrySet()) {
-            String headerText = table.getColumnHeader(column).getHeaderText();
-
-            HeaderAnnotation hAnnotation = null;
-
-            for (HeaderAnnotation key : candidate_header_annotations) {
-                if (key.getTerm().equals(headerText) && key.getAnnotation_url().equals(e.getKey()
-                )) {
-                    hAnnotation = key;
-                    break;
-                }
-            }
-            if (hAnnotation == null) {
-                hAnnotation = new HeaderAnnotation(headerText, e.getKey(),
-                        header_annotation_and_text.get(e.getKey()), e.getValue());
-            }
-
-            Map<String, Double> tmp_score_elements = hAnnotation.getScoreElements();
-            if (tmp_score_elements == null || tmp_score_elements.size() == 0) {
-                tmp_score_elements = new HashMap<String, Double>();
-                tmp_score_elements.put(HeaderAnnotation.SUM_ENTITY_DISAMB, 0.0);
-                tmp_score_elements.put(HeaderAnnotation.SUM_ENTITY_VOTE, 0.0);
-            }
-            tmp_score_elements.put(HeaderAnnotation.SUM_ENTITY_DISAMB,
-                    tmp_score_elements.get(HeaderAnnotation.SUM_ENTITY_DISAMB) + e.getValue());
-            tmp_score_elements.put(HeaderAnnotation.SUM_ENTITY_VOTE,
-                    tmp_score_elements.get(HeaderAnnotation.SUM_ENTITY_VOTE) + 1.0);
-            hAnnotation.setScoreElements(tmp_score_elements);
-
-            candidate_header_annotations.add(hAnnotation);
-        }
-
-        return candidate_header_annotations;
-    }
-
-    public Set<HeaderAnnotation> score_entity_best_candidate_contribute(List<Pair<Entity, Map<String, Double>>> input,
-                                                                        Set<HeaderAnnotation> headerAnnotations_prev, Table table,
+    
+    public Set<TColumnHeaderAnnotation> score_entity_best_candidate_contribute(List<Pair<Entity, Map<String, Double>>> input,
+                                                                        Set<TColumnHeaderAnnotation> headerAnnotations_prev, Table table,
                                                                         int row, int column) {
-        final Set<HeaderAnnotation> candidate_header_annotations =
+        final Set<TColumnHeaderAnnotation> candidate_header_annotations =
                 headerAnnotations_prev;
 
         //for this row
@@ -164,35 +94,34 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
 
             //consolidate scores from this cell
             for (Clazz type : type_voted_by_this_cell) {
-                if (TableMinerConstants.BEST_CANDIDATE_CONTRIBUTE_COUNT_ONLY_ONCE
-                        && types_already_received_votes_by_cell.contains(type.getId()))
+                if (types_already_received_votes_by_cell.contains(type.getId()))
                     continue;
 
                 types_already_received_votes_by_cell.add(type.getId());
 
                 String headerText = table.getColumnHeader(column).getHeaderText();
 
-                HeaderAnnotation hAnnotation = null;
-                for (HeaderAnnotation key : candidate_header_annotations) {
-                    if (key.getTerm().equals(headerText) && key.getAnnotation_url().equals(type.getId()
+                TColumnHeaderAnnotation hAnnotation = null;
+                for (TColumnHeaderAnnotation key : candidate_header_annotations) {
+                    if (key.getHeaderText().equals(headerText) && key.getAnnotation().getId().equals(type.getId()
                     )) {
                         hAnnotation = key;
                         break;
                     }
                 }
                 if (hAnnotation == null) {
-                    hAnnotation = new HeaderAnnotation(headerText, type.getId(), type.getLabel(), 0.0);
+                    hAnnotation = new TColumnHeaderAnnotation(headerText, type, 0.0);
                 }
                 Map<String, Double> tmp_score_elements = hAnnotation.getScoreElements();
                 if (tmp_score_elements == null || tmp_score_elements.size() == 0) {
                     tmp_score_elements = new HashMap<String, Double>();
-                    tmp_score_elements.put(HeaderAnnotation.SUM_ENTITY_DISAMB, 0.0);
-                    tmp_score_elements.put(HeaderAnnotation.SUM_ENTITY_VOTE, 0.0);
+                    tmp_score_elements.put(TColumnHeaderAnnotation.SUM_CE, 0.0);
+                    tmp_score_elements.put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE, 0.0);
                 }
-                tmp_score_elements.put(HeaderAnnotation.SUM_ENTITY_DISAMB,
-                        tmp_score_elements.get(HeaderAnnotation.SUM_ENTITY_DISAMB) + best_score);
-                tmp_score_elements.put(HeaderAnnotation.SUM_ENTITY_VOTE,
-                        tmp_score_elements.get(HeaderAnnotation.SUM_ENTITY_VOTE) + 1.0);
+                tmp_score_elements.put(TColumnHeaderAnnotation.SUM_CE,
+                        tmp_score_elements.get(TColumnHeaderAnnotation.SUM_CE) + best_score);
+                tmp_score_elements.put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE,
+                        tmp_score_elements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE) + 1.0);
                 hAnnotation.setScoreElements(tmp_score_elements);
 
                 candidate_header_annotations.add(hAnnotation);
@@ -202,25 +131,25 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
         return candidate_header_annotations;
     }
 
-    public Set<HeaderAnnotation> score_context(Set<HeaderAnnotation> candidates, Table table, int column, boolean overwrite) {
+    public Set<TColumnHeaderAnnotation> computeCCScore(Set<TColumnHeaderAnnotation> candidates, Table table, int column) {
         List<String> bag_of_words_for_header = null, bag_of_words_for_other_headers = null;
         List<String> bag_of_words_for_column = null, bag_of_words_for_table_major_context = null, bag_of_words_for_table_other_context = null;
-        for (HeaderAnnotation ha : candidates) {
-            Double score_ctx_header_text = ha.getScoreElements().get(HeaderAnnotation.SCORE_CTX_NAME_MATCH);
-            Double score_ctx_column_text = ha.getScoreElements().get(HeaderAnnotation.SCORE_CTX_COLUMN_TEXT);
-            Double score_ctx_table_context = ha.getScoreElements().get(HeaderAnnotation.SCORE_CTX_TABLE_CONTEXT);
+        for (TColumnHeaderAnnotation ha : candidates) {
+            Double score_ctx_header_text = ha.getScoreElements().get(TColumnHeaderAnnotation.SCORE_CTX_IN_HEADER);
+            Double score_ctx_column_text = ha.getScoreElements().get(TColumnHeaderAnnotation.SCORE_CTX_IN_COLUMN);
+            Double score_ctx_table_context = ha.getScoreElements().get(TColumnHeaderAnnotation.SCORE_CTX_OUT);
 
             if (score_ctx_column_text != null &&
                     score_ctx_header_text != null
-                    && score_ctx_table_context != null && !overwrite)
+                    && score_ctx_table_context != null)
                 continue;
 
             Set<String> annotation_bow = new HashSet<String>(create_annotation_bow(ha,
                     true,
-                    TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR,
-                    TableMinerConstants.INCLUDE_URL_IN_CLASS_BOW));
+                    TableMinerConstants.BOW_DISCARD_SINGLE_CHAR,
+                    TableMinerConstants.CLAZZBOW_INCLUDE_URI));
 
-            if (overwrite || (!overwrite && score_ctx_header_text == null)) {
+            if (score_ctx_header_text == null) {
                 String headerText = "";
                 TColumnHeader header = table.getColumnHeader(column);
                 if (header != null &&
@@ -234,18 +163,18 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
                 //double ctx_header_text = stringSimilarityMetric.getSimilarity(ha.getAnnotation_url(), headerText);
 
 
-                ha.getScoreElements().put(HeaderAnnotation.SCORE_CTX_NAME_MATCH, ctx_header_text);
+                ha.getScoreElements().put(TColumnHeaderAnnotation.SCORE_CTX_IN_HEADER, ctx_header_text);
             }
 
-            if (overwrite || (!overwrite && score_ctx_column_text == null)) {
+            if (score_ctx_column_text == null) {
                 bag_of_words_for_column = create_column_bow(bag_of_words_for_column, table, column);
                 double ctx_column =
                         CollectionUtils.computeFrequencyWeightedDice(annotation_bow, bag_of_words_for_column);
                 //CollectionUtils.computeCoverage(bag_of_words_for_column, new ArrayList<String>(annotation_bow)) * weights[1];
-                ha.getScoreElements().put(HeaderAnnotation.SCORE_CTX_COLUMN_TEXT, ctx_column);
+                ha.getScoreElements().put(TColumnHeaderAnnotation.SCORE_CTX_IN_COLUMN, ctx_column);
             }
 
-            if (overwrite || (!overwrite && score_ctx_table_context == null)) {
+            if (score_ctx_table_context == null) {
                 bag_of_words_for_table_major_context = create_table_context_major_bow(bag_of_words_for_table_major_context, table);
                 double ctx_table_major =
                         CollectionUtils.computeFrequencyWeightedDice(annotation_bow, bag_of_words_for_table_major_context);
@@ -254,7 +183,7 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
                 double ctx_table_other =
                         CollectionUtils.computeFrequencyWeightedDice(annotation_bow, bag_of_words_for_table_other_context);
                 //CollectionUtils.computeCoverage(bag_of_words_for_table_other_context, new ArrayList<String>(annotation_bow)) * weights[2];
-                ha.getScoreElements().put(HeaderAnnotation.SCORE_CTX_TABLE_CONTEXT,
+                ha.getScoreElements().put(TColumnHeaderAnnotation.SCORE_CTX_OUT,
                         ctx_table_major + ctx_table_other);
             }
 
@@ -264,7 +193,7 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
     }
 
     @Override
-    public double score_domain_consensus(HeaderAnnotation ha, List<String> domain_representation) {
+    public double computeDC(TColumnHeaderAnnotation ha, List<String> domain_representation) {
         return 0.0;
     }
 
@@ -280,7 +209,7 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
             if (tx.getType().equals(TContext.TableContextType.PAGETITLE) ||
                     tx.getType().equals(TContext.TableContextType.CAPTION)) {
                 bow.addAll(lemmatizer.lemmatize(
-                        StringUtils.toBagOfWords(tx.getText(), true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR))
+                        StringUtils.toBagOfWords(tx.getText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }
@@ -300,7 +229,7 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
             if (!tx.getType().equals(TContext.TableContextType.PAGETITLE) &&
                     !tx.getType().equals(TContext.TableContextType.CAPTION)) {
                 bow.addAll(lemmatizer.lemmatize(
-                        StringUtils.toBagOfWords(tx.getText(), true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR))
+                        StringUtils.toBagOfWords(tx.getText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }
@@ -313,10 +242,10 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
             return bag_of_words_for_column;
         List<String> bow = new ArrayList<String>();
         for (int row = 0; row < table.getNumRows(); row++) {
-            TContentCell tcc = table.getContentCell(row, column);
+            TCell tcc = table.getContentCell(row, column);
             if (tcc.getText() != null) {
                 bow.addAll(lemmatizer.lemmatize(
-                        StringUtils.toBagOfWords(tcc.getText(), true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR))
+                        StringUtils.toBagOfWords(tcc.getText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }
@@ -335,7 +264,7 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
                 header.getHeaderText() != null &&
                 !header.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue())) {
             bow.addAll(lemmatizer.lemmatize(
-                    StringUtils.toBagOfWords(header.getHeaderText(), true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR))
+                    StringUtils.toBagOfWords(header.getHeaderText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR))
             );
         }
         //   }
@@ -346,13 +275,13 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
         return bow;
     }
 
-    private List<String> create_annotation_bow(HeaderAnnotation ha, boolean lowercase, boolean discard_single_char, boolean include_url) {
+    private List<String> create_annotation_bow(TColumnHeaderAnnotation ha, boolean lowercase, boolean discard_single_char, boolean include_url) {
         List<String> bow = new ArrayList<String>();
         if (include_url) {
-            bow.addAll(bow_creator.create(ha.getAnnotation_url()));
+            bow.addAll(bow_creator.create(ha.getAnnotation().getId()));
         }
 
-        String label = StringUtils.toAlphaNumericWhitechar(ha.getAnnotation_label()).trim();
+        String label = StringUtils.toAlphaNumericWhitechar(ha.getAnnotation().getId()).trim();
         for (String s : label.split("\\s+")) {
             s = s.trim();
             if (s.length() > 0) {
@@ -369,37 +298,37 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
                     it.remove();
             }
         }
-        bow.removeAll(TableMinerConstants.stopwords_small);
+        bow.removeAll(TableMinerConstants.FUNCTIONAL_STOPWORDS);
         return bow;
     }
 
 
 
-    public Map<String, Double> compute_final_score(HeaderAnnotation ha, int tableRowsTotal) {
+    public Map<String, Double> computeFinal(TColumnHeaderAnnotation ha, int tableRowsTotal) {
         Map<String, Double> scoreElements = ha.getScoreElements();
         double sum_entity_disamb =
-                scoreElements.get(HeaderAnnotation.SUM_ENTITY_DISAMB);
-        double sum_entity_vote = scoreElements.get(HeaderAnnotation.SUM_ENTITY_VOTE);
+                scoreElements.get(TColumnHeaderAnnotation.SUM_CE);
+        double sum_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE);
 
-        scoreElements.put(HeaderAnnotation.SCORE_ENTITY_DISAMB, sum_entity_disamb / sum_entity_vote);
+        scoreElements.put(TColumnHeaderAnnotation.SCORE_CE, sum_entity_disamb / sum_entity_vote);
 
-        double score_entity_vote = scoreElements.get(HeaderAnnotation.SUM_ENTITY_VOTE) / (double) tableRowsTotal;
-        scoreElements.put(HeaderAnnotation.SCORE_ENTITY_VOTE, score_entity_vote);
+        double score_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE) / (double) tableRowsTotal;
+        scoreElements.put(TColumnHeaderAnnotation.SCORE_ENTITY_VOTE, score_entity_vote);
 
-        double base_score = compute_typing_base_score(sum_entity_disamb, scoreElements.get(HeaderAnnotation.SUM_ENTITY_VOTE),
+        double base_score = compute_typing_base_score(sum_entity_disamb, scoreElements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE),
                 (double) tableRowsTotal);
 
         for (Map.Entry<String, Double> e : scoreElements.entrySet()) {
-            if (e.getKey().equals(HeaderAnnotation.SUM_ENTITY_DISAMB) ||
-                    e.getKey().equals(HeaderAnnotation.SUM_ENTITY_VOTE) ||
-                    e.getKey().equals(HeaderAnnotation.SCORE_ENTITY_DISAMB) ||
-                    e.getKey().equals(HeaderAnnotation.SCORE_ENTITY_VOTE) ||
-                    e.getKey().equals(HeaderAnnotation.FINAL))
+            if (e.getKey().equals(TColumnHeaderAnnotation.SUM_CE) ||
+                    e.getKey().equals(TColumnHeaderAnnotation.SUM_ENTITY_VOTE) ||
+                    e.getKey().equals(TColumnHeaderAnnotation.SCORE_CE) ||
+                    e.getKey().equals(TColumnHeaderAnnotation.SCORE_ENTITY_VOTE) ||
+                    e.getKey().equals(TColumnHeaderAnnotation.FINAL))
                 continue;
 
             base_score += e.getValue();
         }
-        scoreElements.put(HeaderAnnotation.FINAL, base_score);
+        scoreElements.put(TColumnHeaderAnnotation.FINAL, base_score);
         ha.setFinalScore(base_score);
         return scoreElements;
     }

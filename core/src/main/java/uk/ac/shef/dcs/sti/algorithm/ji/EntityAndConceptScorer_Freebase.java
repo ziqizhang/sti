@@ -45,7 +45,7 @@ public class EntityAndConceptScorer_Freebase {
                 continue;
             String value = f[1];
             if (!StringUtils.isPath(value))
-                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
             else
                 bag_of_words_for_entity.add(value);
         }
@@ -59,7 +59,7 @@ public class EntityAndConceptScorer_Freebase {
                 continue;
             String value = f[1];
             if (!StringUtils.isPath(value))
-                bag_of_words_for_concept.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+                bag_of_words_for_concept.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
             else
                 bag_of_words_for_concept.add(value);
         }
@@ -94,7 +94,7 @@ public class EntityAndConceptScorer_Freebase {
 
                 String value = f.getValue();
                 if (!StringUtils.isPath(value))
-                    bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+                    bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
                 else
                     bag_of_words_for_entity.add(value);
             }
@@ -110,7 +110,7 @@ public class EntityAndConceptScorer_Freebase {
                     continue;
                 String value = f.getValue();
                 if (!StringUtils.isPath(value))
-                    bag_of_words_for_concept.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+                    bag_of_words_for_concept.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
                 else
                     bag_of_words_for_concept.add(value);
             }

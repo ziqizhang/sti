@@ -71,7 +71,7 @@ public class TestTableInterpretation_IMDB {
                 stopWords,
                 new double[]{1.0, 0.5, 0.5, 1.0, 1.0}, //row,column, tablecontext other,refent, tablecontext pagetitle (unused)
                 nlpResources));
-        TColumnClassifier class_scorer = new TMPTColumnClassifier(nlpResources,
+        TColumnClassifier class_scorer = new TMPColumnClassifier(nlpResources,
                 new Creator_ConceptHierarchicalBOW_Freebase(),
                 stopWords,
                 new double[]{1.0, 1.0,1.0, 1.0}         //all 1.0

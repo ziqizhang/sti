@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.tm.sampler;
 
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.rep.TContentCell;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 
@@ -19,7 +19,7 @@ public class OSPD_nonEmpty extends TContentCellRanker {
             //firstly group by one-sense-per-discourse
             Map<String, List<Integer>> grouped = new HashMap<>();
             for (int r = 0; r < table.getNumRows(); r++) {
-                TContentCell tcc = table.getContentCell(r, fromCol);
+                TCell tcc = table.getContentCell(r, fromCol);
                 String text = tcc.getText();
                 if (text.length() > 0) {
                     List<Integer> group = grouped.get(text);
@@ -38,7 +38,7 @@ public class OSPD_nonEmpty extends TContentCellRanker {
                 int count_non_emtpy = 0;
                 for (int i = 0; i < rows.size(); i++) {
                     for (int c = 0; c < table.getNumCols(); c++) {
-                        TContentCell tcc = table.getContentCell(rows.get(i), c);
+                        TCell tcc = table.getContentCell(rows.get(i), c);
                         if (tcc.getType() != null && !tcc.getType().equals(DataTypeClassifier.DataType.UNKNOWN) &&
                                 !tcc.getType().equals(DataTypeClassifier.DataType.EMPTY))
                             count_non_emtpy++;
@@ -64,13 +64,13 @@ public class OSPD_nonEmpty extends TContentCellRanker {
             final Map<Integer, Integer> scores = new LinkedHashMap<Integer, Integer>();
             for (int r = 0; r < table.getNumRows(); r++) {
                 int count_non_empty = 0;
-                TContentCell tcc_at_focus = table.getContentCell(r, fromCol);
+                TCell tcc_at_focus = table.getContentCell(r, fromCol);
                 if(tcc_at_focus.getType().equals(DataTypeClassifier.DataType.EMPTY)){
                     continue;
                 }
 
                 for (int c = 0; c < table.getNumCols(); c++) {
-                    TContentCell tcc = table.getContentCell(r, c);
+                    TCell tcc = table.getContentCell(r, c);
                     if (tcc.getType() != null && !tcc.getType().equals(DataTypeClassifier.DataType.UNKNOWN) &&
                             !tcc.getType().equals(DataTypeClassifier.DataType.EMPTY))
                         count_non_empty++;

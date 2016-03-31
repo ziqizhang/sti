@@ -65,10 +65,10 @@ public class TMPEntityScorer extends EntityScorer {
 
         /*BOW of column header */
         String entityLabel = candidate.getLabel();
-        Set<String> bow_of_entityLabel = new HashSet<>(StringUtils.toBagOfWords(entityLabel, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+        Set<String> bow_of_entityLabel = new HashSet<>(StringUtils.toBagOfWords(entityLabel, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
 
         Collection<String> bow_of_columnHeader = new HashSet<>(
-                StringUtils.toBagOfWords(columnHeaderText, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR)
+                StringUtils.toBagOfWords(columnHeaderText, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR)
         );
         bow_of_columnHeader = normalize(bow_of_columnHeader, lemmatizer, stopWords);
         double nameHeaderCtxScore = CollectionUtils.computeDice(bow_of_entityLabel, bow_of_columnHeader) * wt[2];
@@ -96,7 +96,7 @@ public class TMPEntityScorer extends EntityScorer {
 
         /*NAME MATCH SCORE */
         String cellText = table.getContentCell(block.get(0), sourceColumnIndex).getText();
-        Set<String> bow_of_cellText = new HashSet<>(StringUtils.toBagOfWords(cellText, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
+        Set<String> bow_of_cellText = new HashSet<>(StringUtils.toBagOfWords(cellText, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
         double en_score = CollectionUtils.computeDice(bow_of_cellText, bow_of_entityLabel);
         scoreMap.put(TCellAnnotation.SCORE_NAME_MATCH, Math.sqrt(en_score));
         //scoreMap.put("matched_name_tokens", (double) intersection.size());

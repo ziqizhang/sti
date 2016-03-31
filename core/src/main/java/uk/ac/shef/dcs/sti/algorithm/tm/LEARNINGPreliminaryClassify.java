@@ -26,6 +26,7 @@ public class LEARNINGPreliminaryClassify {
     private String stopperClassname;
     private String[] stopperParams;
     private static final Logger LOG = Logger.getLogger(LEARNINGPreliminaryClassify.class.getName());
+
     public LEARNINGPreliminaryClassify(TContentCellRanker selector,
                                        String stoppingCriteriaClassname,
                                        String[] stoppingCriteriaParams,
@@ -50,9 +51,9 @@ public class LEARNINGPreliminaryClassify {
         //2. score column and also disambiguate initial rows in the selected sample
         Map<Integer, List<Pair<Entity, Map<String, Double>>>> cellDisambEntityScores =
                 new HashMap<>();
-        Set<HeaderAnnotation> headerClassLabelScores = new HashSet<>();
+        Set<TColumnHeaderAnnotation> headerAnnotationCandidates = new HashSet<>();
 
-        int countProcessed = 0, totalRows=0;
+        int countProcessed = 0, totalRows = 0;
         boolean stopped = false;
         Map<Object, Double> state = new HashMap<>();
 
@@ -62,9 +63,10 @@ public class LEARNINGPreliminaryClassify {
             continue;*/
             /* if(row_index==13)
             System.out.println();*/
-            countProcessed++;    totalRows+=blockOfRows.size();
+            countProcessed++;
+            totalRows += blockOfRows.size();
             //find candidate entities
-            TContentCell sample = table.getContentCell(blockOfRows.get(0), column);
+            TCell sample = table.getContentCell(blockOfRows.get(0), column);
             /*if (sample.getType().equals(DataTypeClassifier.DataType.LONG_TEXT)) {
                 System.out.println("\t\t>>> Long text cell skipped: " + rows_indexes + "," + column + " " + sample.getText());
                 continue;
@@ -101,14 +103,14 @@ public class LEARNINGPreliminaryClassify {
 
             //run algorithm to learn column typing; header annotation scores are updated constantly, but supporting rows are not.
             state = createState(
-                    columnClassifier.score(entityScoresForBlock, headerClassLabelScores, table, blockOfRows, column),
-                    //table.getNumRows()
-                    totalRows
+                    columnClassifier.
+                            score(entityScoresForBlock, headerAnnotationCandidates,
+                                    table, blockOfRows, column), totalRows
             );
             boolean stop = stopper.stop(state, table.getNumRows());
 
             if (stop) {
-                System.out.println("\t>> Classification-LEARN(seeding) converged, rows:"+totalRows);
+                System.out.println("\t>> Classification-LEARN(seeding) converged, rows:" + totalRows);
                 //state is stable. annotate using the type, and disambiguate entities
                 create_typing_annotations(state, tableAnnotation, column);
                 //then use classification results to revise disambiguation
@@ -143,13 +145,13 @@ public class LEARNINGPreliminaryClassify {
     }
 
     private Map<Object, Double> createState(
-            Set<HeaderAnnotation> scores, int tableRowsTotal) {
+            Set<TColumnHeaderAnnotation> scores, int tableRowsTotal) {
         Map<Object, Double> state = new HashMap<Object, Double>();
-        for (HeaderAnnotation ha : scores) {
+        for (TColumnHeaderAnnotation ha : scores) {
             //Map<String, Double> scoreElements =ha.getScoreElements();
             ha.getScoreElements().put(
-                    HeaderAnnotation.FINAL,
-                    columnClassifier.compute_final_score(ha, tableRowsTotal).get(HeaderAnnotation.FINAL)
+                    TColumnHeaderAnnotation.FINAL,
+                    columnClassifier.computeFinal(ha, tableRowsTotal).get(TColumnHeaderAnnotation.FINAL)
             );
             state.put(ha, ha.getFinalScore());
         }
@@ -161,10 +163,10 @@ public class LEARNINGPreliminaryClassify {
                                                               Table table,
                                                               Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row,
                                                               int column) {
-        List<HeaderAnnotation> bestHeaderAnnotations = table_annotation.getBestHeaderAnnotations(column);
+        List<TColumnHeaderAnnotation> bestHeaderAnnotations = table_annotation.getBestHeaderAnnotations(column);
         List<String> types = new ArrayList<String>();
-        for (HeaderAnnotation ha : bestHeaderAnnotations)
-            types.add(ha.getAnnotation_url());
+        for (TColumnHeaderAnnotation ha : bestHeaderAnnotations)
+            types.add(ha.getAnnotation().getId());
         for (Map.Entry<Integer, List<Pair<Entity, Map<String, Double>>>> e :
                 candidates_and_scores_for_each_row.entrySet()) {
 
@@ -197,9 +199,9 @@ public class LEARNINGPreliminaryClassify {
                 }
             });
             //insert column type annotations
-            HeaderAnnotation[] final_header_annotations = new HeaderAnnotation[candidate_header_annotations.size()];
+            TColumnHeaderAnnotation[] final_header_annotations = new TColumnHeaderAnnotation[candidate_header_annotations.size()];
             for (int i = 0; i < candidate_header_annotations.size(); i++)
-                final_header_annotations[i] = (HeaderAnnotation) candidate_header_annotations.get(i);
+                final_header_annotations[i] = (TColumnHeaderAnnotation) candidate_header_annotations.get(i);
             table_annotation.setHeaderAnnotation(column, final_header_annotations);
         }
     }
@@ -247,11 +249,11 @@ public class LEARNINGPreliminaryClassify {
                                                int row,
                                                int column,
                                                TAnnotation table_annotation) {
-        HeaderAnnotation[] headers = table_annotation.getHeaderAnnotation(column);
+        TColumnHeaderAnnotation[] headers = table_annotation.getHeaderAnnotation(column);
         if (headers != null) {
-            for (HeaderAnnotation ha : headers) {
+            for (TColumnHeaderAnnotation ha : headers) {
                 for (Entity ec : bestCandidates) {
-                    if (ec.getTypeIds().contains(ha.getAnnotation_url()))
+                    if (ec.getTypeIds().contains(ha.getAnnotation().getId()))
                         ha.addSupportingRow(row);
                 }
             }

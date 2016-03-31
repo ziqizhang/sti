@@ -2,9 +2,9 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
+import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.sti.rep.*;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -65,30 +65,30 @@ public class DataLiteralColumnClassifier_exclude_entity_col extends DataLiteralC
 
             //the related column is not entity column, simply create header annotation using the most frequent
             //relation label
-            Set<HeaderAnnotation> candidates = new HashSet<HeaderAnnotation>();
+            Set<TColumnHeaderAnnotation> candidates = new HashSet<TColumnHeaderAnnotation>();
             List<HeaderBinaryRelationAnnotation> relations =
                     annotations.getRelationAnnotations_across_columns().
                             get(subcol_objcol);
             for (HeaderBinaryRelationAnnotation hbr : relations) {
-                HeaderAnnotation hAnn = new HeaderAnnotation(table.getColumnHeader(subcol_objcol.getObjectCol()).getHeaderText(),
-                        hbr.getAnnotation_url(), hbr.getAnnotation_label(),
+                TColumnHeaderAnnotation hAnn = new TColumnHeaderAnnotation(table.getColumnHeader(subcol_objcol.getObjectCol()).getHeaderText(),
+                        new Clazz(hbr.getAnnotation_url(), hbr.getAnnotation_label()),
                         hbr.getFinalScore());
                 candidates.add(hAnn);
             }
-            /* classification_scorer.score_context(candidates, table, subcol_objcol.getObjectCol(), false);
-                            for (HeaderAnnotation ha : candidates)
+            /* classification_scorer.computeCCScore(candidates, table, subcol_objcol.getObjectCol(), false);
+                            for (TColumnHeaderAnnotation ha : candidates)
                                 classification_scorer.computeFinal(ha, table.getNumRows());
-                            List<HeaderAnnotation> sorted = new ArrayList<HeaderAnnotation>(candidates);
+                            List<TColumnHeaderAnnotation> sorted = new ArrayList<TColumnHeaderAnnotation>(candidates);
                             Collections.sort(sorted);
-                            HeaderAnnotation[] hAnnotations = new HeaderAnnotation[aggregated_scores_for_relations.size()];
+                            TColumnHeaderAnnotation[] hAnnotations = new TColumnHeaderAnnotation[aggregated_scores_for_relations.size()];
                             for (int i = 0; i < hAnnotations.length; i++) {
                                 hAnnotations[i] = sorted.get(i);
                             }
 
             */
-            List<HeaderAnnotation> sorted = new ArrayList<HeaderAnnotation>(candidates);
+            List<TColumnHeaderAnnotation> sorted = new ArrayList<TColumnHeaderAnnotation>(candidates);
             Collections.sort(sorted);
-            annotations.setHeaderAnnotation(subcol_objcol.getObjectCol(), sorted.toArray(new HeaderAnnotation[0]));
+            annotations.setHeaderAnnotation(subcol_objcol.getObjectCol(), sorted.toArray(new TColumnHeaderAnnotation[0]));
 
             //}
         }

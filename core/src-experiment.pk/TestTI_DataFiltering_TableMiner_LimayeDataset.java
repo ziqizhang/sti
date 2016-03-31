@@ -98,7 +98,7 @@ public class TestTI_DataFiltering_TableMiner_LimayeDataset {
                         stopWords,
                         new double[]{1.0, 0.5, 0.5, 1.0, 1.0}, //row,column, tablecontext other,refent, tablecontext pagetitle (unused)
                         nlpResources));                         //1.0, 0.5, 0.25, 1.0, 1.0
-        TColumnClassifier class_scorer = new TMPTColumnClassifier(
+        TColumnClassifier class_scorer = new TMPColumnClassifier(
                 nlpResources,
                 new Creator_ConceptHierarchicalBOW_Freebase(),
                 stopWords,

@@ -152,7 +152,7 @@ public class TI_JointInference {
         for (int c = 0; c < table.getNumCols(); c++) {
             Set<String> uniqueStrings = new HashSet<String>();
             for (int r = 0; r < table.getNumRows(); r++) {
-                TContentCell tcc = table.getContentCell(r, c);
+                TCell tcc = table.getContentCell(r, c);
                 String text = tcc.getText().trim().replaceAll("[^a-zA-Z0-9]", "");
                 if(text.length()>1)
                     uniqueStrings.add(text);
@@ -233,14 +233,14 @@ public class TI_JointInference {
                 Integer position = graphBuilder.getHeaderPosition(var);
                 if (position == null)
                     continue;
-                HeaderAnnotation[] candidateHeaderAnnotations = tab_annotations.getHeaderAnnotation(position);
-                for (HeaderAnnotation ha : candidateHeaderAnnotations) {
+                TColumnHeaderAnnotation[] candidateHeaderAnnotations = tab_annotations.getHeaderAnnotation(position);
+                for (TColumnHeaderAnnotation ha : candidateHeaderAnnotations) {
                     AssignmentIterator it = ptl.assignmentIterator();
                     boolean found = false;
                     while (it.hasNext()) {
                         int outcome = it.indexOfCurrentAssn();
                         String assignedId = var.getLabelAlphabet().lookupLabel(outcome).toString();
-                        if (assignedId.equals(ha.getAnnotation_url())) {
+                        if (assignedId.equals(ha.getAnnotation().getId())) {
                             found = true;
                             double score = ptl.value(it);
                             if (Double.isNaN(score))

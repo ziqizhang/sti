@@ -15,4 +15,11 @@ public class Clazz extends Resource{
         return "id="+id+", label="+label;
     }
 
+    public boolean equals(Object o){
+        if (o instanceof Clazz){
+            Clazz c = (Clazz)o;
+            return c.getId().equals(id) && c.getLabel().equals(label);
+        }
+        return false;
+    }
 }

@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
-import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
+import uk.ac.shef.dcs.sti.rep.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.TColumnHeader;
 import uk.ac.shef.dcs.sti.util.CosineSimilarity;
 import uk.ac.shef.dcs.sti.util.JaccardSimilarity;
@@ -30,7 +30,7 @@ public class ClassificationScorer_JI_adapted  {
         lev =new Levenshtein();
     }
 
-    public Map<String, Double> score(HeaderAnnotation candidate, TColumnHeader header
+    public Map<String, Double> score(TColumnHeaderAnnotation candidate, TColumnHeader header
                                      ) {
         double levScore = calculateStringSimilarity(header.getHeaderText(), candidate, lev);
         //dice between NE and cell text
@@ -45,8 +45,8 @@ public class ClassificationScorer_JI_adapted  {
         return score_elements;
     }
 
-    private double calculateStringSimilarity(String text, HeaderAnnotation candidate, AbstractStringMetric lev) {
-        double baseScore = lev.getSimilarity(text, candidate.getAnnotation_label());
+    private double calculateStringSimilarity(String text, TColumnHeaderAnnotation candidate, AbstractStringMetric lev) {
+        double baseScore = lev.getSimilarity(text, candidate.getAnnotation().getLabel());
         return baseScore;
     }
 

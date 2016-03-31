@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.algorithm.smp;
 import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
+import uk.ac.shef.dcs.sti.rep.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.TColumnHeader;
@@ -26,23 +26,23 @@ public class TAnnotationWriter_SMP extends TAnnotationWriter {
             PrintWriter p = new PrintWriter(header_key);
 
             for (int c = 0; c < table.getNumCols(); c++) {
-                HeaderAnnotation[] anns = table_annotation.getHeaderAnnotation(c);
+                TColumnHeaderAnnotation[] anns = table_annotation.getHeaderAnnotation(c);
                 if (anns != null && anns.length > 0) {
                     StringBuilder s = new StringBuilder();
                     s.append(c).append("=");
 
                     double prevScore = 0.0;
                     double prevGranularity = 0.0;
-                    for (HeaderAnnotation ha : anns) {
+                    for (TColumnHeaderAnnotation ha : anns) {
                         if (prevScore == 0.0) {
-                            s.append(ha.getAnnotation_url());
+                            s.append(ha.getAnnotation().getId());
                             prevScore = ha.getFinalScore();
                             prevGranularity = ha.getScoreElements().get(ColumnClassifier.SMP_SCORE_GRANULARITY);
                         } else {
                             if (ha.getFinalScore() == prevScore && ha.getScoreElements().get(ColumnClassifier.SMP_SCORE_GRANULARITY)==prevGranularity) {
-                                s.append("=").append(ha.getAnnotation_url());
+                                s.append("=").append(ha.getAnnotation().getId());
                             } else
-                                s.append("|").append(ha.getAnnotation_url());
+                                s.append("|").append(ha.getAnnotation().getId());
                         }
                     }
                     if (table.getColumnHeader(c).getFeature().getMostFrequentDataType().getType().equals(
@@ -69,14 +69,14 @@ public class TAnnotationWriter_SMP extends TAnnotationWriter {
             //then annotations
             out.append("\t<th");
             StringBuilder annotation = new StringBuilder();
-            HeaderAnnotation[] hAnns = tab_annotations.getHeaderAnnotation(col);
+            TColumnHeaderAnnotation[] hAnns = tab_annotations.getHeaderAnnotation(col);
             if (hAnns == null)
                 annotation.append(">-");
             else {
                 annotation.append(" bgcolor=\"#00FF00\">");
                 double best_score = 0.0, best_granularity_score=0.0;
                 for (int i = 0; i < hAnns.length; i++) {
-                    HeaderAnnotation hAnn = hAnns[i];
+                    TColumnHeaderAnnotation hAnn = hAnns[i];
                     if (i == 0) { //the winning annotation
                         annotation.append("<br><b>").append(generateHeaderAnnotationString(hAnn)).append("</b></br>");
                         best_score = hAnn.getFinalScore();

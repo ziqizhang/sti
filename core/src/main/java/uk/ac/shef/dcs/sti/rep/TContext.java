@@ -6,6 +6,8 @@ import java.io.Serializable;
  * An TContext could be any textual content around an Table object.
  */
 public class TContext implements Serializable, Comparable<TContext>{
+    private static final long serialVersionUID = -8136777654860405913L;
+
     private String text;
     private double rankScore; //how relevant is this context to the table
     private TableContextType type;

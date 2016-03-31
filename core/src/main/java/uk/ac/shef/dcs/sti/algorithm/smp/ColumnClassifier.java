@@ -3,14 +3,14 @@ package uk.ac.shef.dcs.sti.algorithm.smp;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
+import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
-import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
+import uk.ac.shef.dcs.sti.rep.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -88,16 +88,17 @@ public class ColumnClassifier {
             }
 
             //a header annotation will only have granularity score if there are more than one candidate with the same vote score
-            HeaderAnnotation[] headerAnnotations = new HeaderAnnotation[result_votes.size()];
+            TColumnHeaderAnnotation[] headerAnnotations = new TColumnHeaderAnnotation[result_votes.size()];
             int i = 0;
             for (Pair<String, Double> oo : result_votes) {
-                HeaderAnnotation ha = new HeaderAnnotation(table.getColumnHeader(col).getHeaderText(),
-                        oo.getKey(), oo.getKey(), oo.getValue());
+                TColumnHeaderAnnotation ha =
+                        new TColumnHeaderAnnotation(table.getColumnHeader(col).getHeaderText(),
+                       new Clazz(oo.getKey(), oo.getKey()), oo.getValue());
                 ha.getScoreElements().put(SMP_SCORE_ENTITY_VOTE, oo.getValue());
                 Double granularity_score = result_granularity.get(oo.getKey());
                 granularity_score = granularity_score == null ? 0 : granularity_score;
                 ha.getScoreElements().put(SMP_SCORE_GRANULARITY, granularity_score);
-                ha.getScoreElements().put(HeaderAnnotation.FINAL, oo.getValue());
+                ha.getScoreElements().put(TColumnHeaderAnnotation.FINAL, oo.getValue());
                 headerAnnotations[i] = ha;
                 i++;
             }

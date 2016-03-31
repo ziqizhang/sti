@@ -103,7 +103,7 @@ public class TableMinerPlusBatch extends STIBatch {
                             getStopwords(),
                             new double[]{1.0, 0.5, 1.0, 0.5, 1.0}, //row,column, column header, tablecontext other,refent
                             getNLPResourcesDir()));                         //1.0, 0.5, 0.25, 1.0, 1.0
-            classifier = new TMPTColumnClassifier(getNLPResourcesDir(),
+            classifier = new TMPColumnClassifier(getNLPResourcesDir(),
                     new Creator_ConceptHierarchicalBOW_Freebase(),
                     getStopwords(),
                     new double[]{1.0, 1.0, 1.0, 1.0}         //all 1.0

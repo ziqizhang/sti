@@ -131,24 +131,24 @@ public class TAnnotationWriter {
         PrintWriter p = new PrintWriter(header_key);
 
         for (int c = 0; c < table.getNumCols(); c++) {
-            HeaderAnnotation[] anns = table_annotation.getHeaderAnnotation(c);
+            TColumnHeaderAnnotation[] anns = table_annotation.getHeaderAnnotation(c);
             if (anns != null && anns.length > 0) {
                 StringBuilder s = new StringBuilder();
                 s.append(c).append("=");
 
                 double prevScore = 0.0;
-                for (HeaderAnnotation ha : anns) {
+                for (TColumnHeaderAnnotation ha : anns) {
                     if (prevScore == 0.0) {
 
-                        s.append(ha.getAnnotation_url());
+                        s.append(ha.getAnnotation().getId());
                         prevScore=ha.getFinalScore();
                     }
                     else{
                         if(ha.getFinalScore()==prevScore){
-                            s.append("=").append(ha.getAnnotation_url());
+                            s.append("=").append(ha.getAnnotation().getId());
                         }
                         else
-                            s.append("|").append(ha.getAnnotation_url());
+                            s.append("|").append(ha.getAnnotation().getId());
                     }
                 }
                 if(table.getColumnHeader(c).getFeature().getMostFrequentDataType().getType().equals(
@@ -180,7 +180,7 @@ public class TAnnotationWriter {
         for (int row = 0; row < table.getNumRows(); row++) {
             for (int col = 0; col < table.getNumCols(); col++) {
                 String color = col == tab_annotations.getSubjectColumn() ? " bgcolor=\"yellow\"" : "";
-                TContentCell cell = table.getContentCell(row, col);
+                TCell cell = table.getContentCell(row, col);
 
                 out.append("\t<td").append(color).append(">").append(cell.getText()).append(cell.getOther_text()).append("</td>\n");
 
@@ -258,14 +258,14 @@ public class TAnnotationWriter {
             if (col == tab_annotations.getSubjectColumn()) {
                 out.append("\t<th");
                 StringBuilder annotation = new StringBuilder();
-                HeaderAnnotation[] hAnns = tab_annotations.getHeaderAnnotation(col);
+                TColumnHeaderAnnotation[] hAnns = tab_annotations.getHeaderAnnotation(col);
                 if (hAnns == null)
                     annotation.append(">-");
                 else {
                     annotation.append(" bgcolor=\"#00FF00\">");
                     double best_score = 0.0;
                     for (int i = 0; i < hAnns.length; i++) {
-                        HeaderAnnotation hAnn = hAnns[i];
+                        TColumnHeaderAnnotation hAnn = hAnns[i];
                         if (i == 0) { //the winning annotation
                             annotation.append("<br><b>").append(generateHeaderAnnotationString(hAnn)).append("</b></br>");
                             best_score = hAnn.getFinalScore();
@@ -323,14 +323,14 @@ public class TAnnotationWriter {
             //then annotations
             out.append("\t<th");
             StringBuilder annotation = new StringBuilder();
-            HeaderAnnotation[] hAnns = tab_annotations.getHeaderAnnotation(col);
+            TColumnHeaderAnnotation[] hAnns = tab_annotations.getHeaderAnnotation(col);
             if (hAnns == null)
                 annotation.append(">-");
             else {
                 annotation.append(" bgcolor=\"#00FF00\">");
                 double best_score = 0.0;
                 for (int i = 0; i < hAnns.length; i++) {
-                    HeaderAnnotation hAnn = hAnns[i];
+                    TColumnHeaderAnnotation hAnn = hAnns[i];
                     if (i == 0) { //the winning annotation
                         annotation.append("<br><b>").append(generateHeaderAnnotationString(hAnn)).append("</b></br>");
                         best_score = hAnn.getFinalScore();
@@ -355,7 +355,7 @@ public class TAnnotationWriter {
         for (int row = 0; row < table.getNumRows(); row++) {
             out.append("<tr>\n");
             for (int col = 0; col < table.getNumCols(); col++) {
-                TContentCell tcc = table.getContentCell(row, col);
+                TCell tcc = table.getContentCell(row, col);
                 out.append("\t<td>").append(tcc.getText()).append(tcc.getOther_text()).append("<font color=\"grey\">").append(" [").
                         append(tcc.getType().getValue()).append("]</font>").
                         append("</td>\n");
@@ -394,10 +394,10 @@ public class TAnnotationWriter {
         return sb.toString();
     }
 
-    protected String generateHeaderAnnotationString(HeaderAnnotation ha) {
+    protected String generateHeaderAnnotationString(TColumnHeaderAnnotation ha) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<a href=\"" + linkPrefix + ha.getAnnotation_url() + "\">").
-                append(ha.getAnnotation_url()).append("(").append(ha.getAnnotation_label()).append(")</a>").
+        sb.append("<a href=\"" + linkPrefix + ha.getAnnotation().getId() + "\">").
+                append(ha.getAnnotation().getId()).append("(").append(ha.getAnnotation().getId()).append(")</a>").
                 append("=").append(Math.round(ha.getFinalScore() * 100.0) / 100.0).append(ha.getSupportingRows());
         return sb.toString();
     }

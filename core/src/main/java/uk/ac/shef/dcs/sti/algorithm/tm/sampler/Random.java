@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.tm.sampler;
 
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.rep.TContentCell;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 
 import java.util.*;
@@ -26,7 +26,7 @@ public class Random extends TContentCellRanker {
 
         final Map<Integer, Integer> scores = new LinkedHashMap<Integer, Integer>();
         for (int r = 0; r < table.getNumRows(); r++) {
-            TContentCell tcc_at_focus = table.getContentCell(r, fromCol);
+            TCell tcc_at_focus = table.getContentCell(r, fromCol);
             if (tcc_at_focus.getType().equals(DataTypeClassifier.DataType.EMPTY)) {
                 continue;
             }

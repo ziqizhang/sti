@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import cc.mallet.grmm.types.*;
 import cc.mallet.types.LabelAlphabet;
-import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
+import uk.ac.shef.dcs.sti.rep.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 
 import java.util.HashMap;
@@ -25,7 +25,7 @@ class FactorBuilderHeader extends FactorBuilder {
             if(columns!=null && !columns.contains(col)) continue;
             Variable dummyHeader = createDummyVariable("dummyHeader("+col+")");
 
-            HeaderAnnotation[] candidateConcepts_header = annotation.getHeaderAnnotation(col);
+            TColumnHeaderAnnotation[] candidateConcepts_header = annotation.getHeaderAnnotation(col);
             if (candidateConcepts_header.length == 0)
                 continue;
 
@@ -34,8 +34,8 @@ class FactorBuilderHeader extends FactorBuilder {
 
             double[] compatibility = new double[candidateConcepts_header.length];
             for (int i = 0; i < candidateConcepts_header.length; i++) {
-                HeaderAnnotation ha = candidateConcepts_header[i];
-                candidateIndex_header.lookupIndex(ha.getAnnotation_url());
+                TColumnHeaderAnnotation ha = candidateConcepts_header[i];
+                candidateIndex_header.lookupIndex(ha.getAnnotation().getId());
 
                 compatibility[i] = ha.getScoreElements().get(
                         ClassificationScorer_JI_adapted.SCORE_HEADER_FACTOR

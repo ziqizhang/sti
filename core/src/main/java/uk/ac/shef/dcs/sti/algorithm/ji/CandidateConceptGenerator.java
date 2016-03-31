@@ -7,10 +7,9 @@ import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
-import uk.ac.shef.dcs.sti.rep.HeaderAnnotation;
+import uk.ac.shef.dcs.sti.rep.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -78,11 +77,11 @@ public class CandidateConceptGenerator {
         }
 
         //go thru every distinct type, create header annotation candidate
-        HeaderAnnotation[] headerAnnotations = new HeaderAnnotation[distinctTypes.size()];
+        TColumnHeaderAnnotation[] headerAnnotations = new TColumnHeaderAnnotation[distinctTypes.size()];
         int count = 0;
         for (Map.Entry<String, String> concept : distinctTypeStrings.entrySet()) {
-            HeaderAnnotation ha = new HeaderAnnotation(table.getColumnHeader(col).getHeaderText(),
-                    concept.getKey(), concept.getValue(), 0.0);
+            TColumnHeaderAnnotation ha = new TColumnHeaderAnnotation(table.getColumnHeader(col).getHeaderText(),
+                    new Clazz(concept.getKey(), concept.getValue()), 0.0);
             Map<String, Double> score_elements = conceptScorer.score(ha, table.getColumnHeader(col));
             conceptScorer.compute_final_score(score_elements);
             ha.setFinalScore(score_elements.get(ClassificationScorer_JI_adapted.SCORE_HEADER_FACTOR));

@@ -6,7 +6,6 @@ import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.*;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -35,7 +34,7 @@ public class Base_TM_no_Update_ColumnLearner {
         //3. score column and also disambiguate initial rows in the selected sample
         Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row =
                 new HashMap<>();
-        Set<HeaderAnnotation> headerAnnotationScores = new HashSet<HeaderAnnotation>();
+        Set<TColumnHeaderAnnotation> headerAnnotationScores = new HashSet<TColumnHeaderAnnotation>();
 
         int countRows = 0;
         Map<Object, Double> state = new HashMap<Object, Double>();
@@ -48,7 +47,7 @@ public class Base_TM_no_Update_ColumnLearner {
             System.out.println();*/
             countRows++;
             //find candidate entities
-            TContentCell tcc = table.getContentCell(row_index, column);
+            TCell tcc = table.getContentCell(row_index, column);
             System.out.println("\t>> Classification-LEARN, row " + row_index + "," + tcc);
             if (tcc.getText().length() < 2) {
                 System.out.println("\t\t>>> Very short text cell skipped: " + row_index + "," + column + " " + tcc.getText());
@@ -106,13 +105,13 @@ public class Base_TM_no_Update_ColumnLearner {
     }
 
     private Map<Object, Double> update_column_class(
-            Set<HeaderAnnotation> scores, int tableRowsTotal) {
+            Set<TColumnHeaderAnnotation> scores, int tableRowsTotal) {
         Map<Object, Double> state = new HashMap<Object, Double>();
-        for (HeaderAnnotation ha : scores) {
+        for (TColumnHeaderAnnotation ha : scores) {
             //Map<String, Double> scoreElements =ha.getScoreElements();
             ha.getScoreElements().put(
-                    HeaderAnnotation.FINAL,
-                    classifier_learn.compute_final_score(ha, tableRowsTotal).get(HeaderAnnotation.FINAL)
+                    TColumnHeaderAnnotation.FINAL,
+                    classifier_learn.compute_final_score(ha, tableRowsTotal).get(TColumnHeaderAnnotation.FINAL)
             );
             state.put(ha, ha.getFinalScore());
         }
@@ -124,10 +123,10 @@ public class Base_TM_no_Update_ColumnLearner {
                                                              Table table,
                                                              Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row,
                                                              int column) {
-        List<HeaderAnnotation> bestHeaderAnnotations = table_annotation.getBestHeaderAnnotations(column);
+        List<TColumnHeaderAnnotation> bestHeaderAnnotations = table_annotation.getBestHeaderAnnotations(column);
         List<String> types = new ArrayList<String>();
-        for (HeaderAnnotation ha : bestHeaderAnnotations)
-            types.add(ha.getAnnotation_url());
+        for (TColumnHeaderAnnotation ha : bestHeaderAnnotations)
+            types.add(ha.getAnnotation().getId());
         for (Map.Entry<Integer, List<Pair<Entity, Map<String, Double>>>> e :
                 candidates_and_scores_for_each_row.entrySet()) {
 
@@ -160,9 +159,9 @@ public class Base_TM_no_Update_ColumnLearner {
                 }
             });
             //insert column type annotations
-            HeaderAnnotation[] final_header_annotations = new HeaderAnnotation[candidate_header_annotations.size()];
+            TColumnHeaderAnnotation[] final_header_annotations = new TColumnHeaderAnnotation[candidate_header_annotations.size()];
             for (int i = 0; i < candidate_header_annotations.size(); i++)
-                final_header_annotations[i] = (HeaderAnnotation) candidate_header_annotations.get(i);
+                final_header_annotations[i] = (TColumnHeaderAnnotation) candidate_header_annotations.get(i);
             table_annotation.setHeaderAnnotation(column, final_header_annotations);
         }
     }
@@ -210,11 +209,11 @@ public class Base_TM_no_Update_ColumnLearner {
                                                int row,
                                                int column,
                                                TAnnotation table_annotation) {
-        HeaderAnnotation[] headers = table_annotation.getHeaderAnnotation(column);
+        TColumnHeaderAnnotation[] headers = table_annotation.getHeaderAnnotation(column);
         if (headers != null) {
-            for (HeaderAnnotation ha : headers) {
+            for (TColumnHeaderAnnotation ha : headers) {
                 for (Entity ec : bestCandidates) {
-                    if (ec.getTypeIds().contains(ha.getAnnotation_url()))
+                    if (ec.getTypeIds().contains(ha.getAnnotation().getId()))
                         ha.addSupportingRow(row);
                 }
             }

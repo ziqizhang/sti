@@ -10,7 +10,7 @@ import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.TContext;
 import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.TContentCell;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
@@ -276,7 +276,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
         String text = "";
 
         for (int r = 0; r < table.getNumRows(); r++) {
-            TContentCell tcc = table.getContentCell(r, c);
+            TCell tcc = table.getContentCell(r, c);
             text += tcc.getText() + " ";
         }
         return text;

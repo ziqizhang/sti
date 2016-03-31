@@ -6,11 +6,10 @@ import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
-import uk.ac.shef.dcs.sti.rep.TContentCell;
 import uk.ac.shef.dcs.sti.rep.Table;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -31,7 +30,7 @@ public class TCellDisambiguator {
     ) throws KBSearchException {
         //do disambiguation scoring
         //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
-        TContentCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
+        TCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
         LOG.info("\t>> coldstart disamb, candidates=" + candidates.size());
         List<Pair<Entity, Map<String, Double>>> disambiguationScores = new ArrayList<>();
         for (Entity c : candidates) {
@@ -64,7 +63,7 @@ public class TCellDisambiguator {
     ) throws KBSearchException {
         //do disambiguation scoring
         //LOG.info("\t>> Disambiguation-UPDATE , position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
-        TContentCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
+        TCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
         if (first_phase)
             System.out.println("\t>> Disambiguation-LEARN(consolidate) , position at (" + entity_rows + "," + entity_column + ") " + sample_tcc + " candidates=" + candidates.size());
         else

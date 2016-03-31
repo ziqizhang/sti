@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Date: 01/10/12
  * Time: 15:46
  */
-public class TContentCell implements Serializable {
+public class TCell implements Serializable {
 
     private static final long serialVersionUID = -8136725814000405913L;
 
@@ -18,7 +18,7 @@ public class TContentCell implements Serializable {
     private String xPath; //xpath that extracts this value
     private DataTypeClassifier.DataType type;
 
-    public TContentCell(String text){
+    public TCell(String text){
         this.text=text;
         this.type=DataTypeClassifier.DataType.UNKNOWN;
         other_text="";

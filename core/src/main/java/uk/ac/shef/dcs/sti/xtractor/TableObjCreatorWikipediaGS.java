@@ -4,6 +4,7 @@ import cern.colt.matrix.ObjectMatrix2D;
 import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.*;
@@ -53,7 +54,7 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
                 table.setColumnHeader(c, header);
 
                 //now check if for this header there are any annotations (i.e., links)
-                List<HeaderAnnotation> annotations = new ArrayList<HeaderAnnotation>();
+                List<TColumnHeaderAnnotation> annotations = new ArrayList<TColumnHeaderAnnotation>();
                 List<Node> it = DomUtils.findAllByTag(e, "A");
                 if (it.size() > 0) {
                     for (Node ahref : it) {
@@ -70,11 +71,11 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
                         if (linkText.length() == 0)
                             continue;
 
-                        annotations.add(new HeaderAnnotation(linkText, uri, uri, 1.0));
+                        annotations.add(new TColumnHeaderAnnotation(linkText, new Clazz(uri, uri), 1.0));
                     }
                 }
                 //set header annotation
-                table.getTableAnnotations().setHeaderAnnotation(c, annotations.toArray(new HeaderAnnotation[0]));
+                table.getTableAnnotations().setHeaderAnnotation(c, annotations.toArray(new TColumnHeaderAnnotation[0]));
             }
 
         }
@@ -106,7 +107,7 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
         cellText = edited;
 
 
-        TContentCell cell = new TContentCell(cellText);
+        TCell cell = new TCell(cellText);
         r = r - 1;
         table.setContentCell(r, c, cell);
 
