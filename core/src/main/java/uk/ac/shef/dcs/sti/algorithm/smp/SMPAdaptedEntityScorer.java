@@ -1,6 +1,5 @@
 package uk.ac.shef.dcs.sti.algorithm.smp;
 
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
@@ -23,7 +22,7 @@ import java.util.*;
 /**
  * An adapted version of the NE ranker (scorer) used in Semantic Message Passing
  */
-public class SMPAdaptedEntityScorer implements EntityScorer {
+public class SMPAdaptedEntityScorer extends EntityScorer {
     public static String SCORE_SMP_INDEX = "smp_index";
     public static String SCORE_SMP_LEV = "smp_stringsim_lev";
     public static String SCORE_SMP_DICE = "smp_stringsim_dice";
@@ -47,16 +46,16 @@ public class SMPAdaptedEntityScorer implements EntityScorer {
     @Override
     public Map<String, Double> score(Entity candidate,
                                      List<Entity> all_candidates,
-                                     int entity_source_column,
-                                     int entity_source_row,
-                                     List<Integer> entity_source_rows,
+                                     int sourceColumnIndex,
+                                     int sourceRowIndex,
+                                     List<Integer> otherRows,
                                      Table table,
-                                     Set<String> assigned_column_semantic_types, Entity... reference_disambiguated_entities) {
+                                     Set<String> preliminaryColumnLabel, Entity... referenceEntities) {
         //entity index score
         double indexScore = 1.0 / all_candidates.size();
 
         //lev between NE and cell text
-        TContentCell cell = table.getContentCell(entity_source_row, entity_source_column);
+        TContentCell cell = table.getContentCell(sourceRowIndex, sourceColumnIndex);
         double levScore = calculateStringSimilarity(cell.getText(), candidate, lev);
         //dice between NE and cell text
         double diceScore = calculateStringSimilarity(cell.getText(), candidate, dice);
@@ -66,12 +65,12 @@ public class SMPAdaptedEntityScorer implements EntityScorer {
         List<Attribute> facts = candidate.getAttributes();
         List<String> bag_of_words_for_entity = new ArrayList<String>();
         for (Attribute f : facts) {
-            if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE &&
+            if (!TableMinerConstants.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE &&
                     !f.isDirect())
                 continue;
             String value = f.getValue();
             if (!StringUtils.isPath(value))
-                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
+                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
             else
                 bag_of_words_for_entity.add(value);
         }
@@ -80,26 +79,26 @@ public class SMPAdaptedEntityScorer implements EntityScorer {
         bag_of_words_for_entity.removeAll(stopWords);
        /* BOW OF THE Row context*/
         //double totalScore = 0.0;
-        String headerText = table.getColumnHeader(entity_source_column).getHeaderText();
+        String headerText = table.getColumnHeader(sourceColumnIndex).getHeaderText();
         List<String> bag_of_words_for_context = new ArrayList<String>();
         //context from the row
 
         for (int col = 0; col < table.getNumCols(); col++) {
-            if (col == entity_source_column || table.getColumnHeader(col).getTypes().get(0).equals(
+            if (col == sourceColumnIndex || table.getColumnHeader(col).getTypes().get(0).equals(
                     DataTypeClassifier.DataType.ORDERED_NUMBER
             ))
                 continue;
-            TContentCell tcc = table.getContentCell(entity_source_row, col);
-            bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
+            TContentCell tcc = table.getContentCell(sourceRowIndex, col);
+            bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
         }
 
         bag_of_words_for_context.addAll(StringUtils.toBagOfWords(   //also add the column header as the row context of this entity
-                headerText, true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
+                headerText, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
 
         if (lemmatizer != null)
             bag_of_words_for_context = lemmatizer.lemmatize(bag_of_words_for_context);
         bag_of_words_for_context.removeAll(stopWords);
-        double contextOverlapScore = CollectionUtils.scoreCoverage_against_b(bag_of_words_for_entity, bag_of_words_for_context);
+        double contextOverlapScore = CollectionUtils.computeCoverage(bag_of_words_for_entity, bag_of_words_for_context);
 
         Map<String, Double> score_elements = new HashMap<String, Double>();
         score_elements.put(SCORE_SMP_INDEX, indexScore);

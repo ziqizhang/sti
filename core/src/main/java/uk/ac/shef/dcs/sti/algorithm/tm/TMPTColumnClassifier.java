@@ -209,18 +209,18 @@ public class TMPTColumnClassifier implements TColumnClassifier {
 
             Set<String> annotation_bow = new HashSet<String>(create_annotation_bow(ha,
                     true,
-                    TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW,
+                    TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR,
                     TableMinerConstants.INCLUDE_URL_IN_CLASS_BOW));
 
             if (overwrite || (!overwrite && score_ctx_header_text == null)) {
                 bag_of_words_for_header = create_header_bow(bag_of_words_for_header, table, column);
                 double ctx_header_text =
-                        CollectionUtils.scoreOverlap_dice_keepFrequency(annotation_bow, bag_of_words_for_header) * weights[0];
-                //CollectionUtils.scoreCoverage_against_b(new ArrayList<String>(bag_of_words_for_header), new ArrayList<String>(annotation_bow)) * weights[0];
+                        CollectionUtils.computeFrequencyWeightedDice(annotation_bow, bag_of_words_for_header) * weights[0];
+                //CollectionUtils.computeCoverage(new ArrayList<String>(bag_of_words_for_header), new ArrayList<String>(annotation_bow)) * weights[0];
 
                 /*bag_of_words_for_other_headers = create_header_other_bow(bag_of_words_for_other_headers, table,column);
                 ctx_header_text +=
-                        CollectionUtils.scoreOverlap_dice_keepFrequency(annotation_bow, bag_of_words_for_other_headers) * weights[0];*/
+                        CollectionUtils.computeFrequencyWeightedDice(annotation_bow, bag_of_words_for_other_headers) * weights[0];*/
 
                 ha.getScoreElements().put(HeaderAnnotation.SCORE_CTX_NAME_MATCH, ctx_header_text);
             }
@@ -228,20 +228,20 @@ public class TMPTColumnClassifier implements TColumnClassifier {
             if (overwrite || (!overwrite && score_ctx_column_text == null)) {
                 bag_of_words_for_column = create_column_bow(bag_of_words_for_column, table, column);
                 double ctx_column =
-                        CollectionUtils.scoreOverlap_dice_keepFrequency(annotation_bow, bag_of_words_for_column) * weights[1];
-                //CollectionUtils.scoreCoverage_against_b(bag_of_words_for_column, new ArrayList<String>(annotation_bow)) * weights[1];
+                        CollectionUtils.computeFrequencyWeightedDice(annotation_bow, bag_of_words_for_column) * weights[1];
+                //CollectionUtils.computeCoverage(bag_of_words_for_column, new ArrayList<String>(annotation_bow)) * weights[1];
                 ha.getScoreElements().put(HeaderAnnotation.SCORE_CTX_COLUMN_TEXT, ctx_column);
             }
 
             if (overwrite || (!overwrite && score_ctx_table_context == null)) {
                 bag_of_words_for_table_major_context = create_table_context_major_bow(bag_of_words_for_table_major_context, table);
                 double ctx_table_major =
-                        CollectionUtils.scoreOverlap_dice_keepFrequency(annotation_bow, bag_of_words_for_table_major_context) * weights[3];
-                //CollectionUtils.scoreCoverage_against_b(bag_of_words_for_table_major_context, new ArrayList<String>(annotation_bow)) * weights[3];
+                        CollectionUtils.computeFrequencyWeightedDice(annotation_bow, bag_of_words_for_table_major_context) * weights[3];
+                //CollectionUtils.computeCoverage(bag_of_words_for_table_major_context, new ArrayList<String>(annotation_bow)) * weights[3];
                 bag_of_words_for_table_other_context = create_table_context_other_bow(bag_of_words_for_table_other_context, table);
                 double ctx_table_other =
-                        CollectionUtils.scoreOverlap_dice_keepFrequency(annotation_bow, bag_of_words_for_table_other_context) * weights[2];
-                //CollectionUtils.scoreCoverage_against_b(bag_of_words_for_table_other_context, new ArrayList<String>(annotation_bow)) * weights[2];
+                        CollectionUtils.computeFrequencyWeightedDice(annotation_bow, bag_of_words_for_table_other_context) * weights[2];
+                //CollectionUtils.computeCoverage(bag_of_words_for_table_other_context, new ArrayList<String>(annotation_bow)) * weights[2];
                 ha.getScoreElements().put(HeaderAnnotation.SCORE_CTX_TABLE_CONTEXT,
                         ctx_table_major + ctx_table_other);
             }
@@ -255,9 +255,9 @@ public class TMPTColumnClassifier implements TColumnClassifier {
     public double score_domain_consensus(HeaderAnnotation ha, List<String> domain_representation) {
         List<String> annotation_bow = create_annotation_bow(ha,
                 true,
-                TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW,
+                TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR,
                 TableMinerConstants.INCLUDE_URL_IN_CLASS_BOW);
-        double score = CollectionUtils.scoreOverlap_dice_keepFrequency(annotation_bow, domain_representation);
+        double score = CollectionUtils.computeFrequencyWeightedDice(annotation_bow, domain_representation);
         score = Math.sqrt(score)*2;
         ha.getScoreElements().put(HeaderAnnotation.SCORE_DOMAIN_CONSENSUS, score);
 
@@ -276,7 +276,7 @@ public class TMPTColumnClassifier implements TColumnClassifier {
             if (tx.getType().equals(TContext.TableContextType.PAGETITLE) ||
                     tx.getType().equals(TContext.TableContextType.CAPTION)) {
                 bow.addAll(lemmatizer.lemmatize(
-                        StringUtils.toBagOfWords(tx.getText(), true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW))
+                        StringUtils.toBagOfWords(tx.getText(), true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }
@@ -296,7 +296,7 @@ public class TMPTColumnClassifier implements TColumnClassifier {
             if (!tx.getType().equals(TContext.TableContextType.PAGETITLE) &&
                     !tx.getType().equals(TContext.TableContextType.CAPTION)) {
                 bow.addAll(lemmatizer.lemmatize(
-                        StringUtils.toBagOfWords(tx.getText(), true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW))
+                        StringUtils.toBagOfWords(tx.getText(), true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }
@@ -312,7 +312,7 @@ public class TMPTColumnClassifier implements TColumnClassifier {
             TContentCell tcc = table.getContentCell(row, column);
             if (tcc.getText() != null) {
                 bow.addAll(lemmatizer.lemmatize(
-                        StringUtils.toBagOfWords(tcc.getText(), true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW))
+                        StringUtils.toBagOfWords(tcc.getText(), true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }
@@ -331,7 +331,7 @@ public class TMPTColumnClassifier implements TColumnClassifier {
                     header.getHeaderText() != null &&
                     !header.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue())) {
                 bow.addAll(lemmatizer.lemmatize(
-                        StringUtils.toBagOfWords(header.getHeaderText(), true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW))
+                        StringUtils.toBagOfWords(header.getHeaderText(), true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR))
                 );
             }
      //   }
@@ -353,7 +353,7 @@ public class TMPTColumnClassifier implements TColumnClassifier {
                     header.getHeaderText() != null &&
                     !header.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue())) {
                 bow.addAll(lemmatizer.lemmatize(
-                        StringUtils.toBagOfWords(header.getHeaderText(), true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW))
+                        StringUtils.toBagOfWords(header.getHeaderText(), true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }

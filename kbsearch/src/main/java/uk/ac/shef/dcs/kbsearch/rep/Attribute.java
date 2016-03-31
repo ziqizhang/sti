@@ -62,4 +62,8 @@ public class Attribute implements Serializable{
     public void setIsDirect(boolean isDirect) {
         this.isDirect = isDirect;
     }
+
+    public String toString(){
+        return "r="+relation+",o="+value+" ("+valueURI+"), direct="+isDirect;
+    }
 }

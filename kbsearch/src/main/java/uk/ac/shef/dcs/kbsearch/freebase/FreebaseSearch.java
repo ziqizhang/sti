@@ -130,7 +130,7 @@ public class FreebaseSearch extends KBSearch {
                     List<Attribute> attributes = findAttributesOfEntities(ec);
                     ec.setAttributes(attributes);
                     for (Attribute attr : attributes) {
-                        if (attr.getRelation().equals("/type/object/type") &&
+                        if (attr.getRelation().equals(FreebaseEnum.RELATION_HASTYPE.getString()) &&
                                 attr.isDirect() &&
                                 !ec.hasType(attr.getValueURI()))
                             ec.addType(new Clazz(attr.getValueURI(), attr.getValue()));
@@ -188,7 +188,7 @@ public class FreebaseSearch extends KBSearch {
             id = id + ec.getId() + ",";
             //ec.setTypes(FreebaseSearchResultFilter.filterClazz(ec.getTypes()));
             List<Clazz> filteredTypes = getResultFilter().filterClazz(ec.getTypes());
-            ec.getTypes().clear();
+            ec.clearTypes();
             for (Clazz ft : filteredTypes)
                 ec.addType(ft);
 
@@ -198,7 +198,7 @@ public class FreebaseSearch extends KBSearch {
             ec.getAttributes().addAll(filteredAttributes);*/
         }
 
-        System.out.println("(QUERY_KB:" + beforeFiltering + " => " + result.size() + id);
+        LOG.info("(QUERY_KB:" + beforeFiltering + " => " + result.size() + id);
         return result;
     }
 
@@ -231,8 +231,8 @@ public class FreebaseSearch extends KBSearch {
                 //check firstly, is this a concept?
                 boolean isConcept = false;
                 for (Attribute f : retrievedAttributes) {
-                    if (f.getRelation().equals("/type/object/type")
-                            && f.getValueURI() != null && f.getValueURI().equals("/type/type")) {
+                    if (f.getRelation().equals(FreebaseEnum.RELATION_HASTYPE.getString())
+                            && f.getValueURI() != null && f.getValueURI().equals(FreebaseEnum.TYPE_TYPE.getString())) {
                         isConcept = true;
                         break;
                     }
@@ -249,13 +249,13 @@ public class FreebaseSearch extends KBSearch {
 
                 //ok, this is a concept. We need to deep-fetch its properties, and find out the range of their properties
                 for (Attribute f : retrievedAttributes) {
-                    if (f.getRelation().equals("/type/type/properties")) { //this is a property of a concept, we need to process it further
+                    if (f.getRelation().equals(FreebaseEnum.TYPE_PROPERTYOFTYPE.getString())) { //this is a property of a concept, we need to process it further
                         String propertyId = f.getValueURI();
                         if (propertyId == null) continue;
 
                         List<Attribute> attrOfProperty = findAttributesOfProperty(propertyId);
                         for (Attribute t : attrOfProperty) {
-                            if (t.getRelation().equals("/type/property/expected_type")) {
+                            if (t.getRelation().equals(FreebaseEnum.RELATION_RANGEOFPROPERTY.getString())) {
                                 String rangeLabel = t.getValue();
                                 String rangeURL = t.getValueURI();
                                 Attribute attr = new Attribute(f.getValueURI(), rangeLabel);
@@ -277,12 +277,7 @@ public class FreebaseSearch extends KBSearch {
         }
 
         //filtering
-        Iterator<Attribute> it = attributes.iterator();
-        while (it.hasNext()) {
-            Attribute f = it.next();
-            if (!getResultFilter().isValidAttribute(f))
-                it.remove();
-        }
+        attributes=getResultFilter().filterAttribute(attributes);
         return attributes;
     }
 
@@ -307,7 +302,7 @@ public class FreebaseSearch extends KBSearch {
                     cacheConcept.cache(query, result, AUTO_COMMIT);
                     LOG.info("QUERY (cache save)=" + query + "|" + clazz);
                 } catch (Exception e) {
-                    System.out.println("FAILED:" + clazz);
+                    LOG.error("FAILED:" + clazz);
                     e.printStackTrace();
                 }
             } catch (IOException ioe) {
@@ -325,7 +320,7 @@ public class FreebaseSearch extends KBSearch {
                 findAttributesOfEntities(new Entity(relationURI, relationURI));
         List<Clazz> types = new ArrayList<>();
         for (Attribute attr : attributes) {
-            if (attr.getRelation().equals("/type/property/expected_type")) {
+            if (attr.getRelation().equals(FreebaseEnum.RELATION_RANGEOFPROPERTY.getString())) {
                 types.add(new Clazz(attr.getValueURI(), attr.getValue()));
             }
         }
@@ -364,13 +359,13 @@ public class FreebaseSearch extends KBSearch {
     }
 
     private List<Attribute> find_attributes(String id, SolrCache cache) throws KBSearchException {
+        if (id.length() == 0)
+            return new ArrayList<>();
         boolean forceQuery = false;
         if (ALWAYS_CALL_REMOTE_TOPICAPI)
             forceQuery = true;
 
         String query = createSolrCacheQuery_findAttributesOfResource(id);
-        if (query.length() == 0)
-            return new ArrayList<>();
         List<Attribute> result = null;
         try {
             result = (List<Attribute>) cache.retrieve(query);
@@ -379,17 +374,17 @@ public class FreebaseSearch extends KBSearch {
         } catch (Exception e) {
         }
         if (result == null || forceQuery) {
-            List<Attribute> facts;
+            List<Attribute> attributes;
             try {
-                facts = searcher.topicapi_getAttributesOfTopic(id);
+                attributes = searcher.topicapi_getAttributesOfTopic(id);
             } catch (Exception e) {
                 if (e instanceof HttpResponseException && donotRepeatQuery((HttpResponseException) e))
-                    facts = new ArrayList<>();
+                    attributes = new ArrayList<>();
                 else
                     throw new KBSearchException(e);
             }
             result = new ArrayList<>();
-            result.addAll(facts);
+            result.addAll(attributes);
             try {
                 cache.cache(query, result, AUTO_COMMIT);
                 LOG.info("QUERY (cache save)=" + query + "|" + query);
@@ -399,12 +394,7 @@ public class FreebaseSearch extends KBSearch {
         }
 
         //filtering
-        Iterator<Attribute> it = result.iterator();
-        while (it.hasNext()) {
-            Attribute attr = it.next();
-            if (!getResultFilter().isValidAttribute(attr))
-                it.remove();
-        }
+        result = getResultFilter().filterAttribute(result);
         return result;
     }
 

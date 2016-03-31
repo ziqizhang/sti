@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.kbsearch.rep;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ public abstract class Resource implements Serializable{
 
     protected String id;
     protected String label;
-    protected List<Attribute> attributes;
+    protected List<Attribute> attributes=new ArrayList<>();
 
     public List<Attribute> getAttributes(){
         return attributes;

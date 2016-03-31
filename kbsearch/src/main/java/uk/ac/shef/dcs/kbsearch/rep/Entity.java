@@ -1,5 +1,7 @@
 package uk.ac.shef.dcs.kbsearch.rep;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -8,9 +10,9 @@ import java.util.Set;
  */
 public class Entity extends Resource {
     private static final long serialVersionUID = -1208425814000405913L;
-    protected List<Clazz> types;
-    protected Set<String> typeIds;
-    protected Set<String> typeNames;
+    protected List<Clazz> types=new ArrayList<>();
+    protected Set<String> typeIds=new HashSet<>();
+    protected Set<String> typeNames =new HashSet<>();
 
     public Entity(String id, String label){
         this.id=id;
@@ -34,10 +36,16 @@ public class Entity extends Resource {
     }
 
     public boolean hasType(String typeId) {
-        return typeId.contains(typeId);
+        return typeIds.contains(typeId);
     }
 
     public List<Clazz> getTypes() {
         return types;
+    }
+
+    public void clearTypes(){
+        types.clear();
+        typeIds.clear();
+        typeNames.clear();
     }
 }

@@ -67,9 +67,7 @@ public class FreebaseQueryProxy {
     }
 
 
-    //given a topic id, returns its facts. result is a list of string array, where in each array, value 0 is the property name; value 1 is the value;
-    //value 2 could be null or a string, when it is an id of a topic (if null then value of property is not topic); value 4 is "y" or "n", meaning if
-    //if the property is a nested property of the topic of interest.
+    //given a topic id, returns its attributes.
     public List<Attribute> topicapi_getAttributesOfTopic(String id) throws IOException {
         Date start = new Date();
         List<Attribute> res = new ArrayList<>();
@@ -81,7 +79,7 @@ public class FreebaseQueryProxy {
         try {
             JSONObject topic = (JSONObject) jsonParser.parse(httpResponse.parseAsString());
             JSONObject properties = (JSONObject) topic.get("property");
-            parseTopicAPIResult(properties, res, false);
+            parseTopicAPIResult(properties, res, true);
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
@@ -95,14 +93,14 @@ public class FreebaseQueryProxy {
         List<Attribute> res = new ArrayList<>();
         GenericUrl url = new GenericUrl(properties.get(FB_QUERY_API_URL_TOPIC).toString() + id);
         url.put("key", properties.get(FB_QUERY_API_KEY));
-        url.put("filter", "/type/object/type");
+        url.put("filter", FreebaseEnum.RELATION_HASTYPE.getString());
         HttpRequest request = requestFactory.buildGetRequest(url);
         HttpResponse httpResponse = interrupter.executeQuery(request, true);
         try {
             JSONObject topic = (JSONObject) jsonParser.parse(httpResponse.parseAsString());
             JSONObject properties = (JSONObject) topic.get("property");
             if(properties!=null)
-                parseTopicAPIResult(properties, res, false);
+                parseTopicAPIResult(properties, res, true);
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
@@ -111,8 +109,7 @@ public class FreebaseQueryProxy {
 
     }
 
-    //[] = {property, val.toString(), id.toString(), nested_flag}  (nested flag=y/n)
-    public List<Attribute> topicapi_getFactsOfTopicID(String id, String filter) throws IOException {
+    public List<Attribute> topicapi_getAttributesOfTopicID(String id, String filter) throws IOException {
         Date start = new Date();
         List<Attribute> res = new ArrayList<>();
         GenericUrl url = new GenericUrl(properties.get(FB_QUERY_API_URL_TOPIC).toString() + id);
@@ -124,7 +121,7 @@ public class FreebaseQueryProxy {
         try {
             JSONObject topic = (JSONObject) jsonParser.parse(httpResponse.parseAsString());
             JSONObject properties = (JSONObject) topic.get("property");
-            parseTopicAPIResult(properties, res, false);
+            parseTopicAPIResult(properties, res, true);
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
@@ -133,7 +130,7 @@ public class FreebaseQueryProxy {
 
     }
 
-    private void parseTopicAPIResult(JSONObject json, List<Attribute> out, boolean nested) {
+    private void parseTopicAPIResult(JSONObject json, List<Attribute> out, boolean directRelation) {
         /*if(json==null)
             System.out.println();*/
         Iterator<String> prop_keys = json.keySet().iterator();
@@ -144,9 +141,9 @@ public class FreebaseQueryProxy {
                 JSONArray jsonArray = (JSONArray) propValueObj.get("values");
                 Object c = propValueObj.get("valuetype");
                 if (c != null && c.toString().equals("compound"))
-                    parsePropertyValues(jsonArray, prop, out, nested, true);
+                    parsePropertyValues(jsonArray, prop, out, directRelation, true);
                 else
-                    parsePropertyValues(jsonArray, prop, out, nested, false);
+                    parsePropertyValues(jsonArray, prop, out, directRelation, false);
             } catch (Exception e) {
             }
         }
@@ -164,7 +161,7 @@ public class FreebaseQueryProxy {
         return obj;
     }
 
-    private void parsePropertyValues(JSONArray json, String property, List<Attribute> out, boolean nested, boolean skipCompound) {
+    private void parsePropertyValues(JSONArray json, String property, List<Attribute> out, boolean directRelation, boolean skipCompound) {
         Iterator entry = json.iterator();
         Object val = null, id = null, mid = null, more_props = null;
         while (entry.hasNext()) {
@@ -172,12 +169,13 @@ public class FreebaseQueryProxy {
             if (skipCompound) {
                 more_props = key.get("property");
                 if (more_props != null)
-                    parseTopicAPIResult((JSONObject) more_props, out, true);
+                    parseTopicAPIResult((JSONObject) more_props, out, false);
                 continue;
             }
 
             val = key.get("text");
-            if (property.equals("/common/topic/description") || property.equals("/common/document/text")) {
+            if (property.equals(FreebaseEnum.RELATION_HASDESCRIPTION.getString())
+                    || property.equals(FreebaseEnum.RELATION_HASDOCUMENTTEXT.getString())) {
                 Object changeVal = key.get("value");
                 if (changeVal != null)
                     val = changeVal;
@@ -186,7 +184,7 @@ public class FreebaseQueryProxy {
             mid = key.get("mid");
             if (id == null && mid != null) id = mid;
             Attribute attr = new Attribute(property, val.toString());
-            attr.setIsDirect(nested);
+            attr.setIsDirect(directRelation);
             if (val != null && id != null) {
                 attr.setValueURI(id.toString());
                 out.add(attr);
@@ -280,7 +278,7 @@ public class FreebaseQueryProxy {
             String query = "[{\"mid\":null," +
                     "\"name\":null," +
                     "\"name~=\":\"" + name + "\"," +
-                    "\"/type/object/type\":[],";
+                    "\""+FreebaseEnum.RELATION_HASTYPE+"\":[],";
             if (types.length > 0) {
                 if (operator.equals("any")) {
                     query = query + "\"type|=\":[";
@@ -325,11 +323,11 @@ public class FreebaseQueryProxy {
                     String e_name = obj.get("name").toString();
                     FreebaseTopic ent = new FreebaseTopic(id);
                     ent.setLabel(e_name);
-                    if (obj.get("/type/object/type") != null) {
-                        JSONArray jsonArray = (JSONArray) obj.get("/type/object/type");
+                    if (obj.get(FreebaseEnum.RELATION_HASTYPE.getString()) != null) {
+                        JSONArray jsonArray = (JSONArray) obj.get(FreebaseEnum.RELATION_HASTYPE.getString());
                         for (int n = 0; n < jsonArray.size(); n++) {
                             String the_type = jsonArray.get(n).toString();
-                            if (!the_type.equals("/common/topic") && !the_type.startsWith("/user/"))
+                            if (!the_type.equals(FreebaseEnum.TYPE_COMMON_TOPIC.getString()) && !the_type.startsWith(FreebaseEnum.TYPE_USER.getString()))
                                 ent.addType(new Clazz(the_type, the_type));
                         }
                     }

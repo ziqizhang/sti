@@ -124,7 +124,7 @@ public abstract class KBSearch {
     }
 
     protected String createSolrCacheQuery_findAttributesOfResource(String resource) {
-        return "ATTR"+resource;
+        return "ATTR_"+resource;
     }
     protected String createSolrCacheQuery_findClazzesOfResource(String resource){
         return "CLAZZ_"+resource;

@@ -610,7 +610,7 @@ public class GSBuilder_Limaye_Wikitables {
         List<String> tokens1 = new ArrayList<String>(Arrays.asList(string1.split("\\s+")));
         List<String> tokens2 = new ArrayList<String>(Arrays.asList(string2.split("\\s+")));
 
-        return CollectionUtils.scoreOverlap_dice_keepFrequency(tokens1, tokens2);
+        return CollectionUtils.computeFrequencyWeightedDice(tokens1, tokens2);
     }
 
     protected static Node findMatchingTable(Table limaye_original_table, List<Node> candidates) {

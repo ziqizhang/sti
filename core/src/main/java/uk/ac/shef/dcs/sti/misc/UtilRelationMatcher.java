@@ -34,7 +34,7 @@ public class UtilRelationMatcher {
             s1=s1.trim();
             if(stopWords!=null&& stopWords.contains(s1))
                 continue;
-            if(TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW&&s1.length()<2)
+            if(TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR &&s1.length()<2)
                 continue;
             target_toks.add(s1.toLowerCase());
         }
@@ -42,7 +42,7 @@ public class UtilRelationMatcher {
             s2=s2.trim();
             if(stopWords!=null&&stopWords.contains(s2))
                 continue;
-            if(TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW&&s2.length()<2)
+            if(TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR &&s2.length()<2)
                 continue;
             base_toks.add(s2.toLowerCase());
         }
@@ -59,7 +59,7 @@ public class UtilRelationMatcher {
             return score;*/
 
         //method 2
-        double score = CollectionUtils.scoreOverlap_dice(target_toks, base_toks);
+        double score = CollectionUtils.computeDice(target_toks, base_toks);
         return /*score * */score;
 
         //method 3, string similarity

@@ -11,13 +11,14 @@ public class TableMinerConstants {
     public static boolean RELATED_COLUMN_HEADER_TYPING_ONLY_FROM_MAIN_COL_RELATIONS = false;
     public static boolean ALLOW_NEW_HEADERS_AT_DISAMBIGUATION_UPDATE = true;
     public static boolean RELATION_ALSO_CONTRIBUTES_TO_COLUMN_HEADER_SCORE = false;
-    public static boolean USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE = true;
+
     public static boolean USE_NESTED_RELATION_FOR_RELATION_INTERPRETATION = true;
 
     public static boolean ENFORCE_ONPSPD = false;
     public static boolean ENFORCE_OSPD = true;
 
-    public static boolean DISCARD_SINGLE_CHAR_IN_BOW = true;
+    public static boolean ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE = true;
+    public static boolean ENTITYBOW_DISCARD_SINGLE_CHAR = true;
 
     public static boolean COMMIT_SOLR_PER_FILE = false;
 

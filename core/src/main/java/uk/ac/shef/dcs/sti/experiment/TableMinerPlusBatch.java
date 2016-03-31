@@ -101,7 +101,7 @@ public class TableMinerPlusBatch extends STIBatch {
             disambiguator = new TCellDisambiguator(kbSearch,
                     new TMPEntityScorer(
                             getStopwords(),
-                            new double[]{1.0, 0.5, 0.5, 1.0, 1.0}, //row,column, tablecontext other,refent, tablecontext pagetitle (unused)
+                            new double[]{1.0, 0.5, 1.0, 0.5, 1.0}, //row,column, column header, tablecontext other,refent
                             getNLPResourcesDir()));                         //1.0, 0.5, 0.25, 1.0, 1.0
             classifier = new TMPTColumnClassifier(getNLPResourcesDir(),
                     new Creator_ConceptHierarchicalBOW_Freebase(),

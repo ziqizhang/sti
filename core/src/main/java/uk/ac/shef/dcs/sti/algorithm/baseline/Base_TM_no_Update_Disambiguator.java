@@ -6,6 +6,7 @@ import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.algorithm.tm.TMPEntityScorer;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 
 import java.io.IOException;
@@ -55,7 +56,7 @@ public class Base_TM_no_Update_Disambiguator {
             Pair<Entity, Map<String, Double>> oo = it.next();
             TMPEntityScorer.
                     score_typeMatch(oo.getValue(), types, oo.getKey());
-            double type_match_score = oo.getValue().get("type_match");
+            double type_match_score = oo.getValue().get(TCellAnnotation.SCORE_TYPE_MATCH);
             if(type_match_score==0)
                 removeIndex.add(index);
             //it.remove();

@@ -17,7 +17,7 @@ import java.util.Set;
 
 /**
  */
-public class JIAdaptedEntityScorer implements EntityScorer {
+public class JIAdaptedEntityScorer extends EntityScorer {
     public static String SCORE_CELL_FACTOR ="score_factor_graph-cell";
     public static String SCORE_LEV = "stringsim_lev";
     public static String SCORE_JACCARD = "stringsim_jaccard";
@@ -36,14 +36,14 @@ public class JIAdaptedEntityScorer implements EntityScorer {
     @Override
     public Map<String, Double> score(Entity candidate,
                                      List<Entity> all_candidates,
-                                     int entity_source_column,
-                                     int entity_source_row,
-                                     List<Integer> other_entity_source_rows,
+                                     int sourceColumnIndex,
+                                     int sourceRowIndex,
+                                     List<Integer> otherRows,
                                      Table table,
-                                     Set<String> assigned_column_semantic_types,
-                                     Entity... reference_disambiguated_entities) {
+                                     Set<String> preliminaryColumnLabel,
+                                     Entity... referenceEntities) {
 
-        TContentCell cell = table.getContentCell(entity_source_row, entity_source_column);
+        TContentCell cell = table.getContentCell(sourceRowIndex, sourceColumnIndex);
         double levScore = calculateStringSimilarity(cell.getText(), candidate, lev);
         //dice between NE and cell text
         double jaccardScore = calculateStringSimilarity(cell.getText(), candidate, jaccard);

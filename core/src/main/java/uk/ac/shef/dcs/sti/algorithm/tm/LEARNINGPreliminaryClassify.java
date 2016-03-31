@@ -10,7 +10,6 @@ import uk.ac.shef.dcs.sti.algorithm.tm.stopping.StoppingCriteriaInstantiator;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.*;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -75,7 +74,7 @@ public class LEARNINGPreliminaryClassify {
                 continue;
             }
 
-            LOG.info("\t>> Classification-LEARN(Seeding), row(s) " + blockOfRows + "," + sample);
+            LOG.info("\t>> Preliminary Column Classification - cold start disambiguation, row(s) " + blockOfRows + "," + sample);
 
             boolean skip = false;
             for (int row : skipRows) {
@@ -92,7 +91,7 @@ public class LEARNINGPreliminaryClassify {
                 List<Entity> candidates = kbSearch.findEntityCandidates(sample.getText());
                 //do disambiguation scoring
                 entityScoresForBlock =
-                        cellDisambiguator.disambiguate_learn_seeding(
+                        cellDisambiguator.coldstartDisambiguate(
                                 candidates, table, blockOfRows, column
                         );
                 for (int ri : blockOfRows) {

@@ -41,11 +41,11 @@ public class EntityAndConceptScorer_Freebase {
                                                        ){/* BOW OF THE ENTITY*/
         List<String> bag_of_words_for_entity = new ArrayList<String>();
         for (String[] f : entity_triples) {
-            if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
+            if (!TableMinerConstants.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE && f[3].equals("y"))
                 continue;
             String value = f[1];
             if (!StringUtils.isPath(value))
-                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
+                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
             else
                 bag_of_words_for_entity.add(value);
         }
@@ -55,11 +55,11 @@ public class EntityAndConceptScorer_Freebase {
 
         List<String> bag_of_words_for_concept = new ArrayList<String>();
         for (String[] f : concept_triples) {
-            if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE && f[3].equals("y"))
+            if (!TableMinerConstants.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE && f[3].equals("y"))
                 continue;
             String value = f[1];
             if (!StringUtils.isPath(value))
-                bag_of_words_for_concept.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
+                bag_of_words_for_concept.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
             else
                 bag_of_words_for_concept.add(value);
         }
@@ -67,7 +67,7 @@ public class EntityAndConceptScorer_Freebase {
             bag_of_words_for_concept = lemmatizer.lemmatize(bag_of_words_for_concept);
         bag_of_words_for_concept.removeAll(stopWords);
 
-        double contextOverlapScore = CollectionUtils.scoreOverlap_dice_keepFrequency(
+        double contextOverlapScore = CollectionUtils.computeFrequencyWeightedDice(
                 bag_of_words_for_entity, bag_of_words_for_concept
         );
         //kbSearch.cacheEntityConceptSimilarity(entity_id,concept_url,contextOverlapScore,true);
@@ -88,13 +88,13 @@ public class EntityAndConceptScorer_Freebase {
         /* BOW OF THE ENTITY*/
             List<String> bag_of_words_for_entity = new ArrayList<>();
             for (Attribute f : entity_triples) {
-                if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE &&
+                if (!TableMinerConstants.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE &&
                         !f.isDirect())
                     continue;
 
                 String value = f.getValue();
                 if (!StringUtils.isPath(value))
-                    bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
+                    bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
                 else
                     bag_of_words_for_entity.add(value);
             }
@@ -105,12 +105,12 @@ public class EntityAndConceptScorer_Freebase {
             List<Attribute> concept_triples = concept.getAttributes();
             List<String> bag_of_words_for_concept = new ArrayList<>();
             for (Attribute f : concept_triples) {
-                if (!TableMinerConstants.USE_NESTED_RELATION_AND_FACTS_FOR_ENTITY_FEATURE
+                if (!TableMinerConstants.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE
                         && !f.isDirect())
                     continue;
                 String value = f.getValue();
                 if (!StringUtils.isPath(value))
-                    bag_of_words_for_concept.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW));
+                    bag_of_words_for_concept.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR));
                 else
                     bag_of_words_for_concept.add(value);
             }
@@ -118,7 +118,7 @@ public class EntityAndConceptScorer_Freebase {
                 bag_of_words_for_concept = lemmatizer.lemmatize(bag_of_words_for_concept);
             bag_of_words_for_concept.removeAll(stopWords);
 
-            double contextOverlapScore = CollectionUtils.scoreOverlap_dice_keepFrequency(
+            double contextOverlapScore = CollectionUtils.computeFrequencyWeightedDice(
                     bag_of_words_for_entity, bag_of_words_for_concept
             );
             //kbSearch.cacheEntityConceptSimilarity(entity_id,concept_url,contextOverlapScore,true);

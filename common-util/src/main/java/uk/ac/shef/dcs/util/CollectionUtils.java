@@ -204,7 +204,7 @@ public class CollectionUtils {
         return score/*/2.0*/;
     }
 
-    public static double scoreOverlap_dice(Collection<String> c1, Collection<String> c2) {
+    public static double computeDice(Collection<String> c1, Collection<String> c2) {
         Set<String> intersection = new HashSet<String>(c1);
         intersection.retainAll(c1);
         intersection.retainAll(c2);
@@ -216,7 +216,38 @@ public class CollectionUtils {
 
     }
 
-    public static double scoreOverlap_dice_keepFrequency(Collection<String> c1, Collection<String> c2) {
+
+
+    public static double scoreOverlap_cosine(Collection<String> c1, Collection<String> c2) {
+        Set<String> intersection = new HashSet<String>(c1);
+        intersection.retainAll(c1);
+        intersection.retainAll(c2);
+
+        if (intersection.size() == 0)
+            return 0.0;
+        double score = (double) intersection.size() / Math.sqrt((double) (c1.size() * c2.size()));
+        return score;
+
+    }
+
+                                                   //entity         //context
+
+    /**
+     * how much of b does a cover
+     * @param a
+     * @param b
+     * @return
+     */
+    public static double computeCoverage(Collection<String> a, Collection<String> b) {
+        List<String> c = new ArrayList<>(b);
+        c.retainAll(a);
+        if(c.size()==0)
+            return 0.0;
+        double score = (double) c.size() / b.size();
+        return score;
+    }
+
+    public static double computeFrequencyWeightedDice(Collection<String> c1, Collection<String> c2) {
         List<String> union = new ArrayList<String>();
         union.addAll(c1);
         union.addAll(c2);
@@ -230,28 +261,6 @@ public class CollectionUtils {
         double score = 2 * (double) intersection.size() / (c1.size() + c2.size());
         return score;
 
-    }
-
-    public static double scoreOverlap_cosine(Collection<String> c1, Collection<String> c2) {
-        Set<String> intersection = new HashSet<String>(c1);
-        intersection.retainAll(c1);
-        intersection.retainAll(c2);
-
-        if (intersection.size() == 0)
-            return 0.0;
-        double score = (double) intersection.size() / Math.sqrt((double) (c1.size() * c2.size()));
-        return score;
-
-    }
-                                                   //entity         //context
-    public static double scoreCoverage_against_b(List<String> a, List<String> b) {
-        List<String> c = new ArrayList<String>(b);
-
-        c.retainAll(a);
-        if(c.size()==0)
-            return 0.0;
-        double score = (double) c.size() / b.size();
-        return score;
     }
 
     public static boolean containsPair(List<Pair<String, String>> entities_on_the_row, Pair<String, String> toAdd) {

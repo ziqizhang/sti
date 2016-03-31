@@ -13,12 +13,11 @@ public class TCellAnnotation implements Serializable, Comparable<TCellAnnotation
 
     public static final String SCORE_FINAL="final";
     public static final String SCORE_NAME_MATCH="name_match";
-    public static final String SCORE_NAME_MATCH_CTX ="name_match_header";
-    public static final String SCORE_CTX_ROW ="ctx_row";
-    public static final String SCORE_CTX_COLUMN ="ctx_column";
+    public static final String SCORE_IN_CTX_COLUMN_HEADER ="ctx_column_header";
+    public static final String SCORE_IN_CTX_ROW ="ctx_row";
+    public static final String SCORE_IN_CTX_COLUMN ="ctx_column";
+    public static final String SCORE_OUT_CTX ="ctx_out";
     public static final String SCORE_TYPE_MATCH="type_match";
-    public static final String SCORE_COOCCUR_ENTITIES="ctx_coocur_entities";
-    public static final String SCORE_CTX_OTHER ="ctx_other";
 
     private String term;
     private Entity annotation;

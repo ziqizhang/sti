@@ -186,26 +186,26 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
                     && score_ctx_table_context != null && !overwrite)
                 continue;
 
-            Set<String> annotation_bow = create_annotation_bow(hbr, true,TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW);
+            Set<String> annotation_bow = create_annotation_bow(hbr, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR);
 
             if (overwrite || (!overwrite && score_ctx_header_text == null)) {
                 bag_of_words_for_header = create_header_bow(bag_of_words_for_header, table, column);
                 double ctx_header_text =
-                        CollectionUtils.scoreOverlap_dice_keepFrequency(annotation_bow, bag_of_words_for_header) * weights[1];
+                        CollectionUtils.computeFrequencyWeightedDice(annotation_bow, bag_of_words_for_header) * weights[1];
                 hbr.getScoreElements().put(HeaderAnnotation.SCORE_CTX_NAME_MATCH, ctx_header_text);
             }
 
             if (overwrite || (!overwrite && score_ctx_column_text == null)) {
                 bag_of_words_for_column = create_column_bow(bag_of_words_for_column, table, column);
-                double ctx_column = CollectionUtils.scoreOverlap_dice_keepFrequency(annotation_bow, bag_of_words_for_column) * weights[2];
+                double ctx_column = CollectionUtils.computeFrequencyWeightedDice(annotation_bow, bag_of_words_for_column) * weights[2];
                 hbr.getScoreElements().put(HeaderAnnotation.SCORE_CTX_COLUMN_TEXT, ctx_column);
             }
 
             if (overwrite || (!overwrite && score_ctx_table_context == null)) {
                 bag_of_words_for_table_major_context = create_table_context_major_bow(bag_of_words_for_table_major_context, table);
-                double ctx_table_major = CollectionUtils.scoreOverlap_dice_keepFrequency(annotation_bow, bag_of_words_for_table_major_context) * weights[3];
+                double ctx_table_major = CollectionUtils.computeFrequencyWeightedDice(annotation_bow, bag_of_words_for_table_major_context) * weights[3];
                 bag_of_words_for_table_other_context = create_table_context_other_bow(bag_of_words_for_table_other_context, table);
-                double ctx_table_other = CollectionUtils.scoreOverlap_dice_keepFrequency(annotation_bow, bag_of_words_for_table_other_context) * weights[4];
+                double ctx_table_other = CollectionUtils.computeFrequencyWeightedDice(annotation_bow, bag_of_words_for_table_other_context) * weights[4];
                 hbr.getScoreElements().put(HeaderAnnotation.SCORE_CTX_TABLE_CONTEXT,
                         ctx_table_major + ctx_table_other);
             }
@@ -227,7 +227,7 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
             if (tx.getType().equals(TContext.TableContextType.PAGETITLE) ||
                     tx.getType().equals(TContext.TableContextType.CAPTION)) {
                 bow.addAll(lemmatizer.lemmatize(
-                        StringUtils.toBagOfWords(tx.getText(), true, true,TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW))
+                        StringUtils.toBagOfWords(tx.getText(), true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }
@@ -247,7 +247,7 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
             if (!tx.getType().equals(TContext.TableContextType.PAGETITLE) &&
                     !tx.getType().equals(TContext.TableContextType.CAPTION)) {
                 bow.addAll(lemmatizer.lemmatize(
-                        StringUtils.toBagOfWords(tx.getText(), true, true,TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW))
+                        StringUtils.toBagOfWords(tx.getText(), true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }
@@ -263,7 +263,7 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
             TContentCell tcc = table.getContentCell(row, column);
             if (tcc.getText() != null) {
                 bow.addAll(lemmatizer.lemmatize(
-                        StringUtils.toBagOfWords(tcc.getText(), true, true,TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW))
+                        StringUtils.toBagOfWords(tcc.getText(), true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }
@@ -280,7 +280,7 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
                 header.getHeaderText() != null &&
                 !header.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue())) {
             bow.addAll(lemmatizer.lemmatize(
-                    StringUtils.toBagOfWords(header.getHeaderText(), true, true,TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW))
+                    StringUtils.toBagOfWords(header.getHeaderText(), true, true,TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR))
             );
         }
         bow.removeAll(stopWords);
@@ -351,9 +351,9 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
     public double score_domain_consensus(HeaderBinaryRelationAnnotation hbr, List<String> domain_representation) {
         Set<String> annotation_bow = create_annotation_bow(hbr,
                 true,
-                TableMinerConstants.DISCARD_SINGLE_CHAR_IN_BOW);
+                TableMinerConstants.ENTITYBOW_DISCARD_SINGLE_CHAR);
         //annotation_bow.removeAll(TableMinerConstants.stopwords_small);
-        double score = CollectionUtils.scoreOverlap_dice_keepFrequency(annotation_bow, domain_representation);
+        double score = CollectionUtils.computeFrequencyWeightedDice(annotation_bow, domain_representation);
         score = Math.sqrt(score);
         hbr.getScoreElements().put(HeaderBinaryRelationAnnotation.SCORE_DOMAIN_CONSENSUS, score);
 

@@ -11,4 +11,8 @@ public class Clazz extends Resource{
         this.label=label;
     }
 
+    public String toString(){
+        return "id="+id+", label="+label;
+    }
+
 }
