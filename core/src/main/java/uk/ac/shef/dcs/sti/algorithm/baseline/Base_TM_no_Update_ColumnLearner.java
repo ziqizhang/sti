@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.*;
 
@@ -27,7 +28,7 @@ public class Base_TM_no_Update_ColumnLearner {
 
     }
 
-    public void learn(Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
+    public void learn(Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws KBSearchException {
 
         //1. gather list of strings from this column to be interpreted
 

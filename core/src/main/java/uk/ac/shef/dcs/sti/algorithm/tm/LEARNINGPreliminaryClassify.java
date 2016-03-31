@@ -3,6 +3,7 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.algorithm.tm.stopping.StoppingCriteria;
 import uk.ac.shef.dcs.sti.algorithm.tm.stopping.StoppingCriteriaInstantiator;
@@ -41,7 +42,7 @@ public class LEARNINGPreliminaryClassify {
         this.stopperParams = stoppingCriteriaParams;
     }
 
-    public Pair<Integer, List<List<Integer>>> learn_seeding(Table table, TAnnotation tableAnnotation, int column, Integer... skipRows) throws IOException {
+    public Pair<Integer, List<List<Integer>>> learn_seeding(Table table, TAnnotation tableAnnotation, int column, Integer... skipRows) throws KBSearchException {
         StoppingCriteria stopper = StoppingCriteriaInstantiator.instantiate(stopperClassname, stopperParams);
 
         //1. gather list of strings from this column to be interpreted, rank them (for sampling)

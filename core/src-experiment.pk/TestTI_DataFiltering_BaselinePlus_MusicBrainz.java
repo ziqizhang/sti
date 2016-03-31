@@ -68,7 +68,7 @@ public class TestTI_DataFiltering_BaselinePlus_MusicBrainz {
         //object to fetch things from KB
         FreebaseSearch freebaseMatcher = new FreebaseSearch(propertyFile, true,server,null,null);
 /*        freebaseMatcher.find_typesForEntityId("/m/02hrh1q");
-        server.shutdown();
+        server.closeConnection();
         System.exit(0);*/
 
         List<String> stopWords = FileUtils.readList(nlpResources + "/stoplist.txt", true);

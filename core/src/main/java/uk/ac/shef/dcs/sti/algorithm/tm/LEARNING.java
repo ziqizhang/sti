@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
@@ -26,7 +27,7 @@ public class LEARNING {
         this.max_reference_entities = max_reference_entities;
     }
 
-    public void process(Table table, TAnnotation tableAnnotation, int column) throws IOException {
+    public void process(Table table, TAnnotation tableAnnotation, int column) throws KBSearchException {
         Pair<Integer, List<List<Integer>>> converge_position =
                 columnTagger.learn_seeding(table, tableAnnotation, column);
         Set<Entity> reference_entities = new HashSet<>();

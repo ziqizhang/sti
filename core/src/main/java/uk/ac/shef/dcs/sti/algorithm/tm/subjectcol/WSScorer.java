@@ -287,7 +287,7 @@ public class WSScorer {
         matcher.score("House of Cards", "Peter David");
         matcher.score("University of Sheffield", "Sheffield", "United Kingdom");
         matcher.score("House of Cards", "Peter David");
-        matcher.cache.shutdown();
+        matcher.cache.closeConnection();
     }*/
 
 }

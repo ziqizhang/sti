@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 
@@ -43,7 +44,7 @@ public class SimilarityComputerThread extends Thread{
             try {
                 score = simScorer.computeEntityConceptSimilarity(pair.getKey(), pair.getValue(), kbSearch, useCache);
                 count++;
-            } catch (IOException e) {
+            } catch (KBSearchException e) {
                 e.printStackTrace();
             }
             if(score!=null) {

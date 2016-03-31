@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
@@ -70,16 +70,16 @@ public class EntityAndConceptScorer_Freebase {
         double contextOverlapScore = CollectionUtils.scoreOverlap_dice_keepFrequency(
                 bag_of_words_for_entity, bag_of_words_for_concept
         );
-        //kbSearch.saveSimilarity(entity_id,concept_url,contextOverlapScore,true);
+        //kbSearch.cacheEntityConceptSimilarity(entity_id,concept_url,contextOverlapScore,true);
         return contextOverlapScore;
     }
     public Pair<Double, String> computeEntityConceptSimilarity(Entity entity,
                                                                  Clazz concept,
                                                  KBSearch kbSearch,
-                                                 boolean useCache) throws IOException {
+                                                 boolean useCache) throws KBSearchException {
         double score = -1;
         if(useCache)
-            score= kbSearch.find_similarity(entity.getId(), concept.getId());
+            score= kbSearch.findEntityConceptSimilarity(entity.getId(), concept.getId());
         String fromCache="no";
         if(score!=-1)
             fromCache="cache";
@@ -121,7 +121,7 @@ public class EntityAndConceptScorer_Freebase {
             double contextOverlapScore = CollectionUtils.scoreOverlap_dice_keepFrequency(
                     bag_of_words_for_entity, bag_of_words_for_concept
             );
-            //kbSearch.saveSimilarity(entity_id,concept_url,contextOverlapScore,true);
+            //kbSearch.cacheEntityConceptSimilarity(entity_id,concept_url,contextOverlapScore,true);
             return new Pair<>(contextOverlapScore,fromCache);
         }
         else{
@@ -129,8 +129,8 @@ public class EntityAndConceptScorer_Freebase {
         }
     }
 
-    public double computeConceptSpecificity(String concept_url, KBSearch kbSearch) throws IOException {
-        double conceptGranularity = kbSearch.find_granularityForConcept(concept_url);
+    public double computeConceptSpecificity(String concept_url, KBSearch kbSearch) throws KBSearchException {
+        double conceptGranularity = kbSearch.findGranularityOfClazz(concept_url);
         if(conceptGranularity<0)
             return 0.0;
         return 1-Math.sqrt(conceptGranularity/FREEBASE_TOTAL_TOPICS);

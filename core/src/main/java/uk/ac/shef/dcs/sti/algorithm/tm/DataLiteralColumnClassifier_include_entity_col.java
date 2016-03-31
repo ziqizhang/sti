@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentCellRanker;
@@ -40,7 +41,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
         this.selector=selector;
     }
 
-    public void interpret(Table table, TAnnotation annotations, Integer... ne_columns) throws IOException {
+    public void interpret(Table table, TAnnotation annotations, Integer... ne_columns) throws KBSearchException {
         //for each column that has a relation with the subject column, infer its type
         Map<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>
                 relationAnnotations = annotations.getRelationAnnotations_per_row();
@@ -358,7 +359,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
     }
 
     private Map<Clazz, Double> create_candidate_type_objects_best_contribute(
-            List<Pair<String, Double>> aggregated_scores_for_relations) throws IOException {
+            List<Pair<String, Double>> aggregated_scores_for_relations) throws KBSearchException {
         Map<Clazz, Double> expected_types_of_relation = new HashMap<>();
         double prevMax = 0.0;
         for (Pair<String, Double> oo : aggregated_scores_for_relations) {
@@ -372,7 +373,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                 break;
             }
             if (relation_name != null) {
-                List<Clazz> types_of_relation = fbSearcher.find_rangeOfRelation(relation_name);
+                List<Clazz> types_of_relation = fbSearcher.findRangeOfRelation(relation_name);
                 for(Clazz tor: types_of_relation)
                     expected_types_of_relation.put(tor, oo.getValue());
             }
@@ -381,12 +382,12 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
     }
 
     private Map<Clazz, Double> create_candidate_type_objects_all_contribute(
-            List<Pair<String, Double>> aggregated_scores_for_relations) throws IOException {
+            List<Pair<String, Double>> aggregated_scores_for_relations) throws KBSearchException {
         Map<Clazz, Double> expected_types_of_relation = new HashMap<>();
         for (Pair<String, Double> oo : aggregated_scores_for_relations) {
             String relation_name = oo.getKey();
             if (relation_name != null) {
-                List<Clazz> types_of_relation = fbSearcher.find_rangeOfRelation(relation_name);
+                List<Clazz> types_of_relation = fbSearcher.findRangeOfRelation(relation_name);
                 for(Clazz tor: types_of_relation)
                     expected_types_of_relation.put(tor, oo.getValue());
             }
@@ -400,7 +401,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                            Map<Integer, List<Pair<String, String>>> rows_with_entity_ids,
                            Map<Clazz, Double> expected_types_of_relation,
                            int column,
-                           boolean use_only_typing_candidates_from_relations_with_main_col) throws IOException {
+                           boolean use_only_typing_candidates_from_relations_with_main_col) throws KBSearchException {
 
         //Map<String, HeaderAnnotation> candidate_header_annotations = new HashMap<String, HeaderAnnotation>();
         //count types that are known for already mapped entities (using their ids)

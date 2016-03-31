@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.algorithm.tm.DataLiteralColumnClassifier;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.TColumnFeature;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
@@ -38,7 +39,7 @@ public class Base_SL_no_Update_MainInterpreter {
         this.interpreter_column_with_knownReltaions=interpreter_column_with_knownReltaions;
     }
 
-    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException {
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, KBSearchException,APIKeysDepletedException {
         //1. find the main subject column of this table
         System.out.println(">\t Detecting main column...");
         List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);

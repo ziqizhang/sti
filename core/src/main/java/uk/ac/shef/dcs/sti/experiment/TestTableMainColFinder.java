@@ -83,7 +83,7 @@ public class TestTableMainColFinder {
         }
         p.close();
 
-        server.shutdown();
+        server.closeConnection();
         System.exit(0);*/
         //String inFolder="E:\\Data\\table annotation\\corpus_analysis\\100_tables\\100_tables";
         TableXtractorMusicBrainz xtractor = new TableXtractorMusicBrainz(new TableNormalizerDummy(),

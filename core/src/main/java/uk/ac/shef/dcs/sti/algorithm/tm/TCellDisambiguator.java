@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TContentCell;
@@ -25,7 +26,7 @@ public class TCellDisambiguator {
 
     public List<Pair<Entity, Map<String, Double>>> disambiguate_learn_seeding(List<Entity> candidates, Table table,
                                                                                          List<Integer> entity_rows, int entity_column
-    ) throws IOException {
+    ) throws KBSearchException {
         //do disambiguation scoring
         //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         TContentCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
@@ -59,7 +60,7 @@ public class TCellDisambiguator {
             Set<String> assigned_column_types,
             boolean first_phase,
             Entity... reference_disambiguated_entities
-    ) throws IOException {
+    ) throws KBSearchException {
         //do disambiguation scoring
         //LOG.info("\t>> Disambiguation-UPDATE , position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         TContentCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);

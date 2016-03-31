@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
@@ -47,7 +48,7 @@ public class UPDATE {
             List<Integer> interpreted_columns,
             Table table,
             TAnnotation current_iteration_annotation
-    ) throws IOException, STIException {
+    ) throws KBSearchException, STIException {
 
         int current_iteration = 0;
         TAnnotation prev_iteration_annotation = new TAnnotation(current_iteration_annotation.getRows(), current_iteration_annotation.getCols());
@@ -139,7 +140,7 @@ public class UPDATE {
 
     private void revise_cell_disambiguation_then_reannotate_cell_and_header(
             Set<String> already_built_feature_space_entity_candidates,
-            Table table, TAnnotation current_iteration_annotation, List<Integer> interpreted_columns) throws IOException {
+            Table table, TAnnotation current_iteration_annotation, List<Integer> interpreted_columns) throws KBSearchException {
         for (int c : interpreted_columns) {
             List<List<Integer>> ranking = selector.select(table, c, current_iteration_annotation.getSubjectColumn());
 
@@ -405,7 +406,7 @@ public class UPDATE {
                                                                             Set<String> columnTypes,
                                                                             List<Integer> table_cell_rows,
                                                                             int table_cell_col,
-                                                                 Entity... reference_disambiguated_entities) throws IOException {
+                                                                 Entity... reference_disambiguated_entities) throws KBSearchException {
         List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_block
                 = new ArrayList<>();
 

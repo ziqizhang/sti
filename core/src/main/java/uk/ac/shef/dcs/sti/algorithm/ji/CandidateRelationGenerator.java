@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.*;
 
@@ -25,7 +26,7 @@ public class CandidateRelationGenerator {
 
     public void generateCandidateRelation(TAnnotation_JI_Freebase tableAnnotations,
                                           Table table, boolean useMainSubjectColumn,
-                                          Collection<Integer> ignoreColumns) throws IOException {
+                                          Collection<Integer> ignoreColumns) throws IOException,KBSearchException {
         //RelationDataStructure result = new RelationDataStructure();
 
         //mainColumnIndexes contains indexes of columns that are possible NEs
@@ -158,7 +159,7 @@ public class CandidateRelationGenerator {
     private void createRelationCandidateBetweenConceptCandidates(int sbjCol, int objCol,
                                                                  TAnnotation_JI_Freebase annotation,
                                                                  Map<Integer, DataTypeClassifier.DataType> colTypes,
-                                                                 KBSearch kbSearch) throws IOException {
+                                                                 KBSearch kbSearch) throws KBSearchException {
         HeaderAnnotation[] candidates_col1 = annotation.getHeaderAnnotation(sbjCol);
         HeaderAnnotation[] candidates_col2 = annotation.getHeaderAnnotation(objCol);
         matcher.match_headerPairs(

@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.*;
 
@@ -28,7 +29,7 @@ public class Base_NameMatch_ColumnLearner {
 
     }
 
-    public void interpret(Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws IOException {
+    public void interpret(Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws KBSearchException {
         Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidate_for_each_row =
                 new HashMap<>();
         Set<HeaderAnnotation> headerAnnotationScores = new HashSet<HeaderAnnotation>();

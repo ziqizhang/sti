@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.TColumnFeature;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
@@ -51,7 +52,7 @@ public class TMPInterpreter {
         this.hbr_scorer = hbr_scorer;
     }
 
-    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException, STIException {
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, KBSearchException, STIException {
         //1. find the main subject column of this table
         LOG.info(">\t Detecting subject column...");
         int[] ignoreColumnsArray = new int[ignoreCols.size()];

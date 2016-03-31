@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.algorithm.smp.RelationTextMatch_Scorer;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
@@ -105,11 +105,11 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                   int objCol,
                                   DataTypeClassifier.DataType objectColumnDataType,
                                   TAnnotation_JI_Freebase annotation,
-                                  KBSearch kbSearch) throws IOException {
+                                  KBSearch kbSearch) throws KBSearchException {
         if (subjectHeaderColumnCandidates.size() > 0 && objectHeaderColumnCandidates.size() > 0) {
             for (int s = 0; s < subjectHeaderColumnCandidates.size(); s++) {
                 HeaderAnnotation sbjCandidates = subjectHeaderColumnCandidates.get(s);
-                List<Attribute> sbjCandidateFacts = kbSearch.findAttributesOfConcept(sbjCandidates.getAnnotation_url());
+                List<Attribute> sbjCandidateFacts = kbSearch.findAttributesOfClazz(sbjCandidates.getAnnotation_url());
                 Map<Integer, DataTypeClassifier.DataType> factObjDataTypes = classifyFactObjDataType(
                         sbjCandidateFacts
                 );

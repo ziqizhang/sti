@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.rep.*;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class DataLiteralColumnClassifier_exclude_entity_col extends DataLiteralC
 
     }
 
-    public void interpret(Table table, TAnnotation annotations, Integer... ne_columns) throws IOException {
+    public void interpret(Table table, TAnnotation annotations, Integer... ne_columns) throws KBSearchException {
         //for each column that has a relation with the subject column, infer its type
         Map<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>
                 relationAnnotations = annotations.getRelationAnnotations_per_row();

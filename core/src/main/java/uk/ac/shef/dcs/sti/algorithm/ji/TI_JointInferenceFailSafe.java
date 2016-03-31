@@ -4,6 +4,7 @@ import cc.mallet.grmm.inference.Inferencer;
 import cc.mallet.grmm.inference.LoopyBP;
 import cc.mallet.grmm.types.FactorGraph;
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
@@ -33,7 +34,7 @@ public class TI_JointInferenceFailSafe extends TI_JointInference {
         super(main_col_finder, neGenerator, columnClassifier, relationGenerator, useSubjectColumn, ignoreColumns, forceInterpretColumn, maxIteration);
     }
 
-    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, KBSearchException,APIKeysDepletedException, STIException {
         TAnnotation_JI_Freebase tab_annotations = new TAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
         Set<Integer> ignoreColumnsLocal = updateIgnoreColumns(table, ignoreCols);
         int[] ignoreColumnsLocalArray = new int[ignoreColumnsLocal.size()];

@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.ji.multicore;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.algorithm.ji.EntityAndConceptScorer_Freebase;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
@@ -40,7 +41,7 @@ public class SimilarityComputeWorker implements Callable<Map<String[], Double>> 
             Pair<Double, String> score=null;
             try {
                 score = simScorer.computeEntityConceptSimilarity(pair.getKey(), pair.getValue(), kbSearch, useCache);
-            } catch (IOException e) {
+            } catch (KBSearchException e) {
                 e.printStackTrace();
             }
             if(score!=null) {

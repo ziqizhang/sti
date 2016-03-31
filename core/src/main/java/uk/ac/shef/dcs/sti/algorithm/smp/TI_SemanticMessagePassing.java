@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.smp;
 
 import cern.colt.matrix.ObjectMatrix2D;
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
@@ -49,7 +50,7 @@ public class TI_SemanticMessagePassing {
         this.forceInterpretColumn = forceInterpretColumn;
     }
 
-    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException, STIException {
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, KBSearchException, STIException {
         TAnnotation_SMP_Freebase tab_annotations = new TAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
 
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
@@ -135,7 +136,7 @@ public class TI_SemanticMessagePassing {
         tab_annotations.resetRelationAnnotations();
     }
 
-    private void computeClasses(TAnnotation_SMP_Freebase tab_annotations, Table table) throws IOException {
+    private void computeClasses(TAnnotation_SMP_Freebase tab_annotations, Table table) throws KBSearchException {
         System.out.println("\t\t>> COLUMN SEMANTIC TYPE COMPUTING...");
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {

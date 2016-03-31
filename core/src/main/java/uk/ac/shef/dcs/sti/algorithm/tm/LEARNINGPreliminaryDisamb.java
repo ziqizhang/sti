@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
@@ -33,7 +34,7 @@ public class LEARNINGPreliminaryDisamb {
             TAnnotation current_iteration_annotation,
             int column,
             Set<Entity> reference_entities,
-            Integer... skipRows) throws IOException {
+            Integer... skipRows) throws KBSearchException {
 
 
         System.out.println("\t>> LEARN (Consolidate) begins");
@@ -115,7 +116,7 @@ public class LEARNINGPreliminaryDisamb {
                                                                             Set<String> columnTypes,
                                                                             List<Integer> table_cell_rows,
                                                                             int table_cell_col,
-                                                                 Entity... reference_disambiguated_entities) throws IOException {
+                                                                 Entity... reference_disambiguated_entities) throws KBSearchException {
         List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_block;
 
         List<Entity> candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText(), columnTypes.toArray(new String[0]));

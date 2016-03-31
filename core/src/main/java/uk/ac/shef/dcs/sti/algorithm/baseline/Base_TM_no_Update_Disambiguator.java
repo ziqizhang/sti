@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.algorithm.tm.TMPEntityScorer;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
@@ -24,7 +25,7 @@ public class Base_TM_no_Update_Disambiguator {
 
     public List<Pair<Entity, Map<String, Double>>> disambiguate_learn(
             List<Entity> candidates, Table table,
-                                                                                 int entity_row, int entity_column) throws IOException {
+                                                                                 int entity_row, int entity_column) throws KBSearchException {
         System.out.println("\t>> Disambiguation-LEARN, position at [" + entity_row + "," + entity_column + "]: "+ table.getContentCell(entity_row,entity_column)+
                 " candidates=" + candidates.size());
         List<Pair<Entity, Map<String, Double>>> disambiguationScores = new ArrayList<>();

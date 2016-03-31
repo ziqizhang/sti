@@ -201,12 +201,7 @@ public class FreebaseQueryProxy {
 
     //operator - any means or; all means and
     public List<FreebaseTopic> searchapi_getTopicsByNameAndType(String name, String operator, boolean tokenMatch, int maxResult, String... types) throws IOException {
-        Set<String> query_tokens = new HashSet<>();
-        for (String t : name.split("[\\s+/\\-,]")) {
-            t = t.trim();
-            if (t.length() > 0)
-                query_tokens.add(t);
-        }
+        List<String> query_tokens = StringUtils.splitToAlphaNumericTokens(name, true);
 
         Date start = new Date();
         HttpTransport httpTransport = new NetHttpTransport();
@@ -239,18 +234,16 @@ public class FreebaseQueryProxy {
 
                 if (count < maxResult) {
                     if (tokenMatch) {
-                        Set<String> candidate_tokens = new HashSet<String>();
-
-                        for (String t : top.getLabel().split("[\\s+/\\-,]")) {
-                            t = t.trim();
-                            if (t.length() > 0)
-                                candidate_tokens.add(t);
-                        }
+                        List<String> candidate_tokens = StringUtils.splitToAlphaNumericTokens(top.getLabel(), true);
                         candidate_tokens.retainAll(query_tokens);
-                        if (candidate_tokens.size() > 0)
+                        if (candidate_tokens.size() > 0) {
                             res.add(top);
-                    } else
+                            count++;
+                        }
+                    } else {
                         res.add(top);
+                        count++;
+                    }
                 }
 
                 //print or save this id

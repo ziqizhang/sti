@@ -72,13 +72,13 @@ public class SimilarityComputeManager {
                         String[] key = e.getKey();
                         if (e.getValue() != -1) {
                             if(useCache&& !key[2].equals("cache")) {
-                                kbSearch.saveSimilarity(key[0], key[1], e.getValue(), true, false);
+                                kbSearch.cacheEntityConceptSimilarity(key[0], key[1], e.getValue(), true, false);
                                 doCommit=true;
                             }
                             finalScores.put(key[0] + "," + key[1], e.getValue());
                         }
                     }
-                } catch (ExecutionException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

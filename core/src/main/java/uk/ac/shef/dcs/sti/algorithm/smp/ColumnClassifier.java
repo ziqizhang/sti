@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.smp;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
@@ -27,7 +28,7 @@ public class ColumnClassifier {
         this.kbSearch = kbSearch;
     }
 
-    public void rankColumnConcepts(TAnnotation tableAnnotation, Table table, int col) throws IOException {
+    public void rankColumnConcepts(TAnnotation tableAnnotation, Table table, int col) throws KBSearchException {
         int totalNonEmpty = 0;
         Map<String, Double> votes = new HashMap<String, Double>();
         for (int r = 0; r < table.getNumRows(); r++) {
@@ -81,7 +82,7 @@ public class ColumnClassifier {
             if (count_same_max_score > 1) {
                 for (Pair<String, Double> e : result_votes) {
                     if (e.getValue() == maxScore) {
-                        result_granularity.put(e.getKey(), kbSearch.find_granularityForConcept(e.getKey()));
+                        result_granularity.put(e.getKey(), kbSearch.findGranularityOfClazz(e.getKey()));
                     }
                 }
             }
@@ -104,8 +105,8 @@ public class ColumnClassifier {
         }
     }
 
-    private double computeConceptSpecificity(String concept_url, KBSearch kbSearch) throws IOException {
-        double conceptGranularity = kbSearch.find_granularityForConcept(concept_url);
+    private double computeConceptSpecificity(String concept_url, KBSearch kbSearch) throws KBSearchException {
+        double conceptGranularity = kbSearch.findGranularityOfClazz(concept_url);
         if(conceptGranularity<0)
             return 0.0;
         return 1-Math.sqrt(conceptGranularity/FREEBASE_TOTAL_TOPICS);

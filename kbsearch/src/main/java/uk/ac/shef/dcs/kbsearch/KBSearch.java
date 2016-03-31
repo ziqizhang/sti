@@ -49,7 +49,7 @@ public abstract class KBSearch {
      * @return
      * @throws IOException
      */
-    public abstract List<Entity> findEntityCandidates(String content) throws IOException;
+    public abstract List<Entity> findEntityCandidates(String content) throws KBSearchException;
 
     /**
      * given a content cell fetch candidate entities that only match certain types from a KB
@@ -58,7 +58,7 @@ public abstract class KBSearch {
      * @return
      * @throws IOException
      */
-    public abstract List<Entity> findEntityCandidatesOfTypes(String content, String... types) throws IOException;
+    public abstract List<Entity> findEntityCandidatesOfTypes(String content, String... types) throws KBSearchException;
 
     /**
      * get attributes that contain the entity candidate
@@ -71,14 +71,7 @@ public abstract class KBSearch {
      * to decide what the array should be
      * @throws IOException
      */
-    public List<Attribute> findAttributesOfEntities(Entity ec) throws IOException {
-        return findAttributesOfEntities(ec.getId());
-    }
-
-    /**
-     *
-     */
-    protected abstract List<Attribute> findAttributesOfEntities(String entityId) throws IOException;
+    public abstract List<Attribute> findAttributesOfEntities(Entity ec) throws KBSearchException;
 
     /**
      * get attributes that contain the concept
@@ -90,7 +83,7 @@ public abstract class KBSearch {
      * to decide what the array should be
      * @throws IOException
      */
-    public abstract List<Attribute> findAttributesOfConcept(String conceptId) throws IOException;
+    public abstract List<Attribute> findAttributesOfClazz(String conceptId) throws KBSearchException;
 
     /**
      * get attributes that contain the property
@@ -100,33 +93,54 @@ public abstract class KBSearch {
      * to decide what the array should be
      * @throws IOException
      */
-    protected abstract List<Attribute> findAttributesOfProperty(String propertyId) throws IOException;
+    public abstract List<Attribute> findAttributesOfProperty(String propertyId) throws KBSearchException;
 
-    public abstract double find_granularityForConcept(String type) throws IOException;
+    public abstract double findGranularityOfClazz(String clazz) throws KBSearchException;
 
-    protected String createQuery_findEntities(String content){
+    public abstract List<Clazz> findRangeOfRelation(String relationURI) throws KBSearchException;
+
+    public abstract double findEntityConceptSimilarity(String entity_id, String concept_url) throws KBSearchException;
+
+    public abstract void cacheEntityConceptSimilarity(String entity_id, String concept_url, double score, boolean biDirectional,
+                                                      boolean commit) throws KBSearchException;
+
+    public abstract void commitChanges() throws KBSearchException;
+    public abstract void closeConnection() throws KBSearchException;
+
+
+
+    /*
+    createSolrCacheQuery_XXX defines how a solr query should be constructed. If your implementing class
+     want to benefit from solr cache, you should call these methods to generate a query string, which will
+     be considered as the id of a record in the solr index. that query will be performed, to attempt to retrieve
+     previously saved results if any.
+
+     If there are no previously cached results, you have to perform your remote call to the KB, obtain the results,
+     then cache the results in solr. Again you should call these methods to create a query string, which should be
+     passed as the id of the record to be added to solr
+     */
+    protected String createSolrCacheQuery_findResources(String content){
         return content;
     }
 
-    protected String createQuery_findFacts(String query) {
-        return "FACTS_"+query;
+    protected String createSolrCacheQuery_findAttributesOfResource(String resource) {
+        return "ATTR"+resource;
+    }
+    protected String createSolrCacheQuery_findClazzesOfResource(String resource){
+        return "CLAZZ_"+resource;
     }
 
-    protected String createQuery_findTypes(String query){
-        return "TYPES_"+query;
+    protected String createSolrCacheQuery_findGranularityOfClazz(String clazz) {
+        return "GRANULARITY_" + clazz;
     }
 
-    protected String createQuery_findGranularity(String query) {
-        return "GRANULARITY_" + query;
+    protected String createSolrCacheQuery_findRangeOfRelation(String relation) {
+        return "RANGE_" + relation;
     }
-    public abstract List<Clazz> find_rangeOfRelation(String relationURI) throws IOException;
 
-    public abstract void finalizeConnection() throws IOException;
+    protected String createSolrCacheQuery_findEntityConceptSimilarity(String entity, String concept){
+        return entity+"<>"+concept;
+    }
 
-    public abstract double find_similarity(String entity_id, String concept_url);
 
-    public abstract void saveSimilarity(String entity_id, String concept_url, double score, boolean biDirectional,
-                                        boolean commit);
-
-    public abstract void commitChanges() throws IOException, SolrServerException;
 }

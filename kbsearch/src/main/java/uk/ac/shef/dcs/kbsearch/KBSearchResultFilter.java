@@ -41,6 +41,8 @@ public abstract class KBSearchResultFilter {
                 elements.add(line);
             }
         }
+        if(elements.size()!=0)
+            stoplists.put(label, elements);
     }
 
     public abstract List<Clazz> filterClazz(Collection<Clazz> types);

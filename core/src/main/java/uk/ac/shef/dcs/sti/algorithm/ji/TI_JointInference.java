@@ -7,6 +7,7 @@ import cc.mallet.grmm.types.Factor;
 import cc.mallet.grmm.types.FactorGraph;
 import cc.mallet.grmm.types.Variable;
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
@@ -57,7 +58,7 @@ public class TI_JointInference {
         this.maxIteration = maxIteration;
     }
 
-    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, STIException {
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, KBSearchException,APIKeysDepletedException, STIException {
         TAnnotation_JI_Freebase tab_annotations = new TAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
         List<Integer> ignoreColumnsLocal = new ArrayList<Integer>(updateIgnoreColumns(table, ignoreCols));
         int[] ignoreColumnsLocalArray = new int[ignoreColumnsLocal.size()];
@@ -167,7 +168,7 @@ public class TI_JointInference {
     }
 
     protected void computeClassCandidates(TAnnotation_JI_Freebase tab_annotations, Table table,
-                                          Collection<Integer> ignoreColumnsLocal) throws IOException {
+                                          Collection<Integer> ignoreColumnsLocal) throws KBSearchException {
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
             if (forceInterpret(col)) {
@@ -185,7 +186,7 @@ public class TI_JointInference {
 
     protected void computeRelationCandidates(TAnnotation_JI_Freebase tab_annotations, Table table,
                                              boolean useMainSubjectColumn,
-                                             Collection<Integer> ignoreColumnsLocal) throws IOException {
+                                             Collection<Integer> ignoreColumnsLocal) throws IOException,KBSearchException {
         relationGenerator.generateCandidateRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumnsLocal);
     }
 

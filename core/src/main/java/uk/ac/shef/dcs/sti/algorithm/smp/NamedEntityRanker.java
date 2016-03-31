@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.smp;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.algorithm.tm.EntityScorer;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
@@ -30,7 +31,7 @@ public class NamedEntityRanker {
     public void rankCandidateNamedEntities(
             TAnnotation tableAnnotations, Table table,
             int row, int column
-    ) throws IOException {
+    ) throws KBSearchException {
         List<Pair<Entity, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
         List<Pair<Entity, Double>> sorted = new ArrayList<>();
         for (Pair<Entity, Map<String, Double>> e : scores) {
@@ -59,7 +60,7 @@ public class NamedEntityRanker {
 
     public List<Pair<Entity, Map<String, Double>>> scoreCandidateNamedEntities(Table table,
                                                                                           int row, int column
-    ) throws IOException {
+    ) throws KBSearchException {
         //do disambiguation scoring
         //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         TContentCell cell = table.getContentCell(row, column);

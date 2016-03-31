@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.util;
 
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.util.FileUtils;
 
@@ -12,7 +13,7 @@ import java.util.*;
  * Created by zqz on 21/04/2015.
  */
 public class FreebaseTypeGranularityPopulator {
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, KBSearchException {
         //read the index, save all "types" to a file
         /*Directory dirIndex = FSDirectory.open(new File(args[0]));
         IndexReader indexReader = DirectoryReader.open(dirIndex);
@@ -79,8 +80,8 @@ public class FreebaseTypeGranularityPopulator {
         for (String t : all_types) {
             System.out.println(count + "_" + t);
             try {
-                kbSeacher.find_granularityForConcept(t);
-                kbSeacher.findAttributesOfConcept(t);
+                kbSeacher.findGranularityOfClazz(t);
+                kbSeacher.findAttributesOfClazz(t);
                 count++;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -91,7 +92,7 @@ public class FreebaseTypeGranularityPopulator {
 
             }
         }
-        kbSeacher.finalizeConnection();
+        kbSeacher.closeConnection();
         System.exit(0);
     }
 }

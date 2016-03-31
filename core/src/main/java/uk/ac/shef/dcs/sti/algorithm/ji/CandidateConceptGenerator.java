@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
@@ -35,7 +35,7 @@ public class CandidateConceptGenerator {
         this.multiThreads = multiThreads;
     }
 
-    public void generateCandidateConcepts(TAnnotation_JI_Freebase tableAnnotation, Table table, int col) throws IOException {
+    public void generateCandidateConcepts(TAnnotation_JI_Freebase tableAnnotation, Table table, int col) throws KBSearchException {
         List<Clazz> distinctTypes = new ArrayList<>();
         Map<String, List<String>> entityId_and_conceptURLs = new HashMap<String, List<String>>();
         Map<String, String> distinctTypeStrings = new HashMap<String, String>();
@@ -71,7 +71,7 @@ public class CandidateConceptGenerator {
         for(Map.Entry<String, String> ent: distinctTypeStrings.entrySet()){
             String conceptId = ent.getKey();
             String conceptName = ent.getValue();
-            List<Attribute> triples = kbSearch.findAttributesOfConcept(conceptId);
+            List<Attribute> triples = kbSearch.findAttributesOfClazz(conceptId);
             Clazz concept = new Clazz(conceptId, conceptName);
             concept.setAttributes(triples);
             distinctTypes.add(concept);
@@ -130,7 +130,7 @@ public class CandidateConceptGenerator {
 
     private Map<String, Double> computeSimilarityMultiThread(int threads, Collection<Entity> entities,
                                                              Collection<Clazz> concepts,
-                                                             boolean biDirectional) {
+                                                             boolean biDirectional)throws KBSearchException{
         Map<String, Double> result = new HashMap<String, Double>();
         List<Pair<Entity,Clazz>> pairs = new ArrayList<>();
         int cc=0;
@@ -206,7 +206,7 @@ public class CandidateConceptGenerator {
                 String[] key = e.getKey();
                 if (e.getValue() != -1) {
                     if(useCache&& !key[2].equals("cache")) {
-                        kbSearch.saveSimilarity(key[0], key[1], e.getValue(), biDirectional, false);
+                        kbSearch.cacheEntityConceptSimilarity(key[0], key[1], e.getValue(), biDirectional, false);
                         doCommit=true;
                     }
                     result.put(key[0] + "," + key[1], e.getValue());
