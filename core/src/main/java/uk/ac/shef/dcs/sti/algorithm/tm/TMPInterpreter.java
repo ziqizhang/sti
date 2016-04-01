@@ -65,15 +65,7 @@ public class TMPInterpreter {
         }
         List<Pair<Integer, Pair<Double, Boolean>>> subjectColumnScores =
                 subjectColumnDetector.compute(table, ignoreColumnsArray);
-        //isValidAttribute columns that are likely to be acronyms only, because they are highly ambiguous
-        /*if (candidate_main_NE_columns.size() > 1) {
-            Iterator<ObjObj<Integer, ObjObj<Double, Boolean>>> it = candidate_main_NE_columns.iterator();
-            while (it.hasNext()) {
-                ObjObj<Integer, ObjObj<Double, Boolean>> en = it.next();
-                if (en.getOtherObject().getOtherObject() == true)
-                    it.remove();
-            }
-        }*/
+
         TAnnotation tableAnnotations = new TAnnotation(table.getNumRows(), table.getNumCols());
         tableAnnotations.setSubjectColumn(subjectColumnScores.get(0).getKey());
 
@@ -152,8 +144,7 @@ public class TMPInterpreter {
             interpreter_column_with_knownReltaions.interpret(table, tableAnnotations, annotatedColumns.toArray(new Integer[0]));
 
         }
-
-
+        
         return tableAnnotations;
     }
 

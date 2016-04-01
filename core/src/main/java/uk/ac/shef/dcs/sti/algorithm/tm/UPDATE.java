@@ -69,25 +69,6 @@ public class UPDATE {
         Set<String> allEntityIds = new HashSet<>();
         boolean converged;
         do {
-            ////// solution 1: both prev and current iterations' headers do not have dc added
-            /*System.out.println("\t>> UPDATE begins, iteration:" + current_iteration);
-            //current iteration annotation header scores does not contain dc scores
-
-            //headers will have dc computeElementScores added
-            domain_representation = createDomainRep(table, current_iteration_annotation, interpreted_columns);
-            updateClazzScoresByDC(current_iteration_annotation, domain_representation, interpreted_columns);
-
-            //scores will be reset, then recalculated. dc scores lost
-            reviseColumnAndCellAnnotations(table, current_iteration_annotation, interpreted_columns);
-
-            //both prev and current iterations' header annotations do not have dc scores
-            converged = checkConvergence(prev_iteration_annotation, current_iteration_annotation,
-                    table.getNumRows(), interpreted_columns);
-            if (!converged)
-                prev_iteration_annotation = TAnnotation.copy(current_iteration_annotation,
-                        table.getNumRows(), table.getNumCols());
-            current_iteration++;*/
-
             ///////////////// solution 2: both prev and current iterations' headers will have dc scores added
             LOG.info("\t>> UPDATE begins, iteration:" + currentIteration);
             allEntityIds.addAll(collectAllEntityCandidateIds(table, currentAnnotation));
@@ -106,7 +87,6 @@ public class UPDATE {
             reviseColumnAndCellAnnotations(allEntityIds,
                     table, currentAnnotation, interpretedColumnIndexes);
 
-
             // NO NEED!!! DC computeElementScores already included when "revise_cell_disam..."
             //updateClazzScoresByDC(current_iteration_annotation, domain_representation, interpreted_columns);
             //both prev and current iterations' header annotations do not have dc scores
@@ -122,7 +102,7 @@ public class UPDATE {
         } while (!converged && currentIteration < TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS);
 
         if (currentIteration >= TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS) {
-            System.out.println("\t>> UPDATE CANNOT STABILIZED AFTER " + currentIteration + " ITERATIONS, Stopped");
+            LOG.info("\t>> UPDATE CANNOT STABILIZED AFTER " + currentIteration + " ITERATIONS, Stopped");
             if (prevAnnotation != null) {
                 currentAnnotation = new TAnnotation(prevAnnotation.getRows(),
                         prevAnnotation.getCols());
@@ -130,7 +110,7 @@ public class UPDATE {
                         currentAnnotation);
             }
         } else
-            System.out.println("\t>> UPDATE STABLIZED AFTER " + currentIteration + " ITERATIONS");
+            LOG.info("\t>> UPDATE STABLIZED AFTER " + currentIteration + " ITERATIONS");
 
     }
 
@@ -240,9 +220,8 @@ public class UPDATE {
                 }
             }
 
-            LOG.info("\t>> update iteration complete (" + updated.size() + " rows)");
-
             TMPInterpreter.updateColumnClazz(updated, c, currentAnnotation, table, clazzScorer);
+            LOG.info("\t>> update iteration complete (" + updated.size() + " rows)");
         }
 
     }
