@@ -84,8 +84,7 @@ public class LEARNINGPreliminaryDisamb {
 
         LOG.info("\t\t>> constrained cell disambiguation complete " + updated.size() + " rows");
         LOG.info("\t\t>> reset candidate column class annotations");
-        updateColumnClazz(updated, column, tableAnnotation, table
-        );
+        updateColumnClazz(updated, column, tableAnnotation, table);
 
     }
 
