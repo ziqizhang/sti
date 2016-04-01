@@ -13,7 +13,7 @@ public class ColumnHeaderType_TieBreaker {
     public static List<String> consistent_domain_freebase(List<String> candidateTypes, TAnnotation tab_annotations, Table table) {
         Set<String> domain_words = new HashSet<String>();
         for (int col = 0; col < table.getNumCols(); col++) {
-            List<TColumnHeaderAnnotation> annotations = tab_annotations.getBestHeaderAnnotations(col);
+            List<TColumnHeaderAnnotation> annotations = tab_annotations.getWinningHeaderAnnotations(col);
             if (annotations == null || annotations.size() == 0)
                 continue;
             for (TColumnHeaderAnnotation ha : annotations) {

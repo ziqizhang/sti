@@ -208,8 +208,8 @@ public class TI_SemanticMessagePassing {
         int header_converged_count = 0;
         boolean header_converged = false;
         for (int c=0; c<previous.getCols(); c++) {
-            List<TColumnHeaderAnnotation> header_annotations_prev_iteration = previous.getBestHeaderAnnotations(c);
-            List<TColumnHeaderAnnotation> header_annotations_current_iteration = current.getBestHeaderAnnotations(c);
+            List<TColumnHeaderAnnotation> header_annotations_prev_iteration = previous.getWinningHeaderAnnotations(c);
+            List<TColumnHeaderAnnotation> header_annotations_current_iteration = current.getWinningHeaderAnnotations(c);
             if(header_annotations_prev_iteration==null&&header_annotations_current_iteration==null) {
                 header_converged_count++;
                 continue;

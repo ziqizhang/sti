@@ -235,7 +235,7 @@ public class Test_ISWC_TableInterpretation_Goodreads {
 
 
     public static void write_iswc_output(Table table, TAnnotation tableAnnotation, String imdb_file_name, String outFile) throws IOException {
-        List<TColumnHeaderAnnotation> has = tableAnnotation.getBestHeaderAnnotations(1);
+        List<TColumnHeaderAnnotation> has = tableAnnotation.getWinningHeaderAnnotations(1);
         if (has != null && has.size() > 0) {
             boolean correct = false;
             for (TColumnHeaderAnnotation ha : has) {

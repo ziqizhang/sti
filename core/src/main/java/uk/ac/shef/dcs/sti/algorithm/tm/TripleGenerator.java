@@ -28,7 +28,7 @@ public class TripleGenerator {
         for (int col = 0; col < table.getNumCols(); col++) {
             TColumnHeader header = table.getColumnHeader(col);
 
-            List<TColumnHeaderAnnotation> bestHeaderAnnotations = tab_annotation.getBestHeaderAnnotations(col);
+            List<TColumnHeaderAnnotation> bestHeaderAnnotations = tab_annotation.getWinningHeaderAnnotations(col);
             if (bestHeaderAnnotations.size() == 0)
                 continue;
 

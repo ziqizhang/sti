@@ -96,7 +96,7 @@ public class LEARNINGPreliminaryColumnClassifier {
                                 candidates, table, blockOfRows, column
                         );
 
-                LEARNING.addCellAnnotation(table,
+                TMPInterpreter.addCellAnnotation(table,
                         tableAnnotation, blockOfRows, column, entityScoresForBlock);
             }
 

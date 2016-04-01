@@ -35,7 +35,7 @@ public class LEARNINGPreliminaryDisamb {
             Integer... skipRows) throws KBSearchException {
 
         LOG.info("\t>> (LEARNING) Preliminary Disambiguation begins");
-        List<TColumnHeaderAnnotation> winningColumnClazz = tableAnnotation.getBestHeaderAnnotations(column);
+        List<TColumnHeaderAnnotation> winningColumnClazz = tableAnnotation.getWinningHeaderAnnotations(column);
         Set<String> winningColumnClazzIds = new HashSet<>();
         for (TColumnHeaderAnnotation ha : winningColumnClazz)
             winningColumnClazzIds.add(ha.getAnnotation().getId());
@@ -76,7 +76,7 @@ public class LEARNINGPreliminaryDisamb {
                     );
 
             if (entity_and_scoreMap.size() > 0) {
-                LEARNING.addCellAnnotation(table, tableAnnotation, rows, column,
+                TMPInterpreter.addCellAnnotation(table, tableAnnotation, rows, column,
                         entity_and_scoreMap);
                 updated.addAll(rows);
             }

@@ -11,7 +11,7 @@ import java.util.*;
  * Currently #KBSearcher_Freebase simply returns "1" for such concepts, effectively they have the maximum granularity.
  * This put other concepts that do have instances (e.g., /location/location) at disadvantage.
  *
- * This class extends TAnnotation and overwrites method #getBestHeaderAnnotations to cope with such problems.
+ * This class extends TAnnotation and overwrites method #getWinningHeaderAnnotations to cope with such problems.
  * Effectively, the "real" freebase concept that has the smallest number of instances (highest granularity) and any
  * "topic-based" concept (/m/*) are both considered the best header annotations
  */
@@ -41,7 +41,7 @@ public class TAnnotation_SMP_Freebase extends TAnnotation {
         return ha;
     }
 
-    public List<TColumnHeaderAnnotation> getBestHeaderAnnotations(int headerCol){
+    public List<TColumnHeaderAnnotation> getWinningHeaderAnnotations(int headerCol){
         TColumnHeaderAnnotation[] annotations =getHeaderAnnotation(headerCol);
         List<TColumnHeaderAnnotation> result = new ArrayList<TColumnHeaderAnnotation>();
         if(annotations==null||annotations.length==0)

@@ -26,7 +26,7 @@ public class ChangeMessageBroadcaster {
         ObjectMatrix2D messages = new SparseObjectMatrix2D(table.getNumRows(), table.getNumCols());
         //messages by column header
         for (int col = 0; col < table.getNumCols(); col++) {
-            List<TColumnHeaderAnnotation> bestHeaderAnnotations = tableAnnotation.getBestHeaderAnnotations(col);
+            List<TColumnHeaderAnnotation> bestHeaderAnnotations = tableAnnotation.getWinningHeaderAnnotations(col);
             if (bestHeaderAnnotations.size() == 0)
                 continue;
 

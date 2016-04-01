@@ -49,6 +49,7 @@ public class UPDATE {
 
     /**
      * start the UPDATE process
+     *
      * @param interpretedColumnIndexes
      * @param table
      * @param currentAnnotation
@@ -74,10 +75,10 @@ public class UPDATE {
 
             //headers will have dc computeElementScores added
             domain_representation = createDomainRep(table, current_iteration_annotation, interpreted_columns);
-            revise_header_annotation(current_iteration_annotation, domain_representation, interpreted_columns);
+            updateClazzScoresByDC(current_iteration_annotation, domain_representation, interpreted_columns);
 
             //scores will be reset, then recalculated. dc scores lost
-            revise_cell_disambiguation_then_reannotate_cell_and_header(table, current_iteration_annotation, interpreted_columns);
+            reviseColumnAndCellAnnotations(table, current_iteration_annotation, interpreted_columns);
 
             //both prev and current iterations' header annotations do not have dc scores
             converged = checkConvergence(prev_iteration_annotation, current_iteration_annotation,
@@ -94,20 +95,20 @@ public class UPDATE {
 
             //headers will have dc computeElementScores added
             domainRep = createDomainRep(table, currentAnnotation, interpretedColumnIndexes);
-            revise_header_annotation(currentAnnotation, domainRep, interpretedColumnIndexes);
-            //add dc scores to prev iteration's header annotations
+            //update clazz scores with dc scores
+            updateClazzScoresByDC(currentAnnotation, domainRep, interpretedColumnIndexes);
+
             prevAnnotation = new TAnnotation(currentAnnotation.getRows(),
                     currentAnnotation.getCols());
             TAnnotation.copy(currentAnnotation, prevAnnotation);
 
             //scores will be reset, then recalculated. dc scores lost
-            revise_cell_disambiguation_then_reannotate_cell_and_header(allEntityIds,
+            reviseColumnAndCellAnnotations(allEntityIds,
                     table, currentAnnotation, interpretedColumnIndexes);
-            //add dc scores to the current, new iteration's header annotations
 
 
             // NO NEED!!! DC computeElementScores already included when "revise_cell_disam..."
-            //revise_header_annotation(current_iteration_annotation, domain_representation, interpreted_columns);
+            //updateClazzScoresByDC(current_iteration_annotation, domain_representation, interpreted_columns);
             //both prev and current iterations' header annotations do not have dc scores
             converged = checkConvergence(prevAnnotation, currentAnnotation,
                     table.getNumRows(), interpretedColumnIndexes);
@@ -121,7 +122,7 @@ public class UPDATE {
         } while (!converged && currentIteration < TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS);
 
         if (currentIteration >= TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS) {
-            System.out.println("\t>> UPDATE CANNOT STABLIZE AFTER " + currentIteration + " ITERATIONS, Stopped");
+            System.out.println("\t>> UPDATE CANNOT STABILIZED AFTER " + currentIteration + " ITERATIONS, Stopped");
             if (prevAnnotation != null) {
                 currentAnnotation = new TAnnotation(prevAnnotation.getRows(),
                         prevAnnotation.getCols());
@@ -172,7 +173,7 @@ public class UPDATE {
             if (fact.getRelation().equals(FreebaseEnum.RELATION_HASDESCRIPTION.getString())) {
                 String[] sentences = NLPTools.getInstance(nlpResourcesDir).getSentenceSplitter().sentDetect(fact.getValue());
                 String first = sentences.length > 0 ? sentences[0] : "";
-                List<String> tokens = StringUtils.toBagOfWords(first, true,true,true);
+                List<String> tokens = StringUtils.toBagOfWords(first, true, true, true);
                 domain.addAll(tokens);
             }
         }
@@ -180,54 +181,9 @@ public class UPDATE {
         return domain;
     }
 
-    private void revise_cell_disambiguation_then_reannotate_cell_and_header(
-            Set<String> already_built_feature_space_entity_candidates,
-            Table table, TAnnotation current_iteration_annotation, List<Integer> interpreted_columns) throws KBSearchException {
-        for (int c : interpreted_columns) {
-            List<List<Integer>> ranking = selector.select(table, c, current_iteration_annotation.getSubjectColumn());
 
-            List<TColumnHeaderAnnotation> bestHeaderAnnotations = current_iteration_annotation.getBestHeaderAnnotations(c);
-            Set<String> columnTypes = new HashSet<String>();
-            for (TColumnHeaderAnnotation ha : bestHeaderAnnotations)
-                columnTypes.add(ha.getAnnotation().getId());
-            List<Integer> updated = new ArrayList<Integer>();
-            for (int bi = 0; bi < ranking.size(); bi++) {
-                List<Integer> rows = ranking.get(bi);
-                TCell sample = table.getContentCell(rows.get(0), c);
-                if (sample.getType().equals(DataTypeClassifier.DataType.LONG_TEXT)) {
-                    System.out.println("\t\t>>> Long text cell skipped: " + rows + "," + c + " " + sample.getText());
-                    continue;
-                }
-                if (sample.getText().length() < 2) {
-                    System.out.println("\t\t>>> Long text cell skipped: " + rows + "," + c + " " + sample.getText());
-                    continue;
-                }
-
-                List<Pair<Entity, Map<String, Double>>>
-                        candidates_and_scores_for_block =
-                        disambiguate(already_built_feature_space_entity_candidates,
-                                sample,
-                                table,
-                                //current_iteration_annotation,
-                                columnTypes,
-                                rows, c);
-
-                if (candidates_and_scores_for_block.size() > 0) {
-                    update_entity_annotations(table, current_iteration_annotation, rows, c,
-                            candidates_and_scores_for_block);
-                    updated.addAll(rows);
-                }
-            }
-
-            System.out.println("\t>> Classification-UPDATE (update " + updated.size() + " rows)");
-
-            update_typing_annotations_best_candidate_contribute(updated, c, current_iteration_annotation, table, table.getNumRows());
-        }
-
-    }
-
-    private void revise_header_annotation(TAnnotation currentAnnotation, List<String> domanRep,
-                                          List<Integer> interpretedColumns) {
+    private void updateClazzScoresByDC(TAnnotation currentAnnotation, List<String> domanRep,
+                                       List<Integer> interpretedColumns) {
         for (int c : interpretedColumns) {
             List<TColumnHeaderAnnotation> headers = new ArrayList<>(
                     Arrays.asList(currentAnnotation.getHeaderAnnotation(c)));
@@ -242,6 +198,83 @@ public class UPDATE {
         }
     }
 
+    private void reviseColumnAndCellAnnotations(
+            Set<String> allEntityIds,
+            Table table,
+            TAnnotation currentAnnotation,
+            List<Integer> interpretedColumns) throws KBSearchException {
+        //now revise annotations on each of the interpreted columns
+        for (int c : interpretedColumns) {
+            //sample ranking
+            List<List<Integer>> ranking = selector.select(table, c, currentAnnotation.getSubjectColumn());
+
+            //get winning header annotation
+            List<TColumnHeaderAnnotation> winningColumnClazzAnnotations =
+                    currentAnnotation.getWinningHeaderAnnotations(c);
+            Set<String> columnTypes = new HashSet<>();
+            for (TColumnHeaderAnnotation ha : winningColumnClazzAnnotations)
+                columnTypes.add(ha.getAnnotation().getId());
+
+            List<Integer> updated = new ArrayList<>();
+            for (int bi = 0; bi < ranking.size(); bi++) {
+                List<Integer> rows = ranking.get(bi);
+                TCell sample = table.getContentCell(rows.get(0), c);
+                if (sample.getText().length() < 2) {
+                    LOG.info("\t\t>>> short text cell skipped: " + rows + "," + c + " " + sample.getText());
+                    continue;
+                }
+
+                //constrained disambiguation
+                List<Pair<Entity, Map<String, Double>>>
+                        entity_and_scoreMap =
+                        disambiguate(allEntityIds,
+                                sample,
+                                table,
+                                columnTypes,
+                                rows, c);
+
+                if (entity_and_scoreMap.size() > 0) {
+                    TMPInterpreter.addCellAnnotation(table, currentAnnotation, rows, c,
+                            entity_and_scoreMap);
+                    updated.addAll(rows);
+                }
+            }
+
+            LOG.info("\t>> update iteration complete (" + updated.size() + " rows)");
+
+            update_typing_annotations_best_candidate_contribute(updated, c, currentAnnotation, table, table.getNumRows());
+        }
+
+    }
+
+
+    private List<Pair<Entity, Map<String, Double>>> disambiguate(Set<String> ignoreEntityIds,
+                                                                 TCell tcc,
+                                                                 Table table,
+                                                                 Set<String> constrainedClazz,
+                                                                 List<Integer> rowBlock,
+                                                                 int table_cell_col) throws KBSearchException {
+        List<Pair<Entity, Map<String, Double>>> entity_and_scoreMap;
+        List<Entity> candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText(),
+                constrainedClazz.toArray(new String[0]));
+
+        int ignore = 0;
+        for (Resource ec : candidates) {
+            if (ignoreEntityIds.contains(ec.getId()))
+                ignore++;
+        }
+        if (candidates != null && candidates.size() != 0) {
+            } else {
+            candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText());
+        }
+        LOG.info("(Total candidates="+candidates.size()+", previously already processed=" + ignore+")");
+        //now each candidate is given scores
+        entity_and_scoreMap =
+                disambiguator.constrainedDisambiguate
+                        (candidates, table, rowBlock, table_cell_col, false);
+
+        return entity_and_scoreMap;
+    }
 
 
     private boolean checkConvergence(TAnnotation prev_iteration_annotation, TAnnotation table_annotation, int totalRows, List<Integer> interpreted_columns) {
@@ -249,8 +282,8 @@ public class UPDATE {
         int header_converged_count = 0;
         boolean header_converged = false;
         for (int c : interpreted_columns) {
-            List<TColumnHeaderAnnotation> header_annotations_prev_iteration = prev_iteration_annotation.getBestHeaderAnnotations(c);
-            List<TColumnHeaderAnnotation> header_annotations_current_iteration = table_annotation.getBestHeaderAnnotations(c);
+            List<TColumnHeaderAnnotation> header_annotations_prev_iteration = prev_iteration_annotation.getWinningHeaderAnnotations(c);
+            List<TColumnHeaderAnnotation> header_annotations_current_iteration = table_annotation.getWinningHeaderAnnotations(c);
             if (header_annotations_current_iteration.size() == header_annotations_prev_iteration.size()) {
                 header_annotations_current_iteration.retainAll(header_annotations_prev_iteration);
                 if (header_annotations_current_iteration.size() == header_annotations_prev_iteration.size())
@@ -317,150 +350,6 @@ public class UPDATE {
 
     }
 
-    private void reset_entity_contributed_scores(TColumnHeaderAnnotation[] existing_header_annotations) {
-        for (TColumnHeaderAnnotation ha : existing_header_annotations) {
-            ha.getScoreElements().put(TColumnHeaderAnnotation.SCORE_CE,
-                    0.0);
-            ha.getScoreElements().put(TColumnHeaderAnnotation.SCORE_ENTITY_VOTE,
-                    0.0);
-            ha.getScoreElements().put(TColumnHeaderAnnotation.SUM_CE,
-                    0.0);
-            ha.getScoreElements().put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE,
-                    0.0);
-        }
-    }
 
-    //WARNING: CURRENTLY updating does not ADD new headers
-    public void update_typing_annotations_all_candidate_contribute(List<Integer> rowsUpdated,
-                                                                   int column,
-                                                                   TAnnotation table_annotations,
-                                                                   Table table,
-                                                                   int tableRowsTotal) {
-        TColumnHeaderAnnotation[] existing_header_annotations = table_annotations.getHeaderAnnotation(column);
-        existing_header_annotations = existing_header_annotations == null ? new TColumnHeaderAnnotation[0] : existing_header_annotations;
-        reset_entity_contributed_scores(existing_header_annotations);
-        //supporting rows are only added if a header for the type of the cell annotation exists
 
-        for (int row : rowsUpdated) {
-            TCellAnnotation[] cellAnnotations = table_annotations.getContentCellAnnotations(row, column);
-
-            Map<String, Double> header_annotation_url_and_max_score = new HashMap<String, Double>();
-            Map<String, String> header_annotation_url_and_label = new HashMap<String, String>();
-            for (TCellAnnotation ca : cellAnnotations) {
-                List<Clazz> types = ca.getAnnotation().getTypes();
-                double disamb_score = ca.getFinalScore();
-                for (Clazz t : types) {
-                    String url = t.getId();
-                    String label = t.getLabel();
-                    header_annotation_url_and_label.put(url, label);
-                    Double score = header_annotation_url_and_max_score.get(url);
-                    if (score == null) score = 0.0;
-                    if (disamb_score > score) {
-                        /*if(computeElementScores!=0)
-                        System.out.println();*/
-                        score = disamb_score;
-                    }
-                    header_annotation_url_and_max_score.put(url, score);
-                }
-            }
-
-            Set<TColumnHeaderAnnotation> new_header_annotation_placeholders = new HashSet<TColumnHeaderAnnotation>();
-            HeaderAnnotationUpdater.add(header_annotation_url_and_label,
-                    column,
-                    table,
-                    existing_header_annotations,
-                    new_header_annotation_placeholders);
-
-            for (TColumnHeaderAnnotation ha : existing_header_annotations)
-                new_header_annotation_placeholders.add(ha);
-            existing_header_annotations = new_header_annotation_placeholders.toArray(new TColumnHeaderAnnotation[0]);
-
-            HeaderAnnotationUpdater.update_by_entity_contribution(
-                    header_annotation_url_and_max_score, row, existing_header_annotations
-            );
-            //p.close();
-
-        }
-
-        List<TColumnHeaderAnnotation> headers = new ArrayList<>(Arrays.asList(existing_header_annotations));
-        headers = clazzScorer.computeCCScore(
-                headers, table, column);
-
-        //final update to compute revised typing scores, then sort them
-        List<TColumnHeaderAnnotation> resort = new ArrayList<TColumnHeaderAnnotation>();
-        for (TColumnHeaderAnnotation ha : headers) {
-            clazzScorer.computeFinal(ha, tableRowsTotal);
-            /* ha.setScoreElements(revised_score_elements);
-            ha.setFinalScore(revised_score_elements.get(TColumnHeaderAnnotation.FINAL));*/
-            resort.add(ha);
-        }
-
-        Collections.sort(resort);
-        table_annotations.setHeaderAnnotation(column, resort.toArray(new TColumnHeaderAnnotation[0]));
-
-    }
-
-    private List<Pair<Entity, Map<String, Double>>> disambiguate(Set<String> already_built_feature_space_entity_candidates,
-                                                                 TCell tcc,
-                                                                 Table table,
-                                                                 Set<String> columnTypes,
-                                                                 List<Integer> table_cell_rows,
-                                                                 int table_cell_col,
-                                                                 Entity... reference_disambiguated_entities) throws KBSearchException {
-        List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_block
-                = new ArrayList<>();
-
-        List<Entity> candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText(), columnTypes.toArray(new String[0]));
-
-        int count_already_built_feature_space = 0;
-        for (Resource ec : candidates) {
-            if (already_built_feature_space_entity_candidates.contains(ec.getId()))
-                count_already_built_feature_space++;
-        }
-
-        System.out.println("(ALREADY BUILT FOR=" + count_already_built_feature_space);
-
-        if (candidates != null && candidates.size() != 0) {
-        } else {
-            candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText());
-        }
-
-        //now each candidate is given scores
-        candidates_and_scores_for_block =
-                disambiguator.constrainedDisambiguate
-                        (candidates, table, table_cell_rows, table_cell_col, false);
-
-        return candidates_and_scores_for_block;
-    }
-
-    private void update_entity_annotations(
-            Table table,
-            TAnnotation table_annotation,
-            List<Integer> table_cell_rows,
-            int table_cell_col,
-            List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_cell) {
-
-        Collections.sort(candidates_and_scores_for_cell, (o1, o2) -> {
-            Double o2_score = o2.getValue().get(TCellAnnotation.SCORE_FINAL);
-            Double o1_score = o1.getValue().get(TCellAnnotation.SCORE_FINAL);
-            return o2_score.compareTo(o1_score);
-        });
-
-        String sampleCellText = table.getContentCell(table_cell_rows.get(0), table_cell_col).getText();
-
-        for (int row : table_cell_rows) {
-            TCellAnnotation[] annotationsForCell = new TCellAnnotation[candidates_and_scores_for_cell.size()];
-            for (int i = 0; i < candidates_and_scores_for_cell.size(); i++) {
-                Pair<Entity, Map<String, Double>> e = candidates_and_scores_for_cell.get(i);
-                annotationsForCell[i] = new TCellAnnotation(sampleCellText,
-                        e.getKey(), e.getValue().get("final"), e.getValue());
-                /*if(table_cell_row==5 &&table_cell_col==4)
-                System.out.println(i);*/
-            }
-
-            table_annotation.setContentCellAnnotations(row, table_cell_col, annotationsForCell);
-        }
-        /* if (table_cell_row == 5 && table_cell_col == 4)
-        System.out.println("end");*/
-    }
 }

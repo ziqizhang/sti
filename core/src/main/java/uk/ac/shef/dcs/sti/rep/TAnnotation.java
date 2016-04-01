@@ -106,7 +106,7 @@ public class TAnnotation {
         return ha;
     }
 
-    public List<TColumnHeaderAnnotation> getBestHeaderAnnotations(int headerCol){
+    public List<TColumnHeaderAnnotation> getWinningHeaderAnnotations(int headerCol){
         TColumnHeaderAnnotation[] annotations =getHeaderAnnotation(headerCol);
 
         List<TColumnHeaderAnnotation> result = new ArrayList<TColumnHeaderAnnotation>();

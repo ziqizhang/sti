@@ -108,7 +108,7 @@ public class Base_NameMatch_ColumnLearner {
                               Table table,
                               Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row,
                               int column) {
-        List<TColumnHeaderAnnotation> bestHeaderAnnotations = table_annotation.getBestHeaderAnnotations(column);
+        List<TColumnHeaderAnnotation> bestHeaderAnnotations = table_annotation.getWinningHeaderAnnotations(column);
         List<String> types = new ArrayList<String>();
         for (TColumnHeaderAnnotation ha : bestHeaderAnnotations)
             types.add(ha.getAnnotation().getId());

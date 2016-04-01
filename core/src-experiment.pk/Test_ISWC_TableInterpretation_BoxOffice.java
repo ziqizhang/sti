@@ -236,7 +236,7 @@ public class Test_ISWC_TableInterpretation_BoxOffice {
 
 
     public static void write_iswc_output(Table table, TAnnotation tableAnnotation, String imdb_file_name, String outFile) throws IOException {
-        List<TColumnHeaderAnnotation> has = tableAnnotation.getBestHeaderAnnotations(0);
+        List<TColumnHeaderAnnotation> has = tableAnnotation.getWinningHeaderAnnotations(0);
         if (has != null && has.size() > 0) {
             boolean correct = false;
             for (TColumnHeaderAnnotation ha : has) {
