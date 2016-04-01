@@ -9,7 +9,7 @@ import java.util.Map;
 MUST BE RE-INSTANTIATED FOR EVERY INTERPRETATION TASK, because class variable "current iteration" and "previous
  entropy" does not reset
  */
-public class EntropyConvergence extends StoppingCriteria {
+public class IInf extends StoppingCriteria {
 
     private double minimum_state_score_sum;
     private double previous_iteration_entropy;
@@ -17,10 +17,10 @@ public class EntropyConvergence extends StoppingCriteria {
     private int current_iteration;
     private double convergence_threshold = 0.01;
 
-    private static final Logger LOG = Logger.getLogger(EntropyConvergence.class.getName());
+    private static final Logger LOG = Logger.getLogger(IInf.class.getName());
 
     //minimum #
-    public EntropyConvergence(double minimum_state_score_sum, int minimum_iterations, double convergence_threshold) {
+    public IInf(double minimum_state_score_sum, int minimum_iterations, double convergence_threshold) {
         this.minimum_state_score_sum = minimum_state_score_sum;
         this.minimum_iterations = minimum_iterations;
         current_iteration = 0;

@@ -129,8 +129,8 @@ public class TAnnotation_JI_Freebase extends TAnnotation {
                 score_conceptPairAndRelation_instaceEvidence.put(key,
                         score + getScore_conceptPairAndRelation_instanceEvidence(sbjConceptId, relationId, objConceptId));
                 scoreContributingRows_conceptPairAndRelation.put(key, contributingRows);
-            } else if (existingScore < score) { //previously this cell has contributed to a score, but that is smaller
-                //so we need to recalculate the instanceEvidence score using the new score
+            } else if (existingScore < score) { //previously this cell has contributed to a computeElementScores, but that is smaller
+                //so we need to recalculate the instanceEvidence computeElementScores using the new computeElementScores
                 contributingRows.put(String.valueOf(row), score);
                 double diff = score - existingScore;
                 score_conceptPairAndRelation_instaceEvidence.put(key,

@@ -50,7 +50,7 @@ public class TAnnotation_SMP_Freebase extends TAnnotation {
         List<TColumnHeaderAnnotation> sorted = Arrays.asList(annotations);
         Collections.sort(sorted);
 
-        //container to keep temporarily any concepts that have real instances and score the same "entity score)
+        //container to keep temporarily any concepts that have real instances and computeElementScores the same "entity computeElementScores)
         List<TColumnHeaderAnnotation> tmp = new ArrayList<TColumnHeaderAnnotation>();
         double maxScore = sorted.get(0).getFinalScore();
         for(TColumnHeaderAnnotation h: sorted){

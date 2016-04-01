@@ -57,7 +57,7 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
         Map<String, String> header_relation_and_text = new HashMap<String, String>();
 
         for (CellBinaryRelationAnnotation cbr : input_from_row) { //each candidate relation in this cell
-            //each assigned type receives a score of 1, and the bonus score due to disambiguation result
+            //each assigned type receives a computeElementScores of 1, and the bonus computeElementScores due to disambiguation result
             double cbr_score = cbr.getScore();
             String url = cbr.getAnnotation_url();
             String text = cbr.getAnnotation_label();
@@ -67,13 +67,13 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
             score = score == null ? 0 : score;
             if (cbr_score > score) {
                 tmp_relation_annotation_and_max_score.put(url, cbr_score);
-                /*if(score!=0)
+                /*if(computeElementScores!=0)
                 System.out.println();*/
             }
 
         }
         if (input_from_row.size() == 0 || tmp_relation_annotation_and_max_score.size() == 0) {
-            //this entity has a score of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
+            //this entity has a computeElementScores of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
             //System.out.print("x(" + row + "," + column + ")");
             return candidate_header_binary_relations;
         }
@@ -130,7 +130,7 @@ public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScor
             }
         }
         if (input_from_row.size() == 0 || cbr_with_highest_match_score == null) {
-            //this entity has a score of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
+            //this entity has a computeElementScores of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
             return candidate_header_binary_relations;
         }
 

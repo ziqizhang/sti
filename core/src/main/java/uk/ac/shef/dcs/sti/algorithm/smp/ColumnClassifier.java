@@ -32,7 +32,7 @@ public class ColumnClassifier {
         int totalNonEmpty = 0;
         Map<String, Double> votes = new HashMap<String, Double>();
         for (int r = 0; r < table.getNumRows(); r++) {
-            //in case multiple NEs have the same score, we take them all
+            //in case multiple NEs have the same computeElementScores, we take them all
             if (!table.getContentCell(r, col).getType().equals(DataTypeClassifier.DataType.EMPTY))
                 totalNonEmpty++;
             List<TCellAnnotation> bestCellAnnotations = tableAnnotation.getBestContentCellAnnotations(r, col);
@@ -66,7 +66,7 @@ public class ColumnClassifier {
                 }
             });
 
-            //tie breaker based on granularity score of concepts
+            //tie breaker based on granularity computeElementScores of concepts
             double maxScore = result_votes.get(0).getValue();
             //is there a tie?
             int count_same_max_score = 0;
@@ -87,7 +87,7 @@ public class ColumnClassifier {
                 }
             }
 
-            //a header annotation will only have granularity score if there are more than one candidate with the same vote score
+            //a header annotation will only have granularity computeElementScores if there are more than one candidate with the same vote computeElementScores
             TColumnHeaderAnnotation[] headerAnnotations = new TColumnHeaderAnnotation[result_votes.size()];
             int i = 0;
             for (Pair<String, Double> oo : result_votes) {

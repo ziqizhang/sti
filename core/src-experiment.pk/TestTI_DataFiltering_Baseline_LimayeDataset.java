@@ -7,10 +7,10 @@ import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.sti.algorithm.tm.*;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.Random;
+import uk.ac.shef.dcs.sti.algorithm.tm.stopping.IInf;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.*;
-import uk.ac.shef.dcs.sti.algorithm.tm.stopping.EntropyConvergence;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
@@ -69,7 +69,7 @@ public class TestTI_DataFiltering_Baseline_LimayeDataset {
         //object to find main subject column
         SubjectColumnDetector main_col_finder = new SubjectColumnDetector(
                 new TContentTContentRowRankerImpl(),
-                EntropyConvergence.class.getName(),
+                IInf.class.getName(),
                 new String[]{"0.0", "1", "0.01"},
                 server,
                 nlpResources,
@@ -87,7 +87,7 @@ public class TestTI_DataFiltering_Baseline_LimayeDataset {
         //stop words and stop properties (freebase) are used for disambiguation
         //List<String> stopProperties = FileUtils.readList("D:\\Work\\lodie\\resources\\nlp_resources/stopproperties_freebase.txt", true);
 
-        //object to score columns, and disambiguate entities
+        //object to computeElementScores columns, and disambiguate entities
 
         TCellDisambiguator disambiguator = new TCellDisambiguator(
                 freebaseMatcher,
@@ -95,7 +95,7 @@ public class TestTI_DataFiltering_Baseline_LimayeDataset {
                         stopWords,
                         new double[]{1.0, 0.5, 0.5, 1.0, 1.0}, //row,column, tablecontext other,refent, tablecontext pagetitle (unused)
                         nlpResources));                         //1.0, 0.5, 0.25, 1.0, 1.0
-        TColumnClassifier class_scorer = new BaselineTColumnClassifier(
+        ClazzScorer class_scorer = new BaselineTColumnClassifier(
                 nlpResources,
                 //new Creator_ConceptHierarchicalBOW_Freebase(),
                 stopWords
@@ -117,15 +117,15 @@ public class TestTI_DataFiltering_Baseline_LimayeDataset {
             selector = new OSPD_random();
         }
 
-        LEARNINGPreliminaryClassify column_learnerSeeding = new LEARNINGPreliminaryClassify(
+        LEARNPreliminaryColumnTagging column_learnerSeeding = new LEARNPreliminaryColumnTagging(
                 selector,
-                EntropyConvergence.class.getName(),
+                IInf.class.getName(),
                 new String[]{"0.0", "2", "0.01"},
                 freebaseMatcher,
                 disambiguator,
                 class_scorer
         );
-        /*LEARNINGPreliminaryClassify column_learnerSeeding = new LEARNINGPreliminaryClassify(
+        /*LEARNPreliminaryColumnTagging column_learnerSeeding = new LEARNPreliminaryColumnTagging(
                 sampler,
                 FixedNumberOfRows.class.getName(),
                 new String[]{TableMinerConstants.SAMPLE_SIZE},
@@ -142,7 +142,7 @@ public class TestTI_DataFiltering_Baseline_LimayeDataset {
         LEARNING columnInterpreter = new LEARNING(
                 column_learnerSeeding, column_updater, TableMinerConstants.TCELLDISAMBIGUATOR_MAX_REFERENCE_ENTITIES);
 
-        //object to score relations between columns
+        //object to computeElementScores relations between columns
         HeaderBinaryRelationScorer relation_scorer = new HeaderBinaryRelationScorer_Vote(nlpResources,
                 new Creator_RelationHierarchicalBOW_Freebase(),
                 stopWords,
@@ -154,7 +154,7 @@ public class TestTI_DataFiltering_Baseline_LimayeDataset {
                 relation_scorer
         );
 
-        //object to consolidate previous output, further score columns and disamgiuate entities
+        //object to consolidate previous output, further computeElementScores columns and disamgiuate entities
         DataLiteralColumnClassifier interpreter_with_knownRelations = new DataLiteralColumnClassifier_exclude_entity_col(
                 IGNORE_COLUMNS
         );

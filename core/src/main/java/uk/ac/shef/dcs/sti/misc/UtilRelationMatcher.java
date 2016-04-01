@@ -49,22 +49,22 @@ public class UtilRelationMatcher {
 
 
         //method 1
-        /*double score = 0.0;
+        /*double computeElementScores = 0.0;
         int base_original_size = base_toks.size();
         base_toks.retainAll(target_toks);
         if (base_toks.size() > 0) {
-            score = ((double) base_toks.size() / base_original_size + (double) base_toks.size() / target_toks.size()) / 2.0;
+            computeElementScores = ((double) base_toks.size() / base_original_size + (double) base_toks.size() / target_toks.size()) / 2.0;
         }
-        if (score > 0)
-            return score;*/
+        if (computeElementScores > 0)
+            return computeElementScores;*/
 
         //method 2
         double score = CollectionUtils.computeDice(target_toks, base_toks);
-        return /*score * */score;
+        return /*computeElementScores * */score;
 
         //method 3, string similarity
-        // score = string_sim_levenstein.getSimilarity(target, base);
-        //return score;
+        // computeElementScores = string_sim_levenstein.getSimilarity(target, base);
+        //return computeElementScores;
     }
 
     public static double matchNumber(String string1, String string2) {
@@ -91,7 +91,7 @@ public class UtilRelationMatcher {
                         DataTypeClassifier.DataType type_of_string2,
                         Collection<String> stopWords,
                         AbstractStringMetric stringSimilarity) {
-        //in some cases certain types do not score
+        //in some cases certain types do not computeElementScores
         if (type_of_string1.equals(DataTypeClassifier.DataType.NAMED_ENTITY) &&
                 (type_of_string2.equals(DataTypeClassifier.DataType.NUMBER) || type_of_string2.equals(DataTypeClassifier.DataType.DATE)))
             return 0.0;
@@ -105,7 +105,7 @@ public class UtilRelationMatcher {
                 type_of_string2.equals(DataTypeClassifier.DataType.LONG_STRING))
             return 0.0;
 
-        //score number
+        //computeElementScores number
         double score = -1.0;
         if (type_of_string1.equals(DataTypeClassifier.DataType.NUMBER) &&
                 (type_of_string2.equals(DataTypeClassifier.DataType.NUMBER))) {

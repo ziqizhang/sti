@@ -54,7 +54,7 @@ public class WSScorer {
             // e.printStackTrace();
         }
 
-        //2. if not in cache, perform web search, score results, and cache results
+        //2. if not in cache, perform web search, computeElementScores results, and cache results
         if (result == null/*||result.size()==0*/) {
             Date start = new Date();
             try {
@@ -72,7 +72,7 @@ public class WSScorer {
         return score(result, values);
     }
 
-    //take each normlised value, score it against each search result document and sum up the scores
+    //take each normlised value, computeElementScores it against each search result document and sum up the scores
     protected Map<String, Double> score(List<WebSearchResultDoc> searchResult, String... normalizedValues) {
         Map<String, Double> scores = new HashMap<>();
 
@@ -284,9 +284,9 @@ public class WSScorer {
                 new BingSearch(accountKeys),
                 new ArrayList<String>()
         );
-        matcher.score("House of Cards", "Peter David");
-        matcher.score("University of Sheffield", "Sheffield", "United Kingdom");
-        matcher.score("House of Cards", "Peter David");
+        matcher.computeElementScores("House of Cards", "Peter David");
+        matcher.computeElementScores("University of Sheffield", "Sheffield", "United Kingdom");
+        matcher.computeElementScores("House of Cards", "Peter David");
         matcher.cache.closeConnection();
     }*/
 

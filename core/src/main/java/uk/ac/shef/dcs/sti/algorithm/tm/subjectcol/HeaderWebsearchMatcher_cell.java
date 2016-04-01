@@ -152,9 +152,9 @@ public class HeaderWebsearchMatcher_cell extends WSScorer {
                         "collection1"),
                 new BingSearch(accountKeys), null
         );
-        matcher.score("House of Cards", "Peter David");
-        matcher.score("University of Sheffield", "Sheffield", "United Kingdom");
-        matcher.score("House of Cards", "Peter David");
+        matcher.computeElementScores("House of Cards", "Peter David");
+        matcher.computeElementScores("University of Sheffield", "Sheffield", "United Kingdom");
+        matcher.computeElementScores("House of Cards", "Peter David");
     }*/
 
 }

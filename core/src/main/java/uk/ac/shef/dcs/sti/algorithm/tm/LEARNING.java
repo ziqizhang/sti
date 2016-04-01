@@ -7,7 +7,6 @@ import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -15,12 +14,12 @@ import java.util.*;
  */
 public class LEARNING {
 
-    private LEARNINGPreliminaryClassify columnTagger;
+    private LEARNPreliminaryColumnTagging columnTagger;
     private LEARNINGPreliminaryDisamb cellTagger;
     private int max_reference_entities;
 
 
-    public LEARNING(LEARNINGPreliminaryClassify columnTagger, LEARNINGPreliminaryDisamb cellTagger,
+    public LEARNING(LEARNPreliminaryColumnTagging columnTagger, LEARNINGPreliminaryDisamb cellTagger,
                     int max_reference_entities) {
         this.columnTagger = columnTagger;
         this.cellTagger = cellTagger;
@@ -29,7 +28,7 @@ public class LEARNING {
 
     public void process(Table table, TAnnotation tableAnnotation, int column) throws KBSearchException {
         Pair<Integer, List<List<Integer>>> converge_position =
-                columnTagger.learn_seeding(table, tableAnnotation, column);
+                columnTagger.learn(table, tableAnnotation, column);
         Set<Entity> reference_entities = new HashSet<>();
         if (max_reference_entities>0) {
             reference_entities = selectReferenceEntities(table, tableAnnotation, column,max_reference_entities);
@@ -54,16 +53,5 @@ public class LEARNING {
         for(int i=0; i<selected_best_from_each_row.size() && i<max; i++)
             result.add(selected_best_from_each_row.get(i).getAnnotation());
         return result;
-    }
-
-    public static Set<Entity> selectReferenceEntities(Pair<Integer, int[]> converge_position, TAnnotation table_annotation, int column, int max){
-        Set<Entity> reference_entities = new HashSet<>();
-        for (int i = 0; i < converge_position.getKey()&&i<max; i++) {
-            int row = converge_position.getValue()[i];
-            TCellAnnotation[] annotations = table_annotation.getContentCellAnnotations(row, column);
-            if (annotations != null && annotations.length > 0)
-                reference_entities.add(annotations[0].getAnnotation());
-        }
-        return reference_entities;
     }
 }

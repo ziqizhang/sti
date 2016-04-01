@@ -54,7 +54,7 @@ public class MainColumnFinder_old {
      * 2. If col is NE likely, and it is the only one having non-empty cells, choose the column
      *
      * @param table
-     * @return a list of ObjectWithObject objects, where first object is the column index; second is the score
+     * @return a list of ObjectWithObject objects, where first object is the column index; second is the computeElementScores
      *         probability that asserts that column being the main column of the table. (only NE likely columns can be
      *         considered main column)
      *//*
@@ -202,7 +202,7 @@ public class MainColumnFinder_old {
         //8. generate feature - 1st NE column
         featureGenerator.setIsFirstNEColumn(allNEColumnCandidates);
 
-        //9. generate features - context score
+        //9. generate features - context computeElementScores
         LOG.finest("Computing context matching");
         featureGenerator.setCMScores(allNEColumnCandidates, table);
 
@@ -229,18 +229,18 @@ public class MainColumnFinder_old {
         }
 
 
-        //12. then let's perform reasoning based on the remaining features: diversity score; 1st ne column; context score; web search score
+        //12. then let's perform reasoning based on the remaining features: diversity computeElementScores; 1st ne column; context computeElementScores; web search computeElementScores
         final Map<Integer, Pair<Double, Boolean>> inferenceScores = infer_multiFeatures(allNEColumnCandidates);
         List<Integer> candidates = new ArrayList<Integer>(inferenceScores.keySet());
         final Map<Integer, TColumnFeature> map_column_to_columnFeature = new HashMap<Integer, TColumnFeature>();
         for (TColumnFeature cf : allNEColumnCandidates) {
             map_column_to_columnFeature.put(cf.getColId(), cf);
         }
-        Collections.sort(candidates, new Comparator<Integer>() { //sort by score first; then column, left most first
+        Collections.sort(candidates, new Comparator<Integer>() { //sort by computeElementScores first; then column, left most first
             @Override
             public int compare(Integer o1, Integer o2) {
                 int compared = inferenceScores.get(o2).getKey().compareTo(inferenceScores.get(o1).getKey());
-                if (compared == 0) { //where there is a tie, choose the one having the highest diversity score
+                if (compared == 0) { //where there is a tie, choose the one having the highest diversity computeElementScores
                     Double vd_o1 = map_column_to_columnFeature.get(o1).getUniqueCellCount();
                     Double vd_o2 = map_column_to_columnFeature.get(o2).getUniqueCellCount();
                     compared = vd_o2.compareTo(vd_o1);
@@ -265,12 +265,12 @@ public class MainColumnFinder_old {
         return rs;
     }
 
-    //key: col id; value: score
-    //currently performs following scoring: diversity; context score; 1st ne column; acronym column checker; search
+    //key: col id; value: computeElementScores
+    //currently performs following scoring: diversity; context computeElementScores; 1st ne column; acronym column checker; search
     //results are collected as number of votes by each dimension
     private Map<Integer, Pair<Double, Boolean>> infer_multiFeatures(List<TColumnFeature> allNEColumnCandidates) {
         Map<Integer, Pair<Double, Boolean>> votes = new HashMap<>();
-        //a. vote by diversity score
+        //a. vote by diversity computeElementScores
         Collections.sort(allNEColumnCandidates, new Comparator<TColumnFeature>() {
             @Override
             public int compare(TColumnFeature o1, TColumnFeature o2) {
@@ -363,12 +363,12 @@ public class MainColumnFinder_old {
     }
 
 
-    //key: col id; value: score
-    //currently performs following scoring: diversity; context score; 1st ne column; NO search
+    //key: col id; value: computeElementScores
+    //currently performs following scoring: diversity; context computeElementScores; 1st ne column; NO search
     //results are collected as number of votes by each dimension
     private Map<Integer, Double> infer_multiFeatures_without_search(List<TColumnFeature> allNEColumnCandidates) {
         Map<Integer, Double> votes = new HashMap<Integer, Double>();
-        //a. vote by diversity score
+        //a. vote by diversity computeElementScores
         Collections.sort(allNEColumnCandidates, new Comparator<TColumnFeature>() {
             @Override
             public int compare(TColumnFeature o1, TColumnFeature o2) {

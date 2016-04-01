@@ -16,11 +16,11 @@ public class LEARNINGPreliminaryDisamb {
 
     private TCellDisambiguator disambiguator;
     private KBSearch kbSearch;
-    private TColumnClassifier classification_scorer;
+    private ClazzScorer classification_scorer;
 
     public LEARNINGPreliminaryDisamb(KBSearch kbSearch,
                                      TCellDisambiguator disambiguator,
-                                     TColumnClassifier classification_scorer) {
+                                     ClazzScorer classification_scorer) {
         this.kbSearch = kbSearch;
         this.disambiguator = disambiguator;
         this.classification_scorer = classification_scorer;
@@ -38,7 +38,7 @@ public class LEARNINGPreliminaryDisamb {
 
         System.out.println("\t>> LEARN (Consolidate) begins");
         List<TColumnHeaderAnnotation> bestHeaderAnnotations = current_iteration_annotation.getBestHeaderAnnotations(column);
-        Set<String> columnTypes = new HashSet<String>();
+        Set<String> columnTypes = new HashSet<>();
         for (TColumnHeaderAnnotation ha : bestHeaderAnnotations)
             columnTypes.add(ha.getAnnotation().getId());
 
@@ -104,8 +104,8 @@ public class LEARNINGPreliminaryDisamb {
 
 
     //search candidates for the cell;
-    //score candidates for the cell;
-    //create annotation and update supportin header and header score (depending on the two params updateHeader_blah
+    //computeElementScores candidates for the cell;
+    //create annotation and update supportin header and header computeElementScores (depending on the two params updateHeader_blah
     private List<Pair<Entity, Map<String, Double>>> disambiguate(TCell tcc,
                                                                             Table table,
                                                                             Set<String> columnTypes,
@@ -131,7 +131,7 @@ public class LEARNINGPreliminaryDisamb {
 
     //disambiguate cells in a column, assuming the type is "column_type". supporting row info is added to headers
     //updateHeaderSupportingRow: weather the disamb result on each row should also update header's supporting row
-    //updateHeaderScore: weather the disamb result score should be incremented to the header's score (e.g., those that contributed to the classification of the column in the first place shouldbe disregarded; while the remaining columns shouldbe considered
+    //updateHeaderScore: weather the disamb result computeElementScores should be incremented to the header's computeElementScores (e.g., those that contributed to the classification of the column in the first place shouldbe disregarded; while the remaining columns shouldbe considered
     private void update_entity_annotations(
             Table table,
             TAnnotation table_annotation,
@@ -230,7 +230,7 @@ public class LEARNINGPreliminaryDisamb {
                     Double score = header_annotation_url_and_max_score.get(url);
                     if (score == null) score = 0.0;
                     if (disamb_score > score) {
-                        /*if(score!=0)
+                        /*if(computeElementScores!=0)
                         System.out.println();*/
                         score = disamb_score;
                     }

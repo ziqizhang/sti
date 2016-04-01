@@ -128,7 +128,7 @@ This can more easily be described as ( |X & Y| ) / ( | X or Y | )
      *
      * @param string1
      * @param string2
-     * @return returns the score of the similarity measure (un-normalised)
+     * @return returns the computeElementScores of the similarity measure (un-normalised)
      */
     public float getUnNormalisedSimilarity(String string1, String string2) {
         return getSimilarity(string1, string2);

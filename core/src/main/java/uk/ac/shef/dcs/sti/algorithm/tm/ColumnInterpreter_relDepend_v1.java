@@ -33,7 +33,7 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
         this.use_reference_entity = use_reference_entity;
     }
 
-    public void score(Table table, TAnnotation annotations) throws IOException {
+    public void computeElementScores(Table table, TAnnotation annotations) throws IOException {
         //for each column that has a relation with the subject column, infer its type
         Map<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>
                 relationAnnotations = annotations.getRelationAnnotations_per_row();
@@ -66,16 +66,16 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
                     }
 
                     List<String[]> matched_values = cbr.getMatched_values();
-                    double score = cbr.getScore();
+                    double computeElementScores = cbr.getScore();
 
                     for (String[] matched : matched_values) {
                         String prop_name = matched[0];
                         if (prop_name.equals(majority_relation_name)) {
                             String name = matched[1];
                             String id = matched[2];
-                            //if id is not null, it is likely to be an entity, so carry on to score the type of this column
+                            //if id is not null, it is likely to be an entity, so carry on to computeElementScores the type of this column
                             if (id != null) {
-                                rows_with_entities_and_matched_scores.put(row_entry.getKey(), score);
+                                rows_with_entities_and_matched_scores.put(row_entry.getKey(), computeElementScores);
                                 List<ObjObj<String, String>> entities_on_the_row =
                                         rows_with_entities_and_entity_ids.get(row_entry.getKey());
                                 entities_on_the_row = entities_on_the_row == null ? new ArrayList<ObjObj<String, String>>() : entities_on_the_row;
@@ -91,7 +91,7 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
             }
 
             if (rows_with_entities_and_entity_ids.size() > 0) {
-                score(
+                computeElementScores(
                         table,
                         annotations,
                         rows_with_entities_and_matched_scores,
@@ -126,10 +126,10 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
                 candidate_binary_relations.entrySet()) {
             Collections.sort(row_entry.getValue());
             CellBinaryRelationAnnotation best = row_entry.getValue().get(0);
-            Double score = binary_relation_base_score.get(best.getAnnotation_url());
-            score = score == null ? 0 : score;
-            score = score + best.getScore();
-            binary_relation_base_score.put(best.getAnnotation_url(), score);
+            Double computeElementScores = binary_relation_base_score.get(best.getAnnotation_url());
+            computeElementScores = computeElementScores == null ? 0 : computeElementScores;
+            computeElementScores = computeElementScores + best.getScore();
+            binary_relation_base_score.put(best.getAnnotation_url(), computeElementScores);
 
             Integer freq = binary_relation_frequency.get(best.getAnnotation_url());
             freq = freq == null ? 0 : freq;
@@ -140,9 +140,9 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
 
         Map<String, Double> frequent_column_binary_relation_counting = new HashMap<String, Double>();
         for (String k : binary_relation_base_score.keySet()) {
-            double score = binary_relation_base_score.get(k);
+            double computeElementScores = binary_relation_base_score.get(k);
             double freq_score = (double) binary_relation_frequency.get(k) / tableRowsTotal;
-            frequent_column_binary_relation_counting.put(k, score + freq_score);
+            frequent_column_binary_relation_counting.put(k, computeElementScores + freq_score);
         }
         */
 /*double max = 0;
@@ -171,7 +171,7 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
 
     }
 
-    private void score(Table table,
+    private void computeElementScores(Table table,
                            TAnnotation table_annotation,
                            Map<Integer, Double> rows_with_entities_mapped_scores,
                            Map<Integer, List<ObjObj<String, String>>> rows_with_entity_ids,

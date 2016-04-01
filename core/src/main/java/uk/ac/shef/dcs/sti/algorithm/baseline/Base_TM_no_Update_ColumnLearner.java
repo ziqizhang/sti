@@ -31,7 +31,7 @@ public class Base_TM_no_Update_ColumnLearner {
 
         //1. gather list of strings from this column to be interpreted
 
-        //3. score column and also disambiguate initial rows in the selected sample
+        //3. computeElementScores column and also disambiguate initial rows in the selected sample
         Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row =
                 new HashMap<>();
         Set<TColumnHeaderAnnotation> headerAnnotationScores = new HashSet<TColumnHeaderAnnotation>();

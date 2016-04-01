@@ -228,7 +228,7 @@ public class TColumnFeatureGenerator {
         }
     }
 
-    //how does each header score against the table contexts
+    //how does each header computeElementScores against the table contexts
     protected void setCMScores(List<TColumnFeature> features, Table table) {
         int[] cols = new int[features.size()];
 
@@ -247,7 +247,7 @@ public class TColumnFeatureGenerator {
 
     }
 
-    //how does each cell on each row score against a websearch result?
+    //how does each cell on each row computeElementScores against a websearch result?
     protected DoubleMatrix2D setWSScores(List<TColumnFeature> features, Table table) throws APIKeysDepletedException, IOException {
         DoubleMatrix2D scores = new SparseDoubleMatrix2D(table.getNumRows(), table.getNumCols());
         List<Integer> searchableCols = new ArrayList<Integer>();//which columns contain values that are searchable? (numbers ignored, for example)
@@ -288,7 +288,7 @@ public class TColumnFeatureGenerator {
     }
 
 
-    //since using web search is expensive, we can use data sampling technique to incrementally score main column
+    //since using web search is expensive, we can use data sampling technique to incrementally computeElementScores main column
     protected DoubleMatrix2D setWSScores(List<TColumnFeature> features, Table table,
                                       TContentRowRanker sampleSelector,
                                       StoppingCriteria stopper,

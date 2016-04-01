@@ -34,14 +34,14 @@ public class JIAdaptedEntityScorer extends EntityScorer {
     }
 
     @Override
-    public Map<String, Double> score(Entity candidate,
-                                     List<Entity> all_candidates,
-                                     int sourceColumnIndex,
-                                     int sourceRowIndex,
-                                     List<Integer> otherRows,
-                                     Table table,
-                                     Set<String> preliminaryColumnLabel,
-                                     Entity... referenceEntities) {
+    public Map<String, Double> computeElementScores(Entity candidate,
+                                                    List<Entity> all_candidates,
+                                                    int sourceColumnIndex,
+                                                    int sourceRowIndex,
+                                                    List<Integer> otherRows,
+                                                    Table table,
+                                                    Set<String> preliminaryColumnLabel,
+                                                    Entity... referenceEntities) {
 
         TCell cell = table.getContentCell(sourceRowIndex, sourceColumnIndex);
         double levScore = calculateStringSimilarity(cell.getText(), candidate, lev);

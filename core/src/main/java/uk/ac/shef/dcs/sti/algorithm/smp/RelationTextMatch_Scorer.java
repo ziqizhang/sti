@@ -27,8 +27,8 @@ public class RelationTextMatch_Scorer {
      * This is the adapted implementation of SMP. Only the highest scoring cell entity annotation is used to infer candidate
      * relations.
      *
-     * @param subjectCellAnnotations NEs that have the highest score (there can be multiple)
-     * @param objectCellAnnotations  NEs that have the highest score (there can be multiple)
+     * @param subjectCellAnnotations NEs that have the highest computeElementScores (there can be multiple)
+     * @param objectCellAnnotations  NEs that have the highest computeElementScores (there can be multiple)
      * @return
      */
     public void match(int row,

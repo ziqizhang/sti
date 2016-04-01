@@ -98,7 +98,7 @@ class HeaderAnnotationUpdater {
                                                                    TColumnHeaderAnnotation[] existing_header_annotations,
                                                                    Table table,
                                                                    TAnnotation table_annotations,
-                                                                   TColumnClassifier classification_scorer) {
+                                                                   ClazzScorer classification_scorer) {
         Set<TColumnHeaderAnnotation> headers = new HashSet<TColumnHeaderAnnotation>(Arrays.asList(existing_header_annotations));
         headers = classification_scorer.computeCCScore(
                 headers, table, column);

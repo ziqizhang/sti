@@ -43,7 +43,7 @@ public class TestTableMainColFinder {
                 configFile);
         SolrServer server = new EmbeddedSolrServer(container, "collection1");
         SubjectColumnDetector finder = new SubjectColumnDetector(new TContentTContentRowRankerImpl(),
-                EntropyConvergence.class.getName(),
+                IInf.class.getName(),
                 new String[]{"0.0", "1", "0.01"},
                 server,
                 nlpResources, true, stopWords,

@@ -4,7 +4,6 @@ import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
-import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
@@ -25,7 +24,7 @@ import java.util.*;
  * Time: 12:45
  * To change this template use File | Settings | File Templates.
  */
-public class BaselineTColumnClassifier implements TColumnClassifier {
+public class BaselineTColumnClassifier implements ClazzScorer {
 
     private Lemmatizer lemmatizer;
     private List<String> stopWords;
@@ -41,10 +40,10 @@ public class BaselineTColumnClassifier implements TColumnClassifier {
         //this.stringSimilarityMetric=new CosineSimilarity();
     }
 
-    public Set<TColumnHeaderAnnotation> score(List<Pair<Entity, Map<String, Double>>> input,
-                                       Set<TColumnHeaderAnnotation> headerAnnotationCandidates,
-                                       Table table,
-                                       List<Integer> rows, int column) {
+    public Set<TColumnHeaderAnnotation> computeElementScores(List<Pair<Entity, Map<String, Double>>> input,
+                                                             Set<TColumnHeaderAnnotation> headerAnnotationCandidates,
+                                                             Table table,
+                                                             List<Integer> rows, int column) {
         Set<TColumnHeaderAnnotation> candidates = new HashSet<>();
 
             for (int row : rows)
@@ -65,7 +64,7 @@ public class BaselineTColumnClassifier implements TColumnClassifier {
         double best_score = 0.0;
         for (Pair<Entity, Map<String, Double>> es : input) { //each candidate entity in this cell
             Entity entity = es.getKey();
-            //each assigned type receives a score of 1, and the bonus score due to disambiguation result
+            //each assigned type receives a computeElementScores of 1, and the bonus computeElementScores due to disambiguation result
             double entity_disamb_score = es.getValue().get(TCellAnnotation.SCORE_FINAL);
             if (entity_disamb_score > best_score) {
                 best_score = entity_disamb_score;
@@ -73,19 +72,19 @@ public class BaselineTColumnClassifier implements TColumnClassifier {
             }
         }
         if (input.size() == 0 || entity_with_highest_disamb_score == null) {
-            //this entity has a score of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
+            //this entity has a computeElementScores of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
             System.out.print("x(" + row + "," + column + ")");
             return candidate_header_annotations;
         }
 
 
         if (input.size() == 0) {
-            //this entity has a score of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
+            //this entity has a computeElementScores of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
             System.out.print("x(" + row + "," + column + ")");
             return candidate_header_annotations;
         }
 
-        Set<String> types_already_received_votes_by_cell = new HashSet<String>();    //each type will receive a max of 1 vote from each cell. If multiple candidates have the same highest score and casts same votes, they are counted oly once
+        Set<String> types_already_received_votes_by_cell = new HashSet<String>();    //each type will receive a max of 1 vote from each cell. If multiple candidates have the same highest computeElementScores and casts same votes, they are counted oly once
         for (Pair<Entity, Map<String, Double>> es : input) {
             Entity current_candidate = es.getKey();
             double entity_disamb_score = es.getValue().get(TCellAnnotation.SCORE_FINAL);
@@ -138,7 +137,7 @@ public class BaselineTColumnClassifier implements TColumnClassifier {
                 headerAnnotations_prev;
 
         if (input.size() == 0) {
-            //this entity has a score of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
+            //this entity has a computeElementScores of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
             System.out.print("x(" + row + "," + column + ")");
             return candidate_header_annotations;
         }
@@ -189,7 +188,7 @@ public class BaselineTColumnClassifier implements TColumnClassifier {
                 if (header != null &&
                         header.getHeaderText() != null &&
                         !header.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue())) {
-                    //double score = CollectionUtils.diceCoefficientOptimized(header.getHeaderText(), ha.getAnnotation_label());
+                    //double computeElementScores = CollectionUtils.diceCoefficientOptimized(header.getHeaderText(), ha.getAnnotation_label());
                     double score = stringSimilarityMetric.getSimilarity(
                             StringUtils.toAlphaNumericWhitechar(header.getHeaderText()),
                             StringUtils.toAlphaNumericWhitechar(ha.getAnnotation().getLabel()));

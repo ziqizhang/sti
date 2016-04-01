@@ -79,7 +79,7 @@ public class NamedEntityRanker {
                 c.setAttributes(facts);
             }
             Map<String, Double> scoreMap = disambScorer.
-                    score(c, candidates,
+                    computeElementScores(c, candidates,
                             column, row, Arrays.asList(row),
                             table, new HashSet<String>());
             disambScorer.computeFinal(scoreMap, cell.getText());

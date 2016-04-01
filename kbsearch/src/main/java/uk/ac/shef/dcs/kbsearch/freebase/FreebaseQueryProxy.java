@@ -12,6 +12,7 @@ import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,7 +20,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
-import uk.ac.shef.dcs.util.CollectionUtils;
 import uk.ac.shef.dcs.util.StringUtils;
 
 
@@ -333,7 +333,7 @@ public class FreebaseQueryProxy {
                     }
                     List<String> bow_ent = StringUtils.toBagOfWords(e_name, true, true, false);
                     List<String> bow_query = StringUtils.toBagOfWords(name, true, true,false);
-                    int intersection = CollectionUtils.intersection(bow_ent, bow_query);
+                    int intersection = CollectionUtils.intersection(bow_ent, bow_query).size();
                     candidates.put(ent, ((double) intersection / bow_ent.size() + (double) intersection / bow_query.size()) / 2.0);
                     //print or save this id
                 }

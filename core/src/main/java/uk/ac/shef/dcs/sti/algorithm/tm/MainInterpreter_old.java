@@ -70,7 +70,7 @@ public class MainInterpreter_old {
                 System.out.println(">\t Classify and disambiguate main column " + main_subject_column);
                 interpreter_column.process(table, tab_annotations, main_subject_column);
 
-                //3. score relations
+                //3. computeElementScores relations
                 System.out.println(">\t Interpret relations with the main column");
                 int columns_having_relations_with_main_col = interpreter_relation.interpret(tab_annotations, table, main_subject_column);
                 //does the main column has sufficient relations with other columns?   //if so, stop

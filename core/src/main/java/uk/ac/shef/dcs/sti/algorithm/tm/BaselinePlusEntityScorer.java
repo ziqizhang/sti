@@ -48,14 +48,14 @@ public class BaselinePlusEntityScorer extends EntityScorer {
         //stringSimilarityMetric=new CosineSimilarity();
     }
 
-    public Map<String, Double> score(Entity candidate,
-                                     List<Entity> all_candidates,
-                                     int sourceColumnIndex,
-                                     int sourceRowIndex,
-                                     List<Integer> otherRows,
-                                     Table table,
-                                     Set<String> preliminaryColumnLabel,
-                                     Entity... referenceEntities) {
+    public Map<String, Double> computeElementScores(Entity candidate,
+                                                    List<Entity> all_candidates,
+                                                    int sourceColumnIndex,
+                                                    int sourceRowIndex,
+                                                    List<Integer> otherRows,
+                                                    Table table,
+                                                    Set<String> preliminaryColumnLabel,
+                                                    Entity... referenceEntities) {
         /*if(candidate.getName().contains("Republican"))
             System.out.println();*/
         Map<String, Double> scoreMap = new HashMap<String, Double>();

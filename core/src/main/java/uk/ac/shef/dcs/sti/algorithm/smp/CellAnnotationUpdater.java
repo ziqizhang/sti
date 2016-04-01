@@ -144,7 +144,7 @@ public class CellAnnotationUpdater {
         return false;
     }
 
-    //key-index of the TCellAnnotation in the list of candidate CellAnnotations for the cell ranked by their score
+    //key-index of the TCellAnnotation in the list of candidate CellAnnotations for the cell ranked by their computeElementScores
     //value-list of indexes of satisfied messages by this TCellAnnotation.
     private List<Integer> select(Map<Integer, List<Integer>> annotation_satisfies_messages,
                                  List<String> messagePreferencesSorted,

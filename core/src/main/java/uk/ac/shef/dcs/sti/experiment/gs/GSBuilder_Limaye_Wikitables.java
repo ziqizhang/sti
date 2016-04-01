@@ -492,7 +492,7 @@ public class GSBuilder_Limaye_Wikitables {
         //write table contexts
         for (TContext ltc : table.getContexts()) {
             Element context_child = doc.createElement("context");
-            Element context_score = doc.createElement("score");
+            Element context_score = doc.createElement("computeElementScores");
             context_score.appendChild(doc.createTextNode(String.valueOf(ltc.getImportanceScore())));
             Element context_text = doc.createElement("text");
             context_text.appendChild(doc.createTextNode(ltc.getText()));

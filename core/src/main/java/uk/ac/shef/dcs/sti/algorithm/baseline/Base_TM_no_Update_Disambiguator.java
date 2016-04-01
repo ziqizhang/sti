@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
+import org.apache.commons.collections.CollectionUtils;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
@@ -9,7 +10,6 @@ import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -49,15 +49,14 @@ public class Base_TM_no_Update_Disambiguator {
     }
 
     public List<Pair<Entity, Map<String, Double>>> revise(List<Pair<Entity, Map<String, Double>>> entities_for_this_cell_and_scores, List<String> types) {
-        List<Integer> removeIndex = new ArrayList<Integer>();
+        List<Integer> removeIndex = new ArrayList<>();
         Iterator<Pair<Entity, Map<String, Double>>> it = entities_for_this_cell_and_scores.iterator();
         int index=0;
         while (it.hasNext()) {
             Pair<Entity, Map<String, Double>> oo = it.next();
-            TMPEntityScorer.
-                    score_typeMatch(oo.getValue(), types, oo.getKey());
-            double type_match_score = oo.getValue().get(TCellAnnotation.SCORE_TYPE_MATCH);
-            if(type_match_score==0)
+            int overlap= CollectionUtils.intersection(oo.getKey().getTypeIds(),
+                    types).size();
+            if (overlap == 0)
                 removeIndex.add(index);
             //it.remove();
             index++;

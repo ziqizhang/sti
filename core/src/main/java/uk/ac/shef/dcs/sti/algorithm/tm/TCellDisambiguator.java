@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
@@ -40,7 +41,7 @@ public class TCellDisambiguator {
                 c.setAttributes(attributes);
             }
             Map<String, Double> scoreMap = disambScorer.
-                    score(c, candidates,
+                    computeElementScores(c, candidates,
                             entity_column,
                             entity_rows.get(0),
                             entity_rows, table, new HashSet<>());
@@ -51,6 +52,31 @@ public class TCellDisambiguator {
         return disambiguationScores;
     }
 
+    //reselect winning entity for this cell ensuring its types is contained in the winning clazz for the column
+    public List<Pair<Entity, Map<String, Double>>> preliminaryDisambiguate(
+            List<Pair<Entity, Map<String, Double>>> entitiesAndScores,
+            List<String> winningClazzIdsForColumn) {
+        List<Integer> removeIndex = new ArrayList<>();
+        Iterator<Pair<Entity, Map<String, Double>>> it = entitiesAndScores.iterator();
+        int index = 0;
+        while (it.hasNext()) {
+            Pair<Entity, Map<String, Double>> entity_to_scoreMap = it.next();
+            int overlap=CollectionUtils.intersection(entity_to_scoreMap.getKey().getTypeIds(),
+                    winningClazzIdsForColumn).size();
+            if (overlap == 0)
+                removeIndex.add(index);
+            index++;
+        }
+        List<Pair<Entity, Map<String, Double>>> result = new ArrayList<>();
+        if (removeIndex.size() < entitiesAndScores.size()) {
+            for (int i = 0; i < entitiesAndScores.size(); i++) {
+                if (removeIndex.contains(i))
+                    continue;
+                result.add(entitiesAndScores.get(i));
+            }
+        }
+        return result;
+    }
 
     public List<Pair<Entity, Map<String, Double>>> disambiguate_learn_consolidate(
             List<Entity> candidates,
@@ -77,7 +103,7 @@ public class TCellDisambiguator {
                 c.setAttributes(facts);
             }
             Map<String, Double> scoreMap = disambScorer.
-                    score(c, candidates,
+                    computeElementScores(c, candidates,
                             entity_column,
                             entity_rows.get(0),
                             entity_rows,
@@ -90,38 +116,5 @@ public class TCellDisambiguator {
         }
         return disambiguationScores;
     }
-
-
-    //used with disambiguation results obtained from the first iteration of classification and disambiguation
-    public List<Pair<Entity, Map<String, Double>>> revise(
-            List<Pair<Entity, Map<String, Double>>> entities_for_this_cell_and_scores,
-            List<String> types) {
-        List<Integer> removeIndex = new ArrayList<Integer>();
-        Iterator<Pair<Entity, Map<String, Double>>> it = entities_for_this_cell_and_scores.iterator();
-        int index = 0;
-        while (it.hasNext()) {
-            Pair<Entity, Map<String, Double>> oo = it.next();
-            TMPEntityScorer.
-                    score_typeMatch(oo.getValue(), types, oo.getKey());
-            double type_match_score = oo.getValue().get(TCellAnnotation.SCORE_TYPE_MATCH);
-            if (type_match_score == 0)
-                removeIndex.add(index);
-            //it.remove();
-            index++;
-            /*double pre_final = oo.getOtherObject().get("final");
-            oo.getOtherObject().put("final", type_match_score + pre_final);*/
-        }
-        List<Pair<Entity, Map<String, Double>>> result = new ArrayList<>();
-        if (removeIndex.size() < entities_for_this_cell_and_scores.size()) {
-            for (int i = 0; i < entities_for_this_cell_and_scores.size(); i++) {
-                if (removeIndex.contains(i))
-                    continue;
-                result.add(entities_for_this_cell_and_scores.get(i));
-            }
-        }
-        return result;
-        //To change body of created methods use File | Settings | File Templates.
-    }
-
 
 }

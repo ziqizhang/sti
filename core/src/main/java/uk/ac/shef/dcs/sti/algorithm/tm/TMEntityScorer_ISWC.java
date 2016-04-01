@@ -40,14 +40,14 @@ public class TMEntityScorer_ISWC extends EntityScorer {
 
 
 
-    public Map<String, Double> score(Entity candidate,
-                                     List<Entity> all_candidates,
-                                     int sourceColumnIndex,
-                                     int sourceRowIndex,
-                                     List<Integer> otherRows,
-                                     Table table,
-                                     Set<String> preliminaryColumnLabel,
-                                     Entity... referenceEntities) {
+    public Map<String, Double> computeElementScores(Entity candidate,
+                                                    List<Entity> all_candidates,
+                                                    int sourceColumnIndex,
+                                                    int sourceRowIndex,
+                                                    List<Integer> otherRows,
+                                                    Table table,
+                                                    Set<String> preliminaryColumnLabel,
+                                                    Entity... referenceEntities) {
         /*if(candidate.getName().contains("Republican"))
             System.out.println();*/
         Map<String, Double> scoreMap = new HashMap<String, Double>();
@@ -157,17 +157,6 @@ public class TMEntityScorer_ISWC extends EntityScorer {
         double score_with_other_disambiguated_reference_entities = referenceEntities.length > 0 ? sum / referenceEntities.length : 0;
         totalScore = totalScore + score_with_other_disambiguated_reference_entities * weights_of_contexts[4];
         //scoreMap.put(TCellAnnotation.SCORE_COOCCUR_ENTITIES, score_with_other_disambiguated_reference_entities * weights_of_contexts[4]);
-
-        /* TYPE MATCH SCORE */
-        if (preliminaryColumnLabel.size() > 0 && candidate.getTypes().size() > 0) {
-            bag_of_words_for_context.clear();
-            bag_of_words_for_context.addAll(preliminaryColumnLabel);
-            Set<String> types_strings = new HashSet<>(candidate.getTypeIds());
-            /*for (String[] type : candidate.getTypes())
-                types_strings.add(type[0]);*/
-            double score_type_match = CollectionUtils.computeDice(bag_of_words_for_context, types_strings);
-            scoreMap.put(TCellAnnotation.SCORE_TYPE_MATCH, score_type_match);
-        }
 
         /*NAME MATCH SCORE */
         String cell_text = table.getContentCell(otherRows.get(0), sourceColumnIndex).getText();

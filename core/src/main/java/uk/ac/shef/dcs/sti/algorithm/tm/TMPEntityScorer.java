@@ -35,14 +35,14 @@ public class TMPEntityScorer extends EntityScorer {
     }
 
 
-    public Map<String, Double> score(Entity candidate,
-                                     List<Entity> all_candidates,
-                                     int sourceColumnIndex,
-                                     int sourceRowIndex,
-                                     List<Integer> block,
-                                     Table table,
-                                     Set<String> preliminaryColumnLabel,
-                                     Entity... referenceEntities) {
+    public Map<String, Double> computeElementScores(Entity candidate,
+                                                    List<Entity> all_candidates,
+                                                    int sourceColumnIndex,
+                                                    int sourceRowIndex,
+                                                    List<Integer> block,
+                                                    Table table,
+                                                    Set<String> preliminaryColumnLabel,
+                                                    Entity... referenceEntities) {
         /*if(candidate.getName().contains("Republican"))
             System.out.println();*/
         Map<String, Double> scoreMap = new HashMap<>();
@@ -80,20 +80,6 @@ public class TMPEntityScorer extends EntityScorer {
         double fwDice = CollectionUtils.computeFrequencyWeightedDice(bow_of_entity, bow_of_outctx) * wt[3];
         scoreMap.put(TCellAnnotation.SCORE_OUT_CTX, fwDice);
 
-
-        //todo: what does this do??
-        Set<String> columnLabelBOW = new HashSet<>();
-        if (preliminaryColumnLabel.size() > 0 && candidate.getTypes().size() > 0) {
-            columnLabelBOW.clear();
-            columnLabelBOW.addAll(preliminaryColumnLabel);
-            Set<String> types_strings = new HashSet<>(candidate.getTypeIds());
-/*            for (String[] type : candidate.getTypeIds())
-                types_strings.add(type[0]);*/
-            double score_type_match = CollectionUtils.computeDice(columnLabelBOW, types_strings);
-            scoreMap.put(TCellAnnotation.SCORE_TYPE_MATCH, score_type_match);
-        }
-        //todo end
-
         /*NAME MATCH SCORE */
         String cellText = table.getContentCell(block.get(0), sourceColumnIndex).getText();
         Set<String> bow_of_cellText = new HashSet<>(StringUtils.toBagOfWords(cellText, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
@@ -130,27 +116,4 @@ public class TMPEntityScorer extends EntityScorer {
         scoreMap.put(TCellAnnotation.SCORE_FINAL, sum);
         return sum;
     }
-
-
-    public static void score_typeMatch(Map<String, Double> scoreMap,
-                                       List<String> assigned_column_types,
-                                       Entity candidate) {
-        List<String> bag_of_words_for_context = new ArrayList<String>();
-        if (assigned_column_types.size() > 0 && candidate.getTypes().size() > 0) {
-            bag_of_words_for_context.addAll(assigned_column_types);
-            int original_size_header_types = bag_of_words_for_context.size();
-            bag_of_words_for_context.retainAll(candidate.getTypeIds());
-            if (bag_of_words_for_context.size() == 0)
-                scoreMap.put(TCellAnnotation.SCORE_TYPE_MATCH, 0.0);
-            else {
-                double score_type_match = ((double) bag_of_words_for_context.size() / original_size_header_types
-                        + (double) bag_of_words_for_context.size() / candidate.getTypes().size()) / 2.0;
-                scoreMap.put(TCellAnnotation.SCORE_TYPE_MATCH, score_type_match);
-            }
-        } else {
-            scoreMap.put(TCellAnnotation.SCORE_TYPE_MATCH, 0.0);
-        }
-
-    }
-
 }

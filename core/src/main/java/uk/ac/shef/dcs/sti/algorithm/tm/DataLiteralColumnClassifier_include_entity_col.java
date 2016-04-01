@@ -20,14 +20,14 @@ import java.util.*;
 public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralColumnClassifier {
     //private static final Logger LOG = Logger.getLogger(ColumnInterpreter_relDepend_v1.class.getName());
     private FreebaseSearch fbSearcher;
-    private TColumnClassifier classification_scorer;
+    private ClazzScorer classification_scorer;
     private LEARNINGPreliminaryDisamb column_updater;
     private TContentCellRanker selector;
     private int max_reference_entity_for_disambiguation;
     private int[] ignoreColumns;
 
     public DataLiteralColumnClassifier_include_entity_col(FreebaseSearch fbSearcher,
-                                                          TColumnClassifier scorer,
+                                                          ClazzScorer scorer,
                                                           LEARNINGPreliminaryDisamb updater,
                                                           TContentCellRanker selector,
                                                           int max_reference_entity_for_disambiguation,
@@ -235,7 +235,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
         for (String k : binary_relation_disamb_score.keySet()) {
             double score_entity_disamb = binary_relation_disamb_score.get(k);
             double sum_entity_vote = (double) binary_relation_sum_vote.get(k);
-            double final_score = TMPColumnClassifier.compute_typing_base_score(score_entity_disamb, sum_entity_vote, tableRowsTotal);
+            double final_score = TMPClazzScorer.compute_typing_base_score(score_entity_disamb, sum_entity_vote, tableRowsTotal);
 
             frequent_column_binary_relation_counting.put(k, final_score);
         }
@@ -294,7 +294,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                     if (highest_scoring_relation_annotations.contains(prop_name)) {
                         String name = matched.getValue();
                         String id = matched.getValueURI();
-                        //if id is not null, it is likely to be an entity, so carry on to score the type of this column
+                        //if id is not null, it is likely to be an entity, so carry on to computeElementScores the type of this column
                         if (id != null && id.length() > 0) {
                             rows_with_entities_and_matched_scores.put(row_entry.getKey(), score);
                             List<Pair<String, String>> entities_on_the_row =
@@ -333,7 +333,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                     if (highest_scoring_relation_annotation_for_column.contains(prop_name)) {
                         String name = matched.getValue();
                         String id = matched.getValueURI();
-                        //if id is not null, it is likely to be an entity, so carry on to score the type of this column
+                        //if id is not null, it is likely to be an entity, so carry on to computeElementScores the type of this column
                         if (id != null) {
                             rows_with_entities_and_matched_scores.put(row_entry.getKey(), score);
                             List<Pair<String, String>> entities_on_the_row =

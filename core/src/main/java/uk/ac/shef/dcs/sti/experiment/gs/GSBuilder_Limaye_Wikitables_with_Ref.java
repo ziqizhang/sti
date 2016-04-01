@@ -31,7 +31,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
- * for each table in Limaye dataset, try to score columns with corresponding tables in the most up-to-date wikipedia page table;
+ * for each table in Limaye dataset, try to computeElementScores columns with corresponding tables in the most up-to-date wikipedia page table;
  * then each cell is searched in the column, if a cell text matches a link text in any cell in the column, it is assigned the link
  */
 public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikitables {

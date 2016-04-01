@@ -182,7 +182,7 @@ public class RelationLearner {
                         maxScore=candidate.getScore();
                 }
 
-                Pair<Integer, Double> votesAndScore = votes.get(relation); //let's record both votes and score. so when there is a tie at votes, we resort to score
+                Pair<Integer, Double> votesAndScore = votes.get(relation); //let's record both votes and computeElementScores. so when there is a tie at votes, we resort to computeElementScores
                 if (votesAndScore == null) {
                     votesAndScore = new Pair<>(0, 0.0);
                 }

@@ -23,7 +23,7 @@ import java.util.*;
  * Time: 14:05
  * To change this template use File | Settings | File Templates.
  */
-public class TMPISWCTColumnClassifier implements TColumnClassifier {
+public class TMPISWCTColumnClassifier implements ClazzScorer {
 
     private Lemmatizer lemmatizer;
     private List<String> stopWords;
@@ -43,10 +43,10 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
 
 
     @Override
-    public Set<TColumnHeaderAnnotation> score(List<Pair<Entity, Map<String, Double>>> input,
-                                       Set<TColumnHeaderAnnotation> headerAnnotationCandidates,
-                                       Table table,
-                                       List<Integer> rows, int column) {
+    public Set<TColumnHeaderAnnotation> computeElementScores(List<Pair<Entity, Map<String, Double>>> input,
+                                                             Set<TColumnHeaderAnnotation> headerAnnotationCandidates,
+                                                             Table table,
+                                                             List<Integer> rows, int column) {
         Set<TColumnHeaderAnnotation> candidates = new HashSet<TColumnHeaderAnnotation>();
 
             for (int row : rows)
@@ -57,7 +57,7 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
         return candidates;
     }
 
-    
+
     public Set<TColumnHeaderAnnotation> score_entity_best_candidate_contribute(List<Pair<Entity, Map<String, Double>>> input,
                                                                         Set<TColumnHeaderAnnotation> headerAnnotations_prev, Table table,
                                                                         int row, int column) {
@@ -69,7 +69,7 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
         double best_score = 0.0;
         for (Pair<Entity, Map<String, Double>> es : input) { //each candidate entity in this cell
             Entity entity = es.getKey();
-            //each assigned type receives a score of 1, and the bonus score due to disambiguation result
+            //each assigned type receives a computeElementScores of 1, and the bonus computeElementScores due to disambiguation result
             double entity_disamb_score = es.getValue().get(TCellAnnotation.SCORE_FINAL);
             if (entity_disamb_score > best_score) {
                 best_score = entity_disamb_score;
@@ -77,7 +77,7 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
             }
         }
         if (input.size() == 0 || entity_with_highest_disamb_score == null) {
-            //this entity has a score of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
+            //this entity has a computeElementScores of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
             System.out.print("x(" + row + "," + column + ")");
             return candidate_header_annotations;
         }
@@ -89,7 +89,7 @@ public class TMPISWCTColumnClassifier implements TColumnClassifier {
             if (entity_disamb_score != best_score)
                 continue;
 
-            Set<String> types_already_received_votes_by_cell = new HashSet<String>();    //each type will receive a max of 1 vote from each cell. If multiple candidates have the same highest score and casts same votes, they are counted oly once
+            Set<String> types_already_received_votes_by_cell = new HashSet<String>();    //each type will receive a max of 1 vote from each cell. If multiple candidates have the same highest computeElementScores and casts same votes, they are counted oly once
             List<Clazz> type_voted_by_this_cell = current_candidate.getTypes();
 
             //consolidate scores from this cell

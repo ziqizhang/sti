@@ -6,8 +6,8 @@ package uk.ac.shef.dcs.sti.algorithm.tm.stopping;
 public class StoppingCriteriaInstantiator {
 
     public static StoppingCriteria instantiate(String stopper_class, String[] params){
-        if(stopper_class.equals(EntropyConvergence.class.getName())){
-            return new EntropyConvergence(Double.valueOf(params[0].trim()),
+        if(stopper_class.equals(IInf.class.getName())){
+            return new IInf(Double.valueOf(params[0].trim()),
                     Integer.valueOf(params[1].trim()),
                     Double.valueOf(params[2].trim()));
         }

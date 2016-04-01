@@ -13,7 +13,7 @@ import java.util.Map;
  class SubjectColumnScorerHeuristic extends SubjectColumnScorer {
     private static final boolean USE_TOKEN_DIVERSITY = false;
     private static final boolean USE_MAX_SCORE_BOOST = false;
-    private static final double CM_WEIGHT = 2.0; //CM score weight
+    private static final double CM_WEIGHT = 2.0; //CM computeElementScores weight
     private static final boolean NORMAMLIZE_SCORE_BY_DISTANCE_TO_FIRST_COL = true;
 
     private static final String SCORE_COMPONENT_UC="uc";
@@ -33,7 +33,7 @@ import java.util.Map;
             return compared;
         });
 
-        //find max scores to calculate score boosters
+        //find max scores to calculate computeElementScores boosters
         Map<String, Double> max_scores_for_each_feature = new HashMap<>();
         for (int index = 0; index < featuresOfNEColumns.size(); index++) {
             TColumnFeature cf = featuresOfNEColumns.get(index);

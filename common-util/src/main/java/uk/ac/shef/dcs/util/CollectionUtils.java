@@ -129,25 +129,6 @@ public class CollectionUtils {
     }
 
 
-    public static int intersection(List<String> l1, List<String> l2) {
-        List<String> tmp = new ArrayList<String>();
-        if (l1.size() < l2.size()) {
-            tmp.addAll(l1);
-            tmp.retainAll(l2);
-        } else {
-            tmp.addAll(l2);
-            tmp.retainAll(l1);
-        }
-        return tmp.size();
-    }
-
-    public static int union(List<String> l1, List<String> l2) {
-        Set<String> tmp = new HashSet<String>();
-        tmp.addAll(l1);
-        tmp.addAll(l2);
-        return tmp.size();
-    }
-
     public static double scoreOverlap_jaccard_keepFrequency(Collection<String> list1, Collection<String> list2) {
         List<String> union = new ArrayList<String>();
         union.addAll(list1);

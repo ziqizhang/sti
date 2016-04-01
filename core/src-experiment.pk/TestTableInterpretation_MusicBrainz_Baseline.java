@@ -5,12 +5,12 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.sti.algorithm.baseline.*;
+import uk.ac.shef.dcs.sti.algorithm.tm.stopping.IInf;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.sti.algorithm.tm.*;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentTContentRowRankerImpl;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
-import uk.ac.shef.dcs.sti.algorithm.tm.stopping.EntropyConvergence;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
@@ -69,7 +69,7 @@ public class TestTableInterpretation_MusicBrainz_Baseline {
         //object to find main subject column
         SubjectColumnDetector main_col_finder = new SubjectColumnDetector(
                 new TContentTContentRowRankerImpl(),
-                EntropyConvergence.class.getName(),
+                IInf.class.getName(),
                 new String[]{"0.0", "1", "0.01"},
                 server,
                 nlpResources,            true, stopWords,
@@ -81,7 +81,7 @@ public class TestTableInterpretation_MusicBrainz_Baseline {
         //stop words and stop properties (freebase) are used for disambiguation
         //List<String> stopProperties = FileUtils.readList("D:\\Work\\lodie\\resources\\nlp_resources/stopproperties_freebase.txt", true);
 
-        //object to score columns, and disambiguate entities
+        //object to computeElementScores columns, and disambiguate entities
         Base_NameMatch_Disambiguator disambiguator = new Base_NameMatch_Disambiguator();
 
 
@@ -90,7 +90,7 @@ public class TestTableInterpretation_MusicBrainz_Baseline {
                 disambiguator
         );
 
-        //object to score relations between columns
+        //object to computeElementScores relations between columns
         Baseline_BinaryRelationInterpreter interpreter_relation = new Baseline_BinaryRelationInterpreter(
                 new RelationTextMatch_Scorer(0.0, stopWords)
         );

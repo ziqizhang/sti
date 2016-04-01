@@ -44,14 +44,14 @@ public class SMPAdaptedEntityScorer extends EntityScorer {
     }
 
     @Override
-    public Map<String, Double> score(Entity candidate,
-                                     List<Entity> all_candidates,
-                                     int sourceColumnIndex,
-                                     int sourceRowIndex,
-                                     List<Integer> otherRows,
-                                     Table table,
-                                     Set<String> preliminaryColumnLabel, Entity... referenceEntities) {
-        //entity index score
+    public Map<String, Double> computeElementScores(Entity candidate,
+                                                    List<Entity> all_candidates,
+                                                    int sourceColumnIndex,
+                                                    int sourceRowIndex,
+                                                    List<Integer> otherRows,
+                                                    Table table,
+                                                    Set<String> preliminaryColumnLabel, Entity... referenceEntities) {
+        //entity index computeElementScores
         double indexScore = 1.0 / all_candidates.size();
 
         //lev between NE and cell text

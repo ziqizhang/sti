@@ -92,9 +92,9 @@ public class TableMinerPlusBatch extends STIBatch {
 
 
         LOG.info("Initializing LEARNING components ...");
-        LEARNINGPreliminaryClassify preliminaryClassify;
+        LEARNPreliminaryColumnTagging preliminaryClassify;
         TCellDisambiguator disambiguator;
-        TColumnClassifier classifier;
+        ClazzScorer classifier;
         TContentCellRanker selector;
         LEARNING learning;
         try {
@@ -103,13 +103,13 @@ public class TableMinerPlusBatch extends STIBatch {
                             getStopwords(),
                             new double[]{1.0, 0.5, 1.0, 0.5, 1.0}, //row,column, column header, tablecontext other,refent
                             getNLPResourcesDir()));                         //1.0, 0.5, 0.25, 1.0, 1.0
-            classifier = new TMPColumnClassifier(getNLPResourcesDir(),
+            classifier = new TMPClazzScorer(getNLPResourcesDir(),
                     new Creator_ConceptHierarchicalBOW_Freebase(),
                     getStopwords(),
                     new double[]{1.0, 1.0, 1.0, 1.0}         //all 1.0
             );                                              //header,column,tablecontext other, page title+caption
             selector = new OSPD_nonEmpty();
-            preliminaryClassify = new LEARNINGPreliminaryClassify(
+            preliminaryClassify = new LEARNPreliminaryColumnTagging(
                     selector,
                     properties.getProperty(PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS),
                     StringUtils.split(
@@ -152,7 +152,7 @@ public class TableMinerPlusBatch extends STIBatch {
         BinaryRelationInterpreter interpreter_relation=null;
         DataLiteralColumnClassifier interpreter_with_knownRelations=null;
         try {
-            //object to score relations between columns
+            //object to computeElementScores relations between columns
              relation_scorer = new HeaderBinaryRelationScorer_Vote(
                     getNLPResourcesDir(),
                     new Creator_RelationHierarchicalBOW_Freebase(),
@@ -165,7 +165,7 @@ public class TableMinerPlusBatch extends STIBatch {
                     relation_scorer
             );
 
-            //object to consolidate previous output, further score columns and disamgiuate entities
+            //object to consolidate previous output, further computeElementScores columns and disamgiuate entities
              interpreter_with_knownRelations =
                     new DataLiteralColumnClassifier_exclude_entity_col(
                             getIgnoreColumns()

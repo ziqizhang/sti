@@ -5,6 +5,7 @@ import org.apache.any23.util.FileUtils;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
+import uk.ac.shef.dcs.sti.algorithm.tm.stopping.IInf;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.sti.algorithm.tm.*;
@@ -12,7 +13,6 @@ import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentTContentRowRankerImpl;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.OSPD_nonEmpty;
-import uk.ac.shef.dcs.sti.algorithm.tm.stopping.EntropyConvergence;
 import uk.ac.shef.dcs.sti.rep.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.TCell;
 import uk.ac.shef.dcs.sti.rep.Table;
@@ -59,7 +59,7 @@ public class Test_ISWC_TableInterpretation_BoxOffice {
         //object to find main subject column
         SubjectColumnDetector main_col_finder = new SubjectColumnDetector(
                 new TContentTContentRowRankerImpl(),
-                EntropyConvergence.class.getName(),
+                IInf.class.getName(),
                 new String[]{"0.0", "1", "0.01"},
                 server,
                 nlpResources, false, stopWords,
@@ -69,21 +69,21 @@ public class Test_ISWC_TableInterpretation_BoxOffice {
         //stop words and stop properties (freebase) are used for disambiguation
         //List<String> stopProperties = FileUtils.readList("D:\\Work\\lodie\\resources\\nlp_resources/stopproperties_freebase.txt", true);
 
-        //object to score columns, and disambiguate entities
+        //object to computeElementScores columns, and disambiguate entities
         TCellDisambiguator disambiguator = new TCellDisambiguator(freebaseMatcher, new TMPEntityScorer(
                 stopWords,
                 new double[]{1.0, 0.5, 0.5, 1.0, 1.0}, //row,column, tablecontext other,refent, tablecontext pagetitle (unused)
                 nlpResources));
-        TColumnClassifier class_scorer = new TMPColumnClassifier(nlpResources,
+        ClazzScorer class_scorer = new TMPClazzScorer(nlpResources,
                 new Creator_ConceptHierarchicalBOW_Freebase(),
                 stopWords,
                 new double[]{1.0, 1.0, 1.0, 1.0}         //all 1.0    //header,column,tablecontext other, page title+caption
         );
 
         TContentCellRanker selector = new OSPD_nonEmpty();
-        LEARNINGPreliminaryClassify column_learnerSeeding = new LEARNINGPreliminaryClassify(
+        LEARNPreliminaryColumnTagging column_learnerSeeding = new LEARNPreliminaryColumnTagging(
                 selector,
-                EntropyConvergence.class.getName(),
+                IInf.class.getName(),
                 new String[]{"0.0", "2", "0.01"},
                 freebaseMatcher,
                 disambiguator,
@@ -97,7 +97,7 @@ public class Test_ISWC_TableInterpretation_BoxOffice {
 
         LEARNING columnInterpreter = new LEARNING(column_learnerSeeding, column_updater, TableMinerConstants.TCELLDISAMBIGUATOR_MAX_REFERENCE_ENTITIES);
 
-        //object to score relations between columns
+        //object to computeElementScores relations between columns
         HeaderBinaryRelationScorer relation_scorer = new HeaderBinaryRelationScorer_Vote(nlpResources,
                 new Creator_RelationHierarchicalBOW_Freebase(),
                 stopWords,
@@ -108,7 +108,7 @@ public class Test_ISWC_TableInterpretation_BoxOffice {
                 relation_scorer
         );
 
-        //object to consolidate previous output, further score columns and disamgiuate entities
+        //object to consolidate previous output, further computeElementScores columns and disamgiuate entities
         DataLiteralColumnClassifier interpreter_with_knownRelations = new DataLiteralColumnClassifier_exclude_entity_col(
                 IGNORE_COLUMNS
         );

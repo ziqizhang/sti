@@ -25,7 +25,7 @@ public class UPDATE {
 
     private TCellDisambiguator disambiguator;
     private KBSearch kbSearch;
-    private TColumnClassifier classification_scorer;
+    private ClazzScorer classification_scorer;
     private String nlpTools_folder;
     private TContentCellRanker selector;
     private List<String> stopWords;
@@ -33,7 +33,7 @@ public class UPDATE {
     public UPDATE(TContentCellRanker selector,
                   KBSearch kbSearch,
                   TCellDisambiguator disambiguator,
-                  TColumnClassifier classification_scorer,
+                  ClazzScorer classification_scorer,
                   List<String> stopwords,
                   String nlpTools_folder) {
         this.selector = selector;
@@ -55,14 +55,14 @@ public class UPDATE {
 
         TAnnotation.copy(current_iteration_annotation, prev_iteration_annotation);
         List<String> domain_representation;
-        Set<String> processed_entity_ids = new HashSet<String>();
+        Set<String> processed_entity_ids = new HashSet<>();
         boolean converged;
         do {
             ////// solution 1: both prev and current iterations' headers do not have dc added
             /*System.out.println("\t>> UPDATE begins, iteration:" + current_iteration);
             //current iteration annotation header scores does not contain dc scores
 
-            //headers will have dc score added
+            //headers will have dc computeElementScores added
             domain_representation = construct_domain_represtation(table, current_iteration_annotation, interpreted_columns);
             revise_header_annotation(current_iteration_annotation, domain_representation, interpreted_columns);
 
@@ -82,7 +82,7 @@ public class UPDATE {
             processed_entity_ids.addAll(initialize_processed_entity_ids(table, current_iteration_annotation));
             //current iteration annotation header scores does not contain dc scores
 
-            //headers will have dc score added
+            //headers will have dc computeElementScores added
             domain_representation = construct_domain_represtation(table, current_iteration_annotation, interpreted_columns);
             revise_header_annotation(current_iteration_annotation, domain_representation, interpreted_columns);
             //add dc scores to prev iteration's header annotations
@@ -96,7 +96,7 @@ public class UPDATE {
             //add dc scores to the current, new iteration's header annotations
 
 
-            // NO NEED!!! DC score already included when "revise_cell_disam..."
+            // NO NEED!!! DC computeElementScores already included when "revise_cell_disam..."
             //revise_header_annotation(current_iteration_annotation, domain_representation, interpreted_columns);
             //both prev and current iterations' header annotations do not have dc scores
             converged = checkConvergence(prev_iteration_annotation, current_iteration_annotation,
@@ -300,7 +300,7 @@ public class UPDATE {
             existing_header_annotations = add.toArray(new TColumnHeaderAnnotation[0]);
         }
 
-        existing_header_annotations = HeaderAnnotationUpdater.update_best_entity_contribute(       //this time dc score already included
+        existing_header_annotations = HeaderAnnotationUpdater.update_best_entity_contribute(       //this time dc computeElementScores already included
                 rowsUpdated.toArray(new Integer[0]),
                 column,
                 tableRowsTotal,
@@ -352,7 +352,7 @@ public class UPDATE {
                     Double score = header_annotation_url_and_max_score.get(url);
                     if (score == null) score = 0.0;
                     if (disamb_score > score) {
-                        /*if(score!=0)
+                        /*if(computeElementScores!=0)
                         System.out.println();*/
                         score = disamb_score;
                     }

@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * produces matching statistics of a table's header and its contexts. can only score headers that are NOT STOPWORDS
+ * produces matching statistics of a table's header and its contexts. can only computeElementScores headers that are NOT STOPWORDS
  * <p/>
  * <p/>
  * <p/>
@@ -21,8 +21,8 @@ import java.util.*;
  */
 class CMScorer {
 
-    private static final double MINIMUM_CONTEXT_SCORE = 0.5; //context blocks with an importance score lower than this will not be considered
-    private static final int MAXIMUM_CONTEXTS_TO_MATCH = 10; //except title, caption, score a maximum of 5 context blocks around the table
+    private static final double MINIMUM_CONTEXT_SCORE = 0.5; //context blocks with an importance computeElementScores lower than this will not be considered
+    private static final int MAXIMUM_CONTEXTS_TO_MATCH = 10; //except title, caption, computeElementScores a maximum of 5 context blocks around the table
     private static final double SCALAR_MAJOR_CONTEXT_WEIGHT = 2.0; //major context blocks, i.e., titles, captions, plural word matches
     // are considered more important. if matched, their scores is multiplied by this factor
     private Lemmatizer lemmatizer;
@@ -38,11 +38,11 @@ class CMScorer {
 
     }
 
-    //returns a map between column index and matching score
+    //returns a map between column index and matching computeElementScores
     public Map<Integer, Double> score(Table table, int... col_indexes) {
         Map<Integer, Double> scores = new HashMap<Integer, Double>();
 
-        //process headers to score against
+        //process headers to computeElementScores against
         Map<Integer, List<String>> headerKeywords = new HashMap<>();
         for (int col_id : col_indexes) {
             List<String> searchWords = new ArrayList<>();
@@ -115,8 +115,8 @@ class CMScorer {
                     if (freq == null)
                         continue;
 
-                    score = score + freq.getKey(); //if header keyword matches this word, its score is incremented by its frequency
-                    score = score + freq.getValue();//if the matched word is plural, the score is further modified
+                    score = score + freq.getKey(); //if header keyword matches this word, its computeElementScores is incremented by its frequency
+                    score = score + freq.getValue();//if the matched word is plural, the computeElementScores is further modified
                     if (ctx.getType().equals(TContext.TableContextType.CAPTION)
                             || ctx.getType().equals(TContext.TableContextType.PAGETITLE)) {
                         score = score * SCALAR_MAJOR_CONTEXT_WEIGHT;

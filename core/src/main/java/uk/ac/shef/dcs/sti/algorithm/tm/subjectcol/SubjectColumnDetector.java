@@ -54,7 +54,7 @@ public class SubjectColumnDetector {
      *
      * @param table
      * @return a list of Pair objects, where first object is the column index; second is a pair
-     * where the first part is the score
+     * where the first part is the computeElementScores
      * probability that asserts that column being the main column of the table, the second
      * part is a boolean indicating whether the column is acronym column. (only NE likely columns can be
      * considered main column)
@@ -164,8 +164,8 @@ public class SubjectColumnDetector {
         //8. generate feature - 1st NE column
         featureGenerator.setIsFirstNEColumn(featuresOfNEColumns);
 
-        //9. generate features - context score
-        LOG.debug("Computing cm score"); //todo more testing required for this
+        //9. generate features - context computeElementScores
+        LOG.debug("Computing cm computeElementScores"); //todo more testing required for this
         featureGenerator.setCMScores(featuresOfNEColumns, table);
 
         //10. generate features - web search matcher
@@ -177,7 +177,7 @@ public class SubjectColumnDetector {
         normalizeScores(featuresOfNEColumns);
 
         //12. then let's perform reasoning based on the remaining features:
-        //diversity score; 1st ne column; context score; web search score
+        //diversity computeElementScores; 1st ne column; context computeElementScores; web search computeElementScores
         final Map<Integer, Pair<Double, Boolean>> finalScores =
                 new SubjectColumnScorerHeuristic().score(featuresOfNEColumns);
         List<Integer> candidates = new ArrayList<>(finalScores.keySet());
@@ -312,13 +312,13 @@ public class SubjectColumnDetector {
         }
     }
 */
-    //key: col id; value: score
-    //currently performs following scoring: diversity; context score;
+    //key: col id; value: computeElementScores
+    //currently performs following scoring: diversity; context computeElementScores;
     // 1st ne column; acronym column checker; search
     //results are collected as number of votes by each dimension
     private Map<Integer, Pair<Double, Boolean>> infer_multiFeatures_vote(List<TColumnFeature> allNEColumnCandidates) {
         Map<Integer, Pair<Double, Boolean>> votes = new HashMap<>();
-        //a. vote by diversity score
+        //a. vote by diversity computeElementScores
         Collections.sort(allNEColumnCandidates, new Comparator<TColumnFeature>() {
             @Override
             public int compare(TColumnFeature o1, TColumnFeature o2) {

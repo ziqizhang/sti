@@ -21,7 +21,7 @@ public class Baseline_BinaryRelationInterpreter {
     }
 
     //returns the main subject column id
-    //if -1, it means cannot score this table relations as no column can be considered main column for interpretation to work
+    //if -1, it means cannot computeElementScores this table relations as no column can be considered main column for interpretation to work
     //so as a result of this method, the main subject column can change
     //
     //when new relation created, supporting row info is also added
@@ -63,7 +63,7 @@ public class Baseline_BinaryRelationInterpreter {
             }
 
             //perform matching  and scoring
-            //key=col id; objobj contains the property that matched with the highest score (string, double)
+            //key=col id; objobj contains the property that matched with the highest computeElementScores (string, double)
             Map<Integer, List<Pair<Attribute, Double>>> matched_scores_for_the_row =
                     cellTextMatcher.match(facts, values_to_match_on_the_row, colTypes);
 

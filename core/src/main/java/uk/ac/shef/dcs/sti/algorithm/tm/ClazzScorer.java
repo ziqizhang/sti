@@ -16,15 +16,16 @@ import java.util.Set;
  * Time: 13:47
  * To change this template use File | Settings | File Templates.
  */
-public interface TColumnClassifier {
+public interface ClazzScorer {
+
     //input: key is table row index; value is list of candidate entities and their disambiguation scores for that row
     //output: a map representing the state of the solution
     Map<String,Double> computeFinal(TColumnHeaderAnnotation ha, int tableRowsTotal);
     //intput: list of entities and their preliminary disamb scores on the current row;
-    Set<TColumnHeaderAnnotation> score(List<Pair<Entity, Map<String, Double>>> input,
-                                Set<TColumnHeaderAnnotation> headerAnnotationCandidates,
-                                Table table,
-                                List<Integer> rows, int column);
+    Set<TColumnHeaderAnnotation> computeElementScores(List<Pair<Entity, Map<String, Double>>> input,
+                                                      Set<TColumnHeaderAnnotation> headerAnnotationCandidates,
+                                                      Table table,
+                                                      List<Integer> rows, int column);
 
     Set<TColumnHeaderAnnotation> computeCCScore(Set<TColumnHeaderAnnotation> candidates, Table table, int column);
 

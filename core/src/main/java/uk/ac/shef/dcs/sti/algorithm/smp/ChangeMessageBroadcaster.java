@@ -39,7 +39,7 @@ public class ChangeMessageBroadcaster {
                 for (TColumnHeaderAnnotation ha : bestHeaderAnnotations)
                     headerAnnotationStrings.add(ha.getAnnotation().getId());
                 boolean sendChange = false;
-                for (TCellAnnotation best : cellAnnotations) { //this cell can have multiple annotations with the same highest score
+                for (TCellAnnotation best : cellAnnotations) { //this cell can have multiple annotations with the same highest computeElementScores
                     //we need to check everyone of them. if any one's type does not overlap with the header annotations, it need changing
                     List<String> copy = new ArrayList<String>(headerAnnotationStrings);
                     copy.retainAll(best.getAnnotation().getTypeIds());
@@ -66,7 +66,7 @@ public class ChangeMessageBroadcaster {
             Key_SubjectCol_ObjectCol subobj_col_ids = e.getKey(); //sub-obj key tells us the subject column id, and the obj column id
             List<HeaderBinaryRelationAnnotation> relationAnnotations = e.getValue();
             Collections.sort(relationAnnotations);
-            double maxScore_of_relation_across_columns = relationAnnotations.get(0).getFinalScore(); //what is the top relation's score
+            double maxScore_of_relation_across_columns = relationAnnotations.get(0).getFinalScore(); //what is the top relation's computeElementScores
             List<String> highestScoringRelationStrings = new ArrayList<String>();
             for (HeaderBinaryRelationAnnotation hba : relationAnnotations) {  //what are the top scoring relaions. these are the currently assigned relations for the two columns
                 if (hba.getFinalScore() == maxScore_of_relation_across_columns)

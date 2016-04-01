@@ -16,20 +16,20 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Firstly, score each candidate type for this column, based on 1) # of candidate entities lead to that type 2) candidate entity's disamb score
- * Then once type is decided for this column, re-score disambiguation scores for every candidate entity
+ * Firstly, computeElementScores each candidate type for this column, based on 1) # of candidate entities lead to that type 2) candidate entity's disamb computeElementScores
+ * Then once type is decided for this column, re-computeElementScores disambiguation scores for every candidate entity
  */
-public class TMPColumnClassifier implements TColumnClassifier {
+public class TMPClazzScorer implements ClazzScorer {
 
-    private static final Logger LOG = Logger.getLogger(TMPColumnClassifier.class.getName());
+    private static final Logger LOG = Logger.getLogger(TMPClazzScorer.class.getName());
 
     private Lemmatizer lemmatizer;
     private List<String> stopWords;
     private Creator_OntologyEntityHierarchicalBOW bowCreator;
     private double[] wt;  //header text, column, out table ctx: title&caption, out table ctx:other
 
-    public TMPColumnClassifier(String nlpResources, Creator_OntologyEntityHierarchicalBOW bowCreator, List<String> stopWords,
-                               double[] weights) throws IOException {
+    public TMPClazzScorer(String nlpResources, Creator_OntologyEntityHierarchicalBOW bowCreator, List<String> stopWords,
+                          double[] weights) throws IOException {
         this.lemmatizer = NLPTools.getInstance(nlpResources).getLemmatizer();
         this.bowCreator = bowCreator;
         this.stopWords = stopWords;
@@ -37,10 +37,10 @@ public class TMPColumnClassifier implements TColumnClassifier {
     }
 
     @Override
-    public Set<TColumnHeaderAnnotation> score(List<Pair<Entity, Map<String, Double>>> input,
-                                              Set<TColumnHeaderAnnotation> headerAnnotationCandidates,
-                                              Table table,
-                                              List<Integer> rows, int column) {
+    public Set<TColumnHeaderAnnotation> computeElementScores(List<Pair<Entity, Map<String, Double>>> input,
+                                                             Set<TColumnHeaderAnnotation> headerAnnotationCandidates,
+                                                             Table table,
+                                                             List<Integer> rows, int column) {
         Set<TColumnHeaderAnnotation> candidates = new HashSet<>();
         for (int row : rows)
             candidates = computeCEScore(input, headerAnnotationCandidates, table, row, column);
@@ -51,7 +51,7 @@ public class TMPColumnClassifier implements TColumnClassifier {
 
 
     /**
-     * compute concept instance score
+     * compute concept instance computeElementScores
      *
      * @param entities
      * @param existingHeaderAnnotations
@@ -72,7 +72,7 @@ public class TMPColumnClassifier implements TColumnClassifier {
         double highestScore = 0.0;
         for (Pair<Entity, Map<String, Double>> es : entities) { //each candidate entity in this cell
             Entity entity = es.getKey();
-            //each assigned type receives a score of 1, and the bonus score due to disambiguation result
+            //each assigned type receives a computeElementScores of 1, and the bonus computeElementScores due to disambiguation result
             double entityCFScore = es.getValue().get(TCellAnnotation.SCORE_FINAL);
             if (entityCFScore > highestScore) {
                 highestScore = entityCFScore;
@@ -80,7 +80,7 @@ public class TMPColumnClassifier implements TColumnClassifier {
             }
         }
         if (entities.size() == 0 || winningEntity == null) {
-            //this entity has a score of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
+            //this entity has a computeElementScores of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
             LOG.warn("no clazz elected by cell: (" + row + "," + column + ")");
             return updatedHeaderAnnotations;
         }
@@ -92,7 +92,7 @@ public class TMPColumnClassifier implements TColumnClassifier {
             if (entityCFScore != highestScore)
                 continue;
 
-            Set<String> votedClazzByThisCell = new HashSet<>();    //each type will receive a max of 1 vote from each cell. If multiple candidates have the same highest score and casts same votes, they are counted oly once
+            Set<String> votedClazzByThisCell = new HashSet<>();    //each type will receive a max of 1 vote from each cell. If multiple candidates have the same highest computeElementScores and casts same votes, they are counted oly once
             List<Clazz> votedClazzByThisEntity = entity.getTypes();
 
             //consolidate scores from this cell
@@ -137,7 +137,7 @@ public class TMPColumnClassifier implements TColumnClassifier {
 
 
     /**
-     * compute concept context score
+     * compute concept context computeElementScores
      *
      * @param candidates
      * @param table
