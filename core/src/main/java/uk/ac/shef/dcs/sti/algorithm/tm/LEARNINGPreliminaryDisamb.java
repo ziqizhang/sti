@@ -9,11 +9,13 @@ import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.*;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  */
 public class LEARNINGPreliminaryDisamb {
 
+    private static final Logger LOG = Logger.getLogger(LEARNINGPreliminaryDisamb.class.getName());
     private TCellDisambiguator disambiguator;
     private KBSearch kbSearch;
     private ClazzScorer classification_scorer;
@@ -26,27 +28,31 @@ public class LEARNINGPreliminaryDisamb {
         this.classification_scorer = classification_scorer;
     }
 
-    public void learn_consolidate(
-            int anchor,
+    public void runPreliminaryDisamb(
+            int stopPointByPreColumnClassifier,
             List<List<Integer>> ranking,
             Table table,
-            TAnnotation current_iteration_annotation,
+            TAnnotation tableAnnotation,
             int column,
-            Set<Entity> reference_entities,
             Integer... skipRows) throws KBSearchException {
 
+        LOG.info("\t>> (LEARNING) Preliminary Disambiguation begins");
+        List<TColumnHeaderAnnotation> winningColumnClazz = tableAnnotation.getBestHeaderAnnotations(column);
+        Set<String> winningColumnClazzIds = new HashSet<>();
+        for (TColumnHeaderAnnotation ha : winningColumnClazz)
+            winningColumnClazzIds.add(ha.getAnnotation().getId());
 
-        System.out.println("\t>> LEARN (Consolidate) begins");
-        List<TColumnHeaderAnnotation> bestHeaderAnnotations = current_iteration_annotation.getBestHeaderAnnotations(column);
-        Set<String> columnTypes = new HashSet<>();
-        for (TColumnHeaderAnnotation ha : bestHeaderAnnotations)
-            columnTypes.add(ha.getAnnotation().getId());
+        //for those cells already processed by pre column classification, update their cell annotations
+        LOG.info("\t\t>> re-annotate cells involved in cold start disambiguation");
+        reselect(tableAnnotation, stopPointByPreColumnClassifier, ranking, winningColumnClazzIds, column);
 
-        int start = anchor;
+        //for remaining...
+        LOG.info("\t\t>> constrained cell disambiguation");
+        int start = stopPointByPreColumnClassifier;
         int end = ranking.size();
 
 
-        List<Integer> updated = new ArrayList<Integer>();
+        List<Integer> updated = new ArrayList<>();
         for (int bi = start; bi < end; bi++) {
             List<Integer> rows = ranking.get(bi);
 
@@ -79,27 +85,60 @@ public class LEARNINGPreliminaryDisamb {
                     disambiguate(sample,
                             table,
                             //current_iteration_annotation,
-                            columnTypes,
-                            rows, column, reference_entities.toArray(new Entity[0])
+                            winningColumnClazzIds,
+                            rows, column
                     );
 
             if (candidates_and_scores_for_block.size() > 0) {
-                update_entity_annotations(table, current_iteration_annotation, rows, column,
+                update_entity_annotations(table, tableAnnotation, rows, column,
                         candidates_and_scores_for_block);
                 updated.addAll(rows);
             }
         }
         //todo: one-name-PSPD, before create typing
         if (TableMinerConstants.ENFORCE_ONPSPD)
-            ONPSPD_Enforcer.enforce(table, current_iteration_annotation, column);
+            ONPSPD_Enforcer.enforce(table, tableAnnotation, column);
 
         System.out.println("\t>> Classification-LEARN (consolidate " + updated.size() + " rows)");
 
-            update_typing_annotations_best_candidate_contribute(updated, column, current_iteration_annotation, table,
-                    table.getNumRows()
-                    //countRows
-            );
+        update_typing_annotations_best_candidate_contribute(updated, column, tableAnnotation, table,
+                table.getNumRows()
+                //countRows
+        );
 
+    }
+
+    //for those cells already processed in preliminary column classification,
+    //preliminary disamb simply reselects entities whose type overlap with winning column clazz annotation
+    private void reselect(TAnnotation tableAnnotation,
+                          int stopPointByPreColumnClassifier,
+                          List<List<Integer>> cellBlockRanking,
+                          Collection<String> winningClazzIds,
+                          int column) {
+        TColumnHeaderAnnotation[] headers = tableAnnotation.getHeaderAnnotation(column);
+        for(int index=0; index<stopPointByPreColumnClassifier; index++) {
+            List<Integer> cellBlock = cellBlockRanking.get(index);
+            for(int row: cellBlock) {
+                TCellAnnotation[] cellAnnotations=
+                        tableAnnotation.getContentCellAnnotations(row, column);
+                TCellAnnotation[] revised =
+                        disambiguator.reselect(cellAnnotations, winningClazzIds);
+                if (revised.length != 0)
+                    tableAnnotation.setContentCellAnnotations(row, column, revised);
+
+                //now update supporting rows for the elected column clazz
+                if (headers != null) {
+                    for (TColumnHeaderAnnotation ha : headers) {
+                        for (TCellAnnotation tca : revised) {
+                            if (tca.getAnnotation().getTypes().contains(ha.getAnnotation())) {
+                                ha.addSupportingRow(row);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
 
@@ -107,11 +146,10 @@ public class LEARNINGPreliminaryDisamb {
     //computeElementScores candidates for the cell;
     //create annotation and update supportin header and header computeElementScores (depending on the two params updateHeader_blah
     private List<Pair<Entity, Map<String, Double>>> disambiguate(TCell tcc,
-                                                                            Table table,
-                                                                            Set<String> columnTypes,
-                                                                            List<Integer> table_cell_rows,
-                                                                            int table_cell_col,
-                                                                 Entity... reference_disambiguated_entities) throws KBSearchException {
+                                                                 Table table,
+                                                                 Set<String> columnTypes,
+                                                                 List<Integer> table_cell_rows,
+                                                                 int table_cell_col) throws KBSearchException {
         List<Pair<Entity, Map<String, Double>>> candidates_and_scores_for_block;
 
         List<Entity> candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText(), columnTypes.toArray(new String[0]));
@@ -123,7 +161,8 @@ public class LEARNINGPreliminaryDisamb {
         //now each candidate is given scores
         candidates_and_scores_for_block =
                 disambiguator.disambiguate_learn_consolidate
-                        (candidates, table, table_cell_rows, table_cell_col, columnTypes, true,reference_disambiguated_entities);
+                        (candidates, table, table_cell_rows, table_cell_col, columnTypes, true
+                        );
 
         return candidates_and_scores_for_block;
     }
@@ -179,7 +218,7 @@ public class LEARNINGPreliminaryDisamb {
         Set<TColumnHeaderAnnotation> add = new HashSet<TColumnHeaderAnnotation>();
         //any new headers due to disambiguation-update?
         for (int row : rowsUpdated) {
-            List<TCellAnnotation> bestCellAnnotations = table_annotations.getBestContentCellAnnotations(row, column);
+            List<TCellAnnotation> bestCellAnnotations = table_annotations.getWinningContentCellAnnotation(row, column);
             for (TCellAnnotation ca : bestCellAnnotations) {
                 HeaderAnnotationUpdater.add(ca, column, table, existing_header_annotations, add);
             }
@@ -224,7 +263,7 @@ public class LEARNINGPreliminaryDisamb {
                 List<Clazz> types = ca.getAnnotation().getTypes();
                 double disamb_score = ca.getFinalScore();
                 for (Clazz t : types) {
-                    String url =t.getId();
+                    String url = t.getId();
                     String label = t.getLabel();
                     header_annotation_url_and_label.put(url, label);
                     Double score = header_annotation_url_and_max_score.get(url);

@@ -35,7 +35,7 @@ public class ColumnClassifier {
             //in case multiple NEs have the same computeElementScores, we take them all
             if (!table.getContentCell(r, col).getType().equals(DataTypeClassifier.DataType.EMPTY))
                 totalNonEmpty++;
-            List<TCellAnnotation> bestCellAnnotations = tableAnnotation.getBestContentCellAnnotations(r, col);
+            List<TCellAnnotation> bestCellAnnotations = tableAnnotation.getWinningContentCellAnnotation(r, col);
             if (bestCellAnnotations.size() > 0) {
                 Set<String> distinctTypes = new HashSet<String>();
                 for (TCellAnnotation ca : bestCellAnnotations) {

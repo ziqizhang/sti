@@ -418,7 +418,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
         }
 
 
-        //1 initialise candidate entities on every row, create the "skip rows" list used by ColumnLearner_LEARN.learn method
+        //1 initialise candidate entities on every row, create the "skip rows" list used by ColumnLearner_LEARN.runPreliminaryColumnClassifier method
         Map<String, TColumnHeaderAnnotation> header_annotation_contributed_from_cells = new HashMap<String, TColumnHeaderAnnotation>();
         for (Map.Entry<Integer, Double> e : rows_with_entities_mapped_scores.entrySet()) {
             int row = e.getKey();
@@ -502,7 +502,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
             reference_entities = new HashSet<Entity>();
         else
             reference_entities = LEARNING.selectReferenceEntities(table, table_annotation, column, max_reference_entity_for_disambiguation);
-        column_updater.learn_consolidate(0,
+        column_updater.runPreliminaryDisamb(0,
                 rankings,
                 table,
                 table_annotation,

@@ -75,7 +75,7 @@ public class Base_TM_no_Update_ColumnLearner {
                 candidates_and_scores_for_each_row.put(row_index, candidates_and_scores_on_this_row);
             }
             //todo: wrong, state should be created based on the map object
-            //run algorithm to learn column typing; header annotation scores are updated constantly, but supporting rows are not.
+            //run algorithm to runPreliminaryColumnClassifier column typing; header annotation scores are updated constantly, but supporting rows are not.
             state = update_column_class(
                     classifier_learn.score(candidates_and_scores_on_this_row, headerAnnotationScores, table, row_index, column),
                     table.getNumRows()

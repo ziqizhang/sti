@@ -78,7 +78,7 @@ public class TestTableInterpretation_IMDB {
         );
 
         TContentCellRanker selector=new OSPD_nonEmpty();
-        LEARNPreliminaryColumnTagging column_learnerSeeding = new LEARNPreliminaryColumnTagging(
+        LEARNINGPreliminaryColumnClassifier column_learnerSeeding = new LEARNINGPreliminaryColumnClassifier(
                 selector,
                 IInf.class.getName(),
                 new String[]{"0.0", "2", "0.01"},
@@ -86,7 +86,7 @@ public class TestTableInterpretation_IMDB {
                 disambiguator,
                 class_scorer
         );
-        /*LEARNPreliminaryColumnTagging column_learnerSeeding = new LEARNPreliminaryColumnTagging(
+        /*LEARNINGPreliminaryColumnClassifier column_learnerSeeding = new LEARNINGPreliminaryColumnClassifier(
                 sampler,
                 FixedNumberOfRows.class.getName(),
                 new String[]{TableMinerConstants.SAMPLE_SIZE},

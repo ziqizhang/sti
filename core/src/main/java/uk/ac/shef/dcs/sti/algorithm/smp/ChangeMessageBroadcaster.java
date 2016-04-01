@@ -31,7 +31,7 @@ public class ChangeMessageBroadcaster {
                 continue;
 
             for (int row = 0; row < table.getNumRows(); row++) {
-                List<TCellAnnotation> cellAnnotations = tableAnnotation.getBestContentCellAnnotations(row, col);
+                List<TCellAnnotation> cellAnnotations = tableAnnotation.getWinningContentCellAnnotation(row, col);
                 if (cellAnnotations.size() == 0)
                     continue;
 

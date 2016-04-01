@@ -120,7 +120,7 @@ public class TestTI_DataFiltering_BaselinePlus_IMDB {
             selector=new OSPD_random();
         }
 
-        LEARNPreliminaryColumnTagging column_learnerSeeding = new LEARNPreliminaryColumnTagging(
+        LEARNINGPreliminaryColumnClassifier column_learnerSeeding = new LEARNINGPreliminaryColumnClassifier(
                 selector,
                 IInf.class.getName(),
                 new String[]{"0.0", "2", "0.01"},
@@ -128,7 +128,7 @@ public class TestTI_DataFiltering_BaselinePlus_IMDB {
                 disambiguator,
                 class_scorer
         );
-        /*LEARNPreliminaryColumnTagging column_learnerSeeding = new LEARNPreliminaryColumnTagging(
+        /*LEARNINGPreliminaryColumnClassifier column_learnerSeeding = new LEARNINGPreliminaryColumnClassifier(
                 sampler,
                 FixedNumberOfRows.class.getName(),
                 new String[]{TableMinerConstants.SAMPLE_SIZE},

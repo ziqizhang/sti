@@ -92,7 +92,7 @@ public class TableMinerPlusBatch extends STIBatch {
 
 
         LOG.info("Initializing LEARNING components ...");
-        LEARNPreliminaryColumnTagging preliminaryClassify;
+        LEARNINGPreliminaryColumnClassifier preliminaryClassify;
         TCellDisambiguator disambiguator;
         ClazzScorer classifier;
         TContentCellRanker selector;
@@ -109,7 +109,7 @@ public class TableMinerPlusBatch extends STIBatch {
                     new double[]{1.0, 1.0, 1.0, 1.0}         //all 1.0
             );                                              //header,column,tablecontext other, page title+caption
             selector = new OSPD_nonEmpty();
-            preliminaryClassify = new LEARNPreliminaryColumnTagging(
+            preliminaryClassify = new LEARNINGPreliminaryColumnClassifier(
                     selector,
                     properties.getProperty(PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS),
                     StringUtils.split(

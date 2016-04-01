@@ -106,7 +106,7 @@ public class DataStats {
         System.exit(0);*/
 
 
-        /////////////////////////////////////////////// ---done--- Candidate counting (overall, learn-consolidate only, new entity at update, all entity at update) ////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////// ---done--- Candidate counting (overall, runPreliminaryColumnClassifier-consolidate only, new entity at update, all entity at update) ////////////////////////////////////////////////////////////
         calculate_entity_candidate_savings(
                 "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\random_nostop.LOG",
                 "D:\\Work\\lodie\\tmp_result\\ospd_tm_iswc\\limaye200\\candidate_savings_random_nostop.csv");

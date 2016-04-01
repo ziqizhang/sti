@@ -43,7 +43,7 @@ public class CellAnnotationUpdater {
                 //retrieve actual annotation based on their indexes...
                 if (bestAnnotations.size() > 0) {
                     boolean isValidUpdate = false;
-                    List<TCellAnnotation> currentBestAnnotations = tableAnnotation.getBestContentCellAnnotations(r, c);
+                    List<TCellAnnotation> currentBestAnnotations = tableAnnotation.getWinningContentCellAnnotation(r, c);
                     double currentMaxScore = currentBestAnnotations.get(0).getFinalScore();
                     double arbitraryNewScore = currentMaxScore + 0.000001;
 

@@ -142,7 +142,7 @@ public class TAnnotation {
         return ca;
     }
 
-    public List<TCellAnnotation> getBestContentCellAnnotations(int row, int col){
+    public List<TCellAnnotation> getWinningContentCellAnnotation(int row, int col){
         TCellAnnotation[] annotations =getContentCellAnnotations(row, col);
 
         List<TCellAnnotation> result = new ArrayList<TCellAnnotation>();

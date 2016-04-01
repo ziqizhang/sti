@@ -203,7 +203,7 @@ public class Base_NameMatch_ColumnLearner {
         //supporting rows are only added if a header for the type of the cell annotation exists
         if (header_annotations != null) {
             for (int row : rowsUpdated) {
-                List<TCellAnnotation> bestCellAnnotations = table_annotations.getBestContentCellAnnotations(row, column);
+                List<TCellAnnotation> bestCellAnnotations = table_annotations.getWinningContentCellAnnotation(row, column);
 
                 for (TCellAnnotation ca : bestCellAnnotations) {
                     for (TColumnHeaderAnnotation ha : header_annotations) {

@@ -263,8 +263,8 @@ public class UPDATE {
         boolean cell_converged = true;
         for (int c : interpreted_columns) {
             for (int row = 0; row < totalRows; row++) {
-                List<TCellAnnotation> cell_prev_annotations = prev_iteration_annotation.getBestContentCellAnnotations(row, c);
-                List<TCellAnnotation> cell_current_annotations = table_annotation.getBestContentCellAnnotations(row, c);
+                List<TCellAnnotation> cell_prev_annotations = prev_iteration_annotation.getWinningContentCellAnnotation(row, c);
+                List<TCellAnnotation> cell_current_annotations = table_annotation.getWinningContentCellAnnotation(row, c);
                 if (cell_current_annotations.size() == cell_prev_annotations.size()) {
                     cell_current_annotations.retainAll(cell_prev_annotations);
                     if (cell_current_annotations.size() != cell_prev_annotations.size())
@@ -288,7 +288,7 @@ public class UPDATE {
         Set<TColumnHeaderAnnotation> add = new HashSet<TColumnHeaderAnnotation>();
         //any new headers due to disambiguation-update?
         for (int row : rowsUpdated) {
-            List<TCellAnnotation> bestCellAnnotations = table_annotations.getBestContentCellAnnotations(row, column);
+            List<TCellAnnotation> bestCellAnnotations = table_annotations.getWinningContentCellAnnotation(row, column);
             for (TCellAnnotation ca : bestCellAnnotations) {
                 HeaderAnnotationUpdater.add(ca, column, table, existing_header_annotations, add);
             }

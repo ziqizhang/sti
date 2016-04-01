@@ -81,7 +81,7 @@ public class Test_ISWC_TableInterpretation_BoxOffice {
         );
 
         TContentCellRanker selector = new OSPD_nonEmpty();
-        LEARNPreliminaryColumnTagging column_learnerSeeding = new LEARNPreliminaryColumnTagging(
+        LEARNINGPreliminaryColumnClassifier column_learnerSeeding = new LEARNINGPreliminaryColumnClassifier(
                 selector,
                 IInf.class.getName(),
                 new String[]{"0.0", "2", "0.01"},

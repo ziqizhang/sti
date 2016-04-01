@@ -180,7 +180,7 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
         //Map<String, TColumnHeaderAnnotation> candidate_header_annotations = new HashMap<String, TColumnHeaderAnnotation>();
         //count types that are known for already mapped entities (using their ids)
 
-        //1 initialise candidate entities on every row, create the "skip rows" list used by ColumnLearner_LEARN.learn method
+        //1 initialise candidate entities on every row, create the "skip rows" list used by ColumnLearner_LEARN.runPreliminaryColumnClassifier method
         for (Map.Entry<Integer, Double> e : rows_with_entities_mapped_scores.entrySet()) {
             int row = e.getKey();
             double mapped_score = e.getValue();
@@ -223,7 +223,7 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
 
         //2. run classification LEARN process; create initial typing annotation and disamb
         ObjObj<Integer, int[]> progress = column_learner.
-                learn(table, table_annotation, column, rows_with_entity_ids.keySet().toArray(new Integer[0]));
+                runPreliminaryColumnClassifier(table, table_annotation, column, rows_with_entity_ids.keySet().toArray(new Integer[0]));
         Set<EntityCandidate> reference_entities = new HashSet<EntityCandidate>();
         if (use_reference_entity) {
             for (int i = 0; i < progress.getMainObject(); i++) {

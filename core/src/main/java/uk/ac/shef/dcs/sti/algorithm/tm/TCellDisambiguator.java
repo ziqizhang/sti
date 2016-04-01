@@ -52,30 +52,19 @@ public class TCellDisambiguator {
         return disambiguationScores;
     }
 
-    //reselect winning entity for this cell ensuring its types is contained in the winning clazz for the column
-    public List<Pair<Entity, Map<String, Double>>> preliminaryDisambiguate(
-            List<Pair<Entity, Map<String, Double>>> entitiesAndScores,
-            List<String> winningClazzIdsForColumn) {
-        List<Integer> removeIndex = new ArrayList<>();
-        Iterator<Pair<Entity, Map<String, Double>>> it = entitiesAndScores.iterator();
-        int index = 0;
-        while (it.hasNext()) {
-            Pair<Entity, Map<String, Double>> entity_to_scoreMap = it.next();
-            int overlap=CollectionUtils.intersection(entity_to_scoreMap.getKey().getTypeIds(),
+    //reselect cell entities for this cell ensuring their types are contained in the winning clazz for the column
+    public TCellAnnotation[] reselect(
+            TCellAnnotation[] existingCellAnnotations,
+            Collection<String> winningClazzIdsForColumn) {
+        List<TCellAnnotation> selected = new ArrayList<>();
+        for(TCellAnnotation tca: existingCellAnnotations){
+            int overlap = CollectionUtils.intersection(tca.getAnnotation().getTypeIds(),
                     winningClazzIdsForColumn).size();
-            if (overlap == 0)
-                removeIndex.add(index);
-            index++;
+            if(overlap>0)
+                selected.add(tca);
         }
-        List<Pair<Entity, Map<String, Double>>> result = new ArrayList<>();
-        if (removeIndex.size() < entitiesAndScores.size()) {
-            for (int i = 0; i < entitiesAndScores.size(); i++) {
-                if (removeIndex.contains(i))
-                    continue;
-                result.add(entitiesAndScores.get(i));
-            }
-        }
-        return result;
+
+        return selected.toArray(new TCellAnnotation[0]);
     }
 
     public List<Pair<Entity, Map<String, Double>>> disambiguate_learn_consolidate(
@@ -84,8 +73,7 @@ public class TCellDisambiguator {
             List<Integer> entity_rows,
             int entity_column,
             Set<String> assigned_column_types,
-            boolean first_phase,
-            Entity... reference_disambiguated_entities
+            boolean first_phase
     ) throws KBSearchException {
         //do disambiguation scoring
         //LOG.info("\t>> Disambiguation-UPDATE , position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
@@ -108,8 +96,7 @@ public class TCellDisambiguator {
                             entity_rows.get(0),
                             entity_rows,
                             table,
-                            assigned_column_types,
-                            reference_disambiguated_entities);
+                            assigned_column_types);
             disambScorer.computeFinal(scoreMap, sample_tcc.getText());
             Pair<Entity, Map<String, Double>> entry = new Pair<>(c, scoreMap);
             disambiguationScores.add(entry);

@@ -118,7 +118,7 @@ public class TestTI_DataFiltering_TableMiner_LimayeDataset {
             selector=new OSPD_combined(stopWords);
         }
 
-        LEARNPreliminaryColumnTagging column_learnerSeeding = new LEARNPreliminaryColumnTagging(
+        LEARNINGPreliminaryColumnClassifier column_learnerSeeding = new LEARNINGPreliminaryColumnClassifier(
                 selector,
                 IInf.class.getName(),
                 new String[]{"0.0", "2", "0.01"},
@@ -126,7 +126,7 @@ public class TestTI_DataFiltering_TableMiner_LimayeDataset {
                 disambiguator,
                 class_scorer
         );
-        /*LEARNPreliminaryColumnTagging column_learnerSeeding = new LEARNPreliminaryColumnTagging(
+        /*LEARNINGPreliminaryColumnClassifier column_learnerSeeding = new LEARNINGPreliminaryColumnClassifier(
                 sampler,
                 FixedNumberOfRows.class.getName(),
                 new String[]{TableMinerConstants.SAMPLE_SIZE},

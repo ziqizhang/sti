@@ -52,9 +52,9 @@ public class RelationLearner {
 
                 for (int r = 0; r < table.getNumRows(); r++) {
                     //in SMP, only the highest ranked NE (the disambiguated NE) is needed from each cell to aggregate candidate relation
-                    List<TCellAnnotation> subjectCells = tableAnnotations.getBestContentCellAnnotations(r, subjectColumn);
+                    List<TCellAnnotation> subjectCells = tableAnnotations.getWinningContentCellAnnotation(r, subjectColumn);
                     TCell subjectCellText = table.getContentCell(r, subjectColumn);
-                    List<TCellAnnotation> objectCells = tableAnnotations.getBestContentCellAnnotations(r, objectColumn);
+                    List<TCellAnnotation> objectCells = tableAnnotations.getWinningContentCellAnnotation(r, objectColumn);
                     TCell objectCellText = table.getContentCell(r, objectColumn);
 
                     //aggregate relation on each row, between each pair of subject-object cells

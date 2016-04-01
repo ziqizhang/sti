@@ -106,7 +106,7 @@ class HeaderAnnotationUpdater {
 
 
         for (int row : rows) {
-            List<TCellAnnotation> bestCellAnnotations = table_annotations.getBestContentCellAnnotations(row, column);
+            List<TCellAnnotation> bestCellAnnotations = table_annotations.getWinningContentCellAnnotation(row, column);
             Set<String> types_already_received_votes_by_cell=new HashSet<String>();
             for (TCellAnnotation ca : bestCellAnnotations) {
                 for (TColumnHeaderAnnotation ha : existing_header_annotations) {

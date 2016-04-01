@@ -17,46 +17,54 @@ import java.util.*;
  */
 
 
-public class LEARNPreliminaryColumnTagging {
+public class LEARNINGPreliminaryColumnClassifier {
     private TContentCellRanker selector;
     private KBSearch kbSearch;
     private TCellDisambiguator cellDisambiguator;
-    private ClazzScorer columnClassifier;
+    private ClazzScorer clazzScorer;
 
     private String stopperClassname;
     private String[] stopperParams;
-    private static final Logger LOG = Logger.getLogger(LEARNPreliminaryColumnTagging.class.getName());
+    private static final Logger LOG = Logger.getLogger(LEARNINGPreliminaryColumnClassifier.class.getName());
 
-    public LEARNPreliminaryColumnTagging(TContentCellRanker selector,
-                                         String stoppingCriteriaClassname,
-                                         String[] stoppingCriteriaParams,
-                                         KBSearch candidateFinder,
-                                         TCellDisambiguator cellDisambiguator,
-                                         ClazzScorer columnClassifier) {
+    public LEARNINGPreliminaryColumnClassifier(TContentCellRanker selector,
+                                               String stoppingCriteriaClassname,
+                                               String[] stoppingCriteriaParams,
+                                               KBSearch candidateFinder,
+                                               TCellDisambiguator cellDisambiguator,
+                                               ClazzScorer clazzScorer) {
         this.selector = selector;
         this.kbSearch = candidateFinder;
         this.cellDisambiguator = cellDisambiguator;
-        this.columnClassifier = columnClassifier;
+        this.clazzScorer = clazzScorer;
 
         this.stopperClassname = stoppingCriteriaClassname;
         this.stopperParams = stoppingCriteriaParams;
     }
 
-    public Pair<Integer, List<List<Integer>>> learn(Table table, TAnnotation tableAnnotation, int column, Integer... skipRows) throws KBSearchException {
+    /**
+     * @param table
+     * @param tableAnnotation
+     * @param column
+     * @param skipRows
+     * @return pair: key is the index of the cell by which the classification stopped. value is the re-ordered
+     * indexes of cells based on the sampler
+     * @throws KBSearchException
+     */
+    public Pair<Integer, List<List<Integer>>> runPreliminaryColumnClassifier(Table table, TAnnotation tableAnnotation, int column, Integer... skipRows) throws KBSearchException {
         StoppingCriteria stopper = StoppingCriteriaInstantiator.instantiate(stopperClassname, stopperParams);
 
         //1. gather list of strings from this column to be interpreted, rank them (for sampling)
         List<List<Integer>> ranking = selector.select(table, column, tableAnnotation.getSubjectColumn());
 
         //2. computeElementScores column and also disambiguate initial rows in the selected sample
-        Map<Integer, List<Pair<Entity, Map<String, Double>>>> cellDisambEntityScores =
-                new HashMap<>();
         Set<TColumnHeaderAnnotation> headerClazzScores = new HashSet<>();
 
         int countProcessed = 0, totalRows = 0;
         boolean stopped = false;
         Map<Object, Double> state = new HashMap<>();
 
+        LOG.info("\t>> (LEANRING) Preliminary Column Classification begins");
         for (List<Integer> blockOfRows : ranking) {
             countProcessed++;
             totalRows += blockOfRows.size();
@@ -67,7 +75,7 @@ public class LEARNPreliminaryColumnTagging {
                 continue;
             }
 
-            LOG.info("\t>> Preliminary Column Classification - cold start disambiguation, row(s) " + blockOfRows + "," + sample);
+            LOG.info("\t\t>> cold start disambiguation, row(s) " + blockOfRows + "," + sample);
 
             boolean skip = false;
             for (int row : skipRows) {
@@ -88,25 +96,23 @@ public class LEARNPreliminaryColumnTagging {
                                 candidates, table, blockOfRows, column
                         );
                 for (int ri : blockOfRows) {
-                    cellDisambEntityScores.put(ri, entityScoresForBlock);
+                    List<Entity> winningEntities = createColdStartCellAnnotation(table,
+                            tableAnnotation, ri, column, entityScoresForBlock);
                 }
             }
 
-            //run algorithm to learn column classification; header annotation scores are updated constantly, but supporting rows are not.
+            //run algorithm to runPreliminaryColumnClassifier column classification; header annotation scores are updated constantly, but supporting rows are not.
             state = updateState(
-                    columnClassifier.
+                    clazzScorer.
                             computeElementScores(entityScoresForBlock, headerClazzScores,
                                     table, blockOfRows, column), totalRows
             );
             boolean stop = stopper.stop(state, table.getNumRows());
 
             if (stop) {
-                System.out.println("\t>> Preliminary Column Classification converged, rows:" + totalRows);
+                System.out.println("\t>> (LEARNING) Preliminary Column Classification converged, rows:" + totalRows);
                 //state is stable. annotate using the type, and disambiguate entities
                 generatePreliminaryColumnClazz(state, tableAnnotation, column);
-                //then use classification results to preliminaryDisambiguate disambiguation
-                System.out.println("\t>> Preliminary Disambiguation begins (preliminaryDisambiguate " + cellDisambEntityScores.size() + " rows)");
-                preliminaryDisambiguate(tableAnnotation, table, cellDisambEntityScores, column);
                 stopped = true;
                 break;  //exit loop
             }
@@ -115,7 +121,6 @@ public class LEARNPreliminaryColumnTagging {
         if (!stopped) {
             System.out.println("\t>> Preliminary Column Classification no convergence");
             generatePreliminaryColumnClazz(state, tableAnnotation, column); //supporting rows not added
-            preliminaryDisambiguate(tableAnnotation, table, cellDisambEntityScores, column);
         }
         return new Pair<>(countProcessed, ranking);
     }
@@ -145,7 +150,7 @@ public class LEARNPreliminaryColumnTagging {
         Map<Object, Double> state = new HashMap<>();
         for (TColumnHeaderAnnotation ha : candidateHeaderAnnotations) {
             //Map<String, Double> scoreElements =ha.getScoreElements();
-            columnClassifier.computeFinal(ha, tableRowsTotal);
+            clazzScorer.computeFinal(ha, tableRowsTotal);
             state.put(ha, ha.getFinalScore());
         }
         return state;
@@ -169,37 +174,8 @@ public class LEARNPreliminaryColumnTagging {
         }
     }
 
-    //given the winning clazz for this column generate preliminary entity annotations for cells in the column
-    private void preliminaryDisambiguate(TAnnotation tableAnnotation,
-                                         Table table,
-                                         Map<Integer, List<Pair<Entity, Map<String, Double>>>>
-                                                 rowIndex_and_candidateEntities,
-                                         int column) {
-        List<TColumnHeaderAnnotation> winningClazz = tableAnnotation.getBestHeaderAnnotations(column);
-        List<String> winningClazzIds = new ArrayList<>();
-        for (TColumnHeaderAnnotation ha : winningClazz)
-            winningClazzIds.add(ha.getAnnotation().getId());
-        for (Map.Entry<Integer, List<Pair<Entity, Map<String, Double>>>> e :
-                rowIndex_and_candidateEntities.entrySet()) {
 
-            int row = e.getKey();
-            List<Pair<Entity, Map<String, Double>>> entityScoresForThisCell = e.getValue();
-            if (entityScoresForThisCell.size() == 0)
-                continue;
-            //this will remove any entities whose types do not overlap within winning clazz
-            List<Pair<Entity, Map<String, Double>>> revised =
-                    cellDisambiguator.preliminaryDisambiguate(entityScoresForThisCell, winningClazzIds);
-            if (revised.size() != 0)
-                entityScoresForThisCell = revised;
-            List<Entity> winningEntities =
-                    createCellAnnotation(table, tableAnnotation, row, column, entityScoresForThisCell
-                    );
-            updateSupportingRowsForColumnClazz(winningEntities, row, column, tableAnnotation);
-        }
-    }
-
-
-    private List<Entity> createCellAnnotation(
+    private List<Entity> createColdStartCellAnnotation(
             Table table,
             TAnnotation tableAnnotation,
             int table_cell_row,
@@ -235,23 +211,4 @@ public class LEARNPreliminaryColumnTagging {
         return best;
     }
 
-    //check each winning entity in this cell (multiple winning possible) for its types. If
-    //the types contains the winning type for this column, this cell is a supporting cell
-    //for that winning type
-    private void updateSupportingRowsForColumnClazz(List<Entity> winningEntities,
-                                                    int row,
-                                                    int column,
-                                                    TAnnotation tableAnnotation) {
-        TColumnHeaderAnnotation[] headers = tableAnnotation.getHeaderAnnotation(column);
-        if (headers != null) {
-            for (TColumnHeaderAnnotation ha : headers) {
-                for (Entity ec : winningEntities) {
-                    if (ec.getTypes().contains(ha.getAnnotation())) {
-                        ha.addSupportingRow(row);
-                        break;
-                    }
-                }
-            }
-        }
-    }
 }

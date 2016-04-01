@@ -14,12 +14,12 @@ import java.util.*;
  */
 public class LEARNING {
 
-    private LEARNPreliminaryColumnTagging columnTagger;
+    private LEARNINGPreliminaryColumnClassifier columnTagger;
     private LEARNINGPreliminaryDisamb cellTagger;
     private int max_reference_entities;
 
 
-    public LEARNING(LEARNPreliminaryColumnTagging columnTagger, LEARNINGPreliminaryDisamb cellTagger,
+    public LEARNING(LEARNINGPreliminaryColumnClassifier columnTagger, LEARNINGPreliminaryDisamb cellTagger,
                     int max_reference_entities) {
         this.columnTagger = columnTagger;
         this.cellTagger = cellTagger;
@@ -27,31 +27,29 @@ public class LEARNING {
     }
 
     public void process(Table table, TAnnotation tableAnnotation, int column) throws KBSearchException {
-        Pair<Integer, List<List<Integer>>> converge_position =
-                columnTagger.learn(table, tableAnnotation, column);
-        Set<Entity> reference_entities = new HashSet<>();
-        if (max_reference_entities>0) {
-            reference_entities = selectReferenceEntities(table, tableAnnotation, column,max_reference_entities);
-        }
-        cellTagger.learn_consolidate(converge_position.getKey(),
-                converge_position.getValue(),
+        Pair<Integer, List<List<Integer>>> stopPosition =
+                columnTagger.runPreliminaryColumnClassifier(table, tableAnnotation, column);
+
+        cellTagger.runPreliminaryDisamb(
+                stopPosition.getKey(),
+                stopPosition.getValue(),
                 table,
                 tableAnnotation,
-                column,
-                reference_entities);
+                column);
     }
 
-    public static Set<Entity> selectReferenceEntities(Table table, TAnnotation table_annotation, int column, int max){
-        List<TCellAnnotation> selected_best_from_each_row = new ArrayList<TCellAnnotation>();
+    public static Set<Entity> selectReferenceEntities(Table table,
+                                                      TAnnotation tableAnnotation, int column, int max){
+        List<TCellAnnotation> winningCellAnnotations = new ArrayList<>();
         for(int i=0; i<table.getNumRows(); i++){
-            List<TCellAnnotation> best = table_annotation.getBestContentCellAnnotations(i, column);
+            List<TCellAnnotation> best = tableAnnotation.getWinningContentCellAnnotation(i, column);
             if(best!=null && best.size()>0)
-                selected_best_from_each_row.addAll(best);
+                winningCellAnnotations.addAll(best);
         }
-        Collections.sort(selected_best_from_each_row);
+        Collections.sort(winningCellAnnotations);
         Set<Entity> result = new HashSet<>();
-        for(int i=0; i<selected_best_from_each_row.size() && i<max; i++)
-            result.add(selected_best_from_each_row.get(i).getAnnotation());
+        for(int i=0; i<winningCellAnnotations.size() && i<max; i++)
+            result.add(winningCellAnnotations.get(i).getAnnotation());
         return result;
     }
 }
