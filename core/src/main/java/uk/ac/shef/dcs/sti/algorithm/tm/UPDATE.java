@@ -242,7 +242,7 @@ public class UPDATE {
 
             LOG.info("\t>> update iteration complete (" + updated.size() + " rows)");
 
-            update_typing_annotations_best_candidate_contribute(updated, c, currentAnnotation, table, table.getNumRows());
+            TMPInterpreter.updateColumnClazz(updated, c, currentAnnotation, table, clazzScorer);
         }
 
     }
@@ -312,44 +312,5 @@ public class UPDATE {
         }
         return header_converged && cell_converged;
     }
-
-    public void update_typing_annotations_best_candidate_contribute(List<Integer> rowsUpdated,
-                                                                    int column,
-                                                                    TAnnotation table_annotations,
-                                                                    Table table,
-                                                                    int tableRowsTotal) {
-        List<TColumnHeaderAnnotation> existing_header_annotations;
-        existing_header_annotations = table_annotations.getHeaderAnnotation(column) == null
-                ? new ArrayList<>() : new ArrayList<>(Arrays.asList(table_annotations.getHeaderAnnotation(column)));
-
-        //supporting rows are added if a header for the type of the cell annotation exists
-        List<TColumnHeaderAnnotation> add = new ArrayList<>();
-        //any new headers due to disambiguation-update?
-        for (int row : rowsUpdated) {
-            List<TCellAnnotation> bestCellAnnotations = table_annotations.getWinningContentCellAnnotation(row, column);
-            for (TCellAnnotation ca : bestCellAnnotations) {
-                for (TColumnHeaderAnnotation ha : HeaderAnnotationUpdater.selectNew(ca, column, table, existing_header_annotations)) {
-                    if (!add.contains(ha))
-                        add.add(ha);
-                }
-            }
-        }
-        //add or not?
-        add.addAll(existing_header_annotations);
-
-        TColumnHeaderAnnotation[] result = HeaderAnnotationUpdater.updateColumnClazzAnnotationScores(       //this time dc computeElementScores already included
-                rowsUpdated,
-                column,
-                tableRowsTotal,
-                existing_header_annotations,
-                table,
-                table_annotations,
-                clazzScorer
-        );
-        table_annotations.setHeaderAnnotation(column, result);
-
-    }
-
-
 
 }

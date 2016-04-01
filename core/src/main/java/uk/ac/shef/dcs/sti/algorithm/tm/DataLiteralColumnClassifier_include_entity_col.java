@@ -20,7 +20,7 @@ import java.util.*;
 public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralColumnClassifier {
     //private static final Logger LOG = Logger.getLogger(ColumnInterpreter_relDepend_v1.class.getName());
     private FreebaseSearch fbSearcher;
-    private ClazzScorer classification_scorer;
+    private ClazzScorer clazzScorer;
     private LEARNINGPreliminaryDisamb column_updater;
     private TContentCellRanker selector;
     private int[] ignoreColumns;
@@ -32,7 +32,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                                                           int... ignoreColumns) {
         this.ignoreColumns = ignoreColumns;
         this.fbSearcher = fbSearcher;
-        this.classification_scorer = scorer;
+        this.clazzScorer = scorer;
         this.column_updater = updater;
         this.selector=selector;
     }
@@ -486,13 +486,13 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
             }
         }
 
-        headerAnnotations = classification_scorer.computeCCScore(headerAnnotations, table, column);
+        headerAnnotations = clazzScorer.computeCCScore(headerAnnotations, table, column);
         table_annotation.setHeaderAnnotation(column, headerAnnotations.toArray(new TColumnHeaderAnnotation[0]));
         //this is updating header annotations given by relation
 
-            column_updater.updateColumnClazz(
+            TMPInterpreter.updateColumnClazz(
                     new ArrayList<>(rows_with_entity_ids.keySet()),
-                    column, table_annotation, table);
+                    column, table_annotation, table, clazzScorer);
 
        column_updater.runPreliminaryDisamb(0,
                 rankings,

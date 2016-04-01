@@ -40,13 +40,13 @@ public class TMPInterpreter {
                           DataLiteralColumnClassifier interpreter_column_with_knownReltaions,
                           int[] ignoreColumns,
                           int[] mustdoColumns
-                          ) {
+    ) {
         this.subjectColumnDetector = subjectColumnDetector;
         this.learning = learning;
         this.interpreter_column_with_knownReltaions = interpreter_column_with_knownReltaions;
         this.interpreter_relation = interpreter_relation;
         this.ignoreCols = new HashSet<>();
-        for(int i: ignoreColumns)
+        for (int i : ignoreColumns)
             ignoreCols.add(i);
         this.mustdoColumns = mustdoColumns;
         this.update = update;
@@ -58,8 +58,8 @@ public class TMPInterpreter {
         LOG.info(">\t Detecting subject column...");
         int[] ignoreColumnsArray = new int[ignoreCols.size()];
 
-        int index=0;
-        for(Integer i: ignoreCols) {
+        int index = 0;
+        for (Integer i : ignoreCols) {
             ignoreColumnsArray[index] = i;
             index++;
         }
@@ -141,7 +141,7 @@ public class TMPInterpreter {
                 tableAnnotations = best_annotations;
             }
 
-            if (TableMinerConstants.REVISE_HBR_BY_DC && update !=null) {
+            if (TableMinerConstants.REVISE_HBR_BY_DC && update != null) {
                 List<String> domain_rep = update.createDomainRep(table, tableAnnotations, annotatedColumns);
                 revise_header_binary_relations(tableAnnotations, domain_rep);
             }
@@ -182,6 +182,51 @@ public class TMPInterpreter {
             }
             tableAnnotation.setContentCellAnnotations(row, table_cell_col, annotationsForCell);
         }
+    }
+
+    /**
+     * after disamb on the column, go thru the cells that have been newly disambiguated (i.e., in addition to cold start
+     * disamb) update class annotation for the column due to these new cells
+     *
+     * @param rowsUpdated
+     * @param column
+     * @param tableAnnotations
+     * @param table
+     */
+    public static void updateColumnClazz(List<Integer> rowsUpdated,
+                                         int column,
+                                         TAnnotation tableAnnotations,
+                                         Table table,
+                                         ClazzScorer clazzScorer) {
+        List<TColumnHeaderAnnotation> existingColumnClazzAnnotations;
+        existingColumnClazzAnnotations = tableAnnotations.getHeaderAnnotation(column) == null
+                ? new ArrayList<>() : new ArrayList<>(Arrays.asList(tableAnnotations.getHeaderAnnotation(column)));
+
+        //supporting rows are added if a header for the type of the cell annotation exists
+        List<TColumnHeaderAnnotation> toAdd = new ArrayList<>();
+        //deal with newly disambiguated cells (that is, in addition to cold start disamb)
+        for (int row : rowsUpdated) {
+            List<TCellAnnotation> winningEntities =
+                    tableAnnotations.getWinningContentCellAnnotation(row, column);
+            for (TCellAnnotation ca : winningEntities) {
+                for (TColumnHeaderAnnotation ha : HeaderAnnotationUpdater.selectNew(ca, column, table, existingColumnClazzAnnotations)) {
+                    if (!toAdd.contains(ha))
+                        toAdd.add(ha);
+                }
+            }
+        }
+
+        toAdd.addAll(existingColumnClazzAnnotations);
+        TColumnHeaderAnnotation[] result = HeaderAnnotationUpdater.updateColumnClazzAnnotationScores(
+                rowsUpdated,
+                column,
+                table.getNumRows(),
+                existingColumnClazzAnnotations,
+                table,
+                tableAnnotations,
+                clazzScorer
+        );
+        tableAnnotations.setHeaderAnnotation(column, result);
     }
 
     /*private boolean isInterpretable(int columns_having_relations_with_main_col, Table table) {

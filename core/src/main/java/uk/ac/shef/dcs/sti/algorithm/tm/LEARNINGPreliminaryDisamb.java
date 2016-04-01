@@ -84,7 +84,7 @@ public class LEARNINGPreliminaryDisamb {
 
         LOG.info("\t\t>> constrained cell disambiguation complete " + updated.size() + " rows");
         LOG.info("\t\t>> reset candidate column class annotations");
-        updateColumnClazz(updated, column, tableAnnotation, table);
+        TMPInterpreter.updateColumnClazz(updated, column, tableAnnotation, table,clazzScorer);
 
     }
 
@@ -143,49 +143,5 @@ public class LEARNINGPreliminaryDisamb {
                         (candidates, table, rowBlock, column, true);
 
         return entity_and_scoreMap;
-    }
-
-
-    /**
-     * after preliminary disamb, go thru the cells that have been newly disambiguated (i.e., in addition to cold start
-     * disamb) update class annotation for the column due to these new cells
-     * @param rowsUpdated
-     * @param column
-     * @param tableAnnotations
-     * @param table
-     */
-    public void updateColumnClazz(List<Integer> rowsUpdated,
-                                  int column,
-                                  TAnnotation tableAnnotations,
-                                  Table table) {
-        List<TColumnHeaderAnnotation> existingColumnClazzAnnotations;
-        existingColumnClazzAnnotations = tableAnnotations.getHeaderAnnotation(column) == null
-                ? new ArrayList<>() : new ArrayList<>(Arrays.asList(tableAnnotations.getHeaderAnnotation(column)));
-
-        //supporting rows are added if a header for the type of the cell annotation exists
-        List<TColumnHeaderAnnotation> toAdd = new ArrayList<>();
-        //deal with newly disambiguated cells (that is, in addition to cold start disamb)
-        for (int row : rowsUpdated) {
-            List<TCellAnnotation> winningEntities =
-                    tableAnnotations.getWinningContentCellAnnotation(row, column);
-            for (TCellAnnotation ca : winningEntities) {
-                for (TColumnHeaderAnnotation ha : HeaderAnnotationUpdater.selectNew(ca, column, table, existingColumnClazzAnnotations)) {
-                    if (!toAdd.contains(ha))
-                        toAdd.add(ha);
-                }
-            }
-        }
-
-        toAdd.addAll(existingColumnClazzAnnotations);
-        TColumnHeaderAnnotation[] result = HeaderAnnotationUpdater.updateColumnClazzAnnotationScores(
-                rowsUpdated,
-                column,
-                table.getNumRows(),
-                existingColumnClazzAnnotations,
-                table,
-                tableAnnotations,
-                clazzScorer
-        );
-        tableAnnotations.setHeaderAnnotation(column, result);
     }
 }
