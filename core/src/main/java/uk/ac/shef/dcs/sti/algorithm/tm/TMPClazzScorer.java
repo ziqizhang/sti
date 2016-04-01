@@ -37,11 +37,11 @@ public class TMPClazzScorer implements ClazzScorer {
     }
 
     @Override
-    public Set<TColumnHeaderAnnotation> computeElementScores(List<Pair<Entity, Map<String, Double>>> input,
-                                                             Set<TColumnHeaderAnnotation> headerAnnotationCandidates,
+    public List<TColumnHeaderAnnotation> computeElementScores(List<Pair<Entity, Map<String, Double>>> input,
+                                                             Collection<TColumnHeaderAnnotation> headerAnnotationCandidates,
                                                              Table table,
                                                              List<Integer> rows, int column) {
-        Set<TColumnHeaderAnnotation> candidates = new HashSet<>();
+        List<TColumnHeaderAnnotation> candidates = new ArrayList<>();
         for (int row : rows)
             candidates = computeCEScore(input, headerAnnotationCandidates, table, row, column);
         candidates = computeCCScore(candidates, table, column);
@@ -60,12 +60,12 @@ public class TMPClazzScorer implements ClazzScorer {
      * @param column
      * @return
      */
-    private Set<TColumnHeaderAnnotation> computeCEScore(List<Pair<Entity, Map<String, Double>>> entities,
-                                                        Set<TColumnHeaderAnnotation> existingHeaderAnnotations,
+    private List<TColumnHeaderAnnotation> computeCEScore(List<Pair<Entity, Map<String, Double>>> entities,
+                                                        Collection<TColumnHeaderAnnotation> existingHeaderAnnotations,
                                                         Table table,
                                                         int row, int column) {
-        final Set<TColumnHeaderAnnotation> updatedHeaderAnnotations =
-                existingHeaderAnnotations;
+        final List<TColumnHeaderAnnotation> updatedHeaderAnnotations =
+                new ArrayList<>(existingHeaderAnnotations);
 
         //for this row
         Entity winningEntity = null;
@@ -128,7 +128,8 @@ public class TMPClazzScorer implements ClazzScorer {
                         scoreElements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE) + 1.0);
                 hAnnotation.setScoreElements(scoreElements);
 
-                updatedHeaderAnnotations.add(hAnnotation);
+                if(!updatedHeaderAnnotations.contains(hAnnotation))
+                    updatedHeaderAnnotations.add(hAnnotation);
             }
         }
 
@@ -144,7 +145,7 @@ public class TMPClazzScorer implements ClazzScorer {
      * @param column
      * @return
      */
-    public Set<TColumnHeaderAnnotation> computeCCScore(Set<TColumnHeaderAnnotation> candidates,
+    public List<TColumnHeaderAnnotation> computeCCScore(Collection<TColumnHeaderAnnotation> candidates,
                                                        Table table, int column) {
         List<String> bowHeader = null,
                 bowColumn = null, bowImportantContext = null, bowTrivialContext = null;
@@ -193,7 +194,10 @@ public class TMPClazzScorer implements ClazzScorer {
 
         }
 
-        return candidates;
+        if(candidates instanceof List)
+            return (List<TColumnHeaderAnnotation>)candidates;
+        else
+            return new ArrayList<>(candidates);
     }
 
 

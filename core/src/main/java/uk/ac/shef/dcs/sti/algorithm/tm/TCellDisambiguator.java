@@ -19,7 +19,7 @@ public class TCellDisambiguator {
 
     private KBSearch kbSearch;
     private EntityScorer disambScorer;
-    private static Logger LOG = Logger.getLogger(TCellDisambiguator.class.getName());
+    private static final Logger LOG = Logger.getLogger(TCellDisambiguator.class.getName());
 
     public TCellDisambiguator(KBSearch kbSearch, EntityScorer disambScorer) {
         this.kbSearch = kbSearch;
@@ -44,7 +44,7 @@ public class TCellDisambiguator {
                     computeElementScores(c, candidates,
                             entity_column,
                             entity_rows.get(0),
-                            entity_rows, table, new HashSet<>());
+                            entity_rows, table);
             disambScorer.computeFinal(scoreMap, sample_tcc.getText());
             Pair<Entity, Map<String, Double>> entry = new Pair<>(c, scoreMap);
             disambiguationScores.add(entry);
@@ -67,41 +67,20 @@ public class TCellDisambiguator {
         return selected.toArray(new TCellAnnotation[0]);
     }
 
-    public List<Pair<Entity, Map<String, Double>>> disambiguate_learn_consolidate(
+    public List<Pair<Entity, Map<String, Double>>> constrainedDisambiguate(
             List<Entity> candidates,
             Table table,
-            List<Integer> entity_rows,
-            int entity_column,
-            Set<String> assigned_column_types,
-            boolean first_phase
+            List<Integer> rowBlock,
+            int column,
+            boolean isLEARNINGPhase
     ) throws KBSearchException {
-        //do disambiguation scoring
-        //LOG.info("\t>> Disambiguation-UPDATE , position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
-        TCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
-        if (first_phase)
-            System.out.println("\t>> Disambiguation-LEARN(consolidate) , position at (" + entity_rows + "," + entity_column + ") " + sample_tcc + " candidates=" + candidates.size());
+        TCell sample_tcc = table.getContentCell(rowBlock.get(0), column);
+        if (isLEARNINGPhase)
+            LOG.info("\t\t>> constrained disambiguation (LEARNING) , position at (" + rowBlock + "," + column + ") " + sample_tcc + " candidates=" + candidates.size());
         else
-            System.out.println("\t>> Disambiguation-UPDATE, position at (" + entity_rows + "," + entity_column + ") " + sample_tcc + " (candidates)-" + candidates.size());
-        List<Pair<Entity, Map<String, Double>>> disambiguationScores = new ArrayList<>();
+            LOG.info("\t\t>> constrained disambiguation (UPDATE), position at (" + rowBlock + "," + column + ") " + sample_tcc + " (candidates)-" + candidates.size());
 
-        for (Entity c : candidates) {
-            //find facts of each entity
-            if (c.getAttributes() == null || c.getAttributes().size() == 0) {
-                List<Attribute> facts = kbSearch.findAttributesOfEntities(c);
-                c.setAttributes(facts);
-            }
-            Map<String, Double> scoreMap = disambScorer.
-                    computeElementScores(c, candidates,
-                            entity_column,
-                            entity_rows.get(0),
-                            entity_rows,
-                            table,
-                            assigned_column_types);
-            disambScorer.computeFinal(scoreMap, sample_tcc.getText());
-            Pair<Entity, Map<String, Double>> entry = new Pair<>(c, scoreMap);
-            disambiguationScores.add(entry);
-        }
-        return disambiguationScores;
+        return coldstartDisambiguate(candidates,table,rowBlock,column);
     }
 
 }

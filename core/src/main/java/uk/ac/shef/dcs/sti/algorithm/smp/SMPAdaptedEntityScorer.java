@@ -50,7 +50,7 @@ public class SMPAdaptedEntityScorer extends EntityScorer {
                                                     int sourceRowIndex,
                                                     List<Integer> otherRows,
                                                     Table table,
-                                                    Set<String> preliminaryColumnLabel, Entity... referenceEntities) {
+                                                    Entity... referenceEntities) {
         //entity index computeElementScores
         double indexScore = 1.0 / all_candidates.size();
 

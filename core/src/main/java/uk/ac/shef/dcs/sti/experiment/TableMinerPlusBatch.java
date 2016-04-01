@@ -124,8 +124,7 @@ public class TableMinerPlusBatch extends STIBatch {
             );
 
             learning = new LEARNING(
-                    preliminaryClassify, preliminaryDisamb,
-                    TableMinerConstants.TCELLDISAMBIGUATOR_MAX_REFERENCE_ENTITIES);
+                    preliminaryClassify, preliminaryDisamb);
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));

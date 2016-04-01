@@ -58,7 +58,7 @@ public class LEARNINGPreliminaryColumnClassifier {
         List<List<Integer>> ranking = selector.select(table, column, tableAnnotation.getSubjectColumn());
 
         //2. computeElementScores column and also disambiguate initial rows in the selected sample
-        Set<TColumnHeaderAnnotation> headerClazzScores = new HashSet<>();
+        List<TColumnHeaderAnnotation> headerClazzScores = new ArrayList<>();
 
         int countProcessed = 0, totalRows = 0;
         boolean stopped = false;
@@ -95,10 +95,9 @@ public class LEARNINGPreliminaryColumnClassifier {
                         cellDisambiguator.coldstartDisambiguate(
                                 candidates, table, blockOfRows, column
                         );
-                for (int ri : blockOfRows) {
-                    List<Entity> winningEntities = createColdStartCellAnnotation(table,
-                            tableAnnotation, ri, column, entityScoresForBlock);
-                }
+
+                LEARNING.addCellAnnotation(table,
+                        tableAnnotation, blockOfRows, column, entityScoresForBlock);
             }
 
             //run algorithm to runPreliminaryColumnClassifier column classification; header annotation scores are updated constantly, but supporting rows are not.
@@ -146,7 +145,7 @@ public class LEARNINGPreliminaryColumnClassifier {
 
 
     private Map<Object, Double> updateState(
-            Set<TColumnHeaderAnnotation> candidateHeaderAnnotations, int tableRowsTotal) {
+            Collection<TColumnHeaderAnnotation> candidateHeaderAnnotations, int tableRowsTotal) {
         Map<Object, Double> state = new HashMap<>();
         for (TColumnHeaderAnnotation ha : candidateHeaderAnnotations) {
             //Map<String, Double> scoreElements =ha.getScoreElements();
@@ -175,40 +174,6 @@ public class LEARNINGPreliminaryColumnClassifier {
     }
 
 
-    private List<Entity> createColdStartCellAnnotation(
-            Table table,
-            TAnnotation tableAnnotation,
-            int table_cell_row,
-            int table_cell_col,
-            List<Pair<Entity, Map<String, Double>>> entities_and_scoreMap) {
 
-        Collections.sort(entities_and_scoreMap, (o1, o2) -> {
-            Double o2_score = o2.getValue().get(TCellAnnotation.SCORE_FINAL);
-            Double o1_score = o1.getValue().get(TCellAnnotation.SCORE_FINAL);
-            return o2_score.compareTo(o1_score);
-        });
-
-        double max = 0.0;
-        TCellAnnotation[] annotationsForCell = new TCellAnnotation[entities_and_scoreMap.size()];
-        for (int i = 0; i < entities_and_scoreMap.size(); i++) {
-            Pair<Entity, Map<String, Double>> e = entities_and_scoreMap.get(i);
-            double score = e.getValue().get(TCellAnnotation.SCORE_FINAL);
-            if (score > max)
-                max = score;
-            annotationsForCell[i] = new TCellAnnotation(table.getContentCell(table_cell_row, table_cell_col).getText(),
-                    e.getKey(), e.getValue().get(TCellAnnotation.SCORE_FINAL), e.getValue());
-
-        }
-        tableAnnotation.setContentCellAnnotations(table_cell_row, table_cell_col, annotationsForCell);
-
-        List<Entity> best = new ArrayList<>();
-        for (int i = 0; i < entities_and_scoreMap.size(); i++) {
-            Pair<Entity, Map<String, Double>> e = entities_and_scoreMap.get(i);
-            double score = e.getValue().get(TCellAnnotation.SCORE_FINAL);
-            if (score == max)
-                best.add(e.getKey());
-        }
-        return best;
-    }
 
 }

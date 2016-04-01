@@ -40,7 +40,6 @@ public class JIAdaptedEntityScorer extends EntityScorer {
                                                     int sourceRowIndex,
                                                     List<Integer> otherRows,
                                                     Table table,
-                                                    Set<String> preliminaryColumnLabel,
                                                     Entity... referenceEntities) {
 
         TCell cell = table.getContentCell(sourceRowIndex, sourceColumnIndex);

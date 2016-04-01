@@ -43,11 +43,11 @@ public class TMPISWCTColumnClassifier implements ClazzScorer {
 
 
     @Override
-    public Set<TColumnHeaderAnnotation> computeElementScores(List<Pair<Entity, Map<String, Double>>> input,
-                                                             Set<TColumnHeaderAnnotation> headerAnnotationCandidates,
+    public List<TColumnHeaderAnnotation> computeElementScores(List<Pair<Entity, Map<String, Double>>> input,
+                                                             Collection<TColumnHeaderAnnotation> headerAnnotationCandidates,
                                                              Table table,
                                                              List<Integer> rows, int column) {
-        Set<TColumnHeaderAnnotation> candidates = new HashSet<TColumnHeaderAnnotation>();
+        List<TColumnHeaderAnnotation> candidates = new ArrayList<>();
 
             for (int row : rows)
                 candidates = score_entity_best_candidate_contribute(input, headerAnnotationCandidates, table, row, column);
@@ -58,11 +58,11 @@ public class TMPISWCTColumnClassifier implements ClazzScorer {
     }
 
 
-    public Set<TColumnHeaderAnnotation> score_entity_best_candidate_contribute(List<Pair<Entity, Map<String, Double>>> input,
-                                                                        Set<TColumnHeaderAnnotation> headerAnnotations_prev, Table table,
+    public List<TColumnHeaderAnnotation> score_entity_best_candidate_contribute(List<Pair<Entity, Map<String, Double>>> input,
+                                                                        Collection<TColumnHeaderAnnotation> headerAnnotations_prev, Table table,
                                                                         int row, int column) {
-        final Set<TColumnHeaderAnnotation> candidate_header_annotations =
-                headerAnnotations_prev;
+        final List<TColumnHeaderAnnotation> candidate_header_annotations =
+                new ArrayList<>(headerAnnotations_prev);
 
         //for this row
         Entity entity_with_highest_disamb_score = null;
@@ -131,7 +131,7 @@ public class TMPISWCTColumnClassifier implements ClazzScorer {
         return candidate_header_annotations;
     }
 
-    public Set<TColumnHeaderAnnotation> computeCCScore(Set<TColumnHeaderAnnotation> candidates, Table table, int column) {
+    public List<TColumnHeaderAnnotation> computeCCScore(Collection<TColumnHeaderAnnotation> candidates, Table table, int column) {
         List<String> bag_of_words_for_header = null, bag_of_words_for_other_headers = null;
         List<String> bag_of_words_for_column = null, bag_of_words_for_table_major_context = null, bag_of_words_for_table_other_context = null;
         for (TColumnHeaderAnnotation ha : candidates) {
@@ -189,7 +189,7 @@ public class TMPISWCTColumnClassifier implements ClazzScorer {
 
         }
 
-        return candidates;
+        return new ArrayList<>(candidates);
     }
 
     @Override

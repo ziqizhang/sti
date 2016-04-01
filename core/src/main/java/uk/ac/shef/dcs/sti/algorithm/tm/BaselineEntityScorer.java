@@ -50,7 +50,6 @@ public class BaselineEntityScorer extends EntityScorer {
                                                     int sourceRowIndex,
                                                     List<Integer> block,
                                                     Table table,
-                                                    Set<String> preliminaryColumnLabel,
                                                     Entity... referenceEntities) {
         /*if(candidate.getName().contains("Republican"))
             System.out.println();*/

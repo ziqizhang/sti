@@ -25,7 +25,6 @@ public abstract class EntityScorer {
      * @param block                  rows in this column where the text is the same as the cell identified by
      *                               the row id and column id (including the row-in-question)
      * @param table                  the table object
-     * @param preliminaryColumnLabel the semantic concept currently assigned to the column
      * @param referenceEntities      if the relatedness between this NE and NEs from other cells in the same
      *                               column should be computed, here is the list of NEs from other cells in the same column
      * @return a map where key= the name of a disambiguation computeElementScores element; value=computeElementScores
@@ -36,7 +35,6 @@ public abstract class EntityScorer {
                                                              int sourceRowIndex,
                                                              List<Integer> block,
                                                              Table table,
-                                                             Set<String> preliminaryColumnLabel,
                                                              Entity... referenceEntities);
 
     public abstract double computeFinal(Map<String, Double> scoreMap, String cellTextOriginal);

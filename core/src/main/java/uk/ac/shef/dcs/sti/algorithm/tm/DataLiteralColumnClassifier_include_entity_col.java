@@ -23,20 +23,17 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
     private ClazzScorer classification_scorer;
     private LEARNINGPreliminaryDisamb column_updater;
     private TContentCellRanker selector;
-    private int max_reference_entity_for_disambiguation;
     private int[] ignoreColumns;
 
     public DataLiteralColumnClassifier_include_entity_col(FreebaseSearch fbSearcher,
                                                           ClazzScorer scorer,
                                                           LEARNINGPreliminaryDisamb updater,
                                                           TContentCellRanker selector,
-                                                          int max_reference_entity_for_disambiguation,
                                                           int... ignoreColumns) {
         this.ignoreColumns = ignoreColumns;
         this.fbSearcher = fbSearcher;
         this.classification_scorer = scorer;
         this.column_updater = updater;
-        this.max_reference_entity_for_disambiguation = max_reference_entity_for_disambiguation;
         this.selector=selector;
     }
 
@@ -465,7 +462,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
         //do update
         List<List<Integer>> rankings = selector.select(table, column, table_annotation.getSubjectColumn());
 
-        Set<TColumnHeaderAnnotation> headerAnnotations = new HashSet<TColumnHeaderAnnotation>();
+        List<TColumnHeaderAnnotation> headerAnnotations = new ArrayList<>();
         if (!use_only_typing_candidates_from_relations_with_main_col)
             headerAnnotations.addAll(header_annotation_contributed_from_cells.values());
 
@@ -493,16 +490,11 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
         table_annotation.setHeaderAnnotation(column, headerAnnotations.toArray(new TColumnHeaderAnnotation[0]));
         //this is updating header annotations given by relation
 
-            column_updater.update_typing_annotations_best_candidate_contribute(
-                    new ArrayList<Integer>(rows_with_entity_ids.keySet()),
-                    column, table_annotation, table, table.getNumRows());
+            column_updater.updateColumnClazz(
+                    new ArrayList<>(rows_with_entity_ids.keySet()),
+                    column, table_annotation, table);
 
-
-        if (max_reference_entity_for_disambiguation == 0)
-            reference_entities = new HashSet<Entity>();
-        else
-            reference_entities = LEARNING.selectReferenceEntities(table, table_annotation, column, max_reference_entity_for_disambiguation);
-        column_updater.runPreliminaryDisamb(0,
+       column_updater.runPreliminaryDisamb(0,
                 rankings,
                 table,
                 table_annotation,

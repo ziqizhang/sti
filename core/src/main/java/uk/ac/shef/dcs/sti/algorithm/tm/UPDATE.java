@@ -176,8 +176,6 @@ public class UPDATE {
                     updated.addAll(rows);
                 }
             }
-            if (TableMinerConstants.ENFORCE_ONPSPD)
-                ONPSPD_Enforcer.enforce(table, current_iteration_annotation, c);
 
             System.out.println("\t>> Classification-UPDATE (update " + updated.size() + " rows)");
 
@@ -280,28 +278,27 @@ public class UPDATE {
                                                                     TAnnotation table_annotations,
                                                                     Table table,
                                                                     int tableRowsTotal) {
-        TColumnHeaderAnnotation[] existing_header_annotations = table_annotations.getHeaderAnnotation(column);
-        reset_entity_contributed_scores(existing_header_annotations);
-        existing_header_annotations = existing_header_annotations == null ? new TColumnHeaderAnnotation[0] : existing_header_annotations;
+        List<TColumnHeaderAnnotation> existing_header_annotations;
+        existing_header_annotations = table_annotations.getHeaderAnnotation(column) == null
+                ? new ArrayList<>() : new ArrayList<>(Arrays.asList(table_annotations.getHeaderAnnotation(column)));
 
-        //supporting rows are only added if a header for the type of the cell annotation exists
-        Set<TColumnHeaderAnnotation> add = new HashSet<TColumnHeaderAnnotation>();
+        //supporting rows are added if a header for the type of the cell annotation exists
+        List<TColumnHeaderAnnotation> add = new ArrayList<>();
         //any new headers due to disambiguation-update?
         for (int row : rowsUpdated) {
             List<TCellAnnotation> bestCellAnnotations = table_annotations.getWinningContentCellAnnotation(row, column);
             for (TCellAnnotation ca : bestCellAnnotations) {
-                HeaderAnnotationUpdater.add(ca, column, table, existing_header_annotations, add);
+                for (TColumnHeaderAnnotation ha : HeaderAnnotationUpdater.selectNew(ca, column, table, existing_header_annotations)) {
+                    if (!add.contains(ha))
+                        add.add(ha);
+                }
             }
         }
         //add or not?
-        if (TableMinerConstants.ALLOW_NEW_HEADERS_AT_DISAMBIGUATION_UPDATE) {
-            for (TColumnHeaderAnnotation eh : existing_header_annotations)
-                add.add(eh);
-            existing_header_annotations = add.toArray(new TColumnHeaderAnnotation[0]);
-        }
+        add.addAll(existing_header_annotations);
 
-        existing_header_annotations = HeaderAnnotationUpdater.update_best_entity_contribute(       //this time dc computeElementScores already included
-                rowsUpdated.toArray(new Integer[0]),
+        TColumnHeaderAnnotation[] result = HeaderAnnotationUpdater.updateColumnClazzAnnotationScores(       //this time dc computeElementScores already included
+                rowsUpdated,
                 column,
                 tableRowsTotal,
                 existing_header_annotations,
@@ -309,7 +306,7 @@ public class UPDATE {
                 table_annotations,
                 classification_scorer
         );
-        table_annotations.setHeaderAnnotation(column, existing_header_annotations);
+        table_annotations.setHeaderAnnotation(column, result);
 
     }
 
@@ -366,11 +363,10 @@ public class UPDATE {
                     table,
                     existing_header_annotations,
                     new_header_annotation_placeholders);
-            if (TableMinerConstants.ALLOW_NEW_HEADERS_AT_DISAMBIGUATION_UPDATE) {
-                for (TColumnHeaderAnnotation ha : existing_header_annotations)
-                    new_header_annotation_placeholders.add(ha);
-                existing_header_annotations = new_header_annotation_placeholders.toArray(new TColumnHeaderAnnotation[0]);
-            }
+
+            for (TColumnHeaderAnnotation ha : existing_header_annotations)
+                new_header_annotation_placeholders.add(ha);
+            existing_header_annotations = new_header_annotation_placeholders.toArray(new TColumnHeaderAnnotation[0]);
 
             HeaderAnnotationUpdater.update_by_entity_contribution(
                     header_annotation_url_and_max_score, row, existing_header_annotations
@@ -379,7 +375,7 @@ public class UPDATE {
 
         }
 
-        Set<TColumnHeaderAnnotation> headers = new HashSet<TColumnHeaderAnnotation>(Arrays.asList(existing_header_annotations));
+        List<TColumnHeaderAnnotation> headers = new ArrayList<>(Arrays.asList(existing_header_annotations));
         headers = classification_scorer.computeCCScore(
                 headers, table, column);
 
@@ -424,8 +420,8 @@ public class UPDATE {
 
         //now each candidate is given scores
         candidates_and_scores_for_block =
-                disambiguator.disambiguate_learn_consolidate
-                        (candidates, table, table_cell_rows, table_cell_col, columnTypes, false);
+                disambiguator.constrainedDisambiguate
+                        (candidates, table, table_cell_rows, table_cell_col, false);
 
         return candidates_and_scores_for_block;
     }

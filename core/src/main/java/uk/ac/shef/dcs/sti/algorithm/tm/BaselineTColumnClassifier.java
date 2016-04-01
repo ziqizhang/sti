@@ -40,11 +40,11 @@ public class BaselineTColumnClassifier implements ClazzScorer {
         //this.stringSimilarityMetric=new CosineSimilarity();
     }
 
-    public Set<TColumnHeaderAnnotation> computeElementScores(List<Pair<Entity, Map<String, Double>>> input,
-                                                             Set<TColumnHeaderAnnotation> headerAnnotationCandidates,
+    public List<TColumnHeaderAnnotation> computeElementScores(List<Pair<Entity, Map<String, Double>>> input,
+                                                             Collection<TColumnHeaderAnnotation> headerAnnotationCandidates,
                                                              Table table,
                                                              List<Integer> rows, int column) {
-        Set<TColumnHeaderAnnotation> candidates = new HashSet<>();
+        List<TColumnHeaderAnnotation> candidates = new ArrayList<>();
 
             for (int row : rows)
                 candidates = score_entity_best_candidate_vote(input, headerAnnotationCandidates, table, row, column);
@@ -54,11 +54,11 @@ public class BaselineTColumnClassifier implements ClazzScorer {
         return candidates;
     }
 
-    public Set<TColumnHeaderAnnotation> score_entity_best_candidate_vote(List<Pair<Entity, Map<String, Double>>> input,
-                                                                  Set<TColumnHeaderAnnotation> headerAnnotations_prev, Table table,
+    public List<TColumnHeaderAnnotation> score_entity_best_candidate_vote(List<Pair<Entity, Map<String, Double>>> input,
+                                                                  Collection<TColumnHeaderAnnotation> headerAnnotations_prev, Table table,
                                                                   int row, int column) {
-        final Set<TColumnHeaderAnnotation> candidate_header_annotations =
-                headerAnnotations_prev;
+        final List<TColumnHeaderAnnotation> candidate_header_annotations =
+                new ArrayList<>(headerAnnotations_prev);
         //for this row
         Entity entity_with_highest_disamb_score = null;
         double best_score = 0.0;
@@ -130,11 +130,11 @@ public class BaselineTColumnClassifier implements ClazzScorer {
     }
 
 
-    public Set<TColumnHeaderAnnotation> score_entity_all_candidate_vote(List<Pair<Entity, Map<String, Double>>> input,
-                                                                 Set<TColumnHeaderAnnotation> headerAnnotations_prev, Table table,
+    public List<TColumnHeaderAnnotation> score_entity_all_candidate_vote(List<Pair<Entity, Map<String, Double>>> input,
+                                                                 Collection<TColumnHeaderAnnotation> headerAnnotations_prev, Table table,
                                                                  int row, int column) {
-        final Set<TColumnHeaderAnnotation> candidate_header_annotations =
-                headerAnnotations_prev;
+        final List<TColumnHeaderAnnotation> candidate_header_annotations =
+                new ArrayList<>(headerAnnotations_prev);
 
         if (input.size() == 0) {
             //this entity has a computeElementScores of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
@@ -179,7 +179,7 @@ public class BaselineTColumnClassifier implements ClazzScorer {
         return candidate_header_annotations;
     }
 
-    public Set<TColumnHeaderAnnotation> computeCCScore(Set<TColumnHeaderAnnotation> candidates, Table table, int column) {
+    public List<TColumnHeaderAnnotation> computeCCScore(Collection<TColumnHeaderAnnotation> candidates, Table table, int column) {
         for (TColumnHeaderAnnotation ha : candidates) {
             Double score_ctx_header_text = ha.getScoreElements().get(TColumnHeaderAnnotation.SCORE_CTX_IN_HEADER);
 
@@ -197,7 +197,7 @@ public class BaselineTColumnClassifier implements ClazzScorer {
             }
         }
 
-        return candidates;
+        return new ArrayList<>(candidates);
     }
 
     @Override

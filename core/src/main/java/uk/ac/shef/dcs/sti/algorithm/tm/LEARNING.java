@@ -16,14 +16,11 @@ public class LEARNING {
 
     private LEARNINGPreliminaryColumnClassifier columnTagger;
     private LEARNINGPreliminaryDisamb cellTagger;
-    private int max_reference_entities;
 
 
-    public LEARNING(LEARNINGPreliminaryColumnClassifier columnTagger, LEARNINGPreliminaryDisamb cellTagger,
-                    int max_reference_entities) {
+    public LEARNING(LEARNINGPreliminaryColumnClassifier columnTagger, LEARNINGPreliminaryDisamb cellTagger) {
         this.columnTagger = columnTagger;
         this.cellTagger = cellTagger;
-        this.max_reference_entities = max_reference_entities;
     }
 
     public void process(Table table, TAnnotation tableAnnotation, int column) throws KBSearchException {
@@ -38,18 +35,30 @@ public class LEARNING {
                 column);
     }
 
-    public static Set<Entity> selectReferenceEntities(Table table,
-                                                      TAnnotation tableAnnotation, int column, int max){
-        List<TCellAnnotation> winningCellAnnotations = new ArrayList<>();
-        for(int i=0; i<table.getNumRows(); i++){
-            List<TCellAnnotation> best = tableAnnotation.getWinningContentCellAnnotation(i, column);
-            if(best!=null && best.size()>0)
-                winningCellAnnotations.addAll(best);
+    protected static void addCellAnnotation(
+            Table table,
+            TAnnotation tableAnnotation,
+            List<Integer> rowBlock,
+            int table_cell_col,
+            List<Pair<Entity, Map<String, Double>>> entities_and_scoreMap) {
+
+        Collections.sort(entities_and_scoreMap, (o1, o2) -> {
+            Double o2_score = o2.getValue().get(TCellAnnotation.SCORE_FINAL);
+            Double o1_score = o1.getValue().get(TCellAnnotation.SCORE_FINAL);
+            return o2_score.compareTo(o1_score);
+        });
+
+        String cellText = table.getContentCell(rowBlock.get(0), table_cell_col).getText();
+        for (int row : rowBlock) {
+            TCellAnnotation[] annotationsForCell = new TCellAnnotation[entities_and_scoreMap.size()];
+            for (int i = 0; i < entities_and_scoreMap.size(); i++) {
+                Pair<Entity, Map<String, Double>> e = entities_and_scoreMap.get(i);
+                double score = e.getValue().get(TCellAnnotation.SCORE_FINAL);
+                annotationsForCell[i] = new TCellAnnotation(cellText,
+                        e.getKey(), score, e.getValue());
+
+            }
+            tableAnnotation.setContentCellAnnotations(row, table_cell_col, annotationsForCell);
         }
-        Collections.sort(winningCellAnnotations);
-        Set<Entity> result = new HashSet<>();
-        for(int i=0; i<winningCellAnnotations.size() && i<max; i++)
-            result.add(winningCellAnnotations.get(i).getAnnotation());
-        return result;
     }
 }

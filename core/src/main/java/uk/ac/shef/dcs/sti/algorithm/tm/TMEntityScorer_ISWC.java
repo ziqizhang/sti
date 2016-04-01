@@ -46,7 +46,6 @@ public class TMEntityScorer_ISWC extends EntityScorer {
                                                     int sourceRowIndex,
                                                     List<Integer> otherRows,
                                                     Table table,
-                                                    Set<String> preliminaryColumnLabel,
                                                     Entity... referenceEntities) {
         /*if(candidate.getName().contains("Republican"))
             System.out.println();*/

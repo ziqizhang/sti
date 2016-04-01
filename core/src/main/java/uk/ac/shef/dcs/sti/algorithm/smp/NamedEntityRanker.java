@@ -81,7 +81,7 @@ public class NamedEntityRanker {
             Map<String, Double> scoreMap = disambScorer.
                     computeElementScores(c, candidates,
                             column, row, Arrays.asList(row),
-                            table, new HashSet<String>());
+                            table);
             disambScorer.computeFinal(scoreMap, cell.getText());
             Pair<Entity, Map<String, Double>> entry = new Pair<>(c,scoreMap);
             disambiguationScores.add(entry);

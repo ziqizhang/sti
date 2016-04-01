@@ -5,6 +5,7 @@ import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.rep.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,12 +23,19 @@ public interface ClazzScorer {
     //output: a map representing the state of the solution
     Map<String,Double> computeFinal(TColumnHeaderAnnotation ha, int tableRowsTotal);
     //intput: list of entities and their preliminary disamb scores on the current row;
-    Set<TColumnHeaderAnnotation> computeElementScores(List<Pair<Entity, Map<String, Double>>> input,
-                                                      Set<TColumnHeaderAnnotation> headerAnnotationCandidates,
+    List<TColumnHeaderAnnotation> computeElementScores(List<Pair<Entity, Map<String, Double>>> input,
+                                                      Collection<TColumnHeaderAnnotation> headerAnnotationCandidates,
                                                       Table table,
                                                       List<Integer> rows, int column);
 
-    Set<TColumnHeaderAnnotation> computeCCScore(Set<TColumnHeaderAnnotation> candidates, Table table, int column);
+    /**
+     * compute CC scores for column clazz annotation candidates, ONLY IF the CC score is not yet computed
+     * @param candidates
+     * @param table
+     * @param column
+     * @return
+     */
+    List<TColumnHeaderAnnotation> computeCCScore(Collection<TColumnHeaderAnnotation> candidates, Table table, int column);
 
     double computeDC(TColumnHeaderAnnotation ha, List<String> domain_representation);
 }
