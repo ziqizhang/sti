@@ -425,7 +425,7 @@ public class UPDATE {
         //now each candidate is given scores
         candidates_and_scores_for_block =
                 disambiguator.disambiguate_learn_consolidate
-                        (candidates, table, table_cell_rows, table_cell_col, columnTypes, false, reference_disambiguated_entities);
+                        (candidates, table, table_cell_rows, table_cell_col, columnTypes, false);
 
         return candidates_and_scores_for_block;
     }

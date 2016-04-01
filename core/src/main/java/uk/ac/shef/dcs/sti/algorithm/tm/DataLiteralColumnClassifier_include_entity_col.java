@@ -507,7 +507,6 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                 table,
                 table_annotation,
                 column,
-                reference_entities,
                 rows_with_entity_ids.keySet().toArray(new Integer[0]));
     }
 
