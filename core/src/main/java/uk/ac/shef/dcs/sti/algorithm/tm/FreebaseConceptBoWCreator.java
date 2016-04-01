@@ -6,19 +6,19 @@ import java.util.List;
 /**
  * Created with IntelliJ IDEA.
  * User: zqz
- * Date: 27/02/14
- * Time: 12:43
+ * Date: 18/02/14
+ * Time: 16:42
  * To change this template use File | Settings | File Templates.
  */
-public class Creator_RelationHierarchicalBOW_Freebase implements Creator_OntologyEntityHierarchicalBOW {
+public class FreebaseConceptBoWCreator implements OntologyBasedBoWCreator {
     @Override
     public List<String> create(String uri) {
-        List<String> bow = new ArrayList<String>();
-        for (String part : uri.split("/")) {
-            part = part.trim();
-            for (String pp : part.split("_")) {
+        List<String> bow = new ArrayList<>();
+        for(String part: uri.split("/")){
+            part=part.trim();
+            for(String pp: part.split("_")){
                 pp = pp.trim();
-                if (pp.length() > 0)
+                if(pp.length()>0)
                     bow.add(pp);
             }
         }

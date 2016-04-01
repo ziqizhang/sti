@@ -83,6 +83,7 @@ public class LEARNINGPreliminaryDisamb {
         }
 
         LOG.info("\t\t>> constrained cell disambiguation complete " + updated.size() + " rows");
+        LOG.info("\t\t>> reset candidate column class annotations");
         updateColumnClazz(updated, column, tableAnnotation, table
         );
 
@@ -146,7 +147,14 @@ public class LEARNINGPreliminaryDisamb {
     }
 
 
-    //WARNING: CURRENTLY updating does not ADD new headers
+    /**
+     * after preliminary disamb, go thru the cells that have been newly disambiguated (i.e., in addition to cold start
+     * disamb) update class annotation for the column due to these new cells
+     * @param rowsUpdated
+     * @param column
+     * @param tableAnnotations
+     * @param table
+     */
     public void updateColumnClazz(List<Integer> rowsUpdated,
                                   int column,
                                   TAnnotation tableAnnotations,

@@ -221,7 +221,7 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
             }
         }
 
-        //2. run classification LEARN process; create initial typing annotation and disamb
+        //2. run classification LEARN learn; create initial typing annotation and disamb
         ObjObj<Integer, int[]> progress = column_learner.
                 runPreliminaryColumnClassifier(table, table_annotation, column, rows_with_entity_ids.keySet().toArray(new Integer[0]));
         Set<EntityCandidate> reference_entities = new HashSet<EntityCandidate>();
@@ -233,7 +233,7 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
                     reference_entities.add(annotations[0].getAnnotation());
             }
         }
-        //3. run update process
+        //3. run update learn
         column_updater.update(progress.getMainObject(),
                 progress.getOtherObject(),
                 table,

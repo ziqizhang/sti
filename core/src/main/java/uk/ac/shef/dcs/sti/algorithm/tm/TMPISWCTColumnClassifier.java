@@ -31,9 +31,9 @@ public class TMPISWCTColumnClassifier implements ClazzScorer {
     //private Jaro stringSimilarityMetric;
     //private Levenshtein stringSimilarityMetric;
     private AbstractStringMetric stringSimilarityMetric;
-    private Creator_OntologyEntityHierarchicalBOW bow_creator;
+    private OntologyBasedBoWCreator bow_creator;
 
-    public TMPISWCTColumnClassifier(String nlpResources, Creator_OntologyEntityHierarchicalBOW bow_creator, List<String> stopWords,
+    public TMPISWCTColumnClassifier(String nlpResources, OntologyBasedBoWCreator bow_creator, List<String> stopWords,
                                     double[] weights) throws IOException {
         this.lemmatizer = NLPTools.getInstance(nlpResources).getLemmatizer();
         this.bow_creator = bow_creator;

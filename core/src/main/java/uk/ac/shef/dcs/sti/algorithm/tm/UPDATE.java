@@ -1,8 +1,10 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
+import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseEnum;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
@@ -23,39 +25,47 @@ import java.util.*;
  */
 public class UPDATE {
 
+    private static final Logger LOG = Logger.getLogger(UPDATE.class.getName());
     private TCellDisambiguator disambiguator;
     private KBSearch kbSearch;
-    private ClazzScorer classification_scorer;
-    private String nlpTools_folder;
+    private ClazzScorer clazzScorer;
+    private String nlpResourcesDir;
     private TContentCellRanker selector;
     private List<String> stopWords;
 
     public UPDATE(TContentCellRanker selector,
                   KBSearch kbSearch,
                   TCellDisambiguator disambiguator,
-                  ClazzScorer classification_scorer,
+                  ClazzScorer clazzScorer,
                   List<String> stopwords,
-                  String nlpTools_folder) {
+                  String nlpResourcesDir) {
         this.selector = selector;
         this.kbSearch = kbSearch;
         this.disambiguator = disambiguator;
-        this.classification_scorer = classification_scorer;
-        this.nlpTools_folder = nlpTools_folder;
+        this.clazzScorer = clazzScorer;
+        this.nlpResourcesDir = nlpResourcesDir;
         this.stopWords = stopwords;
     }
 
+    /**
+     * start the UPDATE process
+     * @param interpretedColumnIndexes
+     * @param table
+     * @param currentAnnotation
+     * @throws KBSearchException
+     * @throws STIException
+     */
     public void update(
-            List<Integer> interpreted_columns,
+            List<Integer> interpretedColumnIndexes,
             Table table,
-            TAnnotation current_iteration_annotation
+            TAnnotation currentAnnotation
     ) throws KBSearchException, STIException {
 
-        int current_iteration = 0;
-        TAnnotation prev_iteration_annotation = new TAnnotation(current_iteration_annotation.getRows(), current_iteration_annotation.getCols());
-
-        TAnnotation.copy(current_iteration_annotation, prev_iteration_annotation);
-        List<String> domain_representation;
-        Set<String> processed_entity_ids = new HashSet<>();
+        int currentIteration = 0;
+        TAnnotation prevAnnotation = new TAnnotation(currentAnnotation.getRows(), currentAnnotation.getCols());
+        TAnnotation.copy(currentAnnotation, prevAnnotation);
+        List<String> domainRep;
+        Set<String> allEntityIds = new HashSet<>();
         boolean converged;
         do {
             ////// solution 1: both prev and current iterations' headers do not have dc added
@@ -63,7 +73,7 @@ public class UPDATE {
             //current iteration annotation header scores does not contain dc scores
 
             //headers will have dc computeElementScores added
-            domain_representation = construct_domain_represtation(table, current_iteration_annotation, interpreted_columns);
+            domain_representation = createDomainRep(table, current_iteration_annotation, interpreted_columns);
             revise_header_annotation(current_iteration_annotation, domain_representation, interpreted_columns);
 
             //scores will be reset, then recalculated. dc scores lost
@@ -78,56 +88,56 @@ public class UPDATE {
             current_iteration++;*/
 
             ///////////////// solution 2: both prev and current iterations' headers will have dc scores added
-            System.out.println("\t>> UPDATE begins, iteration:" + current_iteration);
-            processed_entity_ids.addAll(initialize_processed_entity_ids(table, current_iteration_annotation));
+            LOG.info("\t>> UPDATE begins, iteration:" + currentIteration);
+            allEntityIds.addAll(collectAllEntityCandidateIds(table, currentAnnotation));
             //current iteration annotation header scores does not contain dc scores
 
             //headers will have dc computeElementScores added
-            domain_representation = construct_domain_represtation(table, current_iteration_annotation, interpreted_columns);
-            revise_header_annotation(current_iteration_annotation, domain_representation, interpreted_columns);
+            domainRep = createDomainRep(table, currentAnnotation, interpretedColumnIndexes);
+            revise_header_annotation(currentAnnotation, domainRep, interpretedColumnIndexes);
             //add dc scores to prev iteration's header annotations
-            prev_iteration_annotation = new TAnnotation(current_iteration_annotation.getRows(),
-                    current_iteration_annotation.getCols());
-            TAnnotation.copy(current_iteration_annotation, prev_iteration_annotation);
+            prevAnnotation = new TAnnotation(currentAnnotation.getRows(),
+                    currentAnnotation.getCols());
+            TAnnotation.copy(currentAnnotation, prevAnnotation);
 
             //scores will be reset, then recalculated. dc scores lost
-            revise_cell_disambiguation_then_reannotate_cell_and_header(processed_entity_ids,
-                    table, current_iteration_annotation, interpreted_columns);
+            revise_cell_disambiguation_then_reannotate_cell_and_header(allEntityIds,
+                    table, currentAnnotation, interpretedColumnIndexes);
             //add dc scores to the current, new iteration's header annotations
 
 
             // NO NEED!!! DC computeElementScores already included when "revise_cell_disam..."
             //revise_header_annotation(current_iteration_annotation, domain_representation, interpreted_columns);
             //both prev and current iterations' header annotations do not have dc scores
-            converged = checkConvergence(prev_iteration_annotation, current_iteration_annotation,
-                    table.getNumRows(), interpreted_columns);
+            converged = checkConvergence(prevAnnotation, currentAnnotation,
+                    table.getNumRows(), interpretedColumnIndexes);
             if (!converged) {
-                prev_iteration_annotation = new TAnnotation(current_iteration_annotation.getRows(),
-                        current_iteration_annotation.getCols());
-                TAnnotation.copy(current_iteration_annotation,
-                        prev_iteration_annotation);
+                prevAnnotation = new TAnnotation(currentAnnotation.getRows(),
+                        currentAnnotation.getCols());
+                TAnnotation.copy(currentAnnotation,
+                        prevAnnotation);
             }
-            current_iteration++;
-        } while (!converged && current_iteration < TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS);
+            currentIteration++;
+        } while (!converged && currentIteration < TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS);
 
-        if (current_iteration >= TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS) {
-            System.out.println("\t>> UPDATE CANNOT STABLIZE AFTER " + current_iteration + " ITERATIONS, Stopped");
-            if (prev_iteration_annotation != null) {
-                current_iteration_annotation = new TAnnotation(prev_iteration_annotation.getRows(),
-                        prev_iteration_annotation.getCols());
-                TAnnotation.copy(prev_iteration_annotation,
-                        current_iteration_annotation);
+        if (currentIteration >= TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS) {
+            System.out.println("\t>> UPDATE CANNOT STABLIZE AFTER " + currentIteration + " ITERATIONS, Stopped");
+            if (prevAnnotation != null) {
+                currentAnnotation = new TAnnotation(prevAnnotation.getRows(),
+                        prevAnnotation.getCols());
+                TAnnotation.copy(prevAnnotation,
+                        currentAnnotation);
             }
         } else
-            System.out.println("\t>> UPDATE STABLIZED AFTER " + current_iteration + " ITERATIONS");
+            System.out.println("\t>> UPDATE STABLIZED AFTER " + currentIteration + " ITERATIONS");
 
     }
 
-    private Set<String> initialize_processed_entity_ids(Table table, TAnnotation prev_iteration_annotation) {
-        Set<String> ids = new HashSet<String>();
+    private Set<String> collectAllEntityCandidateIds(Table table, TAnnotation prevAnnotation) {
+        Set<String> ids = new HashSet<>();
         for (int col = 0; col < table.getNumCols(); col++) {
             for (int row = 0; row < table.getNumRows(); row++) {
-                TCellAnnotation[] cas = prev_iteration_annotation.getContentCellAnnotations(row, col);
+                TCellAnnotation[] cas = prevAnnotation.getContentCellAnnotations(row, col);
                 if (cas == null)
                     continue;
                 for (TCellAnnotation ca : cas) {
@@ -136,6 +146,38 @@ public class UPDATE {
             }
         }
         return ids;
+    }
+
+    public List<String> createDomainRep(Table table, TAnnotation currentAnnotation, List<Integer> interpretedColumns) {
+        List<String> domain = new ArrayList<>();
+        for (int c : interpretedColumns) {
+            for (int r = 0; r < table.getNumRows(); r++) {
+                TCellAnnotation[] annotations = currentAnnotation.getContentCellAnnotations(r, c);
+                if (annotations != null && annotations.length > 0) {
+                    Entity ec = annotations[0].getAnnotation();
+                    try {
+                        domain.addAll(createEntityDomainRep(ec));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return domain;
+    }
+
+    private Collection<? extends String> createEntityDomainRep(Entity ec) throws IOException {
+        List<String> domain = new ArrayList<>();
+        for (Attribute fact : ec.getAttributes()) {
+            if (fact.getRelation().equals(FreebaseEnum.RELATION_HASDESCRIPTION.getString())) {
+                String[] sentences = NLPTools.getInstance(nlpResourcesDir).getSentenceSplitter().sentDetect(fact.getValue());
+                String first = sentences.length > 0 ? sentences[0] : "";
+                List<String> tokens = StringUtils.toBagOfWords(first, true,true,true);
+                domain.addAll(tokens);
+            }
+        }
+        domain.removeAll(stopWords);
+        return domain;
     }
 
     private void revise_cell_disambiguation_then_reannotate_cell_and_header(
@@ -184,58 +226,23 @@ public class UPDATE {
 
     }
 
-    private void revise_header_annotation(TAnnotation current_iteration_annotation, List<String> domain_representation,
-                                          List<Integer> interpreted_columns) {
-        for (int c : interpreted_columns) {
-            List<TColumnHeaderAnnotation> headers = new ArrayList<TColumnHeaderAnnotation>(
-                    Arrays.asList(current_iteration_annotation.getHeaderAnnotation(c)));
+    private void revise_header_annotation(TAnnotation currentAnnotation, List<String> domanRep,
+                                          List<Integer> interpretedColumns) {
+        for (int c : interpretedColumns) {
+            List<TColumnHeaderAnnotation> headers = new ArrayList<>(
+                    Arrays.asList(currentAnnotation.getHeaderAnnotation(c)));
 
             for (TColumnHeaderAnnotation ha : headers) {
-                double domain_consensus = classification_scorer.computeDC(ha, domain_representation);
-                ha.setFinalScore(ha.getFinalScore() + domain_consensus);
+                double dc = clazzScorer.computeDC(ha, domanRep);
+                ha.setFinalScore(ha.getFinalScore() + dc);
             }
 
             Collections.sort(headers);
-            current_iteration_annotation.setHeaderAnnotation(c, headers.toArray(new TColumnHeaderAnnotation[0]));
+            currentAnnotation.setHeaderAnnotation(c, headers.toArray(new TColumnHeaderAnnotation[0]));
         }
     }
 
-    public List<String> construct_domain_represtation(Table table, TAnnotation current_iteration_annotation, List<Integer> interpreted_columns) {
-        List<String> domain = new ArrayList<String>();
-        for (int c : interpreted_columns) {
-            for (int r = 0; r < table.getNumRows(); r++) {
-                TCellAnnotation[] annotations = current_iteration_annotation.getContentCellAnnotations(r, c);
-                if (annotations != null && annotations.length > 0) {
-                    Entity ec = annotations[0].getAnnotation();
-                    try {
-                        domain.addAll(build_domain_rep_for_entity(ec));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-        return domain;
-    }
 
-    private Collection<? extends String> build_domain_rep_for_entity(Entity ec) throws IOException {
-        List<String> domain = new ArrayList<String>();
-        for (Attribute fact : ec.getAttributes()) {
-            if (fact.getRelation().equals("/common/topic/description")) {
-                String[] sentences = NLPTools.getInstance(nlpTools_folder).getSentenceSplitter().sentDetect(fact.getValue());
-                String first = sentences.length > 0 ? sentences[0] : "";
-                List<String> tokens = StringUtils.splitToAlphaNumericTokens(first, true);
-                Iterator<String> it = tokens.iterator();
-                while (it.hasNext()) {
-                    String tok = it.next();
-                    if (tok.trim().length() < 2 || stopWords.contains(tok))
-                        it.remove();
-                }
-                domain.addAll(tokens);
-            }
-        }
-        return domain;
-    }
 
     private boolean checkConvergence(TAnnotation prev_iteration_annotation, TAnnotation table_annotation, int totalRows, List<Integer> interpreted_columns) {
         //check header annotations
@@ -304,7 +311,7 @@ public class UPDATE {
                 existing_header_annotations,
                 table,
                 table_annotations,
-                classification_scorer
+                clazzScorer
         );
         table_annotations.setHeaderAnnotation(column, result);
 
@@ -376,13 +383,13 @@ public class UPDATE {
         }
 
         List<TColumnHeaderAnnotation> headers = new ArrayList<>(Arrays.asList(existing_header_annotations));
-        headers = classification_scorer.computeCCScore(
+        headers = clazzScorer.computeCCScore(
                 headers, table, column);
 
         //final update to compute revised typing scores, then sort them
         List<TColumnHeaderAnnotation> resort = new ArrayList<TColumnHeaderAnnotation>();
         for (TColumnHeaderAnnotation ha : headers) {
-            classification_scorer.computeFinal(ha, tableRowsTotal);
+            clazzScorer.computeFinal(ha, tableRowsTotal);
             /* ha.setScoreElements(revised_score_elements);
             ha.setFinalScore(revised_score_elements.get(TColumnHeaderAnnotation.FINAL));*/
             resort.add(ha);

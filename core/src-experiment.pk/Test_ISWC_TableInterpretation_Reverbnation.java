@@ -74,7 +74,7 @@ public class Test_ISWC_TableInterpretation_Reverbnation {
                 new double[]{1.0, 0.5, 0.5, 1.0, 1.0}, //row,column, tablecontext other,refent, tablecontext pagetitle (unused)
                 nlpResources));
         ClazzScorer class_scorer = new TMPClazzScorer(nlpResources,
-                new Creator_ConceptHierarchicalBOW_Freebase(),
+                new FreebaseConceptBoWCreator(),
                 stopWords,
                 new double[]{1.0, 1.0, 1.0, 1.0}         //all 1.0
         );
@@ -98,7 +98,7 @@ public class Test_ISWC_TableInterpretation_Reverbnation {
 
         //object to computeElementScores relations between columns
         HeaderBinaryRelationScorer relation_scorer = new HeaderBinaryRelationScorer_Vote(nlpResources,
-                new Creator_RelationHierarchicalBOW_Freebase(),
+                new FreebaseRelationBoWCreator(),
                 stopWords,
                 new double[]{1.0, 1.0, 0.0, 0.0, 1.0}    //entity, header text, column, title&caption, other
         );

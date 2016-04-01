@@ -17,7 +17,7 @@ import java.util.List;
  * <p/>
  * interface for extracting tables from certain RAW input strings
  *
- * WARNING: this class should not be used to READ serialised Table objects. but process raw input to create them
+ * WARNING: this class should not be used to READ serialised Table objects. but learn raw input to create them
  */
 public abstract class TableXtractor {
     protected TableNormalizer normalizer;

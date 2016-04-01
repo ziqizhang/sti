@@ -104,7 +104,7 @@ public class TableMinerPlusBatch extends STIBatch {
                             new double[]{1.0, 0.5, 1.0, 0.5, 1.0}, //row,column, column header, tablecontext other,refent
                             getNLPResourcesDir()));                         //1.0, 0.5, 0.25, 1.0, 1.0
             classifier = new TMPClazzScorer(getNLPResourcesDir(),
-                    new Creator_ConceptHierarchicalBOW_Freebase(),
+                    new FreebaseConceptBoWCreator(),
                     getStopwords(),
                     new double[]{1.0, 1.0, 1.0, 1.0}         //all 1.0
             );                                              //header,column,tablecontext other, page title+caption
@@ -154,7 +154,7 @@ public class TableMinerPlusBatch extends STIBatch {
             //object to computeElementScores relations between columns
              relation_scorer = new HeaderBinaryRelationScorer_Vote(
                     getNLPResourcesDir(),
-                    new Creator_RelationHierarchicalBOW_Freebase(),
+                    new FreebaseRelationBoWCreator(),
                     getStopwords(),
                     new double[]{1.0, 1.0, 0.0, 0.0, 1.0}    //entity, header text, column, title&caption, other
                     // new double[]{1.0, 1.0, 0.0, 0.0, 1.0}
@@ -211,7 +211,7 @@ public class TableMinerPlusBatch extends STIBatch {
         for (File f : all) {
             count++;
 
-            //if a previously failed list of files is given, only process these.
+            //if a previously failed list of files is given, only learn these.
             if (previouslyFailed.size() != 0 && !previouslyFailed.contains(count))
                 continue;
 

@@ -82,7 +82,7 @@ public class SubjectColumnDetector {
         //3. infer the most frequent datatype,
         featureGenerator.setMostFrequentDataTypes(featuresOfAllColumns, table);
 
-        //4. select only NE columns to further process
+        //4. select only NE columns to further learn
         List<TColumnFeature> featuresOfNEColumns = selectOnlyNEColumnFeatures(featuresOfAllColumns);
         if (featuresOfNEColumns.size() == 0) {
             LOG.warn("This table does not contain columns that are likely to contain named entities.");

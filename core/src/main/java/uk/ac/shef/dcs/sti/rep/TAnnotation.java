@@ -81,10 +81,10 @@ public class TAnnotation {
                 target.setContentCellAnnotations(row, col,copy);
             }
         }
-        target.relationAnnotations_per_row = new HashMap<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>(
+        target.relationAnnotations_per_row = new HashMap<>(
                 source.getRelationAnnotations_per_row()
         );
-        target.relationAnnotations_across_columns = new HashMap<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>>(
+        target.relationAnnotations_across_columns = new HashMap<>(
                 source.getRelationAnnotations_across_columns()
         );
     }

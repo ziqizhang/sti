@@ -457,7 +457,7 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
             }
         }
 
-        //2. run classification LEARN process; create initial typing annotation and disamb
+        //2. run classification LEARN learn; create initial typing annotation and disamb
         //create header annotations based on the major types
         //do update
         List<List<Integer>> rankings = selector.select(table, column, table_annotation.getSubjectColumn());

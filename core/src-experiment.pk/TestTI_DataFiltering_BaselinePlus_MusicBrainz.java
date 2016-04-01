@@ -100,7 +100,7 @@ public class TestTI_DataFiltering_BaselinePlus_MusicBrainz {
                         nlpResources));                         //1.0, 0.5, 0.25, 1.0, 1.0
         ClazzScorer class_scorer = new TMPISWCTColumnClassifier(
                 nlpResources,
-                new Creator_ConceptHierarchicalBOW_Freebase(),
+                new FreebaseConceptBoWCreator(),
                 stopWords,
                 new double[]{1.0, 1.0, 1.0, 1.0}         //all 1.0
         );                                              //header,column,tablecontext other, page title+caption
@@ -145,7 +145,7 @@ public class TestTI_DataFiltering_BaselinePlus_MusicBrainz {
 
         //object to computeElementScores relations between columns
         HeaderBinaryRelationScorer relation_scorer = new HeaderBinaryRelationScorer_Vote(nlpResources,
-                new Creator_RelationHierarchicalBOW_Freebase(),
+                new FreebaseRelationBoWCreator(),
                 stopWords,
                 new double[]{1.0, 1.0, 0.0, 0.0, 1.0}    //entity, header text, column, title&caption, other
                 // new double[]{1.0, 1.0, 0.0, 0.0, 1.0}

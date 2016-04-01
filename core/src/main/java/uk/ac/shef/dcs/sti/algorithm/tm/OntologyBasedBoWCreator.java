@@ -9,7 +9,7 @@ import java.util.List;
  * Time: 16:41
  * To change this template use File | Settings | File Templates.
  */
-public interface Creator_OntologyEntityHierarchicalBOW {
+public interface OntologyBasedBoWCreator {
 
     List<String> create(String uri);
 }

@@ -28,7 +28,7 @@ public class TColumnHeaderAnnotation implements Serializable,Comparable<TColumnH
     public static final String SCORE_CTX_OUT ="ctx_table_context";
     public static final String SCORE_CTX_RELATION_IF_ANY="ctx_relation_with_sub_col";
     public static final String FINAL="final";
-    public static String SCORE_DOMAIN_CONSENSUS = "domain_consensus";
+    public static final String SCORE_DOMAIN_CONSENSUS = "domain_consensus";
 
     private String headerText;
     private Clazz annotation;

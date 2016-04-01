@@ -22,7 +22,7 @@ public class StringUtils {
     }
 
     public static List<String> toBagOfWords(String text, boolean lowercase, boolean alphanumeric, boolean discard_single_char) {
-        List<String> rs = new ArrayList<String>();
+        List<String> rs = new ArrayList<>();
         if (lowercase)
             text=text.toLowerCase();
         if(alphanumeric)

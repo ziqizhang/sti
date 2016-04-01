@@ -42,7 +42,7 @@ class CMScorer {
     public Map<Integer, Double> score(Table table, int... col_indexes) {
         Map<Integer, Double> scores = new HashMap<Integer, Double>();
 
-        //process headers to computeElementScores against
+        //learn headers to computeElementScores against
         Map<Integer, List<String>> headerKeywords = new HashMap<>();
         for (int col_id : col_indexes) {
             List<String> searchWords = new ArrayList<>();
@@ -71,7 +71,7 @@ class CMScorer {
         //List<String> stop = new ArrayList<String>(stopwords);
         //stop.removeAll(headerKeywords.values());
 
-        //process contexts to generate word lookup maps
+        //learn contexts to generate word lookup maps
         List<TContext> contexts = table.getContexts();
         Collections.sort(contexts);
 

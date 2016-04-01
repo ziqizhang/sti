@@ -82,7 +82,7 @@ public class MainColumnFinder_old {
         //3. infer the most frequent datatype,
         featureGenerator.setMostFrequentDataTypes(allColumnCandidates, table);
 
-        //4. select only NE columns to further process
+        //4. select only NE columns to further learn
         List<TColumnFeature> allNEColumnCandidates = new ArrayList<TColumnFeature>();
         for (TColumnFeature cf : allColumnCandidates) {
             if (cf.getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))

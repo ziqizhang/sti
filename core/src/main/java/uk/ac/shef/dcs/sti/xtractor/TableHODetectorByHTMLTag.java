@@ -58,7 +58,7 @@ public class TableHODetectorByHTMLTag implements TableHODetector {
             }
 
             //when there are both th in row and column
-            // see http://en.wikipedia.org/wiki/Italy, the determination process is as follows:
+            // see http://en.wikipedia.org/wiki/Italy, the determination learn is as follows:
             /*
                 if(countRowTh == row length)
                     choose horizontal

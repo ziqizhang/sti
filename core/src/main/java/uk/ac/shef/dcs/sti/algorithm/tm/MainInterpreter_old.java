@@ -68,7 +68,7 @@ public class MainInterpreter_old {
 
                 //2. disambiguate that column and other columns
                 System.out.println(">\t Classify and disambiguate main column " + main_subject_column);
-                interpreter_column.process(table, tab_annotations, main_subject_column);
+                interpreter_column.learn(table, tab_annotations, main_subject_column);
 
                 //3. computeElementScores relations
                 System.out.println(">\t Interpret relations with the main column");
@@ -120,7 +120,7 @@ public class MainInterpreter_old {
                 continue;*/
             if (forceInterpret(col)) {
                 System.out.println("\t>> Column=(forced)" + col);
-                interpreter_column.process(table, tab_annotations, col);
+                interpreter_column.learn(table, tab_annotations, col);
             } else {
                 if (ignoreColumn(col)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
@@ -132,7 +132,7 @@ public class MainInterpreter_old {
 
                 if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
                     System.out.println("\t>> Column=" + col);
-                    interpreter_column.process(table, tab_annotations, col);
+                    interpreter_column.learn(table, tab_annotations, col);
                 }
             }
         }

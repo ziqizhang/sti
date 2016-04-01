@@ -25,10 +25,10 @@ public class TMPClazzScorer implements ClazzScorer {
 
     private Lemmatizer lemmatizer;
     private List<String> stopWords;
-    private Creator_OntologyEntityHierarchicalBOW bowCreator;
+    private OntologyBasedBoWCreator bowCreator;
     private double[] wt;  //header text, column, out table ctx: title&caption, out table ctx:other
 
-    public TMPClazzScorer(String nlpResources, Creator_OntologyEntityHierarchicalBOW bowCreator, List<String> stopWords,
+    public TMPClazzScorer(String nlpResources, OntologyBasedBoWCreator bowCreator, List<String> stopWords,
                           double[] weights) throws IOException {
         this.lemmatizer = NLPTools.getInstance(nlpResources).getLemmatizer();
         this.bowCreator = bowCreator;

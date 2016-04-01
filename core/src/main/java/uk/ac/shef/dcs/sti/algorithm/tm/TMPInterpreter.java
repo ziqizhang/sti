@@ -84,7 +84,7 @@ public class TMPInterpreter {
             if (isCompulsoryColumn(col)) {
                 LOG.info("\t>> Column=(compulsory)" + col);
                 annotatedColumns.add(col);
-                learning.process(table, tableAnnotations, col);
+                learning.learn(table, tableAnnotations, col);
             } else {
                 if (ignoreColumn(col)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
@@ -95,7 +95,7 @@ public class TMPInterpreter {
 
                 //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
                 LOG.info("\t>> Column=" + col);
-                learning.process(table, tableAnnotations, col);
+                learning.learn(table, tableAnnotations, col);
                 //}
             }
         }
@@ -141,7 +141,7 @@ public class TMPInterpreter {
             }
 
             if (TableMinerConstants.REVISE_HBR_BY_DC && update !=null) {
-                List<String> domain_rep = update.construct_domain_represtation(table, tableAnnotations, annotatedColumns);
+                List<String> domain_rep = update.createDomainRep(table, tableAnnotations, annotatedColumns);
                 revise_header_binary_relations(tableAnnotations, domain_rep);
             }
 
