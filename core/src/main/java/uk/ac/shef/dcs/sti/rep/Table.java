@@ -19,6 +19,7 @@ import java.util.*;
  * Time: 15:06
  */
 public class Table implements Serializable {
+    private static final long serialVersionUID = -3422675814777405913L;
     private String sourceId;
     private String tableId;
 

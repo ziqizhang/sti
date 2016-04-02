@@ -6,6 +6,7 @@ import java.io.Serializable;
  */
 public class LTableTriple implements Serializable {
 
+    private static final long serialVersionUID = -813672581122221313L;
     private String subject_annotation;
     private String subject;
     private int[] subject_position; //row, column of table

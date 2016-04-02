@@ -10,11 +10,12 @@ import java.util.Map;
  * Time: 12:25
  */
 public class LListItem implements Serializable {
+    private static final long serialVersionUID = -8136725546789405913L;
     private String text;
     private Map<String, String> valueURIs;
 
     public LListItem(String text) {
-        valueURIs = new LinkedHashMap<String, String>();
+        valueURIs = new LinkedHashMap<>();
         this.text = text;
     }
 

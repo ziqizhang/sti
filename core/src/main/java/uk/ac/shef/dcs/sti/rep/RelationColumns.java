@@ -5,6 +5,8 @@ import java.io.Serializable;
 /**
  */
 public class RelationColumns implements Serializable {
+    private static final long serialVersionUID = -7136525814010415943L;
+
     private int subjectCol;
     private int objectCol;
 

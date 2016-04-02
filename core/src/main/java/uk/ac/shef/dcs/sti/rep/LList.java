@@ -10,6 +10,7 @@ import java.util.List;
  * Time: 11:07
  */
 public class LList implements Serializable {
+    private static final long serialVersionUID = -8136725813759687613L;
     private String sourceId;
     private String listId;
     private String typeURI;
@@ -19,8 +20,8 @@ public class LList implements Serializable {
     public LList(String sourceId, String listId){
         this.sourceId=sourceId;
         this.listId=listId;
-        items=new ArrayList<LListItem>();
-        contexts=new ArrayList<String>();
+        items=new ArrayList<>();
+        contexts=new ArrayList<>();
     }
 
     public String getSourceId() {
