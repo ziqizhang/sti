@@ -62,3 +62,4 @@ cache/empty/class/data/*
 cache/empty/entity/data/*
 cache/empty/relation/data/*
 cache/empty/websearch/data/*
+delete/*
