@@ -19,7 +19,7 @@ import java.util.*;
 /**
  * scoring based on how much overlap a candidate entity has with its context
  */
-public class TMEntityScorer_ISWC extends EntityScorer {
+public class TMEntityScorer_ISWC implements EntityScorer {
     private List<String> stopWords;
     private double[] weights_of_contexts;
     private Lemmatizer lemmatizer;

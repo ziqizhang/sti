@@ -20,7 +20,7 @@ import java.util.*;
 /**
 
  */
-public class BaselineEntityScorer extends EntityScorer {
+public class BaselineEntityScorer implements EntityScorer {
 
     private List<String> stopWords;
     private Lemmatizer lemmatizer;

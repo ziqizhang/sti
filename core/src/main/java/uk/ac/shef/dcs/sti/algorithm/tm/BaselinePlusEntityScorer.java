@@ -24,7 +24,7 @@ import java.util.*;
  * Time: 13:46
  * To change this template use File | Settings | File Templates.
  */
-public class BaselinePlusEntityScorer extends EntityScorer {
+public class BaselinePlusEntityScorer implements EntityScorer {
 
     private List<String> stopWords;
     private Lemmatizer lemmatizer;

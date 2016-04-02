@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.smp;
 
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
+import uk.ac.shef.dcs.sti.algorithm.tm.AttributeValueMatcher;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.*;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
@@ -10,16 +11,11 @@ import java.util.*;
 /**
  * Created by zqz on 21/04/2015.
  */
-public class RelationTextMatch_Scorer {
+public class RelationTextMatch_Scorer extends AttributeValueMatcher{
 
-    protected Collection<String> stopWords;
-    protected double minimum_match_score;
-    protected AbstractStringMetric stringSimilarityMetric;
-
-    public RelationTextMatch_Scorer(Collection<String> stopWords, AbstractStringMetric stringSimilarityMetric, double minimum_match_score) {
-        this.stopWords = stopWords;
-        this.stringSimilarityMetric = stringSimilarityMetric;
-        this.minimum_match_score = minimum_match_score;
+    public RelationTextMatch_Scorer(double minScoreThreshold, List<String> stopWords,
+                                    AbstractStringMetric stringMetric) {
+        super(minScoreThreshold,stopWords,stringMetric);
     }
 
     /**
@@ -38,7 +34,7 @@ public class RelationTextMatch_Scorer {
                       TAnnotation tableAnnotation
     ) {
         if (subjectCellAnnotations.size() != 0) {
-            if (subjectCellAnnotations.size() > 0 && UtilRelationMatcher.isValidType(object_column_type)) {
+            if (subjectCellAnnotations.size() > 0 && isValidType(object_column_type)) {
                 for (int s = 0; s < subjectCellAnnotations.size(); s++) {
                     TCellAnnotation subjectEntity = subjectCellAnnotations.get(s);
                     List<Attribute> subject_entity_facts = subjectEntity.getAnnotation().getAttributes();
@@ -52,20 +48,20 @@ public class RelationTextMatch_Scorer {
                     for (int index = 0; index < subject_entity_facts.size(); index++) {
                         DataTypeClassifier.DataType type_of_fact_value = fact_data_types.get(index);
                         Attribute fact = subject_entity_facts.get(index);
-                        if (!UtilRelationMatcher.isValidType(type_of_fact_value)) {
+                        if (isValidType(type_of_fact_value)) {
                             continue;
                         }
 
-                        double scoreWithCell = UtilRelationMatcher.score(objText, object_column_type, fact.getValue(), type_of_fact_value, stopWords, stringSimilarityMetric);
+                        double scoreWithCell = score(objText, object_column_type, fact.getValue(), type_of_fact_value, stopWords);
                         for (int o = 0; o < objectCellAnnotations.size(); o++) {
                             String objEntityLabel = objectCellAnnotations.get(o).getAnnotation().getLabel();
                             if (objEntityLabel != null) {
-                                double scoreAgainstObjEntityLabel = UtilRelationMatcher.score(objEntityLabel, object_column_type, fact.getValue(), type_of_fact_value, stopWords, stringSimilarityMetric);
+                                double scoreAgainstObjEntityLabel = score(objEntityLabel, object_column_type, fact.getValue(), type_of_fact_value, stopWords);
                                 if (scoreWithCell < scoreAgainstObjEntityLabel)
                                     scoreWithCell = scoreAgainstObjEntityLabel;
                             }
                         }
-                        if (scoreWithCell > 0 && scoreWithCell > minimum_match_score)
+                        if (scoreWithCell > 0 && scoreWithCell > minScoreThreshold)
                             fact_matched_scores.put(index, scoreWithCell);
                     }
 

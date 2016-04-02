@@ -22,7 +22,7 @@ import java.util.*;
 /**
  * An adapted version of the NE ranker (scorer) used in Semantic Message Passing
  */
-public class SMPAdaptedEntityScorer extends EntityScorer {
+public class SMPAdaptedEntityScorer implements EntityScorer {
     public static String SCORE_SMP_INDEX = "smp_index";
     public static String SCORE_SMP_LEV = "smp_stringsim_lev";
     public static String SCORE_SMP_DICE = "smp_stringsim_dice";

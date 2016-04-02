@@ -17,7 +17,7 @@ import java.util.Set;
 
 /**
  */
-public class JIAdaptedEntityScorer extends EntityScorer {
+public class JIAdaptedEntityScorer implements EntityScorer {
     public static String SCORE_CELL_FACTOR ="score_factor_graph-cell";
     public static String SCORE_LEV = "stringsim_lev";
     public static String SCORE_JACCARD = "stringsim_jaccard";

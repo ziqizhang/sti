@@ -16,8 +16,9 @@ import java.util.*;
  */
 public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Scorer {
 
-    public RelationTextMatcher_Scorer_JI_adapted(Collection<String> stopWords, AbstractStringMetric stringSimilarityMetric, double minimum_match_score) {
-        super(stopWords, stringSimilarityMetric, minimum_match_score);
+    public RelationTextMatcher_Scorer_JI_adapted(double minScoreThreshold, List<String> stopWords,
+                                                 AbstractStringMetric stringMetric) {
+        super(minScoreThreshold, stopWords,stringMetric);
     }
 
     public void match_cellPairs(int row,
@@ -41,7 +42,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                 for (int index = 0; index < sbjEntityFacts.size(); index++) {
                     DataTypeClassifier.DataType type_of_fact_value = fact_data_types.get(index);
                     Attribute fact = sbjEntityFacts.get(index);
-                    if (!UtilRelationMatcher.isValidType(type_of_fact_value)) {
+                    if (!isValidType(type_of_fact_value)) {
                         continue;
                     }
                     double maxScore = 0.0; //maximum computeElementScores between this fact's obj and any candidate entity in the obj cell
@@ -49,8 +50,8 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                     Map<Double, List<TCellAnnotation>> mctScore_objCellCandidates = new HashMap<Double, List<TCellAnnotation>>();
                     for (int o = 0; o < objectCellAnnotations.size(); o++) {
                         TCellAnnotation objectEntity = objectCellAnnotations.get(o);
-                        double scoreAgainstObjEntityLabel = UtilRelationMatcher.score(
-                                objectEntity.getAnnotation().getLabel(), object_column_type, fact.getValue(), type_of_fact_value, stopWords, stringSimilarityMetric);
+                        double scoreAgainstObjEntityLabel = score(
+                                objectEntity.getAnnotation().getLabel(), object_column_type, fact.getValue(), type_of_fact_value, stopWords);
                         double scoreAgainstObjEntityId = 0.0;
                         if (fact.getValueURI() != null)
                             scoreAgainstObjEntityId = objectEntity.getAnnotation().getId().equals(fact.getValueURI()) ? 1.0 : 0.0;
@@ -65,7 +66,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                         if (maxScore < finalScore)
                             maxScore = finalScore;
                     }
-                    if (maxScore > 0 && maxScore > minimum_match_score) {
+                    if (maxScore > 0 && maxScore > minScoreThreshold) {
                         factIdx_matchedScores.put(index, maxScore);
                         factIdx_matchedObjCellCandidates.put(index, mctScore_objCellCandidates.get(maxScore));
                     }
@@ -208,7 +209,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
         for (int index = 0; index < sbjCandidateFacts.size(); index++) {
             DataTypeClassifier.DataType type_of_fact_value = fact_data_types.get(index);
             Attribute fact = sbjCandidateFacts.get(index);
-            if (!UtilRelationMatcher.isValidType(type_of_fact_value)) {
+            if (!isValidType(type_of_fact_value)) {
                 continue;
             }
             //use only the fact's obj (text) to compare against the header's text
@@ -219,14 +220,14 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                 String objHeaderConceptLabel = objectHeaderColumnCandidates.get(o).getAnnotation().getLabel();
 
                 if (objHeaderConceptURL != null) {
-                    double scoreAgainstObjHeaderConcept = UtilRelationMatcher.
-                            score(objHeaderConceptLabel, objectColumnDataType, fact.getValue(), type_of_fact_value, stopWords, stringSimilarityMetric);
+                    double scoreAgainstObjHeaderConcept =
+                            score(objHeaderConceptLabel, objectColumnDataType, fact.getValue(), type_of_fact_value, stopWords);
                     if (fact.getValueURI() != null) {
                         double score = objHeaderConceptURL.equals(fact.getValueURI()) ? 1.0 : 0.0;
                         if (score > scoreAgainstObjHeaderConcept) scoreAgainstObjHeaderConcept = score;
                     }
                     List<String> candidates = mchScore_objHeaderCandidates.get(scoreAgainstObjHeaderConcept);
-                    if (candidates == null) candidates = new ArrayList<String>();
+                    if (candidates == null) candidates = new ArrayList<>();
                     candidates.add(objHeaderConceptURL);
                     mchScore_objHeaderCandidates.put(scoreAgainstObjHeaderConcept, candidates);
                     if (maxScore < scoreAgainstObjHeaderConcept) {
@@ -234,7 +235,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                     }
                 }
             }
-            if (maxScore > 0 && maxScore > minimum_match_score) {
+            if (maxScore > 0 && maxScore > minScoreThreshold) {
                 factIdx_matchedScores.put(index, maxScore);
                 factIdx_matchedObjHeaderCandidates.
                         put(index, mchScore_objHeaderCandidates.get(maxScore));
