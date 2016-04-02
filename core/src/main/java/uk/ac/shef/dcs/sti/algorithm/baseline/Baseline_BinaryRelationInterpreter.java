@@ -1,9 +1,8 @@
 package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
-import uk.ac.shef.dcs.sti.algorithm.tm.RelationTextMatch_Scorer;
+import uk.ac.shef.dcs.sti.algorithm.tm.TMPAttributeValueMatcher;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.*;
 
@@ -13,10 +12,10 @@ import java.util.*;
 scorer simply counts # of rows that uses the relation
  */
 public class Baseline_BinaryRelationInterpreter {
-    private RelationTextMatch_Scorer cellTextMatcher;
+    private TMPAttributeValueMatcher cellTextMatcher;
 
     public Baseline_BinaryRelationInterpreter(
-            RelationTextMatch_Scorer cellTextMatcher) {
+            TMPAttributeValueMatcher cellTextMatcher) {
         this.cellTextMatcher = cellTextMatcher;
     }
 

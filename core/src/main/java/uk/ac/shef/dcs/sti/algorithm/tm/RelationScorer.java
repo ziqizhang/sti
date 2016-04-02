@@ -15,7 +15,7 @@ import java.util.Set;
  * Time: 12:34
  * To change this template use File | Settings | File Templates.
  */
-public interface HeaderBinaryRelationScorer {
+public interface RelationScorer {
     Set<HeaderBinaryRelationAnnotation> score(List<CellBinaryRelationAnnotation> input_from_row,
                                               Set<HeaderBinaryRelationAnnotation> header_binary_relations_prev,
                                               int subjectCol, int objectCol,

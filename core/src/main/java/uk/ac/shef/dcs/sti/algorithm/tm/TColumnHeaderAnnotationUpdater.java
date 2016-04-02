@@ -15,7 +15,7 @@ import java.util.*;
  * Time: 09:52
  * To change this template use File | Settings | File Templates.
  */
-class HeaderAnnotationUpdater {
+class TColumnHeaderAnnotationUpdater {
 
     /**
      * given a cell annotation, and existing TColumnHeaderAnnotations on the column,

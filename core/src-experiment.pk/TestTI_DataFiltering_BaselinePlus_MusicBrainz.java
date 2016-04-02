@@ -144,14 +144,14 @@ public class TestTI_DataFiltering_BaselinePlus_MusicBrainz {
                 column_learnerSeeding, column_updater, TableMinerConstants.TCELLDISAMBIGUATOR_MAX_REFERENCE_ENTITIES);
 
         //object to computeElementScores relations between columns
-        HeaderBinaryRelationScorer relation_scorer = new HeaderBinaryRelationScorer_Vote(nlpResources,
+        RelationScorer relation_scorer = new RelationScorer_Vote(nlpResources,
                 new FreebaseRelationBoWCreator(),
                 stopWords,
                 new double[]{1.0, 1.0, 0.0, 0.0, 1.0}    //entity, header text, column, title&caption, other
                 // new double[]{1.0, 1.0, 0.0, 0.0, 1.0}
         );
-        BinaryRelationInterpreter interpreter_relation = new BinaryRelationInterpreter(
-                new RelationTextMatch_Scorer(0.0, stopWords),
+        TColumnColumnRelationEnumerator interpreter_relation = new TColumnColumnRelationEnumerator(
+                new TMPAttributeValueMatcher(0.0, stopWords),
                 relation_scorer
         );
 

@@ -18,15 +18,15 @@ import java.util.*;
  * Time: 12:41
  * To change this template use File | Settings | File Templates.
  */
-public class HeaderBinaryRelationScorer_Vote implements HeaderBinaryRelationScorer {
+public class RelationScorer_Vote implements RelationScorer {
     public static double MAX_SCORE = 0;
     private Lemmatizer lemmatizer;
     private List<String> stopWords;
     private OntologyBasedBoWCreator bow_creator;
     private double[] weights;  //entity, header text, column, title&caption, other
 
-    public HeaderBinaryRelationScorer_Vote(String nlpResources, OntologyBasedBoWCreator bow_creator, List<String> stopWords,
-                                           double[] weights) throws IOException {
+    public RelationScorer_Vote(String nlpResources, OntologyBasedBoWCreator bow_creator, List<String> stopWords,
+                               double[] weights) throws IOException {
         this.lemmatizer = NLPTools.getInstance(nlpResources).getLemmatizer();
         this.bow_creator = bow_creator;
         this.stopWords = stopWords;

@@ -21,7 +21,7 @@ public class MainInterpreter_old {
     private SubjectColumnDetector main_col_finder;
     private LEARNING interpreter_column;
     private DataLiteralColumnClassifier interpreter_column_with_knownReltaions;
-    private BinaryRelationInterpreter interpreter_relation;
+    private TColumnColumnRelationEnumerator interpreter_relation;
     //private static Logger LOG = Logger.getLogger(MainInterpreter.class.getName());
     private int[] ignoreColumns;
     private int[] forceInterpretColumn;
@@ -30,7 +30,7 @@ public class MainInterpreter_old {
     public MainInterpreter_old(SubjectColumnDetector main_col_finder,
                            LEARNING interpreter_column,
                            DataLiteralColumnClassifier interpreter_column_with_knownReltaions,
-                           BinaryRelationInterpreter interpreter_relation,
+                           TColumnColumnRelationEnumerator interpreter_relation,
                            int[] ignoreColumns, int[] forceInterpretColumn) {
         this.main_col_finder = main_col_finder;
         this.interpreter_column = interpreter_column;
@@ -72,7 +72,7 @@ public class MainInterpreter_old {
 
                 //3. computeElementScores relations
                 System.out.println(">\t Interpret relations with the main column");
-                int columns_having_relations_with_main_col = interpreter_relation.interpret(tab_annotations, table, main_subject_column);
+                int columns_having_relations_with_main_col = interpreter_relation.runRelationEnumeration(tab_annotations, table, main_subject_column);
                 //does the main column has sufficient relations with other columns?   //if so, stop
                 boolean interpretable = false;
                 if (columns_having_relations_with_main_col > 0) {

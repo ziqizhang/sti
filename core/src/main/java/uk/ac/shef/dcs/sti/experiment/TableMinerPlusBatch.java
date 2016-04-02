@@ -147,20 +147,20 @@ public class TableMinerPlusBatch extends STIBatch {
 
 
         LOG.info("Initializing RELATIONLEARNING components ...");
-        HeaderBinaryRelationScorer relation_scorer=null;
-        BinaryRelationInterpreter interpreter_relation=null;
+        RelationScorer relation_scorer=null;
+        TColumnColumnRelationEnumerator interpreter_relation=null;
         DataLiteralColumnClassifier interpreter_with_knownRelations=null;
         try {
             //object to computeElementScores relations between columns
-             relation_scorer = new HeaderBinaryRelationScorer_Vote(
+             relation_scorer = new RelationScorer_Vote(
                     getNLPResourcesDir(),
                     new FreebaseRelationBoWCreator(),
                     getStopwords(),
                     new double[]{1.0, 1.0, 0.0, 0.0, 1.0}    //entity, header text, column, title&caption, other
                     // new double[]{1.0, 1.0, 0.0, 0.0, 1.0}
             );
-             interpreter_relation = new BinaryRelationInterpreter(
-                    new RelationTextMatch_Scorer(0.0, getStopwords()),
+             interpreter_relation = new TColumnColumnRelationEnumerator(
+                    new TMPAttributeValueMatcher(0.0, getStopwords()),
                     relation_scorer
             );
 

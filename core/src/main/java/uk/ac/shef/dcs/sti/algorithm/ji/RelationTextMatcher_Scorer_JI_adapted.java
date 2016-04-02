@@ -5,7 +5,6 @@ import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.algorithm.smp.RelationTextMatch_Scorer;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.misc.UtilRelationMatcher;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.sti.rep.*;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;

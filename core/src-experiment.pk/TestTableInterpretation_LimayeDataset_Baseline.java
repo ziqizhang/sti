@@ -101,7 +101,7 @@ public class TestTableInterpretation_LimayeDataset_Baseline {
 
         //object to computeElementScores relations between columns
         Baseline_BinaryRelationInterpreter interpreter_relation = new Baseline_BinaryRelationInterpreter(
-                new RelationTextMatch_Scorer(0.0, stopWords)
+                new TMPAttributeValueMatcher(0.0, stopWords)
         );
 
         //object to consolidate previous output, further computeElementScores columns and disamgiuate entities

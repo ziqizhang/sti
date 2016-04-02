@@ -1,7 +1,6 @@
 package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearchResultFilter;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.*;
@@ -10,68 +9,66 @@ import java.util.*;
 
 /**
  */
-public class BinaryRelationInterpreter {
+public class TColumnColumnRelationEnumerator {
 
-    private RelationTextMatch_Scorer cellTextMatcher;
-    private HeaderBinaryRelationScorer relation_scorer;
+    private TMPAttributeValueMatcher attributeValueMatcher;
+    private RelationScorer relationScorer;
 
-    public BinaryRelationInterpreter(
-            RelationTextMatch_Scorer cellTextMatcher,
-            HeaderBinaryRelationScorer scorer) {
-        this.cellTextMatcher = cellTextMatcher;
-        this.relation_scorer = scorer;
+    public TColumnColumnRelationEnumerator(
+            TMPAttributeValueMatcher attributeValueMatcher,
+            RelationScorer scorer) {
+        this.attributeValueMatcher = attributeValueMatcher;
+        this.relationScorer = scorer;
     }
 
-    //returns the main subject column id
-    //if -1, it means cannot computeElementScores this table relations as no column can be considered main column for interpretation to work
-    //so as a result of this method, the main subject column can change
-    //
-    //when new relation created, supporting row info is also added
-    public int interpret(TAnnotation annotations, Table table, int sub_column) {
-
-        //mainColumnIndexes contains indexes of columns that are possile NEs
-        Map<Integer, DataTypeClassifier.DataType> colTypes
-                = new HashMap<Integer, DataTypeClassifier.DataType>();
+    /**
+     * returns the main subject column id
+     * if -1, it means cannot interpret this table relations as no column can be considered main column for interpretation to work
+     * note that this method can change the subject column
+     * <p>
+     * when new relation created, supporting row info is also added
+     */
+    public int runRelationEnumeration(TAnnotation annotations, Table table, int subjectCol) {
+        //select columns that are likely to form a relation with subject column
+        Map<Integer, DataTypeClassifier.DataType> columnDataTypes
+                = new HashMap<>();
         for (int c = 0; c < table.getNumCols(); c++) {
             DataTypeClassifier.DataType type =
                     table.getColumnHeader(c).getTypes().get(0).getType();
             if (type.equals(DataTypeClassifier.DataType.ORDERED_NUMBER))
                 continue; //ordered numbered columns are not interesting
             else
-                colTypes.put(c, type);
-
+                columnDataTypes.put(c, type);
         }
 
         //for each row, get the annotation for that (row, col)
         for (int row = 0; row < table.getNumRows(); row++) {
-            //get annotation for this cell
-            TCellAnnotation[] candidate_annotations_for_cell =
-                    annotations.getContentCellAnnotations(row, sub_column);
-            if (candidate_annotations_for_cell == null || candidate_annotations_for_cell.length == 0)
-                continue;
-            TCellAnnotation final_annotation = candidate_annotations_for_cell[0];
+            //get the winning annotation for this cell
+            List<TCellAnnotation> winningCellAnnotations = annotations.getWinningContentCellAnnotation(row, subjectCol);
 
+            //collect attributes from where candidate relations are created
+            List<Attribute> collectedAttributes = new ArrayList<>();
+            for(TCellAnnotation cellAnnotation: winningCellAnnotations) {
+                collectedAttributes.addAll(cellAnnotation.getAnnotation().getAttributes());
+            }
 
-            //fetch facts of that entity
-            /*if(final_annotation.getAnnotation().getId().equals("/m/0nlpl"))
-                System.out.println();*/
-            List<Attribute> facts = /*candidateFinder.find_triplesForEntity(final_annotation.getAnnotation())*/
-                    final_annotation.getAnnotation().getAttributes();
-            Map<Integer, String> values_to_match_on_the_row = new HashMap<>();
-            for (int col : colTypes.keySet()) {
-                if (col != sub_column) {
-                    String value_in_the_cell = table.getContentCell(row, col).getText();
-                    values_to_match_on_the_row.put(col, value_in_the_cell);
+            //collect cell values on the same row, from other columns
+            Map<Integer, String> cellValuesToMatch = new HashMap<>();
+            for (int col : columnDataTypes.keySet()) {
+                if (col != subjectCol) {
+                    String cellValue = table.getContentCell(row, col).getText();
+                    cellValuesToMatch.put(col, cellValue);
                 }
             }
 
             //perform matching  and scoring
             //key=col id; objobj contains the property that matched with the highest computeElementScores (string, double)
-            Map<Integer, List<Pair<Attribute, Double>>> matched_scores_for_the_row =
-                    cellTextMatcher.match(facts, values_to_match_on_the_row, colTypes);
+            Map<Integer, List<Pair<Attribute, Double>>> cellMatchScores =
+                    attributeValueMatcher.match(collectedAttributes, cellValuesToMatch, columnDataTypes);
 
-            for (Map.Entry<Integer, List<Pair<Attribute, Double>>> e : matched_scores_for_the_row.entrySet()) {
-                Key_SubjectCol_ObjectCol subobj_key = new Key_SubjectCol_ObjectCol(sub_column, e.getKey());
+            todo continue from here...
+            for (Map.Entry<Integer, List<Pair<Attribute, Double>>> e : cellMatchScores.entrySet()) {
+                Key_SubjectCol_ObjectCol subobj_key = new Key_SubjectCol_ObjectCol(subjectCol, e.getKey());
 
                 List<Pair<Attribute, Double>> matched_candidates = e.getValue();
                 for (Pair<Attribute, Double> matched : matched_candidates) {
@@ -107,17 +104,17 @@ public class BinaryRelationInterpreter {
             Set<HeaderBinaryRelationAnnotation> prev_relation_annotations = new HashSet<HeaderBinaryRelationAnnotation>();
 
             for (Map.Entry<Integer, List<CellBinaryRelationAnnotation>> e : value.entrySet()) {
-                prev_relation_annotations = relation_scorer.score(e.getValue(),
+                prev_relation_annotations = relationScorer.score(e.getValue(),
                         prev_relation_annotations,
                         key.getSubjectCol(), key.getObjectCol(),
                         table);
             }
 
             for (HeaderBinaryRelationAnnotation hbr : prev_relation_annotations) {
-                relation_scorer.compute_final_score(hbr, table.getNumRows());
-                for(Map.Entry<Integer, List<CellBinaryRelationAnnotation>> e: value.entrySet()){
-                    for(CellBinaryRelationAnnotation cbr : e.getValue()){
-                        if(hbr.getAnnotation_url().equals(cbr.getAnnotation_url())){
+                relationScorer.compute_final_score(hbr, table.getNumRows());
+                for (Map.Entry<Integer, List<CellBinaryRelationAnnotation>> e : value.entrySet()) {
+                    for (CellBinaryRelationAnnotation cbr : e.getValue()) {
+                        if (hbr.getAnnotation_url().equals(cbr.getAnnotation_url())) {
                             hbr.addSupportingRow(e.getKey());
                         }
                     }
@@ -125,7 +122,7 @@ public class BinaryRelationInterpreter {
             }
             List<HeaderBinaryRelationAnnotation> sorted = new ArrayList<HeaderBinaryRelationAnnotation>(prev_relation_annotations);
             Collections.sort(sorted);
-            for(HeaderBinaryRelationAnnotation hbr: sorted)
+            for (HeaderBinaryRelationAnnotation hbr : sorted)
                 annotations.addRelationAnnotation_across_column(hbr);
 
         }
