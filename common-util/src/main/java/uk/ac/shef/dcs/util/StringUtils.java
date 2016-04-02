@@ -50,23 +50,6 @@ public class StringUtils {
         return query_tokens;
     }
 
-    public static String findPossibleNameSpace(String urlString) {
-        try {
-            URL u = new URL(urlString);
-            if (u.getFile().equals(""))
-                return urlString;
-        } catch (MalformedURLException m) {
-        }
-
-        int hash = urlString.lastIndexOf("#");
-        int slash = urlString.lastIndexOf("/");
-        int end = hash > slash ? hash : slash;
-
-        if (end != -1)
-            return urlString.substring(0, end);
-        return urlString;
-
-    }
 
     //permitted tokens must be numeric, or ordinal
     public static boolean isNumericArray(String[] alphanums) {
