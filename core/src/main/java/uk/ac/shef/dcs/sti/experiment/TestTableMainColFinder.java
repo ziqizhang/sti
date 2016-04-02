@@ -135,7 +135,7 @@ public class TestTableMainColFinder {
         }
         p.close();
 
-        server.shutdown();
+        server.close();
         System.exit(0);
     }
 

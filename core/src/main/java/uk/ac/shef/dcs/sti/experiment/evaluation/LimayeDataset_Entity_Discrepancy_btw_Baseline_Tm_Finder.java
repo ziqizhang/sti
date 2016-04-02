@@ -37,7 +37,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
                 //"E:\\Data\\table annotation\\corpus_analysis\\100_tables\\100_tables_tm-gs_discrepancy",
                 "E:\\Data\\table annotation\\corpus_analysis\\100_tables\\tableminer_baseline(aclshort)_entity_discrepancy_(tm_no_ent_ref)",
                 freebaseMatcher);
-        server.shutdown();
+        server.close();
         System.exit(0);
 
 

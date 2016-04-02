@@ -185,7 +185,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
                 e.printStackTrace();
             }
         }
-        server.shutdown();
+        server.close();
         System.exit(0);
     }
 

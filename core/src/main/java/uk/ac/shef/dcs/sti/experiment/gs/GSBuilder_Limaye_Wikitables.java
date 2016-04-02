@@ -277,7 +277,7 @@ public class GSBuilder_Limaye_Wikitables {
                 e.printStackTrace();
             }
         }
-        server.shutdown();
+        server.close();
         System.exit(0);
     }
 
