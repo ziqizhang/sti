@@ -5,13 +5,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
-import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
+import uk.ac.shef.dcs.sti.misc.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.experiment.LimayeDatasetLoader;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
-import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
-import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.TAnnotation;
+import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
+import uk.ac.shef.dcs.sti.core.model.Table;
+import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.util.FileUtils;
 
 import javax.xml.parsers.DocumentBuilder;

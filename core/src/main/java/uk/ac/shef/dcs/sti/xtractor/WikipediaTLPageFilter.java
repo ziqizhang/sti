@@ -4,8 +4,8 @@ import info.bliki.wiki.dump.IArticleFilter;
 import info.bliki.wiki.dump.Siteinfo;
 import info.bliki.wiki.dump.WikiArticle;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.sti.rep.LList;
-import uk.ac.shef.dcs.sti.rep.Table;
+import uk.ac.shef.dcs.sti.core.model.LList;
+import uk.ac.shef.dcs.sti.core.model.Table;
 
 import java.io.File;
 import java.io.IOException;

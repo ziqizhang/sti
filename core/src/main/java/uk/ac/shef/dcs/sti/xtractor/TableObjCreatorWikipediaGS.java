@@ -7,7 +7,7 @@ import org.w3c.dom.NodeList;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.sti.PlaceHolder;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
-import uk.ac.shef.dcs.sti.rep.*;
+import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.util.StringUtils;
 
 import java.util.*;

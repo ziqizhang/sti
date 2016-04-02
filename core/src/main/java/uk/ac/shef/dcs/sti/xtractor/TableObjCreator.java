@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.sti.xtractor;
 
 import cern.colt.matrix.ObjectMatrix2D;
-import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.TContext;
+import uk.ac.shef.dcs.sti.core.model.Table;
+import uk.ac.shef.dcs.sti.core.model.TContext;
 
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)

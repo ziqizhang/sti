@@ -1,12 +1,12 @@
 package uk.ac.shef.dcs.sti.experiment.gs;
 
 import org.apache.any23.util.FileUtils;
-import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
+import uk.ac.shef.dcs.sti.misc.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
-import uk.ac.shef.dcs.sti.rep.TCell;
-import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
-import uk.ac.shef.dcs.sti.rep.TAnnotation;
-import uk.ac.shef.dcs.sti.rep.Table;
+import uk.ac.shef.dcs.sti.core.model.TCell;
+import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
+import uk.ac.shef.dcs.sti.core.model.TAnnotation;
+import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;

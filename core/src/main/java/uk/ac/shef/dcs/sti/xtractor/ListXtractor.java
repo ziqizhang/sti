@@ -3,8 +3,8 @@ package uk.ac.shef.dcs.sti.xtractor;
 import org.apache.any23.extractor.html.TagSoupParser;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import uk.ac.shef.dcs.sti.rep.LList;
-import uk.ac.shef.dcs.sti.rep.LListItem;
+import uk.ac.shef.dcs.sti.core.model.LList;
+import uk.ac.shef.dcs.sti.core.model.LListItem;
 
 import java.io.*;
 import java.util.List;

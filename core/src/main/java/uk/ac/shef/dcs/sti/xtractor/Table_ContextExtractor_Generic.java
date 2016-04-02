@@ -4,7 +4,7 @@ import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.rep.TContext;
+import uk.ac.shef.dcs.sti.core.model.TContext;
 
 import java.util.ArrayList;
 import java.util.List;

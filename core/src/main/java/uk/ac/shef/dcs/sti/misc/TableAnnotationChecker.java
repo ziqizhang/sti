@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.sti.misc;
 
-import uk.ac.shef.dcs.sti.algorithm.ji.TAnnotation_JI_Freebase;
-import uk.ac.shef.dcs.sti.rep.TColumnHeaderAnnotation;
-import uk.ac.shef.dcs.sti.rep.TAnnotation;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotation_JI_Freebase;
+import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
+import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 
 import java.util.HashMap;
 import java.util.Map;

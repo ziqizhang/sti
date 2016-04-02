@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.xtractor;
 
 import info.bliki.wiki.model.WikiModel;
 import org.w3c.dom.Node;
-import uk.ac.shef.dcs.sti.rep.LList;
+import uk.ac.shef.dcs.sti.core.model.LList;
 
 import java.util.List;
 

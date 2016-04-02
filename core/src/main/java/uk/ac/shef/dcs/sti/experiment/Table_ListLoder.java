@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.experiment;
 
-import uk.ac.shef.dcs.sti.rep.LList;
-import uk.ac.shef.dcs.sti.rep.Table;
+import uk.ac.shef.dcs.sti.core.model.LList;
+import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.xtractor.ListXtractor;
 import uk.ac.shef.dcs.sti.xtractor.TableXtractor;
 

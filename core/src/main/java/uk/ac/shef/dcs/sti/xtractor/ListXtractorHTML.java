@@ -4,7 +4,7 @@ import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.extractor.html.TagSoupParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import uk.ac.shef.dcs.sti.rep.LList;
+import uk.ac.shef.dcs.sti.core.model.LList;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

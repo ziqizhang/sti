@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.sti.io;
 
-import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
+import uk.ac.shef.dcs.sti.misc.TripleGenerator;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.rep.*;
+import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;

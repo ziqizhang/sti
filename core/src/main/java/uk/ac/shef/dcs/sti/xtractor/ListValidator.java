@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.xtractor;
 
-import uk.ac.shef.dcs.sti.rep.LList;
+import uk.ac.shef.dcs.sti.core.model.LList;
 
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)

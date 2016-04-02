@@ -5,7 +5,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.any23.Any23Xtractor;
-import uk.ac.shef.dcs.sti.rep.TContext;
+import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.oak.any23.extension.extractor.LTriple;
 
 import java.util.ArrayList;

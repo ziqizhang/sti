@@ -9,7 +9,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.sti.PlaceHolder;
-import uk.ac.shef.dcs.sti.rep.*;
+import uk.ac.shef.dcs.sti.core.model.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

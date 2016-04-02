@@ -4,7 +4,7 @@ import org.apache.any23.util.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.sti.rep.Table;
+import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.xtractor.*;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 

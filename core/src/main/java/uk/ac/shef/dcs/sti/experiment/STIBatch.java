@@ -7,11 +7,11 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.sti.algorithm.tm.TMPInterpreter;
-import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.TMPInterpreter;
+import uk.ac.shef.dcs.sti.misc.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
-import uk.ac.shef.dcs.sti.rep.TAnnotation;
-import uk.ac.shef.dcs.sti.rep.Table;
+import uk.ac.shef.dcs.sti.core.model.TAnnotation;
+import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.util.FileUtils;
 
 import java.io.*;

@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.xtractor;
 
 import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
-import uk.ac.shef.dcs.sti.rep.LListItem;
+import uk.ac.shef.dcs.sti.core.model.LListItem;
 
 import java.util.List;
 

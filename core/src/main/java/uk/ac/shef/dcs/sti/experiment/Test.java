@@ -4,7 +4,7 @@ package uk.ac.shef.dcs.sti.experiment;
 import info.aduna.io.FileUtil;
 import org.apache.commons.io.FileUtils;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.sti.rep.Table;
+import uk.ac.shef.dcs.sti.core.model.Table;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;

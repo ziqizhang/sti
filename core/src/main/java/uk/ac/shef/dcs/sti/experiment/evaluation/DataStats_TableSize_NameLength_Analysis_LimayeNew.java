@@ -9,9 +9,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.PlaceHolder;
-import uk.ac.shef.dcs.sti.rep.TCell;
-import uk.ac.shef.dcs.sti.rep.TColumnHeader;
-import uk.ac.shef.dcs.sti.rep.Table;
+import uk.ac.shef.dcs.sti.core.model.TCell;
+import uk.ac.shef.dcs.sti.core.model.TColumnHeader;
+import uk.ac.shef.dcs.sti.core.model.Table;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

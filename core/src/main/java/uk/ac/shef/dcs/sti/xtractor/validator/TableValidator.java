@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.xtractor.validator;
 
-import uk.ac.shef.dcs.sti.rep.Table;
+import uk.ac.shef.dcs.sti.core.model.Table;
 
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)

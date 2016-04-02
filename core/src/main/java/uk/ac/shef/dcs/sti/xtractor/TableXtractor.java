@@ -3,8 +3,8 @@ package uk.ac.shef.dcs.sti.xtractor;
 import cern.colt.matrix.ObjectMatrix2D;
 import org.apache.any23.extractor.html.TagSoupParser;
 import org.w3c.dom.Node;
-import uk.ac.shef.dcs.sti.rep.Table;
-import uk.ac.shef.dcs.sti.rep.TContext;
+import uk.ac.shef.dcs.sti.core.model.Table;
+import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
 
 import java.io.*;

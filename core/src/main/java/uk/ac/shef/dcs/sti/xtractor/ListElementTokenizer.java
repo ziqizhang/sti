@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.xtractor;
 
 import org.w3c.dom.Node;
-import uk.ac.shef.dcs.sti.rep.LListItem;
+import uk.ac.shef.dcs.sti.core.model.LListItem;
 
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)
