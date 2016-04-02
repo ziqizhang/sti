@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.kbsearch.rep;
+package uk.ac.shef.dcs.kbsearch.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;

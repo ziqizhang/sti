@@ -4,9 +4,9 @@ import cern.colt.matrix.ObjectMatrix2D;
 import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import uk.ac.shef.dcs.kbsearch.rep.Clazz;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.sti.STIEnum;
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.util.StringUtils;
 

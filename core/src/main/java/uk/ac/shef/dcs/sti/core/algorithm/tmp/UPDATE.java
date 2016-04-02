@@ -5,14 +5,14 @@ import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseEnum;
-import uk.ac.shef.dcs.kbsearch.rep.Attribute;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.core.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
-import uk.ac.shef.dcs.kbsearch.rep.Resource;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.kbsearch.model.Resource;
 import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.util.StringUtils;
 

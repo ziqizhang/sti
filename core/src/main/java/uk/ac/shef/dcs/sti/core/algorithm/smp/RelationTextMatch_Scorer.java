@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
-import uk.ac.shef.dcs.kbsearch.rep.Attribute;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.core.scorer.AttributeValueMatcher;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;

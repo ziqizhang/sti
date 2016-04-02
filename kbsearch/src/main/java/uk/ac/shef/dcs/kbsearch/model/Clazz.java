@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.kbsearch.rep;
+package uk.ac.shef.dcs.kbsearch.model;
 
 /**
  * Created by - on 15/03/2016.

@@ -18,8 +18,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import uk.ac.shef.dcs.kbsearch.rep.Attribute;
-import uk.ac.shef.dcs.kbsearch.rep.Clazz;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.util.StringUtils;
 
 

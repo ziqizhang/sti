@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.Table;
 

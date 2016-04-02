@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.kbsearch.freebase;
 
 import uk.ac.shef.dcs.kbsearch.KBSearchResultFilter;
-import uk.ac.shef.dcs.kbsearch.rep.Attribute;
-import uk.ac.shef.dcs.kbsearch.rep.Clazz;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
 
 import java.io.IOException;
 import java.util.*;

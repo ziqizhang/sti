@@ -22,7 +22,7 @@ import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorWikipediaGS;
 import uk.ac.shef.dcs.sti.xtractor.TableXtractorWikipedia;
 import uk.ac.shef.dcs.sti.experiment.LimayeDatasetLoader;
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.util.CollectionUtils;
 import uk.ac.shef.dcs.util.FileUtils;
 import uk.ac.shef.dcs.websearch.WebSearch;

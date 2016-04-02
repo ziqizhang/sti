@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.core.scorer;
 
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.Table;
 
 import java.util.*;

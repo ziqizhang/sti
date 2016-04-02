@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.rep.Clazz;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.*;

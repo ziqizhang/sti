@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;

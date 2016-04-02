@@ -6,9 +6,9 @@ import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.rep.Attribute;
-import uk.ac.shef.dcs.kbsearch.rep.Clazz;
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.util.StringUtils;
 

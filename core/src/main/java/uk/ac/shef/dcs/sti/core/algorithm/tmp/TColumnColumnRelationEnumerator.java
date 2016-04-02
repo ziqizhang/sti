@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.kbsearch.rep.Attribute;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;

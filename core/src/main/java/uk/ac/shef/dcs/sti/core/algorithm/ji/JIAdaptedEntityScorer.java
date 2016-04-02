@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.ji;
 import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.util.CosineSimilarity;
 import uk.ac.shef.dcs.sti.util.JaccardSimilarity;

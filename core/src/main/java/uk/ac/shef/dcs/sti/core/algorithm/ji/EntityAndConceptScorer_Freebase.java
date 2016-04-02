@@ -2,13 +2,13 @@ package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.rep.Attribute;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
-import uk.ac.shef.dcs.kbsearch.rep.Clazz;
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.util.CollectionUtils;
 import uk.ac.shef.dcs.util.StringUtils;
 

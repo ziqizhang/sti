@@ -4,9 +4,9 @@ import info.aduna.io.FileUtil;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
-import uk.ac.shef.dcs.kbsearch.rep.Attribute;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.io.TAnnotationKeyFileReader;
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.util.FileUtils;
 
 import javax.xml.parsers.DocumentBuilder;

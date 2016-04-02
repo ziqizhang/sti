@@ -5,7 +5,7 @@ import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.kbsearch.rep.Clazz;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
 
 import java.util.*;
 

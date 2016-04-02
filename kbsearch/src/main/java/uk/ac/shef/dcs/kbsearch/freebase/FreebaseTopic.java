@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.kbsearch.freebase;
 
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
 
 
 /**

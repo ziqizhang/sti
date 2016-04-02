@@ -4,8 +4,8 @@ import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.EntityAndConceptScorer_Freebase;
-import uk.ac.shef.dcs.kbsearch.rep.Clazz;
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
 
 import java.util.HashMap;
 import java.util.List;

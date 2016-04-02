@@ -8,7 +8,7 @@ import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.core.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.core.stopping.StoppingCriteria;
 import uk.ac.shef.dcs.sti.core.stopping.StoppingCriteriaInstantiator;
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.*;

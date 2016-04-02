@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.kbsearch.rep;
+package uk.ac.shef.dcs.kbsearch.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;

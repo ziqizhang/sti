@@ -3,9 +3,9 @@ package uk.ac.shef.dcs.sti.experiment.evaluation;
 import info.aduna.io.FileUtil;
 import org.apache.solr.client.solrj.SolrServer;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
-import uk.ac.shef.dcs.kbsearch.rep.Attribute;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.io.TAnnotationKeyFileReader;
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.util.FileUtils;
 
 import java.io.File;

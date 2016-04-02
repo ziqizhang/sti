@@ -1,10 +1,9 @@
 package uk.ac.shef.dcs.kbsearch;
 
-import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-import uk.ac.shef.dcs.kbsearch.rep.Attribute;
-import uk.ac.shef.dcs.kbsearch.rep.Clazz;
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.util.SolrCache;
 
 import java.io.FileInputStream;

@@ -2,8 +2,8 @@ package uk.ac.shef.dcs.kbsearch;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
-import uk.ac.shef.dcs.kbsearch.rep.Attribute;
-import uk.ac.shef.dcs.kbsearch.rep.Clazz;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
 
 import java.io.File;
 import java.io.IOException;

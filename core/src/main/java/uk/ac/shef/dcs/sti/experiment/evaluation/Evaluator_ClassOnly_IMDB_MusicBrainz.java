@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.experiment.evaluation;
 
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
-import uk.ac.shef.dcs.kbsearch.rep.Attribute;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.io.TAnnotationKeyFileReader;
 
 import java.io.File;
