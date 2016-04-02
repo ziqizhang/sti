@@ -84,7 +84,7 @@ public class TestTableInterpretation_LimayeDataset_Baseline {
                 "/BlhLSReljQ3Koh+vDSOaYMji9/Ccwe/7/b9mGJLwDQ="*/);  //zqz.work
         //"fXhmgvVQnz1aLBti87+AZlPYDXcQL0G9L2dVAav+aK0="); //ziqizhang
         //eT14G3TOr7NdItThWFCXFjDrRHNUxmPBmqgDvjoIc6Q   dobs
-        LiteralColumnTagger interpreter_with_knownRelations = new LiteralColumnTagger_exclude_entity_col(
+        LiteralColumnTagger interpreter_with_knownRelations = new LiteralColumnTaggerImpl(
                 IGNORE_COLUMNS
         );
 

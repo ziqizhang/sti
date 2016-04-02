@@ -105,7 +105,6 @@ public class TMPInterpreter {
             // entity column, do column typing and disambiguation; otherwise, simply create header annotation
             LOG.info(">\t Annotate literal-columns in relation with main column");
             literalColumnTagger.annotate(table, tableAnnotations, annotatedColumns.toArray(new Integer[0]));
-
         }
 
         return tableAnnotations;

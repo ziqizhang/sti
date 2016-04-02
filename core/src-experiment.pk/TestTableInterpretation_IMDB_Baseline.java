@@ -92,7 +92,7 @@ public class TestTableInterpretation_IMDB_Baseline {
         );
 
 
-        LiteralColumnTagger interpreter_with_knownRelations = new LiteralColumnTagger_exclude_entity_col(
+        LiteralColumnTagger interpreter_with_knownRelations = new LiteralColumnTaggerImpl(
                 IGNORE_COLUMNS
         );
         Base_NameMatch_MainInterpreter interpreter = new Base_NameMatch_MainInterpreter(

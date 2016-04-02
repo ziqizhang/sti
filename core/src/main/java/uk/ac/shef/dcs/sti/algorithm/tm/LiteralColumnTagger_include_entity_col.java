@@ -17,7 +17,7 @@ import java.util.*;
  * this simply chooses column type based on relations' expected types
  */
 @Deprecated
-public class LiteralColumnTagger_include_entity_col extends LiteralColumnTagger {
+public class LiteralColumnTagger_include_entity_col implements LiteralColumnTagger {
     //private static final Logger LOG = Logger.getLogger(ColumnInterpreter_relDepend_v1.class.getName());
     private FreebaseSearch fbSearcher;
     private ClazzScorer clazzScorer;

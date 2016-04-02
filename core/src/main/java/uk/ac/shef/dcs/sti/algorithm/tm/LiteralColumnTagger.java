@@ -7,12 +7,7 @@ import uk.ac.shef.dcs.sti.rep.Table;
 import java.io.IOException;
 
 /**
- * Created with IntelliJ IDEA.
- * User: zqz
- * Date: 19/02/14
- * Time: 16:20
- * To change this template use File | Settings | File Templates.
  */
-public abstract class LiteralColumnTagger {
-    public abstract void annotate(Table table, TAnnotation annotations, Integer... en_columns) throws KBSearchException;
+public interface LiteralColumnTagger {
+    void annotate(Table table, TAnnotation annotations, Integer... enColumnIndexes) throws KBSearchException;
 }

@@ -113,7 +113,7 @@ public class Test_ISWC_TableInterpretation_RottenTomato {
         );
 
         //object to consolidate previous output, further computeElementScores columns and disamgiuate entities
-        LiteralColumnTagger interpreter_with_knownRelations = new LiteralColumnTagger_exclude_entity_col(
+        LiteralColumnTagger interpreter_with_knownRelations = new LiteralColumnTaggerImpl(
                 IGNORE_COLUMNS
         );
 
