@@ -3,7 +3,6 @@ package uk.ac.shef.dcs.sti.util;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
-import uk.ac.shef.dcs.util.FileUtils;
 
 import java.io.IOException;
 import java.nio.file.Paths;

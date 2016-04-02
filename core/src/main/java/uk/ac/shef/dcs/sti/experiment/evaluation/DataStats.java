@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.experiment.evaluation;
 
-import uk.ac.shef.dcs.util.FileUtils;
+import uk.ac.shef.dcs.sti.util.FileUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;

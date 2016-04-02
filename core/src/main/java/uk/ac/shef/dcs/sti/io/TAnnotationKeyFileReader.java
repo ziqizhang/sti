@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.io;
 
-import uk.ac.shef.dcs.util.FileUtils;
+import uk.ac.shef.dcs.sti.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;

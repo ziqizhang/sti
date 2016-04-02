@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.experiment.evaluation;
 
 import uk.ac.shef.dcs.sti.io.TAnnotationKeyFileReader;
-import uk.ac.shef.dcs.util.FileUtils;
+import uk.ac.shef.dcs.sti.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;

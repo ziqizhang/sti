@@ -54,7 +54,7 @@ public class TestTableInterpretation_MusicBrainz_Baseline_Another {
         List<Integer> missed_files = new ArrayList<Integer>();
         if(args.length==8){
             String in_missed = args[7];
-            for(String line: uk.ac.shef.dcs.util.FileUtils.readList(in_missed, false)){
+            for(String line: uk.ac.shef.dcs.sti.util.FileUtils.readList(in_missed, false)){
                 missed_files.add(Integer.valueOf(line.split(",")[0].trim()));
             }
         }
@@ -67,7 +67,7 @@ public class TestTableInterpretation_MusicBrainz_Baseline_Another {
 
         //object to fetch things from KB
         FreebaseSearch freebaseMatcher = new FreebaseSearch(propertyFile,true, server, null,null);
-        List<String> stopWords = uk.ac.shef.dcs.util.FileUtils.readList(nlpResources + "/stoplist.txt", true);
+        List<String> stopWords = uk.ac.shef.dcs.sti.util.FileUtils.readList(nlpResources + "/stoplist.txt", true);
         //object to find main subject column
         SubjectColumnDetector main_col_finder = new SubjectColumnDetector(
                 new TContentTContentRowRankerImpl(),

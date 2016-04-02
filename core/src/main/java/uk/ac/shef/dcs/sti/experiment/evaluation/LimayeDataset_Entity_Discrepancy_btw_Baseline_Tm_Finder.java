@@ -6,7 +6,7 @@ import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.io.TAnnotationKeyFileReader;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
-import uk.ac.shef.dcs.util.FileUtils;
+import uk.ac.shef.dcs.sti.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;

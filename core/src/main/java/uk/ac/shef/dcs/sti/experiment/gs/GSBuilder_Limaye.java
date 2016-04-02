@@ -12,7 +12,7 @@ import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
-import uk.ac.shef.dcs.util.FileUtils;
+import uk.ac.shef.dcs.sti.util.FileUtils;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

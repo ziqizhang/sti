@@ -57,7 +57,7 @@ public class TestTableInterpretation_IMDB {
 
         //object to fetch things from KB
         FreebaseSearch freebaseMatcher = new FreebaseSearch(propertyFile,true, server, null,null);
-        List<String> stopWords = uk.ac.shef.dcs.util.FileUtils.readList(nlpResources + "/stoplist.txt", true);
+        List<String> stopWords = uk.ac.shef.dcs.sti.util.FileUtils.readList(nlpResources + "/stoplist.txt", true);
         //object to find main subject column
         SubjectColumnDetector main_col_finder = new SubjectColumnDetector(
                 new TContentTContentRowRankerImpl(),

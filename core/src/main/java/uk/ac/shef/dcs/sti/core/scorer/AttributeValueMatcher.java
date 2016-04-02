@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.core.scorer;
 
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
-import uk.ac.shef.dcs.util.CollectionUtils;
+import uk.ac.shef.dcs.sti.util.CollectionUtils;
 import uk.ac.shef.dcs.util.StringUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 

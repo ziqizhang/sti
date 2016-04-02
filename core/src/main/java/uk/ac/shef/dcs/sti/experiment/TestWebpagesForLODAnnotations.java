@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.experiment;
 
 import org.openrdf.model.URI;
 import uk.ac.shef.dcs.sti.any23.Any23Xtractor;
-import uk.ac.shef.dcs.util.FileUtils;
+import uk.ac.shef.dcs.sti.util.FileUtils;
 import uk.ac.shef.oak.any23.extension.extractor.LTriple;
 
 import java.io.*;

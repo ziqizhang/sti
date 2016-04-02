@@ -11,7 +11,7 @@ import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.util.CollectionUtils;
+import uk.ac.shef.dcs.sti.util.CollectionUtils;
 import uk.ac.shef.dcs.util.StringUtils;
 
 import java.io.IOException;

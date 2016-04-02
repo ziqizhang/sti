@@ -8,7 +8,7 @@ import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeader;
-import uk.ac.shef.dcs.util.XPathUtils;
+import uk.ac.shef.dcs.sti.util.XPathUtils;
 
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)

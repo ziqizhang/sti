@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.util;
+package uk.ac.shef.dcs.sti.util;
 
 import java.util.ArrayList;
 import java.util.List;
