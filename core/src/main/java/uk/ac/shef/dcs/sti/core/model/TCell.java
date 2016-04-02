@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.core.model;
 
-import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
+import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 
 import java.io.Serializable;
 

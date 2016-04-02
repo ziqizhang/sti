@@ -5,7 +5,7 @@ import cern.colt.matrix.impl.SparseDoubleMatrix2D;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.sti.core.sampler.TContentRowRanker;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
-import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
+import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.stopping.StoppingCriteria;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.Table;

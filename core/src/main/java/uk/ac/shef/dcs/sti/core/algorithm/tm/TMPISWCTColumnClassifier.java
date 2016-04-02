@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tm;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.core.feature.OntologyBasedBoWCreator;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
@@ -156,7 +156,7 @@ public class TMPISWCTColumnClassifier implements ClazzScorer {
                 TColumnHeader header = table.getColumnHeader(column);
                 if (header != null &&
                         header.getHeaderText() != null &&
-                        !header.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue())) {
+                        !header.getHeaderText().equals(STIEnum.TABLE_HEADER_UNKNOWN.getValue())) {
                     headerText = header.getHeaderText();
                 }
 
@@ -264,7 +264,7 @@ public class TMPISWCTColumnClassifier implements ClazzScorer {
         TColumnHeader header = table.getColumnHeader(column);
         if (header != null &&
                 header.getHeaderText() != null &&
-                !header.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue())) {
+                !header.getHeaderText().equals(STIEnum.TABLE_HEADER_UNKNOWN.getValue())) {
             bow.addAll(lemmatizer.lemmatize(
                     StringUtils.toBagOfWords(header.getHeaderText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR))
             );

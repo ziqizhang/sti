@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
-import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.core.feature.OntologyBasedBoWCreator;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
@@ -181,7 +181,7 @@ public class TMPRelationScorer implements RelationScorer {
         TColumnHeader header = table.getColumnHeader(column);
         if (header != null &&
                 header.getHeaderText() != null &&
-                !header.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue())) {
+                !header.getHeaderText().equals(STIEnum.TABLE_HEADER_UNKNOWN.getValue())) {
             bow.addAll(lemmatizer.lemmatize(
                             StringUtils.toBagOfWords(header.getHeaderText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR))
             );

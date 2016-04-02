@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
-import uk.ac.shef.dcs.sti.misc.TripleGenerator;
+import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
-import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
+import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;

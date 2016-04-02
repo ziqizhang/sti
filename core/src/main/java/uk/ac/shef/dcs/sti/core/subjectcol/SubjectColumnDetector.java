@@ -5,7 +5,7 @@ import javafx.util.Pair;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.sti.core.sampler.TContentRowRanker;
-import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
+import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.stopping.StoppingCriteriaInstantiator;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;

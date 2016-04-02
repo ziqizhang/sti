@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.experiment.evaluation;
 
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
-import uk.ac.shef.dcs.sti.io.LTableAnnotationKeyFileReader;
+import uk.ac.shef.dcs.sti.io.TAnnotationKeyFileReader;
 
 import java.io.File;
 import java.io.IOException;
@@ -116,7 +116,7 @@ public class Evaluator_ClassOnly_IMDB_MusicBrainz {
 
         PrintWriter out_missed_writer = new PrintWriter(out_missed_file);
         Set<String> processed = new HashSet<String>();
-        Map<Integer, List<List<String>>> gs_headers = LTableAnnotationKeyFileReader.readHeaderAnnotation(in_gs_file, true, gs_NE_only);
+        Map<Integer, List<List<String>>> gs_headers = TAnnotationKeyFileReader.readHeaderAnnotation(in_gs_file, true, gs_NE_only);
 
         Map<Integer, Set<String>> unique_urls = new HashMap<Integer, Set<String>>();
 
@@ -148,7 +148,7 @@ public class Evaluator_ClassOnly_IMDB_MusicBrainz {
                 StringBuilder line = new StringBuilder("\"" + cpFile.getPath() + "\",");
 
                 Map<Integer, List<List<String>>> cp_headers =
-                        LTableAnnotationKeyFileReader.readHeaderAnnotation(header_cp, false, gs_NE_only);
+                        TAnnotationKeyFileReader.readHeaderAnnotation(header_cp, false, gs_NE_only);
                 for (Integer i : cp_headers.keySet()) {
                     List<List<String>> ll = cp_headers.get(i);
                     Set<String> unique = unique_urls.get(i);

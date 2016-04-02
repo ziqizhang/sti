@@ -4,7 +4,7 @@ import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.core.algorithm.smp.RelationTextMatch_Scorer;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
+import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;

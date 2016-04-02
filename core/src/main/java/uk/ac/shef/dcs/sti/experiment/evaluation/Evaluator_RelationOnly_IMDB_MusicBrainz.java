@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.experiment.evaluation;
 
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
-import uk.ac.shef.dcs.sti.io.LTableAnnotationKeyFileReader;
+import uk.ac.shef.dcs.sti.io.TAnnotationKeyFileReader;
 
 import java.io.File;
 import java.io.IOException;
@@ -128,9 +128,9 @@ public class Evaluator_RelationOnly_IMDB_MusicBrainz {
         List<String> main = new ArrayList<String>();
         List<String> tolerant = new ArrayList<String>();
         Map<int[], List<List<String>>> gs_binaryRels =
-                LTableAnnotationKeyFileReader.readColumnBinaryRelationAnnotation_GS(in_gs_relation_file, main, tolerant);
+                TAnnotationKeyFileReader.readColumnBinaryRelationAnnotation_GS(in_gs_relation_file, main, tolerant);
         Map<Integer, List<List<String>>> gs_header =
-                LTableAnnotationKeyFileReader.readHeaderAnnotation(in_gs_header_file, true, true);
+                TAnnotationKeyFileReader.readHeaderAnnotation(in_gs_header_file, true, true);
 
         Map<String, Set<String>> unique_urls = new HashMap<String, Set<String>>();
 
@@ -150,7 +150,7 @@ public class Evaluator_RelationOnly_IMDB_MusicBrainz {
                 StringBuilder line = new StringBuilder("\"" + cpFile.getPath() + "\",");
 
                 Map<int[], List<List<String>>> cp_binaryRels =
-                        LTableAnnotationKeyFileReader.readColumnBinaryRelationAnnotation_CP(cpFile_name);
+                        TAnnotationKeyFileReader.readColumnBinaryRelationAnnotation_CP(cpFile_name);
 
                 for (int[] i : cp_binaryRels.keySet()) {
                     List<List<String>> ll = cp_binaryRels.get(i);

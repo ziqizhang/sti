@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.misc;
+package uk.ac.shef.dcs.sti.util;
 
 import uk.ac.shef.dcs.util.StringUtils;
 
@@ -208,7 +208,7 @@ public class DataTypeClassifier implements Serializable {
         private String value;
         private static final long serialVersionUID = -1208425578110405913L;
 
-        private DataType(String value) {
+        DataType(String value) {
             this.value = value;
         }
 

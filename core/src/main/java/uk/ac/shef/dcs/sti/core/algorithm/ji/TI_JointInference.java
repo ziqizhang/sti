@@ -10,8 +10,8 @@ import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
-import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.misc.TableAnnotationChecker;
+import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
+import uk.ac.shef.dcs.sti.util.TableAnnotationChecker;
 import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 

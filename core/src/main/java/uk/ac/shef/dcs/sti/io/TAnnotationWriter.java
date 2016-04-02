@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.io;
 
-import uk.ac.shef.dcs.sti.misc.TripleGenerator;
-import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
+import uk.ac.shef.dcs.sti.util.TripleGenerator;
+import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.io.File;
@@ -36,7 +36,7 @@ public class TAnnotationWriter {
         trimEnd = trimEnd == -1 ? sourceId.length() : trimEnd;
         sourceId = sourceId.substring(trimStart + 1, trimEnd);
 
-        List<LTableTriple> triples = tripleGenerator.generate_newTriples(tab_annotations, table);
+        List<TableTriple> triples = tripleGenerator.generate_newTriples(tab_annotations, table);
         table_sb.append("source:" + sourceId + " with " + triples.size() + "<a href=\"" + outFile + ".attributes.html\"> new attributes</a>.");
         writeTriples(triples, outFile + ".attributes.html");
 
@@ -162,10 +162,10 @@ public class TAnnotationWriter {
         p.close();
     }
 
-    protected void writeTriples(List<LTableTriple> triples, String outFile) throws FileNotFoundException {
+    protected void writeTriples(List<TableTriple> triples, String outFile) throws FileNotFoundException {
         PrintWriter p = new PrintWriter(outFile);
         p.println("<html><body>");
-        for (LTableTriple ltt : triples) {
+        for (TableTriple ltt : triples) {
             p.println("<br>&lt;" + ltt.getSubject_annotation() + "," + ltt.getRelation_annotation() + "," + ltt.getObject_annotation() + "&gt;, " +
                     "(" + ltt.getSubject() + "," + ltt.getObject() + "), " + "[" + ltt.getSubject_position()[0] + "," + ltt.getSubject_position()[1] + "][" +
                     ltt.getObject_position()[0] + "," + ltt.getObject_position()[1] + "]</br>");

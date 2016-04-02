@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.experiment.evaluation;
 
-import uk.ac.shef.dcs.sti.io.LTableAnnotationKeyFileReader;
+import uk.ac.shef.dcs.sti.io.TAnnotationKeyFileReader;
 
 import java.io.File;
 import java.io.IOException;
@@ -147,9 +147,9 @@ public class Evaluator_RelationOnly {
                 String binary = gsFile.getParent()+"/"+filename + ".relation.keys";
                 processed.add(binary);
                 String header = in_header_gs_folder+"/"+filename+".header.keys";
-                gs_header=LTableAnnotationKeyFileReader.readHeaderAnnotation(header,true,true);
+                gs_header= TAnnotationKeyFileReader.readHeaderAnnotation(header, true, true);
 
-                gs_binaryRels = LTableAnnotationKeyFileReader.readColumnBinaryRelationAnnotation_GS(binary, main, tolerant);
+                gs_binaryRels = TAnnotationKeyFileReader.readColumnBinaryRelationAnnotation_GS(binary, main, tolerant);
 
                 processed.add(filename);
 
@@ -181,7 +181,7 @@ public class Evaluator_RelationOnly {
                     StringBuilder line = new StringBuilder("\"" + cpFile.getPath() + "\",");
 
                     Map<int[], List<List<String>>> cp_binaryRels =
-                            LTableAnnotationKeyFileReader.readColumnBinaryRelationAnnotation_CP(binary_cp);
+                            TAnnotationKeyFileReader.readColumnBinaryRelationAnnotation_CP(binary_cp);
 
                     double[] relation_data_mode_0 = compute_prf_relation(gs_binaryRels, cp_binaryRels, main, gs_header,0,ne_relation_only);
                     line.append(appendResult(relation_data_mode_0));

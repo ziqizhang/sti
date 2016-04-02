@@ -8,7 +8,7 @@ import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.TMPEntityScorer;
-import uk.ac.shef.dcs.sti.misc.TripleGenerator;
+import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.core.algorithm.smp.*;
 import uk.ac.shef.dcs.sti.core.model.Table;

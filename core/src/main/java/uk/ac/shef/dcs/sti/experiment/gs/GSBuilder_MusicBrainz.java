@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.experiment.gs;
 
 import org.apache.any23.util.FileUtils;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
-import uk.ac.shef.dcs.sti.misc.TripleGenerator;
+import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;

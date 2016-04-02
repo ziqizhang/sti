@@ -5,7 +5,7 @@ import org.apache.any23.extractor.html.TagSoupParser;
 import org.jsoup.Jsoup;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.dcs.sti.core.model.Table;
@@ -62,7 +62,7 @@ public class TableXtractorMSN extends TableXtractor {
 
         if (actors.size() > 0) {
             Table table = new Table(sourceId, sourceId, actors.size(), 1);
-            table.setColumnHeader(0, new TColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue()));
+            table.setColumnHeader(0, new TColumnHeader(STIEnum.TABLE_HEADER_UNKNOWN.getValue()));
             table.addContext(allhtmltext);
             for (TContext ltc : contexts)
                 table.addContext(ltc);

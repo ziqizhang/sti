@@ -5,7 +5,7 @@ import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
-import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.util.StringUtils;
@@ -40,7 +40,7 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
             Object o = preTable.get(0, c);
             if (o == null) { //a null value will be inserted by TableHODetector if no user defined header was found
                 //todo:header type
-                TColumnHeader header = new TColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue());
+                TColumnHeader header = new TColumnHeader(STIEnum.TABLE_HEADER_UNKNOWN.getValue());
                 table.setColumnHeader(c, header);
             } else {
                 Node e = (Node) o;

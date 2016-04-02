@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.misc;
+package uk.ac.shef.dcs.sti.util;
 
 import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotation_JI_Freebase;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;

@@ -4,7 +4,7 @@ import info.aduna.io.FileUtil;
 import org.apache.solr.client.solrj.SolrServer;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
-import uk.ac.shef.dcs.sti.io.LTableAnnotationKeyFileReader;
+import uk.ac.shef.dcs.sti.io.TAnnotationKeyFileReader;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.util.FileUtils;
 
@@ -180,8 +180,8 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
                     String baseline_entity_gs_file = inFolder_baseline + "/" + tableminer_entity_file.getName() + ".cell.keys";
                     System.out.println(tableminer_entity_file);
 
-                    tableminer_cells = LTableAnnotationKeyFileReader.readCellAnnotation(tableminer_entity_gs_file);
-                    baseline_cells = LTableAnnotationKeyFileReader.readCellAnnotation(baseline_entity_gs_file);
+                    tableminer_cells = TAnnotationKeyFileReader.readCellAnnotation(tableminer_entity_gs_file);
+                    baseline_cells = TAnnotationKeyFileReader.readCellAnnotation(baseline_entity_gs_file);
                     List<int[]> uniqueKeys = collect_unique_keys(tableminer_cells, baseline_cells);
                     Collections.sort(uniqueKeys, new Comparator<int[]>() {
                         @Override

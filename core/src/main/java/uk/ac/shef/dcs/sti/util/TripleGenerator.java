@@ -1,6 +1,5 @@
-package uk.ac.shef.dcs.sti.misc;
+package uk.ac.shef.dcs.sti.util;
 
-import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.core.model.*;
 
@@ -21,8 +20,8 @@ public class TripleGenerator {
         this.defaultNamespace = dummyNamespace;
     }
 
-    public List<LTableTriple> generate_newTriples(TAnnotation tab_annotation, Table table) {
-        List<LTableTriple> result = new ArrayList<>();
+    public List<TableTriple> generate_newTriples(TAnnotation tab_annotation, Table table) {
+        List<TableTriple> result = new ArrayList<>();
 
         //column typing instances
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -47,7 +46,7 @@ public class TripleGenerator {
                     Entity entity = final_cell_annotation.getAnnotation();
 
                     //new triple
-                    LTableTriple ltt = new LTableTriple();
+                    TableTriple ltt = new TableTriple();
                     ltt.setSubject_position(new int[]{row, col});
                     ltt.setSubject(tcc.getText());
                     ltt.setSubject_annotation(kbNamespace + entity.getId());
@@ -89,7 +88,7 @@ public class TripleGenerator {
                 TCellAnnotation[] object_cell_annotations = tab_annotation.getContentCellAnnotations(row, objCol);
                 TCellAnnotation final_object_cell_annotation = object_cell_annotations == null || object_cell_annotations.length == 0 ? null : object_cell_annotations[0];
 
-                LTableTriple triple = new LTableTriple();
+                TableTriple triple = new TableTriple();
                 triple.setSubject_position(new int[]{row, subCol});
                 triple.setSubject(final_subject_cell_annotation.getTerm());
                 triple.setSubject_annotation(kbNamespace + final_subject_cell_annotation.getAnnotation().getId());
@@ -130,7 +129,7 @@ public class TripleGenerator {
                     continue;
                 TCellAnnotation final_subject_cell_annotation = subject_cell_annotations[0];
 
-                LTableTriple triple = new LTableTriple();
+                TableTriple triple = new TableTriple();
                 triple.setSubject_position(new int[]{row, main_subject_column});
                 triple.setSubject(final_subject_cell_annotation.getTerm());
                 triple.setSubject_annotation(kbNamespace + final_subject_cell_annotation.getAnnotation().getId());

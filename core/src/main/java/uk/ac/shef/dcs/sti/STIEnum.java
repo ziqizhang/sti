@@ -5,7 +5,7 @@ package uk.ac.shef.dcs.sti;
  * Date: 05/10/12
  * Time: 15:52
  */
-public enum PlaceHolder {
+public enum STIEnum {
 
     TABLE_HEADER_UNKNOWN("H_Unknown"),
     LIST_ITEM_SEPARATOR("|"),
@@ -13,7 +13,7 @@ public enum PlaceHolder {
 
     private String value;
 
-    private PlaceHolder(String value){
+    STIEnum(String value){
         this.value=value;
     }
 

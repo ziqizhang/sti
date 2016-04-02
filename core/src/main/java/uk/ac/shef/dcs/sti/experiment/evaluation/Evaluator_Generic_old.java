@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.experiment.evaluation;
 
-import uk.ac.shef.dcs.sti.io.LTableAnnotationKeyFileReader;
+import uk.ac.shef.dcs.sti.io.TAnnotationKeyFileReader;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,9 +64,9 @@ public class Evaluator_Generic_old {
                     String header_gs = gsFile.toString() + ".header.keys";
                     String binary = gsFile.toString() + ".relation.keys";
 
-                    gs_cells = LTableAnnotationKeyFileReader.readCellAnnotation(entity_gs);
-                    gs_headers = LTableAnnotationKeyFileReader.readHeaderAnnotation(header_gs,true,gs_NE_only);
-                    gs_binaryRels = LTableAnnotationKeyFileReader.readColumnBinaryRelationAnnotation_GS(binary, new ArrayList<String>(), new ArrayList<String>());
+                    gs_cells = TAnnotationKeyFileReader.readCellAnnotation(entity_gs);
+                    gs_headers = TAnnotationKeyFileReader.readHeaderAnnotation(header_gs, true, gs_NE_only);
+                    gs_binaryRels = TAnnotationKeyFileReader.readColumnBinaryRelationAnnotation_GS(binary, new ArrayList<String>(), new ArrayList<String>());
 
                     processed.add(filename);
                 } else
@@ -89,11 +89,11 @@ public class Evaluator_Generic_old {
                     StringBuilder line = new StringBuilder("\"" + cpFile.getPath() + "\",");
 
                     Map<Integer, List<List<String>>> cp_headers =
-                            LTableAnnotationKeyFileReader.readHeaderAnnotation(cpFile_name + ".header.keys",false,gs_NE_only);
+                            TAnnotationKeyFileReader.readHeaderAnnotation(cpFile_name + ".header.keys", false, gs_NE_only);
                     Map<int[], List<List<String>>> cp_binaryRels =
-                            LTableAnnotationKeyFileReader.readColumnBinaryRelationAnnotation_CP(cpFile_name + ".relation.keys");
+                            TAnnotationKeyFileReader.readColumnBinaryRelationAnnotation_CP(cpFile_name + ".relation.keys");
                     Map<int[], List<List<String>>> cp_cells =
-                            LTableAnnotationKeyFileReader.readCellAnnotation(cpFile_name + ".cell.keys");
+                            TAnnotationKeyFileReader.readCellAnnotation(cpFile_name + ".cell.keys");
 
 
                     double[] header_data_mode_0 = Evaluator_ClassOnly.compute_prf_header(gs_headers, cp_headers, 0);

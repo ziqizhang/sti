@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.experiment.evaluation;
 
-import uk.ac.shef.dcs.sti.io.LTableAnnotationKeyFileReader;
+import uk.ac.shef.dcs.sti.io.TAnnotationKeyFileReader;
 
 import java.io.File;
 import java.io.IOException;
@@ -196,7 +196,7 @@ public class Evaluator_EntityOnly {
                 }
 
                 String entity_gs = gsFile.toString();
-                gs_cells = LTableAnnotationKeyFileReader.readCellAnnotation(entity_gs);
+                gs_cells = TAnnotationKeyFileReader.readCellAnnotation(entity_gs);
                 processed.add(filename);
             } else {
                 continue;
@@ -233,7 +233,7 @@ public class Evaluator_EntityOnly {
                     StringBuilder line = new StringBuilder("\"" + cpFile.getPath() + "\",");
 
                     Map<int[], List<List<String>>> cp_cells =
-                            LTableAnnotationKeyFileReader.readCellAnnotation(cpFile_name);
+                            TAnnotationKeyFileReader.readCellAnnotation(cpFile_name);
 
 
                     double[] cell_data_mode_0 = Evaluator_ClassOnly.compute_prf_relation_or_entity(gs_cells, cp_cells, 0);

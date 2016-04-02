@@ -10,7 +10,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.kbsearch.rep.Clazz;
-import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.core.model.*;
 
@@ -122,7 +122,7 @@ public class LimayeDatasetLoader {
                     if(i<headers.length)
                         modified[i]=headers[i];
                     else
-                        modified[i]=PlaceHolder.TABLE_HEADER_UNKNOWN.getValue();
+                        modified[i]= STIEnum.TABLE_HEADER_UNKNOWN.getValue();
                 }
                 rows.set(0, modified);
             }
@@ -133,7 +133,7 @@ public class LimayeDatasetLoader {
         } else {//no header, need to add false headers
             table = new Table(String.valueOf(tableFilename.hashCode()), tableFilename, rows.size(), totalCol);
             for (int j = 0; j < totalCol; j++) {
-                TColumnHeader header = new TColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue());
+                TColumnHeader header = new TColumnHeader(STIEnum.TABLE_HEADER_UNKNOWN.getValue());
                 table.setColumnHeader(j, header);
             }
         }

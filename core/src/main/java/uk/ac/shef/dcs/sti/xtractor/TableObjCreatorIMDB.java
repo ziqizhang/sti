@@ -4,7 +4,7 @@ import cern.colt.matrix.ObjectMatrix2D;
 import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.dcs.sti.core.model.Table;
@@ -26,7 +26,7 @@ public class TableObjCreatorIMDB implements TableObjCreator {
             Object o = preTable.get(0, c);
             if (o == null) { //a null value will be inserted by TableHODetector if no user defined header was found
                 //todo: header column type
-                TColumnHeader header = new TColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue());
+                TColumnHeader header = new TColumnHeader(STIEnum.TABLE_HEADER_UNKNOWN.getValue());
                 table.setColumnHeader(c, header);
 
             } else {

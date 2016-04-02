@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
@@ -188,7 +188,7 @@ public class BaselineTColumnClassifier implements ClazzScorer {
                 TColumnHeader header = table.getColumnHeader(column);
                 if (header != null &&
                         header.getHeaderText() != null &&
-                        !header.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue())) {
+                        !header.getHeaderText().equals(STIEnum.TABLE_HEADER_UNKNOWN.getValue())) {
                     //double computeElementScores = CollectionUtils.diceCoefficientOptimized(header.getHeaderText(), ha.getAnnotation_label());
                     double score = stringSimilarityMetric.getSimilarity(
                             StringUtils.toAlphaNumericWhitechar(header.getHeaderText()),

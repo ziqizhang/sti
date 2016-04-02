@@ -11,9 +11,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
-import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.core.subjectcol.TColumnFeatureGenerator;
-import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
+import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
@@ -251,7 +251,7 @@ public class GSBuilder_Limaye_Wikitables {
                 boolean noHeader = false;
                 for (int j = 0; j < wikitable.getNumCols(); j++) {
                     TColumnHeader h = wikitable.getColumnHeader(j);
-                    if (h.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue()))
+                    if (h.getHeaderText().equals(STIEnum.TABLE_HEADER_UNKNOWN.getValue()))
                         noHeader = true;
                 }
                 if (noHeader) {
@@ -400,7 +400,7 @@ public class GSBuilder_Limaye_Wikitables {
         StringBuilder sb = new StringBuilder();
         for (int j = 0; j < table.getNumCols(); j++) {
             TColumnHeader header = table.getColumnHeader(j);
-            if (header == null || header.getHeaderText() == null || header.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN))
+            if (header == null || header.getHeaderText() == null || header.getHeaderText().equals(STIEnum.TABLE_HEADER_UNKNOWN))
                 continue;
             sb.append(header.getHeaderText()).append(" ");
         }
@@ -438,7 +438,7 @@ public class GSBuilder_Limaye_Wikitables {
             String text = "";
             String wikilink = "";
             TColumnHeader h = table.getColumnHeader(j);
-            if (h != null && !h.getHeaderText().equals(PlaceHolder.TABLE_HEADER_UNKNOWN)) {
+            if (h != null && !h.getHeaderText().equals(STIEnum.TABLE_HEADER_UNKNOWN)) {
                 text = h.getHeaderText();
             }
             Element textElement = doc.createElement("html");

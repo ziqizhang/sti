@@ -5,7 +5,7 @@ import org.apache.any23.extractor.html.TagSoupParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import uk.ac.shef.dcs.sti.PlaceHolder;
+import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeader;
@@ -71,7 +71,7 @@ public class TableXtractorRottenTomato extends TableXtractor {
                 for (TContext ltc : contexts)
                     table.addContext(ltc);
 
-                table.setColumnHeader(0, new TColumnHeader(PlaceHolder.TABLE_HEADER_UNKNOWN.getValue()));
+                table.setColumnHeader(0, new TColumnHeader(STIEnum.TABLE_HEADER_UNKNOWN.getValue()));
                 int i=0;
                 for(Node it: items){
                     String content="";

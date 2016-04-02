@@ -5,7 +5,7 @@ import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
-import uk.ac.shef.dcs.sti.io.LTableAnnotationKeyFileReader;
+import uk.ac.shef.dcs.sti.io.TAnnotationKeyFileReader;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.util.FileUtils;
 
@@ -250,7 +250,7 @@ public class LimayeDataset_Entity_Discrepancy_Analysis_Generic {
             gs_entity_annotation_file = gs_entity_annotation_file + "cell.keys";
             PrintWriter p = new PrintWriter(out_folder + "/" + each_table_file_from_reference_entity_annotation_folder.getName());
             Map<int[], List<List<String>>> gs_entity_annotations =
-                    LTableAnnotationKeyFileReader.readCellAnnotation(gs_entity_annotation_file);
+                    TAnnotationKeyFileReader.readCellAnnotation(gs_entity_annotation_file);
             Set<String> exclude_cells = new HashSet<String>();
             for (int[] key : gs_entity_annotations.keySet()) {
                 exclude_cells.add(key[0] + "," + key[1]);
@@ -260,7 +260,7 @@ public class LimayeDataset_Entity_Discrepancy_Analysis_Generic {
 
 //read annotations by the "reference" method
             Map<int[], List<List<String>>> reference_entity_annotations_O =
-                    LTableAnnotationKeyFileReader.readCellAnnotation(each_table_file_from_reference_entity_annotation_folder.toString());
+                    TAnnotationKeyFileReader.readCellAnnotation(each_table_file_from_reference_entity_annotation_folder.toString());
             Map<String, String> reference_entity_annotations = new HashMap<String, String>();
             for (int[] key : reference_entity_annotations_O.keySet()) {
                 if (exclude_cells.contains(key[0] + "," + key[1]))
@@ -283,7 +283,7 @@ public class LimayeDataset_Entity_Discrepancy_Analysis_Generic {
                 String file_target = e.getValue() + "/" + each_table_file_from_reference_entity_annotation_folder.getName();
 
                 Map<int[], List<List<String>>> target_entity_annotations_O =
-                        LTableAnnotationKeyFileReader.readCellAnnotation(file_target);
+                        TAnnotationKeyFileReader.readCellAnnotation(file_target);
                 Map<String, String> target_entity_annotations = new HashMap<String, String>();
                 for (int[] key : target_entity_annotations_O.keySet()) {
                     if (exclude_cells.contains(key[0] + "," + key[1]))

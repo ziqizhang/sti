@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.experiment.evaluation;
 
-import uk.ac.shef.dcs.sti.io.LTableAnnotationKeyFileReader;
+import uk.ac.shef.dcs.sti.io.TAnnotationKeyFileReader;
 import uk.ac.shef.dcs.util.FileUtils;
 
 import java.io.File;
@@ -133,7 +133,7 @@ public class Evaluator_ClassOnly {
                 String binary = gsFile.getParent() + "/" + filename + ".relation.keys";
                 processed.add(binary);
 
-                gs_headers = LTableAnnotationKeyFileReader.readHeaderAnnotation(header_gs, true, gs_NE_only);
+                gs_headers = TAnnotationKeyFileReader.readHeaderAnnotation(header_gs, true, gs_NE_only);
                 processed.add(filename);
 
             } else {
@@ -164,7 +164,7 @@ public class Evaluator_ClassOnly {
                     StringBuilder line = new StringBuilder("\"" + cpFile.getPath() + "\",");
 
                     Map<Integer, List<List<String>>> cp_headers =
-                            LTableAnnotationKeyFileReader.readHeaderAnnotation(header_cp, false, gs_NE_only);
+                            TAnnotationKeyFileReader.readHeaderAnnotation(header_cp, false, gs_NE_only);
 
 
                     double[] header_data_mode_0 = Evaluator_ClassOnly.compute_prf_header(gs_headers, cp_headers, 0);
@@ -232,7 +232,7 @@ public class Evaluator_ClassOnly {
                 String binary = gsFile.getParent() + "/" + filename + ".relation.keys";
                 processed.add(binary);
 
-                gs_headers = LTableAnnotationKeyFileReader.readHeaderAnnotation(header_gs, true, gs_NE_only);
+                gs_headers = TAnnotationKeyFileReader.readHeaderAnnotation(header_gs, true, gs_NE_only);
                 processed.add(filename);
 
             } else {
@@ -263,7 +263,7 @@ public class Evaluator_ClassOnly {
                     StringBuilder line = new StringBuilder("\"" + cpFile.getPath() + "\",");
 
                     Map<Integer, List<List<String>>> cp_headers =
-                            LTableAnnotationKeyFileReader.readHeaderAnnotation(header_cp, false, gs_NE_only);
+                            TAnnotationKeyFileReader.readHeaderAnnotation(header_cp, false, gs_NE_only);
 
 
                     double[] header_data_mode_0 = Evaluator_ClassOnly.compute_prf_header(gs_headers, cp_headers, 0);

@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  */
-public class LTableAnnotationKeyFileReader {
+public class TAnnotationKeyFileReader {
     public static Map<Integer, List<List<String>>> readHeaderAnnotation(String keyfile, boolean isGS, boolean gs_NE_only) throws IOException {
         Map<Integer, List<List<String>>> result = new HashMap<Integer, List<List<String>>>();
         if (!new File(keyfile).exists())
