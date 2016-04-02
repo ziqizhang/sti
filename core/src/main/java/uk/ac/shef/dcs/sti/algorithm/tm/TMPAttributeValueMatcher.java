@@ -4,7 +4,6 @@ import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.util.*;
 
@@ -34,7 +33,7 @@ public class TMPAttributeValueMatcher extends AttributeValueMatcher{
         Map<Integer, DataTypeClassifier.DataType> attributeValueDataTypes = new HashMap<>();
         for (int index = 0; index < attributes.size(); index++) {
             Attribute attr = attributes.get(index);
-            String prop = attr.getRelation();
+            String prop = attr.getRelationURI();
             String val = attr.getValue();
             String id_of_val = attr.getValueURI();
 

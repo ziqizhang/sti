@@ -116,10 +116,10 @@ public class BaselineTColumnClassifier implements ClazzScorer {
                 Map<String, Double> tmp_score_elements = hAnnotation.getScoreElements();
                 if (tmp_score_elements == null || tmp_score_elements.size() == 0) {
                     tmp_score_elements = new HashMap<String, Double>();
-                    tmp_score_elements.put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE, 0.0);
+                    tmp_score_elements.put(TColumnHeaderAnnotation.SUM_CELL_VOTE, 0.0);
                 }
-                tmp_score_elements.put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE,
-                        tmp_score_elements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE) + 1.0);
+                tmp_score_elements.put(TColumnHeaderAnnotation.SUM_CELL_VOTE,
+                        tmp_score_elements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE) + 1.0);
                 hAnnotation.setScoreElements(tmp_score_elements);
 
                 candidate_header_annotations.add(hAnnotation);
@@ -166,10 +166,10 @@ public class BaselineTColumnClassifier implements ClazzScorer {
                 Map<String, Double> tmp_score_elements = hAnnotation.getScoreElements();
                 if (tmp_score_elements == null || tmp_score_elements.size() == 0) {
                     tmp_score_elements = new HashMap<String, Double>();
-                    tmp_score_elements.put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE, 0.0);
+                    tmp_score_elements.put(TColumnHeaderAnnotation.SUM_CELL_VOTE, 0.0);
                 }
-                tmp_score_elements.put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE,
-                        tmp_score_elements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE) + 1.0);
+                tmp_score_elements.put(TColumnHeaderAnnotation.SUM_CELL_VOTE,
+                        tmp_score_elements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE) + 1.0);
                 hAnnotation.setScoreElements(tmp_score_elements);
 
                 candidate_header_annotations.add(hAnnotation);
@@ -208,9 +208,9 @@ public class BaselineTColumnClassifier implements ClazzScorer {
 
     public Map<String, Double> computeFinal(TColumnHeaderAnnotation ha, int tableRowsTotal) {
         Map<String, Double> scoreElements = ha.getScoreElements();
-        double sum_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE);
+        double sum_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE);
         double score_entity_vote = sum_entity_vote / (double) tableRowsTotal;
-        scoreElements.put(TColumnHeaderAnnotation.SCORE_ENTITY_VOTE, score_entity_vote);
+        scoreElements.put(TColumnHeaderAnnotation.SCORE_CELL_VOTE, score_entity_vote);
 
         double finalScore = score_entity_vote;
         Double namematch = scoreElements.get(TColumnHeaderAnnotation.SCORE_CTX_IN_HEADER);

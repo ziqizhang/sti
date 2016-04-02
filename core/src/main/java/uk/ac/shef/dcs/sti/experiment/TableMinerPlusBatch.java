@@ -12,6 +12,8 @@ import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentTContentRowRankerImpl;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.OSPD_nonEmpty;
 import uk.ac.shef.dcs.sti.rep.Table;
+import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
+
 import java.io.*;
 import java.util.*;
 
@@ -107,7 +109,7 @@ public class TableMinerPlusBatch extends STIBatch {
                     new FreebaseConceptBoWCreator(),
                     getStopwords(),
                     new double[]{1.0, 1.0, 1.0, 1.0}         //all 1.0
-            );                                              //header,column,tablecontext other, page title+caption
+            );                                              //header,column,out trivial, out important
             selector = new OSPD_nonEmpty();
             preliminaryClassify = new LEARNINGPreliminaryColumnClassifier(
                     selector,
@@ -149,24 +151,24 @@ public class TableMinerPlusBatch extends STIBatch {
         LOG.info("Initializing RELATIONLEARNING components ...");
         RelationScorer relation_scorer=null;
         TColumnColumnRelationEnumerator interpreter_relation=null;
-        DataLiteralColumnClassifier interpreter_with_knownRelations=null;
+        LiteralColumnTagger interpreter_with_knownRelations=null;
         try {
             //object to computeElementScores relations between columns
-             relation_scorer = new RelationScorer_Vote(
+             relation_scorer = new TMPRelationScorer(
                     getNLPResourcesDir(),
                     new FreebaseRelationBoWCreator(),
                     getStopwords(),
-                    new double[]{1.0, 1.0, 0.0, 0.0, 1.0}    //entity, header text, column, title&caption, other
+                    new double[]{1.0, 0.0,1.0, 1.0}    //header text, column, out-trivial, out-important
                     // new double[]{1.0, 1.0, 0.0, 0.0, 1.0}
             );
              interpreter_relation = new TColumnColumnRelationEnumerator(
-                    new TMPAttributeValueMatcher(0.0, getStopwords()),
+                    new TMPAttributeValueMatcher(0.0, getStopwords(), new Levenshtein()),
                     relation_scorer
             );
 
             //object to consolidate previous output, further computeElementScores columns and disamgiuate entities
              interpreter_with_knownRelations =
-                    new DataLiteralColumnClassifier_exclude_entity_col(
+                    new LiteralColumnTagger_exclude_entity_col(
                             getIgnoreColumns()
                     );
         }catch (Exception e){

@@ -187,7 +187,7 @@ public class TI_SemanticMessagePassing {
             }
         }
 
-        for (Map<Integer, List<CellBinaryRelationAnnotation>> relations : tab_annotations.getRelationAnnotations_per_row().values()) {
+        for (Map<Integer, List<TCellCellRelationAnotation>> relations : tab_annotations.getCellcellRelations().values()) {
             count_cell_pairs_with_relation += relations.size();
         }
 
@@ -244,16 +244,16 @@ public class TI_SemanticMessagePassing {
         //check relation annotations
         int relation_converged_count = 0;
         boolean relation_converged = false;
-        Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> prev_relations=previous.getRelationAnnotations_across_columns();
-        Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> current_relation = current.getRelationAnnotations_across_columns();
-        Set<Key_SubjectCol_ObjectCol> tmp_keys = new HashSet<Key_SubjectCol_ObjectCol>(prev_relations.keySet());
+        Map<RelationColumns, List<TColumnColumnRelationAnnotation>> prev_relations=previous.getColumncolumnRelations();
+        Map<RelationColumns, List<TColumnColumnRelationAnnotation>> current_relation = current.getColumncolumnRelations();
+        Set<RelationColumns> tmp_keys = new HashSet<RelationColumns>(prev_relations.keySet());
         tmp_keys.retainAll(current_relation.keySet());
         if(tmp_keys.size()!=prev_relations.keySet().size()|| tmp_keys.size()!=current_relation.keySet().size())
             return false;
-        for(Key_SubjectCol_ObjectCol subobj: tmp_keys){
-            List<HeaderBinaryRelationAnnotation> prev_candidates = previous.getBestRelationAnnotationsBetween(subobj);
-            List<HeaderBinaryRelationAnnotation> current_candidates = current.getBestRelationAnnotationsBetween(subobj);
-            List<HeaderBinaryRelationAnnotation> tmp = new ArrayList<HeaderBinaryRelationAnnotation>(prev_candidates);
+        for(RelationColumns subobj: tmp_keys){
+            List<TColumnColumnRelationAnnotation> prev_candidates = previous.getBestRelationAnnotationsBetween(subobj);
+            List<TColumnColumnRelationAnnotation> current_candidates = current.getBestRelationAnnotationsBetween(subobj);
+            List<TColumnColumnRelationAnnotation> tmp = new ArrayList<TColumnColumnRelationAnnotation>(prev_candidates);
             tmp.retainAll(current_candidates);
             if(tmp.size()==prev_candidates.size()&& tmp.size()==current_candidates.size()){
                 relation_converged_count++;

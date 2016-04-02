@@ -132,24 +132,24 @@ public class CandidateRelationGenerator {
     private void aggregateRelationsAcrossColumns(
             TAnnotation_JI_Freebase tableAnnotation
     ) throws IOException {
-        for (Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> e :
-                tableAnnotation.getRelationAnnotations_per_row().entrySet()) {
+        for (Map.Entry<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>> e :
+                tableAnnotation.getCellcellRelations().entrySet()) {
 
             //simply create dummy header relation annotations
-            Key_SubjectCol_ObjectCol current_relationKey = e.getKey(); //key indicating the directional relationship (subject col, object col)
+            RelationColumns current_relationKey = e.getKey(); //key indicating the directional relationship (subject col, object col)
 
             Set<String> candidateRelationURLs = new HashSet<String>();
-            Map<Integer, List<CellBinaryRelationAnnotation>> relation_on_rows = e.getValue();
-            for (Map.Entry<Integer, List<CellBinaryRelationAnnotation>> entry :
+            Map<Integer, List<TCellCellRelationAnotation>> relation_on_rows = e.getValue();
+            for (Map.Entry<Integer, List<TCellCellRelationAnotation>> entry :
                     relation_on_rows.entrySet()) {
-                for (CellBinaryRelationAnnotation cbr : entry.getValue()) {
-                    candidateRelationURLs.add(cbr.getAnnotation_url());
+                for (TCellCellRelationAnotation cbr : entry.getValue()) {
+                    candidateRelationURLs.add(cbr.getRelationURI());
                 }
             }
 
             for (String url : candidateRelationURLs) {
-                tableAnnotation.addRelationAnnotation_across_column(
-                        new HeaderBinaryRelationAnnotation(current_relationKey, url,
+                tableAnnotation.addColumnColumnRelation(
+                        new TColumnColumnRelationAnnotation(current_relationKey, url,
                                 url, 0.0)
                 );
             }

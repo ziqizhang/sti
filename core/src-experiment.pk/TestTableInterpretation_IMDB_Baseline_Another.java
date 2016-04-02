@@ -97,7 +97,7 @@ public class TestTableInterpretation_IMDB_Baseline_Another {
         );
 
 
-        DataLiteralColumnClassifier interpreter_with_knownRelations = new DataLiteralColumnClassifier_exclude_entity_col(
+        LiteralColumnTagger interpreter_with_knownRelations = new LiteralColumnTagger_exclude_entity_col(
                 IGNORE_COLUMNS
         );
         Base_SL_no_Update_MainInterpreter interpreter = new Base_SL_no_Update_MainInterpreter(

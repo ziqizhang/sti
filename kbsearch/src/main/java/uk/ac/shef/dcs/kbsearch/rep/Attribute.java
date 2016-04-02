@@ -1,8 +1,6 @@
 package uk.ac.shef.dcs.kbsearch.rep;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * An attribute of a resource forms a triple with that resource. It must contain a relation, and a value which is the object of
@@ -11,20 +9,20 @@ import java.util.Map;
 public class Attribute implements Serializable{
     private static final long serialVersionUID = -8624557934000474692L;
 
-    private String relation;
+    private String relationURI;
     private String value;
     private String valueURI; //in case 'value' is a resource, define its URI if available
     private boolean isDirect=true; //if this attribute is a direct attribute. this is generally 'true'. for freebase,
                               //triples that form an indirect relation with a resource can be returned. In which case this
                               //is used to indicate whether the attribute is a direct attribute of the resource or not
 
-    public Attribute(String property, String v) {
-        this.relation=property;
-        this.value=v;
+    public Attribute(String relationURI, String value) {
+        this.relationURI =relationURI;
+        this.value=value;
     }
 
-    public void setRelation(String relation) {
-        this.relation = relation;
+    public void setRelationURI(String relationURI) {
+        this.relationURI = relationURI;
     }
 
     public String getValue() {
@@ -35,8 +33,8 @@ public class Attribute implements Serializable{
         this.value = value;
     }
 
-    public String getRelation() {
-        return relation;
+    public String getRelationURI() {
+        return relationURI;
     }
 
     public String getValueURI() {
@@ -50,7 +48,7 @@ public class Attribute implements Serializable{
     public boolean equals(Object o){
         if(o instanceof Attribute){
             Attribute a = (Attribute)o;
-            return a.getRelation().equals(this.getRelation()) && a.getValue().equals(this.getValue());
+            return a.getRelationURI().equals(this.getRelationURI()) && a.getValue().equals(this.getValue());
         }
         return false;
     }
@@ -64,6 +62,6 @@ public class Attribute implements Serializable{
     }
 
     public String toString(){
-        return "r="+relation+",o="+value+" ("+valueURI+"), direct="+isDirect;
+        return "r="+ relationURI +",o="+value+" ("+valueURI+"), direct="+isDirect;
     }
 }

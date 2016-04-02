@@ -25,7 +25,7 @@ public class TableAnnotationChecker {
 
         System.out.println("header:"+countHeader);
         System.out.println("cell:"+countCell);
-        System.out.println("rel:"+annotation.getRelationAnnotations_across_columns());
+        System.out.println("rel:"+annotation.getColumncolumnRelations());
     }
 
     public static boolean hasAnnotation(TAnnotation_JI_Freebase tab_annotations) {
@@ -38,7 +38,7 @@ public class TableAnnotationChecker {
                     return true;
             }
         }
-        if(tab_annotations.getRelationAnnotations_across_columns().size()>0)
+        if(tab_annotations.getColumncolumnRelations().size()>0)
             return true;
 
         return false;

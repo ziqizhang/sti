@@ -84,9 +84,9 @@ public class RelationTextMatch_Scorer {
                         Double score = e.getValue();
                         if (score.equals(highestScore)) {
                             Attribute fact = subject_entity_facts.get(index);
-                            tableAnnotation.addRelationAnnotation_per_row(new CellBinaryRelationAnnotation(
-                                    new Key_SubjectCol_ObjectCol(subjectColumn, objectColumn), row,
-                                    fact.getRelation(), fact.getRelation(),
+                            tableAnnotation.addCellCellRelation(new TCellCellRelationAnotation(
+                                    new RelationColumns(subjectColumn, objectColumn), row,
+                                    fact.getRelationURI(), fact.getRelationURI(),
                                     new ArrayList<>(), score
                             ));
                         }

@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.TColumnFeature;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.rep.*;
@@ -21,10 +20,9 @@ public class TMPInterpreter {
 
     private SubjectColumnDetector subjectColumnDetector;
     private LEARNING learning;
-    private DataLiteralColumnClassifier interpreter_column_with_knownReltaions;
-    private TColumnColumnRelationEnumerator interpreter_relation;
-    private RelationScorer hbr_scorer;
-    //private static Logger LOG = Logger.getLogger(MainInterpreter.class.getName());
+    private LiteralColumnTagger literalColumnTagger;
+    private TColumnColumnRelationEnumerator relationEnumerator;
+    private RelationScorer relationScorer;
     private Set<Integer> ignoreCols;
     private int[] mustdoColumns;
     private UPDATE update;
@@ -34,22 +32,22 @@ public class TMPInterpreter {
     public TMPInterpreter(SubjectColumnDetector subjectColumnDetector,
                           LEARNING learning,
                           UPDATE update,
-                          TColumnColumnRelationEnumerator interpreter_relation,
-                          RelationScorer hbr_scorer,
-                          DataLiteralColumnClassifier interpreter_column_with_knownReltaions,
+                          TColumnColumnRelationEnumerator relationEnumerator,
+                          RelationScorer relationScorer,
+                          LiteralColumnTagger literalColumnTagger,
                           int[] ignoreColumns,
                           int[] mustdoColumns
     ) {
         this.subjectColumnDetector = subjectColumnDetector;
         this.learning = learning;
-        this.interpreter_column_with_knownReltaions = interpreter_column_with_knownReltaions;
-        this.interpreter_relation = interpreter_relation;
+        this.literalColumnTagger = literalColumnTagger;
+        this.relationEnumerator = relationEnumerator;
         this.ignoreCols = new HashSet<>();
         for (int i : ignoreColumns)
             ignoreCols.add(i);
         this.mustdoColumns = mustdoColumns;
         this.update = update;
-        this.hbr_scorer = hbr_scorer;
+        this.relationScorer = relationScorer;
     }
 
     public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, KBSearchException, STIException {
@@ -98,12 +96,15 @@ public class TMPInterpreter {
         }
 
         if (relationLearning) {
-
+            new RELATIONENUMERATION().enumerate(subjectColumnScores,
+                    ignoreCols, relationEnumerator,
+                    tableAnnotations, table,
+                    annotatedColumns, update, relationScorer);
 
             //4. consolidation-for columns that have relation with main subject column, if the column is
             // entity column, do column typing and disambiguation; otherwise, simply create header annotation
-            LOG.info(">\t Classify columns (non-NE) in relation with main column");
-            interpreter_column_with_knownReltaions.interpret(table, tableAnnotations, annotatedColumns.toArray(new Integer[0]));
+            LOG.info(">\t Annotate literal-columns in relation with main column");
+            literalColumnTagger.annotate(table, tableAnnotations, annotatedColumns.toArray(new Integer[0]));
 
         }
 
@@ -182,46 +183,6 @@ public class TMPInterpreter {
         tableAnnotations.setHeaderAnnotation(column, result);
     }
 
-    /*private boolean isInterpretable(int columns_having_relations_with_main_col, Table table) {
-        int totalColumns = 0;
-        for (int col = 0; col < table.getNumCols(); col++) {
-            DataTypeClassifier.DataType cType = table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType();
-            if (cType.equals(DataTypeClassifier.DataType.ORDERED_NUMBER) ||
-                    cType.equals(DataTypeClassifier.DataType.EMPTY) ||
-                    cType.equals(DataTypeClassifier.DataType.LONG_TEXT))
-                continue;
-            totalColumns++;
-        }
-
-        return columns_having_relations_with_main_col >=
-                totalColumns * interpreter_relation.getThreshold_minimum_binary_relations_in_table();
-    }*/
-
-    private double scoreSolution(TAnnotation tab_annotations, Table table, int main_subject_column) {
-        double entityScores = 0.0;
-        for (int col = 0; col < table.getNumCols(); col++) {
-            for (int row = 0; row < table.getNumRows(); row++) {
-                TCellAnnotation[] cAnns = tab_annotations.getContentCellAnnotations(row, col);
-                if (cAnns != null && cAnns.length > 0) {
-                    entityScores += cAnns[0].getFinalScore();
-                }
-            }
-        }
-
-        double relationScores = 0.0;
-        for (Map.Entry<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> entry : tab_annotations.getRelationAnnotations_across_columns().entrySet()) {
-            Key_SubjectCol_ObjectCol key = entry.getKey();
-            HeaderBinaryRelationAnnotation rel = entry.getValue().get(0);
-            relationScores += rel.getFinalScore();
-        }
-        TColumnFeature cf = table.getColumnHeader(main_subject_column).getFeature();
-        //relationScores = relationScores * cf.getValueDiversity();
-
-        double diversity = cf.getUniqueCellCount() + cf.getUniqueTokenCount();
-        return (entityScores + relationScores) * diversity * ((table.getNumRows() - cf.getEmptyCellCount()) / (double) table.getNumRows());
-    }
-
-
     private boolean isCompulsoryColumn(Integer i) {
         if (i != null) {
             for (int a : mustdoColumns) {
@@ -230,21 +191,6 @@ public class TMPInterpreter {
             }
         }
         return false;
-    }
-
-    private void revise_header_binary_relations(TAnnotation annotation, List<String> domain_representation
-    ) {
-        for (Map.Entry<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>>
-                entry : annotation.getRelationAnnotations_across_columns().entrySet()) {
-
-            for (HeaderBinaryRelationAnnotation hbr : entry.getValue()) {
-                double domain_consensus = hbr_scorer.score_domain_consensus(hbr, domain_representation);
-
-                hbr.setFinalScore(hbr.getFinalScore() + domain_consensus);
-            }
-            Collections.sort(entry.getValue());
-        }
-
     }
 
 }

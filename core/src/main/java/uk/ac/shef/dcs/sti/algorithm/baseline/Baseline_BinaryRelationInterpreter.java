@@ -67,12 +67,12 @@ public class Baseline_BinaryRelationInterpreter {
                     cellTextMatcher.match(facts, values_to_match_on_the_row, colTypes);
 
             for (Map.Entry<Integer, List<Pair<Attribute, Double>>> e : matched_scores_for_the_row.entrySet()) {
-                Key_SubjectCol_ObjectCol subobj_key = new Key_SubjectCol_ObjectCol(sub_column, e.getKey());
+                RelationColumns subobj_key = new RelationColumns(sub_column, e.getKey());
 
                 List<Pair<Attribute, Double>> matched_candidates = e.getValue();
 
                 for (Pair<Attribute, Double> matched : matched_candidates) {
-                    String annotation = matched.getKey().getRelation();
+                    String annotation = matched.getKey().getRelationURI();
                     String annotation_label = ""; //todo:currently we do not get the label!!!
                     /*String[] matchedValue = new String[3];
                     matchedValue[0] = matched.getKey()[0]; //property name
@@ -81,55 +81,55 @@ public class Baseline_BinaryRelationInterpreter {
 */
                     List<Attribute> matchedValues = new ArrayList<>();
                     matchedValues.add(matched.getKey());
-                    CellBinaryRelationAnnotation relationAnnotation =
-                            new CellBinaryRelationAnnotation(
+                    TCellCellRelationAnotation relationAnnotation =
+                            new TCellCellRelationAnotation(
                                     subobj_key, row, annotation, annotation_label, matchedValues, matched.getValue()
                             );
-                    annotations.addRelationAnnotation_per_row(relationAnnotation);
+                    annotations.addCellCellRelation(relationAnnotation);
                 }
             }
         }
 
         //now we have created relation annotations per row, consolidate for the column-pair
-        for (Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> entry :
-                annotations.getRelationAnnotations_per_row().entrySet()) {
+        for (Map.Entry<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>> entry :
+                annotations.getCellcellRelations().entrySet()) {
             //for every sub=obj pair
-            Key_SubjectCol_ObjectCol key = entry.getKey();
-            Map<Integer, List<CellBinaryRelationAnnotation>> value = entry.getValue();
+            RelationColumns key = entry.getKey();
+            Map<Integer, List<TCellCellRelationAnotation>> value = entry.getValue();
 
             //Map<String, HeaderBinaryRelationAnnotation> consolidated_across_column_relation_annotations = new HashMap<String, HeaderBinaryRelationAnnotation>();
             //go through every row, update header binary relation scores
 
             Map<String, Double> scores = new HashMap<String, Double>();
-            for (Map.Entry<Integer, List<CellBinaryRelationAnnotation>> e : value.entrySet()) {
-                List<CellBinaryRelationAnnotation> candidates = e.getValue();
-                for(CellBinaryRelationAnnotation cbr: candidates){
-                    Double score = scores.get(cbr.getAnnotation_url());
+            for (Map.Entry<Integer, List<TCellCellRelationAnotation>> e : value.entrySet()) {
+                List<TCellCellRelationAnotation> candidates = e.getValue();
+                for(TCellCellRelationAnotation cbr: candidates){
+                    Double score = scores.get(cbr.getRelationURI());
                     score=score==null?0.0:score;
                     score+=1.0;
-                    scores.put(cbr.getAnnotation_url(), score);
+                    scores.put(cbr.getRelationURI(), score);
                 }
             }
 
 
-            List<HeaderBinaryRelationAnnotation> sorted = new ArrayList<HeaderBinaryRelationAnnotation>();
+            List<TColumnColumnRelationAnnotation> sorted = new ArrayList<TColumnColumnRelationAnnotation>();
             for(Map.Entry<String, Double> e: scores.entrySet()){
                 String url = e.getKey();
                 Double score =e.getValue();
-                HeaderBinaryRelationAnnotation hbr = new HeaderBinaryRelationAnnotation(
+                TColumnColumnRelationAnnotation hbr = new TColumnColumnRelationAnnotation(
                         key,
                         url, "",score
                 );
                 sorted.add(hbr);
             }
             Collections.sort(sorted);
-            for(HeaderBinaryRelationAnnotation hbr: sorted)
-                annotations.addRelationAnnotation_across_column(hbr);
+            for(TColumnColumnRelationAnnotation hbr: sorted)
+                annotations.addColumnColumnRelation(hbr);
 
         }
 
 
-        return annotations.getRelationAnnotations_per_row().size();
+        return annotations.getCellcellRelations().size();
 
     }
 

@@ -85,9 +85,9 @@ class TColumnHeaderAnnotationUpdater {
                         ha.addSupportingRow(row);
                         if (!votedClazzIdsByThisCell.contains(ha.getAnnotation().getId())) {
                             //update the CE score elements for this column clazz annotation
-                            double sum_votes = ha.getScoreElements().get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE);
+                            double sum_votes = ha.getScoreElements().get(TColumnHeaderAnnotation.SUM_CELL_VOTE);
                             sum_votes++;
-                            ha.getScoreElements().put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE, sum_votes);
+                            ha.getScoreElements().put(TColumnHeaderAnnotation.SUM_CELL_VOTE, sum_votes);
 
                             double sum_ce = ha.getScoreElements().get(TColumnHeaderAnnotation.SUM_CE);
                             sum_ce += ca.getFinalScore();
@@ -148,9 +148,9 @@ class TColumnHeaderAnnotationUpdater {
             for (TColumnHeaderAnnotation ha : existing_header_annotations) {
                 if (type_url.equals(ha.getAnnotation().getId())) {
                     ha.addSupportingRow(row);
-                    double sum_votes = ha.getScoreElements().get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE);
+                    double sum_votes = ha.getScoreElements().get(TColumnHeaderAnnotation.SUM_CELL_VOTE);
                     sum_votes++;
-                    ha.getScoreElements().put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE, sum_votes);
+                    ha.getScoreElements().put(TColumnHeaderAnnotation.SUM_CELL_VOTE, sum_votes);
                     double sum_base_score = ha.getScoreElements().get(TColumnHeaderAnnotation.SUM_CE);
                     sum_base_score += score;
                     ha.getScoreElements().put(TColumnHeaderAnnotation.SUM_CE, sum_base_score);

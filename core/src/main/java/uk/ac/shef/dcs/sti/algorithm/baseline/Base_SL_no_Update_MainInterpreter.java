@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.baseline;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.sti.algorithm.tm.DataLiteralColumnClassifier;
+import uk.ac.shef.dcs.sti.algorithm.tm.LiteralColumnTagger;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.TColumnFeature;
 import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
@@ -20,7 +20,7 @@ public class Base_SL_no_Update_MainInterpreter {
     private SubjectColumnDetector main_col_finder;
     private Base_TM_no_Update_ColumnLearner interpreter_column;
     private Baseline_BinaryRelationInterpreter interpreter_relation;
-    private DataLiteralColumnClassifier interpreter_column_with_knownReltaions;
+    private LiteralColumnTagger interpreter_column_with_knownReltaions;
     //private static Logger LOG = Logger.getLogger(MainInterpreter.class.getName());
     private int[] ignoreColumns;
     private int[] forceInterpretColumn;
@@ -29,7 +29,7 @@ public class Base_SL_no_Update_MainInterpreter {
     public Base_SL_no_Update_MainInterpreter(SubjectColumnDetector main_col_finder,
                                              Base_TM_no_Update_ColumnLearner interpreter_column,
                                              Baseline_BinaryRelationInterpreter interpreter_relation,
-                                             DataLiteralColumnClassifier interpreter_column_with_knownReltaions,
+                                             LiteralColumnTagger interpreter_column_with_knownReltaions,
                                              int[] ignoreColumns, int[] forceInterpretColumn) {
         this.main_col_finder = main_col_finder;
         this.interpreter_column = interpreter_column;
@@ -105,7 +105,7 @@ public class Base_SL_no_Update_MainInterpreter {
             //4. consolidation-for columns that have relation with main subject column, if the column is
             // entity column, do column typing and disambiguation; otherwise, simply create header annotation
             System.out.println(">\t Classify columns (non-NE) in relation with main column");
-            interpreter_column_with_knownReltaions.interpret(table, tab_annotations, interpreted_columns.toArray(new Integer[0]));
+            interpreter_column_with_knownReltaions.annotate(table, tab_annotations, interpreted_columns.toArray(new Integer[0]));
 
         }
 
@@ -142,9 +142,9 @@ public class Base_SL_no_Update_MainInterpreter {
         }
 
         double relationScores = 0.0;
-        for (Map.Entry<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> entry : tab_annotations.getRelationAnnotations_across_columns().entrySet()) {
-            Key_SubjectCol_ObjectCol key = entry.getKey();
-            HeaderBinaryRelationAnnotation rel = entry.getValue().get(0);
+        for (Map.Entry<RelationColumns, List<TColumnColumnRelationAnnotation>> entry : tab_annotations.getColumncolumnRelations().entrySet()) {
+            RelationColumns key = entry.getKey();
+            TColumnColumnRelationAnnotation rel = entry.getValue().get(0);
             relationScores += rel.getFinalScore();
         }
         TColumnFeature cf = table.getColumnHeader(main_subject_column).getFeature();

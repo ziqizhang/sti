@@ -100,26 +100,26 @@ public class TAnnotationWriter {
 
     protected void writeRelationKeyFile(TAnnotation table_annotation, String relation_key) throws FileNotFoundException {
         PrintWriter p = new PrintWriter(relation_key);
-        for (Map.Entry<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> e :
-                table_annotation.getRelationAnnotations_across_columns().entrySet()) {
+        for (Map.Entry<RelationColumns, List<TColumnColumnRelationAnnotation>> e :
+                table_annotation.getColumncolumnRelations().entrySet()) {
             int subCol = e.getKey().getSubjectCol();
             int objCol = e.getKey().getObjectCol();
-            List<HeaderBinaryRelationAnnotation> relations = e.getValue();
+            List<TColumnColumnRelationAnnotation> relations = e.getValue();
             Collections.sort(relations);
             StringBuilder s = new StringBuilder();
             double prevScore=0.0;
-            for (HeaderBinaryRelationAnnotation hr : relations) {
+            for (TColumnColumnRelationAnnotation hr : relations) {
                 if (prevScore == 0.0) {
 
-                    s.append(hr.getAnnotation_url());
+                    s.append(hr.getRelationURI());
                     prevScore=hr.getFinalScore();
                 }
                 else{
                     if(hr.getFinalScore()==prevScore){
-                        s.append("=").append(hr.getAnnotation_url());
+                        s.append("=").append(hr.getRelationURI());
                     }
                     else
-                        s.append("|").append(hr.getAnnotation_url());
+                        s.append("|").append(hr.getRelationURI());
                 }
             }
             p.println(subCol + "," + objCol + "=" + s.toString());
@@ -209,15 +209,15 @@ public class TAnnotationWriter {
                     out.append("\t<td");
 
                     StringBuilder annotation = new StringBuilder();
-                    Key_SubjectCol_ObjectCol key = new Key_SubjectCol_ObjectCol(tab_annotations.getSubjectColumn(), col);
-                    Map<Integer, List<CellBinaryRelationAnnotation>> tmp = tab_annotations.getRelationAnnotationsBetween(key.getSubjectCol(), key.getObjectCol());
+                    RelationColumns key = new RelationColumns(tab_annotations.getSubjectColumn(), col);
+                    Map<Integer, List<TCellCellRelationAnotation>> tmp = tab_annotations.getRelationAnnotationsBetween(key.getSubjectCol(), key.getObjectCol());
                     if (tmp == null) {
                         annotation.append(">-");
                         annotation.append("</td>\n");
                         out.append(annotation);
                         continue;
                     }
-                    List<CellBinaryRelationAnnotation> crAnns = tmp.get(row);
+                    List<TCellCellRelationAnotation> crAnns = tmp.get(row);
 
                     if (crAnns == null)
                         annotation.append(">-");
@@ -225,7 +225,7 @@ public class TAnnotationWriter {
                         Collections.sort(crAnns);
                         annotation.append(" bgcolor=\"#00FF00\">");
                         for (int i = 0; i < crAnns.size(); i++) {
-                            CellBinaryRelationAnnotation crAnn = crAnns.get(i);
+                            TCellCellRelationAnotation crAnn = crAnns.get(i);
                             if (i == 0) { //the winning annotation
                                 annotation.append("<br><b>").append(generateAcrossCellRelationString(crAnn)).append("</b></br>");
                             } else if (showLosingCandidates) {  //others
@@ -283,8 +283,8 @@ public class TAnnotationWriter {
                 out.append("\t<th");
 
                 StringBuilder annotation = new StringBuilder();
-                Key_SubjectCol_ObjectCol key = new Key_SubjectCol_ObjectCol(tab_annotations.getSubjectColumn(), col);
-                List<HeaderBinaryRelationAnnotation> hAnns = tab_annotations.getRelationAnnotations_across_columns().get(key);
+                RelationColumns key = new RelationColumns(tab_annotations.getSubjectColumn(), col);
+                List<TColumnColumnRelationAnnotation> hAnns = tab_annotations.getColumncolumnRelations().get(key);
 
                 if (hAnns == null)
                     annotation.append(">-");
@@ -292,7 +292,7 @@ public class TAnnotationWriter {
                     Collections.sort(hAnns);
                     annotation.append(" bgcolor=\"#00FF00\">");
                     for (int i = 0; i < hAnns.size(); i++) {
-                        HeaderBinaryRelationAnnotation hAnn = hAnns.get(i);
+                        TColumnColumnRelationAnnotation hAnn = hAnns.get(i);
                         if (i == 0) { //the winning annotation
                             annotation.append("<br><b>").append(generateAcrossHeaderRelationString(hAnn)).append("</b></br>");
                         } else if (showLosingCandidates) {  //others
@@ -402,21 +402,21 @@ public class TAnnotationWriter {
         return sb.toString();
     }
 
-    protected String generateAcrossHeaderRelationString(HeaderBinaryRelationAnnotation ha) {
+    protected String generateAcrossHeaderRelationString(TColumnColumnRelationAnnotation ha) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<a href=\"" + linkPrefix + ha.getAnnotation_url() + "\">").
-                append(ha.getAnnotation_url()).
+        sb.append("<a href=\"" + linkPrefix + ha.getRelationURI() + "\">").
+                append(ha.getRelationURI()).
                 append("</a>").
                 append("=").append(Math.round(ha.getFinalScore() * 100.0) / 100.0).append(ha.getSupportingRows());
         return sb.toString();
     }
 
-    protected String generateAcrossCellRelationString(CellBinaryRelationAnnotation ca) {
+    protected String generateAcrossCellRelationString(TCellCellRelationAnotation ca) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<a href=\"" + linkPrefix + ca.getAnnotation_url() + "\">").
-                append(ca.getAnnotation_url()).
+        sb.append("<a href=\"" + linkPrefix + ca.getRelationURI() + "\">").
+                append(ca.getRelationURI()).
                 append("</a>").
-                append("=").append(Math.round(ca.getScore() * 100.0) / 100.0);
+                append("=").append(Math.round(ca.getWinningAttributeMatchScore() * 100.0) / 100.0);
         return sb.toString();
     }
 }

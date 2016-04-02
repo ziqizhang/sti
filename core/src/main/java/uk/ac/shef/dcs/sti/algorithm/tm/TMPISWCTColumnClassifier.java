@@ -116,12 +116,12 @@ public class TMPISWCTColumnClassifier implements ClazzScorer {
                 if (tmp_score_elements == null || tmp_score_elements.size() == 0) {
                     tmp_score_elements = new HashMap<String, Double>();
                     tmp_score_elements.put(TColumnHeaderAnnotation.SUM_CE, 0.0);
-                    tmp_score_elements.put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE, 0.0);
+                    tmp_score_elements.put(TColumnHeaderAnnotation.SUM_CELL_VOTE, 0.0);
                 }
                 tmp_score_elements.put(TColumnHeaderAnnotation.SUM_CE,
                         tmp_score_elements.get(TColumnHeaderAnnotation.SUM_CE) + best_score);
-                tmp_score_elements.put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE,
-                        tmp_score_elements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE) + 1.0);
+                tmp_score_elements.put(TColumnHeaderAnnotation.SUM_CELL_VOTE,
+                        tmp_score_elements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE) + 1.0);
                 hAnnotation.setScoreElements(tmp_score_elements);
 
                 candidate_header_annotations.add(hAnnotation);
@@ -308,21 +308,21 @@ public class TMPISWCTColumnClassifier implements ClazzScorer {
         Map<String, Double> scoreElements = ha.getScoreElements();
         double sum_entity_disamb =
                 scoreElements.get(TColumnHeaderAnnotation.SUM_CE);
-        double sum_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE);
+        double sum_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE);
 
         scoreElements.put(TColumnHeaderAnnotation.SCORE_CE, sum_entity_disamb / sum_entity_vote);
 
-        double score_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE) / (double) tableRowsTotal;
-        scoreElements.put(TColumnHeaderAnnotation.SCORE_ENTITY_VOTE, score_entity_vote);
+        double score_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE) / (double) tableRowsTotal;
+        scoreElements.put(TColumnHeaderAnnotation.SCORE_CELL_VOTE, score_entity_vote);
 
-        double base_score = compute_typing_base_score(sum_entity_disamb, scoreElements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE),
+        double base_score = compute_typing_base_score(sum_entity_disamb, scoreElements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE),
                 (double) tableRowsTotal);
 
         for (Map.Entry<String, Double> e : scoreElements.entrySet()) {
             if (e.getKey().equals(TColumnHeaderAnnotation.SUM_CE) ||
-                    e.getKey().equals(TColumnHeaderAnnotation.SUM_ENTITY_VOTE) ||
+                    e.getKey().equals(TColumnHeaderAnnotation.SUM_CELL_VOTE) ||
                     e.getKey().equals(TColumnHeaderAnnotation.SCORE_CE) ||
-                    e.getKey().equals(TColumnHeaderAnnotation.SCORE_ENTITY_VOTE) ||
+                    e.getKey().equals(TColumnHeaderAnnotation.SCORE_CELL_VOTE) ||
                     e.getKey().equals(TColumnHeaderAnnotation.FINAL))
                 continue;
 

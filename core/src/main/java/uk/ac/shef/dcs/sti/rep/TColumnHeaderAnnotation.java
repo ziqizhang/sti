@@ -18,14 +18,13 @@ import java.util.Map;
 public class TColumnHeaderAnnotation implements Serializable,Comparable<TColumnHeaderAnnotation> {
     private static final long serialVersionUID = -6208426814708405913L;
 
-    public static final String SUM_CE ="sum_entity_disamb";
-    public static final String SUM_ENTITY_VOTE ="sum_entity_vote";
-    public static final String SCORE_CE ="entity_disamb_score";
-    public static final String SCORE_ENTITY_VOTE ="entity_vote_score";
+    public static final String SUM_CE ="sum_ce";
+    public static final String SUM_CELL_VOTE ="sum_cell_vote";
+    public static final String SCORE_CE ="ce_score";
+    public static final String SCORE_CELL_VOTE ="cell_vote";
     public static final String SCORE_CTX_IN_HEADER ="ctx_header_text";
     public static final String SCORE_CTX_IN_COLUMN ="ctx_column_text";
-    //public static final String SCORE_CTX_ROW_TEXT ="ctx_row_text";
-    public static final String SCORE_CTX_OUT ="ctx_table_context";
+    public static final String SCORE_CTX_OUT ="ctx_out_context";
     public static final String SCORE_CTX_RELATION_IF_ANY="ctx_relation_with_sub_col";
     public static final String FINAL="final";
     public static final String SCORE_DOMAIN_CONSENSUS = "domain_consensus";
@@ -44,9 +43,9 @@ public class TColumnHeaderAnnotation implements Serializable,Comparable<TColumnH
         supportingRows = new ArrayList<>();
         scoreElements=new HashMap<>();
         scoreElements.put(SUM_CE, 0.0);
-        scoreElements.put(SUM_ENTITY_VOTE, 0.0);
+        scoreElements.put(SUM_CELL_VOTE, 0.0);
         scoreElements.put(SCORE_CE, 0.0);
-        scoreElements.put(SCORE_ENTITY_VOTE, 0.0);
+        scoreElements.put(SCORE_CELL_VOTE, 0.0);
         scoreElements.put(SCORE_CTX_IN_HEADER, null);
         scoreElements.put(SCORE_CTX_IN_COLUMN, null);
         scoreElements.put(SCORE_CTX_OUT, null);

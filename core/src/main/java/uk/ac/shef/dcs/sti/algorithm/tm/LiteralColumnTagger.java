@@ -13,6 +13,6 @@ import java.io.IOException;
  * Time: 16:20
  * To change this template use File | Settings | File Templates.
  */
-public abstract class DataLiteralColumnClassifier {
-    public abstract void interpret(Table table, TAnnotation annotations, Integer... en_columns) throws KBSearchException;
+public abstract class LiteralColumnTagger {
+    public abstract void annotate(Table table, TAnnotation annotations, Integer... en_columns) throws KBSearchException;
 }

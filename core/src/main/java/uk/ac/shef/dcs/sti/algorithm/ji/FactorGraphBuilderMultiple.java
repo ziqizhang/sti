@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import cc.mallet.grmm.types.FactorGraph;
 import cc.mallet.grmm.types.Variable;
-import uk.ac.shef.dcs.sti.rep.Key_SubjectCol_ObjectCol;
+import uk.ac.shef.dcs.sti.rep.RelationColumns;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 
 import java.util.*;
@@ -65,19 +65,19 @@ public class FactorGraphBuilderMultiple extends FactorGraphBuilder {
         int counter = 0;
         String key = null;
         if (relationLearning) {
-            List<Key_SubjectCol_ObjectCol> relationDirections = new ArrayList<Key_SubjectCol_ObjectCol>(
-                    annotation.getRelationAnnotations_across_columns().keySet()
+            List<RelationColumns> relationColumnses = new ArrayList<RelationColumns>(
+                    annotation.getColumncolumnRelations().keySet()
             );
-            Collections.sort(relationDirections, new Comparator<Key_SubjectCol_ObjectCol>() {
+            Collections.sort(relationColumnses, new Comparator<RelationColumns>() {
                 @Override
-                public int compare(Key_SubjectCol_ObjectCol o1, Key_SubjectCol_ObjectCol o2) {
+                public int compare(RelationColumns o1, RelationColumns o2) {
                     int c= Integer.valueOf(o1.getSubjectCol()).compareTo(o2.getSubjectCol());
                     if(c==0)
                         return Integer.valueOf(o1.getObjectCol()).compareTo(o2.getObjectCol());
                     return c;
                 }
             });
-            for (Key_SubjectCol_ObjectCol rel : relationDirections) {
+            for (RelationColumns rel : relationColumnses) {
                 Set<Integer> components = findContainingGraph(result, rel.getSubjectCol(), rel.getObjectCol());
                 if (components == null) {
                     components = new HashSet<Integer>();

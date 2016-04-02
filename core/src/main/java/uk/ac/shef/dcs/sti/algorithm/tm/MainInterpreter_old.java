@@ -20,7 +20,7 @@ public class MainInterpreter_old {
 
     private SubjectColumnDetector main_col_finder;
     private LEARNING interpreter_column;
-    private DataLiteralColumnClassifier interpreter_column_with_knownReltaions;
+    private LiteralColumnTagger interpreter_column_with_knownReltaions;
     private TColumnColumnRelationEnumerator interpreter_relation;
     //private static Logger LOG = Logger.getLogger(MainInterpreter.class.getName());
     private int[] ignoreColumns;
@@ -29,7 +29,7 @@ public class MainInterpreter_old {
 
     public MainInterpreter_old(SubjectColumnDetector main_col_finder,
                            LEARNING interpreter_column,
-                           DataLiteralColumnClassifier interpreter_column_with_knownReltaions,
+                           LiteralColumnTagger interpreter_column_with_knownReltaions,
                            TColumnColumnRelationEnumerator interpreter_relation,
                            int[] ignoreColumns, int[] forceInterpretColumn) {
         this.main_col_finder = main_col_finder;
@@ -104,7 +104,7 @@ public class MainInterpreter_old {
             //4. consolidation-for columns that have relation with main subject column, if the column is
             // entity column, do column typing and disambiguation; otherwise, simply create header annotation
             System.out.println(">\t Interpret columns in relation with main column");
-            interpreter_column_with_knownReltaions.interpret(table, tab_annotations);
+            interpreter_column_with_knownReltaions.annotate(table, tab_annotations);
         }
         //5. for other NE columns that do not have relation with the main sub column, do column typing and disambiguation, infer possible relation between it
         //and subject column
@@ -167,9 +167,9 @@ public class MainInterpreter_old {
         }
 
         double relationScores = 0.0;
-        for (Map.Entry<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> entry : tab_annotations.getRelationAnnotations_across_columns().entrySet()) {
-            Key_SubjectCol_ObjectCol key = entry.getKey();
-            HeaderBinaryRelationAnnotation rel = entry.getValue().get(0);
+        for (Map.Entry<RelationColumns, List<TColumnColumnRelationAnnotation>> entry : tab_annotations.getColumncolumnRelations().entrySet()) {
+            RelationColumns key = entry.getKey();
+            TColumnColumnRelationAnnotation rel = entry.getValue().get(0);
             relationScores += rel.getFinalScore();
         }
         TColumnFeature cf = table.getColumnHeader(main_subject_column).getFeature();

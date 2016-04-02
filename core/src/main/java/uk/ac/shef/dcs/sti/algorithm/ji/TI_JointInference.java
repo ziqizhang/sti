@@ -258,7 +258,7 @@ public class TI_JointInference {
             } else if (varType.equals(VariableType.RELATION.toString())) {
                 double maxScore = 0.0;
                 AssignmentIterator it = ptl.assignmentIterator();
-                Key_SubjectCol_ObjectCol direction = null;
+                RelationColumns direction = null;
                 while (it.hasNext()) {
                     double score = ptl.value(it);
                     if (Double.isNaN(score))
@@ -272,20 +272,20 @@ public class TI_JointInference {
                     it.next();
                 }
 
-                List<HeaderBinaryRelationAnnotation> relationCandidates =
-                        tab_annotations.getRelationAnnotations_across_columns().get(direction);
+                List<TColumnColumnRelationAnnotation> relationCandidates =
+                        tab_annotations.getColumncolumnRelations().get(direction);
 
-                tab_annotations.getRelationAnnotations_across_columns().remove(new Key_SubjectCol_ObjectCol(
+                tab_annotations.getColumncolumnRelations().remove(new RelationColumns(
                         direction.getObjectCol(), direction.getSubjectCol()
                 ));
 
-                for (HeaderBinaryRelationAnnotation hbr : relationCandidates) {
+                for (TColumnColumnRelationAnnotation hbr : relationCandidates) {
                     AssignmentIterator itr = ptl.assignmentIterator();
                     boolean found = false;
                     while (itr.hasNext()) {
                         int outcome = itr.indexOfCurrentAssn();
                         String assignedId = var.getLabelAlphabet().lookupLabel(outcome).toString();
-                        if (assignedId.equals(hbr.getAnnotation_url())) {
+                        if (assignedId.equals(hbr.getRelationURI())) {
                             found = true;
                             double score = ptl.value(itr);
                             if (Double.isNaN(score)) return false;
@@ -297,7 +297,7 @@ public class TI_JointInference {
                     if (!found) //this should not happen
                         hbr.setFinalScore(0.0);
                 }
-                tab_annotations.getRelationAnnotations_across_columns().put(direction,
+                tab_annotations.getColumncolumnRelations().put(direction,
                         relationCandidates);
                 //go through again and collection only...
 

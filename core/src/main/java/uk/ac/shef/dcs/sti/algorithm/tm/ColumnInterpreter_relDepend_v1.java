@@ -35,12 +35,12 @@ public class ColumnInterpreter_relDepend_v1 extends DataLiteralColumnClassifier 
 
     public void computeElementScores(Table table, TAnnotation annotations) throws IOException {
         //for each column that has a relation with the subject column, infer its type
-        Map<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>
+        Map<RelationDirection, Map<Integer, List<CellBinaryRelationAnnotation>>>
                 relationAnnotations = annotations.getRelationAnnotations_per_row();
 
-        for (Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>
+        for (Map.Entry<RelationDirection, Map<Integer, List<CellBinaryRelationAnnotation>>>
                 e : relationAnnotations.entrySet()) {
-            Key_SubjectCol_ObjectCol subcol_objcol = e.getKey();
+            RelationDirection subcol_objcol = e.getKey();
             LOG.info(">>\tRelation column " + subcol_objcol.getObjectCol());
             Map<Integer, List<CellBinaryRelationAnnotation>> rows_annotated_with_relation = e.getValue();
             //what is the main type of this column? if the main type happens to be entities...

@@ -150,16 +150,16 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                            double score,
                                            TCellAnnotation sbjEntity,
                                            List<TCellAnnotation> matchedObjCellCandidates) {
-        tableAnnotation.addRelationAnnotation_per_row(new CellBinaryRelationAnnotation(
-                new Key_SubjectCol_ObjectCol(subjectColumn, objectColumn), row, fact.getRelation(), fact.getRelation(),
+        tableAnnotation.addCellCellRelation(new TCellCellRelationAnotation(
+                new RelationColumns(subjectColumn, objectColumn), row, fact.getRelationURI(), fact.getRelationURI(),
                 new ArrayList<>(), score
         ));
         //subject entity, its concepts and relation
         populateEntityPairAndRelationScore(tableAnnotation, sbjEntity.getAnnotation().getId(),
-                fact.getRelation(), matchedObjCellCandidates, subjectColumn, objectColumn);
+                fact.getRelationURI(), matchedObjCellCandidates, subjectColumn, objectColumn);
         populateConceptPairAndRelationScore_instanceEvidence(tableAnnotation, sbjEntity,
                 row,
-                fact.getRelation(), matchedObjCellCandidates, subjectColumn, objectColumn, score);
+                fact.getRelationURI(), matchedObjCellCandidates, subjectColumn, objectColumn, score);
     }
 
     private void populateConceptPairAndRelationScore_instanceEvidence(TAnnotation_JI_Freebase tableAnnotation,
@@ -176,7 +176,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                     if (sbjType.getId().equals(objType.getId())) continue;
                     tableAnnotation.setScore_conceptPairAndRelation_instanceEvidence(entityRow,
                             sbjType.getId(),
-                            HeaderBinaryRelationAnnotation.toStringExpanded(relationFrom, relationTo, relationURL),
+                            TColumnColumnRelationAnnotation.toStringExpanded(relationFrom, relationTo, relationURL),
                             objType.getId(),
                             maxScore);
                 }
@@ -191,7 +191,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
         for (TCellAnnotation objEntity : objEntities)
             tableAnnotation.setScore_entityPairAndRelation(entityId,
                     objEntity.getAnnotation().getId(),
-                    HeaderBinaryRelationAnnotation.toStringExpanded(
+                    TColumnColumnRelationAnnotation.toStringExpanded(
                             relationFrom, relationTo, relationURL), 1.0);
     }
 
@@ -248,7 +248,7 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
                                            TAnnotation_JI_Freebase annotation,
                                            int col1,
                                            int col2) {
-        String relation_key = HeaderBinaryRelationAnnotation.toStringExpanded(col1, col2, fact.getRelation());
+        String relation_key = TColumnColumnRelationAnnotation.toStringExpanded(col1, col2, fact.getRelationURI());
         String subjectConcept = sbjCandidate.getAnnotation().getId();
         if (objectConcepts != null) {
             for (String oc : objectConcepts) {
@@ -256,21 +256,21 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
             }
         }
 
-        List<HeaderBinaryRelationAnnotation> candidateRelations =
-                annotation.getRelationAnnotations_across_columns().get(
-                        new Key_SubjectCol_ObjectCol(col1, col2)
+        List<TColumnColumnRelationAnnotation> candidateRelations =
+                annotation.getColumncolumnRelations().get(
+                        new RelationColumns(col1, col2)
                 );
-        if (candidateRelations == null) candidateRelations = new ArrayList<HeaderBinaryRelationAnnotation>();
+        if (candidateRelations == null) candidateRelations = new ArrayList<TColumnColumnRelationAnnotation>();
         boolean contains = false;
-        for (HeaderBinaryRelationAnnotation hbr : candidateRelations) {
-            if (hbr.getAnnotation_url().equals(fact.getRelation())) {
+        for (TColumnColumnRelationAnnotation hbr : candidateRelations) {
+            if (hbr.getRelationURI().equals(fact.getRelationURI())) {
                 contains = true;
                 break;
             }
         }
         if (!contains) {
-            annotation.addRelationAnnotation_across_column(new HeaderBinaryRelationAnnotation(
-                    new Key_SubjectCol_ObjectCol(col1, col2), fact.getRelation(), fact.getRelation(), 0.0
+            annotation.addColumnColumnRelation(new TColumnColumnRelationAnnotation(
+                    new RelationColumns(col1, col2), fact.getRelationURI(), fact.getRelationURI(), 0.0
             ));
         }
     }
@@ -280,19 +280,19 @@ public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Sco
             int subjectColumn, int objectColumn,
             TAnnotation_JI_Freebase tableAnnotations) {
         if (subjectCellAnnotations.size() > 0) {
-            Key_SubjectCol_ObjectCol relationDirection = new Key_SubjectCol_ObjectCol(subjectColumn, objectColumn);
-            List<HeaderBinaryRelationAnnotation> candidateRelations =
-                    tableAnnotations.getRelationAnnotations_across_columns().get(relationDirection);
+            RelationColumns relationColumns = new RelationColumns(subjectColumn, objectColumn);
+            List<TColumnColumnRelationAnnotation> candidateRelations =
+                    tableAnnotations.getColumncolumnRelations().get(relationColumns);
             if (candidateRelations != null && candidateRelations.size() > 0) {
                 for (int s = 0; s < subjectCellAnnotations.size(); s++) { //for each candidate subject entity
                     TCellAnnotation sbjEntity = subjectCellAnnotations.get(s);
                     List<Attribute> sbjEntityFacts = sbjEntity.getAnnotation().getAttributes(); //get the facts of that sbj ent
 
                     for (Attribute f : sbjEntityFacts) {
-                        for (HeaderBinaryRelationAnnotation hbr : candidateRelations) {
-                            if (f.getRelation().equals(hbr.getAnnotation_url())) {
+                        for (TColumnColumnRelationAnnotation hbr : candidateRelations) {
+                            if (f.getRelationURI().equals(hbr.getRelationURI())) {
                                 tableAnnotations.setScore_entityAndRelation(sbjEntity.getAnnotation().getId(),
-                                        HeaderBinaryRelationAnnotation.toStringExpanded(relationDirection.getSubjectCol(), relationDirection.getObjectCol(),f.getRelation()), 1.0);
+                                        TColumnColumnRelationAnnotation.toStringExpanded(relationColumns.getSubjectCol(), relationColumns.getObjectCol(), f.getRelationURI()), 1.0);
                                 break;
                             }
                         }

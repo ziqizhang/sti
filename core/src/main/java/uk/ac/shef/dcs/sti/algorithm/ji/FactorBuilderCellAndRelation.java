@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import cc.mallet.grmm.types.*;
-import uk.ac.shef.dcs.sti.rep.Key_SubjectCol_ObjectCol;
+import uk.ac.shef.dcs.sti.rep.RelationColumns;
 
 import java.util.*;
 
@@ -14,7 +14,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                            Map<String, Variable> cellVariables,
                            TAnnotation_JI_Freebase annotation,
                            FactorGraph graph,
-                           Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection,
+                           Map<String, RelationColumns> relationVarOutcomeDirection,
                            String tableId, Set<Integer> columns) {
         List<String> processed = new ArrayList<String>();
         for (int c1 = 0; c1 < annotation.getCols(); c1++) {
@@ -47,7 +47,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                                           Variable relationVar,
                                           TAnnotation_JI_Freebase annotation,
                                           FactorGraph graph,
-                                          Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection,
+                                          Map<String, RelationColumns> relationVarOutcomeDirection,
                                           String tableId) {
         if (sbjCellVar != null && objCellVar != null) {
             Map<String, Double> affinity_scores = new HashMap<String, Double>();
@@ -56,7 +56,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                 String sbj = sbjCellVar.getLabelAlphabet().lookupLabel(s).toString();
                 for (int r = 0; r < relationVar.getNumOutcomes(); r++) {
                     String rel = relationVar.getLabelAlphabet().lookupLabel(r).toString();
-                    Key_SubjectCol_ObjectCol direction = relationVarOutcomeDirection.get(rel);
+                    RelationColumns direction = relationVarOutcomeDirection.get(rel);
                     boolean forwardRelation = true;
                     if (direction.getObjectCol() < direction.getSubjectCol()) forwardRelation = false;
                     if (forwardRelation)
@@ -126,7 +126,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                            Map<String, Variable> cellVariables,
                            TAnnotation_JI_Freebase annotation,
                            FactorGraph graph,
-                           Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection,
+                           Map<String, RelationColumns> relationVarOutcomeDirection,
                            String tableId) {
         addFactors(relationVariables, cellVariables, annotation, graph,
                 relationVarOutcomeDirection, tableId, null);

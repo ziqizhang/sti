@@ -73,7 +73,7 @@ public class TestTI_DataFiltering_Baseline_LimayeDataset {
                 new String[]{"0.0", "1", "0.01"},
                 server,
                 nlpResources,
-                TableMinerConstants.MAIN_COL_DETECT_USE_WEBSEARCH,
+                TableMinerConstants.SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH,
 
                 stopWords,
                 //"paYAoeXcGrctiu5doF3p+a4EKwvQbgqp274r4dHxaw8"//, lodie
@@ -143,7 +143,7 @@ public class TestTI_DataFiltering_Baseline_LimayeDataset {
                 column_learnerSeeding, column_updater, TableMinerConstants.TCELLDISAMBIGUATOR_MAX_REFERENCE_ENTITIES);
 
         //object to computeElementScores relations between columns
-        RelationScorer relation_scorer = new RelationScorer_Vote(nlpResources,
+        RelationScorer relation_scorer = new TMPRelationScorer(nlpResources,
                 new FreebaseRelationBoWCreator(),
                 stopWords,
                 new double[]{1.0, 1.0, 0.0, 0.0, 1.0}    //entity, header text, column, title&caption, other
@@ -155,7 +155,7 @@ public class TestTI_DataFiltering_Baseline_LimayeDataset {
         );
 
         //object to consolidate previous output, further computeElementScores columns and disamgiuate entities
-        DataLiteralColumnClassifier interpreter_with_knownRelations = new DataLiteralColumnClassifier_exclude_entity_col(
+        LiteralColumnTagger interpreter_with_knownRelations = new LiteralColumnTagger_exclude_entity_col(
                 IGNORE_COLUMNS
         );
 

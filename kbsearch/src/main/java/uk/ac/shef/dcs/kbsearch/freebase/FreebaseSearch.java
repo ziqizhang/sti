@@ -130,7 +130,7 @@ public class FreebaseSearch extends KBSearch {
                     List<Attribute> attributes = findAttributesOfEntities(ec);
                     ec.setAttributes(attributes);
                     for (Attribute attr : attributes) {
-                        if (attr.getRelation().equals(FreebaseEnum.RELATION_HASTYPE.getString()) &&
+                        if (attr.getRelationURI().equals(FreebaseEnum.RELATION_HASTYPE.getString()) &&
                                 attr.isDirect() &&
                                 !ec.hasType(attr.getValueURI()))
                             ec.addType(new Clazz(attr.getValueURI(), attr.getValue()));
@@ -231,7 +231,7 @@ public class FreebaseSearch extends KBSearch {
                 //check firstly, is this a concept?
                 boolean isConcept = false;
                 for (Attribute f : retrievedAttributes) {
-                    if (f.getRelation().equals(FreebaseEnum.RELATION_HASTYPE.getString())
+                    if (f.getRelationURI().equals(FreebaseEnum.RELATION_HASTYPE.getString())
                             && f.getValueURI() != null && f.getValueURI().equals(FreebaseEnum.TYPE_TYPE.getString())) {
                         isConcept = true;
                         break;
@@ -249,13 +249,13 @@ public class FreebaseSearch extends KBSearch {
 
                 //ok, this is a concept. We need to deep-fetch its properties, and find out the range of their properties
                 for (Attribute f : retrievedAttributes) {
-                    if (f.getRelation().equals(FreebaseEnum.TYPE_PROPERTYOFTYPE.getString())) { //this is a property of a concept, we need to process it further
+                    if (f.getRelationURI().equals(FreebaseEnum.TYPE_PROPERTYOFTYPE.getString())) { //this is a property of a concept, we need to process it further
                         String propertyId = f.getValueURI();
                         if (propertyId == null) continue;
 
                         List<Attribute> attrOfProperty = findAttributesOfProperty(propertyId);
                         for (Attribute t : attrOfProperty) {
-                            if (t.getRelation().equals(FreebaseEnum.RELATION_RANGEOFPROPERTY.getString())) {
+                            if (t.getRelationURI().equals(FreebaseEnum.RELATION_RANGEOFPROPERTY.getString())) {
                                 String rangeLabel = t.getValue();
                                 String rangeURL = t.getValueURI();
                                 Attribute attr = new Attribute(f.getValueURI(), rangeLabel);
@@ -320,7 +320,7 @@ public class FreebaseSearch extends KBSearch {
                 findAttributesOfEntities(new Entity(relationURI, relationURI));
         List<Clazz> types = new ArrayList<>();
         for (Attribute attr : attributes) {
-            if (attr.getRelation().equals(FreebaseEnum.RELATION_RANGEOFPROPERTY.getString())) {
+            if (attr.getRelationURI().equals(FreebaseEnum.RELATION_RANGEOFPROPERTY.getString())) {
                 types.add(new Clazz(attr.getValueURI(), attr.getValue()));
             }
         }

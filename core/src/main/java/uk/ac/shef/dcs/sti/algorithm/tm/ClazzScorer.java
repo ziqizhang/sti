@@ -2,13 +2,15 @@ package uk.ac.shef.dcs.sti.algorithm.tm;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
+import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
+import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.rep.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.rep.Table;
+import uk.ac.shef.dcs.util.StringUtils;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,6 +20,7 @@ import java.util.Set;
  * To change this template use File | Settings | File Templates.
  */
 public interface ClazzScorer {
+
 
     //input: key is table row index; value is list of candidate entities and their disambiguation scores for that row
     //output: a map representing the state of the solution
@@ -38,4 +41,6 @@ public interface ClazzScorer {
     List<TColumnHeaderAnnotation> computeCCScore(Collection<TColumnHeaderAnnotation> candidates, Table table, int column);
 
     double computeDC(TColumnHeaderAnnotation ha, List<String> domain_representation);
+
+
 }

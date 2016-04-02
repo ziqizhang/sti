@@ -67,15 +67,15 @@ public class FreebaseSearchResultFilter extends KBSearchResultFilter {
 
     public boolean isValidAttribute(Attribute attribute) {
         //here is a list of 'pass' relations that should always be kept as the stoplist can be over-generalising
-        String rel = attribute.getRelation();
+        String rel = attribute.getRelationURI();
         if(rel.startsWith(FreebaseEnum.TYPE_COMMON_TOPIC.getString())||rel.equals(FreebaseEnum.RELATION_HASTYPE.getString())
                 ||rel.equals(FreebaseEnum.RELATION_HASNAME.getString()))
             return true;
 
         Set<String> stop = stoplists.get(LABEL_INVALID_ATTRIBUTE);
-        String relation =attribute.getRelation();
+        String relation =attribute.getRelationURI();
         if (stop != null) {
-            relation = attribute.getRelation();
+            relation = attribute.getRelationURI();
             for (String s : stop) {
                 if (relation.startsWith(s))
                     return false;

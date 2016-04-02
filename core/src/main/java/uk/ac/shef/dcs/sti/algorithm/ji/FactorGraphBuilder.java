@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.algorithm.ji;
 
 import cc.mallet.grmm.types.*;
 import cc.mallet.grmm.types.Variable;
-import uk.ac.shef.dcs.sti.rep.Key_SubjectCol_ObjectCol;
+import uk.ac.shef.dcs.sti.rep.RelationColumns;
 
 import java.util.*;
 
@@ -74,7 +74,7 @@ public class FactorGraphBuilder {
         return factorBuilderHeader.headerVarOutcomePosition.get(variable);
     }
 
-    public Key_SubjectCol_ObjectCol getRelationDirection(String varOutcomeLabel) {
+    public RelationColumns getRelationDirection(String varOutcomeLabel) {
         return factorBuilderHeaderAndRelation.relationVarOutcomeDirection.get(varOutcomeLabel);
     }
 

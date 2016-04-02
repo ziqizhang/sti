@@ -241,7 +241,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
 
     private static String extractName(List<Attribute> typesForEntityId) {
         for (Attribute a : typesForEntityId) {
-            if (a.getRelation().equals("/type/object/name"))
+            if (a.getRelationURI().equals("/type/object/name"))
                 return a.getValue();
         }
         return "null";  //To change body of created methods use File | Settings | File Templates.

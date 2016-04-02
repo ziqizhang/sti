@@ -22,9 +22,7 @@ public class TColumnColumnRelationEnumerator {
     }
 
     /**
-     * returns the main subject column id
-     * if -1, it means cannot interpret this table relations as no column can be considered main column for interpretation to work
-     * note that this method can change the subject column
+     * returns the number of columns that form relation with the subjectCol
      * <p>
      * when new relation created, supporting row info is also added
      */
@@ -62,74 +60,69 @@ public class TColumnColumnRelationEnumerator {
             }
 
             //perform matching  and scoring
-            //key=col id; objobj contains the property that matched with the highest computeElementScores (string, double)
+            //key=col id; value: contains the attr that matched with the highest score against cell in that column
             Map<Integer, List<Pair<Attribute, Double>>> cellMatchScores =
                     attributeValueMatcher.match(collectedAttributes, cellValuesToMatch, columnDataTypes);
 
-            todo continue from here...
             for (Map.Entry<Integer, List<Pair<Attribute, Double>>> e : cellMatchScores.entrySet()) {
-                Key_SubjectCol_ObjectCol subobj_key = new Key_SubjectCol_ObjectCol(subjectCol, e.getKey());
+                RelationColumns subCol_to_objCol = new RelationColumns(subjectCol, e.getKey());
 
-                List<Pair<Attribute, Double>> matched_candidates = e.getValue();
-                for (Pair<Attribute, Double> matched : matched_candidates) {
-                    String annotation = matched.getKey().getRelation();
-                    String annotation_label = ""; //todo:currently we do not get the label!!!
-                    /*String[] matchedValue = new String[4];
-                    matchedValue[0] = matched.getKey()[0]; //property name
-                    matchedValue[1] = matched.getKey()[1]; //property value
-                    matchedValue[2] = matched.getKey()[2];   //property id (if any)
-                    matchedValue[3] = matched.getKey()[3]; //if property is direct*/
-
+                List<Pair<Attribute, Double>> matchedAttributes = e.getValue();
+                for (Pair<Attribute, Double> entry : matchedAttributes) {
+                    String relationURI = entry.getKey().getRelationURI();
+                    String relationLabel = ""; //todo:currently we do not get the label!!!
                     List<Attribute> matchedValues = new ArrayList<>();
-                    matchedValues.add(matched.getKey());
-                    CellBinaryRelationAnnotation relationAnnotation =
-                            new CellBinaryRelationAnnotation(
-                                    subobj_key, row, annotation, annotation_label, matchedValues, matched.getValue()
+                    matchedValues.add(entry.getKey());
+                    TCellCellRelationAnotation cellcellRelation =
+                            new TCellCellRelationAnotation(
+                                    subCol_to_objCol, row, relationURI, relationLabel, matchedValues, entry.getValue()
                             );
-                    annotations.addRelationAnnotation_per_row(relationAnnotation);
+                    annotations.addCellCellRelation(cellcellRelation);
                 }
             }
         }
 
-        //now we have created relation annotations per row, consolidate for the column-pair
-        for (Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> entry :
-                annotations.getRelationAnnotations_per_row().entrySet()) {
-            //for every sub=obj pair
-            Key_SubjectCol_ObjectCol key = entry.getKey();
-            Map<Integer, List<CellBinaryRelationAnnotation>> value = entry.getValue();
+        //now we have created relation annotations per row, consolidate them to create column-column relation
+        enumerateColumnColumnRelation(annotations, table);
+        return annotations.getCellcellRelations().size();
+    }
 
-            //Map<String, HeaderBinaryRelationAnnotation> consolidated_across_column_relation_annotations = new HashMap<String, HeaderBinaryRelationAnnotation>();
+    private void enumerateColumnColumnRelation(TAnnotation annotations, Table table){
+        for (Map.Entry<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>> entry :
+                annotations.getCellcellRelations().entrySet()) {
+            RelationColumns key = entry.getKey(); //relation's direction
+            //map containing row and the cellcellrelations for that row
+            Map<Integer, List<TCellCellRelationAnotation>> value = entry.getValue();
+
             //go through every row, update header binary relation scores
-
-            Set<HeaderBinaryRelationAnnotation> prev_relation_annotations = new HashSet<HeaderBinaryRelationAnnotation>();
-
-            for (Map.Entry<Integer, List<CellBinaryRelationAnnotation>> e : value.entrySet()) {
-                prev_relation_annotations = relationScorer.score(e.getValue(),
-                        prev_relation_annotations,
-                        key.getSubjectCol(), key.getObjectCol(),
+            List<TColumnColumnRelationAnnotation> columnColumnRelationAnnotations = new ArrayList<>();
+            for (Map.Entry<Integer, List<TCellCellRelationAnotation>> e : value.entrySet()) {
+                columnColumnRelationAnnotations = relationScorer.computeElementScores(e.getValue(),
+                        columnColumnRelationAnnotations,
+                        key.getSubjectCol(),
+                        key.getObjectCol(),
                         table);
             }
 
-            for (HeaderBinaryRelationAnnotation hbr : prev_relation_annotations) {
-                relationScorer.compute_final_score(hbr, table.getNumRows());
-                for (Map.Entry<Integer, List<CellBinaryRelationAnnotation>> e : value.entrySet()) {
-                    for (CellBinaryRelationAnnotation cbr : e.getValue()) {
-                        if (hbr.getAnnotation_url().equals(cbr.getAnnotation_url())) {
-                            hbr.addSupportingRow(e.getKey());
+            //now collect element scores to create final score, also generate supporting rows
+            for (TColumnColumnRelationAnnotation relation : columnColumnRelationAnnotations) {
+                relationScorer.computeFinal(relation, table.getNumRows());
+                for (Map.Entry<Integer, List<TCellCellRelationAnotation>> e : value.entrySet()) {
+                    for (TCellCellRelationAnotation cbr : e.getValue()) {
+                        if (relation.getRelationURI().equals(cbr.getRelationURI())) {
+                            relation.addSupportingRow(e.getKey());
+                            break;
                         }
                     }
                 }
             }
-            List<HeaderBinaryRelationAnnotation> sorted = new ArrayList<HeaderBinaryRelationAnnotation>(prev_relation_annotations);
+            List<TColumnColumnRelationAnnotation> sorted =
+                    new ArrayList<>(columnColumnRelationAnnotations);
             Collections.sort(sorted);
-            for (HeaderBinaryRelationAnnotation hbr : sorted)
-                annotations.addRelationAnnotation_across_column(hbr);
+            for (TColumnColumnRelationAnnotation hbr : sorted)
+                annotations.addColumnColumnRelation(hbr);
 
         }
-
-
-        return annotations.getRelationAnnotations_per_row().size();
-
     }
 
 }

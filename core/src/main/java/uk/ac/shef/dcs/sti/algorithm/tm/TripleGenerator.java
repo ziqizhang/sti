@@ -63,18 +63,18 @@ public class TripleGenerator {
         //across column relations at each row
         List<Integer> related_columns_with_subject = new ArrayList<Integer>();
         int main_subject_column = 0;
-        Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>>
-                relations_across_columns = tab_annotation.getRelationAnnotations_across_columns();
-        for (Map.Entry<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> entry :
+        Map<RelationColumns, List<TColumnColumnRelationAnnotation>>
+                relations_across_columns = tab_annotation.getColumncolumnRelations();
+        for (Map.Entry<RelationColumns, List<TColumnColumnRelationAnnotation>> entry :
                 relations_across_columns.entrySet()) {
-            Key_SubjectCol_ObjectCol the_two_columns = entry.getKey();
+            RelationColumns the_two_columns = entry.getKey();
             int subCol = the_two_columns.getSubjectCol();
             int objCol = the_two_columns.getObjectCol();
             related_columns_with_subject.add(objCol);
             main_subject_column = subCol;
 
             Collections.sort(entry.getValue());
-            HeaderBinaryRelationAnnotation relation_annotation = entry.getValue().get(0);
+            TColumnColumnRelationAnnotation relation_annotation = entry.getValue().get(0);
 
             for (int row = 0; row < table.getNumRows(); row++) {
                 if (relation_annotation.getSupportingRows().contains(row))
@@ -102,7 +102,7 @@ public class TripleGenerator {
                     triple.setObject_annotation("'" + object_cell.getText() + "'");
                     triple.setObject(object_cell.getText());
                 }
-                triple.setRelation_annotation(kbNamespace + relation_annotation.getAnnotation_url());
+                triple.setRelation_annotation(kbNamespace + relation_annotation.getRelationURI());
                 result.add(triple);
 
             }

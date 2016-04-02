@@ -10,24 +10,24 @@ import java.util.*;
 /**
  * this simply chooses column type based on relations' expected types
  */
-public class DataLiteralColumnClassifier_exclude_entity_col extends DataLiteralColumnClassifier {
+public class LiteralColumnTagger_exclude_entity_col extends LiteralColumnTagger {
     //private static final Logger LOG = Logger.getLogger(ColumnInterpreter_relDepend_v1.class.getName());
     private int[] ignoreColumns;
 
-    public DataLiteralColumnClassifier_exclude_entity_col(
+    public LiteralColumnTagger_exclude_entity_col(
             int... ignoreColumns) {
         this.ignoreColumns = ignoreColumns;
 
     }
 
-    public void interpret(Table table, TAnnotation annotations, Integer... ne_columns) throws KBSearchException {
+    public void annotate(Table table, TAnnotation annotations, Integer... ne_columns) throws KBSearchException {
         //for each column that has a relation with the subject column, infer its type
-        Map<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>
-                relationAnnotations = annotations.getRelationAnnotations_per_row();
+        Map<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>>
+                relationAnnotations = annotations.getCellcellRelations();
 
-        for (Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>
+        for (Map.Entry<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>>
                 e : relationAnnotations.entrySet()) {
-            Key_SubjectCol_ObjectCol subcol_objcol = e.getKey();
+            RelationColumns subcol_objcol = e.getKey();
             if (ignoreColumn(subcol_objcol.getObjectCol())) continue;
             /*if (table.getColumnHeader(subcol_objcol.getObjectCol()).getFeature()
                     .getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY) &&
@@ -55,7 +55,7 @@ public class DataLiteralColumnClassifier_exclude_entity_col extends DataLiteralC
                 continue;
             }
 
-            Map<Integer, List<CellBinaryRelationAnnotation>> rows_annotated_with_relation = e.getValue();
+            Map<Integer, List<TCellCellRelationAnotation>> rows_annotated_with_relation = e.getValue();
             //what is the main type of this column? if the main type happens to be entities...
             List<Pair<String, Double>> sorted_scores_for_relations = new ArrayList<>();
             /*if (TableMinerConstants.CLASSIFICATION_CANDIDATE_CONTRIBUTION_METHOD == 0)
@@ -66,12 +66,12 @@ public class DataLiteralColumnClassifier_exclude_entity_col extends DataLiteralC
             //the related column is not entity column, simply create header annotation using the most frequent
             //relation label
             Set<TColumnHeaderAnnotation> candidates = new HashSet<TColumnHeaderAnnotation>();
-            List<HeaderBinaryRelationAnnotation> relations =
-                    annotations.getRelationAnnotations_across_columns().
+            List<TColumnColumnRelationAnnotation> relations =
+                    annotations.getColumncolumnRelations().
                             get(subcol_objcol);
-            for (HeaderBinaryRelationAnnotation hbr : relations) {
+            for (TColumnColumnRelationAnnotation hbr : relations) {
                 TColumnHeaderAnnotation hAnn = new TColumnHeaderAnnotation(table.getColumnHeader(subcol_objcol.getObjectCol()).getHeaderText(),
-                        new Clazz(hbr.getAnnotation_url(), hbr.getAnnotation_label()),
+                        new Clazz(hbr.getRelationURI(), hbr.getRelationLabel()),
                         hbr.getFinalScore());
                 candidates.add(hAnn);
             }

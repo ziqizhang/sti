@@ -17,7 +17,7 @@ import java.util.*;
  * this simply chooses column type based on relations' expected types
  */
 @Deprecated
-public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralColumnClassifier {
+public class LiteralColumnTagger_include_entity_col extends LiteralColumnTagger {
     //private static final Logger LOG = Logger.getLogger(ColumnInterpreter_relDepend_v1.class.getName());
     private FreebaseSearch fbSearcher;
     private ClazzScorer clazzScorer;
@@ -25,11 +25,11 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
     private TContentCellRanker selector;
     private int[] ignoreColumns;
 
-    public DataLiteralColumnClassifier_include_entity_col(FreebaseSearch fbSearcher,
-                                                          ClazzScorer scorer,
-                                                          LEARNINGPreliminaryDisamb updater,
-                                                          TContentCellRanker selector,
-                                                          int... ignoreColumns) {
+    public LiteralColumnTagger_include_entity_col(FreebaseSearch fbSearcher,
+                                                  ClazzScorer scorer,
+                                                  LEARNINGPreliminaryDisamb updater,
+                                                  TContentCellRanker selector,
+                                                  int... ignoreColumns) {
         this.ignoreColumns = ignoreColumns;
         this.fbSearcher = fbSearcher;
         this.clazzScorer = scorer;
@@ -37,28 +37,28 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
         this.selector=selector;
     }
 
-    public void interpret(Table table, TAnnotation annotations, Integer... ne_columns) throws KBSearchException {
+    public void annotate(Table table, TAnnotation annotations, Integer... ne_columns) throws KBSearchException {
         //for each column that has a relation with the subject column, infer its type
-        Map<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>
-                relationAnnotations = annotations.getRelationAnnotations_per_row();
+        Map<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>>
+                relationAnnotations = annotations.getCellcellRelations();
 
-        for (Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>>
+        for (Map.Entry<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>>
                 e : relationAnnotations.entrySet()) {
-            Key_SubjectCol_ObjectCol subcol_objcol = e.getKey();
+            RelationColumns subcol_objcol = e.getKey();
             if (ignoreColumn(subcol_objcol.getObjectCol())) continue;
 
             System.out.println("\t>> Relation column " + subcol_objcol.getObjectCol());
-            Map<Integer, List<CellBinaryRelationAnnotation>> rows_annotated_with_relation = e.getValue();
+            Map<Integer, List<TCellCellRelationAnotation>> rows_annotated_with_relation = e.getValue();
             //what is the main type of this column? if the main type happens to be entities...
             List<Pair<String, Double>> sorted_scores_for_relations=new ArrayList<>();
             /*if (TableMinerConstants.CLASSIFICATION_CANDIDATE_CONTRIBUTION_METHOD == 0)
                 aggregated_scores_for_relations = score_columnBinaryRelations_best_contribute(rows_annotated_with_relation, table.getNumRows());
             else
                 aggregated_scores_for_relations = score_columnBinaryRelations_all_contribute(rows_annotated_with_relation, table.getNumRows());*/
-            List<HeaderBinaryRelationAnnotation> header_relations =
-                    annotations.getRelationAnnotations_across_columns().get(subcol_objcol);
-            for(HeaderBinaryRelationAnnotation hra: header_relations){
-                Pair<String, Double> entry = new Pair<String, Double>(hra.getAnnotation_url(), hra.getFinalScore());
+            List<TColumnColumnRelationAnnotation> header_relations =
+                    annotations.getColumncolumnRelations().get(subcol_objcol);
+            for(TColumnColumnRelationAnnotation hra: header_relations){
+                Pair<String, Double> entry = new Pair<String, Double>(hra.getRelationURI(), hra.getFinalScore());
                 sorted_scores_for_relations.add(entry);
             }
 
@@ -107,12 +107,12 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
                 //the related column is not entity column, simply create header annotation using the most frequent
                 //relation label
                 Set<TColumnHeaderAnnotation> candidates = new HashSet<TColumnHeaderAnnotation>();
-                List<HeaderBinaryRelationAnnotation> relations =
-                        annotations.getRelationAnnotations_across_columns().
+                List<TColumnColumnRelationAnnotation> relations =
+                        annotations.getColumncolumnRelations().
                                 get(subcol_objcol);
-                for (HeaderBinaryRelationAnnotation hbr : relations) {
+                for (TColumnColumnRelationAnnotation hbr : relations) {
                     TColumnHeaderAnnotation hAnn = new TColumnHeaderAnnotation(table.getColumnHeader(subcol_objcol.getObjectCol()).getHeaderText(),
-                            new Clazz(hbr.getAnnotation_url(), hbr.getAnnotation_label()),
+                            new Clazz(hbr.getRelationURI(), hbr.getRelationLabel()),
                             hbr.getFinalScore());
                     candidates.add(hAnn);
                 }
@@ -137,36 +137,36 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
     }
 
     @Deprecated
-    private List<Pair<String, Double>> score_columnBinaryRelations_best_contribute(Map<Integer, List<CellBinaryRelationAnnotation>> candidate_binary_relations,
+    private List<Pair<String, Double>> score_columnBinaryRelations_best_contribute(Map<Integer, List<TCellCellRelationAnotation>> candidate_binary_relations,
                                                                                      int tableRowsTotal) {
 
         Map<String, Double> binary_relation_base_score = new HashMap<String, Double>();
         Map<String, Integer> binary_relation_frequency = new HashMap<String, Integer>();
-        for (Map.Entry<Integer, List<CellBinaryRelationAnnotation>> row_entry :
+        for (Map.Entry<Integer, List<TCellCellRelationAnotation>> row_entry :
                 candidate_binary_relations.entrySet()) {
             Collections.sort(row_entry.getValue());
 
-            List<CellBinaryRelationAnnotation> candidates = new ArrayList<CellBinaryRelationAnnotation>();
+            List<TCellCellRelationAnotation> candidates = new ArrayList<TCellCellRelationAnotation>();
             double prevMax = 0.0;
-            for (CellBinaryRelationAnnotation cbr : row_entry.getValue()) {
-                if (cbr.getScore() != 0.0 && cbr.getScore() >= prevMax) {
-                    prevMax = cbr.getScore();
+            for (TCellCellRelationAnotation cbr : row_entry.getValue()) {
+                if (cbr.getWinningAttributeMatchScore() != 0.0 && cbr.getWinningAttributeMatchScore() >= prevMax) {
+                    prevMax = cbr.getWinningAttributeMatchScore();
                     candidates.add(cbr);
-                } else if (cbr.getScore() != 0.0 && cbr.getScore() < prevMax)
+                } else if (cbr.getWinningAttributeMatchScore() != 0.0 && cbr.getWinningAttributeMatchScore() < prevMax)
                     break;
             }
 
 
-            for (CellBinaryRelationAnnotation cbr : candidates) {
-                Double score = binary_relation_base_score.get(cbr.getAnnotation_url());
+            for (TCellCellRelationAnotation cbr : candidates) {
+                Double score = binary_relation_base_score.get(cbr.getRelationURI());
                 score = score == null ? 0 : score;
-                score = score + cbr.getScore();
-                binary_relation_base_score.put(cbr.getAnnotation_url(), score);
+                score = score + cbr.getWinningAttributeMatchScore();
+                binary_relation_base_score.put(cbr.getRelationURI(), score);
 
-                Integer freq = binary_relation_frequency.get(cbr.getAnnotation_url());
+                Integer freq = binary_relation_frequency.get(cbr.getRelationURI());
                 freq = freq == null ? 0 : freq;
                 freq++;
-                binary_relation_frequency.put(cbr.getAnnotation_url(), freq);
+                binary_relation_frequency.put(cbr.getRelationURI(), freq);
             }
         }
 
@@ -204,26 +204,26 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
     }
 
     @Deprecated
-    private List<Pair<String, Double>> score_columnBinaryRelations_all_contribute(Map<Integer, List<CellBinaryRelationAnnotation>> candidate_binary_relations,
+    private List<Pair<String, Double>> score_columnBinaryRelations_all_contribute(Map<Integer, List<TCellCellRelationAnotation>> candidate_binary_relations,
                                                                                     int tableRowsTotal) {
 
         Map<String, Double> binary_relation_disamb_score = new HashMap<String, Double>();
         Map<String, Integer> binary_relation_sum_vote = new HashMap<String, Integer>();
-        for (Map.Entry<Integer, List<CellBinaryRelationAnnotation>> row_entry :
+        for (Map.Entry<Integer, List<TCellCellRelationAnotation>> row_entry :
                 candidate_binary_relations.entrySet()) {
-            List<CellBinaryRelationAnnotation> candidates = row_entry.getValue();
+            List<TCellCellRelationAnotation> candidates = row_entry.getValue();
 
-            for (CellBinaryRelationAnnotation cbr : candidates) {
+            for (TCellCellRelationAnotation cbr : candidates) {
 
-                Double score = binary_relation_disamb_score.get(cbr.getAnnotation_url());
+                Double score = binary_relation_disamb_score.get(cbr.getRelationURI());
                 score = score == null ? 0 : score;
-                score = score + cbr.getScore();
-                binary_relation_disamb_score.put(cbr.getAnnotation_url(), score);
+                score = score + cbr.getWinningAttributeMatchScore();
+                binary_relation_disamb_score.put(cbr.getRelationURI(), score);
 
-                Integer freq = binary_relation_sum_vote.get(cbr.getAnnotation_url());
+                Integer freq = binary_relation_sum_vote.get(cbr.getRelationURI());
                 freq = freq == null ? 0 : freq;
                 freq++;
-                binary_relation_sum_vote.put(cbr.getAnnotation_url(), freq);
+                binary_relation_sum_vote.put(cbr.getRelationURI(), freq);
             }
         }
 
@@ -262,32 +262,32 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
     //go through only HIGHEST RANKED CellBinaryRelationAnnotation each row, if an annotation is the same with "highest scoring annotation
     //on this column,
     private void select_candidate_entities_by_best_relation(
-            Map<Integer, List<CellBinaryRelationAnnotation>> rows_annotated_with_relation,
+            Map<Integer, List<TCellCellRelationAnotation>> rows_annotated_with_relation,
             Set<String> highest_scoring_relation_annotations,
             Map<Integer, Double> rows_with_entities_and_matched_scores,
             Map<Integer, List<Pair<String, String>>> rows_with_entities_and_entity_ids
     ) {
-        for (Map.Entry<Integer, List<CellBinaryRelationAnnotation>> row_entry : //key- row id
+        for (Map.Entry<Integer, List<TCellCellRelationAnotation>> row_entry : //key- row id
                 rows_annotated_with_relation.entrySet()) {//key-row id; value:candidate binary relation detected on this row
             //Collections.sort(row_entry.getValue());
             double prevMaxScore = 0.0;
-            for (CellBinaryRelationAnnotation cbr : row_entry.getValue()) {
+            for (TCellCellRelationAnotation cbr : row_entry.getValue()) {
                 if (prevMaxScore == 0.0) {
-                    prevMaxScore = cbr.getScore();
+                    prevMaxScore = cbr.getWinningAttributeMatchScore();
                 } else {
-                    if (cbr.getScore() != prevMaxScore)
+                    if (cbr.getWinningAttributeMatchScore() != prevMaxScore)
                         break;
                 }
                 /*if(prevMaxScore!=1.0)
                     continue;*/
 
-                List<Attribute> matched_values = cbr.getMatched_values();
-                double score = cbr.getScore();
+                List<Attribute> matched_values = cbr.getWinningAttributes();
+                double score = cbr.getWinningAttributeMatchScore();
 
                 for (Attribute matched : matched_values) {
                     if(!matched.isDirect())
                         continue;
-                    String prop_name = matched.getRelation();
+                    String prop_name = matched.getRelationURI();
                     if (highest_scoring_relation_annotations.contains(prop_name)) {
                         String name = matched.getValue();
                         String id = matched.getValueURI();
@@ -312,21 +312,21 @@ public class DataLiteralColumnClassifier_include_entity_col extends DataLiteralC
     //go through every CellBinaryRelationAnnotation each row, if an annotation is the same with "highest scoring annotation
     //on this column, it contributes to the classification of column
     private void select_candidate_entities_by_all_relation(
-            Map<Integer, List<CellBinaryRelationAnnotation>> rows_annotated_with_relation,
+            Map<Integer, List<TCellCellRelationAnotation>> rows_annotated_with_relation,
             Set<String> highest_scoring_relation_annotation_for_column,
             Map<Integer, Double> rows_with_entities_and_matched_scores,
             Map<Integer, List<Pair<String, String>>> rows_with_entities_and_entity_ids
     ) {
-        for (Map.Entry<Integer, List<CellBinaryRelationAnnotation>> row_entry : //key- row id
+        for (Map.Entry<Integer, List<TCellCellRelationAnotation>> row_entry : //key- row id
                 rows_annotated_with_relation.entrySet()) {//key-row id; value:candidate binary relation detected on this row
             //Collections.sort(row_entry.getValue());
-            for (CellBinaryRelationAnnotation cbr : row_entry.getValue()) {
-                List<Attribute> matched_values = cbr.getMatched_values();
-                double score = cbr.getScore();
+            for (TCellCellRelationAnotation cbr : row_entry.getValue()) {
+                List<Attribute> matched_values = cbr.getWinningAttributes();
+                double score = cbr.getWinningAttributeMatchScore();
                 if(score!=1.0)
                     continue;
                 for (Attribute matched : matched_values) {
-                    String prop_name = matched.getRelation();
+                    String prop_name = matched.getRelationURI();
                     if (highest_scoring_relation_annotation_for_column.contains(prop_name)) {
                         String name = matched.getValue();
                         String id = matched.getValueURI();

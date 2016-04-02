@@ -3,8 +3,8 @@ package uk.ac.shef.dcs.sti.algorithm.ji;
 import cc.mallet.grmm.types.*;
 import cc.mallet.grmm.types.Variable;
 import cc.mallet.types.LabelAlphabet;
-import uk.ac.shef.dcs.sti.rep.HeaderBinaryRelationAnnotation;
-import uk.ac.shef.dcs.sti.rep.Key_SubjectCol_ObjectCol;
+import uk.ac.shef.dcs.sti.rep.RelationColumns;
+import uk.ac.shef.dcs.sti.rep.TColumnColumnRelationAnnotation;
 
 import java.util.*;
 
@@ -13,9 +13,9 @@ import java.util.*;
  */
 class FactorBuilderHeaderAndRelation extends FactorBuilder {
 
-    protected Map<String, Key_SubjectCol_ObjectCol> relationVarOutcomeDirection = new HashMap<String, Key_SubjectCol_ObjectCol>();
+    protected Map<String, RelationColumns> relationVarOutcomeDirection = new HashMap<String, RelationColumns>();
 
-    public Map<String, Key_SubjectCol_ObjectCol> getRelationVarOutcomeDirection() {
+    public Map<String, RelationColumns> getRelationVarOutcomeDirection() {
         return relationVarOutcomeDirection;
     }
 
@@ -27,23 +27,23 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
             String tableId, Set<Integer> columns) {
         Map<String, Variable> result = new HashMap<String, Variable>(); //for each pair of col, will only have 1 key stored, both both directional keys are processed
         List<String> processed = new ArrayList<String>();
-        Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>>
-                candidateRelations = annotation.getRelationAnnotations_across_columns();
+        Map<RelationColumns, List<TColumnColumnRelationAnnotation>>
+                candidateRelations = annotation.getColumncolumnRelations();
         for (int c1 = 0; c1 < annotation.getCols(); c1++) {
             for (int c2 = 0; c2 < annotation.getCols(); c2++) {
                 if (c1 == c2) continue;
                 if(columns!=null&& !columns.contains(c1)&&columns.contains(c2)) continue;
 
                 if (processed.contains(c1 + "," + c2) || processed.contains(c2 + "," + c1)) continue;
-                Key_SubjectCol_ObjectCol relation_direction = new Key_SubjectCol_ObjectCol(c1, c2);
-                Key_SubjectCol_ObjectCol relation_direction_reverse = new Key_SubjectCol_ObjectCol(
+                RelationColumns relation_direction = new RelationColumns(c1, c2);
+                RelationColumns relation_direction_reverse = new RelationColumns(
                         c2, c1
                 );
-                List<HeaderBinaryRelationAnnotation> candidate_relations = candidateRelations.get(relation_direction);
+                List<TColumnColumnRelationAnnotation> candidate_relations = candidateRelations.get(relation_direction);
                 if (candidate_relations == null) {
-                    candidate_relations = new ArrayList<HeaderBinaryRelationAnnotation>();
+                    candidate_relations = new ArrayList<TColumnColumnRelationAnnotation>();
                 }
-                List<HeaderBinaryRelationAnnotation> candidate_relations_reversed = candidateRelations.get(relation_direction_reverse);
+                List<TColumnColumnRelationAnnotation> candidate_relations_reversed = candidateRelations.get(relation_direction_reverse);
                 if (candidate_relations_reversed != null) candidate_relations.addAll(candidate_relations_reversed);
                 //assuming that a relation can have only
                 //1 possible direction. not necessarily true always but reasonable
@@ -56,19 +56,19 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                 if(column1_header_variable==null||column2_header_variable==null)
                     continue;
 
-                Collections.sort(candidate_relations, new Comparator<HeaderBinaryRelationAnnotation>() {
+                Collections.sort(candidate_relations, new Comparator<TColumnColumnRelationAnnotation>() {
                     @Override
-                    public int compare(HeaderBinaryRelationAnnotation o1, HeaderBinaryRelationAnnotation o2) {
-                        return o1.getAnnotation_url().compareTo(o2.getAnnotation_url());
+                    public int compare(TColumnColumnRelationAnnotation o1, TColumnColumnRelationAnnotation o2) {
+                        return o1.getRelationURI().compareTo(o2.getRelationURI());
                     }
                 });
                 LabelAlphabet candidateIndex_relation = new LabelAlphabet();
 
                 //key- outcome index of a relation var; value-true if relation is forward; false otherwise
                 Map<Integer, Boolean> relationIndex_forwardRelation = new HashMap<Integer, Boolean>();
-                for (HeaderBinaryRelationAnnotation hbr : candidate_relations) {
+                for (TColumnColumnRelationAnnotation hbr : candidate_relations) {
                     int index_relation = candidateIndex_relation.lookupIndex(hbr.toStringExpanded(), true);
-                    Key_SubjectCol_ObjectCol current_rel_direction = hbr.getSubject_object_key();
+                    RelationColumns current_rel_direction = hbr.getRelationColumns();
                     relationVarOutcomeDirection.put(hbr.toStringExpanded(), current_rel_direction);
 
                     if (column1_header_variable != null && column2_header_variable != null) {

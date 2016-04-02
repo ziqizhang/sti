@@ -8,10 +8,8 @@ import uk.ac.shef.dcs.kbsearch.freebase.FreebaseEnum;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
-import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
-import uk.ac.shef.dcs.kbsearch.rep.Clazz;
 import uk.ac.shef.dcs.kbsearch.rep.Entity;
 import uk.ac.shef.dcs.kbsearch.rep.Resource;
 import uk.ac.shef.dcs.sti.rep.*;
@@ -150,7 +148,7 @@ public class UPDATE {
     private Collection<? extends String> createEntityDomainRep(Entity ec) throws IOException {
         List<String> domain = new ArrayList<>();
         for (Attribute fact : ec.getAttributes()) {
-            if (fact.getRelation().equals(FreebaseEnum.RELATION_HASDESCRIPTION.getString())) {
+            if (fact.getRelationURI().equals(FreebaseEnum.RELATION_HASDESCRIPTION.getString())) {
                 String[] sentences = NLPTools.getInstance(nlpResourcesDir).getSentenceSplitter().sentDetect(fact.getValue());
                 String first = sentences.length > 0 ? sentences[0] : "";
                 List<String> tokens = StringUtils.toBagOfWords(first, true, true, true);

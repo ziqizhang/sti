@@ -60,35 +60,35 @@ public class ChangeMessageBroadcaster {
         }
 
         //messages by relations
-        Map<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> relations = tableAnnotation.getRelationAnnotations_across_columns();
+        Map<RelationColumns, List<TColumnColumnRelationAnnotation>> relations = tableAnnotation.getColumncolumnRelations();
         //go thru every directional relations
-        for (Map.Entry<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> e : relations.entrySet()) {
-            Key_SubjectCol_ObjectCol subobj_col_ids = e.getKey(); //sub-obj key tells us the subject column id, and the obj column id
-            List<HeaderBinaryRelationAnnotation> relationAnnotations = e.getValue();
+        for (Map.Entry<RelationColumns, List<TColumnColumnRelationAnnotation>> e : relations.entrySet()) {
+            RelationColumns subobj_col_ids = e.getKey(); //sub-obj key tells us the subject column id, and the obj column id
+            List<TColumnColumnRelationAnnotation> relationAnnotations = e.getValue();
             Collections.sort(relationAnnotations);
             double maxScore_of_relation_across_columns = relationAnnotations.get(0).getFinalScore(); //what is the top relation's computeElementScores
             List<String> highestScoringRelationStrings = new ArrayList<String>();
-            for (HeaderBinaryRelationAnnotation hba : relationAnnotations) {  //what are the top scoring relaions. these are the currently assigned relations for the two columns
+            for (TColumnColumnRelationAnnotation hba : relationAnnotations) {  //what are the top scoring relaions. these are the currently assigned relations for the two columns
                 if (hba.getFinalScore() == maxScore_of_relation_across_columns)
-                    highestScoringRelationStrings.add(hba.getAnnotation_label());
+                    highestScoringRelationStrings.add(hba.getRelationLabel());
             }
             //next go thru every row and check if the current top scored relations apply
-            Map<Integer, List<CellBinaryRelationAnnotation>>
-                    relationAnnotations_per_row = tableAnnotation.getRelationAnnotations_per_row().get(subobj_col_ids);
+            Map<Integer, List<TCellCellRelationAnotation>>
+                    relationAnnotations_per_row = tableAnnotation.getCellcellRelations().get(subobj_col_ids);
 
             List<Integer> rows_annotated_with_relations = new ArrayList<Integer>(relationAnnotations_per_row.keySet());
             for (int row = 0; row < tableAnnotation.getRows(); row++) {
                 boolean hasMatch = false;
                 //do we know if this row is annotated with relations?
                 if (rows_annotated_with_relations.contains(row)) {
-                    List<CellBinaryRelationAnnotation> relations_on_row = relationAnnotations_per_row.get(row);
+                    List<TCellCellRelationAnotation> relations_on_row = relationAnnotations_per_row.get(row);
                     //if so, take the highest scoring relation for the current row, if it is the same as the one assigned
                     //for the two columns, we are ok
                     if (relations_on_row.size() != 0) {
                         Collections.sort(relations_on_row);
-                        double maxScore = relations_on_row.get(0).getScore();
-                        for (CellBinaryRelationAnnotation cra : relations_on_row) {
-                            if (cra.getScore() == maxScore && highestScoringRelationStrings.contains(cra.getAnnotation_url())) {
+                        double maxScore = relations_on_row.get(0).getWinningAttributeMatchScore();
+                        for (TCellCellRelationAnotation cra : relations_on_row) {
+                            if (cra.getWinningAttributeMatchScore() == maxScore && highestScoringRelationStrings.contains(cra.getRelationURI())) {
                                 hasMatch = true;
                                 break;
                             }

@@ -72,25 +72,25 @@ public class RelationLearner {
     private void aggregate(
             TAnnotation tableAnnotation, Table table) {
 
-        List<Key_SubjectCol_ObjectCol> processed = new ArrayList<Key_SubjectCol_ObjectCol>();
-        for (Map.Entry<Key_SubjectCol_ObjectCol, Map<Integer, List<CellBinaryRelationAnnotation>>> e :
-                tableAnnotation.getRelationAnnotations_per_row().entrySet()) {
+        List<RelationColumns> processed = new ArrayList<RelationColumns>();
+        for (Map.Entry<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>> e :
+                tableAnnotation.getCellcellRelations().entrySet()) {
 
             //firstly, check the directional relation where sub comes from sub col of the final_relationKey and ob comes from obj col of the ...
-            Key_SubjectCol_ObjectCol current_relationKey = e.getKey(); //key indicating the directional relationship (subject col, object col)
+            RelationColumns current_relationKey = e.getKey(); //key indicating the directional relationship (subject col, object col)
             if (processed.contains(current_relationKey))
                 continue;
             Map<String, Pair<Integer, Double>> votes = new HashMap<String, Pair<Integer, Double>>();
 
             processed.add(current_relationKey);
-            Map<Integer, List<CellBinaryRelationAnnotation>> relations_on_rows = e.getValue(); //map object where key=row id, value=collection of binary relations between the sub col and obj col on this row
+            Map<Integer, List<TCellCellRelationAnotation>> relations_on_rows = e.getValue(); //map object where key=row id, value=collection of binary relations between the sub col and obj col on this row
             collectVotes(relations_on_rows, votes);//among all relations that apply to the direction subcol-objcol, collect votes
             List<RelationDataTuple> best_subobj = selectBest(votes, current_relationKey);   //the highest scoring relation in the direction of subject-object
 
             //next, reverse the relation direction
             votes.clear();
-            Key_SubjectCol_ObjectCol reverse_relationKey = new Key_SubjectCol_ObjectCol(current_relationKey.getObjectCol(), current_relationKey.getSubjectCol());
-            relations_on_rows = tableAnnotation.getRelationAnnotations_per_row().get(reverse_relationKey);
+            RelationColumns reverse_relationKey = new RelationColumns(current_relationKey.getObjectCol(), current_relationKey.getSubjectCol());
+            relations_on_rows = tableAnnotation.getCellcellRelations().get(reverse_relationKey);
             if (relations_on_rows != null) {
                 processed.add(reverse_relationKey);
                 collectVotes(relations_on_rows, votes);
@@ -116,24 +116,24 @@ public class RelationLearner {
         RelationDataTuple template = best_subobj.get(0);
         int maxVote = template.votes;
         double maxScore = template.score;
-        Key_SubjectCol_ObjectCol relationDirection = template.relationDirection;
+        RelationColumns relationColumns = template.relationColumns;
         int countNonEmptyRows = 0;
         for (int r = 0; r < tableAnnotation.getRows(); r++) {
-            TCell c1 = table.getContentCell(r, relationDirection.getSubjectCol());
-            TCell c2 = table.getContentCell(r, relationDirection.getObjectCol());
+            TCell c1 = table.getContentCell(r, relationColumns.getSubjectCol());
+            TCell c2 = table.getContentCell(r, relationColumns.getObjectCol());
             if (!c1.getType().equals(DataTypeClassifier.DataType.EMPTY) &&
                     !c1.getType().equals(DataTypeClassifier.DataType.EMPTY))
                 countNonEmptyRows++;
         }
 
         for (RelationDataTuple rdt : best_subobj) {
-            if (rdt.votes == maxVote && rdt.score == maxScore && rdt.relationDirection.getSubjectCol() == relationDirection.getSubjectCol() &&
-                    rdt.relationDirection.getObjectCol() == relationDirection.getObjectCol()) {
-                HeaderBinaryRelationAnnotation hbr = new HeaderBinaryRelationAnnotation(relationDirection,
+            if (rdt.votes == maxVote && rdt.score == maxScore && rdt.relationColumns.getSubjectCol() == relationColumns.getSubjectCol() &&
+                    rdt.relationColumns.getObjectCol() == relationColumns.getObjectCol()) {
+                TColumnColumnRelationAnnotation hbr = new TColumnColumnRelationAnnotation(relationColumns,
                         rdt.relationString,
                         rdt.relationString,
                         (double) maxVote / countNonEmptyRows);
-                tableAnnotation.addRelationAnnotation_across_column(hbr);
+                tableAnnotation.addColumnColumnRelation(hbr);
             } else {
                 break;
             }
@@ -141,12 +141,12 @@ public class RelationLearner {
 
     }
 
-    private List<RelationDataTuple> selectBest(Map<String, Pair<Integer, Double>> votes, Key_SubjectCol_ObjectCol relationDirectionKey) {
+    private List<RelationDataTuple> selectBest(Map<String, Pair<Integer, Double>> votes, RelationColumns relationColumnsKey) {
         List<RelationDataTuple> out = new ArrayList<RelationDataTuple>();
         for (Map.Entry<String, Pair<Integer, Double>> e : votes.entrySet()) {
             RelationDataTuple rdt = new RelationDataTuple();
             rdt.relationString = e.getKey();
-            rdt.relationDirection = relationDirectionKey;
+            rdt.relationColumns = relationColumnsKey;
             rdt.votes = e.getValue().getKey();
             rdt.score = e.getValue().getValue();
             out.add(rdt);
@@ -165,21 +165,21 @@ public class RelationLearner {
         return out;
     }
 
-    private void collectVotes(Map<Integer, List<CellBinaryRelationAnnotation>> relations,
+    private void collectVotes(Map<Integer, List<TCellCellRelationAnotation>> relations,
                               Map<String, Pair<Integer, Double>> votes
     ) {
-        for (List<CellBinaryRelationAnnotation> candidatesOnRow : relations.values()) {        //go thru each row
+        for (List<TCellCellRelationAnotation> candidatesOnRow : relations.values()) {        //go thru each row
             Set<String> distinctRelations = new HashSet<String>();
-            for (CellBinaryRelationAnnotation candidate : candidatesOnRow) { //go thru each candidate of each row
-                String relationCandidate = candidate.getAnnotation_url();
+            for (TCellCellRelationAnotation candidate : candidatesOnRow) { //go thru each candidate of each row
+                String relationCandidate = candidate.getRelationURI();
                 distinctRelations.add(relationCandidate);
             }
 
             for (String relation: distinctRelations) { //go thru each candidate of each row
                 double maxScore=0.0;
-                for(CellBinaryRelationAnnotation candidate : candidatesOnRow){
-                    if(candidate.getAnnotation_url().equals(relation) && candidate.getScore()>maxScore)
-                        maxScore=candidate.getScore();
+                for(TCellCellRelationAnotation candidate : candidatesOnRow){
+                    if(candidate.getRelationURI().equals(relation) && candidate.getWinningAttributeMatchScore()>maxScore)
+                        maxScore=candidate.getWinningAttributeMatchScore();
                 }
 
                 Pair<Integer, Double> votesAndScore = votes.get(relation); //let's record both votes and computeElementScores. so when there is a tie at votes, we resort to computeElementScores
@@ -209,7 +209,7 @@ public class RelationLearner {
 
     private class RelationDataTuple implements Comparable<RelationDataTuple> {
         protected String relationString;
-        protected Key_SubjectCol_ObjectCol relationDirection;
+        protected RelationColumns relationColumns;
         protected int votes;
         protected double score;
 

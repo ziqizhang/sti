@@ -76,7 +76,7 @@ public class TestTableInterpretation_LimayeDataset_Baseline {
                 new String[]{"0.0", "1", "0.01"},
                 server,
                 nlpResources,
-                TableMinerConstants.MAIN_COL_DETECT_USE_WEBSEARCH,
+                TableMinerConstants.SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH,
                 stopWords,
                 MultiKeyStringSplitter.split(properties.getProperty("BING_API_KEYS"))
                 //"8Yr8amTvrm5SM4XK3vM3KrLqOCT/ZhkwCfLEDtslE7o=","eT14G3TOr7NdItThWFCXFjDrRHNUxmPBmqgDvjoIc6Q"
@@ -84,7 +84,7 @@ public class TestTableInterpretation_LimayeDataset_Baseline {
                 "/BlhLSReljQ3Koh+vDSOaYMji9/Ccwe/7/b9mGJLwDQ="*/);  //zqz.work
         //"fXhmgvVQnz1aLBti87+AZlPYDXcQL0G9L2dVAav+aK0="); //ziqizhang
         //eT14G3TOr7NdItThWFCXFjDrRHNUxmPBmqgDvjoIc6Q   dobs
-        DataLiteralColumnClassifier interpreter_with_knownRelations = new DataLiteralColumnClassifier_exclude_entity_col(
+        LiteralColumnTagger interpreter_with_knownRelations = new LiteralColumnTagger_exclude_entity_col(
                 IGNORE_COLUMNS
         );
 

@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 /**
  */
-public class Key_SubjectCol_ObjectCol implements Serializable {
+public class RelationColumns implements Serializable {
     private int subjectCol;
     private int objectCol;
 
-    public Key_SubjectCol_ObjectCol(int subjectCol, int objectCol) {
+    public RelationColumns(int subjectCol, int objectCol) {
         this.subjectCol=subjectCol;
         this.objectCol=objectCol;
     }
@@ -30,8 +30,8 @@ public class Key_SubjectCol_ObjectCol implements Serializable {
     }
 
     public boolean equals(Object o){
-        if(o instanceof Key_SubjectCol_ObjectCol){
-            Key_SubjectCol_ObjectCol k = (Key_SubjectCol_ObjectCol)o;
+        if(o instanceof RelationColumns){
+            RelationColumns k = (RelationColumns)o;
             return k.getSubjectCol()==getSubjectCol()&& k.getObjectCol()==getObjectCol();
         }
         return false;

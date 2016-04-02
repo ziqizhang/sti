@@ -114,7 +114,7 @@ public class SMPAdaptedEntityScorer extends EntityScorer {
         double totalAliases = 1.0, totalScore = baseScore;
 
         for (Attribute f : facts) {
-            if (f.getRelation().equalsIgnoreCase("/common/topic/alias")
+            if (f.getRelationURI().equalsIgnoreCase("/common/topic/alias")
                     && f.isDirect()) {
                 String v = f.getValue().trim();
                 if (v.length() > 0) {

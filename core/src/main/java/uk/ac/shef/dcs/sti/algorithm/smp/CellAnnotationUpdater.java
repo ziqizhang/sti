@@ -2,8 +2,8 @@ package uk.ac.shef.dcs.sti.algorithm.smp;
 
 import cern.colt.matrix.ObjectMatrix2D;
 import uk.ac.shef.dcs.kbsearch.rep.Attribute;
+import uk.ac.shef.dcs.sti.rep.RelationColumns;
 import uk.ac.shef.dcs.sti.rep.TCellAnnotation;
-import uk.ac.shef.dcs.sti.rep.Key_SubjectCol_ObjectCol;
 import uk.ac.shef.dcs.sti.rep.TAnnotation;
 import uk.ac.shef.dcs.sti.util.SubsetGenerator;
 
@@ -118,7 +118,7 @@ public class CellAnnotationUpdater {
                 else return false;
             } else { //if the current cell's NE is the object in the relation, first we need to
                 //find the subject TCellAnnotation
-                for (Key_SubjectCol_ObjectCol relation_subobjKey : tableAnnotation.getRelationAnnotations_across_columns().keySet()) {
+                for (RelationColumns relation_subobjKey : tableAnnotation.getColumncolumnRelations().keySet()) {
                     if (relation_subobjKey.getObjectCol() == col) {
                         TCellAnnotation[] subjectCellAnnotations = tableAnnotation.getContentCellAnnotations(row, relation_subobjKey.getSubjectCol());
                         //check if any fact of any candidate subject TCellAnnotation mentions ca
@@ -252,7 +252,7 @@ public class CellAnnotationUpdater {
 
     private boolean containsRelation(List<Attribute> facts, List<String> labels) {
         for (Attribute fact : facts) {
-            if (labels.contains(fact.getRelation()))
+            if (labels.contains(fact.getRelationURI()))
                 return true;
         }
         return false;

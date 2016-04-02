@@ -23,9 +23,9 @@ public class TMPClazzScorer implements ClazzScorer {
 
     private static final Logger LOG = Logger.getLogger(TMPClazzScorer.class.getName());
 
-    private Lemmatizer lemmatizer;
-    private List<String> stopWords;
-    private OntologyBasedBoWCreator bowCreator;
+    protected Lemmatizer lemmatizer;
+    protected List<String> stopWords;
+    protected OntologyBasedBoWCreator bowCreator;
     private double[] wt;  //header text, column, out table ctx: title&caption, out table ctx:other
 
     public TMPClazzScorer(String nlpResources, OntologyBasedBoWCreator bowCreator, List<String> stopWords,
@@ -120,12 +120,12 @@ public class TMPClazzScorer implements ClazzScorer {
                 if (scoreElements == null || scoreElements.size() == 0) {
                     scoreElements = new HashMap<>();
                     scoreElements.put(TColumnHeaderAnnotation.SUM_CE, 0.0);
-                    scoreElements.put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE, 0.0);
+                    scoreElements.put(TColumnHeaderAnnotation.SUM_CELL_VOTE, 0.0);
                 }
                 scoreElements.put(TColumnHeaderAnnotation.SUM_CE,
                         scoreElements.get(TColumnHeaderAnnotation.SUM_CE) + highestScore);
-                scoreElements.put(TColumnHeaderAnnotation.SUM_ENTITY_VOTE,
-                        scoreElements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE) + 1.0);
+                scoreElements.put(TColumnHeaderAnnotation.SUM_CELL_VOTE,
+                        scoreElements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE) + 1.0);
                 hAnnotation.setScoreElements(scoreElements);
 
                 if(!updatedHeaderAnnotations.contains(hAnnotation))
@@ -229,12 +229,12 @@ public class TMPClazzScorer implements ClazzScorer {
         Map<String, Double> scoreElements = ha.getScoreElements();
         double ce =
                 scoreElements.get(TColumnHeaderAnnotation.SUM_CE);
-        double sum_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE);
+        double sum_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE);
 
         scoreElements.put(TColumnHeaderAnnotation.SCORE_CE, ce / sum_entity_vote);
 
-        double score_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_ENTITY_VOTE) / (double) tableRowsTotal;
-        scoreElements.put(TColumnHeaderAnnotation.SCORE_ENTITY_VOTE, score_entity_vote);
+        double score_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE) / (double) tableRowsTotal;
+        scoreElements.put(TColumnHeaderAnnotation.SCORE_CELL_VOTE, score_entity_vote);
 
         double base_score =ce;
 
@@ -265,6 +265,36 @@ public class TMPClazzScorer implements ClazzScorer {
         ha.getScoreElements().put(TColumnHeaderAnnotation.SCORE_DOMAIN_CONSENSUS, score);
 
         return score;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    protected List<String> createClazzBOW(TColumnHeaderAnnotation ha,
+                                          boolean lowercase,
+                                          boolean discard_single_char,
+                                          boolean include_url) {
+        List<String> bow = new ArrayList<>();
+        if (include_url) {
+            bow.addAll(bowCreator.create(ha.getAnnotation().getId()));
+        }
+
+        String label = StringUtils.toAlphaNumericWhitechar(ha.getAnnotation().getLabel()).trim();
+        if (lowercase)
+            label = label.toLowerCase();
+        for (String s : label.split("\\s+")) {
+            s = s.trim();
+            if (s.length() > 0)
+                bow.add(s);
+        }
+
+        if (discard_single_char) {
+            Iterator<String> it = bow.iterator();
+            while (it.hasNext()) {
+                String t = it.next();
+                if (t.length() < 2)
+                    it.remove();
+            }
+        }
+        bow.removeAll(TableMinerConstants.FUNCTIONAL_STOPWORDS);
+        return bow;
     }
 
     private List<String> createImportantOutTableCtxBOW(List<String> bowOutTableCtx, Table table) {
@@ -338,40 +368,10 @@ public class TMPClazzScorer implements ClazzScorer {
             );
         }
         //   }
-        bow.removeAll(stopWords);
+        bow.removeAll(TableMinerConstants.FUNCTIONAL_STOPWORDS);
         //also remove special, generic words, like "title", "name"
         bow.remove("title");
         bow.remove("name");
-        return bow;
-    }
-
-    private List<String> createClazzBOW(TColumnHeaderAnnotation ha,
-                                        boolean lowercase,
-                                        boolean discard_single_char,
-                                        boolean include_url) {
-        List<String> bow = new ArrayList<>();
-        if (include_url) {
-            bow.addAll(bowCreator.create(ha.getAnnotation().getId()));
-        }
-
-        String label = StringUtils.toAlphaNumericWhitechar(ha.getAnnotation().getLabel()).trim();
-        if (lowercase)
-            label = label.toLowerCase();
-        for (String s : label.split("\\s+")) {
-            s = s.trim();
-            if (s.length() > 0)
-                bow.add(s);
-        }
-
-        if (discard_single_char) {
-            Iterator<String> it = bow.iterator();
-            while (it.hasNext()) {
-                String t = it.next();
-                if (t.length() < 2)
-                    it.remove();
-            }
-        }
-        bow.removeAll(TableMinerConstants.FUNCTIONAL_STOPWORDS);
         return bow;
     }
 
