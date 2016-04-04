@@ -4,9 +4,9 @@ import cern.colt.matrix.DoubleMatrix2D;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-import uk.ac.shef.dcs.sti.core.sampler.TContentRowRanker;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentRowRanker;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.core.stopping.StoppingCriteriaInstantiator;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.StoppingCriteriaInstantiator;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 
@@ -59,7 +59,7 @@ public class SubjectColumnDetector {
      * part is a boolean indicating whether the column is acronym column. (only NE likely columns can be
      * considered main column)
      */
-    public List<Pair<Integer, Pair<Double, Boolean>>> compute(Table table, int... skipColumns) throws APIKeysDepletedException, IOException {
+    public List<Pair<Integer, Pair<Double, Boolean>>> compute(Table table, int... skipColumns) throws APIKeysDepletedException, IOException, ClassNotFoundException {
         List<Pair<Integer, Pair<Double, Boolean>>> rs = new ArrayList<>();
 
         //1. initiate all columns' feature objects
@@ -198,7 +198,7 @@ public class SubjectColumnDetector {
         return rs;
     }
 
-    private void computeWSScores(Table table, List<TColumnFeature> featuresOfNEColumns) throws APIKeysDepletedException, IOException {
+    private void computeWSScores(Table table, List<TColumnFeature> featuresOfNEColumns) throws APIKeysDepletedException, IOException, ClassNotFoundException {
         LOG.debug("Computing web search matching (total rows " + table.getNumRows());
 
         DoubleMatrix2D scores;

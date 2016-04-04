@@ -39,7 +39,7 @@ public class Base_SL_no_Update_MainInterpreter {
         this.interpreter_column_with_knownReltaions=interpreter_column_with_knownReltaions;
     }
 
-    public TAnnotation start(Table table, boolean relationLearning) throws IOException, KBSearchException,APIKeysDepletedException {
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, KBSearchException, APIKeysDepletedException, ClassNotFoundException {
         //1. find the main subject column of this table
         System.out.println(">\t Detecting main column...");
         List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);

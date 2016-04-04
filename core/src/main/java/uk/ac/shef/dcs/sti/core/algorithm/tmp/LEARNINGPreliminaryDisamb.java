@@ -17,14 +17,14 @@ public class LEARNINGPreliminaryDisamb {
     private static final Logger LOG = Logger.getLogger(LEARNINGPreliminaryDisamb.class.getName());
     private TCellDisambiguator disambiguator;
     private KBSearch kbSearch;
-    private ClazzScorer clazzScorer;
+    private TColumnClassifier classifier;
 
     public LEARNINGPreliminaryDisamb(KBSearch kbSearch,
                                      TCellDisambiguator disambiguator,
-                                     ClazzScorer clazzScorer) {
+                                     TColumnClassifier classifier) {
         this.kbSearch = kbSearch;
         this.disambiguator = disambiguator;
-        this.clazzScorer = clazzScorer;
+        this.classifier = classifier;
     }
 
     public void runPreliminaryDisamb(
@@ -77,7 +77,7 @@ public class LEARNINGPreliminaryDisamb {
                     );
 
             if (entity_and_scoreMap.size() > 0) {
-                TMPInterpreter.addCellAnnotation(table, tableAnnotation, rows, column,
+                disambiguator.addCellAnnotation(table, tableAnnotation, rows, column,
                         entity_and_scoreMap);
                 updated.addAll(rows);
             }
@@ -85,7 +85,7 @@ public class LEARNINGPreliminaryDisamb {
 
         LOG.info("\t\t>> constrained cell disambiguation complete " + updated.size() + " rows");
         LOG.info("\t\t>> reset candidate column class annotations");
-        TMPInterpreter.updateColumnClazz(updated, column, tableAnnotation, table,clazzScorer);
+        classifier.updateColumnClazz(updated, column, tableAnnotation, table);
 
     }
 

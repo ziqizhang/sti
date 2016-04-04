@@ -58,7 +58,7 @@ public class TI_JointInference {
         this.maxIteration = maxIteration;
     }
 
-    public TAnnotation start(Table table, boolean relationLearning) throws IOException, KBSearchException,APIKeysDepletedException, STIException {
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, KBSearchException, APIKeysDepletedException, STIException, ClassNotFoundException {
         TAnnotation_JI_Freebase tab_annotations = new TAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
         List<Integer> ignoreColumnsLocal = new ArrayList<Integer>(updateIgnoreColumns(table, ignoreCols));
         int[] ignoreColumnsLocalArray = new int[ignoreColumnsLocal.size()];

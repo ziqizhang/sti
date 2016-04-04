@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.core.stopping;
+package uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping;
 
 import java.util.Map;
 

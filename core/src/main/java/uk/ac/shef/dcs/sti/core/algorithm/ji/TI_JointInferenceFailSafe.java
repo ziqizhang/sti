@@ -34,7 +34,7 @@ public class TI_JointInferenceFailSafe extends TI_JointInference {
         super(main_col_finder, neGenerator, columnClassifier, relationGenerator, useSubjectColumn, ignoreColumns, forceInterpretColumn, maxIteration);
     }
 
-    public TAnnotation start(Table table, boolean relationLearning) throws IOException, KBSearchException,APIKeysDepletedException, STIException {
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, KBSearchException, APIKeysDepletedException, STIException, ClassNotFoundException {
         TAnnotation_JI_Freebase tab_annotations = new TAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
         Set<Integer> ignoreColumnsLocal = updateIgnoreColumns(table, ignoreCols);
         int[] ignoreColumnsLocalArray = new int[ignoreColumnsLocal.size()];

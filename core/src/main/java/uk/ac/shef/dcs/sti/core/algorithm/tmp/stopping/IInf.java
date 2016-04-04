@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.core.stopping;
+package uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping;
 
 import org.apache.log4j.Logger;
 
@@ -33,7 +33,7 @@ public class IInf extends StoppingCriteria {
 
         //evaluate the state by calculating entropy
         double sum = 0.0;
-        for (Double d : new HashSet<Double>(state.values()))
+        for (Double d : new HashSet<>(state.values()))
             sum += d;
         double entropy = 0.0;
         if (state.size() > 1) {

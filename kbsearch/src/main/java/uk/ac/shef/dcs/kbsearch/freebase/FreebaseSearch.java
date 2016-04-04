@@ -46,35 +46,6 @@ public class FreebaseSearch extends KBSearch {
         otherCache.put(name, new SolrCache(cacheServer));
     }
 
-    @Deprecated
-    public List<Clazz> find_typesForEntity_filtered(String id) throws KBSearchException {
-        String query = createSolrCacheQuery_findClazzesOfResource(id);
-        List<Clazz> result = null;
-        try {
-            result = (List<Clazz>) cacheEntity.retrieve(query);
-            if (result != null) {
-                LOG.info("QUERY (cache load)=" + query + "|" + query);
-            }
-        } catch (Exception e) {
-        }
-        if (result == null) {
-            result = new ArrayList<>();
-            try {
-                List<Attribute> attributes = searcher.topicapi_getTypesOfTopicID(id);
-                for (Attribute attr : attributes) {
-                    String type = attr.getValueURI(); //this is the id of the type
-                    result.add(new Clazz(type, attr.getValue()));
-                }
-
-                cacheEntity.cache(query, result, AUTO_COMMIT);
-                // debug_helper_method(id, facts);
-                LOG.info("QUERY (cache save)=" + query + "|" + query);
-            } catch (Exception e) {
-                throw new KBSearchException(e);
-            }
-        }
-        return getResultFilter().filterClazz(result);
-    }
 
     @Override
     public List<Entity> findEntityCandidates(String content) throws KBSearchException {
@@ -116,7 +87,7 @@ public class FreebaseSearch extends KBSearch {
             try {
                 result = (List<Entity>) cacheEntity.retrieve(query);
                 if (result != null)
-                    LOG.info("QUERY (cache load)=" + query + "|" + query);
+                    LOG.debug("QUERY (entities, cache load)=" + query + "|" + query);
             } catch (Exception e) {
             }
         }
@@ -159,13 +130,12 @@ public class FreebaseSearch extends KBSearch {
 
                 result.addAll(topics);
                 cacheEntity.cache(query, result, AUTO_COMMIT);
-                LOG.info("QUERY (cache save)=" + query + "|" + query);
+                LOG.debug("QUERY (entities, cache save)=" + query + "|" + query);
             } catch (Exception e) {
                 throw new KBSearchException(e);
             }
         }
 
-        int beforeFiltering = result.size();
         if (types.length > 0) {
             Iterator<Entity> it = result.iterator();
             while (it.hasNext()) {
@@ -220,7 +190,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             attributes = (List<Attribute>) cacheConcept.retrieve(query);
             if (attributes != null)
-                LOG.info("QUERY (cache load)=" + query + "|" + query);
+                LOG.debug("QUERY (attributes of clazz, cache load)=" + query + "|" + query);
         } catch (Exception e) {
         }
 
@@ -240,7 +210,7 @@ public class FreebaseSearch extends KBSearch {
                 if (!isConcept) {
                     try {
                         cacheConcept.cache(query, attributes, AUTO_COMMIT);
-                        LOG.info("QUERY (cache save)=" + query + "|" + query);
+                        LOG.debug("QUERY (attributes of clazz, cache save)=" + query + "|" + query);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -270,7 +240,7 @@ public class FreebaseSearch extends KBSearch {
                 }
 
                 cacheConcept.cache(query, attributes, AUTO_COMMIT);
-                LOG.info("QUERY (cache save)=" + query + "|" + query);
+                LOG.debug("QUERY (attributes of clazz, cache save)=" + query + "|" + query);
             } catch (Exception e) {
                 throw new KBSearchException(e);
             }
@@ -288,7 +258,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             Object o = cacheConcept.retrieve(query);
             if (o != null) {
-                LOG.info("QUERY (cache load)=" + query + "|" + clazz);
+                LOG.debug("QUERY (granularity of clazz, cache load)=" + query + "|" + clazz);
                 return (Double) o;
             }
         } catch (Exception e) {
@@ -300,13 +270,13 @@ public class FreebaseSearch extends KBSearch {
                 result = granularity;
                 try {
                     cacheConcept.cache(query, result, AUTO_COMMIT);
-                    LOG.info("QUERY (cache save)=" + query + "|" + clazz);
+                    LOG.debug("QUERY (granularity of clazz, cache save)=" + query + "|" + clazz);
                 } catch (Exception e) {
                     LOG.error("FAILED:" + clazz);
                     e.printStackTrace();
                 }
             } catch (IOException ioe) {
-                LOG.info("ERROR(Instances of Type): Unable to fetch freebase page of instances of type: " + clazz);
+                LOG.error("ERROR(Instances of Type): Unable to fetch freebase page of instances of type: " + clazz);
             }
         }
         if (result == null)
@@ -334,7 +304,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             result = otherCache.get(PROPERTY_SIMILARITY_CACHE_CORENAME).retrieve(query);
             if (result != null)
-                LOG.info("QUERY (cache load)=" + query + "|" + query);
+                LOG.debug("QUERY (entity-clazz similarity, cache load)=" + query + "|" + query);
         } catch (Exception e) {
         }
         if (result == null)
@@ -347,11 +317,11 @@ public class FreebaseSearch extends KBSearch {
         String query = createSolrCacheQuery_findEntityConceptSimilarity(id1, id2);
         try {
             otherCache.get(PROPERTY_SIMILARITY_CACHE_CORENAME).cache(query, score, commit);
-            LOG.info("QUERY (cache saving)=" + query + "|" + query);
+            LOG.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
             if (biDirectional) {
                 query = id2 + "<>" + id1;
                 otherCache.get(PROPERTY_SIMILARITY_CACHE_CORENAME).cache(query, score, commit);
-                LOG.info("QUERY (cache saving)=" + query + "|" + query);
+                LOG.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -370,7 +340,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             result = (List<Attribute>) cache.retrieve(query);
             if (result != null)
-                LOG.info("QUERY (cache load)=" + query + "|" + query);
+                LOG.debug("QUERY (attributes of id, cache load)=" + query + "|" + query);
         } catch (Exception e) {
         }
         if (result == null || forceQuery) {
@@ -387,7 +357,7 @@ public class FreebaseSearch extends KBSearch {
             result.addAll(attributes);
             try {
                 cache.cache(query, result, AUTO_COMMIT);
-                LOG.info("QUERY (cache save)=" + query + "|" + query);
+                LOG.debug("QUERY (attributes of id, cache save)=" + query + "|" + query);
             } catch (Exception e) {
                 e.printStackTrace();
             }

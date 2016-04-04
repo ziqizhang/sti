@@ -50,7 +50,7 @@ public class TI_SemanticMessagePassing {
         this.forceInterpretColumn = forceInterpretColumn;
     }
 
-    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, KBSearchException, STIException {
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, KBSearchException, STIException, ClassNotFoundException {
         TAnnotation_SMP_Freebase tab_annotations = new TAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
 
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of

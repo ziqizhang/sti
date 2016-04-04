@@ -21,7 +21,7 @@ public class LEARNING {
         this.cellTagger = cellTagger;
     }
 
-    public void learn(Table table, TAnnotation tableAnnotation, int column) throws KBSearchException {
+    public void learn(Table table, TAnnotation tableAnnotation, int column) throws KBSearchException, ClassNotFoundException {
         Pair<Integer, List<List<Integer>>> stopPosition =
                 columnTagger.runPreliminaryColumnClassifier(table, tableAnnotation, column);
 

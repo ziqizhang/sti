@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.core.sampler;
+package uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler;
 
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.TCell;

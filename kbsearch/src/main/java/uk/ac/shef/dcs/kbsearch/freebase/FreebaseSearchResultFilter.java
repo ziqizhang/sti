@@ -49,6 +49,8 @@ public class FreebaseSearchResultFilter extends KBSearchResultFilter {
 
     public List<Clazz> filterClazz(Collection<Clazz> types) {
         List<Clazz> r = new ArrayList<>();
+        if(types==null)
+            System.out.println();
         for (Clazz t : types) {
             if (!isValidClazz(t)) continue;
             r.add(t);

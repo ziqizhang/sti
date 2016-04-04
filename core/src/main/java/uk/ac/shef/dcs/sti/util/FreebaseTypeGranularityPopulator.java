@@ -54,7 +54,7 @@ public class FreebaseTypeGranularityPopulator {
         System.exit(0)*/
         ;
         //fetch freebase pages, parse them and get granularity scores
-        List<String> all_types = new ArrayList<String>(new HashSet<String>(FileUtils.readList(args[1] + "/types_merge_all.txt", false)));
+        List<String> all_types = new ArrayList<>(new HashSet<>(FileUtils.readList(args[1] + "/types_merge_all.txt", false)));
         Collections.sort(all_types);
         /*PrintWriter p =new PrintWriter(args[1]+"/types.txt");
         for(String t: all_types)

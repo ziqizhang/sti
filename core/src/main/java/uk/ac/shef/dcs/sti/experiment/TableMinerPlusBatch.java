@@ -12,9 +12,9 @@ import uk.ac.shef.dcs.sti.core.feature.FreebaseRelationBoWCreator;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
-import uk.ac.shef.dcs.sti.core.sampler.TContentTContentRowRankerImpl;
-import uk.ac.shef.dcs.sti.core.sampler.TContentCellRanker;
-import uk.ac.shef.dcs.sti.core.sampler.OSPD_nonEmpty;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerImpl;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.OSPD_nonEmpty;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
@@ -100,7 +100,7 @@ public class TableMinerPlusBatch extends STIBatch {
         LOG.info("Initializing LEARNING components ...");
         LEARNINGPreliminaryColumnClassifier preliminaryClassify;
         TCellDisambiguator disambiguator;
-        ClazzScorer classifier;
+        TColumnClassifier classifier;
         TContentCellRanker selector;
         LEARNING learning;
         try {
@@ -109,10 +109,10 @@ public class TableMinerPlusBatch extends STIBatch {
                             getStopwords(),
                             new double[]{1.0, 0.5, 1.0, 0.5, 1.0}, //row,column, column header, tablecontext other,refent
                             getNLPResourcesDir()));                         //1.0, 0.5, 0.25, 1.0, 1.0
-            classifier = new TMPClazzScorer(getNLPResourcesDir(),
+            classifier = new TColumnClassifier(new TMPClazzScorer(getNLPResourcesDir(),
                     new FreebaseConceptBoWCreator(),
                     getStopwords(),
-                    new double[]{1.0, 1.0, 1.0, 1.0}         //all 1.0
+                    new double[]{1.0, 1.0, 1.0, 1.0} )        //all 1.0
             );                                              //header,column,out trivial, out important
             selector = new OSPD_nonEmpty();
             preliminaryClassify = new LEARNINGPreliminaryColumnClassifier(

@@ -1,22 +1,29 @@
-package uk.ac.shef.dcs.sti.core.sampler;
+package uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler;
 
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
+import uk.ac.shef.dcs.util.StringUtils;
 
 import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
  * User: zqz
- * Date: 07/07/14
- * Time: 14:44
+ * Date: 27/05/14
+ * Time: 10:34
  * To change this template use File | Settings | File Templates.
  */
-public class OSPD_namelength_merge extends TContentCellRanker {
+public class OSPD_contextWords extends TContentCellRanker {
 
+    private List<String> stopwords = new ArrayList<String>();
 
+    public OSPD_contextWords(List<String> stopwords) {
+        this.stopwords = stopwords;
+    }
+
+    @Override
     public List<List<Integer>> select(Table table, int fromCol, int subCol) {
         List<List<Integer>> rs = new ArrayList<List<Integer>>();
 
@@ -35,51 +42,60 @@ public class OSPD_namelength_merge extends TContentCellRanker {
                 }
             }
 
-            final Map<List<Integer>, Integer> countNameLength = new HashMap<List<Integer>, Integer>();
+            final Map<List<Integer>, Integer> countNonStopwords = new HashMap<List<Integer>, Integer>();
 
 
             //then make selection
             for (Map.Entry<String, List<Integer>> entry : grouped.entrySet()) {
                 List<Integer> rows = entry.getValue();
 
-                TCell tcc = table.getContentCell(rows.get(0), fromCol);
-                if (tcc.getType().equals(DataTypeClassifier.DataType.EMPTY)) {
-                    countNameLength.put(rows, 0);
-                    continue;
+                int count_non_stopwords = 0;
+                for (int i = 0; i < rows.size(); i++) {
+                    for (int c = 0; c < table.getNumCols(); c++) {
+                        TCell tcc = table.getContentCell(rows.get(i), c);
+
+                        List<String> tokens = StringUtils.splitToAlphaNumericTokens(tcc.getText().trim(), true);
+                        tokens.removeAll(stopwords);
+
+                        if (tokens.size() > 0)
+                            count_non_stopwords+=tokens.size();
+
+                    }
                 }
-
-                String text = tcc.getText();
-                text = text.replaceAll("[\\-_/,]"," ").replace("\\s+"," ").trim();
-                int count_name_length=text.split("\\s+").length;
-                countNameLength.put(rows, count_name_length);
-
+                countNonStopwords.put(rows, count_non_stopwords);
                 if (rows.size() > 0) {
                     rs.add(rows);
                 }
+
 
             }
 
             Collections.sort(rs, new Comparator<List<Integer>>() {
                 @Override
                 public int compare(List<Integer> o1, List<Integer> o2) {
-                    return new Integer(countNameLength.get(o2)).compareTo(countNameLength.get(o1));
+                    return new Integer(countNonStopwords.get(o2)).compareTo(countNonStopwords.get(o1));
                 }
             });
 
         } else {
             final Map<Integer, Integer> scores = new LinkedHashMap<Integer, Integer>();
             for (int r = 0; r < table.getNumRows(); r++) {
-                int count_name_length = 0;
+                int count_non_stopwords = 0;
                 TCell tcc_at_focus = table.getContentCell(r, fromCol);
                 if (tcc_at_focus.getType().equals(DataTypeClassifier.DataType.EMPTY)) {
-                    scores.put(r, 0);
                     continue;
                 }
 
-                String text = tcc_at_focus.getText();
-                text = text.replaceAll("[\\-_/,]"," ").replace("\\s+"," ").trim();
-                count_name_length=text.split("\\s+").length;
-                scores.put(r, count_name_length);
+                for (int c = 0; c < table.getNumCols(); c++) {
+                    TCell tcc = table.getContentCell(r, c);
+
+                    List<String> tokens = StringUtils.splitToAlphaNumericTokens(tcc.getText().trim(), true);
+                    tokens.removeAll(stopwords);
+
+                    if (tokens.size() > 0)
+                        count_non_stopwords+=tokens.size();
+                }
+                scores.put(r, count_non_stopwords);
             }
 
             List<Integer> list = new ArrayList<Integer>(scores.keySet());
@@ -98,7 +114,4 @@ public class OSPD_namelength_merge extends TContentCellRanker {
         }
         return rs;
     }
-
-
-
 }

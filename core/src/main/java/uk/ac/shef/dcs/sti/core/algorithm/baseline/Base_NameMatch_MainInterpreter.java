@@ -44,7 +44,7 @@ public class Base_NameMatch_MainInterpreter {
         this.interpreter_column_with_knownReltaions=interpreter_column_with_knownReltaions;
     }
 
-    public TAnnotation start(Table table, boolean relationLearning) throws IOException, KBSearchException,APIKeysDepletedException {
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, KBSearchException, APIKeysDepletedException, ClassNotFoundException {
         //1. find the main subject column of this table
         System.out.println(">\t Detecting main column...");
         List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
@@ -58,7 +58,7 @@ public class Base_NameMatch_MainInterpreter {
             }
         }*/
         TAnnotation tab_annotations = new TAnnotation(table.getNumRows(), table.getNumCols());
-        List<Integer> interpreted_columns = new ArrayList<Integer>();
+        List<Integer> interpreted_columns = new ArrayList<>();
         for (int col = 0; col < table.getNumCols(); col++) {
             /*if(col!=1)
                 continue;*/

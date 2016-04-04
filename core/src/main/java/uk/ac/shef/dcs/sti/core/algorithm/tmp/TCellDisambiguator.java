@@ -7,6 +7,7 @@ import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
@@ -26,14 +27,14 @@ public class TCellDisambiguator {
         this.kbSearch = kbSearch;
         this.disambScorer = disambScorer;
     }
-
+    //this method runs cold start disambiguation
     public List<Pair<Entity, Map<String, Double>>> coldstartDisambiguate(List<Entity> candidates, Table table,
                                                                          List<Integer> entity_rows, int entity_column
     ) throws KBSearchException {
         //do disambiguation scoring
         //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         TCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
-        LOG.info("\t>> coldstart disamb, candidates=" + candidates.size());
+        LOG.info("\t\t>> (cold start disamb), candidates=" + candidates.size());
         List<Pair<Entity, Map<String, Double>>> disambiguationScores = new ArrayList<>();
         for (Entity c : candidates) {
             //find facts of each entity
@@ -82,6 +83,34 @@ public class TCellDisambiguator {
             LOG.info("\t\t>> constrained disambiguation (UPDATE), position at (" + rowBlock + "," + column + ") " + sample_tcc + " (candidates)-" + candidates.size());
 
         return coldstartDisambiguate(candidates,table,rowBlock,column);
+    }
+
+
+    protected static void addCellAnnotation(
+            Table table,
+            TAnnotation tableAnnotation,
+            List<Integer> rowBlock,
+            int table_cell_col,
+            List<Pair<Entity, Map<String, Double>>> entities_and_scoreMap) {
+
+        Collections.sort(entities_and_scoreMap, (o1, o2) -> {
+            Double o2_score = o2.getValue().get(TCellAnnotation.SCORE_FINAL);
+            Double o1_score = o1.getValue().get(TCellAnnotation.SCORE_FINAL);
+            return o2_score.compareTo(o1_score);
+        });
+
+        String cellText = table.getContentCell(rowBlock.get(0), table_cell_col).getText();
+        for (int row : rowBlock) {
+            TCellAnnotation[] annotationsForCell = new TCellAnnotation[entities_and_scoreMap.size()];
+            for (int i = 0; i < entities_and_scoreMap.size(); i++) {
+                Pair<Entity, Map<String, Double>> e = entities_and_scoreMap.get(i);
+                double score = e.getValue().get(TCellAnnotation.SCORE_FINAL);
+                annotationsForCell[i] = new TCellAnnotation(cellText,
+                        e.getKey(), score, e.getValue());
+
+            }
+            tableAnnotation.setContentCellAnnotations(row, table_cell_col, annotationsForCell);
+        }
     }
 
 }

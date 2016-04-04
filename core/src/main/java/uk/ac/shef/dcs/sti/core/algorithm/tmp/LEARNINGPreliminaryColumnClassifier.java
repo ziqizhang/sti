@@ -5,9 +5,9 @@ import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
-import uk.ac.shef.dcs.sti.core.sampler.TContentCellRanker;
-import uk.ac.shef.dcs.sti.core.stopping.StoppingCriteria;
-import uk.ac.shef.dcs.sti.core.stopping.StoppingCriteriaInstantiator;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.StoppingCriteria;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.StoppingCriteriaInstantiator;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.*;
 
@@ -22,7 +22,7 @@ public class LEARNINGPreliminaryColumnClassifier {
     private TContentCellRanker selector;
     private KBSearch kbSearch;
     private TCellDisambiguator cellDisambiguator;
-    private ClazzScorer clazzScorer;
+    private TColumnClassifier columnClassifier;
 
     private String stopperClassname;
     private String[] stopperParams;
@@ -33,11 +33,11 @@ public class LEARNINGPreliminaryColumnClassifier {
                                                String[] stoppingCriteriaParams,
                                                KBSearch candidateFinder,
                                                TCellDisambiguator cellDisambiguator,
-                                               ClazzScorer clazzScorer) {
+                                               TColumnClassifier columnClassifier) {
         this.selector = selector;
         this.kbSearch = candidateFinder;
         this.cellDisambiguator = cellDisambiguator;
-        this.clazzScorer = clazzScorer;
+        this.columnClassifier = columnClassifier;
 
         this.stopperClassname = stoppingCriteriaClassname;
         this.stopperParams = stoppingCriteriaParams;
@@ -52,7 +52,7 @@ public class LEARNINGPreliminaryColumnClassifier {
      * indexes of cells based on the sampler
      * @throws KBSearchException
      */
-    public Pair<Integer, List<List<Integer>>> runPreliminaryColumnClassifier(Table table, TAnnotation tableAnnotation, int column, Integer... skipRows) throws KBSearchException {
+    public Pair<Integer, List<List<Integer>>> runPreliminaryColumnClassifier(Table table, TAnnotation tableAnnotation, int column, Integer... skipRows) throws KBSearchException, ClassNotFoundException {
         StoppingCriteria stopper = StoppingCriteriaInstantiator.instantiate(stopperClassname, stopperParams);
 
         //1. gather list of strings from this column to be interpreted, rank them (for sampling)
@@ -97,20 +97,21 @@ public class LEARNINGPreliminaryColumnClassifier {
                                 candidates, table, blockOfRows, column
                         );
 
-                TMPInterpreter.addCellAnnotation(table,
+                cellDisambiguator.addCellAnnotation(table,
                         tableAnnotation, blockOfRows, column, entityScoresForBlock);
             }
 
             //run algorithm to runPreliminaryColumnClassifier column classification; header annotation scores are updated constantly, but supporting rows are not.
-            state = updateState(
-                    clazzScorer.
-                            computeElementScores(entityScoresForBlock, headerClazzScores,
-                                    table, blockOfRows, column), totalRows
+            Map<TColumnHeaderAnnotation, Double> scores=columnClassifier.generateCandidateClazz(
+                    entityScoresForBlock, headerClazzScores, table, blockOfRows, column, totalRows
             );
+            state=new HashMap<>();
+            state.putAll(scores);
+
             boolean stop = stopper.stop(state, table.getNumRows());
 
             if (stop) {
-                System.out.println("\t>> (LEARNING) Preliminary Column Classification converged, rows:" + totalRows);
+                LOG.info("\t>> (LEARNING) Preliminary Column Classification converged, rows:" + totalRows);
                 //state is stable. annotate using the type, and disambiguate entities
                 generatePreliminaryColumnClazz(state, tableAnnotation, column);
                 stopped = true;
@@ -144,17 +145,6 @@ public class LEARNINGPreliminaryColumnClassifier {
         return candidates;
     }
 
-
-    private Map<Object, Double> updateState(
-            Collection<TColumnHeaderAnnotation> candidateHeaderAnnotations, int tableRowsTotal) {
-        Map<Object, Double> state = new HashMap<>();
-        for (TColumnHeaderAnnotation ha : candidateHeaderAnnotations) {
-            //Map<String, Double> scoreElements =ha.getScoreElements();
-            clazzScorer.computeFinal(ha, tableRowsTotal);
-            state.put(ha, ha.getFinalScore());
-        }
-        return state;
-    }
 
     //assigns highest scoring clazz to the column;
     private void generatePreliminaryColumnClazz(final Map<Object, Double> state,

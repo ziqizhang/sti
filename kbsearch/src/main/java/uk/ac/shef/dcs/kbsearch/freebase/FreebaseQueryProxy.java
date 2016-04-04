@@ -83,7 +83,7 @@ public class FreebaseQueryProxy {
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
-        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.debug("\tQueryFreebase (attributes):" + (new Date().getTime() - start.getTime()));
         return res;
 
     }
@@ -104,7 +104,7 @@ public class FreebaseQueryProxy {
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
-        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.debug("\tQueryFreebase (types):" + (new Date().getTime() - start.getTime()));
         return res;
 
     }
@@ -125,7 +125,7 @@ public class FreebaseQueryProxy {
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
-        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.debug("\tQueryFreebase (attributes):" + (new Date().getTime() - start.getTime()));
         return res;
 
     }
@@ -251,7 +251,7 @@ public class FreebaseQueryProxy {
             e.printStackTrace();
         }
 
-        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.debug("\tQueryFreebase (search for topics):" + (new Date().getTime() - start.getTime()));
         return res;
     }
 
@@ -347,7 +347,7 @@ public class FreebaseQueryProxy {
 
         }
 
-        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.debug("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
         res.addAll(candidates.keySet());
         Collections.sort(res, (o1, o2) -> candidates.get(o2).compareTo(candidates.get(o1)));
         return res;
@@ -384,7 +384,7 @@ public class FreebaseQueryProxy {
             e.printStackTrace();
         }
 
-        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.debug("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
 
         return res;
     }
@@ -436,7 +436,7 @@ public class FreebaseQueryProxy {
                 e.printStackTrace();
             }
         }
-        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.debug("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
 
         return res;
     }
@@ -487,7 +487,7 @@ public class FreebaseQueryProxy {
                 e.printStackTrace();
             }
         }
-        LOG.info("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
+        LOG.debug("\tQueryFreebase:" + (new Date().getTime() - start.getTime()));
 
         return res;
     }
@@ -524,7 +524,7 @@ public class FreebaseQueryProxy {
             }
         }
         in.close();
-        LOG.info("\tFetchingFreebasePage:" + (new Date().getTime() - startTime.getTime()));
+        LOG.debug("\tFetchingFreebasePage:" + (new Date().getTime() - startTime.getTime()));
         if(result!=null && result.length()>0)
             return new Double(result);
         return 0.0;

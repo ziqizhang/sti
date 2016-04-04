@@ -9,7 +9,7 @@ import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
-import uk.ac.shef.dcs.sti.core.sampler.TContentCellRanker;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.kbsearch.model.Resource;
@@ -27,7 +27,7 @@ public class UPDATE {
     private static final Logger LOG = Logger.getLogger(UPDATE.class.getName());
     private TCellDisambiguator disambiguator;
     private KBSearch kbSearch;
-    private ClazzScorer clazzScorer;
+    private TColumnClassifier classifier;
     private String nlpResourcesDir;
     private TContentCellRanker selector;
     private List<String> stopWords;
@@ -35,13 +35,13 @@ public class UPDATE {
     public UPDATE(TContentCellRanker selector,
                   KBSearch kbSearch,
                   TCellDisambiguator disambiguator,
-                  ClazzScorer clazzScorer,
+                  TColumnClassifier classifier,
                   List<String> stopwords,
                   String nlpResourcesDir) {
         this.selector = selector;
         this.kbSearch = kbSearch;
         this.disambiguator = disambiguator;
-        this.clazzScorer = clazzScorer;
+        this.classifier = classifier;
         this.nlpResourcesDir = nlpResourcesDir;
         this.stopWords = stopwords;
     }
@@ -76,7 +76,7 @@ public class UPDATE {
             //headers will have dc computeElementScores added
             domainRep = createDomainRep(table, currentAnnotation, interpretedColumnIndexes);
             //update clazz scores with dc scores
-            updateClazzScoresByDC(currentAnnotation, domainRep, interpretedColumnIndexes);
+            classifier.updateClazzScoresByDC(currentAnnotation, domainRep, interpretedColumnIndexes);
 
             prevAnnotation = new TAnnotation(currentAnnotation.getRows(),
                     currentAnnotation.getCols());
@@ -161,21 +161,7 @@ public class UPDATE {
     }
 
 
-    private void updateClazzScoresByDC(TAnnotation currentAnnotation, List<String> domanRep,
-                                       List<Integer> interpretedColumns) {
-        for (int c : interpretedColumns) {
-            List<TColumnHeaderAnnotation> headers = new ArrayList<>(
-                    Arrays.asList(currentAnnotation.getHeaderAnnotation(c)));
 
-            for (TColumnHeaderAnnotation ha : headers) {
-                double dc = clazzScorer.computeDC(ha, domanRep);
-                ha.setFinalScore(ha.getFinalScore() + dc);
-            }
-
-            Collections.sort(headers);
-            currentAnnotation.setHeaderAnnotation(c, headers.toArray(new TColumnHeaderAnnotation[0]));
-        }
-    }
 
     private void reviseColumnAndCellAnnotations(
             Set<String> allEntityIds,
@@ -213,13 +199,13 @@ public class UPDATE {
                                 rows, c);
 
                 if (entity_and_scoreMap.size() > 0) {
-                    TMPInterpreter.addCellAnnotation(table, currentAnnotation, rows, c,
+                    disambiguator.addCellAnnotation(table, currentAnnotation, rows, c,
                             entity_and_scoreMap);
                     updated.addAll(rows);
                 }
             }
 
-            TMPInterpreter.updateColumnClazz(updated, c, currentAnnotation, table, clazzScorer);
+            classifier.updateColumnClazz(updated, c, currentAnnotation, table);
             LOG.info("\t>> update iteration complete (" + updated.size() + " rows)");
         }
 
