@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.core.scorer;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 
@@ -24,7 +25,12 @@ public interface ClazzScorer {
     List<TColumnHeaderAnnotation> computeElementScores(List<Pair<Entity, Map<String, Double>>> input,
                                                       Collection<TColumnHeaderAnnotation> headerAnnotationCandidates,
                                                       Table table,
-                                                      List<Integer> rows, int column);
+                                                      List<Integer> rows, int column) throws STIException;
+
+    List<TColumnHeaderAnnotation> computeCEScore(List<Pair<Entity, Map<String, Double>>> entities,
+                                                           Collection<TColumnHeaderAnnotation> existingHeaderAnnotations,
+                                                           Table table,
+                                                           int row, int column) throws STIException;
 
     /**
      * compute CC scores for column clazz annotation candidates, ONLY IF the CC score is not yet computed
@@ -33,9 +39,9 @@ public interface ClazzScorer {
      * @param column
      * @return
      */
-    List<TColumnHeaderAnnotation> computeCCScore(Collection<TColumnHeaderAnnotation> candidates, Table table, int column);
+    List<TColumnHeaderAnnotation> computeCCScore(Collection<TColumnHeaderAnnotation> candidates, Table table, int column) throws STIException;
 
-    double computeDC(TColumnHeaderAnnotation ha, List<String> domain_representation);
+    double computeDC(TColumnHeaderAnnotation ha, List<String> domain_representation) throws STIException;
 
 
 }

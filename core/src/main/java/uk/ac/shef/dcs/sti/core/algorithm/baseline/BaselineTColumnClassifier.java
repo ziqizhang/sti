@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.STIEnum;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
@@ -44,7 +45,7 @@ public class BaselineTColumnClassifier implements ClazzScorer {
     public List<TColumnHeaderAnnotation> computeElementScores(List<Pair<Entity, Map<String, Double>>> input,
                                                              Collection<TColumnHeaderAnnotation> headerAnnotationCandidates,
                                                              Table table,
-                                                             List<Integer> rows, int column) {
+                                                             List<Integer> rows, int column) throws STIException {
         List<TColumnHeaderAnnotation> candidates = new ArrayList<>();
 
             for (int row : rows)
@@ -55,9 +56,14 @@ public class BaselineTColumnClassifier implements ClazzScorer {
         return candidates;
     }
 
+    @Override
+    public List<TColumnHeaderAnnotation> computeCEScore(List<Pair<Entity, Map<String, Double>>> entities, Collection<TColumnHeaderAnnotation> existingHeaderAnnotations, Table table, int row, int column) throws STIException {
+        throw new STIException("Unsupported");
+    }
+
     public List<TColumnHeaderAnnotation> score_entity_best_candidate_vote(List<Pair<Entity, Map<String, Double>>> input,
                                                                   Collection<TColumnHeaderAnnotation> headerAnnotations_prev, Table table,
-                                                                  int row, int column) {
+                                                                  int row, int column) throws STIException{
         final List<TColumnHeaderAnnotation> candidate_header_annotations =
                 new ArrayList<>(headerAnnotations_prev);
         //for this row

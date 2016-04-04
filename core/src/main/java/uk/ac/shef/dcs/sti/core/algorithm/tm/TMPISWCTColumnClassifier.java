@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.tm;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.STIEnum;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.feature.OntologyBasedBoWCreator;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
@@ -48,7 +49,7 @@ public class TMPISWCTColumnClassifier implements ClazzScorer {
     public List<TColumnHeaderAnnotation> computeElementScores(List<Pair<Entity, Map<String, Double>>> input,
                                                              Collection<TColumnHeaderAnnotation> headerAnnotationCandidates,
                                                              Table table,
-                                                             List<Integer> rows, int column) {
+                                                             List<Integer> rows, int column) throws STIException{
         List<TColumnHeaderAnnotation> candidates = new ArrayList<>();
 
             for (int row : rows)
@@ -57,6 +58,11 @@ public class TMPISWCTColumnClassifier implements ClazzScorer {
         candidates = computeCCScore(candidates, table, column);
 
         return candidates;
+    }
+
+    @Override
+    public List<TColumnHeaderAnnotation> computeCEScore(List<Pair<Entity, Map<String, Double>>> entities, Collection<TColumnHeaderAnnotation> existingHeaderAnnotations, Table table, int row, int column) throws STIException {
+        throw new STIException("Unsupported");
     }
 
 
@@ -133,7 +139,7 @@ public class TMPISWCTColumnClassifier implements ClazzScorer {
         return candidate_header_annotations;
     }
 
-    public List<TColumnHeaderAnnotation> computeCCScore(Collection<TColumnHeaderAnnotation> candidates, Table table, int column) {
+    public List<TColumnHeaderAnnotation> computeCCScore(Collection<TColumnHeaderAnnotation> candidates, Table table, int column) throws STIException{
         List<String> bag_of_words_for_header = null, bag_of_words_for_other_headers = null;
         List<String> bag_of_words_for_column = null, bag_of_words_for_table_major_context = null, bag_of_words_for_table_other_context = null;
         for (TColumnHeaderAnnotation ha : candidates) {
@@ -195,7 +201,7 @@ public class TMPISWCTColumnClassifier implements ClazzScorer {
     }
 
     @Override
-    public double computeDC(TColumnHeaderAnnotation ha, List<String> domain_representation) {
+    public double computeDC(TColumnHeaderAnnotation ha, List<String> domain_representation)throws STIException {
         return 0.0;
     }
 

@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
@@ -28,7 +29,7 @@ public class TColumnColumnRelationEnumerator {
      * <p>
      * when new relation created, supporting row info is also added
      */
-    public int runRelationEnumeration(TAnnotation annotations, Table table, int subjectCol) {
+    public int runRelationEnumeration(TAnnotation annotations, Table table, int subjectCol) throws STIException {
         //select columns that are likely to form a relation with subject column
         Map<Integer, DataTypeClassifier.DataType> columnDataTypes
                 = new HashMap<>();
@@ -89,7 +90,7 @@ public class TColumnColumnRelationEnumerator {
         return annotations.getCellcellRelations().size();
     }
 
-    private void enumerateColumnColumnRelation(TAnnotation annotations, Table table){
+    private void enumerateColumnColumnRelation(TAnnotation annotations, Table table) throws STIException {
         for (Map.Entry<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>> entry :
                 annotations.getCellcellRelations().entrySet()) {
             RelationColumns key = entry.getKey(); //relation's direction

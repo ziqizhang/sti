@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer;
 
 import uk.ac.shef.dcs.sti.STIEnum;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.feature.OntologyBasedBoWCreator;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
@@ -34,7 +35,7 @@ public class TMPRelationScorer implements RelationScorer {
     public List<TColumnColumnRelationAnnotation> computeElementScores(List<TCellCellRelationAnotation> cellcellRelationsOnRow,
                                                                      Collection<TColumnColumnRelationAnnotation> output,
                                                                      int subjectCol, int objectCol,
-                                                                     Table table) {
+                                                                     Table table) throws STIException {
         List<TColumnColumnRelationAnnotation> candidates;
 
         candidates = computeREScore(cellcellRelationsOnRow, output, subjectCol, objectCol);
@@ -53,7 +54,7 @@ public class TMPRelationScorer implements RelationScorer {
      */
     public List<TColumnColumnRelationAnnotation> computeREScore(List<TCellCellRelationAnotation> cellcellRelationAnotations,
                                                                Collection<TColumnColumnRelationAnnotation> output,
-                                                               int subjectCol, int objectCol) {
+                                                               int subjectCol, int objectCol) throws STIException {
 
         //for this row
         TCellCellRelationAnotation winningAnnotation = null;
@@ -117,9 +118,9 @@ public class TMPRelationScorer implements RelationScorer {
      * @param column
      * @return
      */
-    public List<TColumnColumnRelationAnnotation> computeRCScore(
+    public List<TColumnColumnRelationAnnotation> computeRCScore (
             Collection<TColumnColumnRelationAnnotation> candidates,
-            Table table, int column) {
+            Table table, int column) throws STIException{
         Set<String> bowHeader = null;
         List<String> bowColumn = null,
                 bowOutTableImportantCtx = null, bowOutTableTrivialCtx = null;
@@ -153,7 +154,7 @@ public class TMPRelationScorer implements RelationScorer {
             if (scoreCtxTableContext == null) {
                 bowOutTableImportantCtx = createImportantOutTableCtxBOW(bowOutTableImportantCtx, table);
                 double ctx_out_important = CollectionUtils.computeFrequencyWeightedDice(relationBOW, bowOutTableImportantCtx) * wt[2];
-                bowOutTableTrivialCtx = create_table_context_other_bow(bowOutTableTrivialCtx, table);
+                bowOutTableTrivialCtx = createOutTableCtx(bowOutTableTrivialCtx, table);
                 double ctx_out_trivial = CollectionUtils.computeFrequencyWeightedDice(relationBOW, bowOutTableTrivialCtx) * wt[3];
                 ccRelationAnnotation.getScoreElements().put(TColumnHeaderAnnotation.SCORE_CTX_OUT,
                         ctx_out_important + ctx_out_trivial);
@@ -214,11 +215,11 @@ public class TMPRelationScorer implements RelationScorer {
         return bow;
     }
 
-    private List<String> create_table_context_other_bow(List<String> bag_of_words_for_table_context, Table table) {
+    private List<String> createOutTableCtx(List<String> bag_of_words_for_table_context, Table table) {
         if (bag_of_words_for_table_context != null)
             return bag_of_words_for_table_context;
         if (table.getContexts() == null)
-            return new ArrayList<String>();
+            return new ArrayList<>();
 
         List<String> bow = new ArrayList<String>();
         for (int i = 0; i < table.getContexts().size(); i++) {
@@ -266,7 +267,7 @@ public class TMPRelationScorer implements RelationScorer {
         double score_vote = scoreElements.get(TColumnColumnRelationAnnotation.SUM_CELL_VOTE) / (double) tableRowsTotal;
         scoreElements.put(TColumnColumnRelationAnnotation.SCORE_CELL_VOTE, score_vote);
 
-        double base_score = compute_relation_base_score(sum_score_match, scoreElements.get(TColumnColumnRelationAnnotation.SCORE_CELL_VOTE),
+        double base_score = normalize(sum_score_match, scoreElements.get(TColumnColumnRelationAnnotation.SCORE_CELL_VOTE),
                 (double) tableRowsTotal);
 
         for (Map.Entry<String, Double> e : scoreElements.entrySet()) {
@@ -284,18 +285,20 @@ public class TMPRelationScorer implements RelationScorer {
         return scoreElements;
     }
 
-    public static double compute_relation_base_score(double sum_cbr_match,
-                                                     double sum_cbr_vote,
-                                                     double total_table_rows) {
+    private double normalize(double sum_cbr_match,
+                                   double sum_cbr_vote,
+                                   double total_table_rows) {
         if (sum_cbr_vote == 0)
             return 0.0;
 
-        double score_cbr_vote = sum_cbr_vote / total_table_rows;
+        return sum_cbr_match/total_table_rows; //this is equivalent to below
+
+        /*double score_cbr_vote = sum_cbr_vote / total_table_rows;
         double base_score = score_cbr_vote * (sum_cbr_match / sum_cbr_vote);
-        return base_score;
+        return base_score;*/
     }
 
-    public double scoreDC(TColumnColumnRelationAnnotation hbr, List<String> domain_representation) {
+    public double scoreDC(TColumnColumnRelationAnnotation hbr, List<String> domain_representation) throws STIException{
         Set<String> annotation_bow = createRelationBOW(hbr,
                 true,
                 TableMinerConstants.BOW_DISCARD_SINGLE_CHAR);

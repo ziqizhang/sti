@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 
@@ -27,7 +28,7 @@ public class TColumnClassifier {
             Table table,
             List<Integer> blockOfRows,
             int column
-            , int tableRowsTotal) {
+            , int tableRowsTotal) throws STIException {
         Collection<TColumnHeaderAnnotation> candidateHeaderAnnotations=clazzScorer.
                 computeElementScores(entityScoresForBlock, existingColumnClazzCandidates,
                         table, blockOfRows, column);
@@ -54,7 +55,7 @@ public class TColumnClassifier {
     protected void updateColumnClazz(List<Integer> rowsUpdated,
                                             int column,
                                             TAnnotation tableAnnotations,
-                                            Table table) {
+                                            Table table) throws STIException {
         List<TColumnHeaderAnnotation> existingColumnClazzAnnotations;
         existingColumnClazzAnnotations = tableAnnotations.getHeaderAnnotation(column) == null
                 ? new ArrayList<>() : new ArrayList<>(Arrays.asList(tableAnnotations.getHeaderAnnotation(column)));
@@ -88,7 +89,7 @@ public class TColumnClassifier {
 
 
     protected void updateClazzScoresByDC(TAnnotation currentAnnotation, List<String> domanRep,
-                                       List<Integer> interpretedColumns) {
+                                       List<Integer> interpretedColumns) throws STIException {
         for (int c : interpretedColumns) {
             List<TColumnHeaderAnnotation> headers = new ArrayList<>(
                     Arrays.asList(currentAnnotation.getHeaderAnnotation(c)));
@@ -158,7 +159,7 @@ public class TColumnClassifier {
                                                                               Collection<TColumnHeaderAnnotation> candidateColumnClazzAnnotations,
                                                                               Table table,
                                                                               TAnnotation tableAnnotations,
-                                                                              ClazzScorer clazzScorer) {
+                                                                              ClazzScorer clazzScorer) throws STIException {
         //for the candidate column clazz annotations compute CC score
         candidateColumnClazzAnnotations = clazzScorer.computeCCScore(candidateColumnClazzAnnotations,table, column);
 

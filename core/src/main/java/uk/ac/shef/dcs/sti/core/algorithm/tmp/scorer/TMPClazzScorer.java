@@ -3,6 +3,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.sti.STIEnum;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.feature.OntologyBasedBoWCreator;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
@@ -62,7 +63,7 @@ public class TMPClazzScorer implements ClazzScorer {
      * @param column
      * @return
      */
-    private List<TColumnHeaderAnnotation> computeCEScore(List<Pair<Entity, Map<String, Double>>> entities,
+    public List<TColumnHeaderAnnotation> computeCEScore(List<Pair<Entity, Map<String, Double>>> entities,
                                                         Collection<TColumnHeaderAnnotation> existingHeaderAnnotations,
                                                         Table table,
                                                         int row, int column) {
@@ -233,7 +234,7 @@ public class TMPClazzScorer implements ClazzScorer {
                 scoreElements.get(TColumnHeaderAnnotation.SUM_CE);
         double sum_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE);
 
-        double ce = sum_entity_vote==0?0:sum_ce / sum_entity_vote;
+        double ce = normalize(sum_ce,sum_entity_vote,tableRowsTotal); //sum_entity_vote==0?0:sum_ce / tableRowsTotal;
         scoreElements.put(TColumnHeaderAnnotation.SCORE_CE, ce);
 
         double score_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE) / (double) tableRowsTotal;
@@ -256,7 +257,7 @@ public class TMPClazzScorer implements ClazzScorer {
      * @return
      */
     @Override
-    public double computeDC(TColumnHeaderAnnotation ha, List<String> domain_representation) {
+    public double computeDC(TColumnHeaderAnnotation ha, List<String> domain_representation) throws STIException{
         List<String> annotation_bow = createClazzBOW(ha,
                 true,
                 TableMinerConstants.BOW_DISCARD_SINGLE_CHAR,
@@ -377,15 +378,16 @@ public class TMPClazzScorer implements ClazzScorer {
     }
 
 
-    //todo: this method's formula is redudant, check again
-    public static double compute_typing_base_score(double sum_ce,
+    private double normalize(double sum_ce,
                                                    double sum_entity_vote,
                                                    double total_table_rows) {
         if (sum_entity_vote == 0)
             return 0.0;
 
-        double score_entity_vote = sum_entity_vote / total_table_rows;
+        return sum_ce/total_table_rows; //this is equivalent to the below
+
+       /* double score_entity_vote = sum_entity_vote / total_table_rows;
         double base_score = score_entity_vote * (sum_ce / sum_entity_vote);
-        return base_score;
+        return base_score;*/
     }
 }

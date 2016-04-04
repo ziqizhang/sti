@@ -166,7 +166,7 @@ public class UPDATE {
             Set<String> allEntityIds,
             Table table,
             TAnnotation currentAnnotation,
-            List<Integer> interpretedColumns) throws KBSearchException {
+            List<Integer> interpretedColumns) throws KBSearchException, STIException {
         //now revise annotations on each of the interpreted columns
         for (int c : interpretedColumns) {
             LOG.info("\t\t>> for column "+c);

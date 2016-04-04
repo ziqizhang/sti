@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.core.subjectcol.TColumnFeature;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
@@ -26,7 +27,7 @@ public class RELATIONENUMERATION {
                           List<Integer> annotatedColumns,
                           UPDATE update,
                           RelationScorer relationScorer
-                          ){
+                          ) throws STIException {
         double winningSolutionScore = 0;
         int subjectCol;
         TAnnotation winningSolution = null;
@@ -96,7 +97,7 @@ public class RELATIONENUMERATION {
     private void reviseColumnColumnRelationAnnotations(TAnnotation annotation,
                                                        List<String> domain_representation,
                                                        RelationScorer relationScorer
-    ) {
+    ) throws STIException {
         for (Map.Entry<RelationColumns, List<TColumnColumnRelationAnnotation>>
                 entry : annotation.getColumncolumnRelations().entrySet()) {
 

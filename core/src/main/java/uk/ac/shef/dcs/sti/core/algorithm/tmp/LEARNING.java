@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 
@@ -21,7 +22,7 @@ public class LEARNING {
         this.cellTagger = cellTagger;
     }
 
-    public void learn(Table table, TAnnotation tableAnnotation, int column) throws KBSearchException, ClassNotFoundException {
+    public void learn(Table table, TAnnotation tableAnnotation, int column) throws KBSearchException, ClassNotFoundException, STIException {
         Pair<Integer, List<List<Integer>>> stopPosition =
                 columnTagger.runPreliminaryColumnClassifier(table, tableAnnotation, column);
 
