@@ -47,17 +47,17 @@ public class TContext implements Serializable, Comparable<TContext>{
         this.type = type;
     }
 
-    public static enum TableContextType implements Serializable{
+    public enum TableContextType implements Serializable{
 
         CAPTION("Caption"),
         PAGETITLE("PageTitle"),//title of the page containing the table
-        BEFORE("Before"),//context occuring before table
-        AFTER("After");  //context occurring after table
+        PARAGRAPH_BEFORE("Before"),//context occuring before table
+        PARAGRAPH_AFTER("After");  //context occurring after table
 
 
         private String type;
 
-        private TableContextType(String type) {
+        TableContextType(String type) {
             this.type = type;
         }
 

@@ -26,11 +26,11 @@ import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
-import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
-import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorGoodreads;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorGoodreads;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorGoodreads;
-import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
 
 import java.io.*;
 import java.net.SocketTimeoutException;
@@ -135,7 +135,7 @@ public class Test_ISWC_TableInterpretation_Goodreads {
                 new TripleGenerator("http://www.freebase.com", "http://lodie.dcs.shef.ac.uk"));
 
 
-        TableXtractorGoodreads xtractor = new TableXtractorGoodreads(new TableNormalizerFrequentRowLength(true),
+        TableXtractorGoodreads xtractor = new TableXtractorGoodreads(new TableNormalizerDiscardIrregularRows(true),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorGoodreads(),
                 new TabValGeneric());

@@ -164,7 +164,7 @@ public class LimayeDatasetLoader {
                         TContext ctx = null;
                         if (i == 1)
                             ctx = new TContext(context, TContext.TableContextType.PAGETITLE, 1.0);
-                        else ctx = new TContext(context, TContext.TableContextType.BEFORE, 1.0);
+                        else ctx = new TContext(context, TContext.TableContextType.PARAGRAPH_BEFORE, 1.0);
 
                         table.addContext(ctx);
                     }

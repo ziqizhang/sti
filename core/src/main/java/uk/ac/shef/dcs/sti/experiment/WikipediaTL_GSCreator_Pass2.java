@@ -2,10 +2,10 @@ package uk.ac.shef.dcs.sti.experiment;
 
 import uk.ac.shef.dcs.sti.core.model.List;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.xtractor.ListValidator;
-import uk.ac.shef.dcs.sti.xtractor.ListValidatorStrict;
-import uk.ac.shef.dcs.sti.xtractor.validator.TabValWikipediaGSStrict;
-import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
+import uk.ac.shef.dcs.sti.xtractor.list.validator.ListValidator;
+import uk.ac.shef.dcs.sti.xtractor.list.validator.ListValidatorStrict;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValWikipediaGSStrict;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidator;
 import uk.ac.shef.dcs.sti.xtractor.list.ListXtractor;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractor;
 

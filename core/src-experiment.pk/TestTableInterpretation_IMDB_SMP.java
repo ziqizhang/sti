@@ -13,10 +13,10 @@ import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.core.algorithm.smp.*;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
-import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
-import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorIMDB;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorIMDB;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorIMDB;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
@@ -102,7 +102,7 @@ public class TestTableInterpretation_IMDB_SMP {
         TAnnotationWriter writer = new TAnnotationWriter_SMP(
                 new TripleGenerator("http://www.freebase.com", "http://lodie.dcs.shef.ac.uk"));
 
-        TableXtractorIMDB xtractor = new TableXtractorIMDB(new TableNormalizerFrequentRowLength(true),
+        TableXtractorIMDB xtractor = new TableXtractorIMDB(new TableNormalizerDiscardIrregularRows(true),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorIMDB(),
                 new TabValGeneric());

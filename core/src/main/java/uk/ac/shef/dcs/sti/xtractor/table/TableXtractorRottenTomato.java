@@ -11,11 +11,11 @@ import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeader;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.xtractor.TableHODetector;
-import uk.ac.shef.dcs.sti.xtractor.TableNormalizer;
-import uk.ac.shef.dcs.sti.xtractor.TableObjCreator;
-import uk.ac.shef.dcs.sti.xtractor.Table_ContextExtractor_Generic;
-import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetector;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizer;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreator;
+import uk.ac.shef.dcs.sti.xtractor.table.context.TableContextExtractorGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class TableXtractorRottenTomato extends TableXtractor {
 
     @Override
     public List<Table> extract(String input, String sourceId) {
-        List<Table> rs = new ArrayList<Table>();
+        List<Table> rs = new ArrayList<>();
         parser = new TagSoupParser(new ByteArrayInputStream(input.getBytes()), sourceId, "UTF-8");
         Document doc = null;
         try {
@@ -47,9 +47,9 @@ public class TableXtractorRottenTomato extends TableXtractor {
 
         List<Node> tables = DomUtils.findAll(doc, "//DIV[@id='cast-info']");
         if (tables.size() > 0) {
-            List<TContext> contexts = new ArrayList<TContext>();
+            List<TContext> contexts=new ArrayList<>();
             try {
-                contexts = Table_ContextExtractor_Generic.extractTableContexts(sourceId, doc);
+                contexts = new TableContextExtractorGeneric().extract(sourceId, doc);
             } catch (STIException e) {
                 e.printStackTrace();
             }

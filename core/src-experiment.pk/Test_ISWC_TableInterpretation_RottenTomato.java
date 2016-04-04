@@ -26,11 +26,11 @@ import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
-import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
-import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorGoodreads;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorGoodreads;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorRottenTomato;
-import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
 
 import java.io.*;
 import java.net.SocketTimeoutException;
@@ -140,7 +140,7 @@ public class Test_ISWC_TableInterpretation_RottenTomato {
                 new TripleGenerator("http://www.freebase.com", "http://lodie.dcs.shef.ac.uk"));
 
 
-        TableXtractorRottenTomato xtractor = new TableXtractorRottenTomato(new TableNormalizerFrequentRowLength(true),
+        TableXtractorRottenTomato xtractor = new TableXtractorRottenTomato(new TableNormalizerDiscardIrregularRows(true),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorGoodreads(),
                 new TabValGeneric());

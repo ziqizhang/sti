@@ -7,11 +7,11 @@ import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.model.TContext;
-import uk.ac.shef.dcs.sti.xtractor.TableHODetector;
-import uk.ac.shef.dcs.sti.xtractor.TableNormalizer;
-import uk.ac.shef.dcs.sti.xtractor.TableObjCreator;
-import uk.ac.shef.dcs.sti.xtractor.Table_ContextExtractor_IMDB;
-import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetector;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizer;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreator;
+import uk.ac.shef.dcs.sti.xtractor.table.context.TableContextExtractorIMDB;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -42,9 +42,9 @@ public class TableXtractorIMDB extends TableXtractor {
         }
 
         List<Node> tables = DomUtils.findAll(doc, "//TABLE[@class='cast_list']");
-        List<TContext> contexts = new ArrayList<TContext>();
+        List<TContext> contexts = new ArrayList<>();
         try {
-            contexts = Table_ContextExtractor_IMDB.extract_tripleContexts(sourceId, doc);
+            contexts = new TableContextExtractorIMDB().extract(sourceId, doc);
         } catch (STIException e) {
             e.printStackTrace();
         }

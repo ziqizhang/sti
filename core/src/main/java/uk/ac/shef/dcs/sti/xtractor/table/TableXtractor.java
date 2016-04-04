@@ -5,10 +5,10 @@ import org.apache.any23.extractor.html.TagSoupParser;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.model.TContext;
-import uk.ac.shef.dcs.sti.xtractor.TableHODetector;
-import uk.ac.shef.dcs.sti.xtractor.TableNormalizer;
-import uk.ac.shef.dcs.sti.xtractor.TableObjCreator;
-import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetector;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizer;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreator;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidator;
 
 import java.io.*;
 import java.util.List;
@@ -59,7 +59,7 @@ public abstract class TableXtractor {
     public Table extractTable(Node tableNode, String tableId, String sourceId, TContext... contexts) {
         /*if (sourceId.startsWith("List of U.S. state songs"))
             System.out.println();*/
-        List<List<Node>> norm = normalizer.apply(tableNode);
+        List<List<Node>> norm = normalizer.normalize(tableNode);
         if (norm.size() == 0)
             return null;
         ObjectMatrix2D preTable = hoDetector.detect(norm);

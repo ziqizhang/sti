@@ -63,7 +63,7 @@ public class TestWebpagesForLODAnnotations {
 
                 if (count < 4) {
                     try {
-                        List<LTriple> triples_from_page = Any23Xtractor.extract_from_url(url);
+                        List<LTriple> triples_from_page = Any23Xtractor.extract(url);
                         if(triples_from_page.size()>0){
                             int countTriples =0;
                             for(LTriple t: triples_from_page){

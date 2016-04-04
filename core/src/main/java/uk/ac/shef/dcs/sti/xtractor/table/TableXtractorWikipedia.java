@@ -7,10 +7,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.model.TContext;
-import uk.ac.shef.dcs.sti.xtractor.TableHODetector;
-import uk.ac.shef.dcs.sti.xtractor.TableNormalizer;
-import uk.ac.shef.dcs.sti.xtractor.TableObjCreator;
-import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetector;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizer;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreator;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class TableXtractorWikipedia extends TableXtractor {
     @Override
     public List<Table> extract(String input, String sourceId) {
         String html = model.render(input);
-        List<Table> rs = new ArrayList<Table>();
+        List<Table> rs = new ArrayList<>();
 
         parser = new TagSoupParser(new ByteArrayInputStream(html.getBytes()), sourceId);
         Document doc = null;
@@ -50,7 +50,7 @@ public class TableXtractorWikipedia extends TableXtractor {
         for (Node tableElement : tables) {
             tableCount++;
 
-            //todo: extract contexts for table
+            //todo: extract contexts for wikitable
             TContext[] contexts = new TContext[0];
 
             Table table = extractTable(tableElement, String.valueOf(tableCount),

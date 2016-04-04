@@ -26,11 +26,11 @@ import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
-import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.xtractor.TableNormalizer_fromList;
-import uk.ac.shef.dcs.sti.xtractor.TableObjCreator_fromList_Reverbnation;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerListTransformer;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorReverbnationList;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorReverbnation;
-import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
 
 import java.io.*;
 import java.net.SocketTimeoutException;
@@ -135,9 +135,9 @@ public class Test_ISWC_TableInterpretation_Reverbnation {
                 new TripleGenerator("http://www.freebase.com", "http://lodie.dcs.shef.ac.uk"));
 
 
-        TableXtractorReverbnation xtractor = new TableXtractorReverbnation(new TableNormalizer_fromList(),
+        TableXtractorReverbnation xtractor = new TableXtractorReverbnation(new TableNormalizerListTransformer(),
                 new TableHODetectorByHTMLTag(),
-                new TableObjCreator_fromList_Reverbnation(),
+                new TableObjCreatorReverbnationList(),
                 new TabValGeneric());
         int count = 0;
         List<File> all = Arrays.asList(new File(inFolder).listFiles());

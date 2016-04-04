@@ -5,10 +5,10 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
-import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.xtractor.TableNormalizerDummy;
-import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorMusicBrainz;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerSimple;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorMusicBrainz;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorMusicBrainz;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 
@@ -86,7 +86,7 @@ public class TestTableMainColFinder {
         server.closeConnection();
         System.exit(0);*/
         //String inFolder="E:\\Data\\table annotation\\corpus_analysis\\100_tables\\100_tables";
-        TableXtractorMusicBrainz xtractor = new TableXtractorMusicBrainz(new TableNormalizerDummy(),
+        TableXtractorMusicBrainz xtractor = new TableXtractorMusicBrainz(new TableNormalizerSimple(),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorMusicBrainz(),
                 new TabValGeneric());

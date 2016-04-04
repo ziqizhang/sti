@@ -26,11 +26,10 @@ import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
-import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
-import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorIMDB;
-import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorIMDB_noTripleContext;
-import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorIMDB;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
 
 import java.io.*;
 import java.net.SocketTimeoutException;
@@ -135,7 +134,7 @@ public class Test_ISWC_TableInterpretation_IMDB {
                 new TripleGenerator("http://www.freebase.com", "http://lodie.dcs.shef.ac.uk"));
 
 
-        TableXtractorIMDB_noTripleContext xtractor = new TableXtractorIMDB_noTripleContext(new TableNormalizerFrequentRowLength(true),
+        TableXtractorIMDB_noTripleContext xtractor = new TableXtractorIMDB_noTripleContext(new TableNormalizerDiscardIrregularRows(true),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorIMDB(),
                 new TabValGeneric());

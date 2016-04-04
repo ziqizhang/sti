@@ -15,11 +15,11 @@ import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.core.subjectcol.TColumnFeatureGenerator;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
 import uk.ac.shef.dcs.util.SolrCache;
-import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
-import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
-import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorWikipediaGS;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorWikipediaGS;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorWikipedia;
 import uk.ac.shef.dcs.sti.experiment.LimayeDatasetLoader;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
@@ -126,7 +126,7 @@ public class GSBuilder_Limaye_Wikitables {
         EmbeddedSolrServer server = null; //new EmbeddedSolrServer(container, "collection1");
         SolrCache cache = new SolrCache(server);
 
-        TableXtractorWikipedia xtractor = new TableXtractorWikipedia(new TableNormalizerFrequentRowLength(true),
+        TableXtractorWikipedia xtractor = new TableXtractorWikipedia(new TableNormalizerDiscardIrregularRows(true),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorWikipediaGS(true),
                 new TabValGeneric());

@@ -5,8 +5,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import uk.ac.shef.dcs.sti.core.model.List;
 import uk.ac.shef.dcs.sti.core.model.ListItem;
-import uk.ac.shef.dcs.sti.xtractor.ListElementTokenizer;
-import uk.ac.shef.dcs.sti.xtractor.ListValidator;
+import uk.ac.shef.dcs.sti.xtractor.list.splitter.ListItemSplitter;
+import uk.ac.shef.dcs.sti.xtractor.list.validator.ListValidator;
 
 import java.io.*;
 
@@ -17,11 +17,11 @@ import java.io.*;
  */
 public abstract class ListXtractor {
 
-    private ListElementTokenizer tokenizer;
+    private ListItemSplitter tokenizer;
     protected ListValidator[] validators;
     protected TagSoupParser parser;
 
-    public ListXtractor(ListElementTokenizer tokenizer, ListValidator... validators) {
+    public ListXtractor(ListItemSplitter tokenizer, ListValidator... validators) {
         this.validators = validators;
         this.tokenizer = tokenizer;
     }

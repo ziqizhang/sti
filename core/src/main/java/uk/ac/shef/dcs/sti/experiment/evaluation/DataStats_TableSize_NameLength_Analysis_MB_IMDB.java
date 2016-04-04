@@ -5,10 +5,12 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.xtractor.*;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractor;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorMusicBrainz;
-import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorMusicBrainz;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerSimple;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
@@ -43,7 +45,7 @@ public class DataStats_TableSize_NameLength_Analysis_MB_IMDB {
         //////////////musicbrainz
         String cleanTableRepos = "E:\\Data\\table_annotation\\freebase_crawl\\music_record_label\\raw";
         String annotationRepos = "E:\\Data\\table_annotation\\freebase_crawl\\music_record_label\\gs\\musicbrainz_gs(entity)_reformatted";
-        xtractor = new TableXtractorMusicBrainz(new TableNormalizerDummy(),
+        xtractor = new TableXtractorMusicBrainz(new TableNormalizerSimple(),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorMusicBrainz(),
                 new TabValGeneric());

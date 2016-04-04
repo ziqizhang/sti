@@ -5,7 +5,6 @@ import org.apache.any23.util.FileUtils;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.*;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPEntityScorer;
@@ -26,15 +25,12 @@ import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
-import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
-import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorHTML;
-import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorBoxOffice;
-import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorHTML;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
 
-import java.io.*;
 import java.net.SocketTimeoutException;
-import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -136,7 +132,7 @@ public class Test_ISWC_TableInterpretation_BoxOffice {
                 new TripleGenerator("http://www.freebase.com", "http://lodie.dcs.shef.ac.uk"));
 
 
-        TableXtractorBoxOffice xtractor = new TableXtractorBoxOffice(new TableNormalizerFrequentRowLength(true),
+        TableXtractorBoxOffice xtractor = new TableXtractorBoxOffice(new TableNormalizerDiscardIrregularRows(true),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorHTML(),
                 new TabValGeneric());

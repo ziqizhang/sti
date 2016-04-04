@@ -22,10 +22,10 @@ import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.IInf;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
-import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
-import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.xtractor.TableNormalizerDummy;
-import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorMusicBrainz;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerSimple;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorMusicBrainz;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorMusicBrainz;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 
@@ -183,7 +183,7 @@ public class TestTI_DataFiltering_TableMiner_LimayeDataset {
                 new TripleGenerator("http://www.freebase.com", "http://lodie.dcs.shef.ac.uk"));
 
 
-        TableXtractorMusicBrainz xtractor = new TableXtractorMusicBrainz(new TableNormalizerDummy(),
+        TableXtractorMusicBrainz xtractor = new TableXtractorMusicBrainz(new TableNormalizerSimple(),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorMusicBrainz(),
                 new TabValGeneric());

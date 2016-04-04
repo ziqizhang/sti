@@ -5,8 +5,8 @@ import org.apache.any23.extractor.html.TagSoupParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.core.model.List;
-import uk.ac.shef.dcs.sti.xtractor.ListElementTokenizer;
-import uk.ac.shef.dcs.sti.xtractor.ListValidator;
+import uk.ac.shef.dcs.sti.xtractor.list.splitter.ListItemSplitter;
+import uk.ac.shef.dcs.sti.xtractor.list.validator.ListValidator;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class ListXtractorHTML extends ListXtractor {
     private String[] listTagSelectors;
 
 
-    public ListXtractorHTML(ListElementTokenizer tokenizer, ListValidator... validator) {
+    public ListXtractorHTML(ListItemSplitter tokenizer, ListValidator... validator) {
         super(tokenizer, validator);
         listTagSelectors = new String[]{"UL","OL"};
     }

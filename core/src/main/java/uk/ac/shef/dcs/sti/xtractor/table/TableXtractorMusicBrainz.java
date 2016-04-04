@@ -7,11 +7,11 @@ import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.xtractor.TableHODetector;
-import uk.ac.shef.dcs.sti.xtractor.TableNormalizer;
-import uk.ac.shef.dcs.sti.xtractor.TableObjCreator;
-import uk.ac.shef.dcs.sti.xtractor.Table_ContextExtractor_MusicBrainz;
-import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetector;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizer;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreator;
+import uk.ac.shef.dcs.sti.xtractor.table.context.TableContextExtractorMusicBrainz;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class TableXtractorMusicBrainz extends TableXtractor{
 
     @Override
     public List<Table> extract(String input, String sourceId) {
-        List<Table> rs = new ArrayList<Table>();
+        List<Table> rs = new ArrayList<>();
         parser = new TagSoupParser(new ByteArrayInputStream(input.getBytes()), sourceId,"UTF-8");
         Document doc = null;
         try {
@@ -42,9 +42,9 @@ public class TableXtractorMusicBrainz extends TableXtractor{
         }
 
         List<Node> tables = DomUtils.findAll(doc, "//TABLE[@class='tbl']");
-        List<TContext> contexts = new ArrayList<TContext>();
+        List<TContext> contexts = new ArrayList<>();
         try {
-            contexts = Table_ContextExtractor_MusicBrainz.extractTableContexts(sourceId, doc);
+            contexts = new TableContextExtractorMusicBrainz().extract(sourceId, doc);
         } catch (STIException e) {
             e.printStackTrace();
         }
