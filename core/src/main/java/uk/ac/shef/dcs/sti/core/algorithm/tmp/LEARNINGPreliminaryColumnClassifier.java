@@ -96,7 +96,6 @@ public class LEARNINGPreliminaryColumnClassifier {
                         cellDisambiguator.coldstartDisambiguate(
                                 candidates, table, blockOfRows, column
                         );
-
                 cellDisambiguator.addCellAnnotation(table,
                         tableAnnotation, blockOfRows, column, entityScoresForBlock);
             }
@@ -105,6 +104,8 @@ public class LEARNINGPreliminaryColumnClassifier {
             Map<TColumnHeaderAnnotation, Double> scores=columnClassifier.generateCandidateClazz(
                     entityScoresForBlock, headerClazzScores, table, blockOfRows, column, totalRows
             );
+            headerClazzScores.clear();
+            headerClazzScores.addAll(scores.keySet());
             state=new HashMap<>();
             state.putAll(scores);
 
@@ -120,7 +121,7 @@ public class LEARNINGPreliminaryColumnClassifier {
         }
 
         if (!stopped) {
-            System.out.println("\t>> Preliminary Column Classification no convergence");
+            LOG.info("\t>> Preliminary Column Classification no convergence");
             generatePreliminaryColumnClazz(state, tableAnnotation, column); //supporting rows not added
         }
         return new Pair<>(countProcessed, ranking);
