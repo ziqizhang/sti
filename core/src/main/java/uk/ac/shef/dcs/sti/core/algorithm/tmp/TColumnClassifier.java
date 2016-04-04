@@ -32,6 +32,7 @@ public class TColumnClassifier {
                 computeElementScores(entityScoresForBlock, existingColumnClazzCandidates,
                         table, blockOfRows, column);
 
+        LOG.info("\t\t>> update candidate clazz on column, existing="+existingColumnClazzCandidates.size());
         Map<TColumnHeaderAnnotation, Double> state = new HashMap<>();
         for (TColumnHeaderAnnotation ha : candidateHeaderAnnotations) {
             //Map<String, Double> scoreElements =ha.getScoreElements();

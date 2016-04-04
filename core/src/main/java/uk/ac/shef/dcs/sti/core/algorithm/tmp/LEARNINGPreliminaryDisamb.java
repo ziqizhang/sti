@@ -46,7 +46,7 @@ public class LEARNINGPreliminaryDisamb {
         reselect(tableAnnotation, stopPointByPreColumnClassifier, ranking, winningColumnClazzIds, column);
 
         //for remaining...
-        LOG.info("\t\t>> constrained cell disambiguation");
+        LOG.info("\t\t>> constrained cell disambiguation for the rest cells in this column");
         int end = ranking.size();
 
         List<Integer> updated = new ArrayList<>();

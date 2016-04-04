@@ -31,27 +31,9 @@ public class TCellDisambiguator {
     public List<Pair<Entity, Map<String, Double>>> coldstartDisambiguate(List<Entity> candidates, Table table,
                                                                          List<Integer> entity_rows, int entity_column
     ) throws KBSearchException {
-        //do disambiguation scoring
-        //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
-        TCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
         LOG.info("\t\t>> (cold start disamb), candidates=" + candidates.size());
-        List<Pair<Entity, Map<String, Double>>> disambiguationScores = new ArrayList<>();
-        for (Entity c : candidates) {
-            //find facts of each entity
-            if (c.getAttributes() == null || c.getAttributes().size() == 0) {
-                List<Attribute> attributes = kbSearch.findAttributesOfEntities(c);
-                c.setAttributes(attributes);
-            }
-            Map<String, Double> scoreMap = disambScorer.
-                    computeElementScores(c, candidates,
-                            entity_column,
-                            entity_rows.get(0),
-                            entity_rows, table);
-            disambScorer.computeFinal(scoreMap, sample_tcc.getText());
-            Pair<Entity, Map<String, Double>> entry = new Pair<>(c, scoreMap);
-            disambiguationScores.add(entry);
-        }
-        return disambiguationScores;
+        return disambiguate(candidates, table,entity_rows,entity_column);
+
     }
 
     //reselect cell entities for this cell ensuring their types are contained in the winning clazz for the column
@@ -78,13 +60,37 @@ public class TCellDisambiguator {
     ) throws KBSearchException {
         TCell sample_tcc = table.getContentCell(rowBlock.get(0), column);
         if (isLEARNINGPhase)
-            LOG.info("\t\t>> constrained disambiguation (LEARNING) , position at (" + rowBlock + "," + column + ") " + sample_tcc + " candidates=" + candidates.size());
+            LOG.info("\t\t>> (constrained disambiguation in LEARNING) , position at (" + rowBlock + "," + column + ") " + sample_tcc + " candidates=" + candidates.size());
         else
-            LOG.info("\t\t>> constrained disambiguation (UPDATE), position at (" + rowBlock + "," + column + ") " + sample_tcc + " (candidates)-" + candidates.size());
+            LOG.info("\t\t>> constrained disambiguation in UPDATE), position at (" + rowBlock + "," + column + ") " + sample_tcc + " (candidates)-" + candidates.size());
 
-        return coldstartDisambiguate(candidates,table,rowBlock,column);
+        return disambiguate(candidates,table,rowBlock,column);
     }
 
+    public List<Pair<Entity, Map<String, Double>>> disambiguate(List<Entity> candidates, Table table,
+                                                                         List<Integer> entity_rows, int entity_column
+    ) throws KBSearchException {
+        //do disambiguation scoring
+        //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
+        TCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
+        List<Pair<Entity, Map<String, Double>>> disambiguationScores = new ArrayList<>();
+        for (Entity c : candidates) {
+            //find facts of each entity
+            if (c.getAttributes() == null || c.getAttributes().size() == 0) {
+                List<Attribute> attributes = kbSearch.findAttributesOfEntities(c);
+                c.setAttributes(attributes);
+            }
+            Map<String, Double> scoreMap = disambScorer.
+                    computeElementScores(c, candidates,
+                            entity_column,
+                            entity_rows.get(0),
+                            entity_rows, table);
+            disambScorer.computeFinal(scoreMap, sample_tcc.getText());
+            Pair<Entity, Map<String, Double>> entry = new Pair<>(c, scoreMap);
+            disambiguationScores.add(entry);
+        }
+        return disambiguationScores;
+    }
 
     protected void addCellAnnotation(
             Table table,
