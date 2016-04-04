@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
@@ -64,7 +65,7 @@ public class TColumnClassifier {
             List<TCellAnnotation> winningEntities =
                     tableAnnotations.getWinningContentCellAnnotation(row, column);
             for (TCellAnnotation ca : winningEntities) {
-                for (TColumnHeaderAnnotation ha : TColumnHeaderAnnotationUpdater.selectNew(ca, column, table, existingColumnClazzAnnotations)) {
+                for (TColumnHeaderAnnotation ha : selectNew(ca, column, table, existingColumnClazzAnnotations)) {
                     if (!toAdd.contains(ha))
                         toAdd.add(ha);
                 }
@@ -72,7 +73,7 @@ public class TColumnClassifier {
         }
 
         toAdd.addAll(existingColumnClazzAnnotations);
-        TColumnHeaderAnnotation[] result = TColumnHeaderAnnotationUpdater.updateColumnClazzAnnotationScores(
+        TColumnHeaderAnnotation[] result = updateColumnClazzAnnotationScores(
                 rowsUpdated,
                 column,
                 table.getNumRows(),
@@ -100,4 +101,100 @@ public class TColumnClassifier {
             currentAnnotation.setHeaderAnnotation(c, headers.toArray(new TColumnHeaderAnnotation[0]));
         }
     }
+
+
+    /**
+     * given a cell annotation, and existing TColumnHeaderAnnotations on the column,
+     * go through the types (clazz) of that cell annotation, select the ones that are
+     * not included in the existing TColumnHeaderAnnotations
+     *
+     * @param ca
+     * @param column
+     * @param table
+     * @param existingColumnClazzAnnotations
+     * @return
+     */
+    private List<TColumnHeaderAnnotation> selectNew(TCellAnnotation ca, int column,
+                                                          Table table,
+                                                          Collection<TColumnHeaderAnnotation> existingColumnClazzAnnotations
+    ) {
+
+        List<Clazz> types = ca.getAnnotation().getTypes();
+
+        List<TColumnHeaderAnnotation> selected = new ArrayList<>();
+        for (int index = 0; index < types.size(); index++) {
+            boolean found = false;
+            Clazz type = types.get(index);
+            for (TColumnHeaderAnnotation ha : existingColumnClazzAnnotations) {
+                if (type.equals(ha.getAnnotation())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                TColumnHeaderAnnotation ha = new TColumnHeaderAnnotation(table.getColumnHeader(column).getHeaderText(),
+                        type, 0.0);
+                selected.add(ha);
+            }
+        }
+        return selected;
+    }
+
+    /**
+     * Used after preliminary disamb, to update candidate column clazz annotations on the column
+     * @param updatedRows
+     * @param column
+     * @param totalRows
+     * @param candidateColumnClazzAnnotations
+     * @param table
+     * @param tableAnnotations
+     * @param clazzScorer
+     * @return
+     */
+    private TColumnHeaderAnnotation[] updateColumnClazzAnnotationScores(Collection<Integer> updatedRows,
+                                                                              int column,
+                                                                              int totalRows,
+                                                                              Collection<TColumnHeaderAnnotation> candidateColumnClazzAnnotations,
+                                                                              Table table,
+                                                                              TAnnotation tableAnnotations,
+                                                                              ClazzScorer clazzScorer) {
+        //for the candidate column clazz annotations compute CC score
+        candidateColumnClazzAnnotations = clazzScorer.computeCCScore(candidateColumnClazzAnnotations,table, column);
+
+        for (int row : updatedRows) {
+            List<TCellAnnotation> winningEntities = tableAnnotations.getWinningContentCellAnnotation(row, column);
+            Set<String> votedClazzIdsByThisCell = new HashSet<>();
+            for (TCellAnnotation ca : winningEntities) {
+                //go thru each candidate column clazz annotation, check if this winning entity has a type that is this clazz
+                for (TColumnHeaderAnnotation ha : candidateColumnClazzAnnotations) {
+                    if (ca.getAnnotation().getTypes().contains(ha.getAnnotation())) {
+                        ha.addSupportingRow(row);
+                        if (!votedClazzIdsByThisCell.contains(ha.getAnnotation().getId())) {
+                            //update the CE score elements for this column clazz annotation
+                            double sum_votes = ha.getScoreElements().get(TColumnHeaderAnnotation.SUM_CELL_VOTE);
+                            sum_votes++;
+                            ha.getScoreElements().put(TColumnHeaderAnnotation.SUM_CELL_VOTE, sum_votes);
+
+                            double sum_ce = ha.getScoreElements().get(TColumnHeaderAnnotation.SUM_CE);
+                            sum_ce += ca.getFinalScore();
+                            ha.getScoreElements().put(TColumnHeaderAnnotation.SUM_CE, sum_ce);
+                            votedClazzIdsByThisCell.add(ha.getAnnotation().getId());
+                        }
+                    } else if (votedClazzIdsByThisCell.contains(ha.getAnnotation().getId())){}
+
+                }
+            }
+        }
+
+        //finally recompute final scores, because CE scores could have changed
+        List<TColumnHeaderAnnotation> revised = new ArrayList<>();
+        for (TColumnHeaderAnnotation ha : candidateColumnClazzAnnotations) {
+            clazzScorer.computeFinal(ha, totalRows);
+            revised.add(ha);
+        }
+
+        Collections.sort(revised);
+        return revised.toArray(new TColumnHeaderAnnotation[0]);
+    }
+
 }

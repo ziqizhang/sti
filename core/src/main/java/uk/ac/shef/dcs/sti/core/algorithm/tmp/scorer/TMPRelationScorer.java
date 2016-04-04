@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.core.algorithm.tmp;
+package uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer;
 
 import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.core.feature.OntologyBasedBoWCreator;

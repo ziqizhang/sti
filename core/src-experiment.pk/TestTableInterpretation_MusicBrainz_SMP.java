@@ -7,7 +7,7 @@ import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.TMPEntityScorer;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPEntityScorer;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.core.algorithm.smp.*;

@@ -8,7 +8,7 @@ import uk.ac.shef.dcs.sti.core.algorithm.baseline.*;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.LiteralColumnTagger;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.LiteralColumnTaggerImpl;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.TMPAttributeValueMatcher;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.IInf;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;

@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.core.algorithm.tmp;
+package uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;

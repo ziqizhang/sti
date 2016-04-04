@@ -5,6 +5,8 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.*;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPRelationScorer;
 import uk.ac.shef.dcs.sti.core.feature.FreebaseConceptBoWCreator;
 import uk.ac.shef.dcs.sti.core.feature.FreebaseRelationBoWCreator;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;

@@ -86,7 +86,7 @@ public class TCellDisambiguator {
     }
 
 
-    protected static void addCellAnnotation(
+    protected void addCellAnnotation(
             Table table,
             TAnnotation tableAnnotation,
             List<Integer> rowBlock,
