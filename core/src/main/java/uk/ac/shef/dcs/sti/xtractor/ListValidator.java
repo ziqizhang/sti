@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.xtractor;
 
-import uk.ac.shef.dcs.sti.core.model.LList;
+import uk.ac.shef.dcs.sti.core.model.List;
 
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)
@@ -8,5 +8,5 @@ import uk.ac.shef.dcs.sti.core.model.LList;
  * Time: 13:05
  */
 public interface ListValidator {
-    boolean isValid(LList list);
+    boolean isValid(List list);
 }

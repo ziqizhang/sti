@@ -11,6 +11,7 @@ import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by zqz on 20/04/2015.

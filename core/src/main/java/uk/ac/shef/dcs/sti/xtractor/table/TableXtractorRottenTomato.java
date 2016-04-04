@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.xtractor;
+package uk.ac.shef.dcs.sti.xtractor.table;
 
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.extractor.html.TagSoupParser;
@@ -11,6 +11,10 @@ import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeader;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.dcs.sti.core.model.Table;
+import uk.ac.shef.dcs.sti.xtractor.TableHODetector;
+import uk.ac.shef.dcs.sti.xtractor.TableNormalizer;
+import uk.ac.shef.dcs.sti.xtractor.TableObjCreator;
+import uk.ac.shef.dcs.sti.xtractor.Table_ContextExtractor_Generic;
 import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;

@@ -6,6 +6,8 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.xtractor.*;
+import uk.ac.shef.dcs.sti.xtractor.table.TableXtractor;
+import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorMusicBrainz;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 
 import javax.xml.parsers.ParserConfigurationException;

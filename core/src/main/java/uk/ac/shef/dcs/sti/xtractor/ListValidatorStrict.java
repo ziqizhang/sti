@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.xtractor;
 
-import uk.ac.shef.dcs.sti.core.model.LList;
-import uk.ac.shef.dcs.sti.core.model.LListItem;
+import uk.ac.shef.dcs.sti.core.model.List;
+import uk.ac.shef.dcs.sti.core.model.ListItem;
 import uk.ac.shef.dcs.sti.xtractor.validator.ContentValidator;
 
 import java.util.Map;
@@ -31,12 +31,12 @@ public class ListValidatorStrict extends ContentValidator implements ListValidat
 
 
     @Override
-    public boolean isValid(LList list) {
+    public boolean isValid(List list) {
         if (list.getItems().size() < ListVaildatorLanient.THRESHOLD_MIN_PROPERITEMS)
             return false;
 
         int countGSWithURIs = 0;
-        for (LListItem li : list.getItems()) {
+        for (ListItem li : list.getItems()) {
             if (li.getValuesAndURIs().size() > 1)
                 return false;
             if (li.getValuesAndURIs().size() > 0) {

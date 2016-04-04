@@ -10,6 +10,7 @@ import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.*;
+import java.util.List;
 
 /**
  */

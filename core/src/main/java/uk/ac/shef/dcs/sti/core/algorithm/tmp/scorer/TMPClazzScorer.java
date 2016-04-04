@@ -17,6 +17,7 @@ import uk.ac.shef.dcs.util.StringUtils;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
 /**
  * Firstly, computeElementScores each candidate type for this column, based on 1) # of candidate entities lead to that type 2) candidate entity's disamb computeElementScores

@@ -9,6 +9,7 @@ import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by - on 04/04/2016.

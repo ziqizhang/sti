@@ -3,6 +3,8 @@ package uk.ac.shef.dcs.sti.experiment;
 import info.bliki.wiki.dump.WikiXMLParser;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.xtractor.*;
+import uk.ac.shef.dcs.sti.xtractor.list.ListXtractorWikipedia;
+import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorWikipedia;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValWikipediaGSLanient;
 
 import java.io.IOException;

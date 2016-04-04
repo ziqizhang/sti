@@ -2,22 +2,20 @@ package uk.ac.shef.dcs.sti.core.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)
  * Date: 09/10/12
  * Time: 11:07
  */
-public class LList implements Serializable {
+public class List implements Serializable {
     private static final long serialVersionUID = -8136725813759687613L;
     private String sourceId;
     private String listId;
-    private String typeURI;
-    private List<LListItem> items;
-    private List<String> contexts;
+    private java.util.List<ListItem> items;
+    private java.util.List<String> contexts;
 
-    public LList(String sourceId, String listId){
+    public List(String sourceId, String listId){
         this.sourceId=sourceId;
         this.listId=listId;
         items=new ArrayList<>();
@@ -36,22 +34,14 @@ public class LList implements Serializable {
         return getSourceId()+","+getListId();
     }
 
-    public void addItem(LListItem item){
+    public void addItem(ListItem item){
         items.add(item);
     }
-    public List<LListItem> getItems(){
+    public java.util.List<ListItem> getItems(){
         return items;
     }
 
-    public String getTypeURI() {
-        return typeURI;
-    }
-
-    public void setTypeURI(String typeURI) {
-        this.typeURI = typeURI;
-    }
-
-    public List<String> getContexts() {
+    public java.util.List<String> getContexts() {
         return contexts;
     }
 

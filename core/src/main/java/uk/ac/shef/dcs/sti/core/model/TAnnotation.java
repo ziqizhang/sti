@@ -17,9 +17,9 @@ public class TAnnotation {
     protected int subjectColumn;
     protected ObjectMatrix1D headerAnnotations; //each object in the matrix is an array of TColumnHeaderAnnotation
     protected ObjectMatrix2D contentAnnotations; //each object in the matrix is an array of TCellAnnotation
-    protected Map<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>>
+    protected Map<RelationColumns, Map<Integer, java.util.List<TCellCellRelationAnotation>>>
             cellcellRelations; //first key being the sub-obj column; second key is the row index
-    private Map<RelationColumns, List<TColumnColumnRelationAnnotation>>
+    private Map<RelationColumns, java.util.List<TColumnColumnRelationAnnotation>>
             columncolumnRelations;
 
     public TAnnotation(int rows, int cols) {
@@ -112,10 +112,10 @@ public class TAnnotation {
         return ha;
     }
 
-    public List<TColumnHeaderAnnotation> getWinningHeaderAnnotations(int headerCol) {
+    public java.util.List<TColumnHeaderAnnotation> getWinningHeaderAnnotations(int headerCol) {
         TColumnHeaderAnnotation[] annotations = getHeaderAnnotation(headerCol);
 
-        List<TColumnHeaderAnnotation> result = new ArrayList<>();
+        java.util.List<TColumnHeaderAnnotation> result = new ArrayList<>();
         if (annotations == null || annotations.length == 0)
             return result;
         double prevScore = 0.0;
@@ -149,10 +149,10 @@ public class TAnnotation {
         return ca;
     }
 
-    public List<TCellAnnotation> getWinningContentCellAnnotation(int row, int col) {
+    public java.util.List<TCellAnnotation> getWinningContentCellAnnotation(int row, int col) {
         TCellAnnotation[] annotations = getContentCellAnnotations(row, col);
 
-        List<TCellAnnotation> result = new ArrayList<TCellAnnotation>();
+        java.util.List<TCellAnnotation> result = new ArrayList<TCellAnnotation>();
         if (annotations == null || annotations.length == 0)
             return result;
         double prevScore = 0.0;
@@ -171,12 +171,12 @@ public class TAnnotation {
     }
 
     public void addCellCellRelation(TCellCellRelationAnotation toAdd) {
-        Map<Integer, List<TCellCellRelationAnotation>> candidates //returns, key: row index; value: list of candidate relations
+        Map<Integer, java.util.List<TCellCellRelationAnotation>> candidates //returns, key: row index; value: list of candidate relations
                 = cellcellRelations.get(toAdd.getRelationColumns());
         if (candidates == null)
             candidates = new HashMap<>();
         //get the list of relations across the two columns already registered on that row
-        List<TCellCellRelationAnotation> candidatesForRow = candidates.get(toAdd.getRow());
+        java.util.List<TCellCellRelationAnotation> candidatesForRow = candidates.get(toAdd.getRow());
         if (candidatesForRow == null)
             candidatesForRow = new ArrayList<>();
 
@@ -193,12 +193,12 @@ public class TAnnotation {
         cellcellRelations.put(toAdd.getRelationColumns(), candidates);
     }
 
-    public Map<Integer, List<TCellCellRelationAnotation>> getRelationAnnotationsBetween(int subjectCol, int objectCol) {
+    public Map<Integer, java.util.List<TCellCellRelationAnotation>> getRelationAnnotationsBetween(int subjectCol, int objectCol) {
         RelationColumns binary_key = new RelationColumns(subjectCol, objectCol);
         return cellcellRelations.get(binary_key);
     }
 
-    public Map<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>> getCellcellRelations() {
+    public Map<RelationColumns, Map<Integer, java.util.List<TCellCellRelationAnotation>>> getCellcellRelations() {
         return cellcellRelations;
     }
 
@@ -210,12 +210,12 @@ public class TAnnotation {
         this.subjectColumn = subjectColumn;
     }
 
-    public Map<RelationColumns, List<TColumnColumnRelationAnnotation>> getColumncolumnRelations() {
+    public Map<RelationColumns, java.util.List<TColumnColumnRelationAnnotation>> getColumncolumnRelations() {
         return columncolumnRelations;
     }
 
     public void addColumnColumnRelation(TColumnColumnRelationAnnotation ra) {
-        List<TColumnColumnRelationAnnotation> annotations_for_columns
+        java.util.List<TColumnColumnRelationAnnotation> annotations_for_columns
                 = columncolumnRelations.get(ra.getRelationColumns());
         if (annotations_for_columns == null)
             annotations_for_columns = new ArrayList<>();
@@ -224,11 +224,11 @@ public class TAnnotation {
     }
 
 
-    public List<TColumnColumnRelationAnnotation> getBestRelationAnnotationsBetween(RelationColumns subobj) {
-        List<TColumnColumnRelationAnnotation> candidates = columncolumnRelations.get(subobj);
+    public java.util.List<TColumnColumnRelationAnnotation> getBestRelationAnnotationsBetween(RelationColumns subobj) {
+        java.util.List<TColumnColumnRelationAnnotation> candidates = columncolumnRelations.get(subobj);
         Collections.sort(candidates);
 
-        List<TColumnColumnRelationAnnotation> result = new ArrayList<TColumnColumnRelationAnnotation>();
+        java.util.List<TColumnColumnRelationAnnotation> result = new ArrayList<TColumnColumnRelationAnnotation>();
         double maxScore = candidates.get(0).getFinalScore();
         for (TColumnColumnRelationAnnotation hbr : candidates) {
             if (hbr.getFinalScore() == maxScore)

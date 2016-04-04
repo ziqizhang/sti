@@ -29,7 +29,7 @@ import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorGoodreads;
-import uk.ac.shef.dcs.sti.xtractor.TableXtractorMSN;
+import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorMSN;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 
 import java.io.*;

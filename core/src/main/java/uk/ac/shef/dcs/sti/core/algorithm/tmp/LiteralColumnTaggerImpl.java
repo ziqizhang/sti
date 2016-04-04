@@ -6,6 +6,7 @@ import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.*;
+import java.util.List;
 
 /**
  * this simply chooses column type based on relations' expected types

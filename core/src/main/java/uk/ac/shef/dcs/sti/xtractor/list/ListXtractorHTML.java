@@ -1,15 +1,16 @@
-package uk.ac.shef.dcs.sti.xtractor;
+package uk.ac.shef.dcs.sti.xtractor.list;
 
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.extractor.html.TagSoupParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import uk.ac.shef.dcs.sti.core.model.LList;
+import uk.ac.shef.dcs.sti.core.model.List;
+import uk.ac.shef.dcs.sti.xtractor.ListElementTokenizer;
+import uk.ac.shef.dcs.sti.xtractor.ListValidator;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)
@@ -26,10 +27,10 @@ public class ListXtractorHTML extends ListXtractor {
     }
 
     @Override
-    public List<LList> extract(String input, String sourceId) {
+    public java.util.List extract(String input, String sourceId) {
         /*if (sourceId.startsWith("Altruism"))
             System.out.println();*/
-        List<LList> rs = new ArrayList<LList>();
+        java.util.List rs = new ArrayList<List>();
 
         parser = new TagSoupParser(new ByteArrayInputStream(input.getBytes()), sourceId);
         Document doc = null;
@@ -41,7 +42,7 @@ public class ListXtractorHTML extends ListXtractor {
 
         int listCount = 0;
         for (String selectTag : listTagSelectors) {
-            List<Node> lists=DomUtils.findAllByTag(doc, selectTag);
+            java.util.List<Node> lists=DomUtils.findAllByTag(doc, selectTag);
 
             for(Node n: lists){
                 listCount++;
@@ -51,7 +52,7 @@ public class ListXtractorHTML extends ListXtractor {
                 //todo: extract context for list
                 String[] contexts = new String[0];
 
-                LList list = extractList(n, String.valueOf(listCount),
+                List list = extractList(n, String.valueOf(listCount),
                         sourceId, contexts);
                 if (list != null)
                     rs.add(list);

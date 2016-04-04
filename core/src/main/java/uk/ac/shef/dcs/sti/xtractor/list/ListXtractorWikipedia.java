@@ -1,10 +1,9 @@
-package uk.ac.shef.dcs.sti.xtractor;
+package uk.ac.shef.dcs.sti.xtractor.list;
 
 import info.bliki.wiki.model.WikiModel;
 import org.w3c.dom.Node;
-import uk.ac.shef.dcs.sti.core.model.LList;
-
-import java.util.List;
+import uk.ac.shef.dcs.sti.xtractor.ListElementTokenizer;
+import uk.ac.shef.dcs.sti.xtractor.ListValidator;
 
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)
@@ -25,7 +24,7 @@ public class ListXtractorWikipedia extends ListXtractorHTML {
     }
 
     @Override
-    public List<LList> extract(String input, String sourceId) {
+    public java.util.List extract(String input, String sourceId) {
         String html = model.render(input);
         return super.extract(html, sourceId);
     }

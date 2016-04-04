@@ -1,13 +1,13 @@
 package uk.ac.shef.dcs.sti.experiment;
 
-import uk.ac.shef.dcs.sti.core.model.LList;
+import uk.ac.shef.dcs.sti.core.model.List;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.xtractor.ListValidator;
 import uk.ac.shef.dcs.sti.xtractor.ListValidatorStrict;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValWikipediaGSStrict;
 import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
-import uk.ac.shef.dcs.sti.xtractor.ListXtractor;
-import uk.ac.shef.dcs.sti.xtractor.TableXtractor;
+import uk.ac.shef.dcs.sti.xtractor.list.ListXtractor;
+import uk.ac.shef.dcs.sti.xtractor.table.TableXtractor;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -60,7 +60,7 @@ public class WikipediaTL_GSCreator_Pass2 {
             File[] files = dir.listFiles();
             for (File file : files) {
                 try {
-                    LList list = ListXtractor.deserialize(file.getPath());
+                    List list = ListXtractor.deserialize(file.getPath());
                     if (lValidator.isValid(list)) {//todo: if selected
                         ListXtractor.serialize(list, listOutFinalDir + File.separator + countListDirs);
                         countLists++;

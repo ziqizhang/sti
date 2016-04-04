@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.xtractor;
 
 import org.w3c.dom.Node;
-import uk.ac.shef.dcs.sti.core.model.LListItem;
+import uk.ac.shef.dcs.sti.core.model.ListItem;
 
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)
@@ -10,5 +10,5 @@ import uk.ac.shef.dcs.sti.core.model.LListItem;
  */
 public interface ListElementTokenizer {
 
-    LListItem tokenize(Node liElementJSoup);
+    ListItem tokenize(Node liElementJSoup);
 }

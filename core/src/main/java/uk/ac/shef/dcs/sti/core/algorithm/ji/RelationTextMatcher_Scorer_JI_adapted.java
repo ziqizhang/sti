@@ -10,6 +10,7 @@ import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by zqz on 05/05/2015.

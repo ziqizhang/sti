@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.xtractor;
+package uk.ac.shef.dcs.sti.xtractor.table;
 
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.extractor.html.TagSoupParser;
@@ -7,6 +7,10 @@ import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.dcs.sti.core.model.Table;
+import uk.ac.shef.dcs.sti.xtractor.TableHODetector;
+import uk.ac.shef.dcs.sti.xtractor.TableNormalizer;
+import uk.ac.shef.dcs.sti.xtractor.TableObjCreator;
+import uk.ac.shef.dcs.sti.xtractor.Table_ContextExtractor_Generic;
 import uk.ac.shef.dcs.sti.xtractor.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
@@ -17,12 +21,12 @@ import java.util.List;
 /**
  * Created with IntelliJ IDEA.
  * User: zqz
- * Date: 31/03/14
- * Time: 15:21
+ * Date: 12/06/14
+ * Time: 13:13
  * To change this template use File | Settings | File Templates.
  */
-public class TableXtractorGoodreads extends TableXtractor {
-    public TableXtractorGoodreads(TableNormalizer normalizer, TableHODetector detector, TableObjCreator creator, TableValidator... validators) {
+public class TableXtractorBoxOffice extends TableXtractor {
+    public TableXtractorBoxOffice(TableNormalizer normalizer, TableHODetector detector, TableObjCreator creator, TableValidator... validators) {
         super(normalizer, detector, creator, validators);
     }
 
@@ -38,15 +42,20 @@ public class TableXtractorGoodreads extends TableXtractor {
             return rs;
         }
 
-        List<Node> tables = DomUtils.findAll(doc, "//TABLE[@class='stacked tableList']");
+        List<Node> tables = DomUtils.findAll(doc, "//TABLE");
+
+
         List<TContext> contexts = new ArrayList<TContext>();
         try {
-            contexts = Table_ContextExtractor_Generic.extractTableContexts(sourceId, doc);
+            contexts = Table_ContextExtractor_Generic.extractTableContexts_generic_everything(sourceId, doc);
         } catch (STIException e) {
             e.printStackTrace();
         }
         int tableCount = 0;
         for (Node n : tables) {
+            if(!isGenreTableNode(n))
+                continue;
+
             tableCount++;
 
             TContext[] contexts_array = new TContext[contexts.size()];
@@ -59,5 +68,13 @@ public class TableXtractorGoodreads extends TableXtractor {
 
         }
         return rs;
+    }
+
+    private boolean isGenreTableNode(Node e){
+        String tableContent = e.getTextContent().replaceAll("\\s+","");
+        if(tableContent.startsWith("GenreRank"))
+            return true;
+
+        return false;
     }
 }

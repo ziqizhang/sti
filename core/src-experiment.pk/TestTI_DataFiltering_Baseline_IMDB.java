@@ -24,7 +24,7 @@ import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerFrequentRowLength;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorIMDB;
-import uk.ac.shef.dcs.sti.xtractor.TableXtractorIMDB;
+import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorIMDB;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 

@@ -9,19 +9,19 @@ import java.util.Map;
  * Date: 10/10/12
  * Time: 12:25
  */
-public class LListItem implements Serializable {
+public class ListItem implements Serializable {
     private static final long serialVersionUID = -8136725546789405913L;
     private String text;
     private Map<String, String> valueURIs;
 
-    public LListItem(String text) {
+    public ListItem(String text) {
         valueURIs = new LinkedHashMap<>();
         this.text = text;
     }
 
     public boolean equals(Object o) {
-        if (o instanceof LListItem) {
-            LListItem c = (LListItem) o;
+        if (o instanceof ListItem) {
+            ListItem c = (ListItem) o;
             return c.getText().equals(getText());
         }
         return false;

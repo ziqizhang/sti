@@ -13,6 +13,7 @@ import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.*;
+import java.util.List;
 
 /**
  * this class creates preliminary classification and disambiguation on a column

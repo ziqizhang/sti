@@ -8,6 +8,7 @@ import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.*;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.

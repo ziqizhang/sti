@@ -34,7 +34,7 @@ public class Table implements Serializable {
     private int cols; //# of columns in the table
 
     //private List<CellBinaryRelationAnnotation> relations = new ArrayList<CellBinaryRelationAnnotation>();
-    private List<TContext> contexts = new ArrayList<TContext>();
+    private java.util.List<TContext> contexts = new ArrayList<>();
 
     private TAnnotation tableAnnotations;
 
@@ -89,14 +89,6 @@ public class Table implements Serializable {
 
 
     //headers and content cells;
-    protected ObjectMatrix1D getTableHeaders() {
-       return headers;
-    }
-    protected ObjectMatrix2D getContentCells() {
-        ObjectMatrix2D contentCells = contents.viewPart(1, 0, contents.rows() - 1, contents.columns());
-        return contentCells;
-    }
-
 
     public String getTableId() {
         return tableId;
@@ -107,7 +99,7 @@ public class Table implements Serializable {
     }
 
 
-    public List<TContext> getContexts() {
+    public java.util.List<TContext> getContexts() {
         return contexts;
     }
 

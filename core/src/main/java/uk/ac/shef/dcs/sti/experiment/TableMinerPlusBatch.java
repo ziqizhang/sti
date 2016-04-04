@@ -260,7 +260,7 @@ public class TableMinerPlusBatch extends STIBatch {
 
         }
         tmp.closeAll();
-        System.out.println(new Date());
+        LOG.info(new Date());
     }
 
 

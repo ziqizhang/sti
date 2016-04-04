@@ -1,7 +1,5 @@
 package uk.ac.shef.dcs.sti.xtractor.validator;
 
-import java.util.regex.Pattern;
-
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)
  * Date: 10/10/12
@@ -12,9 +10,6 @@ public abstract class ContentValidator {
     protected static final String[] ORDINALS = {"first", "1st", "second", "2nd", "third", "3rd", "fourth", "4th",
             "fifth", "5th", "sixth", "6th", "seventh", "7th", "eighth", "8th", "ninth", "9th", "tenth", "10th",
             "eleventh", "11th", "twelfth", "12th", "teenth", "13th", "tieth"};
-
-
-    protected static final Pattern PATTERN_NON_ASCII = Pattern.compile("[^\\x00-\\x80]+");
 
 
     /**

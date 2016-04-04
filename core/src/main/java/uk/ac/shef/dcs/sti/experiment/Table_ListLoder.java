@@ -1,9 +1,9 @@
 package uk.ac.shef.dcs.sti.experiment;
 
-import uk.ac.shef.dcs.sti.core.model.LList;
+import uk.ac.shef.dcs.sti.core.model.List;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.xtractor.ListXtractor;
-import uk.ac.shef.dcs.sti.xtractor.TableXtractor;
+import uk.ac.shef.dcs.sti.xtractor.list.ListXtractor;
+import uk.ac.shef.dcs.sti.xtractor.table.TableXtractor;
 
 import java.io.IOException;
 
@@ -18,8 +18,8 @@ public class Table_ListLoder {
         Table table=TableXtractor.deserialize(filename);
         return table;
     }
-    public static LList loadList(String filename) throws ClassNotFoundException, IOException {
-        LList list = ListXtractor.deserialize(filename);
+    public static List loadList(String filename) throws ClassNotFoundException, IOException {
+        List list = ListXtractor.deserialize(filename);
         return list;
     }
 

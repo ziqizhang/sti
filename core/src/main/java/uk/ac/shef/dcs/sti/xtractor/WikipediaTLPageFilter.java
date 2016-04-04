@@ -4,12 +4,13 @@ import info.bliki.wiki.dump.IArticleFilter;
 import info.bliki.wiki.dump.Siteinfo;
 import info.bliki.wiki.dump.WikiArticle;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.sti.core.model.LList;
+import uk.ac.shef.dcs.sti.core.model.List;
 import uk.ac.shef.dcs.sti.core.model.Table;
+import uk.ac.shef.dcs.sti.xtractor.list.ListXtractor;
+import uk.ac.shef.dcs.sti.xtractor.table.TableXtractor;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -57,7 +58,7 @@ public class WikipediaTLPageFilter implements IArticleFilter {
             countMainPages++;
             String textLowerCase = page.getText().toLowerCase();
             if (textLowerCase.indexOf("wikitable") != -1) { //it likely contains tables or lists
-                List<Table> tables = tXtractor.extract(page.getText(),
+                java.util.List<Table> tables = tXtractor.extract(page.getText(),
                         page.getTitle() + "_" + page.getId());
                 for (Table t : tables) {
                     try {
@@ -72,10 +73,10 @@ public class WikipediaTLPageFilter implements IArticleFilter {
                 }
             }
             if (textLowerCase.indexOf("* ") != -1) {
-                List<LList> lists = lXtractor.extract(page.getText(),
+                java.util.List<List> lists = lXtractor.extract(page.getText(),
                         page.getTitle() + "_" + page.getId());
 
-                for (LList l : lists) {
+                for (List l : lists) {
                     try {
                         ListXtractor.serialize(l, targetListDir + File.separator + countListDirs);
                         countLists++;

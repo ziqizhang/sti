@@ -14,7 +14,7 @@ import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.xtractor.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.TableNormalizerDummy;
 import uk.ac.shef.dcs.sti.xtractor.TableObjCreatorMusicBrainz;
-import uk.ac.shef.dcs.sti.xtractor.TableXtractorMusicBrainz;
+import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorMusicBrainz;
 import uk.ac.shef.dcs.sti.xtractor.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;

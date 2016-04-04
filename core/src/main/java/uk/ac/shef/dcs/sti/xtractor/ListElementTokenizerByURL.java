@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.xtractor;
 
 import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
-import uk.ac.shef.dcs.sti.core.model.LListItem;
+import uk.ac.shef.dcs.sti.core.model.ListItem;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ import java.util.List;
  */
 public class ListElementTokenizerByURL implements ListElementTokenizer {
     @Override
-    public LListItem tokenize(Node liElement) {
+    public ListItem tokenize(Node liElement) {
         String fulltext = liElement.getTextContent();
-        LListItem li = new LListItem(fulltext);
+        ListItem li = new ListItem(fulltext);
 
         List<Node> it = DomUtils.findAllByTag(liElement, "A");
         for (Node n : it) {

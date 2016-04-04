@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.xtractor;
 
-import uk.ac.shef.dcs.sti.core.model.LList;
-import uk.ac.shef.dcs.sti.core.model.LListItem;
+import uk.ac.shef.dcs.sti.core.model.List;
+import uk.ac.shef.dcs.sti.core.model.ListItem;
 import uk.ac.shef.dcs.sti.xtractor.validator.ContentValidator;
 
 import java.util.Map;
@@ -34,10 +34,10 @@ public class ListVaildatorLanient extends ContentValidator implements ListValida
     protected static double THRESHOLD_TOOMANY_EMPTYTEMS = 0.2;
 
     @Override
-    public boolean isValid(LList list) {
+    public boolean isValid(List list) {
         int countEmpty = 0, countLengthy = 0, numericItems = 0;
 
-        for (LListItem li : list.getItems()) {
+        for (ListItem li : list.getItems()) {
             String fulltext = li.getText();
 
             if(fulltext.toLowerCase().startsWith("list of"))
