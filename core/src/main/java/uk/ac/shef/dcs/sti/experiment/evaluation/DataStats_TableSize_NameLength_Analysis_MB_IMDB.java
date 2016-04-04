@@ -4,6 +4,7 @@ import org.apache.any23.util.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractor;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorMusicBrainz;
@@ -32,7 +33,7 @@ public class DataStats_TableSize_NameLength_Analysis_MB_IMDB {
 
     private static TableXtractor xtractor;
 
-    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
+    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException, STIException {
 
         /////////////imdb
         /*String cleanTableRepos = "E:\\Data\\table_annotation\\freebase_crawl\\film_film\\raw\\imdb_raw";
@@ -81,7 +82,7 @@ public class DataStats_TableSize_NameLength_Analysis_MB_IMDB {
 
     //tableAnnotationFileanem and htmlRepository can both be null, then they are ignored
     public static Table checkGroundTruth(String tableFilename, String tableAnnotationFilename, PrintWriter p,
-                                          PrintWriter p2) throws IOException, ParserConfigurationException, SAXException {
+                                          PrintWriter p2) throws IOException, ParserConfigurationException, SAXException, STIException {
 
         Table table = null;
         String fileContent = FileUtils.readFileContent(new File(tableFilename));

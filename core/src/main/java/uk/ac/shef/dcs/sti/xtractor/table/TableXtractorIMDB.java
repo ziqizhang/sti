@@ -32,7 +32,7 @@ public class TableXtractorIMDB extends TableXtractor {
 
     @Override
     public List<Table> extract(String input, String sourceId) {
-        List<Table> rs = new ArrayList<Table>();
+        List<Table> rs = new ArrayList<>();
         parser = new TagSoupParser(new ByteArrayInputStream(input.getBytes()), sourceId,"UTF-8");
         Document doc = null;
         try {

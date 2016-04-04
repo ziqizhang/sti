@@ -3,6 +3,7 @@ package uk.ac.shef.dcs.sti.xtractor.table;
 import cern.colt.matrix.ObjectMatrix2D;
 import org.apache.any23.extractor.html.TagSoupParser;
 import org.w3c.dom.Node;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetector;
@@ -39,7 +40,7 @@ public abstract class TableXtractor {
         this.validators = validators;
     }
 
-    public abstract List<Table> extract(String input, String sourceId);
+    public abstract List<Table> extract(String input, String sourceId) throws STIException;
 
     /**
      * Processes table elements following the basic principles:

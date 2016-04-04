@@ -7,12 +7,12 @@ import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
-import uk.ac.shef.dcs.sti.experiment.LimayeDatasetLoader;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.util.FileUtils;
+import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorLimayeDataset;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -91,7 +91,7 @@ public class GSBuilder_Limaye {
 
                 String inFile = f.toString();
                 System.out.println(count + "_" + inFile + " " + new Date());
-                Table table = LimayeDatasetLoader.readTable(raw_file.toString(), null, null);
+                Table table = new TableXtractorLimayeDataset().extract(raw_file.toString(), null).get(0);
                 TAnnotation annotations = gsBuilder.readTableAnnotation(inFile, table);
                 gsBuilder.save(table, annotations, outFolder, writer);
             } catch (Exception e) {

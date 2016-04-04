@@ -11,13 +11,13 @@ import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.model.TCell;
+import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorLimayeDataset;
 import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
 import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorWikipediaGS;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorWikipedia;
-import uk.ac.shef.dcs.sti.experiment.LimayeDatasetLoader;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 import uk.ac.shef.dcs.websearch.WebSearchFactory;
 import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
@@ -118,7 +118,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
                 }
 
                 System.out.println(count + "_" + f);
-                Table limaye_table = LimayeDatasetLoader.readTable(f.toString(), null, null);
+                Table limaye_table = new TableXtractorLimayeDataset().extract(f.toString(), null).get(0);
 
                 String wikiPage = null;
                 if (missedFile.size() > 0) {

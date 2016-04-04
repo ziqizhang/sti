@@ -19,6 +19,7 @@ import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerIm
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.OSPD_nonEmpty;
 import uk.ac.shef.dcs.sti.core.model.Table;
+import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorLimayeDataset;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.io.*;
@@ -197,7 +198,7 @@ public class TableMinerPlusBatch extends STIBatch {
     @Override
     protected Table loadTable(String file) {
         try {
-            return LimayeDatasetLoader.readTable(file, null, null);
+            return new TableXtractorLimayeDataset().extract(file, null).get(0);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
