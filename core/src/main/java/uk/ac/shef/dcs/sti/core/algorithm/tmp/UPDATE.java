@@ -7,7 +7,6 @@ import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseEnum;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
@@ -66,7 +65,7 @@ public class UPDATE {
         TAnnotation.copy(currentAnnotation, prevAnnotation);
         List<String> domainRep;
         Set<String> allEntityIds = new HashSet<>();
-        boolean converged;
+        boolean stable;
         do {
             ///////////////// solution 2: both prev and current iterations' headers will have dc scores added
             LOG.info("\t>> UPDATE begins, iteration:" + currentIteration);
@@ -89,19 +88,19 @@ public class UPDATE {
             // NO NEED!!! DC computeElementScores already included when "revise_cell_disam..."
             //updateClazzScoresByDC(current_iteration_annotation, domain_representation, interpreted_columns);
             //both prev and current iterations' header annotations do not have dc scores
-            converged = checkConvergence(prevAnnotation, currentAnnotation,
+            stable = checkStablization(prevAnnotation, currentAnnotation,
                     table.getNumRows(), interpretedColumnIndexes);
-            if (!converged) {
+            if (!stable) {
                 prevAnnotation = new TAnnotation(currentAnnotation.getRows(),
                         currentAnnotation.getCols());
                 TAnnotation.copy(currentAnnotation,
                         prevAnnotation);
             }
             currentIteration++;
-        } while (!converged && currentIteration < TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS);
+        } while (!stable && currentIteration < TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS);
 
         if (currentIteration >= TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS) {
-            LOG.info("\t>> UPDATE CANNOT STABILIZED AFTER " + currentIteration + " ITERATIONS, Stopped");
+            LOG.warn("\t>> UPDATE CANNOT STABILIZED AFTER " + currentIteration + " ITERATIONS, Stopped");
             if (prevAnnotation != null) {
                 currentAnnotation = new TAnnotation(prevAnnotation.getRows(),
                         prevAnnotation.getCols());
@@ -170,6 +169,7 @@ public class UPDATE {
             List<Integer> interpretedColumns) throws KBSearchException {
         //now revise annotations on each of the interpreted columns
         for (int c : interpretedColumns) {
+            LOG.info("\t\t>> for column "+c);
             //sample ranking
             List<List<Integer>> ranking = selector.select(table, c, currentAnnotation.getSubjectColumn());
 
@@ -196,7 +196,7 @@ public class UPDATE {
                                 sample,
                                 table,
                                 columnTypes,
-                                rows, c);
+                                rows, c,ranking.size());
 
                 if (entity_and_scoreMap.size() > 0) {
                     disambiguator.addCellAnnotation(table, currentAnnotation, rows, c,
@@ -217,7 +217,8 @@ public class UPDATE {
                                                                  Table table,
                                                                  Set<String> constrainedClazz,
                                                                  List<Integer> rowBlock,
-                                                                 int table_cell_col) throws KBSearchException {
+                                                                 int table_cell_col,
+                                                                 int totalRowBlocks) throws KBSearchException {
         List<Pair<Entity, Map<String, Double>>> entity_and_scoreMap;
         List<Entity> candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText(),
                 constrainedClazz.toArray(new String[0]));
@@ -231,38 +232,38 @@ public class UPDATE {
             } else {
             candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText());
         }
-        LOG.info("(Total candidates="+candidates.size()+", previously already processed=" + ignore+")");
+        LOG.debug("\t\t>> Rows="+rowBlock+"/"+totalRowBlocks+" (Total candidates="+candidates.size()+", previously already processed=" + ignore+")");
         //now each candidate is given scores
         entity_and_scoreMap =
                 disambiguator.constrainedDisambiguate
-                        (candidates, table, rowBlock, table_cell_col, false);
+                        (candidates, table, rowBlock, table_cell_col, totalRowBlocks,false);
 
         return entity_and_scoreMap;
     }
 
 
-    private boolean checkConvergence(TAnnotation prev_iteration_annotation, TAnnotation table_annotation, int totalRows, List<Integer> interpreted_columns) {
+    private boolean checkStablization(TAnnotation prev_iteration_annotation, TAnnotation table_annotation, int totalRows, List<Integer> interpreted_columns) {
         //check header annotations
-        int header_converged_count = 0;
-        boolean header_converged = false;
+        int columnAnnotationStable = 0;
+        boolean stable = false;
         for (int c : interpreted_columns) {
             List<TColumnHeaderAnnotation> header_annotations_prev_iteration = prev_iteration_annotation.getWinningHeaderAnnotations(c);
             List<TColumnHeaderAnnotation> header_annotations_current_iteration = table_annotation.getWinningHeaderAnnotations(c);
             if (header_annotations_current_iteration.size() == header_annotations_prev_iteration.size()) {
                 header_annotations_current_iteration.retainAll(header_annotations_prev_iteration);
                 if (header_annotations_current_iteration.size() == header_annotations_prev_iteration.size())
-                    header_converged_count++;
+                    columnAnnotationStable++;
                 else
                     return false;
             } else
                 return false;
         }
-        if (header_converged_count == interpreted_columns.size()) {
-            header_converged = true;
+        if (columnAnnotationStable == interpreted_columns.size()) {
+            stable = true;
         }
 
         //check cell annotations
-        boolean cell_converged = true;
+        boolean cellAnnotationStable = true;
         for (int c : interpreted_columns) {
             for (int row = 0; row < totalRows; row++) {
                 List<TCellAnnotation> cell_prev_annotations = prev_iteration_annotation.getWinningContentCellAnnotation(row, c);
@@ -274,7 +275,7 @@ public class UPDATE {
                 }
             }
         }
-        return header_converged && cell_converged;
+        return stable && cellAnnotationStable;
     }
 
 }

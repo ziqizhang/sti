@@ -142,7 +142,7 @@ public class TColumnClassifier {
     }
 
     /**
-     * Used after preliminary disamb, to update candidate column clazz annotations on the column
+     * Used after disamb, to update candidate column clazz annotations on the column
      * @param updatedRows
      * @param column
      * @param totalRows

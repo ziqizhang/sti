@@ -96,7 +96,7 @@ public class FreebaseSearch extends KBSearch {
             try {
                 //firstly fetch candidate freebase topics. pass 'true' to only keep candidates whose name overlap with the query term
                 List<FreebaseTopic> topics = searcher.searchapi_getTopicsByNameAndType(text, "any", true, 20); //search api does not retrieve complete types, find types for them
-                LOG.info("(FB QUERY =" +topics.size()+" results)");
+                LOG.debug("(FB QUERY =" +topics.size()+" results)");
                 for (FreebaseTopic ec : topics) {
                     //Next get attributes for each topic
                     List<Attribute> attributes = findAttributesOfEntities(ec);

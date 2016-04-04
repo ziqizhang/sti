@@ -110,8 +110,8 @@ public class TableMinerPlusBatch extends STIBatch {
             disambiguator = new TCellDisambiguator(kbSearch,
                     new TMPEntityScorer(
                             getStopwords(),
-                            new double[]{1.0, 0.5, 1.0, 0.5, 1.0}, //row,column, column header, tablecontext other,refent
-                            getNLPResourcesDir()));                         //1.0, 0.5, 0.25, 1.0, 1.0
+                            new double[]{1.0, 0.5, 1.0, 0.5}, //row,column, column header, tablecontext all
+                            getNLPResourcesDir()));
             classifier = new TColumnClassifier(new TMPClazzScorer(getNLPResourcesDir(),
                     new FreebaseConceptBoWCreator(),
                     getStopwords(),
@@ -169,7 +169,7 @@ public class TableMinerPlusBatch extends STIBatch {
                     // new double[]{1.0, 1.0, 0.0, 0.0, 1.0}
             );
              interpreter_relation = new TColumnColumnRelationEnumerator(
-                    new TMPAttributeValueMatcher(0.0, getStopwords(), new Levenshtein()),
+                    new TMPAttributeValueMatcher(0.01, getStopwords(), new Levenshtein()),
                     relation_scorer
             );
 

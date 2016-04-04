@@ -56,15 +56,16 @@ public class TCellDisambiguator {
             Table table,
             List<Integer> rowBlock,
             int column,
+            int totalRowBlocks,
             boolean isLEARNINGPhase
     ) throws KBSearchException {
         TCell sample_tcc = table.getContentCell(rowBlock.get(0), column);
         if (isLEARNINGPhase)
-            LOG.info("\t\t>> (constrained disambiguation in LEARNING) , position at (" + rowBlock + "," + column + ") " + sample_tcc + " candidates=" + candidates.size());
+            LOG.info("\t\t>> (constrained disambiguation in LEARNING) , position at (" + rowBlock + "/"+totalRowBlocks+"," + column + ") " + sample_tcc + " candidates=" + candidates.size());
         else
-            LOG.info("\t\t>> constrained disambiguation in UPDATE), position at (" + rowBlock + "," + column + ") " + sample_tcc + " (candidates)-" + candidates.size());
+            LOG.info("\t\t>> (constrained disambiguation in UPDATE), position at (" + rowBlock + "/"+totalRowBlocks+"," + column + ") " + sample_tcc + " (candidates)-" + candidates.size());
 
-        return disambiguate(candidates,table,rowBlock,column);
+        return disambiguate(candidates, table, rowBlock,column);
     }
 
     public List<Pair<Entity, Map<String, Double>>> disambiguate(List<Entity> candidates, Table table,

@@ -73,7 +73,7 @@ public class LEARNINGPreliminaryDisamb {
                     constrainedDisambiguate(sample,
                             table,
                             winningColumnClazzIds,
-                            rows, column
+                            rows, column,ranking.size()
                     );
 
             if (entity_and_scoreMap.size() > 0) {
@@ -83,7 +83,7 @@ public class LEARNINGPreliminaryDisamb {
             }
         }
 
-        LOG.info("\t\t>> constrained cell disambiguation complete " + updated.size() + " rows");
+        LOG.info("\t\t>> constrained cell disambiguation complete " + updated.size() + "/"+ranking.size()+" rows");
         LOG.info("\t\t>> reset candidate column class annotations");
         classifier.updateColumnClazz(updated, column, tableAnnotation, table);
 
@@ -130,7 +130,8 @@ public class LEARNINGPreliminaryDisamb {
                                                                             Table table,
                                                                             Set<String> winningColumnClazz,
                                                                             List<Integer> rowBlock,
-                                                                            int column) throws KBSearchException {
+                                                                            int column,
+                                                                            int totalRowBlocks) throws KBSearchException {
         List<Pair<Entity, Map<String, Double>>> entity_and_scoreMap;
 
         List<Entity> candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText(), winningColumnClazz.toArray(new String[0]));
@@ -141,7 +142,7 @@ public class LEARNINGPreliminaryDisamb {
         //now each candidate is given scores
         entity_and_scoreMap =
                 disambiguator.constrainedDisambiguate
-                        (candidates, table, rowBlock, column, true);
+                        (candidates, table, rowBlock, column,totalRowBlocks, true);
 
         return entity_and_scoreMap;
     }

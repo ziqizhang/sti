@@ -52,7 +52,7 @@ public class LEARNINGPreliminaryColumnClassifier {
      * indexes of cells based on the sampler
      * @throws KBSearchException
      */
-    public Pair<Integer, List<List<Integer>>> runPreliminaryColumnClassifier(Table table, TAnnotation tableAnnotation, int column, Integer... skipRows) throws KBSearchException, ClassNotFoundException {
+    public Pair<Integer, List<List<Integer>>> runPreliminaryColumnClassifier(Table table, TAnnotation tableAnnotation, int column,Integer... skipRows) throws KBSearchException, ClassNotFoundException {
         StoppingCriteria stopper = StoppingCriteriaInstantiator.instantiate(stopperClassname, stopperParams);
 
         //1. gather list of strings from this column to be interpreted, rank them (for sampling)
@@ -76,7 +76,7 @@ public class LEARNINGPreliminaryColumnClassifier {
                 continue;
             }
 
-            LOG.info("\t\t>> cold start disambiguation, row(s) " + blockOfRows + "," + sample);
+            LOG.info("\t\t>> cold start disambiguation, row(s) " + blockOfRows + "/"+ranking.size()+"," + sample);
 
             boolean skip = false;
             for (int row : skipRows) {
@@ -112,7 +112,7 @@ public class LEARNINGPreliminaryColumnClassifier {
             boolean stop = stopper.stop(state, table.getNumRows());
 
             if (stop) {
-                LOG.info("\t>> (LEARNING) Preliminary Column Classification converged, rows:" + totalRows);
+                LOG.info("\t>> (LEARNING) Preliminary Column Classification converged, rows:" + totalRows+"/"+ranking.size());
                 //state is stable. annotate using the type, and disambiguate entities
                 generatePreliminaryColumnClazz(state, tableAnnotation, column);
                 stopped = true;

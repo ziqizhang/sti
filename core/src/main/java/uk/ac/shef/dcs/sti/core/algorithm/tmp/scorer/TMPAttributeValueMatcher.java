@@ -13,6 +13,12 @@ import java.util.*;
 public class TMPAttributeValueMatcher extends AttributeValueMatcher {
 
 
+    /**
+     *
+     * @param minScoreThreshold any number, but any thing lower or equal to 0.0 will be ignored
+     * @param stopWords
+     * @param stringMetric
+     */
     public TMPAttributeValueMatcher(double minScoreThreshold, List<String> stopWords, AbstractStringMetric stringMetric) {
         super(minScoreThreshold, stopWords, stringMetric);
     }
@@ -70,7 +76,7 @@ public class TMPAttributeValueMatcher extends AttributeValueMatcher {
             }
 
 
-            if (maxScore >= minScoreThreshold) {
+            if (maxScore!=0&&maxScore >= minScoreThreshold) {
                 List<Pair<Attribute, Double>> list = new ArrayList<>();
                 for(Map.Entry<Integer, Double> entry: attrIndex_to_matchScores.entrySet()){
                     if(entry.getValue()==maxScore){

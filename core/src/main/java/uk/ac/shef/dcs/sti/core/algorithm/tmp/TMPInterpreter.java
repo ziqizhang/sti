@@ -54,7 +54,7 @@ public class TMPInterpreter {
 
     public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, KBSearchException, STIException, ClassNotFoundException {
         //1. find the main subject column of this table
-        LOG.info(">\t Detecting subject column...");
+        LOG.info(">\t PHASE: Detecting subject column...");
         int[] ignoreColumnsArray = new int[ignoreCols.size()];
 
         int index = 0;
@@ -69,7 +69,7 @@ public class TMPInterpreter {
         tableAnnotations.setSubjectColumn(subjectColumnScores.get(0).getKey());
 
         List<Integer> annotatedColumns = new ArrayList<>();
-        LOG.info(">\t LEARNING phrase ...");
+        LOG.info(">\t PHASE: LEARNING ...");
         for (int col = 0; col < table.getNumCols(); col++) {
             /*if(col!=1)
                 continue;*/
@@ -93,11 +93,12 @@ public class TMPInterpreter {
         }
 
         if (update != null) {
-            LOG.info(">\t UPDATE phase ...");
+            LOG.info(">\t PHASE: UPDATE phase ...");
             update.update(annotatedColumns, table, tableAnnotations);
         }
 
         if (relationLearning) {
+            LOG.info("\t PHASE: RELATION ENUMERATION ...");
             new RELATIONENUMERATION().enumerate(subjectColumnScores,
                     ignoreCols, relationEnumerator,
                     tableAnnotations, table,

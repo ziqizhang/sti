@@ -22,12 +22,9 @@ import java.util.*;
  */
 public class TMPEntityScorer implements EntityScorer {
     private List<String> stopWords;
-    private double[] wt;
+    private double[] wt; //context weights: 0-row context; 1-column context; 2-column header; 3-context (all)
     private Lemmatizer lemmatizer;
 
-    /*
-    context weights: 0-row context; 1-column context; 2-table context
-     */
     public TMPEntityScorer(
             List<String> stopWords,
             double[] wt,
@@ -90,7 +87,6 @@ public class TMPEntityScorer implements EntityScorer {
         double en_score = CollectionUtils.computeDice(bow_of_cellText, bow_of_entityLabel);
         scoreMap.put(TCellAnnotation.SCORE_NAME_MATCH, Math.sqrt(en_score));
         //scoreMap.put("matched_name_tokens", (double) intersection.size());
-
 
         return scoreMap;
     }

@@ -229,23 +229,22 @@ public class TMPClazzScorer implements ClazzScorer {
 
     public Map<String, Double> computeFinal(TColumnHeaderAnnotation ha, int tableRowsTotal) {
         Map<String, Double> scoreElements = ha.getScoreElements();
-        double ce =
+        double sum_ce =
                 scoreElements.get(TColumnHeaderAnnotation.SUM_CE);
         double sum_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE);
 
-        scoreElements.put(TColumnHeaderAnnotation.SCORE_CE, ce / sum_entity_vote);
+        double ce = sum_entity_vote==0?0:sum_ce / sum_entity_vote;
+        scoreElements.put(TColumnHeaderAnnotation.SCORE_CE, ce);
 
         double score_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE) / (double) tableRowsTotal;
         scoreElements.put(TColumnHeaderAnnotation.SCORE_CELL_VOTE, score_entity_vote);
 
-        double base_score =ce;
-
         for (Map.Entry<String, Double> e : scoreElements.entrySet()) {
             if (e.getKey().startsWith("ctx"))
-                base_score += e.getValue();
+                ce += e.getValue();
         }
-        scoreElements.put(TColumnHeaderAnnotation.FINAL, base_score);
-        ha.setFinalScore(base_score);
+        scoreElements.put(TColumnHeaderAnnotation.FINAL, ce);
+        ha.setFinalScore(ce);
         return scoreElements;
     }
 

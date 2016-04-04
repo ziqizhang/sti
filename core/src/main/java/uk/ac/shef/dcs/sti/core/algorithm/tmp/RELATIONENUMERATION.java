@@ -30,7 +30,6 @@ public class RELATIONENUMERATION {
         double winningSolutionScore = 0;
         int subjectCol;
         TAnnotation winningSolution = null;
-        LOG.info("\t RELATION ENUMERATION begins");
         for (Pair<Integer, Pair<Double, Boolean>> mainCol : subjectColCandidadteScores) {
             //tab_annotations = new TAnnotation(table.getNumRows(), table.getNumCols());
             subjectCol = mainCol.getKey();

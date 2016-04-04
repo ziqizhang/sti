@@ -61,8 +61,8 @@ public class IInf extends StoppingCriteria {
 
         if (has_converged){
             LOG.debug("\tConvergence iteration=" + current_iteration + ", potential max=" + max + ", savings=" + ((double) (max - current_iteration) / max));
-            if(current_iteration>20)
-                System.out.println();
+            /*if(current_iteration>20)
+                System.out.println();*/
             //previous_iteration_entropy=0.0;//reset
             //current_iteration=0;
             return true;
