@@ -56,7 +56,7 @@ public class RELATIONENUMERATION {
                     winningSolutionScore = overallScore;
                 }
                 tableAnnotations.resetRelationAnnotations();
-                LOG.error(">>\t\t (this subject column does not form relation with other columns, try the next column)");
+                LOG.warn(">>\t\t (this subject column does not form relation with other columns, try the next column)");
                 continue;
             }
         }

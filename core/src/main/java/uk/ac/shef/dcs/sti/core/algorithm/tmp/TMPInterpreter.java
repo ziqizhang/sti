@@ -98,7 +98,7 @@ public class TMPInterpreter {
         }
 
         if (relationLearning) {
-            LOG.info("\t PHASE: RELATION ENUMERATION ...");
+            LOG.info("\t> PHASE: RELATION ENUMERATION ...");
             new RELATIONENUMERATION().enumerate(subjectColumnScores,
                     ignoreCols, relationEnumerator,
                     tableAnnotations, table,
@@ -106,7 +106,7 @@ public class TMPInterpreter {
 
             //4. consolidation-for columns that have relation with main subject column, if the column is
             // entity column, do column typing and disambiguation; otherwise, simply create header annotation
-            LOG.info(">\t Annotate literal-columns in relation with main column");
+            LOG.info("\t\t>> Annotate literal-columns in relation with main column");
             literalColumnTagger.annotate(table, tableAnnotations, annotatedColumns.toArray(new Integer[0]));
         }
 

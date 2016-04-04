@@ -76,6 +76,9 @@ public abstract class STIBatch {
         properties = new Properties();
         properties.load(new FileInputStream(propertyFile));
         initComponents();
+        writer = new TAnnotationWriter(new TripleGenerator(
+                properties.getProperty(PROPERTY_OUTPUT_TRIPLE_KB_NAMESPACE), properties.getProperty(PROPERTY_OUTPUT_TRIPLE_DEFAULT_NAMESPACE)
+        ));
     }
 
     /**
@@ -283,6 +286,9 @@ public abstract class STIBatch {
                                   Table table, String sourceTableFile, TAnnotationWriter writer,
                                   String outFolder,
                                   boolean relationLearning) throws Exception {
+        File outDir = new File(outFolder);
+        if(!outDir.exists())
+            outDir.mkdirs();
         String outFilename = sourceTableFile.replaceAll("\\\\", "/");
         try {
             TAnnotation annotations = interpreter.start(table, relationLearning);

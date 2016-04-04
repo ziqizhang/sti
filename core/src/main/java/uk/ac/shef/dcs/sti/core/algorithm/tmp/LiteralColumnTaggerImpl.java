@@ -25,7 +25,7 @@ public class LiteralColumnTaggerImpl implements LiteralColumnTagger {
         Map<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>>
                 relationAnnotations = annotations.getCellcellRelations();
 
-        LOG.info("\t>> Annotating literal columns");
+        //LOG.info("\t>> Annotating literal columns");
         for (Map.Entry<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>>
                 e : relationAnnotations.entrySet()) {
             RelationColumns subcol_objcol = e.getKey();
@@ -47,7 +47,7 @@ public class LiteralColumnTaggerImpl implements LiteralColumnTagger {
                 }
             }
             if (skip) {
-                LOG.debug("\t\t>> skipped object column " + subcol_objcol.getObjectCol());
+                LOG.debug("\t\t>> skipped object column (possibly NE column) " + subcol_objcol.getObjectCol());
                 continue;
             }
 
