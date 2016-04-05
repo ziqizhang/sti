@@ -61,7 +61,8 @@ public class LiteralColumnTaggerImpl implements LiteralColumnTagger {
                 TColumnHeaderAnnotation hAnn = new TColumnHeaderAnnotation(table.getColumnHeader(subcol_objcol.getObjectCol()).getHeaderText(),
                         new Clazz(relation.getRelationURI(), relation.getRelationLabel()),
                         relation.getFinalScore());
-                candidates.add(hAnn);
+                if(!candidates.contains(hAnn))
+                    candidates.add(hAnn);
             }
 
             List<TColumnHeaderAnnotation> sorted = new ArrayList<>(candidates);

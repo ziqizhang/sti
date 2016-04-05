@@ -62,8 +62,8 @@ public class UPDATE {
     ) throws KBSearchException, STIException {
 
         int currentIteration = 0;
-        TAnnotation prevAnnotation = new TAnnotation(currentAnnotation.getRows(), currentAnnotation.getCols());
-        TAnnotation.copy(currentAnnotation, prevAnnotation);
+        TAnnotation prevAnnotation;
+        //TAnnotation.copy(currentAnnotation, prevAnnotation);
         List<String> domainRep;
         Set<String> allEntityIds = new HashSet<>();
         boolean stable;
@@ -85,23 +85,16 @@ public class UPDATE {
             //scores will be reset, then recalculated. dc scores lost
             reviseColumnAndCellAnnotations(allEntityIds,
                     table, currentAnnotation, interpretedColumnIndexes);
-
-            // NO NEED!!! DC computeElementScores already included when "revise_cell_disam..."
-            //updateClazzScoresByDC(current_iteration_annotation, domain_representation, interpreted_columns);
-            //both prev and current iterations' header annotations do not have dc scores
             stable = checkStablization(prevAnnotation, currentAnnotation,
                     table.getNumRows(), interpretedColumnIndexes);
             if (!stable) {
-                prevAnnotation = new TAnnotation(currentAnnotation.getRows(),
-                        currentAnnotation.getCols());
-                TAnnotation.copy(currentAnnotation,
-                        prevAnnotation);
+                //System.out.println("debug");
             }
             currentIteration++;
         } while (!stable && currentIteration < STIConstantProperty.UPDATE_PHASE_MAX_ITERATIONS);
 
         if (currentIteration >= STIConstantProperty.UPDATE_PHASE_MAX_ITERATIONS) {
-            LOG.warn("\t>> UPDATE CANNOT STABILIZED AFTER " + currentIteration + " ITERATIONS, Stopped");
+            LOG.warn("\t>> UPDATE CANNOT STABILIZE AFTER " + currentIteration + " ITERATIONS, Stopped");
             if (prevAnnotation != null) {
                 currentAnnotation = new TAnnotation(prevAnnotation.getRows(),
                         prevAnnotation.getCols());
@@ -161,8 +154,6 @@ public class UPDATE {
     }
 
 
-
-
     private void reviseColumnAndCellAnnotations(
             Set<String> allEntityIds,
             Table table,
@@ -170,7 +161,7 @@ public class UPDATE {
             List<Integer> interpretedColumns) throws KBSearchException, STIException {
         //now revise annotations on each of the interpreted columns
         for (int c : interpretedColumns) {
-            LOG.info("\t\t>> for column "+c);
+            LOG.info("\t\t>> for column " + c);
             //sample ranking
             List<List<Integer>> ranking = selector.select(table, c, currentAnnotation.getSubjectColumn());
 
@@ -197,7 +188,7 @@ public class UPDATE {
                                 sample,
                                 table,
                                 columnTypes,
-                                rows, c,ranking.size());
+                                rows, c, ranking.size());
 
                 if (entity_and_scoreMap.size() > 0) {
                     disambiguator.addCellAnnotation(table, currentAnnotation, rows, c,
@@ -206,7 +197,21 @@ public class UPDATE {
                 }
             }
 
-            classifier.updateColumnClazz(updated, c, currentAnnotation, table);
+
+            classifier.updateColumnClazz(updated, c, currentAnnotation, table, true);
+            //at this point, DC should have been computed. But updateColumnClazz does not add DC to the newly compuetd clazz score.
+            //we should add DC to the total score here. however we should use existing DC calculated using the previous annotations,
+            //not to recalculate DC using TColumnClassifier.updateClazzScoresByDC
+            TColumnHeaderAnnotation[] columnHeaderAnnotations = currentAnnotation.getHeaderAnnotation(c);
+
+            for (TColumnHeaderAnnotation ha : columnHeaderAnnotations) {
+                Double dc = ha.getScoreElements().get(TColumnHeaderAnnotation.SCORE_DOMAIN_CONSENSUS);
+                if (dc != null)
+                    ha.setFinalScore(ha.getFinalScore() + dc);
+            }
+            Arrays.sort(columnHeaderAnnotations);
+            currentAnnotation.setHeaderAnnotation(c, columnHeaderAnnotations);
+
             LOG.info("\t>> update iteration complete (" + updated.size() + " rows)");
         }
 
@@ -230,14 +235,14 @@ public class UPDATE {
                 ignore++;
         }
         if (candidates != null && candidates.size() != 0) {
-            } else {
+        } else {
             candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText());
         }
-        LOG.debug("\t\t>> Rows="+rowBlock+"/"+totalRowBlocks+" (Total candidates="+candidates.size()+", previously already processed=" + ignore+")");
+        LOG.debug("\t\t>> Rows=" + rowBlock + "/" + totalRowBlocks + " (Total candidates=" + candidates.size() + ", previously already processed=" + ignore + ")");
         //now each candidate is given scores
         entity_and_scoreMap =
                 disambiguator.constrainedDisambiguate
-                        (candidates, table, rowBlock, table_cell_col, totalRowBlocks,false);
+                        (candidates, table, rowBlock, table_cell_col, totalRowBlocks, false);
 
         return entity_and_scoreMap;
     }

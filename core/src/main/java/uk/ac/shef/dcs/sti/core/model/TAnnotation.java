@@ -96,8 +96,8 @@ public class TAnnotation {
 
     public void setHeaderAnnotation(int headerCol, TColumnHeaderAnnotation[] annotations) {
         Set<TColumnHeaderAnnotation> deduplicateCheck = new HashSet<>(Arrays.asList(annotations));
-        if (deduplicateCheck.size() != annotations.length)
-            System.err.println("duplicate header anntoations " + headerCol + ":" + deduplicateCheck);
+        assert deduplicateCheck.size() == annotations.length;
+            //assert System.err.println("duplicate header anntoations " + headerCol + ":" + deduplicateCheck);
 
         headerAnnotations.set(headerCol, annotations);
     }
@@ -224,11 +224,11 @@ public class TAnnotation {
     }
 
 
-    public java.util.List<TColumnColumnRelationAnnotation> getBestRelationAnnotationsBetween(RelationColumns subobj) {
+    public java.util.List<TColumnColumnRelationAnnotation> getWinningRelationAnnotationsBetween(RelationColumns subobj) {
         java.util.List<TColumnColumnRelationAnnotation> candidates = columncolumnRelations.get(subobj);
         Collections.sort(candidates);
 
-        java.util.List<TColumnColumnRelationAnnotation> result = new ArrayList<TColumnColumnRelationAnnotation>();
+        java.util.List<TColumnColumnRelationAnnotation> result = new ArrayList<>();
         double maxScore = candidates.get(0).getFinalScore();
         for (TColumnColumnRelationAnnotation hbr : candidates) {
             if (hbr.getFinalScore() == maxScore)

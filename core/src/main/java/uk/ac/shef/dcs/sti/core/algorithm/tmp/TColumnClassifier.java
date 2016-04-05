@@ -52,11 +52,13 @@ public class TColumnClassifier {
      * @param column
      * @param tableAnnotations
      * @param table
+     * @param resetCESums if true, the sum_ce and sum_vote will be set to 0, before the newly disambiguated rows in rowsUpdated are counted
      */
     protected void updateColumnClazz(List<Integer> rowsUpdated,
                                             int column,
                                             TAnnotation tableAnnotations,
-                                            Table table) throws STIException {
+                                            Table table,
+                                     boolean resetCESums) throws STIException {
         List<TColumnHeaderAnnotation> existingColumnClazzAnnotations;
         existingColumnClazzAnnotations = tableAnnotations.getHeaderAnnotation(column) == null
                 ? new ArrayList<>() : new ArrayList<>(Arrays.asList(tableAnnotations.getHeaderAnnotation(column)));
@@ -83,7 +85,8 @@ public class TColumnClassifier {
                 existingColumnClazzAnnotations,
                 table,
                 tableAnnotations,
-                clazzScorer
+                clazzScorer,
+                resetCESums
         );
         tableAnnotations.setHeaderAnnotation(column, result);
     }
@@ -152,6 +155,7 @@ public class TColumnClassifier {
      * @param table
      * @param tableAnnotations
      * @param clazzScorer
+     * @param resetCESums if true, the sum_ce and sum_vote will be set to 0, before the newly disambiguated rows in rowsUpdated are counted
      * @return
      */
     private TColumnHeaderAnnotation[] updateColumnClazzAnnotationScores(Collection<Integer> updatedRows,
@@ -160,9 +164,17 @@ public class TColumnClassifier {
                                                                               Collection<TColumnHeaderAnnotation> candidateColumnClazzAnnotations,
                                                                               Table table,
                                                                               TAnnotation tableAnnotations,
-                                                                              ClazzScorer clazzScorer) throws STIException {
+                                                                              ClazzScorer clazzScorer,
+                                                                        boolean resetCESums) throws STIException {
         //for the candidate column clazz annotations compute CC score
         candidateColumnClazzAnnotations = clazzScorer.computeCCScore(candidateColumnClazzAnnotations,table, column);
+
+        if(resetCESums){
+            for (TColumnHeaderAnnotation ha : candidateColumnClazzAnnotations) {
+                ha.getScoreElements().put(TColumnHeaderAnnotation.SUM_CELL_VOTE, 0.0);
+                ha.getScoreElements().put(TColumnHeaderAnnotation.SUM_CE, 0.0);
+            }
+        }
 
         for (int row : updatedRows) {
             List<TCellAnnotation> winningEntities = tableAnnotations.getWinningContentCellAnnotation(row, column);

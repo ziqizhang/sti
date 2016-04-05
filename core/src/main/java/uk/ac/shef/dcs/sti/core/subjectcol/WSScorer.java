@@ -22,7 +22,7 @@ public class WSScorer {
     protected TermFreqCounter counter = new TermFreqCounter();
     protected List<String> stopWords;
 
-    protected static Logger LOG = Logger.getLogger(WSScorer.class.getName());
+    protected static final Logger LOG = Logger.getLogger(WSScorer.class.getName());
 
 
     public WSScorer(SolrCache cache, WebSearch searcher,
@@ -66,7 +66,7 @@ public class WSScorer {
             } catch (Exception e) {
                 LOG.warn("Caching Web Search Results failed: " + e);
             }
-            LOG.info("\tQueryBing:" + (new Date().getTime() - start.getTime()));
+            LOG.debug("\tQueryBing:" + (new Date().getTime() - start.getTime()));
         }
 
         return score(result, values);

@@ -252,8 +252,8 @@ public class TI_SemanticMessagePassing {
         if(tmp_keys.size()!=prev_relations.keySet().size()|| tmp_keys.size()!=current_relation.keySet().size())
             return false;
         for(RelationColumns subobj: tmp_keys){
-            List<TColumnColumnRelationAnnotation> prev_candidates = previous.getBestRelationAnnotationsBetween(subobj);
-            List<TColumnColumnRelationAnnotation> current_candidates = current.getBestRelationAnnotationsBetween(subobj);
+            List<TColumnColumnRelationAnnotation> prev_candidates = previous.getWinningRelationAnnotationsBetween(subobj);
+            List<TColumnColumnRelationAnnotation> current_candidates = current.getWinningRelationAnnotationsBetween(subobj);
             List<TColumnColumnRelationAnnotation> tmp = new ArrayList<TColumnColumnRelationAnnotation>(prev_candidates);
             tmp.retainAll(current_candidates);
             if(tmp.size()==prev_candidates.size()&& tmp.size()==current_candidates.size()){
