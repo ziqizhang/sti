@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 
 import java.util.*;
 
@@ -19,7 +19,7 @@ public class OSPD_random extends TContentCellRanker {
     public List<List<Integer>> select(Table table, int fromCol, int subCol) {
         List<List<Integer>> rs = new ArrayList<List<Integer>>();
 
-        if (TableMinerConstants.ENFORCE_OSPD && fromCol!=subCol) {
+        if (STIConstantProperty.ENFORCE_OSPD && fromCol!=subCol) {
             //firstly group by one-sense-per-discourse
             Map<String, List<Integer>> grouped = new HashMap<String, List<Integer>>();
             for (int r = 0; r < table.getNumRows(); r++) {

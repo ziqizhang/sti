@@ -2,13 +2,13 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer;
 
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.feature.OntologyBasedBoWCreator;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
-import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.*;
@@ -165,8 +165,8 @@ public class TMPClazzScorer implements ClazzScorer {
 
             Set<String> clazzBOW = new HashSet<>(createClazzBOW(ha,
                     true,
-                    TableMinerConstants.BOW_DISCARD_SINGLE_CHAR,
-                    TableMinerConstants.CLAZZBOW_INCLUDE_URI));
+                    STIConstantProperty.BOW_DISCARD_SINGLE_CHAR,
+                    STIConstantProperty.CLAZZBOW_INCLUDE_URI));
 
             if (scoreCtxHeader == null) {
                 bowHeader = createHeaderTextBOW(bowHeader, table, column);
@@ -261,8 +261,8 @@ public class TMPClazzScorer implements ClazzScorer {
     public double computeDC(TColumnHeaderAnnotation ha, List<String> domain_representation) throws STIException{
         List<String> annotation_bow = createClazzBOW(ha,
                 true,
-                TableMinerConstants.BOW_DISCARD_SINGLE_CHAR,
-                TableMinerConstants.CLAZZBOW_INCLUDE_URI);
+                STIConstantProperty.BOW_DISCARD_SINGLE_CHAR,
+                STIConstantProperty.CLAZZBOW_INCLUDE_URI);
         double score = CollectionUtils.computeFrequencyWeightedDice(annotation_bow, domain_representation);
         score = Math.sqrt(score) * 2;
         ha.getScoreElements().put(TColumnHeaderAnnotation.SCORE_DOMAIN_CONSENSUS, score);
@@ -296,7 +296,7 @@ public class TMPClazzScorer implements ClazzScorer {
                     it.remove();
             }
         }
-        bow.removeAll(TableMinerConstants.FUNCTIONAL_STOPWORDS);
+        bow.removeAll(STIConstantProperty.FUNCTIONAL_STOPWORDS);
         return bow;
     }
 
@@ -312,7 +312,7 @@ public class TMPClazzScorer implements ClazzScorer {
             if (tx.getType().equals(TContext.TableContextType.PAGETITLE) ||
                     tx.getType().equals(TContext.TableContextType.CAPTION)) {
                 bow.addAll(lemmatizer.lemmatize(
-                                StringUtils.toBagOfWords(tx.getText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR))
+                                StringUtils.toBagOfWords(tx.getText(), true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }
@@ -332,7 +332,7 @@ public class TMPClazzScorer implements ClazzScorer {
             if (!tx.getType().equals(TContext.TableContextType.PAGETITLE) &&
                     !tx.getType().equals(TContext.TableContextType.CAPTION)) {
                 bow.addAll(lemmatizer.lemmatize(
-                                StringUtils.toBagOfWords(tx.getText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR))
+                                StringUtils.toBagOfWords(tx.getText(), true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }
@@ -348,7 +348,7 @@ public class TMPClazzScorer implements ClazzScorer {
             TCell tcc = table.getContentCell(row, column);
             if (tcc.getText() != null) {
                 bow.addAll(lemmatizer.lemmatize(
-                                StringUtils.toBagOfWords(tcc.getText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR))
+                                StringUtils.toBagOfWords(tcc.getText(), true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }
@@ -367,11 +367,11 @@ public class TMPClazzScorer implements ClazzScorer {
                 header.getHeaderText() != null &&
                 !header.getHeaderText().equals(STIEnum.TABLE_HEADER_UNKNOWN.getValue())) {
             bow.addAll(lemmatizer.lemmatize(
-                            StringUtils.toBagOfWords(header.getHeaderText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR))
+                            StringUtils.toBagOfWords(header.getHeaderText(), true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR))
             );
         }
         //   }
-        bow.removeAll(TableMinerConstants.FUNCTIONAL_STOPWORDS);
+        bow.removeAll(STIConstantProperty.FUNCTIONAL_STOPWORDS);
         //also remove special, generic words, like "title", "name"
         bow.remove("title");
         bow.remove("name");

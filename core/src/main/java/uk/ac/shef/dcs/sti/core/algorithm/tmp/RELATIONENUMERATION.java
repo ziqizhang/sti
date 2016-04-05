@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.core.subjectcol.TColumnFeature;
-import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.Collections;
@@ -64,7 +64,7 @@ public class RELATIONENUMERATION {
             tableAnnotations = winningSolution;
 
 
-        if (TableMinerConstants.REVISE_RELATION_ANNOTATION_BY_DC && update != null) {
+        if (STIConstantProperty.REVISE_RELATION_ANNOTATION_BY_DC && update != null) {
             List<String> domain_rep = update.createDomainRep(table, tableAnnotations, annotatedColumns);
             reviseColumnColumnRelationAnnotations(tableAnnotations, domain_rep, relationScorer);
         }

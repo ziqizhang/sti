@@ -1,9 +1,10 @@
-package uk.ac.shef.dcs.sti.experiment;
+package uk.ac.shef.dcs.sti.todo;
 
 import com.google.api.client.http.HttpResponseException;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.*;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
@@ -22,7 +23,7 @@ import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.IInf;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorGeneric;
 import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerSimple;
 import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorMusicBrainz;
@@ -87,7 +88,7 @@ public class TestTI_DataFiltering_TableMiner_LimayeDataset {
                 new String[]{"0.0", "1", "0.01"},
                 server,
                 nlpResources,
-                TableMinerConstants.SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH,
+                STIConstantProperty.SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH,
                 //"/BlhLSReljQ3Koh+vDSOaYMji9/Ccwe/7/b9mGJLwDQ=");  //zqz.work
                 //"fXhmgvVQnz1aLBti87+AZlPYDXcQL0G9L2dVAav+aK0="); //ziqizhang
                 stopWords,
@@ -150,7 +151,7 @@ public class TestTI_DataFiltering_TableMiner_LimayeDataset {
 
 
         LEARNING columnInterpreter = new LEARNING(
-                column_learnerSeeding, column_updater, TableMinerConstants.TCELLDISAMBIGUATOR_MAX_REFERENCE_ENTITIES);
+                column_learnerSeeding, column_updater, STIConstantProperty.TCELLDISAMBIGUATOR_MAX_REFERENCE_ENTITIES);
 
         //object to computeElementScores relations between columns
         RelationScorer relation_scorer = new TMPRelationScorer(nlpResources,
@@ -186,7 +187,7 @@ public class TestTI_DataFiltering_TableMiner_LimayeDataset {
         TableXtractorMusicBrainz xtractor = new TableXtractorMusicBrainz(new TableNormalizerSimple(),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorMusicBrainz(),
-                new TabValGeneric());
+                new TableValidatorGeneric());
         int count = 0;
         List<File> all = Arrays.asList(new File(inFolder).listFiles());
         Collections.sort(all);
@@ -228,7 +229,7 @@ public class TestTI_DataFiltering_TableMiner_LimayeDataset {
 
                 complete = process(interpreter, table, sourceTableFile, writer, outFolder, relationLearning);
 
-                if (TableMinerConstants.COMMIT_SOLR_PER_FILE)
+                if (STIConstantProperty.COMMIT_SOLR_PER_FILE)
                     server.commit();
                 /**************check bugged cache/load for "Deep Space 9" in Seinfeld document*****************/
                 /*   if (inFile.contains("Seinfeld")) {

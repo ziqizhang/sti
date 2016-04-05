@@ -46,7 +46,7 @@ public class TableXtractorWikipedia extends TableXtractor {
         }
 
         int tableCount = 0;
-        List<Node> tables = DomUtils.findAll(doc, "//TABLE[@class='wikitable']"); //todo: change to allow fuzzy computeElementScores "wikitableSortable"
+        List<Node> tables = DomUtils.findAll(doc, "//TABLE[@class='wikitable']");
         for (Node tableElement : tables) {
             tableCount++;
 

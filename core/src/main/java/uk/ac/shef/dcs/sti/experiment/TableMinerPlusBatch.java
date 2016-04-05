@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.*;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
@@ -19,7 +20,6 @@ import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerIm
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.OSPD_nonEmpty;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorLimayeDataset;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.io.*;
@@ -247,7 +247,7 @@ public class TableMinerPlusBatch extends STIBatch {
                             tmp.writer, outFolder,
                             Boolean.valueOf(tmp.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
 
-                    if (TableMinerConstants.COMMIT_SOLR_PER_FILE)
+                    if (STIConstantProperty.COMMIT_SOLR_PER_FILE)
                         tmp.commitAll();
                     if (!complete) {
                         tmp.recordFailure(count, sourceTableFile, inFile);

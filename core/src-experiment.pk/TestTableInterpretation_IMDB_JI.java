@@ -1,9 +1,10 @@
-package uk.ac.shef.dcs.sti.experiment;
+package uk.ac.shef.dcs.sti.todo;
 
 import com.google.api.client.http.HttpResponseException;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.*;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
@@ -15,7 +16,7 @@ import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
 import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorIMDB;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorIMDB;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorGeneric;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
@@ -118,7 +119,7 @@ public class TestTableInterpretation_IMDB_JI {
         TableXtractorIMDB xtractor = new TableXtractorIMDB(new TableNormalizerDiscardIrregularRows(true),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorIMDB(),
-                new TabValGeneric());
+                new TableValidatorGeneric());
 
         int count = 0;
         List<File> all = Arrays.asList(new File(inFolder).listFiles());
@@ -152,7 +153,7 @@ public class TestTableInterpretation_IMDB_JI {
 
                 complete = process(interpreter, table, sourceTableFile, writer, outFolder, relationLearning);
 
-                if (TableMinerConstants.COMMIT_SOLR_PER_FILE) {
+                if (STIConstantProperty.COMMIT_SOLR_PER_FILE) {
                     serverEntity.commit();
                 }
                 if (!complete) {

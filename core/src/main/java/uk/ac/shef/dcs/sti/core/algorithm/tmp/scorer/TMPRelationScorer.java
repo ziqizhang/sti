@@ -1,12 +1,12 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer;
 
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.feature.OntologyBasedBoWCreator;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
-import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.sti.util.CollectionUtils;
 import uk.ac.shef.dcs.util.StringUtils;
@@ -136,7 +136,7 @@ public class TMPRelationScorer implements RelationScorer {
                 continue;
 
             Set<String> relationBOW =
-                    createRelationBOW(ccRelationAnnotation, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR);
+                    createRelationBOW(ccRelationAnnotation, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR);
 
             if (scoreCtxHeaderText == null) {
                 bowHeader = createHeaderTextBOW(bowHeader, table, column);
@@ -172,7 +172,7 @@ public class TMPRelationScorer implements RelationScorer {
         Set<String> bow = new HashSet<>();
         bow.addAll(bowCreator.create(relation.getRelationURI()));
         bow.addAll(StringUtils.toBagOfWords(relation.getRelationLabel(), lowercase, true, discard_single_char));
-        bow.removeAll(TableMinerConstants.FUNCTIONAL_STOPWORDS);
+        bow.removeAll(STIConstantProperty.FUNCTIONAL_STOPWORDS);
         return bow;
     }
 
@@ -185,10 +185,10 @@ public class TMPRelationScorer implements RelationScorer {
                 header.getHeaderText() != null &&
                 !header.getHeaderText().equals(STIEnum.TABLE_HEADER_UNKNOWN.getValue())) {
             bow.addAll(lemmatizer.lemmatize(
-                            StringUtils.toBagOfWords(header.getHeaderText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR))
+                            StringUtils.toBagOfWords(header.getHeaderText(), true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR))
             );
         }
-        bow.removeAll(TableMinerConstants.FUNCTIONAL_STOPWORDS);
+        bow.removeAll(STIConstantProperty.FUNCTIONAL_STOPWORDS);
         //also remove special, generic words, like "title", "name"
         bow.remove("title");
         bow.remove("name");
@@ -208,7 +208,7 @@ public class TMPRelationScorer implements RelationScorer {
             if (tx.getType().equals(TContext.TableContextType.PAGETITLE) ||
                     tx.getType().equals(TContext.TableContextType.CAPTION)) {
                 bow.addAll(lemmatizer.lemmatize(
-                                StringUtils.toBagOfWords(tx.getText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR))
+                                StringUtils.toBagOfWords(tx.getText(), true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }
@@ -228,7 +228,7 @@ public class TMPRelationScorer implements RelationScorer {
             if (!tx.getType().equals(TContext.TableContextType.PAGETITLE) &&
                     !tx.getType().equals(TContext.TableContextType.CAPTION)) {
                 bow.addAll(lemmatizer.lemmatize(
-                                StringUtils.toBagOfWords(tx.getText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR))
+                                StringUtils.toBagOfWords(tx.getText(), true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }
@@ -244,7 +244,7 @@ public class TMPRelationScorer implements RelationScorer {
             TCell tcc = table.getContentCell(row, column);
             if (tcc.getText() != null) {
                 bow.addAll(lemmatizer.lemmatize(
-                                StringUtils.toBagOfWords(tcc.getText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR))
+                                StringUtils.toBagOfWords(tcc.getText(), true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR))
                 );
             }
         }
@@ -302,7 +302,7 @@ public class TMPRelationScorer implements RelationScorer {
     public double scoreDC(TColumnColumnRelationAnnotation hbr, List<String> domain_representation) throws STIException{
         Set<String> annotation_bow = createRelationBOW(hbr,
                 true,
-                TableMinerConstants.BOW_DISCARD_SINGLE_CHAR);
+                STIConstantProperty.BOW_DISCARD_SINGLE_CHAR);
         //annotation_bow.removeAll(TableMinerConstants.FUNCTIONAL_STOPWORDS);
         double score = CollectionUtils.computeFrequencyWeightedDice(annotation_bow, domain_representation);
         score = Math.sqrt(score);

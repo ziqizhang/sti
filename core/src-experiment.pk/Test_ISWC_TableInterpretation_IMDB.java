@@ -1,10 +1,11 @@
-package uk.ac.shef.dcs.sti.experiment;
+package uk.ac.shef.dcs.sti.todo;
 
 import com.google.api.client.http.HttpResponseException;
 import org.apache.any23.util.FileUtils;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.*;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
@@ -29,7 +30,7 @@ import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
 import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorIMDB;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorGeneric;
 
 import java.io.*;
 import java.net.SocketTimeoutException;
@@ -102,7 +103,7 @@ public class Test_ISWC_TableInterpretation_IMDB {
         );
 
 
-        LEARNING columnInterpreter = new LEARNING(column_learnerSeeding, column_updater, TableMinerConstants.TCELLDISAMBIGUATOR_MAX_REFERENCE_ENTITIES);
+        LEARNING columnInterpreter = new LEARNING(column_learnerSeeding, column_updater, STIConstantProperty.TCELLDISAMBIGUATOR_MAX_REFERENCE_ENTITIES);
 
         //object to computeElementScores relations between columns
         RelationScorer relation_scorer = new TMPRelationScorer(nlpResources,
@@ -137,7 +138,7 @@ public class Test_ISWC_TableInterpretation_IMDB {
         TableXtractorIMDB_noTripleContext xtractor = new TableXtractorIMDB_noTripleContext(new TableNormalizerDiscardIrregularRows(true),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorIMDB(),
-                new TabValGeneric());
+                new TableValidatorGeneric());
         int count = 0;
         List<File> all = Arrays.asList(new File(inFolder).listFiles());
         Collections.sort(all);
@@ -176,7 +177,7 @@ public class Test_ISWC_TableInterpretation_IMDB {
 
                 complete = process(interpreter, table, sourceTableFile, writer, outFolder, relationLearning);
                 //server.commit();
-                if (TableMinerConstants.COMMIT_SOLR_PER_FILE)
+                if (STIConstantProperty.COMMIT_SOLR_PER_FILE)
                     server.commit();
                 if (!complete) {
                     System.out.println("\t\t\t missed: " + count + "_" + sourceTableFile);

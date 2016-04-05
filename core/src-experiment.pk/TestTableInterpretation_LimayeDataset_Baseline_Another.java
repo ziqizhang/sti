@@ -1,9 +1,10 @@
-package uk.ac.shef.dcs.sti.experiment;
+package uk.ac.shef.dcs.sti.todo;
 
 import com.google.api.client.http.HttpResponseException;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.core.algorithm.baseline.*;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.LiteralColumnTagger;
@@ -62,7 +63,7 @@ public class TestTableInterpretation_LimayeDataset_Baseline_Another {
                 new String[]{"0.0", "1", "0.01"},
                 server,
                 nlpResources,
-                TableMinerConstants.SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH,
+                STIConstantProperty.SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH,
                 stopWords,
                 MultiKeyStringSplitter.split(properties.getProperty("BING_API_KEYS"))
                );
@@ -139,7 +140,7 @@ public class TestTableInterpretation_LimayeDataset_Baseline_Another {
                 log.info(">>>" + count + "_" + sourceTableFile);
 
                 complete = process(interpreter, table, sourceTableFile, writer, outFolder,relationLearning);
-                if(TableMinerConstants.COMMIT_SOLR_PER_FILE)
+                if(STIConstantProperty.COMMIT_SOLR_PER_FILE)
                     server.commit();
 
                 if (!complete){

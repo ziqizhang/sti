@@ -1,9 +1,10 @@
-package uk.ac.shef.dcs.sti.experiment;
+package uk.ac.shef.dcs.sti.todo;
 
 import com.google.api.client.http.HttpResponseException;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
@@ -17,7 +18,7 @@ import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerSimple;
 import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorMusicBrainz;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorMusicBrainz;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorGeneric;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
@@ -107,7 +108,7 @@ public class TestTableInterpretation_MusicBrainz_SMP {
         TableXtractorMusicBrainz xtractor = new TableXtractorMusicBrainz(new TableNormalizerSimple(),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorMusicBrainz(),
-                new TabValGeneric());
+                new TableValidatorGeneric());
         int count = 0;
         List<File> all = Arrays.asList(new File(inFolder).listFiles());
         Collections.sort(all);
@@ -141,7 +142,7 @@ public class TestTableInterpretation_MusicBrainz_SMP {
 
                 complete = process(interpreter, table, sourceTableFile, writer, outFolder, relationLearning);
 
-                if (TableMinerConstants.COMMIT_SOLR_PER_FILE) {
+                if (STIConstantProperty.COMMIT_SOLR_PER_FILE) {
                     serverEntity.commit();
                     serverConcept.commit();
                 }

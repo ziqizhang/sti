@@ -14,7 +14,7 @@ import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizer;
 import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreator;
 import uk.ac.shef.dcs.sti.xtractor.table.context.TableContextExtractorMusicBrainz;
 import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerSimple;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorGeneric;
 import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
@@ -35,7 +35,7 @@ public class TableXtractorMusicBrainz extends TableXtractor{
         super(new TableNormalizerSimple(),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorMusicBrainz(),
-                new TabValGeneric());
+                new TableValidatorGeneric());
     }
 
     public TableXtractorMusicBrainz(TableNormalizer normalizer, TableHODetector detector, TableObjCreator creator, TableValidator... validators) {

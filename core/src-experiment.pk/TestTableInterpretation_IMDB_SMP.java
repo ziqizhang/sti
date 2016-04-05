@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.experiment;
+package uk.ac.shef.dcs.sti.todo;
 
 import com.google.api.client.http.HttpResponseException;
 import org.apache.solr.client.solrj.SolrServer;
@@ -8,13 +8,14 @@ import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPEntityScorer;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.core.algorithm.smp.*;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorGeneric;
 import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorIMDB;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorIMDB;
@@ -105,7 +106,7 @@ public class TestTableInterpretation_IMDB_SMP {
         TableXtractorIMDB xtractor = new TableXtractorIMDB(new TableNormalizerDiscardIrregularRows(true),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorIMDB(),
-                new TabValGeneric());
+                new TableValidatorGeneric());
         int count = 0;
         List<File> all = Arrays.asList(new File(inFolder).listFiles());
         Collections.sort(all);
@@ -143,7 +144,7 @@ public class TestTableInterpretation_IMDB_SMP {
 
                 complete = process(interpreter, table, sourceTableFile, writer, outFolder, relationLearning);
 
-                if (TableMinerConstants.COMMIT_SOLR_PER_FILE) {
+                if (STIConstantProperty.COMMIT_SOLR_PER_FILE) {
                     serverEntity.commit();
                 }
                 /**************check bugged cache/load for "Deep Space 9" in Seinfeld document*****************/

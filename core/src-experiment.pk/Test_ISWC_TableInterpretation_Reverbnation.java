@@ -1,11 +1,10 @@
-package uk.ac.shef.dcs.sti.experiment;
+package uk.ac.shef.dcs.sti.todo;
 
 import com.google.api.client.http.HttpResponseException;
 import org.apache.any23.util.FileUtils;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.*;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPEntityScorer;
@@ -30,11 +29,9 @@ import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerListTransformer;
 import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorReverbnationList;
 import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorReverbnation;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorGeneric;
 
-import java.io.*;
 import java.net.SocketTimeoutException;
-import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -138,7 +135,7 @@ public class Test_ISWC_TableInterpretation_Reverbnation {
         TableXtractorReverbnation xtractor = new TableXtractorReverbnation(new TableNormalizerListTransformer(),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorReverbnationList(),
-                new TabValGeneric());
+                new TableValidatorGeneric());
         int count = 0;
         List<File> all = Arrays.asList(new File(inFolder).listFiles());
         Collections.sort(all);

@@ -1,9 +1,10 @@
-package uk.ac.shef.dcs.sti.experiment;
+package uk.ac.shef.dcs.sti.todo;
 
 import com.google.api.client.http.HttpResponseException;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.core.algorithm.baseline.*;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.LiteralColumnTagger;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.LiteralColumnTaggerImpl;
@@ -16,7 +17,7 @@ import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorGeneric;
 import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerSimple;
 import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorMusicBrainz;
@@ -116,7 +117,7 @@ public class TestTableInterpretation_MusicBrainz_Baseline {
         TableXtractorMusicBrainz xtractor = new TableXtractorMusicBrainz(new TableNormalizerSimple(),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorMusicBrainz(),
-                new TabValGeneric());
+                new TableValidatorGeneric());
         int count = 0;
         List<File> all = Arrays.asList(new File(inFolder).listFiles());
         Collections.sort(all);
@@ -147,7 +148,7 @@ public class TestTableInterpretation_MusicBrainz_Baseline {
 
                 complete = process(interpreter, table, sourceTableFile, writer, outFolder,relationLearning);
                 //server.commit();
-                if(TableMinerConstants.COMMIT_SOLR_PER_FILE)
+                if(STIConstantProperty.COMMIT_SOLR_PER_FILE)
                     server.commit();
                 if (!complete){
                     System.out.println("\t\t\t missed: " + count + "_" + sourceTableFile);

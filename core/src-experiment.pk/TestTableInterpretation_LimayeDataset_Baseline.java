@@ -1,10 +1,9 @@
-package uk.ac.shef.dcs.sti.experiment;
+package uk.ac.shef.dcs.sti.todo;
 
 import com.google.api.client.http.HttpResponseException;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
-import uk.ac.shef.dcs.sti.core.algorithm.baseline.*;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.LiteralColumnTagger;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.LiteralColumnTaggerImpl;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
@@ -18,9 +17,7 @@ import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 
-import java.io.*;
 import java.net.SocketTimeoutException;
-import java.util.*;
 import java.util.logging.Logger;
 
 /**

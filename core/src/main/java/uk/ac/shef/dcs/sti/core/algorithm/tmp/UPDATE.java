@@ -9,7 +9,7 @@ import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
-import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.kbsearch.model.Resource;
 import uk.ac.shef.dcs.sti.core.model.*;
@@ -98,9 +98,9 @@ public class UPDATE {
                         prevAnnotation);
             }
             currentIteration++;
-        } while (!stable && currentIteration < TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS);
+        } while (!stable && currentIteration < STIConstantProperty.UPDATE_PHASE_MAX_ITERATIONS);
 
-        if (currentIteration >= TableMinerConstants.UPDATE_PHASE_MAX_ITERATIONS) {
+        if (currentIteration >= STIConstantProperty.UPDATE_PHASE_MAX_ITERATIONS) {
             LOG.warn("\t>> UPDATE CANNOT STABILIZED AFTER " + currentIteration + " ITERATIONS, Stopped");
             if (prevAnnotation != null) {
                 currentAnnotation = new TAnnotation(prevAnnotation.getRows(),

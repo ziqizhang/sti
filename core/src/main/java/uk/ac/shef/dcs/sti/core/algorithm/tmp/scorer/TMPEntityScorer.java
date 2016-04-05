@@ -1,11 +1,11 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer;
 
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
-import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
@@ -66,10 +66,10 @@ public class TMPEntityScorer implements EntityScorer {
 
         /*BOW of column header */
         String entityLabel = candidate.getLabel();
-        Set<String> bow_of_entityLabel = new HashSet<>(StringUtils.toBagOfWords(entityLabel, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+        Set<String> bow_of_entityLabel = new HashSet<>(StringUtils.toBagOfWords(entityLabel, true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
 
         Collection<String> bow_of_columnHeader = new HashSet<>(
-                StringUtils.toBagOfWords(columnHeaderText, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR)
+                StringUtils.toBagOfWords(columnHeaderText, true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR)
         );
         bow_of_columnHeader = normalize(bow_of_columnHeader, lemmatizer, stopWords);
         double nameHeaderCtxScore = CollectionUtils.computeDice(bow_of_entityLabel, bow_of_columnHeader) * wt[2];
@@ -83,7 +83,7 @@ public class TMPEntityScorer implements EntityScorer {
 
         /*NAME MATCH SCORE */
         String cellText = table.getContentCell(block.get(0), sourceColumnIndex).getText();
-        Set<String> bow_of_cellText = new HashSet<>(StringUtils.toBagOfWords(cellText, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+        Set<String> bow_of_cellText = new HashSet<>(StringUtils.toBagOfWords(cellText, true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
         double en_score = CollectionUtils.computeDice(bow_of_cellText, bow_of_entityLabel);
         scoreMap.put(TCellAnnotation.SCORE_NAME_MATCH, Math.sqrt(en_score));
         //scoreMap.put("matched_name_tokens", (double) intersection.size());
@@ -129,12 +129,12 @@ public class TMPEntityScorer implements EntityScorer {
         List<Attribute> attributes = candidate.getAttributes();
         List<String> bow_of_entity = new ArrayList<>();
         for (Attribute f : attributes) {
-            if (!TableMinerConstants.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE
+            if (!STIConstantProperty.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE
                     && !f.isDirect())
                 continue;
             String value = f.getValue();
             if (!StringUtils.isPath(value))
-                bow_of_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+                bow_of_entity.addAll(StringUtils.toBagOfWords(value, true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
             else
                 bow_of_entity.add(value);
         }
@@ -167,11 +167,11 @@ public class TMPEntityScorer implements EntityScorer {
                 ))
                     continue;
                 TCell tcc = table.getContentCell(row, col);
-                bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+                bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
             }
         }
         bag_of_words_for_context.addAll(StringUtils.toBagOfWords(   //also add the column header as the row context of this entity
-                columnHeaderText, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+                columnHeaderText, true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
 
         return normalize(bag_of_words_for_context, lemmatizer, stopWords);
     }
@@ -194,7 +194,7 @@ public class TMPEntityScorer implements EntityScorer {
             if (block.contains(row))
                 continue;
             TCell tcc = table.getContentCell(row, sourceColumnIndex);
-            bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true,TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+            bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
         }
         return normalize(bag_of_words_for_context, lemmatizer, stopWords);
     }
@@ -206,7 +206,7 @@ public class TMPEntityScorer implements EntityScorer {
         /*BOW OF table table context (from paragraphs etc)*/
         List<String> bag_of_words_for_context = new ArrayList<>();
         for (TContext tc : table.getContexts()) {
-            bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tc.getText(), true, true,TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+            bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tc.getText(), true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
         }
         return normalize(bag_of_words_for_context, lemmatizer, stopWords);
     }

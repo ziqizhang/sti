@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.core.scorer;
 
-import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.util.CollectionUtils;
 import uk.ac.shef.dcs.util.StringUtils;
@@ -87,10 +87,10 @@ public abstract class AttributeValueMatcher {
         target = StringUtils.toAlphaNumericWhitechar(target);
         base = StringUtils.toAlphaNumericWhitechar(base);
         Set<String> target_toks = new HashSet<>(StringUtils.toBagOfWords(target,true,true,
-                TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+                STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
         target_toks.removeAll(stopWords);
         Set<String> base_toks = new HashSet<>(StringUtils.toBagOfWords(base,true,true,
-                TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+                STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
         base_toks.removeAll(stopWords);
 
         //method 2

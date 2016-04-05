@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.ji;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
-import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
@@ -41,11 +41,11 @@ public class EntityAndConceptScorer_Freebase {
                                                        ){/* BOW OF THE ENTITY*/
         List<String> bag_of_words_for_entity = new ArrayList<String>();
         for (String[] f : entity_triples) {
-            if (!TableMinerConstants.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE && f[3].equals("y"))
+            if (!STIConstantProperty.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE && f[3].equals("y"))
                 continue;
             String value = f[1];
             if (!StringUtils.isPath(value))
-                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
             else
                 bag_of_words_for_entity.add(value);
         }
@@ -55,11 +55,11 @@ public class EntityAndConceptScorer_Freebase {
 
         List<String> bag_of_words_for_concept = new ArrayList<String>();
         for (String[] f : concept_triples) {
-            if (!TableMinerConstants.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE && f[3].equals("y"))
+            if (!STIConstantProperty.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE && f[3].equals("y"))
                 continue;
             String value = f[1];
             if (!StringUtils.isPath(value))
-                bag_of_words_for_concept.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+                bag_of_words_for_concept.addAll(StringUtils.toBagOfWords(value, true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
             else
                 bag_of_words_for_concept.add(value);
         }
@@ -88,13 +88,13 @@ public class EntityAndConceptScorer_Freebase {
         /* BOW OF THE ENTITY*/
             List<String> bag_of_words_for_entity = new ArrayList<>();
             for (Attribute f : entity_triples) {
-                if (!TableMinerConstants.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE &&
+                if (!STIConstantProperty.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE &&
                         !f.isDirect())
                     continue;
 
                 String value = f.getValue();
                 if (!StringUtils.isPath(value))
-                    bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+                    bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
                 else
                     bag_of_words_for_entity.add(value);
             }
@@ -105,12 +105,12 @@ public class EntityAndConceptScorer_Freebase {
             List<Attribute> concept_triples = concept.getAttributes();
             List<String> bag_of_words_for_concept = new ArrayList<>();
             for (Attribute f : concept_triples) {
-                if (!TableMinerConstants.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE
+                if (!STIConstantProperty.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE
                         && !f.isDirect())
                     continue;
                 String value = f.getValue();
                 if (!StringUtils.isPath(value))
-                    bag_of_words_for_concept.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+                    bag_of_words_for_concept.addAll(StringUtils.toBagOfWords(value, true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
                 else
                     bag_of_words_for_concept.add(value);
             }

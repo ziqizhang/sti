@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
@@ -10,7 +11,6 @@ import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.util.DiceSimilarity;
-import uk.ac.shef.dcs.sti.experiment.TableMinerConstants;
 import uk.ac.shef.dcs.sti.util.CollectionUtils;
 import uk.ac.shef.dcs.util.StringUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
@@ -65,12 +65,12 @@ public class SMPAdaptedEntityScorer implements EntityScorer {
         List<Attribute> facts = candidate.getAttributes();
         List<String> bag_of_words_for_entity = new ArrayList<String>();
         for (Attribute f : facts) {
-            if (!TableMinerConstants.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE &&
+            if (!STIConstantProperty.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE &&
                     !f.isDirect())
                 continue;
             String value = f.getValue();
             if (!StringUtils.isPath(value))
-                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
             else
                 bag_of_words_for_entity.add(value);
         }
@@ -89,11 +89,11 @@ public class SMPAdaptedEntityScorer implements EntityScorer {
             ))
                 continue;
             TCell tcc = table.getContentCell(sourceRowIndex, col);
-            bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+            bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
         }
 
         bag_of_words_for_context.addAll(StringUtils.toBagOfWords(   //also add the column header as the row context of this entity
-                headerText, true, true, TableMinerConstants.BOW_DISCARD_SINGLE_CHAR));
+                headerText, true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
 
         if (lemmatizer != null)
             bag_of_words_for_context = lemmatizer.lemmatize(bag_of_words_for_context);

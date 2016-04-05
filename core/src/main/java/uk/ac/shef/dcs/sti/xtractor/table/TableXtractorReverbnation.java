@@ -14,7 +14,7 @@ import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizer;
 import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreator;
 import uk.ac.shef.dcs.sti.xtractor.table.context.TableContextExtractorGeneric;
 import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerListTransformer;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorGeneric;
 import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
@@ -34,7 +34,7 @@ public class TableXtractorReverbnation extends TableXtractor {
         super(new TableNormalizerListTransformer(),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorReverbnationList(),
-                new TabValGeneric());
+                new TableValidatorGeneric());
     }
 
     public TableXtractorReverbnation(TableNormalizer normalizer, TableHODetector detector, TableObjCreator creator, TableValidator... validators) {

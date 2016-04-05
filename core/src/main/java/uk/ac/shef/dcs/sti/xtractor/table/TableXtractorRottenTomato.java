@@ -18,7 +18,7 @@ import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizer;
 import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreator;
 import uk.ac.shef.dcs.sti.xtractor.table.context.TableContextExtractorGeneric;
 import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorGeneric;
 import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
@@ -39,7 +39,7 @@ public class TableXtractorRottenTomato extends TableXtractor {
         super(new TableNormalizerDiscardIrregularRows(true),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorGoodreads(),
-                new TabValGeneric());
+                new TableValidatorGeneric());
     }
 
     public TableXtractorRottenTomato(TableNormalizer normalizer, TableHODetector detector, TableObjCreator creator, TableValidator... validators) {
