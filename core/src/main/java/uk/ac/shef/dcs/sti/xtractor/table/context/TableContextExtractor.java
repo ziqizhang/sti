@@ -4,6 +4,7 @@ import org.w3c.dom.Document;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -11,5 +12,5 @@ import java.util.List;
  */
 public interface TableContextExtractor {
 
-    List<TContext> extract(String file, Document doc) throws STIException;
+    List<TContext> extract(File file, Document doc) throws STIException;
 }

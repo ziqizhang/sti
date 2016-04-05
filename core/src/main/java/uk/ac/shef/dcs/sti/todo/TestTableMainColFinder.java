@@ -3,6 +3,7 @@ package uk.ac.shef.dcs.sti.todo;
 import javafx.util.Pair;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.xml.sax.SAXException;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerSimple;
@@ -22,7 +23,7 @@ import java.util.*;
 /**
  */
 public class TestTableMainColFinder {
-    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
+    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException, STIException {
         /*which_table_has_no_acronym_columns("E:\\Data\\table annotation\\freebase_crawl\\music_record_label/tmp.txt");
         System.exit(0);*/
 

@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.xtractor.table;
 
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.extractor.html.TagSoupParser;
+import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.STIException;
@@ -14,6 +15,7 @@ import uk.ac.shef.dcs.sti.xtractor.table.context.TableContextExtractorGeneric;
 import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,13 @@ public class TableXtractorGoodreads extends TableXtractor {
     }
 
     @Override
-    public List<Table> extract(String input, String sourceId) {
+    public List<Table> extract(String inFile, String sourceId) throws STIException {
+        String input;
+        try {
+            input = FileUtils.readFileToString(new File(inFile));
+        } catch (IOException e) {
+            throw new STIException(e);
+        }
         List<Table> rs = new ArrayList<>();
 
         parser = new TagSoupParser(new ByteArrayInputStream(input.getBytes()), sourceId,"UTF-8");
@@ -45,7 +53,7 @@ public class TableXtractorGoodreads extends TableXtractor {
         List<Node> tables = DomUtils.findAll(doc, "//TABLE[@class='stacked tableList']");
         List<TContext> contexts = new ArrayList<>();
         try {
-            contexts = new TableContextExtractorGeneric().extract(sourceId, doc);
+            contexts = new TableContextExtractorGeneric().extract(new File(sourceId), doc);
         } catch (STIException e) {
             e.printStackTrace();
         }

@@ -157,25 +157,25 @@ public class TableMinerPlusBatch extends STIBatch {
 
 
         LOG.info("Initializing RELATIONLEARNING components ...");
-        RelationScorer relation_scorer=null;
-        TColumnColumnRelationEnumerator interpreter_relation=null;
-        LiteralColumnTagger interpreter_with_knownRelations=null;
+        RelationScorer relationScorer=null;
+        TColumnColumnRelationEnumerator relationEnumerator=null;
+        LiteralColumnTagger literalColumnTagger=null;
         try {
             //object to computeElementScores relations between columns
-             relation_scorer = new TMPRelationScorer(
+             relationScorer = new TMPRelationScorer(
                     getNLPResourcesDir(),
                     new FreebaseRelationBoWCreator(),
                     getStopwords(),
                     new double[]{1.0, 0.0,1.0, 1.0}    //header text, column, out-trivial, out-important
                     // new double[]{1.0, 1.0, 0.0, 0.0, 1.0}
             );
-             interpreter_relation = new TColumnColumnRelationEnumerator(
+             relationEnumerator = new TColumnColumnRelationEnumerator(
                     new TMPAttributeValueMatcher(0.01, getStopwords(), new Levenshtein()),
-                    relation_scorer
+                    relationScorer
             );
 
             //object to consolidate previous output, further computeElementScores columns and disamgiuate entities
-             interpreter_with_knownRelations =
+             literalColumnTagger =
                     new LiteralColumnTaggerImpl(
                             getIgnoreColumns()
                     );
@@ -187,9 +187,9 @@ public class TableMinerPlusBatch extends STIBatch {
                 subcolDetector,
                 learning,
                 update,
-                interpreter_relation,
-                relation_scorer,
-                interpreter_with_knownRelations,
+                relationEnumerator,
+                relationScorer,
+                literalColumnTagger,
                 getIgnoreColumns(), getMustdoColumns()
                 );
 
@@ -198,7 +198,7 @@ public class TableMinerPlusBatch extends STIBatch {
     @Override
     protected List<Table> loadTable(String file) {
         try {
-            return getTableXtractor().extract(file, null);
+            return getTableXtractor().extract(file, file);
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
@@ -219,6 +219,7 @@ public class TableMinerPlusBatch extends STIBatch {
         List<Integer> previouslyFailed = tmp.loadPreviouslyFailed();
         int start=tmp.getStartIndex();
         for (File f : all) {
+            if(f.toString().contains(".DS_Store")) continue;
             count++;
 
             //if a previously failed list of files is given, only learn these.

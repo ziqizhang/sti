@@ -53,10 +53,8 @@ public class Any23Xtractor {
             return handler.getOutput();
         } catch (IOException ioe) {
             throw new STIException("Any23 cannot obtain " + HTTPClient.class.getName(), ioe);
-        } catch (URISyntaxException use) {
+        } catch (URISyntaxException | ExtractionException use) {
             throw new STIException("Document source error " + uri, use);
-        } catch (ExtractionException ee) {
-            throw new STIException("Document source error " + uri, ee);
         } finally {
             if (handler != null)
                 try {

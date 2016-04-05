@@ -214,7 +214,7 @@ public abstract class STIBatch {
     protected int[] getIgnoreColumns() {
         String ignore = properties.getProperty(PROPERTY_IGNORE_COLUMNS);
         String[] splits = StringUtils.split(ignore, ',');
-        int[] res = new int[0];
+        int[] res = new int[splits.length];
         for (int i = 0; i < splits.length; i++) {
             res[i] = Integer.valueOf(splits[i].trim());
         }

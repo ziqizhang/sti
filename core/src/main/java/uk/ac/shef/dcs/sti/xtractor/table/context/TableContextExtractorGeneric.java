@@ -6,6 +6,7 @@ import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  *
  */
 public class TableContextExtractorGeneric implements TableContextExtractor{
-    public List<TContext> extract(String file, Document doc) throws STIException{
+    public List<TContext> extract(File file, Document doc) throws STIException{
         List<TContext> contexts = new ArrayList<>();
 
         //paragraph contexts

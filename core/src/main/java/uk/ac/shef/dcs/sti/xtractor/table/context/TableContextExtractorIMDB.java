@@ -9,6 +9,7 @@ import uk.ac.shef.dcs.sti.any23.Any23Xtractor;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.oak.any23.extension.extractor.LTriple;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
 public class TableContextExtractorIMDB implements TableContextExtractor{
 
 
-    public List<TContext> extract(String file, Document doc) throws STIException {
+    public List<TContext> extract(File file, Document doc) throws STIException {
         List<LTriple> triples = Any23Xtractor.extract(file);
 
         //triple contexts
