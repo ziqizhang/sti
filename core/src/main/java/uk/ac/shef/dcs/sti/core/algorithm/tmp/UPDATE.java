@@ -85,6 +85,7 @@ public class UPDATE {
             //scores will be reset, then recalculated. dc scores lost
             reviseColumnAndCellAnnotations(allEntityIds,
                     table, currentAnnotation, interpretedColumnIndexes);
+            LOG.info("\t>> update iteration "+currentAnnotation+"complete");
             stable = checkStablization(prevAnnotation, currentAnnotation,
                     table.getNumRows(), interpretedColumnIndexes);
             if (!stable) {
@@ -211,8 +212,6 @@ public class UPDATE {
             }
             Arrays.sort(columnHeaderAnnotations);
             currentAnnotation.setHeaderAnnotation(c, columnHeaderAnnotations);
-
-            LOG.info("\t>> update iteration complete (" + updated.size() + " rows)");
         }
 
     }
