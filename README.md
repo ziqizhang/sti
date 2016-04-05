@@ -11,6 +11,6 @@ This project provides implementation of several semantic table interpretation al
 
 ### Quick Start
 
-[TO ADD]
+[TO ADD, 3 test cases]
 
 [1] Under minor revision review: http://www.semantic-web-journal.net/content/effective-and-efficient-semantic-table-interpretation-using-tableminer-0
