@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.experiment;
 
 import info.bliki.wiki.dump.WikiXMLParser;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.sti.xtractor.*;
+import uk.ac.shef.dcs.sti.experiment.gs.WikipediaTLPageFilter;
 import uk.ac.shef.dcs.sti.xtractor.list.splitter.ListItemSplitterByURL;
 import uk.ac.shef.dcs.sti.xtractor.list.validator.ListVaildatorLanient;
 import uk.ac.shef.dcs.sti.xtractor.list.ListXtractorWikipedia;

@@ -7,10 +7,14 @@ import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.dcs.sti.core.model.Table;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorMusicBrainz;
 import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetector;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizer;
 import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreator;
 import uk.ac.shef.dcs.sti.xtractor.table.context.TableContextExtractorMusicBrainz;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerSimple;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
@@ -26,6 +30,14 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class TableXtractorMusicBrainz extends TableXtractor{
+
+    public TableXtractorMusicBrainz(){
+        super(new TableNormalizerSimple(),
+                new TableHODetectorByHTMLTag(),
+                new TableObjCreatorMusicBrainz(),
+                new TabValGeneric());
+    }
+
     public TableXtractorMusicBrainz(TableNormalizer normalizer, TableHODetector detector, TableObjCreator creator, TableValidator... validators) {
         super(normalizer, detector, creator, validators);
     }

@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.xtractor;
+package uk.ac.shef.dcs.sti.experiment.gs;
 
 import info.bliki.wiki.dump.IArticleFilter;
 import info.bliki.wiki.dump.Siteinfo;

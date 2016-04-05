@@ -13,6 +13,7 @@ import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.util.FileUtils;
+import uk.ac.shef.dcs.sti.xtractor.table.TableXtractor;
 
 import java.io.*;
 import java.net.SocketTimeoutException;
@@ -30,6 +31,8 @@ public abstract class STIBatch {
     private static Logger LOG = Logger.getLogger(STIBatch.class.getName());
 
     protected KBSearch kbSearch;
+
+    protected TableXtractor tableXtractor;
 
     protected static final String PROPERTY_HOME = "sti.home";
 
@@ -61,6 +64,8 @@ public abstract class STIBatch {
     protected static final String PROPERTY_OUTPUT_TRIPLE_KB_NAMESPACE = "sti.output.triple.namespace.kb";
     protected static final String PROPERTY_OUTPUT_TRIPLE_DEFAULT_NAMESPACE = "sti.output.triple.namespace.default";
 
+    protected static final String PROPERTY_TABLEXTRACTOR_CLASS = "sti.input.tablextractor.class";
+
 
     protected Properties properties;
 
@@ -87,7 +92,7 @@ public abstract class STIBatch {
      */
     protected abstract void initComponents() throws STIException;
 
-    protected abstract Table loadTable(String file);
+    protected abstract List<Table> loadTable(String file);
 
 
     protected int getStartIndex() {
@@ -95,6 +100,14 @@ public abstract class STIBatch {
         if (s == null)
             return 0;
         return Integer.valueOf(s);
+    }
+
+    protected TableXtractor getTableXtractor() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        if(tableXtractor==null) {
+            String clazz = properties.get(PROPERTY_TABLEXTRACTOR_CLASS).toString();
+            tableXtractor= (TableXtractor) Class.forName(clazz).newInstance();
+        }
+        return tableXtractor;
     }
 
     protected EmbeddedSolrServer getSolrServerCacheEntity() throws STIException {

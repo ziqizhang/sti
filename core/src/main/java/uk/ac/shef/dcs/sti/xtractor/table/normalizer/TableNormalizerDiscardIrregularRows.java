@@ -36,12 +36,8 @@ public class TableNormalizerDiscardIrregularRows implements TableNormalizer {
                 List<Node> cells = DomUtils.findAllByTag(element, "TH");
                 if (cells == null || cells.size() == 0)
                     cells = DomUtils.findAllByTag(element, "THEAD");
-                boolean hasTH = false;
                 if (cells.size() == 0)
                     cells = DomUtils.findAllByTag(element, "TD");
-                else
-                    hasTH = true;
-
                 //boolean started = false; //true if the first non-empty cell is found
                 boolean invalid = false; //true if there is a rowspan/colspan
                 for (Node td : cells) {
@@ -59,21 +55,6 @@ public class TableNormalizerDiscardIrregularRows implements TableNormalizer {
                 }
                 if (invalid)
                     continue;
-
-                //check if the row ends with empty cells
-                /*************** THIS IS VERY DANGEROUS, CAN DESTROY TABLE STRUCTURE THAT HAS MANY EMPTY CELLS*/
-                /*int lastNonEmpty = row.size() - 1;
-                for (int i = row.size() - 1; i > -1; i--) {  //loop through cells on this row
-                    if (row.get(i).getTextContent().length() != 0) {
-                        lastNonEmpty = i;
-                        break;
-                    }
-                }
-                for (int n = row.size() - 1; n > lastNonEmpty; n--) {
-                    row.remove(n);
-                }*/
-                /****************/
-
 
                 //add this row
                 if (row.size() > 0) {

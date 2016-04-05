@@ -11,10 +11,14 @@ import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeader;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.dcs.sti.core.model.Table;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorGoodreads;
 import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetector;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizer;
 import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreator;
 import uk.ac.shef.dcs.sti.xtractor.table.context.TableContextExtractorGeneric;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
@@ -30,6 +34,14 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class TableXtractorRottenTomato extends TableXtractor {
+
+    public TableXtractorRottenTomato(){
+        super(new TableNormalizerDiscardIrregularRows(true),
+                new TableHODetectorByHTMLTag(),
+                new TableObjCreatorGoodreads(),
+                new TabValGeneric());
+    }
+
     public TableXtractorRottenTomato(TableNormalizer normalizer, TableHODetector detector, TableObjCreator creator, TableValidator... validators) {
         super(normalizer, detector, creator, validators);
     }

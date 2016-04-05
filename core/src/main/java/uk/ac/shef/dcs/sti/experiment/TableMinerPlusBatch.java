@@ -196,12 +196,12 @@ public class TableMinerPlusBatch extends STIBatch {
     }
 
     @Override
-    protected Table loadTable(String file) {
+    protected List<Table> loadTable(String file) {
         try {
-            return new TableXtractorLimayeDataset().extract(file, null).get(0);
+            return getTableXtractor().extract(file, null);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -231,26 +231,27 @@ public class TableMinerPlusBatch extends STIBatch {
             String inFile = f.toString();
 
             try {
-                Table table = tmp.loadTable(inFile);
                 String sourceTableFile = inFile;
                 if (sourceTableFile.startsWith("\"") && sourceTableFile.endsWith("\""))
                     sourceTableFile = sourceTableFile.substring(1, sourceTableFile.length() - 1).trim();
                 //System.out.println(count + "_" + sourceTableFile + " " + new Date());
                 LOG.info(">>>" + count + "_" + sourceTableFile);
+                List<Table> tables = tmp.loadTable(inFile);
+                if(tables.size()==0)
+                    tmp.recordFailure(count,inFile, inFile);
 
-                if(table==null)
-                    tmp.recordFailure(count,sourceTableFile, inFile);
+                for(Table table: tables) {
+                    complete = process(tmp.interpreter,
+                            table,
+                            sourceTableFile,
+                            tmp.writer, outFolder,
+                            Boolean.valueOf(tmp.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
 
-                complete = process(tmp.interpreter,
-                        table,
-                        sourceTableFile,
-                        tmp.writer, outFolder,
-                        Boolean.valueOf(tmp.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
-
-                if (TableMinerConstants.COMMIT_SOLR_PER_FILE)
-                    tmp.commitAll();
-                if (!complete) {
-                    tmp.recordFailure(count, sourceTableFile, inFile);
+                    if (TableMinerConstants.COMMIT_SOLR_PER_FILE)
+                        tmp.commitAll();
+                    if (!complete) {
+                        tmp.recordFailure(count, sourceTableFile, inFile);
+                    }
                 }
                 //gs annotator
 

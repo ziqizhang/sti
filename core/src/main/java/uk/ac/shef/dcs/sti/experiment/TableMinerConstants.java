@@ -9,7 +9,7 @@ public class TableMinerConstants {
     public static int TCELLDISAMBIGUATOR_MAX_REFERENCE_ENTITIES = 0;
     public static boolean RELATED_COLUMN_HEADER_TYPING_ONLY_FROM_MAIN_COL_RELATIONS = false;
     public static boolean RELATION_ALSO_CONTRIBUTES_TO_COLUMN_HEADER_SCORE = false;
-    public static boolean COMMIT_SOLR_PER_FILE = false;
+    public static final boolean COMMIT_SOLR_PER_FILE = false;
 
     public static boolean USE_NESTED_RELATION_FOR_RELATION_INTERPRETATION = true;
 

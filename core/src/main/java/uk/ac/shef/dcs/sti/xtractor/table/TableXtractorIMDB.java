@@ -7,10 +7,14 @@ import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.model.TContext;
+import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorIMDB;
 import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetector;
+import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizer;
 import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreator;
 import uk.ac.shef.dcs.sti.xtractor.table.context.TableContextExtractorIMDB;
+import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
+import uk.ac.shef.dcs.sti.xtractor.table.validator.TabValGeneric;
 import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidator;
 
 import java.io.ByteArrayInputStream;
@@ -26,6 +30,14 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class TableXtractorIMDB extends TableXtractor {
+
+    public TableXtractorIMDB(){
+        super(new TableNormalizerDiscardIrregularRows(true),
+                new TableHODetectorByHTMLTag(),
+                new TableObjCreatorIMDB(),
+                new TabValGeneric());
+    }
+
     public TableXtractorIMDB(TableNormalizer normalizer, TableHODetector detector, TableObjCreator creator, TableValidator... validators) {
         super(normalizer, detector, creator, validators);
     }

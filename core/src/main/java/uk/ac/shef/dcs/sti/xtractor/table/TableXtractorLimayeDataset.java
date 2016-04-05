@@ -31,7 +31,7 @@ public class TableXtractorLimayeDataset extends TableXtractor {
 
      */
     public TableXtractorLimayeDataset() {
-        super(null, null, null, null);
+        super(null, null, null);
     }
 
     public TableXtractorLimayeDataset(String htmlRepository){
@@ -52,7 +52,7 @@ public class TableXtractorLimayeDataset extends TableXtractor {
             if (tableContent == null || tableContent.size() == 0)
                 return null;
             boolean firstRowHeader = false;
-            List<String[]> rows = new ArrayList<String[]>();
+            List<String[]> rows = new ArrayList<>();
             NodeList rowNodes = tableContent.get(0).getChildNodes();
 
             for (int i = 0; i < rowNodes.getLength(); i++) {
@@ -162,8 +162,10 @@ public class TableXtractorLimayeDataset extends TableXtractor {
                 if (htmlSnippet != null && htmlSnippet.size() != 0)
                     dumpHTMLContent(htmlSnippet.get(0), htmlRepository, tableFilename);
             }
-            if (tableAnnotationFilename == null)
+            if (tableAnnotationFilename == null) {
+                out.add(table);
                 return out;
+            }
 
 
             if (new File(tableAnnotationFilename).exists()) {
