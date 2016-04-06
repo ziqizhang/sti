@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
@@ -16,16 +17,20 @@ import java.util.*;
 /**
  * Created by zqz on 20/04/2015.
  */
-public class ColumnClassifier {
+public class TColumnClassifier {
 
-    protected static double FREEBASE_TOTAL_TOPICS=47560900;
     private KBSearch kbSearch;
+    private ClazzSpecificityCalculator csCalculator;
 
     public static final String SMP_SCORE_ENTITY_VOTE = "smp_score_entity_vote";
     public static final String SMP_SCORE_GRANULARITY = "smp_score_granularity";
 
-    public ColumnClassifier(KBSearch kbSearch) {
+
+
+    public TColumnClassifier(KBSearch kbSearch,
+                             ClazzSpecificityCalculator csCalculator) {
         this.kbSearch = kbSearch;
+        this.csCalculator=csCalculator;
     }
 
     public void rankColumnConcepts(TAnnotation tableAnnotation, Table table, int col) throws KBSearchException {
@@ -37,7 +42,7 @@ public class ColumnClassifier {
                 totalNonEmpty++;
             List<TCellAnnotation> bestCellAnnotations = tableAnnotation.getWinningContentCellAnnotation(r, col);
             if (bestCellAnnotations.size() > 0) {
-                Set<String> distinctTypes = new HashSet<String>();
+                Set<String> distinctTypes = new HashSet<>();
                 for (TCellAnnotation ca : bestCellAnnotations) {
                     Entity e = ca.getAnnotation();
                     distinctTypes.addAll(e.getTypeIds());
@@ -55,16 +60,11 @@ public class ColumnClassifier {
             List<Pair<String, Double>> result_votes = new ArrayList<>();
             for (Map.Entry<String, Double> e : votes.entrySet()) {
                 double voteScore = e.getValue() / totalNonEmpty;
-                voteScore+=computeConceptSpecificity(e.getKey(), kbSearch);
+                voteScore+=csCalculator.compute(e.getKey());
                 result_votes.add(new Pair<>(e.getKey(),
                         voteScore));
             }
-            Collections.sort(result_votes, new Comparator<Pair<String, Double>>() {
-                @Override
-                public int compare(Pair<String, Double> o1, Pair<String, Double> o2) {
-                    return o2.getValue().compareTo(o1.getValue());
-                }
-            });
+            Collections.sort(result_votes, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
 
             //tie breaker based on granularity computeElementScores of concepts
             double maxScore = result_votes.get(0).getValue();
@@ -78,7 +78,7 @@ public class ColumnClassifier {
                     }
                 }
             }
-            final Map<String, Double> result_granularity = new HashMap<String, Double>();
+            final Map<String, Double> result_granularity = new HashMap<>();
             if (count_same_max_score > 1) {
                 for (Pair<String, Double> e : result_votes) {
                     if (e.getValue() == maxScore) {
@@ -106,10 +106,5 @@ public class ColumnClassifier {
         }
     }
 
-    private double computeConceptSpecificity(String concept_url, KBSearch kbSearch) throws KBSearchException {
-        double conceptGranularity = kbSearch.findGranularityOfClazz(concept_url);
-        if(conceptGranularity<0)
-            return 0.0;
-        return 1-Math.sqrt(conceptGranularity/FREEBASE_TOTAL_TOPICS);
-    }
+
 }

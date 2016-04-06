@@ -94,15 +94,15 @@ public class TestTableInterpretation_MusicBrainz_SMP {
         SMPInterpreter interpreter = new SMPInterpreter(
                 main_col_finder,
                 useSubjectColumn,
-                new NamedEntityRanker(freebaseSearch, disambiguator),
-                new ColumnClassifier(freebaseSearch),
+                new TCellEntityRanker(freebaseSearch, disambiguator),
+                new TColumnClassifier(freebaseSearch),
                 new RelationLearner(new RelationTextMatch_Scorer(stopWords, new Levenshtein(), 0.5)),
                 IGNORE_COLUMNS,
                 new int[0]
         );
 
 
-        TAnnotationWriter writer = new TAnnotationWriter_SMP(
+        TAnnotationWriter writer = new TAnnotationWriterSMP(
                 new TripleGenerator("http://www.freebase.com", "http://lodie.dcs.shef.ac.uk"));
 
         TableXtractorMusicBrainz xtractor = new TableXtractorMusicBrainz(new TableNormalizerSimple(),

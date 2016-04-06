@@ -15,8 +15,8 @@ import java.util.*;
  * Effectively, the "real" freebase concept that has the smallest number of instances (highest granularity) and any
  * "topic-based" concept (/m/*) are both considered the best header annotations
  */
-public class TAnnotation_SMP_Freebase extends TAnnotation {
-    public TAnnotation_SMP_Freebase(int rows, int cols) {
+public class TAnnotationSMPFreebase extends TAnnotation {
+    public TAnnotationSMPFreebase(int rows, int cols) {
         super(rows, cols);
     }
 
@@ -25,17 +25,14 @@ public class TAnnotation_SMP_Freebase extends TAnnotation {
         if(o==null)
             return new TColumnHeaderAnnotation[0];
         TColumnHeaderAnnotation[] ha = (TColumnHeaderAnnotation[]) o;
-        Arrays.sort(ha, new Comparator<TColumnHeaderAnnotation>() {
-            @Override
-            public int compare(TColumnHeaderAnnotation o1, TColumnHeaderAnnotation o2) {
-                int compared = ((Double) o2.getFinalScore()).compareTo(o1.getFinalScore());
-                if (compared == 0) {
-                    Double o1_granularity = o1.getScoreElements().get(ColumnClassifier.SMP_SCORE_GRANULARITY);
-                    Double o2_granularity = o2.getScoreElements().get(ColumnClassifier.SMP_SCORE_GRANULARITY);
-                    return o1_granularity.compareTo(o2_granularity);
-                }
-                return compared;
+        Arrays.sort(ha, (o1, o2) -> {
+            int compared = ((Double) o2.getFinalScore()).compareTo(o1.getFinalScore());
+            if (compared == 0) {
+                Double o1_granularity = o1.getScoreElements().get(TColumnClassifier.SMP_SCORE_GRANULARITY);
+                Double o2_granularity = o2.getScoreElements().get(TColumnClassifier.SMP_SCORE_GRANULARITY);
+                return o1_granularity.compareTo(o2_granularity);
             }
+            return compared;
         });
 
         return ha;
@@ -43,7 +40,7 @@ public class TAnnotation_SMP_Freebase extends TAnnotation {
 
     public List<TColumnHeaderAnnotation> getWinningHeaderAnnotations(int headerCol){
         TColumnHeaderAnnotation[] annotations =getHeaderAnnotation(headerCol);
-        List<TColumnHeaderAnnotation> result = new ArrayList<TColumnHeaderAnnotation>();
+        List<TColumnHeaderAnnotation> result = new ArrayList<>();
         if(annotations==null||annotations.length==0)
             return result;
 
@@ -64,17 +61,12 @@ public class TAnnotation_SMP_Freebase extends TAnnotation {
         }
 
         if(tmp.size()>1){
-            Collections.sort(tmp, new Comparator<TColumnHeaderAnnotation>() {
-                @Override
-                public int compare(TColumnHeaderAnnotation o1, TColumnHeaderAnnotation o2) {
-                    return o1.getScoreElements().get(ColumnClassifier.SMP_SCORE_GRANULARITY).compareTo(
-                            o2.getScoreElements().get(ColumnClassifier.SMP_SCORE_GRANULARITY)
-                    );
-                }
-            });
-            Double highest_granularity_score = tmp.get(0).getScoreElements().get(ColumnClassifier.SMP_SCORE_GRANULARITY);
+            Collections.sort(tmp, (o1, o2) -> o1.getScoreElements().get(TColumnClassifier.SMP_SCORE_GRANULARITY).compareTo(
+                    o2.getScoreElements().get(TColumnClassifier.SMP_SCORE_GRANULARITY)
+            ));
+            Double highest_granularity_score = tmp.get(0).getScoreElements().get(TColumnClassifier.SMP_SCORE_GRANULARITY);
             for(TColumnHeaderAnnotation ha: tmp){
-                if(ha.getScoreElements().get(ColumnClassifier.SMP_SCORE_GRANULARITY)==highest_granularity_score)
+                if(ha.getScoreElements().get(TColumnClassifier.SMP_SCORE_GRANULARITY)==highest_granularity_score)
                     result.add(ha);
             }
         }else{

@@ -1,5 +1,6 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
+import uk.ac.shef.dcs.kbsearch.freebase.FreebaseEnum;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
@@ -23,10 +24,10 @@ import java.util.*;
  * An adapted version of the NE ranker (scorer) used in Semantic Message Passing
  */
 public class SMPAdaptedEntityScorer implements EntityScorer {
-    public static String SCORE_SMP_INDEX = "smp_index";
-    public static String SCORE_SMP_LEV = "smp_stringsim_lev";
-    public static String SCORE_SMP_DICE = "smp_stringsim_dice";
-    public static String SCORE_SMP_CONTEXT = "smp_context";
+    private static final String SMP_SCORE_INDEX = "smp_index";
+    private static final String SMP_SCORE_LEV = "smp_stringsim_lev";
+    private static final String SMP_SCORE_DICE = "smp_stringsim_dice";
+    private static final String SMP_SCORE_CONTEXT = "smp_context";
 
     private AbstractStringMetric lev;
     private AbstractStringMetric dice;
@@ -62,59 +63,59 @@ public class SMPAdaptedEntityScorer implements EntityScorer {
 
         //column header and row values
          /* BOW OF THE ENTITY*/
-        List<Attribute> facts = candidate.getAttributes();
-        List<String> bag_of_words_for_entity = new ArrayList<String>();
-        for (Attribute f : facts) {
+        List<Attribute> attributes = candidate.getAttributes();
+        List<String> entityBoW = new ArrayList<>();
+        for (Attribute f : attributes) {
             if (!STIConstantProperty.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE &&
                     !f.isDirect())
                 continue;
             String value = f.getValue();
             if (!StringUtils.isPath(value))
-                bag_of_words_for_entity.addAll(StringUtils.toBagOfWords(value, true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
+                entityBoW.addAll(StringUtils.toBagOfWords(value, true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
             else
-                bag_of_words_for_entity.add(value);
+                entityBoW.add(value);
         }
         if (lemmatizer != null)
-            bag_of_words_for_entity = lemmatizer.lemmatize(bag_of_words_for_entity);
-        bag_of_words_for_entity.removeAll(stopWords);
+            entityBoW = lemmatizer.lemmatize(entityBoW);
+        entityBoW.removeAll(stopWords);
        /* BOW OF THE Row context*/
         //double totalScore = 0.0;
         String headerText = table.getColumnHeader(sourceColumnIndex).getHeaderText();
-        List<String> bag_of_words_for_context = new ArrayList<String>();
+        List<String> contextBoW = new ArrayList<>();
         //context from the row
 
         for (int col = 0; col < table.getNumCols(); col++) {
-            if (col == sourceColumnIndex || table.getColumnHeader(col).getTypes().get(0).equals(
+            if (col == sourceColumnIndex || table.getColumnHeader(col).getTypes().get(0).getType().equals(
                     DataTypeClassifier.DataType.ORDERED_NUMBER
             ))
                 continue;
             TCell tcc = table.getContentCell(sourceRowIndex, col);
-            bag_of_words_for_context.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
+            contextBoW.addAll(StringUtils.toBagOfWords(tcc.getText(), true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
         }
 
-        bag_of_words_for_context.addAll(StringUtils.toBagOfWords(   //also add the column header as the row context of this entity
+        contextBoW.addAll(StringUtils.toBagOfWords(   //also add the column header as the row context of this entity
                 headerText, true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
 
         if (lemmatizer != null)
-            bag_of_words_for_context = lemmatizer.lemmatize(bag_of_words_for_context);
-        bag_of_words_for_context.removeAll(stopWords);
-        double contextOverlapScore = CollectionUtils.computeCoverage(bag_of_words_for_entity, bag_of_words_for_context);
+            contextBoW = lemmatizer.lemmatize(contextBoW);
+        contextBoW.removeAll(stopWords);
+        double contextOverlapScore = CollectionUtils.computeCoverage(entityBoW, contextBoW);
 
-        Map<String, Double> score_elements = new HashMap<String, Double>();
-        score_elements.put(SCORE_SMP_INDEX, indexScore);
-        score_elements.put(SCORE_SMP_LEV, levScore);
-        score_elements.put(SCORE_SMP_DICE, diceScore);
-        score_elements.put(SCORE_SMP_CONTEXT, contextOverlapScore);
+        Map<String, Double> score_elements = new HashMap<>();
+        score_elements.put(SMP_SCORE_INDEX, indexScore);
+        score_elements.put(SMP_SCORE_LEV, levScore);
+        score_elements.put(SMP_SCORE_DICE, diceScore);
+        score_elements.put(SMP_SCORE_CONTEXT, contextOverlapScore);
         return score_elements;
     }
 
     private double calculateStringSimilarity(String text, Entity candidate, AbstractStringMetric lev) {
-        List<Attribute> facts = candidate.getAttributes();
-        double baseScore = lev.getSimilarity(text, candidate.getLabel());
-        double totalAliases = 1.0, totalScore = baseScore;
+        List<Attribute> attributes = candidate.getAttributes();
+        double totalAliases = 1.0,
+                totalScore = (double) lev.getSimilarity(text, candidate.getLabel());
 
-        for (Attribute f : facts) {
-            if (f.getRelationURI().equalsIgnoreCase("/common/topic/alias")
+        for (Attribute f : attributes) {
+            if (f.getRelationURI().equalsIgnoreCase(FreebaseEnum.RELATION_ALIAS.getString())
                     && f.isDirect()) {
                 String v = f.getValue().trim();
                 if (v.length() > 0) {

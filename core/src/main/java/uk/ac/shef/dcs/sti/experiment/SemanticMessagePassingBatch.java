@@ -8,20 +8,12 @@ import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.smp.*;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.*;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.OSPD_nonEmpty;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerImpl;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPEntityScorer;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPRelationScorer;
-import uk.ac.shef.dcs.sti.core.feature.FreebaseConceptBoWCreator;
-import uk.ac.shef.dcs.sti.core.feature.FreebaseRelationBoWCreator;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
-import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
+import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.io.File;
@@ -38,11 +30,22 @@ public class SemanticMessagePassingBatch extends STIBatch {
 
     private static final Logger LOG = Logger.getLogger(SemanticMessagePassingBatch.class.getName());
 
-    private static final String PROPERTY_SMP_USE_SUBJECT_COLUMN="sti.smp.usesubjectcolumn";
-    private static final String PROPERTY_SMP_ENTITY_RANKER="sti.smp.entityranker";
+    private static final String PROPERTY_SMP_USE_SUBJECT_COLUMN = "sti.smp.usesubjectcolumn";
+    private static final String PROPERTY_SMP_ENTITY_RANKER = "sti.smp.entityranker";
+    private static final String PROPERTY_SMP_CLAZZ_SPECIFICITY_CALCULATOR="sti.smp.clazzspecificitycalculator";
 
     public SemanticMessagePassingBatch(String propertyFile) throws IOException, STIException {
         super(propertyFile);
+        writer =
+                new TAnnotationWriterSMP(
+                        new TripleGenerator(
+                                properties.getProperty(PROPERTY_OUTPUT_TRIPLE_KB_NAMESPACE), properties.getProperty(PROPERTY_OUTPUT_TRIPLE_DEFAULT_NAMESPACE)
+                        ));
+    }
+
+    private ClazzSpecificityCalculator getClazzSpecificityCalculator() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        return (ClazzSpecificityCalculator)
+                Class.forName(properties.getProperty(PROPERTY_SMP_CLAZZ_SPECIFICITY_CALCULATOR)).newInstance();
     }
 
     @Override
@@ -94,25 +97,25 @@ public class SemanticMessagePassingBatch extends STIBatch {
         LOG.info("Initializing SMP components ...");
         try {
             String neRanker = properties.getProperty(PROPERTY_SMP_ENTITY_RANKER);
-            EntityScorer entityScorer=null;
+            EntityScorer entityScorer = null;
             if (neRanker != null && neRanker.equalsIgnoreCase("tmp")) {
                 new TMPEntityScorer(
                         getStopwords(),
                         new double[]{1.0, 0.5, 1.0, 0.5}, //row,column, column header, tablecontext all
                         getNLPResourcesDir());
             } else
-                entityScorer = new SMPAdaptedEntityScorer(getStopwords(),getNLPResourcesDir());
+                entityScorer = new SMPAdaptedEntityScorer(getStopwords(), getNLPResourcesDir());
 
             interpreter = new SMPInterpreter(
                     subcolDetector,
-                    Boolean.valueOf(properties.getProperty(PROPERTY_SMP_USE_SUBJECT_COLUMN,"false")),
-                            new NamedEntityRanker(kbSearch, entityScorer),
-                            new ColumnClassifier(kbSearch),
-                            new RelationLearner(new RelationTextMatch_Scorer(0.5, getStopwords(), new Levenshtein())),
-                            getIgnoreColumns(),
-                            getMustdoColumns()
-                    );
-        }catch (Exception e){
+                    Boolean.valueOf(properties.getProperty(PROPERTY_SMP_USE_SUBJECT_COLUMN, "false")),
+                    new TCellEntityRanker(kbSearch, entityScorer),
+                    new TColumnClassifier(kbSearch,getClazzSpecificityCalculator()),
+                    new RelationLearner(new RelationTextMatch_Scorer(0.5, getStopwords(), new Levenshtein())),
+                    getIgnoreColumns(),
+                    getMustdoColumns()
+            );
+        } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));
             throw new STIException("Failed initialising SMP components:" + properties.getProperty(PROPERTY_KBSEARCH_CLASS)

@@ -2,15 +2,14 @@ package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
 import cern.colt.matrix.ObjectMatrix2D;
 import javafx.util.Pair;
+import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
-import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -21,21 +20,22 @@ public class SMPInterpreter extends SemanticTableInterpreter{
 
     //main column finder is needed to generate data features of each column (e.g., data type in a column),
     //even though we do not use it to find the main column in SMP
+    private static final Logger LOG = Logger.getLogger(SMPInterpreter.class.getName());
     private SubjectColumnDetector subjectColumnDetector;
-    private NamedEntityRanker neRanker;
-    private ColumnClassifier columnClassifier;
+    private TCellEntityRanker neRanker;
+    private TColumnClassifier columnClassifier;
     private RelationLearner relationLearner;
     private boolean useSubjectColumn =false;
 
-    public int halting_num_of_iterations_middlepoint = 5;
-    public double min_pc_of_change_messages_for_column_concept_update = 0.0;
-    public double min_pc_of_change_messages_for_relation_update = 0.0;
-    public int halting_num_of_iterations_max = 10;
+    private static final int halting_num_of_iterations_middlepoint = 5;
+    private static final double min_pc_of_change_messages_for_column_concept_update = 0.0;
+    private static final double min_pc_of_change_messages_for_relation_update = 0.0;
+    private static final int halting_num_of_iterations_max = 10;
 
     public SMPInterpreter(SubjectColumnDetector subjectColumnDetector,
                           boolean useSubjectColumn,
-                          NamedEntityRanker neRanker,
-                          ColumnClassifier columnClassifier,
+                          TCellEntityRanker neRanker,
+                          TColumnClassifier columnClassifier,
                           RelationLearner relationLearner,
                           int[] ignoreColumns,
                           int[] mustdoColumns
@@ -48,8 +48,9 @@ public class SMPInterpreter extends SemanticTableInterpreter{
         this.neRanker = neRanker;
     }
 
-    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, KBSearchException, STIException, ClassNotFoundException {
-        TAnnotation_SMP_Freebase tab_annotations = new TAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
+    public TAnnotation start(Table table, boolean relationLearning) throws STIException {
+        TAnnotation tableAnnotations =
+                new TAnnotationSMPFreebase(table.getNumRows(), table.getNumCols());
 
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
@@ -60,105 +61,108 @@ public class SMPInterpreter extends SemanticTableInterpreter{
             ignoreColumnsArray[index] = i;
             index++;
         }
-        List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns =
-                subjectColumnDetector.compute(table, ignoreColumnsArray);
-        if(useSubjectColumn)
-            tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getKey());
+        try {
+            List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns =
+                    subjectColumnDetector.compute(table, ignoreColumnsArray);
+            if (useSubjectColumn)
+                tableAnnotations.setSubjectColumn(candidate_main_NE_columns.get(0).getKey());
 
-        System.out.println(">\t INITIALIZATION");
-        System.out.println(">\t\t NAMED ENTITY RANKER..."); //SMP begins with an initial NE ranker to rank candidate NEs for each cell
-        for (int col = 0; col < table.getNumCols(); col++) {
+            LOG.info(">\t NAMED ENTITY RANKER..."); //SMP begins with an initial NE ranker to rank candidate NEs for each cell
+            for (int col = 0; col < table.getNumCols(); col++) {
             /*if(col!=1)
                 continue;*/
-            if (isCompulsoryColumn(col)) {
-                System.out.println("\t\t>> Column=(forced)" + col);
-                for (int r = 0; r < table.getNumRows(); r++) {
-                    neRanker.rankCandidateNamedEntities(tab_annotations, table, r, col);
-                }
-            } else {
-                if (getIgnoreColumns().contains(col)) continue;
-                if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
-                    continue;
+                if (isCompulsoryColumn(col)) {
+                    LOG.info("\t\t>> Column=(compulsory)" + col);
+                    for (int r = 0; r < table.getNumRows(); r++) {
+                        neRanker.rankCandidateNamedEntities(tableAnnotations, table, r, col);
+                    }
+                } else {
+                    if (getIgnoreColumns().contains(col)) continue;
+                    if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+                        continue;
                 /*if (table.getColumnHeader(col).getFeature().isAcronymColumn())
                     continue;*/
-                //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
-                System.out.println("\t\t>> Column=" + col);
-                for (int r = 0; r < table.getNumRows(); r++) {
-                    neRanker.rankCandidateNamedEntities(tab_annotations, table, r, col);
+                    //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
+                    LOG.info("\t\t>> Column=" + col);
+                    for (int r = 0; r < table.getNumRows(); r++) {
+                        neRanker.rankCandidateNamedEntities(tableAnnotations, table, r, col);
+                    }
                 }
             }
+
+            LOG.info(">\t COMPUTING Column CLASSIFICATION AND Column-column RELATION");
+            columnClassification(tableAnnotations, table);
+            if (relationLearning)
+                relationEnumeration(tableAnnotations, table, useSubjectColumn, getIgnoreColumns());
+
+            //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+            LOG.info(">\t SEMANTIC MESSAGE PASSING");
+            TAnnotationSMPFreebase copy;
+            CellAnnotationUpdater cellAnnotationUpdater = new CellAnnotationUpdater();
+            for (int i = 1; i <= halting_num_of_iterations_max; i++) {
+                System.out.println("\t\t>> [ITERATION] " + i);
+                copy = new TAnnotationSMPFreebase(table.getNumRows(), table.getNumCols());
+                TAnnotation.copy(tableAnnotations, copy);
+                //column concept and relation factors send message to entity factors
+                System.out.println("\t\t>> COMPUTING MESSAGES");
+                ObjectMatrix2D messages = new ChangeMessageBroadcaster().computeChangeMessages(tableAnnotations, table);
+                //check middle-point halting condition
+                boolean stop = false;
+                if (i == halting_num_of_iterations_middlepoint) {
+                    stop = middlePointHaltingConditionReached(messages, tableAnnotations, table);
+                }
+                if (stop) {
+                    System.out.println("\t\t>> Halting condition (middle point) reached after " + halting_num_of_iterations_middlepoint + " iterations.");
+                    break;
+                }
+
+                //re-compute cell annotations based on messages
+                System.out.println("\t\t>> NAMED ENTITY UPDATE");
+                int[] updateResult = cellAnnotationUpdater.update(messages, tableAnnotations);
+                System.out.println("\t\t   (requiredUpdate=" + updateResult[1] + ", updated=" + updateResult[0] + ")");
+
+                //check stopping condition
+                stop = haltingConditionReached(i, halting_num_of_iterations_max, copy, tableAnnotations);
+                if (stop) {
+                    System.out.println(">\t Halting condition reached, iteration=" + i);
+                    break;
+                } else {
+                    //re-compute header and relation annotations
+                    resetClassesAndRelations(tableAnnotations);
+                    columnClassification(tableAnnotations, table);
+                    if (relationLearning)
+                        relationEnumeration(tableAnnotations, table, useSubjectColumn, getIgnoreColumns());
+                }
+            }
+            return tableAnnotations;
+        }catch (Exception e){
+            throw new STIException(e);
         }
-
-        System.out.println(">\t COMPUTING HEADER CLASSIFICATION AND COLUMN-COLUMN RELATION");
-        computeClasses(tab_annotations, table);
-        if(relationLearning)
-            computeRelations(tab_annotations, table, useSubjectColumn,getIgnoreColumns());
-
-        //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        System.out.println(">\t SEMANTIC MESSAGE PASSING");
-        TAnnotation_SMP_Freebase copy;
-        CellAnnotationUpdater cellAnnotationUpdater = new CellAnnotationUpdater();
-        for (int i = 1; i <= halting_num_of_iterations_max; i++) {
-            System.out.println("\t\t>> [ITERATION] "+i);
-            copy = new TAnnotation_SMP_Freebase(table.getNumRows(), table.getNumCols());
-            TAnnotation.copy(tab_annotations, copy);
-            //column concept and relation factors send message to entity factors
-            System.out.println("\t\t>> COMPUTING MESSAGES");
-            ObjectMatrix2D messages = new ChangeMessageBroadcaster().computeChangeMessages(tab_annotations, table);
-            //check middle-point halting condition
-            boolean stop = false;
-            if (i == halting_num_of_iterations_middlepoint) {
-                stop = middlePointHaltingConditionReached(messages, tab_annotations, table);
-            }
-            if (stop) {
-                System.out.println("\t\t>> Halting condition (middle point) reached after " + halting_num_of_iterations_middlepoint + " iterations.");
-                break;
-            }
-
-            //re-compute cell annotations based on messages
-            System.out.println("\t\t>> NAMED ENTITY UPDATE");
-            int[] updateResult = cellAnnotationUpdater.update(messages, tab_annotations);
-            System.out.println("\t\t   (requiredUpdate=" + updateResult[1] + ", updated=" + updateResult[0]+")");
-
-            //check stopping condition
-            stop = haltingConditionReached(i, halting_num_of_iterations_max, copy, tab_annotations);
-            if (stop) {
-                System.out.println(">\t Halting condition reached, iteration=" + i);
-                break;
-            } else {
-                //re-compute header and relation annotations
-                resetClassesAndRelations(tab_annotations);
-                computeClasses(tab_annotations, table);
-                if(relationLearning)
-                    computeRelations(tab_annotations, table, useSubjectColumn,getIgnoreColumns());
-            }
-        }
-        return tab_annotations;
     }
 
-    private void resetClassesAndRelations(TAnnotation_SMP_Freebase tab_annotations) {
+    private void resetClassesAndRelations(TAnnotation tab_annotations) {
         tab_annotations.resetHeaderAnnotations();
         tab_annotations.resetRelationAnnotations();
     }
 
-    private void computeClasses(TAnnotation_SMP_Freebase tab_annotations, Table table) throws KBSearchException {
-        System.out.println("\t\t>> COLUMN SEMANTIC TYPE COMPUTING...");
+    private void columnClassification(TAnnotation tabAnnotations, Table table) throws KBSearchException {
+        LOG.info("\t\t>> column classification...");
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
             if (isCompulsoryColumn(col)) {
-                System.out.println("\t\t>> Column=(forced)" + col);
-                columnClassifier.rankColumnConcepts(tab_annotations, table, col);
+                LOG.info("\t\t>> Column=(compulsory)" + col);
+                columnClassifier.rankColumnConcepts(tabAnnotations, table, col);
             } else {
                 if (getIgnoreColumns().contains(col)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
-                System.out.println("\t\t>> Column=" + col);
-                columnClassifier.rankColumnConcepts(tab_annotations, table, col);
+                LOG.info("\t\t>> Column=" + col);
+                columnClassifier.rankColumnConcepts(tabAnnotations, table, col);
             }
         }
     }
 
-    private void computeRelations(TAnnotation_SMP_Freebase tab_annotations, Table table, boolean useMainSubjectColumn, Collection<Integer> ignoreColumns){
+    private void relationEnumeration(TAnnotation tab_annotations, Table table, boolean useMainSubjectColumn, Collection<Integer> ignoreColumns){
         System.out.println("\t\t>> RELATION COMPUTING...");
         relationLearner.inferRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumns);
     }

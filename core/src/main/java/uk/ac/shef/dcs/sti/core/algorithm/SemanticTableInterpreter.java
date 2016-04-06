@@ -30,7 +30,7 @@ public abstract class SemanticTableInterpreter {
     }
 
     public abstract TAnnotation start(Table table, boolean relationLearning)
-            throws IOException, APIKeysDepletedException, KBSearchException, STIException, ClassNotFoundException;
+            throws STIException;
 
 
 

@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
 import javafx.util.Pair;
+import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
@@ -16,13 +17,13 @@ import java.util.*;
 /**
  * NE ranker creates initial disambiguation of an NE column
  */
-public class NamedEntityRanker {
+public class TCellEntityRanker {
 
     private KBSearch kbSearch;
     private EntityScorer entityScorer;
-    //private static Logger LOG = Logger.getLogger(TCellDisambiguator.class.getName());
+    private static Logger LOG = Logger.getLogger(TCellEntityRanker.class.getName());
 
-    public NamedEntityRanker(KBSearch kbSearch, EntityScorer entityScorer) {
+    public TCellEntityRanker(KBSearch kbSearch, EntityScorer entityScorer) {
         this.kbSearch = kbSearch;
         this.entityScorer = entityScorer;
     }
@@ -31,19 +32,7 @@ public class NamedEntityRanker {
             TAnnotation tableAnnotations, Table table,
             int row, int column
     ) throws KBSearchException {
-        List<Pair<Entity, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
-        List<Pair<Entity, Double>> sorted = new ArrayList<>();
-        for (Pair<Entity, Map<String, Double>> e : scores) {
-            double score = e.getValue().get(TCellAnnotation.SCORE_FINAL);
-            sorted.add(new Pair<>(e.getKey(), score));
-        }
-        Collections.sort(sorted, new Comparator<Pair<Entity, Double>>() {
-            @Override
-            public int compare(Pair<Entity, Double> o1, Pair<Entity, Double> o2) {
-                return o2.getValue().compareTo(o1.getValue());
-            }
-        });
-
+        List<Pair<Entity, Map<String, Double>>> scores = score(table, row, column);
         TCell tcc = table.getContentCell(row, column);
         TCellAnnotation[] annotations = new TCellAnnotation[scores.size()];
         int i = 0;
@@ -57,18 +46,15 @@ public class NamedEntityRanker {
         //return sorted;
     }
 
-    public List<Pair<Entity, Map<String, Double>>> scoreCandidateNamedEntities(Table table,
-                                                                                          int row, int column
+    public List<Pair<Entity, Map<String, Double>>> score(Table table,
+                                                         int row, int column
     ) throws KBSearchException {
         //do disambiguation scoring
         //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         TCell cell = table.getContentCell(row, column);
-        System.out.print("\t\t>> NamedEntityRanker, position at (" + row + "," + column + ") " +
-                cell);
-       /* if(row==11)
-            System.out.println();*/
         List<Entity> candidates = kbSearch.findEntityCandidates(cell.getText());
-        System.out.println(" candidates=" + candidates.size());
+        LOG.info("\t\t>> position at (" + row + "," + column + ") " +
+                cell+" has candidates="+candidates.size());
         //each candidate will have a map containing multiple elements of scores. See SMPAdaptedEntityScorer
         List<Pair<Entity, Map<String, Double>>> disambiguationScores =
                 new ArrayList<>();
@@ -80,7 +66,7 @@ public class NamedEntityRanker {
             }
             Map<String, Double> scoreMap = entityScorer.
                     computeElementScores(c, candidates,
-                            column, row, Arrays.asList(row),
+                            column, row, Collections.singletonList(row),
                             table);
             entityScorer.computeFinal(scoreMap, cell.getText());
             Pair<Entity, Map<String, Double>> entry = new Pair<>(c,scoreMap);

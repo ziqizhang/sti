@@ -48,7 +48,7 @@ public class TMPInterpreter extends SemanticTableInterpreter {
         this.relationScorer = relationScorer;
     }
 
-    public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, KBSearchException, STIException, ClassNotFoundException {
+    public TAnnotation start(Table table, boolean relationLearning) throws STIException {
         //1. find the main subject column of this table
         LOG.info(">\t PHASE: Detecting subject column...");
         int[] ignoreColumnsArray = new int[getIgnoreColumns().size()];
@@ -58,55 +58,59 @@ public class TMPInterpreter extends SemanticTableInterpreter {
             ignoreColumnsArray[index] = i;
             index++;
         }
-        List<Pair<Integer, Pair<Double, Boolean>>> subjectColumnScores =
-                subjectColumnDetector.compute(table, ignoreColumnsArray);
+        try {
+            List<Pair<Integer, Pair<Double, Boolean>>> subjectColumnScores =
+                    subjectColumnDetector.compute(table, ignoreColumnsArray);
 
-        TAnnotation tableAnnotations = new TAnnotation(table.getNumRows(), table.getNumCols());
-        tableAnnotations.setSubjectColumn(subjectColumnScores.get(0).getKey());
+            TAnnotation tableAnnotations = new TAnnotation(table.getNumRows(), table.getNumCols());
+            tableAnnotations.setSubjectColumn(subjectColumnScores.get(0).getKey());
 
-        List<Integer> annotatedColumns = new ArrayList<>();
-        LOG.info(">\t PHASE: LEARNING ...");
-        for (int col = 0; col < table.getNumCols(); col++) {
+            List<Integer> annotatedColumns = new ArrayList<>();
+            LOG.info(">\t PHASE: LEARNING ...");
+            for (int col = 0; col < table.getNumCols(); col++) {
             /*if(col!=1)
                 continue;*/
-            if (isCompulsoryColumn(col)) {
-                LOG.info("\t>> Column=(compulsory)" + col);
-                annotatedColumns.add(col);
-                learning.learn(table, tableAnnotations, col);
-            } else {
-                if (getIgnoreColumns().contains(col)) continue;
-                if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
-                    continue;
+                if (isCompulsoryColumn(col)) {
+                    LOG.info("\t>> Column=(compulsory)" + col);
+                    annotatedColumns.add(col);
+                    learning.learn(table, tableAnnotations, col);
+                } else {
+                    if (getIgnoreColumns().contains(col)) continue;
+                    if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+                        continue;
                 /*if (table.getColumnHeader(col).getFeature().isAcronymColumn())
                     continue;*/
-                annotatedColumns.add(col);
+                    annotatedColumns.add(col);
 
-                //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
-                LOG.info("\t>> Column=" + col);
-                learning.learn(table, tableAnnotations, col);
-                //}
+                    //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
+                    LOG.info("\t>> Column=" + col);
+                    learning.learn(table, tableAnnotations, col);
+                    //}
+                }
             }
+
+            if (update != null) {
+                LOG.info(">\t PHASE: UPDATE phase ...");
+                update.update(annotatedColumns, table, tableAnnotations);
+            }
+
+            if (relationLearning) {
+                LOG.info("\t> PHASE: RELATION ENUMERATION ...");
+                new RELATIONENUMERATION().enumerate(subjectColumnScores,
+                        getIgnoreColumns(), relationEnumerator,
+                        tableAnnotations, table,
+                        annotatedColumns, update, relationScorer);
+
+                //4. consolidation-for columns that have relation with main subject column, if the column is
+                // entity column, do column typing and disambiguation; otherwise, simply create header annotation
+                LOG.info("\t\t>> Annotate literal-columns in relation with main column");
+                literalColumnTagger.annotate(table, tableAnnotations, annotatedColumns.toArray(new Integer[0]));
+            }
+
+            return tableAnnotations;
+        }catch (Exception e){
+            throw new STIException(e);
         }
-
-        if (update != null) {
-            LOG.info(">\t PHASE: UPDATE phase ...");
-            update.update(annotatedColumns, table, tableAnnotations);
-        }
-
-        if (relationLearning) {
-            LOG.info("\t> PHASE: RELATION ENUMERATION ...");
-            new RELATIONENUMERATION().enumerate(subjectColumnScores,
-                    getIgnoreColumns(), relationEnumerator,
-                    tableAnnotations, table,
-                    annotatedColumns, update, relationScorer);
-
-            //4. consolidation-for columns that have relation with main subject column, if the column is
-            // entity column, do column typing and disambiguation; otherwise, simply create header annotation
-            LOG.info("\t\t>> Annotate literal-columns in relation with main column");
-            literalColumnTagger.annotate(table, tableAnnotations, annotatedColumns.toArray(new Integer[0]));
-        }
-
-        return tableAnnotations;
     }
 
 }

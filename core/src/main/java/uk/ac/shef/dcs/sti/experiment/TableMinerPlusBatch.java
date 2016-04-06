@@ -29,7 +29,6 @@ import java.util.*;
  */
 public class TableMinerPlusBatch extends STIBatch {
 
-
     protected static final String PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS = "sti.tmp.iinf.learning.stopping.class";
     protected static final String PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS_CONSTR_PARAM
             = "sti.tmp.iinf.learning.stopping.class.constructor.params";

@@ -6,6 +6,8 @@ import java.util.List;
 /**
  */
 public class STIConstantProperty {
+
+    public static final double FREEBASE_TOTAL_TOPICS=47560900;
     public static final int TCELLDISAMBIGUATOR_MAX_REFERENCE_ENTITIES = 0;
     public static boolean RELATED_COLUMN_HEADER_TYPING_ONLY_FROM_MAIN_COL_RELATIONS = false;
     public static boolean RELATION_ALSO_CONTRIBUTES_TO_COLUMN_HEADER_SCORE = false;

@@ -14,13 +14,13 @@ import java.io.PrintWriter;
 /**
  * Created by zqz on 29/04/2015.
  */
-public class TAnnotationWriter_SMP extends TAnnotationWriter {
-    public TAnnotationWriter_SMP(TripleGenerator tripleGenerator) {
+public class TAnnotationWriterSMP extends TAnnotationWriter {
+    public TAnnotationWriterSMP(TripleGenerator tripleGenerator) {
         super(tripleGenerator);
     }
 
     protected void writeHeaderKeyFile(Table table, TAnnotation table_annotation, String header_key) throws FileNotFoundException {
-        if (!(table_annotation instanceof TAnnotation_SMP_Freebase))
+        if (!(table_annotation instanceof TAnnotationSMPFreebase))
             super.writeHeaderKeyFile(table, table_annotation, header_key);
         else {
             PrintWriter p = new PrintWriter(header_key);
@@ -37,9 +37,9 @@ public class TAnnotationWriter_SMP extends TAnnotationWriter {
                         if (prevScore == 0.0) {
                             s.append(ha.getAnnotation().getId());
                             prevScore = ha.getFinalScore();
-                            prevGranularity = ha.getScoreElements().get(ColumnClassifier.SMP_SCORE_GRANULARITY);
+                            prevGranularity = ha.getScoreElements().get(TColumnClassifier.SMP_SCORE_GRANULARITY);
                         } else {
-                            if (ha.getFinalScore() == prevScore && ha.getScoreElements().get(ColumnClassifier.SMP_SCORE_GRANULARITY)==prevGranularity) {
+                            if (ha.getFinalScore() == prevScore && ha.getScoreElements().get(TColumnClassifier.SMP_SCORE_GRANULARITY)==prevGranularity) {
                                 s.append("=").append(ha.getAnnotation().getId());
                             } else
                                 s.append("|").append(ha.getAnnotation().getId());
@@ -81,11 +81,11 @@ public class TAnnotationWriter_SMP extends TAnnotationWriter {
                         annotation.append("<br><b>").append(generateHeaderAnnotationString(hAnn)).append("</b></br>");
                         best_score = hAnn.getFinalScore();
                         best_granularity_score=hAnn.getScoreElements().get(
-                                ColumnClassifier.SMP_SCORE_GRANULARITY
+                                TColumnClassifier.SMP_SCORE_GRANULARITY
                         );
                     } else if (hAnn.getFinalScore() == best_score &&
                             hAnn.getScoreElements().get(
-                                    ColumnClassifier.SMP_SCORE_GRANULARITY)==best_granularity_score) {
+                                    TColumnClassifier.SMP_SCORE_GRANULARITY)==best_granularity_score) {
                         annotation.append("<br><b>").append(generateHeaderAnnotationString(hAnn)).append("</b></br>");
                     } else if (showLosingCandidates) {  //others
                         annotation.append("<br><font color=\"grey\" size=\"1\">").
