@@ -183,7 +183,7 @@ public class FreebaseQueryProxy {
             id = key.get("id");
             mid = key.get("mid");
             if (id == null && mid != null) id = mid;
-            Attribute attr = new Attribute(property, val.toString());
+            Attribute attr = new FreebaseAttribute(property, val.toString());
             attr.setIsDirect(directRelation);
             if (val != null && id != null) {
                 attr.setValueURI(id.toString());

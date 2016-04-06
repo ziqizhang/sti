@@ -2,6 +2,8 @@ package uk.ac.shef.dcs.kbsearch.freebase;
 
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 
+import java.util.Set;
+
 
 /**
  * Created with IntelliJ IDEA.

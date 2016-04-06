@@ -5,7 +5,7 @@ package uk.ac.shef.dcs.kbsearch.freebase;
  */
 public enum FreebaseEnum {
 
-    RELATION_ALIAS("/common/topic/alias"),
+    RELATION_HASALIAS("/common/topic/alias"),
     RELATION_HASTYPE("/type/object/type"),
     RELATION_RANGEOFPROPERTY("/type/property/expected_type"),
     RELATION_HASNAME("/type/object/name"),

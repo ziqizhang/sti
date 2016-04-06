@@ -85,7 +85,7 @@ public class UPDATE {
             //scores will be reset, then recalculated. dc scores lost
             reviseColumnAndCellAnnotations(allEntityIds,
                     table, currentAnnotation, interpretedColumnIndexes);
-            LOG.info("\t>> update iteration "+currentAnnotation+"complete");
+            LOG.info("\t>> update iteration " + currentAnnotation + "complete");
             stable = checkStablization(prevAnnotation, currentAnnotation,
                     table.getNumRows(), interpretedColumnIndexes);
             if (!stable) {
@@ -142,14 +142,11 @@ public class UPDATE {
 
     private Collection<? extends String> createEntityDomainRep(Entity ec) throws IOException {
         List<String> domain = new ArrayList<>();
-        for (Attribute fact : ec.getAttributes()) {
-            if (fact.getRelationURI().equals(FreebaseEnum.RELATION_HASDESCRIPTION.getString())) {
-                String[] sentences = NLPTools.getInstance(nlpResourcesDir).getSentenceSplitter().sentDetect(fact.getValue());
-                String first = sentences.length > 0 ? sentences[0] : "";
-                List<String> tokens = StringUtils.toBagOfWords(first, true, true, true);
-                domain.addAll(tokens);
-            }
-        }
+        String desc = ec.getDescription();
+        String[] sentences = NLPTools.getInstance(nlpResourcesDir).getSentenceSplitter().sentDetect(desc);
+        String first = sentences.length > 0 ? sentences[0] : "";
+        List<String> tokens = StringUtils.toBagOfWords(first, true, true, true);
+        domain.addAll(tokens);
         domain.removeAll(stopWords);
         return domain;
     }

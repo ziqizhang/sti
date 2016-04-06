@@ -1,5 +1,7 @@
 package uk.ac.shef.dcs.kbsearch.model;
 
+import java.util.Set;
+
 /**
  * Created by - on 15/03/2016.
  */

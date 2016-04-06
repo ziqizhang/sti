@@ -104,8 +104,9 @@ public class FreebaseSearch extends KBSearch {
                     for (Attribute attr : attributes) {
                         if (attr.getRelationURI().equals(FreebaseEnum.RELATION_HASTYPE.getString()) &&
                                 attr.isDirect() &&
-                                !ec.hasType(attr.getValueURI()))
+                                !ec.hasType(attr.getValueURI())) {
                             ec.addType(new Clazz(attr.getValueURI(), attr.getValue()));
+                        }
                     }
                 }
 
@@ -229,7 +230,7 @@ public class FreebaseSearch extends KBSearch {
                             if (t.getRelationURI().equals(FreebaseEnum.RELATION_RANGEOFPROPERTY.getString())) {
                                 String rangeLabel = t.getValue();
                                 String rangeURL = t.getValueURI();
-                                Attribute attr = new Attribute(f.getValueURI(), rangeLabel);
+                                Attribute attr = new FreebaseAttribute(f.getValueURI(), rangeLabel);
                                 attr.setValueURI(rangeURL);
                                 attr.setIsDirect(true);
                                 //attributes.add(new String[]{f[2], rangeLabel, rangeURL, "n"});
@@ -288,7 +289,7 @@ public class FreebaseSearch extends KBSearch {
     @Override
     public List<Clazz> findRangeOfRelation(String relationURI) throws KBSearchException {
         List<Attribute> attributes =
-                findAttributesOfEntities(new Entity(relationURI, relationURI));
+                findAttributesOfEntities(new FreebaseTopic(relationURI));
         List<Clazz> types = new ArrayList<>();
         for (Attribute attr : attributes) {
             if (attr.getRelationURI().equals(FreebaseEnum.RELATION_RANGEOFPROPERTY.getString())) {

@@ -6,8 +6,7 @@ import java.io.Serializable;
  * An attribute of a resource forms a triple with that resource. It must contain a relation, and a value which is the object of
  * the triple. The resource is always the subject
  */
-public class Attribute implements Serializable{
-    private static final long serialVersionUID = -8624557934000474692L;
+public abstract class Attribute implements Serializable{
 
     private String relationURI;
     private String value;
@@ -16,10 +15,23 @@ public class Attribute implements Serializable{
                               //triples that form an indirect relation with a resource can be returned. In which case this
                               //is used to indicate whether the attribute is a direct attribute of the resource or not
 
+
     public Attribute(String relationURI, String value) {
         this.relationURI =relationURI;
         this.value=value;
     }
+
+    /**
+     *
+     * @return true if the attribute is about alias
+     */
+    public abstract boolean isAlias();
+
+    /**
+     *
+     * @return true if the attribute is about description
+     */
+    public abstract boolean isDescription();
 
     public void setRelationURI(String relationURI) {
         this.relationURI = relationURI;
