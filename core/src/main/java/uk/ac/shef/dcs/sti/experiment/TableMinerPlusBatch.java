@@ -30,9 +30,9 @@ import java.util.*;
 public class TableMinerPlusBatch extends STIBatch {
 
 
-    protected static final String PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS = "sti.iinf.learning.stopping.class";
+    protected static final String PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS = "sti.tmp.iinf.learning.stopping.class";
     protected static final String PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS_CONSTR_PARAM
-            = "sti.iinf.learning.stopping.class.constructor.params";
+            = "sti.tmp.iinf.learning.stopping.class.constructor.params";
 
 
     private static final Logger LOG = Logger.getLogger(TableMinerPlusBatch.class.getName());
