@@ -17,7 +17,7 @@ public class RelationLearner {
         this.matcher = matcher;
     }
 
-    public void inferRelation(TAnnotation tableAnnotations, Table table, boolean useMainSubjectColumn, int[] ignoreColumns) {
+    public void inferRelation(TAnnotation tableAnnotations, Table table, boolean useMainSubjectColumn, Collection<Integer> ignoreColumns) {
         //RelationDataStructure result = new RelationDataStructure();
 
         //mainColumnIndexes contains indexes of columns that are possible NEs
@@ -35,7 +35,7 @@ public class RelationLearner {
             subjectColumnsToConsider.add(tableAnnotations.getSubjectColumn());
         else {
             for(int c=0; c<table.getNumCols(); c++) {
-                if(!TI_SemanticMessagePassing.ignoreColumn(c, ignoreColumns))
+                if(!ignoreColumns.contains(c))
                     subjectColumnsToConsider.add(c);
             }
         }

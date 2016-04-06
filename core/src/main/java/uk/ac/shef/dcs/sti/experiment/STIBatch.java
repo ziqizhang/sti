@@ -7,6 +7,7 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.TMPInterpreter;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
@@ -33,6 +34,8 @@ public abstract class STIBatch {
     protected KBSearch kbSearch;
 
     protected TableXtractor tableXtractor;
+
+    protected SemanticTableInterpreter interpreter;
 
     protected static final String PROPERTY_HOME = "sti.home";
 
@@ -66,6 +69,11 @@ public abstract class STIBatch {
 
     protected static final String PROPERTY_TABLEXTRACTOR_CLASS = "sti.input.tablextractor.class";
 
+    protected static final String PROPERTY_TMP_SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH =
+            "sti.subjectcolumndetection.ws";
+    protected static final String PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS = "sti.iinf.websearch.stopping.class";
+    protected static final String PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS_CONSTR_PARAM
+            = "sti.iinf.websearch.stopping.class.constructor.params";
 
     protected Properties properties;
 
@@ -103,9 +111,9 @@ public abstract class STIBatch {
     }
 
     protected TableXtractor getTableXtractor() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        if(tableXtractor==null) {
+        if (tableXtractor == null) {
             String clazz = properties.get(PROPERTY_TABLEXTRACTOR_CLASS).toString();
-            tableXtractor= (TableXtractor) Class.forName(clazz).newInstance();
+            tableXtractor = (TableXtractor) Class.forName(clazz).newInstance();
         }
         return tableXtractor;
     }
@@ -174,12 +182,11 @@ public abstract class STIBatch {
                 LOG.error(error);
                 throw new STIException(error);
             }
-            if(cores==null) {
+            if (cores == null) {
                 websearchCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_WEBSEARCH_CACHE_CORENAME);
-                cores=websearchCache.getCoreContainer();
-            }
-            else
-                websearchCache=new EmbeddedSolrServer(cores.getCore(PROPERTY_WEBSEARCH_CACHE_CORENAME));
+                cores = websearchCache.getCoreContainer();
+            } else
+                websearchCache = new EmbeddedSolrServer(cores.getCore(PROPERTY_WEBSEARCH_CACHE_CORENAME));
         }
         return websearchCache;
     }
@@ -295,12 +302,11 @@ public abstract class STIBatch {
     }
 
 
-    public static boolean process(TMPInterpreter interpreter,
-                                  Table table, String sourceTableFile, TAnnotationWriter writer,
-                                  String outFolder,
-                                  boolean relationLearning) throws Exception {
+    protected boolean process(Table table, String sourceTableFile, TAnnotationWriter writer,
+                              String outFolder,
+                              boolean relationLearning) throws Exception {
         File outDir = new File(outFolder);
-        if(!outDir.exists())
+        if (!outDir.exists())
             outDir.mkdirs();
         String outFilename = sourceTableFile.replaceAll("\\\\", "/");
         try {

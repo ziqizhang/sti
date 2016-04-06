@@ -30,7 +30,7 @@ public class ColumnClassifier {
 
     public void rankColumnConcepts(TAnnotation tableAnnotation, Table table, int col) throws KBSearchException {
         int totalNonEmpty = 0;
-        Map<String, Double> votes = new HashMap<String, Double>();
+        Map<String, Double> votes = new HashMap<>();
         for (int r = 0; r < table.getNumRows(); r++) {
             //in case multiple NEs have the same computeElementScores, we take them all
             if (!table.getContentCell(r, col).getType().equals(DataTypeClassifier.DataType.EMPTY))

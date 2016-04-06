@@ -3,9 +3,8 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
+import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
@@ -19,15 +18,13 @@ import java.util.List;
 /**
 
  */
-public class TMPInterpreter {
+public class TMPInterpreter extends SemanticTableInterpreter {
 
     private SubjectColumnDetector subjectColumnDetector;
     private LEARNING learning;
     private LiteralColumnTagger literalColumnTagger;
     private TColumnColumnRelationEnumerator relationEnumerator;
     private RelationScorer relationScorer;
-    private Set<Integer> ignoreCols;
-    private int[] mustdoColumns;
     private UPDATE update;
 
     private static final Logger LOG = Logger.getLogger(TMPInterpreter.class.getName());
@@ -41,14 +38,12 @@ public class TMPInterpreter {
                           int[] ignoreColumns,
                           int[] mustdoColumns
     ) {
+        super(ignoreColumns,mustdoColumns);
         this.subjectColumnDetector = subjectColumnDetector;
         this.learning = learning;
         this.literalColumnTagger = literalColumnTagger;
         this.relationEnumerator = relationEnumerator;
-        this.ignoreCols = new HashSet<>();
-        for (int i : ignoreColumns)
-            ignoreCols.add(i);
-        this.mustdoColumns = mustdoColumns;
+
         this.update = update;
         this.relationScorer = relationScorer;
     }
@@ -56,10 +51,10 @@ public class TMPInterpreter {
     public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, KBSearchException, STIException, ClassNotFoundException {
         //1. find the main subject column of this table
         LOG.info(">\t PHASE: Detecting subject column...");
-        int[] ignoreColumnsArray = new int[ignoreCols.size()];
+        int[] ignoreColumnsArray = new int[getIgnoreColumns().size()];
 
         int index = 0;
-        for (Integer i : ignoreCols) {
+        for (Integer i : getIgnoreColumns()) {
             ignoreColumnsArray[index] = i;
             index++;
         }
@@ -79,7 +74,7 @@ public class TMPInterpreter {
                 annotatedColumns.add(col);
                 learning.learn(table, tableAnnotations, col);
             } else {
-                if (ignoreCols.contains(col)) continue;
+                if (getIgnoreColumns().contains(col)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 /*if (table.getColumnHeader(col).getFeature().isAcronymColumn())
@@ -101,7 +96,7 @@ public class TMPInterpreter {
         if (relationLearning) {
             LOG.info("\t> PHASE: RELATION ENUMERATION ...");
             new RELATIONENUMERATION().enumerate(subjectColumnScores,
-                    ignoreCols, relationEnumerator,
+                    getIgnoreColumns(), relationEnumerator,
                     tableAnnotations, table,
                     annotatedColumns, update, relationScorer);
 
@@ -112,17 +107,6 @@ public class TMPInterpreter {
         }
 
         return tableAnnotations;
-    }
-
-
-    private boolean isCompulsoryColumn(Integer i) {
-        if (i != null) {
-            for (int a : mustdoColumns) {
-                if (a == i)
-                    return true;
-            }
-        }
-        return false;
     }
 
 }

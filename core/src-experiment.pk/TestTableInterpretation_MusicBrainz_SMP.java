@@ -91,7 +91,7 @@ public class TestTableInterpretation_MusicBrainz_SMP {
             disambiguator = new SMPAdaptedEntityScorer(stopWords, nlpResources);
 
         //EntityScorer disambiguator = new SMPAdaptedEntityScorer(stopWords, nlpResources);
-        TI_SemanticMessagePassing interpreter = new TI_SemanticMessagePassing(
+        SMPInterpreter interpreter = new SMPInterpreter(
                 main_col_finder,
                 useSubjectColumn,
                 new NamedEntityRanker(freebaseSearch, disambiguator),
@@ -181,7 +181,7 @@ public class TestTableInterpretation_MusicBrainz_SMP {
     }
 
 
-    public static boolean process(TI_SemanticMessagePassing interpreter, Table table, String sourceTableFile, TAnnotationWriter writer,
+    public static boolean process(SMPInterpreter interpreter, Table table, String sourceTableFile, TAnnotationWriter writer,
                                   String outFolder, boolean relationLearning) throws Exception {
         String outFilename = sourceTableFile.replaceAll("\\\\", "/");
         try {

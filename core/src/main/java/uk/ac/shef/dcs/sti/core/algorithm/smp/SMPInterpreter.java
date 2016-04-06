@@ -4,6 +4,7 @@ import cern.colt.matrix.ObjectMatrix2D;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
+import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
@@ -16,14 +17,11 @@ import java.util.List;
 /**
  * Created by zqz on 20/04/2015.
  */
-public class TI_SemanticMessagePassing {
+public class SMPInterpreter extends SemanticTableInterpreter{
 
     //main column finder is needed to generate data features of each column (e.g., data type in a column),
     //even though we do not use it to find the main column in SMP
-    private SubjectColumnDetector main_col_finder;
-    //if there are any columns we want to isValidAttribute
-    private int[] ignoreColumns;
-    private int[] forceInterpretColumn;
+    private SubjectColumnDetector subjectColumnDetector;
     private NamedEntityRanker neRanker;
     private ColumnClassifier columnClassifier;
     private RelationLearner relationLearner;
@@ -34,21 +32,20 @@ public class TI_SemanticMessagePassing {
     public double min_pc_of_change_messages_for_relation_update = 0.0;
     public int halting_num_of_iterations_max = 10;
 
-    public TI_SemanticMessagePassing(SubjectColumnDetector main_col_finder,
-                                     boolean useSubjectColumn,
-                                     NamedEntityRanker neRanker,
-                                     ColumnClassifier columnClassifier,
-                                     RelationLearner relationLearner,
-                                     int[] ignoreColumns,
-                                     int[] forceInterpretColumn
+    public SMPInterpreter(SubjectColumnDetector subjectColumnDetector,
+                          boolean useSubjectColumn,
+                          NamedEntityRanker neRanker,
+                          ColumnClassifier columnClassifier,
+                          RelationLearner relationLearner,
+                          int[] ignoreColumns,
+                          int[] mustdoColumns
     ) {
+        super(ignoreColumns, mustdoColumns);
         this.useSubjectColumn = useSubjectColumn;
-        this.main_col_finder = main_col_finder;
+        this.subjectColumnDetector = subjectColumnDetector;
         this.relationLearner = relationLearner;
         this.columnClassifier = columnClassifier;
         this.neRanker = neRanker;
-        this.ignoreColumns = ignoreColumns;
-        this.forceInterpretColumn = forceInterpretColumn;
     }
 
     public TAnnotation start(Table table, boolean relationLearning) throws IOException, APIKeysDepletedException, KBSearchException, STIException, ClassNotFoundException {
@@ -56,8 +53,15 @@ public class TI_SemanticMessagePassing {
 
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
+        int[] ignoreColumnsArray = new int[getIgnoreColumns().size()];
+
+        int index = 0;
+        for (Integer i : getIgnoreColumns()) {
+            ignoreColumnsArray[index] = i;
+            index++;
+        }
         List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns =
-                main_col_finder.compute(table, ignoreColumns);
+                subjectColumnDetector.compute(table, ignoreColumnsArray);
         if(useSubjectColumn)
             tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getKey());
 
@@ -66,13 +70,13 @@ public class TI_SemanticMessagePassing {
         for (int col = 0; col < table.getNumCols(); col++) {
             /*if(col!=1)
                 continue;*/
-            if (forceInterpret(col)) {
+            if (isCompulsoryColumn(col)) {
                 System.out.println("\t\t>> Column=(forced)" + col);
                 for (int r = 0; r < table.getNumRows(); r++) {
                     neRanker.rankCandidateNamedEntities(tab_annotations, table, r, col);
                 }
             } else {
-                if (ignoreColumn(col, ignoreColumns)) continue;
+                if (getIgnoreColumns().contains(col)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 /*if (table.getColumnHeader(col).getFeature().isAcronymColumn())
@@ -88,7 +92,7 @@ public class TI_SemanticMessagePassing {
         System.out.println(">\t COMPUTING HEADER CLASSIFICATION AND COLUMN-COLUMN RELATION");
         computeClasses(tab_annotations, table);
         if(relationLearning)
-            computeRelations(tab_annotations, table, useSubjectColumn);
+            computeRelations(tab_annotations, table, useSubjectColumn,getIgnoreColumns());
 
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println(">\t SEMANTIC MESSAGE PASSING");
@@ -126,7 +130,7 @@ public class TI_SemanticMessagePassing {
                 resetClassesAndRelations(tab_annotations);
                 computeClasses(tab_annotations, table);
                 if(relationLearning)
-                    computeRelations(tab_annotations, table, useSubjectColumn);
+                    computeRelations(tab_annotations, table, useSubjectColumn,getIgnoreColumns());
             }
         }
         return tab_annotations;
@@ -141,11 +145,11 @@ public class TI_SemanticMessagePassing {
         System.out.println("\t\t>> COLUMN SEMANTIC TYPE COMPUTING...");
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
-            if (forceInterpret(col)) {
+            if (isCompulsoryColumn(col)) {
                 System.out.println("\t\t>> Column=(forced)" + col);
                 columnClassifier.rankColumnConcepts(tab_annotations, table, col);
             } else {
-                if (ignoreColumn(col, ignoreColumns)) continue;
+                if (getIgnoreColumns().contains(col)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 System.out.println("\t\t>> Column=" + col);
@@ -154,7 +158,7 @@ public class TI_SemanticMessagePassing {
         }
     }
 
-    private void computeRelations(TAnnotation_SMP_Freebase tab_annotations, Table table, boolean useMainSubjectColumn){
+    private void computeRelations(TAnnotation_SMP_Freebase tab_annotations, Table table, boolean useMainSubjectColumn, Collection<Integer> ignoreColumns){
         System.out.println("\t\t>> RELATION COMPUTING...");
         relationLearner.inferRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumns);
     }
@@ -266,26 +270,5 @@ public class TI_SemanticMessagePassing {
         return header_converged && cell_converged && relation_converged;
     }
 
-
-
-    protected static boolean ignoreColumn(Integer i, int[] ignoreColumns) {
-        if (i != null) {
-            for (int a : ignoreColumns) {
-                if (a == i)
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean forceInterpret(Integer i) {
-        if (i != null) {
-            for (int a : forceInterpretColumn) {
-                if (a == i)
-                    return true;
-            }
-        }
-        return false;
-    }
 
 }

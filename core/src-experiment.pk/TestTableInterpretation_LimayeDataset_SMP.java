@@ -86,7 +86,7 @@ public class TestTableInterpretation_LimayeDataset_SMP {
             disambiguator = new SMPAdaptedEntityScorer(stopWords, nlpResources);
 
         //EntityScorer disambiguator = new SMPAdaptedEntityScorer(stopWords, nlpResources);
-        TI_SemanticMessagePassing interpreter = new TI_SemanticMessagePassing(
+        SemanticMessagePassing interpreter = new SemanticMessagePassing(
                 main_col_finder,
                 useSubjectColumn,
                 new NamedEntityRanker(freebaseSearchGeneral, disambiguator),
@@ -165,7 +165,7 @@ public class TestTableInterpretation_LimayeDataset_SMP {
     }
 
 
-    public static boolean process(TI_SemanticMessagePassing interpreter, Table table, String sourceTableFile, TAnnotationWriter writer,
+    public static boolean process(SemanticMessagePassing interpreter, Table table, String sourceTableFile, TAnnotationWriter writer,
                                   String outFolder, boolean relationLearning) throws Exception {
         String outFilename = sourceTableFile.replaceAll("\\\\", "/");
         try {

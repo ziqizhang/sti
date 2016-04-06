@@ -30,19 +30,12 @@ import java.util.*;
 public class TableMinerPlusBatch extends STIBatch {
 
 
-    protected static final String PROPERTY_TMP_SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH =
-            "sti.subjectcolumndetection.ws";
-    protected static final String PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS = "sti.iinf.websearch.stopping.class";
-    protected static final String PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS_CONSTR_PARAM
-            = "sti.iinf.websearch.stopping.class.constructor.params";
     protected static final String PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS = "sti.iinf.learning.stopping.class";
     protected static final String PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS_CONSTR_PARAM
             = "sti.iinf.learning.stopping.class.constructor.params";
 
 
     private static final Logger LOG = Logger.getLogger(TableMinerPlusBatch.class.getName());
-
-    TMPInterpreter interpreter;
 
 
     public TableMinerPlusBatch(String propertyFile) throws IOException, STIException {
@@ -116,7 +109,7 @@ public class TableMinerPlusBatch extends STIBatch {
             classifier = new TColumnClassifier(new TMPClazzScorer(getNLPResourcesDir(),
                     new FreebaseConceptBoWCreator(),
                     getStopwords(),
-                    new double[]{1.0, 1.0, 1.0, 1.0} )        //all 1.0
+                    new double[]{1.0, 1.0, 1.0, 1.0})        //all 1.0
             );                                              //header,column,out trivial, out important
             selector = new OSPD_nonEmpty();
             preliminaryClassify = new LEARNINGPreliminaryColumnClassifier(
@@ -138,7 +131,7 @@ public class TableMinerPlusBatch extends STIBatch {
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));
-            throw new STIException("Failed initialising LEARNING components:" + properties.getProperty(PROPERTY_KBSEARCH_CLASS)
+            throw new STIException("Failed initialising LEARNING components:"
                     , e);
         }
 
@@ -151,35 +144,35 @@ public class TableMinerPlusBatch extends STIBatch {
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));
-            throw new STIException("Failed initialising LEARNING components:" + properties.getProperty(PROPERTY_KBSEARCH_CLASS)
+            throw new STIException("Failed initialising LEARNING components:"
                     , e);
         }
 
 
         LOG.info("Initializing RELATIONLEARNING components ...");
-        RelationScorer relationScorer=null;
-        TColumnColumnRelationEnumerator relationEnumerator=null;
-        LiteralColumnTagger literalColumnTagger=null;
+        RelationScorer relationScorer = null;
+        TColumnColumnRelationEnumerator relationEnumerator = null;
+        LiteralColumnTagger literalColumnTagger = null;
         try {
             //object to computeElementScores relations between columns
-             relationScorer = new TMPRelationScorer(
+            relationScorer = new TMPRelationScorer(
                     getNLPResourcesDir(),
                     new FreebaseRelationBoWCreator(),
                     getStopwords(),
-                    new double[]{1.0, 0.0,1.0, 1.0}    //header text, column, out-trivial, out-important
+                    new double[]{1.0, 0.0, 1.0, 1.0}    //header text, column, out-trivial, out-important
                     // new double[]{1.0, 1.0, 0.0, 0.0, 1.0}
             );
-             relationEnumerator = new TColumnColumnRelationEnumerator(
+            relationEnumerator = new TColumnColumnRelationEnumerator(
                     new TMPAttributeValueMatcher(0.01, getStopwords(), new Levenshtein()),
                     relationScorer
             );
 
             //object to consolidate previous output, further computeElementScores columns and disamgiuate entities
-             literalColumnTagger =
+            literalColumnTagger =
                     new LiteralColumnTaggerImpl(
                             getIgnoreColumns()
                     );
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -191,7 +184,7 @@ public class TableMinerPlusBatch extends STIBatch {
                 relationScorer,
                 literalColumnTagger,
                 getIgnoreColumns(), getMustdoColumns()
-                );
+        );
 
     }
 
@@ -214,19 +207,19 @@ public class TableMinerPlusBatch extends STIBatch {
         int count = 0;
         List<File> all = Arrays.asList(new File(inFolder).listFiles());
         Collections.sort(all);
-        LOG.info("Initialization complete. Begin STI. Total input files="+all.size()+"\n");
+        LOG.info("Initialization complete. Begin STI. Total input files=" + all.size() + "\n");
 
         List<Integer> previouslyFailed = tmp.loadPreviouslyFailed();
-        int start=tmp.getStartIndex();
+        int start = tmp.getStartIndex();
         for (File f : all) {
-            if(f.toString().contains(".DS_Store")) continue;
+            if (f.toString().contains(".DS_Store")) continue;
             count++;
 
             //if a previously failed list of files is given, only learn these.
             if (previouslyFailed.size() != 0 && !previouslyFailed.contains(count))
                 continue;
 
-            if (count - 1 <start )
+            if (count - 1 < start)
                 continue;
             boolean complete;
             String inFile = f.toString();
@@ -238,11 +231,11 @@ public class TableMinerPlusBatch extends STIBatch {
                 //System.out.println(count + "_" + sourceTableFile + " " + new Date());
                 LOG.info("\n<< " + count + "_" + sourceTableFile);
                 List<Table> tables = tmp.loadTable(inFile);
-                if(tables.size()==0)
-                    tmp.recordFailure(count,inFile, inFile);
+                if (tables.size() == 0)
+                    tmp.recordFailure(count, inFile, inFile);
 
-                for(Table table: tables) {
-                    complete = process(tmp.interpreter,
+                for (Table table : tables) {
+                    complete = tmp.process(
                             table,
                             sourceTableFile,
                             tmp.writer, outFolder,
@@ -265,7 +258,6 @@ public class TableMinerPlusBatch extends STIBatch {
         tmp.closeAll();
         LOG.info(new Date());
     }
-
 
 
 }

@@ -19,12 +19,12 @@ import java.util.*;
 public class NamedEntityRanker {
 
     private KBSearch kbSearch;
-    private EntityScorer disambScorer;
+    private EntityScorer entityScorer;
     //private static Logger LOG = Logger.getLogger(TCellDisambiguator.class.getName());
 
-    public NamedEntityRanker(KBSearch kbSearch, EntityScorer disambScorer) {
+    public NamedEntityRanker(KBSearch kbSearch, EntityScorer entityScorer) {
         this.kbSearch = kbSearch;
-        this.disambScorer = disambScorer;
+        this.entityScorer = entityScorer;
     }
 
     public void rankCandidateNamedEntities(
@@ -78,11 +78,11 @@ public class NamedEntityRanker {
                 List<Attribute> facts = kbSearch.findAttributesOfEntities(c);
                 c.setAttributes(facts);
             }
-            Map<String, Double> scoreMap = disambScorer.
+            Map<String, Double> scoreMap = entityScorer.
                     computeElementScores(c, candidates,
                             column, row, Arrays.asList(row),
                             table);
-            disambScorer.computeFinal(scoreMap, cell.getText());
+            entityScorer.computeFinal(scoreMap, cell.getText());
             Pair<Entity, Map<String, Double>> entry = new Pair<>(c,scoreMap);
             disambiguationScores.add(entry);
         }
