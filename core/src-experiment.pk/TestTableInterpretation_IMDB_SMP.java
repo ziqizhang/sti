@@ -94,7 +94,7 @@ public class TestTableInterpretation_IMDB_SMP {
                 useSubjectColumn,
                 new NamedEntityRanker(freebaseSearch, disambiguator),
                 new ColumnClassifier(freebaseSearch),
-                new RelationLearner(new RelationTextMatch_Scorer(stopWords, new Levenshtein(), 0.5)),
+                new TColumnColumnRelationEnumerator(new SMPAttributeValueMatcher(stopWords, new Levenshtein(), 0.5)),
                 IGNORE_COLUMNS,
                 new int[0]
         );

@@ -1,7 +1,8 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.kbsearch.model.Attribute;
+import uk.ac.shef.dcs.sti.STIException;
+import uk.ac.shef.dcs.sti.core.scorer.AttributeValueMatcher;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
 
@@ -11,85 +12,40 @@ import java.util.List;
 /**
  *
  */
-public class TColumnColumnRelationEnumerator {
-    private SMPAttributeValueMatcher matcher;
+public class TColumnColumnRelationEnumerator extends uk.ac.shef.dcs.sti.core.algorithm.tmp.TColumnColumnRelationEnumerator{
 
-    public TColumnColumnRelationEnumerator(SMPAttributeValueMatcher matcher) {
-        this.matcher = matcher;
+    private boolean useSubjectColumn;
+    private Collection<Integer> ignoreColumns;
+
+    public TColumnColumnRelationEnumerator(AttributeValueMatcher attributeValueMatcher,
+                                           Collection<Integer> ignoreColumns,
+                                           boolean useSubjectColumn) {
+        super(attributeValueMatcher, null);
+        this.ignoreColumns=ignoreColumns;
+        this.useSubjectColumn=useSubjectColumn;
     }
 
-    public void enumerateRelations(TAnnotation tableAnnotations,
-                                   Table table,
-                                   boolean useMainSubjectColumn,
-                                   Collection<Integer> ignoreColumns) {
-        //mainColumnIndexes contains indexes of columns that are possible NEs
-        Map<Integer, DataTypeClassifier.DataType> colTypes
-                = new HashMap<>();
-        for (int c = 0; c < table.getNumCols(); c++) {
-            DataTypeClassifier.DataType type =
-                    table.getColumnHeader(c).getTypes().get(0).getType();
-            colTypes.put(c, type);
-        }
+    public int runRelationEnumeration(TAnnotation annotations, Table table, int subjectCol) throws STIException {
+        if(useSubjectColumn)
+            super.generateCellCellRelations(annotations, table, subjectCol);
+        else{
+            List<Integer> subjectColumnsToConsider = new ArrayList<>();
 
-        //aggregate candidate relations between any pairs of columns
-        List<Integer> subjectColumnsToConsider = new ArrayList<>();
-        if(useMainSubjectColumn)
-            subjectColumnsToConsider.add(tableAnnotations.getSubjectColumn());
-        else {
-            for(int c=0; c<table.getNumCols(); c++) {
-                if(!ignoreColumns.contains(c))
-                    subjectColumnsToConsider.add(c);
+                for(int c=0; c<table.getNumCols(); c++) {
+                    if(!ignoreColumns.contains(c))
+                        subjectColumnsToConsider.add(c);
+                }
+
+            for (int subjectColumn :subjectColumnsToConsider) {  //choose a column to be subject column (must be NE column)
+                if (!table.getColumnHeader(subjectColumn).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+                    continue;
+                super.generateCellCellRelations(annotations, table, subjectColumn);
             }
         }
-        for (int subjectColumn :subjectColumnsToConsider) {  //choose a column to be subject column (must be NE column)
-            if (!table.getColumnHeader(subjectColumn).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
-                continue;
-
-            for (int row = 0; row < table.getNumRows(); row++) {
-                //get the winning annotation for this cell
-                List<TCellAnnotation> winningCellAnnotations =
-                        tableAnnotations.getWinningContentCellAnnotation(row, subjectColumn);
-
-                //collect attributes from where candidate relations are created
-                List<Attribute> collectedAttributes = new ArrayList<>();
-                for (TCellAnnotation cellAnnotation : winningCellAnnotations) {
-                    collectedAttributes.addAll(cellAnnotation.getAnnotation().getAttributes());
-                }
-
-                //collect cell values on the same row, from other columns
-                Map<Integer, String> cellValuesToMatch = new HashMap<>();
-                for (int col : colTypes.keySet()) {
-                    if (col != subjectColumn) {
-                        String cellValue = table.getContentCell(row, col).getText();
-                        cellValuesToMatch.put(col, cellValue);
-                    }
-                }
-
-                //perform matching  and scoring
-                //key=col id; value: contains the attr that matched with the highest score against cell in that column
-                Map<Integer, List<Pair<Attribute, Double>>> cellMatchScores =
-                        attributeValueMatcher.match(collectedAttributes, cellValuesToMatch, colTypes);
-
-                for (Map.Entry<Integer, List<Pair<Attribute, Double>>> e : cellMatchScores.entrySet()) {
-                    RelationColumns subCol_to_objCol = new RelationColumns(subjectColumn, e.getKey());
-
-                    List<Pair<Attribute, Double>> matchedAttributes = e.getValue();
-                    for (Pair<Attribute, Double> entry : matchedAttributes) {
-                        String relationURI = entry.getKey().getRelationURI();
-                        String relationLabel = ""; //todo:currently we do not get the label!!!
-                        List<Attribute> matchedValues = new ArrayList<>();
-                        matchedValues.add(entry.getKey());
-                        TCellCellRelationAnotation cellcellRelation =
-                                new TCellCellRelationAnotation(
-                                        subCol_to_objCol, row, relationURI, relationLabel, matchedValues, entry.getValue()
-                                );
-                        tableAnnotations.addCellCellRelation(cellcellRelation);
-                    }
-                }
-            }}
-
         //aggregate overall scores for relations on each column pairs and populate relation annotation object
-        aggregate(tableAnnotations, table);
+        aggregate(annotations, table);
+
+        return 0;
     }
 
     private void aggregate(
@@ -99,73 +55,76 @@ public class TColumnColumnRelationEnumerator {
         for (Map.Entry<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>> e :
                 tableAnnotation.getCellcellRelations().entrySet()) {
 
-            //firstly, check the directional relation where sub comes from sub col of the final_relationKey and ob comes from obj col of the ...
-            RelationColumns current_relationKey = e.getKey(); //key indicating the directional relationship (subject col, object col)
-            if (processed.contains(current_relationKey))
+            //firstly, check the directional relation
+            RelationColumns relationColumns = e.getKey(); //key indicating the directional relationship (subject col, object col)
+            if (processed.contains(relationColumns))
                 continue;
+            //key: relationURI, value:
             Map<String, Pair<Integer, Double>> votes = new HashMap<>();
 
-            processed.add(current_relationKey);
-            Map<Integer, List<TCellCellRelationAnotation>> relations_on_rows = e.getValue(); //map object where key=row id, value=collection of binary relations between the sub col and obj col on this row
-            collectVotes(relations_on_rows, votes);//among all relations that apply to the direction subcol-objcol, collect votes
-            List<RelationDataTuple> best_subobj = selectBest(votes, current_relationKey);   //the highest scoring relation in the direction of subject-object
+            processed.add(relationColumns);
+            //map object where key=row id, value=collection of binary relations between the sub col and obj col on this row
+            Map<Integer, List<TCellCellRelationAnotation>> relationsOnRows = e.getValue();
+            //among all relations that apply to the direction subcol-objcol, collect votes
+            collectVotes(relationsOnRows, votes);
+            List<RelationDataTuple> winner = selectWinner(votes, relationColumns);   //the highest scoring relation in the direction of subject-object
 
             //next, reverse the relation direction
             votes.clear();
-            RelationColumns reverse_relationKey = new RelationColumns(current_relationKey.getObjectCol(), current_relationKey.getSubjectCol());
-            relations_on_rows = tableAnnotation.getCellcellRelations().get(reverse_relationKey);
-            if (relations_on_rows != null) {
-                processed.add(reverse_relationKey);
-                collectVotes(relations_on_rows, votes);
-                List<RelationDataTuple> best_objsub = selectBest(votes, reverse_relationKey);   //the highest scoring relation in the direction of object-subject relation
+            RelationColumns reverseRelationColumns =
+                    new RelationColumns(relationColumns.getObjectCol(), relationColumns.getSubjectCol());
+            relationsOnRows = tableAnnotation.getCellcellRelations().get(reverseRelationColumns);
+            if (relationsOnRows != null) {
+                processed.add(reverseRelationColumns);
+                collectVotes(relationsOnRows, votes);
+                List<RelationDataTuple> winnerReverseDirection = selectWinner(votes, reverseRelationColumns);   //the highest scoring relation in the direction of object-subject relation
 
-                integrateCreateHeaderBinaryRelationAnnotations(best_subobj, best_objsub, tableAnnotation, table);
+                createHeaderBinaryRelationAnnotations(winner, winnerReverseDirection, tableAnnotation, table);
             } else {//no relation from reverse direction,
-                integrateCreateHeaderBinaryRelationAnnotations(best_subobj, null, tableAnnotation, table);
+                createHeaderBinaryRelationAnnotations(winner, null, tableAnnotation, table);
             }
         }
     }
 
-    //need to resolve conflicts. between two directions (sub-ob, or ob-sub, we must choose only 1)
-    private void integrateCreateHeaderBinaryRelationAnnotations(
-            List<RelationDataTuple> best_subobj,
-            List<RelationDataTuple> best_objsub,
-            TAnnotation tableAnnotation,
-            Table table) {
-        if (best_objsub != null)
-            best_subobj.addAll(best_objsub);
-        Collections.sort(best_subobj);
+    /**
+     *
+     * @param relations key:row index; value: list of relations between the two columns
+     * @param votes key: relation uri; value-key: votes, value-value: score
+     */
+    private void collectVotes(Map<Integer, List<TCellCellRelationAnotation>> relations,
+                              Map<String, Pair<Integer, Double>> votes
+    ) {
+        for (List<TCellCellRelationAnotation> candidatesOnRow : relations.values()) {        //go thru each row
+            Set<String> distinctRelations = new HashSet<>();
+            for (TCellCellRelationAnotation candidate : candidatesOnRow) { //go thru each candidate of each row
+                String relationCandidate = candidate.getRelationURI();
+                distinctRelations.add(relationCandidate);
+            }
 
-        RelationDataTuple template = best_subobj.get(0);
-        int maxVote = template.votes;
-        double maxScore = template.score;
-        RelationColumns relationColumns = template.relationColumns;
-        int countNonEmptyRows = 0;
-        for (int r = 0; r < tableAnnotation.getRows(); r++) {
-            TCell c1 = table.getContentCell(r, relationColumns.getSubjectCol());
-            TCell c2 = table.getContentCell(r, relationColumns.getObjectCol());
-            if (!c1.getType().equals(DataTypeClassifier.DataType.EMPTY) &&
-                    !c1.getType().equals(DataTypeClassifier.DataType.EMPTY))
-                countNonEmptyRows++;
-        }
+            for (String relation: distinctRelations) { //go thru each candidate of each row
+                double maxScore=0.0;
+                for(TCellCellRelationAnotation candidate : candidatesOnRow){
+                    if(candidate.getRelationURI().equals(relation) && candidate.getWinningAttributeMatchScore()>maxScore)
+                        maxScore=candidate.getWinningAttributeMatchScore();
+                }
 
-        for (RelationDataTuple rdt : best_subobj) {
-            if (rdt.votes == maxVote && rdt.score == maxScore && rdt.relationColumns.getSubjectCol() == relationColumns.getSubjectCol() &&
-                    rdt.relationColumns.getObjectCol() == relationColumns.getObjectCol()) {
-                TColumnColumnRelationAnnotation hbr = new TColumnColumnRelationAnnotation(relationColumns,
-                        rdt.relationString,
-                        rdt.relationString,
-                        (double) maxVote / countNonEmptyRows);
-                tableAnnotation.addColumnColumnRelation(hbr);
-            } else {
-                break;
+                Pair<Integer, Double> votesAndScore = votes.get(relation); //let's record both votes and scores. so when there is a tie at votes, we resort to scores
+                if (votesAndScore == null) {
+                    votesAndScore = new Pair<>(0, 0.0);
+                }
+                else{
+                    votesAndScore = new Pair<>(votesAndScore.getKey()+1,
+                            votesAndScore.getValue()+maxScore);
+                }
+
+                votes.put(relation, votesAndScore);
             }
         }
-
     }
 
-    private List<RelationDataTuple> selectBest(Map<String, Pair<Integer, Double>> votes, RelationColumns relationColumnsKey) {
-        List<RelationDataTuple> out = new ArrayList<RelationDataTuple>();
+    private List<RelationDataTuple> selectWinner(Map<String, Pair<Integer, Double>> votes,
+                                                 RelationColumns relationColumnsKey) {
+        List<RelationDataTuple> out = new ArrayList<>();
         for (Map.Entry<String, Pair<Integer, Double>> e : votes.entrySet()) {
             RelationDataTuple rdt = new RelationDataTuple();
             rdt.relationString = e.getKey();
@@ -188,47 +147,51 @@ public class TColumnColumnRelationEnumerator {
         return out;
     }
 
-    private void collectVotes(Map<Integer, List<TCellCellRelationAnotation>> relations,
-                              Map<String, Pair<Integer, Double>> votes
-    ) {
-        for (List<TCellCellRelationAnotation> candidatesOnRow : relations.values()) {        //go thru each row
-            Set<String> distinctRelations = new HashSet<String>();
-            for (TCellCellRelationAnotation candidate : candidatesOnRow) { //go thru each candidate of each row
-                String relationCandidate = candidate.getRelationURI();
-                distinctRelations.add(relationCandidate);
-            }
 
-            for (String relation: distinctRelations) { //go thru each candidate of each row
-                double maxScore=0.0;
-                for(TCellCellRelationAnotation candidate : candidatesOnRow){
-                    if(candidate.getRelationURI().equals(relation) && candidate.getWinningAttributeMatchScore()>maxScore)
-                        maxScore=candidate.getWinningAttributeMatchScore();
-                }
+    /**need to resolve conflicts. between two directions (sub-ob, or ob-sub, we must choose only 1)
+     *
+     * @param winner
+     * @param winnerReverseDirection
+     * @param tableAnnotation
+     * @param table
+     */
+    private void createHeaderBinaryRelationAnnotations(
+            List<RelationDataTuple> winner,
+            List<RelationDataTuple> winnerReverseDirection,
+            TAnnotation tableAnnotation,
+            Table table) {
+        if (winnerReverseDirection != null)
+            winner.addAll(winnerReverseDirection);
+        Collections.sort(winner);
 
-                Pair<Integer, Double> votesAndScore = votes.get(relation); //let's record both votes and computeElementScores. so when there is a tie at votes, we resort to computeElementScores
-                if (votesAndScore == null) {
-                    votesAndScore = new Pair<>(0, 0.0);
-                }
-                else{
-                    votesAndScore = new Pair<>(votesAndScore.getKey()+1,
-                            votesAndScore.getValue()+maxScore);
-                }
+        RelationDataTuple finalWinner = winner.get(0);
+        int maxVote = finalWinner.votes;
+        double maxScore = finalWinner.score;
+        RelationColumns relationColumns = finalWinner.relationColumns;
+        int countNonEmptyRows = 0;
+        for (int r = 0; r < tableAnnotation.getRows(); r++) {
+            TCell c1 = table.getContentCell(r, relationColumns.getSubjectCol());
+            TCell c2 = table.getContentCell(r, relationColumns.getObjectCol());
+            if (!c1.getType().equals(DataTypeClassifier.DataType.EMPTY) &&
+                    !c1.getType().equals(DataTypeClassifier.DataType.EMPTY))
+                countNonEmptyRows++;
+        }
 
-                votes.put(relation, votesAndScore);
+        for (RelationDataTuple rdt : winner) {
+            if (rdt.votes == maxVote && rdt.score == maxScore &&
+                    rdt.relationColumns.getSubjectCol() == relationColumns.getSubjectCol() &&
+                    rdt.relationColumns.getObjectCol() == relationColumns.getObjectCol()) {
+                TColumnColumnRelationAnnotation hbr = new TColumnColumnRelationAnnotation(relationColumns,
+                        rdt.relationString,
+                        rdt.relationString,
+                        (double) maxVote / countNonEmptyRows);
+                tableAnnotation.addColumnColumnRelation(hbr);
+            } else {
+                break;
             }
         }
+
     }
-
-/*    private void removeIgnoreRelations(List<String[]> facts) {
-        Iterator<String[]> it = facts.iterator();
-        while (it.hasNext()) {
-            String[] fact = it.next();
-            if (!TableMinerConstants.USE_NESTED_RELATION_FOR_RELATION_INTERPRETATION && fact[3].equals("y"))
-                it.remove();
-            else if (KB_InstanceFilter.ignoreRelation_from_relInterpreter(fact[0]))
-                it.remove();
-        }
-    }*/
 
     private class RelationDataTuple implements Comparable<RelationDataTuple> {
         protected String relationString;

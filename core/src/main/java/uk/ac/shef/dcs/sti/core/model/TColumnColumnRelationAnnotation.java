@@ -24,14 +24,17 @@ public class TColumnColumnRelationAnnotation implements Serializable, Comparable
 
 
     //matched_value[]: (0)=property name (1)=the attribute value matched with the objecCol field on this row; (2) id/uri, if any (used for later knowledge base retrieval)
-    public TColumnColumnRelationAnnotation(RelationColumns key, String relation_annotation, String relation_label, double score) {
+    public TColumnColumnRelationAnnotation(RelationColumns key, String relationURI, String relation_label, double score) {
         this.relationColumns = key;
         this.relationLabel =relation_label;
-        this.relationURI = relation_annotation;
+        this.relationURI = relationURI;
         this.finalScore = score;
         this.scoreElements=new HashMap<>();
         scoreElements=new HashMap<>();
-        scoreElements.put(FINAL, 0.0);
+        if(score!=0)
+            scoreElements.put(FINAL, score);
+        else
+            scoreElements.put(FINAL, 0.0);
         this.supportingRows = new ArrayList<>();
     }
 

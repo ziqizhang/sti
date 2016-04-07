@@ -1,15 +1,14 @@
 package uk.ac.shef.dcs.sti.core.scorer;
 
+import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.util.CollectionUtils;
 import uk.ac.shef.dcs.util.StringUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by - on 02/04/2016.
@@ -26,6 +25,10 @@ public abstract class AttributeValueMatcher {
         this.stopWords = stopWords;
         this.stringMetric = stringMetric;
     }
+
+    public abstract Map<Integer, List<Pair<Attribute, Double>>> match(List<Attribute> attributes,
+                                                             Map<Integer, String> cellTextValues,
+                                                             Map<Integer, DataTypeClassifier.DataType> columnDataTypes);
 
     protected boolean isValidType(DataTypeClassifier.DataType dataType) {
         if (dataType.equals(DataTypeClassifier.DataType.ORDERED_NUMBER))
@@ -114,6 +117,25 @@ public abstract class AttributeValueMatcher {
         } catch (Exception e) {
             return -1.0;
         }
+    }
+
+    protected Map<Integer, DataTypeClassifier.DataType> classifyAttributeValueDataType(List<Attribute> attributes) {
+        Map<Integer, DataTypeClassifier.DataType> dataTypes = new HashMap<>();
+        //typing the objects of facts
+        for (int index = 0; index < attributes.size(); index++) {
+            Attribute fact = attributes.get(index);
+            String val = fact.getValue();
+            String id_of_val = fact.getValueURI();
+
+            if (id_of_val != null)
+                dataTypes.put(index, DataTypeClassifier.DataType.NAMED_ENTITY);
+            else {
+                DataTypeClassifier.DataType type = DataTypeClassifier.classify(val);
+                dataTypes.put(index, type);
+            }
+        }
+        return dataTypes;
+
     }
 
 }

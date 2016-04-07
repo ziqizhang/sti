@@ -37,20 +37,8 @@ public class TMPAttributeValueMatcher extends AttributeValueMatcher {
                 new HashMap<>();
 
         //check the data type of attributes' values
-        Map<Integer, DataTypeClassifier.DataType> attributeValueDataTypes = new HashMap<>();
-        for (int index = 0; index < attributes.size(); index++) {
-            Attribute attr = attributes.get(index);
-            String prop = attr.getRelationURI();
-            String val = attr.getValue();
-            String id_of_val = attr.getValueURI();
-
-            if (id_of_val != null)
-                attributeValueDataTypes.put(index, DataTypeClassifier.DataType.NAMED_ENTITY);
-            else {
-                DataTypeClassifier.DataType type = DataTypeClassifier.classify(val);
-                attributeValueDataTypes.put(index, type);
-            }
-        }
+        Map<Integer, DataTypeClassifier.DataType> attributeValueDataTypes =
+                classifyAttributeValueDataType(attributes);
 
         //compute scores for each value on the row
         for (Map.Entry<Integer, String> e : cellTextValues.entrySet()) {

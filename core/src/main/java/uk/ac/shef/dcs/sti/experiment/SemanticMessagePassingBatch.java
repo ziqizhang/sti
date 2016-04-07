@@ -18,10 +18,7 @@ import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by - on 06/04/2016.
@@ -104,12 +101,17 @@ public class SemanticMessagePassingBatch extends STIBatch {
             } else
                 entityScorer = new SMPAdaptedEntityScorer(getStopwords(), getNLPResourcesDir());
 
+            Set<Integer> ignoreColumnSet = new HashSet<>();
+            for(int i: getIgnoreColumns())
+                ignoreColumnSet.add(i);
             interpreter = new SMPInterpreter(
                     subcolDetector,
-                    Boolean.valueOf(properties.getProperty(PROPERTY_SMP_USE_SUBJECT_COLUMN, "false")),
                     new TCellEntityRanker(kbSearch, entityScorer),
                     new TColumnClassifier(kbSearch,getClazzSpecificityCalculator()),
-                    new RelationLearner(new RelationTextMatch_Scorer(0.5, getStopwords(), new Levenshtein())),
+                    new TColumnColumnRelationEnumerator(
+                            new SMPAttributeValueMatcher(0.5, getStopwords(), new Levenshtein()),
+                            ignoreColumnSet,
+                            Boolean.valueOf(properties.getProperty(PROPERTY_SMP_USE_SUBJECT_COLUMN, "false"))),
                     getIgnoreColumns(),
                     getMustdoColumns()
             );

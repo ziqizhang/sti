@@ -105,7 +105,7 @@ public class TestTableInterpretation_IMDB_JI {
                         new EntityAndConceptScorer_Freebase(stopWords, nlpResources),
                         multiThreads,
                         cacheSimilarityScore),
-                new CandidateRelationGenerator(new RelationTextMatcher_Scorer_JI_adapted(stopWords,
+                new CandidateRelationGenerator(new RelationTextValueMatcher_Scorer_JI_adapted(stopWords,
                         new Levenshtein(), 0.5),
                         freebaseSearchGeneral, true),
                 useSubjectColumn,

@@ -96,7 +96,7 @@ public class TestTableInterpretation_MusicBrainz_SMP {
                 useSubjectColumn,
                 new TCellEntityRanker(freebaseSearch, disambiguator),
                 new TColumnClassifier(freebaseSearch),
-                new RelationLearner(new RelationTextMatch_Scorer(stopWords, new Levenshtein(), 0.5)),
+                new TColumnColumnRelationEnumerator(new SMPAttributeValueMatcher(stopWords, new Levenshtein(), 0.5)),
                 IGNORE_COLUMNS,
                 new int[0]
         );

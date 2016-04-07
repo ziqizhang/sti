@@ -15,7 +15,7 @@ import uk.ac.shef.dcs.sti.core.model.Table;
 import java.util.*;
 
 /**
- * Created by zqz on 20/04/2015.
+ *
  */
 public class TColumnClassifier {
 
@@ -25,25 +25,24 @@ public class TColumnClassifier {
     public static final String SMP_SCORE_ENTITY_VOTE = "smp_score_entity_vote";
     public static final String SMP_SCORE_GRANULARITY = "smp_score_granularity";
 
-
-
     public TColumnClassifier(KBSearch kbSearch,
                              ClazzSpecificityCalculator csCalculator) {
         this.kbSearch = kbSearch;
         this.csCalculator=csCalculator;
     }
 
-    public void rankColumnConcepts(TAnnotation tableAnnotation, Table table, int col) throws KBSearchException {
+    public void classifyColumns(TAnnotation tableAnnotation, Table table, int col) throws KBSearchException {
         int totalNonEmpty = 0;
+        //Firstly collect votes
         Map<String, Double> votes = new HashMap<>();
         for (int r = 0; r < table.getNumRows(); r++) {
             //in case multiple NEs have the same computeElementScores, we take them all
             if (!table.getContentCell(r, col).getType().equals(DataTypeClassifier.DataType.EMPTY))
                 totalNonEmpty++;
-            List<TCellAnnotation> bestCellAnnotations = tableAnnotation.getWinningContentCellAnnotation(r, col);
-            if (bestCellAnnotations.size() > 0) {
+            List<TCellAnnotation> winningCellAnnotations = tableAnnotation.getWinningContentCellAnnotation(r, col);
+            if (winningCellAnnotations.size() > 0) {
                 Set<String> distinctTypes = new HashSet<>();
-                for (TCellAnnotation ca : bestCellAnnotations) {
+                for (TCellAnnotation ca : winningCellAnnotations) {
                     Entity e = ca.getAnnotation();
                     distinctTypes.addAll(e.getTypeIds());
                 }
@@ -56,21 +55,22 @@ public class TColumnClassifier {
             }
         }
 
+        //Second, calculate vote score, and concept specificity score
         if (votes.size() != 0) { //couuld be 0 if the column has not NE annotations at all
-            List<Pair<String, Double>> result_votes = new ArrayList<>();
+            List<Pair<String, Double>> voteResult = new ArrayList<>();
             for (Map.Entry<String, Double> e : votes.entrySet()) {
                 double voteScore = e.getValue() / totalNonEmpty;
                 voteScore+=csCalculator.compute(e.getKey());
-                result_votes.add(new Pair<>(e.getKey(),
+                voteResult.add(new Pair<>(e.getKey(),
                         voteScore));
             }
-            Collections.sort(result_votes, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+            Collections.sort(voteResult, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
 
             //tie breaker based on granularity computeElementScores of concepts
-            double maxScore = result_votes.get(0).getValue();
+            double maxScore = voteResult.get(0).getValue();
             //is there a tie?
             int count_same_max_score = 0;
-            for (Pair<String, Double> oo : result_votes) {
+            for (Pair<String, Double> oo : voteResult) {
                 if (oo.getValue() == maxScore) {
                     count_same_max_score++;
                     if (count_same_max_score > 1) {
@@ -78,26 +78,26 @@ public class TColumnClassifier {
                     }
                 }
             }
-            final Map<String, Double> result_granularity = new HashMap<>();
+            final Map<String, Double> granularityScore = new HashMap<>();
             if (count_same_max_score > 1) {
-                for (Pair<String, Double> e : result_votes) {
+                for (Pair<String, Double> e : voteResult) {
                     if (e.getValue() == maxScore) {
-                        result_granularity.put(e.getKey(), kbSearch.findGranularityOfClazz(e.getKey()));
+                        granularityScore.put(e.getKey(), kbSearch.findGranularityOfClazz(e.getKey()));
                     }
                 }
             }
 
-            //a header annotation will only have granularity computeElementScores if there are more than one candidate with the same vote computeElementScores
-            TColumnHeaderAnnotation[] headerAnnotations = new TColumnHeaderAnnotation[result_votes.size()];
+            //a header annotation will only have granularity score if there are more than one candidate with the same vote computeElementScores
+            TColumnHeaderAnnotation[] headerAnnotations = new TColumnHeaderAnnotation[voteResult.size()];
             int i = 0;
-            for (Pair<String, Double> oo : result_votes) {
+            for (Pair<String, Double> oo : voteResult) {
                 TColumnHeaderAnnotation ha =
                         new TColumnHeaderAnnotation(table.getColumnHeader(col).getHeaderText(),
                        new Clazz(oo.getKey(), oo.getKey()), oo.getValue());
                 ha.getScoreElements().put(SMP_SCORE_ENTITY_VOTE, oo.getValue());
-                Double granularity_score = result_granularity.get(oo.getKey());
-                granularity_score = granularity_score == null ? 0 : granularity_score;
-                ha.getScoreElements().put(SMP_SCORE_GRANULARITY, granularity_score);
+                Double granularity = granularityScore.get(oo.getKey());
+                granularity = granularity == null ? 0 : granularity;
+                ha.getScoreElements().put(SMP_SCORE_GRANULARITY, granularity);
                 ha.getScoreElements().put(TColumnHeaderAnnotation.FINAL, oo.getValue());
                 headerAnnotations[i] = ha;
                 i++;

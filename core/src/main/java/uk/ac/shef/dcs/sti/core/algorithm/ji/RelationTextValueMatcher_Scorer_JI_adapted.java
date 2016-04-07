@@ -32,7 +32,7 @@ public class RelationTextValueMatcher_Scorer_JI_adapted extends SMPAttributeValu
             for (int s = 0; s < subjectCellAnnotations.size(); s++) { //for each candidate subject entity
                 TCellAnnotation sbjEntity = subjectCellAnnotations.get(s);
                 List<Attribute> sbjEntityFacts = sbjEntity.getAnnotation().getAttributes(); //get the facts of that sbj ent
-                Map<Integer, DataTypeClassifier.DataType> fact_data_types = classifyFactObjDataType(
+                Map<Integer, DataTypeClassifier.DataType> fact_data_types = classifyAttributeValueDataType(
                         sbjEntityFacts
                 );
 
@@ -110,7 +110,7 @@ public class RelationTextValueMatcher_Scorer_JI_adapted extends SMPAttributeValu
             for (int s = 0; s < subjectHeaderColumnCandidates.size(); s++) {
                 TColumnHeaderAnnotation sbjCandidates = subjectHeaderColumnCandidates.get(s);
                 List<Attribute> sbjCandidateFacts = kbSearch.findAttributesOfClazz(sbjCandidates.getAnnotation().getId());
-                Map<Integer, DataTypeClassifier.DataType> factObjDataTypes = classifyFactObjDataType(
+                Map<Integer, DataTypeClassifier.DataType> factObjDataTypes = classifyAttributeValueDataType(
                         sbjCandidateFacts
                 );
                 final Map<Integer, Double> factIdx_matchedScores = new HashMap<Integer, Double>();

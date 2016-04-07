@@ -91,7 +91,7 @@ public class TestTableInterpretation_LimayeDataset_SMP {
                 useSubjectColumn,
                 new NamedEntityRanker(freebaseSearchGeneral, disambiguator),
                 new ColumnClassifier(freebaseSearchGeneral),
-                new RelationLearner(new RelationTextMatch_Scorer(stopWords, new Levenshtein(), 0.5)),
+                new TColumnColumnRelationEnumerator(new SMPAttributeValueMatcher(stopWords, new Levenshtein(), 0.5)),
                 IGNORE_COLUMNS,
                 new int[0]
         );

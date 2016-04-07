@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
+import uk.ac.shef.dcs.sti.core.scorer.AttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
@@ -15,14 +16,21 @@ import java.util.List;
  */
 public class TColumnColumnRelationEnumerator {
 
-    private TMPAttributeValueMatcher attributeValueMatcher;
+    private AttributeValueMatcher attributeValueMatcher;
     private RelationScorer relationScorer;
 
     public TColumnColumnRelationEnumerator(
-            TMPAttributeValueMatcher attributeValueMatcher,
+            AttributeValueMatcher attributeValueMatcher,
             RelationScorer scorer) {
         this.attributeValueMatcher = attributeValueMatcher;
         this.relationScorer = scorer;
+    }
+
+    public int runRelationEnumeration(TAnnotation annotations, Table table, int subjectCol) throws STIException {
+        generateCellCellRelations(annotations, table, subjectCol);
+        //now we have created relation annotations per row, consolidate them to create column-column relation
+        enumerateColumnColumnRelation(annotations, table);
+        return annotations.getCellcellRelations().size();
     }
 
     /**
@@ -30,7 +38,7 @@ public class TColumnColumnRelationEnumerator {
      * <p>
      * when new relation created, supporting row info is also added
      */
-    public int runRelationEnumeration(TAnnotation annotations, Table table, int subjectCol) throws STIException {
+    protected void generateCellCellRelations(TAnnotation annotations, Table table, int subjectCol) throws STIException {
         //select columns that are likely to form a relation with subject column
         Map<Integer, DataTypeClassifier.DataType> columnDataTypes
                 = new HashMap<>();
@@ -50,7 +58,7 @@ public class TColumnColumnRelationEnumerator {
 
             //collect attributes from where candidate relations are created
             List<Attribute> collectedAttributes = new ArrayList<>();
-            for(TCellAnnotation cellAnnotation: winningCellAnnotations) {
+            for (TCellAnnotation cellAnnotation : winningCellAnnotations) {
                 collectedAttributes.addAll(cellAnnotation.getAnnotation().getAttributes());
             }
 
@@ -85,10 +93,6 @@ public class TColumnColumnRelationEnumerator {
                 }
             }
         }
-
-        //now we have created relation annotations per row, consolidate them to create column-column relation
-        enumerateColumnColumnRelation(annotations, table);
-        return annotations.getCellcellRelations().size();
     }
 
     private void enumerateColumnColumnRelation(TAnnotation annotations, Table table) throws STIException {

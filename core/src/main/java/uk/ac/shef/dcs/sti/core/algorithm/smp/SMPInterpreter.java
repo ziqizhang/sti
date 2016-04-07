@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by zqz on 20/04/2015.
  */
-public class SMPInterpreter extends SemanticTableInterpreter{
+public class SMPInterpreter extends SemanticTableInterpreter {
 
     //main column finder is needed to generate data features of each column (e.g., data type in a column),
     //even though we do not use it to find the main column in SMP
@@ -24,8 +24,7 @@ public class SMPInterpreter extends SemanticTableInterpreter{
     private SubjectColumnDetector subjectColumnDetector;
     private TCellEntityRanker neRanker;
     private TColumnClassifier columnClassifier;
-    private RelationLearner relationLearner;
-    private boolean useSubjectColumn =false;
+    private TColumnColumnRelationEnumerator relationLearner;
 
     private static final int halting_num_of_iterations_middlepoint = 5;
     private static final double min_pc_of_change_messages_for_column_concept_update = 0.0;
@@ -33,15 +32,13 @@ public class SMPInterpreter extends SemanticTableInterpreter{
     private static final int halting_num_of_iterations_max = 10;
 
     public SMPInterpreter(SubjectColumnDetector subjectColumnDetector,
-                          boolean useSubjectColumn,
                           TCellEntityRanker neRanker,
                           TColumnClassifier columnClassifier,
-                          RelationLearner relationLearner,
+                          TColumnColumnRelationEnumerator relationLearner,
                           int[] ignoreColumns,
                           int[] mustdoColumns
     ) {
         super(ignoreColumns, mustdoColumns);
-        this.useSubjectColumn = useSubjectColumn;
         this.subjectColumnDetector = subjectColumnDetector;
         this.relationLearner = relationLearner;
         this.columnClassifier = columnClassifier;
@@ -62,10 +59,9 @@ public class SMPInterpreter extends SemanticTableInterpreter{
             index++;
         }
         try {
-            List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns =
+            List<Pair<Integer, Pair<Double, Boolean>>> subjectColumnScores =
                     subjectColumnDetector.compute(table, ignoreColumnsArray);
-            if (useSubjectColumn)
-                tableAnnotations.setSubjectColumn(candidate_main_NE_columns.get(0).getKey());
+            tableAnnotations.setSubjectColumn(subjectColumnScores.get(0).getKey());
 
             LOG.info(">\t NAMED ENTITY RANKER..."); //SMP begins with an initial NE ranker to rank candidate NEs for each cell
             for (int col = 0; col < table.getNumCols(); col++) {
@@ -93,7 +89,7 @@ public class SMPInterpreter extends SemanticTableInterpreter{
             LOG.info(">\t COMPUTING Column CLASSIFICATION AND Column-column RELATION");
             columnClassification(tableAnnotations, table);
             if (relationLearning)
-                relationEnumeration(tableAnnotations, table, useSubjectColumn, getIgnoreColumns());
+                relationEnumeration(tableAnnotations, table, tableAnnotations.getSubjectColumn());
 
             //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             LOG.info(">\t SEMANTIC MESSAGE PASSING");
@@ -131,11 +127,11 @@ public class SMPInterpreter extends SemanticTableInterpreter{
                     resetClassesAndRelations(tableAnnotations);
                     columnClassification(tableAnnotations, table);
                     if (relationLearning)
-                        relationEnumeration(tableAnnotations, table, useSubjectColumn, getIgnoreColumns());
+                        relationEnumeration(tableAnnotations, table, tableAnnotations.getSubjectColumn());
                 }
             }
             return tableAnnotations;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new STIException(e);
         }
     }
@@ -151,20 +147,21 @@ public class SMPInterpreter extends SemanticTableInterpreter{
         for (int col = 0; col < table.getNumCols(); col++) {
             if (isCompulsoryColumn(col)) {
                 LOG.info("\t\t>> Column=(compulsory)" + col);
-                columnClassifier.rankColumnConcepts(tabAnnotations, table, col);
+                columnClassifier.classifyColumns(tabAnnotations, table, col);
             } else {
                 if (getIgnoreColumns().contains(col)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 LOG.info("\t\t>> Column=" + col);
-                columnClassifier.rankColumnConcepts(tabAnnotations, table, col);
+                columnClassifier.classifyColumns(tabAnnotations, table, col);
             }
         }
     }
 
-    private void relationEnumeration(TAnnotation tab_annotations, Table table, boolean useMainSubjectColumn, Collection<Integer> ignoreColumns){
-        System.out.println("\t\t>> RELATION COMPUTING...");
-        relationLearner.inferRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumns);
+    private void relationEnumeration(TAnnotation tabAnnotations,
+                                     Table table, int subjectColumnIndex) throws STIException {
+        LOG.info("\t\t>> relation enumeration...");
+        relationLearner.runRelationEnumeration(tabAnnotations, table, subjectColumnIndex);
     }
 
     private boolean middlePointHaltingConditionReached(ObjectMatrix2D messages, TAnnotation tab_annotations, Table table) {
@@ -216,10 +213,10 @@ public class SMPInterpreter extends SemanticTableInterpreter{
         //check header annotations
         int header_converged_count = 0;
         boolean header_converged = false;
-        for (int c=0; c<previous.getCols(); c++) {
+        for (int c = 0; c < previous.getCols(); c++) {
             List<TColumnHeaderAnnotation> header_annotations_prev_iteration = previous.getWinningHeaderAnnotations(c);
             List<TColumnHeaderAnnotation> header_annotations_current_iteration = current.getWinningHeaderAnnotations(c);
-            if(header_annotations_prev_iteration==null&&header_annotations_current_iteration==null) {
+            if (header_annotations_prev_iteration == null && header_annotations_current_iteration == null) {
                 header_converged_count++;
                 continue;
             }
@@ -238,7 +235,7 @@ public class SMPInterpreter extends SemanticTableInterpreter{
 
         //check cell annotations
         boolean cell_converged = true;
-        for (int c=0; c<previous.getCols(); c++) {
+        for (int c = 0; c < previous.getCols(); c++) {
             for (int row = 0; row < previous.getRows(); row++) {
                 List<TCellAnnotation> cell_prev_annotations = previous.getWinningContentCellAnnotation(row, c);
                 List<TCellAnnotation> cell_current_annotations = current.getWinningContentCellAnnotation(row, c);
@@ -253,23 +250,23 @@ public class SMPInterpreter extends SemanticTableInterpreter{
         //check relation annotations
         int relation_converged_count = 0;
         boolean relation_converged = false;
-        Map<RelationColumns, List<TColumnColumnRelationAnnotation>> prev_relations=previous.getColumncolumnRelations();
+        Map<RelationColumns, List<TColumnColumnRelationAnnotation>> prev_relations = previous.getColumncolumnRelations();
         Map<RelationColumns, List<TColumnColumnRelationAnnotation>> current_relation = current.getColumncolumnRelations();
         Set<RelationColumns> tmp_keys = new HashSet<RelationColumns>(prev_relations.keySet());
         tmp_keys.retainAll(current_relation.keySet());
-        if(tmp_keys.size()!=prev_relations.keySet().size()|| tmp_keys.size()!=current_relation.keySet().size())
+        if (tmp_keys.size() != prev_relations.keySet().size() || tmp_keys.size() != current_relation.keySet().size())
             return false;
-        for(RelationColumns subobj: tmp_keys){
+        for (RelationColumns subobj : tmp_keys) {
             List<TColumnColumnRelationAnnotation> prev_candidates = previous.getWinningRelationAnnotationsBetween(subobj);
             List<TColumnColumnRelationAnnotation> current_candidates = current.getWinningRelationAnnotationsBetween(subobj);
             List<TColumnColumnRelationAnnotation> tmp = new ArrayList<TColumnColumnRelationAnnotation>(prev_candidates);
             tmp.retainAll(current_candidates);
-            if(tmp.size()==prev_candidates.size()&& tmp.size()==current_candidates.size()){
+            if (tmp.size() == prev_candidates.size() && tmp.size() == current_candidates.size()) {
                 relation_converged_count++;
             }
         }
-        if(relation_converged_count == tmp_keys.size())
-            relation_converged=true;
+        if (relation_converged_count == tmp_keys.size())
+            relation_converged = true;
 
         return header_converged && cell_converged && relation_converged;
     }

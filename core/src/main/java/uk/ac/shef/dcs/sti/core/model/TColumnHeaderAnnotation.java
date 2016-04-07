@@ -33,7 +33,10 @@ public class TColumnHeaderAnnotation implements Serializable,Comparable<TColumnH
         this.finalScore = finalScore;
         supportingRows = new ArrayList<>();
         scoreElements=new HashMap<>();
-        scoreElements.put(FINAL, 0.0);
+        if(finalScore>0)
+            scoreElements.put(FINAL, finalScore);
+        else
+            scoreElements.put(FINAL, 0.0);
     }
 
     public static TColumnHeaderAnnotation copy(TColumnHeaderAnnotation ha) {

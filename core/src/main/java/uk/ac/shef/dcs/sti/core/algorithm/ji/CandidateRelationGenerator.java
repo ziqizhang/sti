@@ -14,10 +14,10 @@ import java.util.List;
  */
 public class CandidateRelationGenerator {
     public static boolean allowRelationCandidatesFromRows=true;
-    private RelationTextMatcher_Scorer_JI_adapted matcher;
+    private RelationTextValueMatcher_Scorer_JI_adapted matcher;
     private KBSearch kbSearch;
 
-    public CandidateRelationGenerator(RelationTextMatcher_Scorer_JI_adapted matcher,
+    public CandidateRelationGenerator(RelationTextValueMatcher_Scorer_JI_adapted matcher,
                                       KBSearch kbSearch,
                                       boolean allowRelationCandidatesFromRows) {
         this.matcher = matcher;

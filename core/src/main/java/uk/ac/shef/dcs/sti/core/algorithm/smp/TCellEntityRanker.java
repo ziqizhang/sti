@@ -21,7 +21,7 @@ public class TCellEntityRanker {
 
     private KBSearch kbSearch;
     private EntityScorer entityScorer;
-    private static Logger LOG = Logger.getLogger(TCellEntityRanker.class.getName());
+    private static final Logger LOG = Logger.getLogger(TCellEntityRanker.class.getName());
 
     public TCellEntityRanker(KBSearch kbSearch, EntityScorer entityScorer) {
         this.kbSearch = kbSearch;
