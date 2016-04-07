@@ -25,6 +25,15 @@ import java.util.List;
  */
 public class TMPClazzScorer implements ClazzScorer {
 
+    public static final String SUM_CE ="sum_ce";
+    public static final String SUM_CELL_VOTE ="sum_cell_vote";
+    public static final String SCORE_CE ="ce_score";
+    public static final String SCORE_CELL_VOTE ="cell_vote";
+    public static final String SCORE_CTX_IN_HEADER ="ctx_header_text";
+    public static final String SCORE_CTX_IN_COLUMN ="ctx_column_text";
+    public static final String SCORE_CTX_OUT ="ctx_out_context";
+    public static final String SCORE_DOMAIN_CONSENSUS = "domain_consensus";
+
     private static final Logger LOG = Logger.getLogger(TMPClazzScorer.class.getName());
 
     protected Lemmatizer lemmatizer;
@@ -123,13 +132,17 @@ public class TMPClazzScorer implements ClazzScorer {
                 Map<String, Double> scoreElements = hAnnotation.getScoreElements();
                 if (scoreElements == null || scoreElements.size() == 0) {
                     scoreElements = new HashMap<>();
-                    scoreElements.put(TColumnHeaderAnnotation.SUM_CE, 0.0);
-                    scoreElements.put(TColumnHeaderAnnotation.SUM_CELL_VOTE, 0.0);
+                    scoreElements.put(SUM_CE, 0.0);
+                    scoreElements.put(SUM_CELL_VOTE, 0.0);
                 }
-                scoreElements.put(TColumnHeaderAnnotation.SUM_CE,
-                        scoreElements.get(TColumnHeaderAnnotation.SUM_CE) + highestScore);
-                scoreElements.put(TColumnHeaderAnnotation.SUM_CELL_VOTE,
-                        scoreElements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE) + 1.0);
+                Double sumCE=scoreElements.get(SUM_CE);
+                if(sumCE==null) sumCE=0.0;
+                scoreElements.put(SUM_CE,
+                        sumCE + highestScore);
+                Double sumCellVote=scoreElements.get(SUM_CELL_VOTE);
+                if(sumCellVote==null) sumCellVote=0.0;
+                scoreElements.put(SUM_CELL_VOTE,
+                        sumCellVote + 1.0);
                 hAnnotation.setScoreElements(scoreElements);
 
                 if(!updatedHeaderAnnotations.contains(hAnnotation))
@@ -154,9 +167,9 @@ public class TMPClazzScorer implements ClazzScorer {
         List<String> bowHeader = null,
                 bowColumn = null, bowImportantContext = null, bowTrivialContext = null;
         for (TColumnHeaderAnnotation ha : candidates) {
-            Double scoreCtxHeader = ha.getScoreElements().get(TColumnHeaderAnnotation.SCORE_CTX_IN_HEADER);
-            Double scoreCtxColumn = ha.getScoreElements().get(TColumnHeaderAnnotation.SCORE_CTX_IN_COLUMN);
-            Double scoreCtxOutTable = ha.getScoreElements().get(TColumnHeaderAnnotation.SCORE_CTX_OUT);
+            Double scoreCtxHeader = ha.getScoreElements().get(SCORE_CTX_IN_HEADER);
+            Double scoreCtxColumn = ha.getScoreElements().get(SCORE_CTX_IN_COLUMN);
+            Double scoreCtxOutTable = ha.getScoreElements().get(SCORE_CTX_OUT);
 
             if (scoreCtxColumn != null &&
                     scoreCtxHeader != null
@@ -172,7 +185,7 @@ public class TMPClazzScorer implements ClazzScorer {
                 bowHeader = createHeaderTextBOW(bowHeader, table, column);
                 double ctx_header_text =
                         CollectionUtils.computeFrequencyWeightedDice(clazzBOW, bowHeader) * wt[0];
-                ha.getScoreElements().put(TColumnHeaderAnnotation.SCORE_CTX_IN_HEADER, ctx_header_text);
+                ha.getScoreElements().put(SCORE_CTX_IN_HEADER, ctx_header_text);
             }
 
             if (scoreCtxColumn == null) {
@@ -180,7 +193,7 @@ public class TMPClazzScorer implements ClazzScorer {
                 double ctx_column =
                         CollectionUtils.computeFrequencyWeightedDice(clazzBOW, bowColumn) * wt[1];
                 //CollectionUtils.computeCoverage(bag_of_words_for_column, new ArrayList<String>(annotation_bow)) * weights[1];
-                ha.getScoreElements().put(TColumnHeaderAnnotation.SCORE_CTX_IN_COLUMN, ctx_column);
+                ha.getScoreElements().put(SCORE_CTX_IN_COLUMN, ctx_column);
             }
 
             if (scoreCtxOutTable == null) {
@@ -192,7 +205,7 @@ public class TMPClazzScorer implements ClazzScorer {
                 double ctx_table_other =
                         CollectionUtils.computeFrequencyWeightedDice(clazzBOW, bowTrivialContext) * wt[3];
                 //CollectionUtils.computeCoverage(bag_of_words_for_table_other_context, new ArrayList<String>(annotation_bow)) * weights[2];
-                ha.getScoreElements().put(TColumnHeaderAnnotation.SCORE_CTX_OUT,
+                ha.getScoreElements().put(SCORE_CTX_OUT,
                         ctx_table_major + ctx_table_other);
             }
 
@@ -231,15 +244,16 @@ public class TMPClazzScorer implements ClazzScorer {
 
     public Map<String, Double> computeFinal(TColumnHeaderAnnotation ha, int tableRowsTotal) {
         Map<String, Double> scoreElements = ha.getScoreElements();
-        double sum_ce =
-                scoreElements.get(TColumnHeaderAnnotation.SUM_CE);
-        double sum_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE);
+        Double sum_ce =scoreElements.get(SUM_CE);
+        if(sum_ce==null) sum_ce=0.0;
+        Double sum_entity_vote = scoreElements.get(SUM_CELL_VOTE);
+        if(sum_entity_vote==null) sum_entity_vote=0.0;
 
         double ce = normalize(sum_ce,sum_entity_vote,tableRowsTotal); //sum_entity_vote==0?0:sum_ce / tableRowsTotal;
-        scoreElements.put(TColumnHeaderAnnotation.SCORE_CE, ce);
+        scoreElements.put(SCORE_CE, ce);
 
-        double score_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE) / (double) tableRowsTotal;
-        scoreElements.put(TColumnHeaderAnnotation.SCORE_CELL_VOTE, score_entity_vote);
+        double score_entity_vote = sum_entity_vote / (double) tableRowsTotal;
+        scoreElements.put(SCORE_CELL_VOTE, score_entity_vote);
 
         for (Map.Entry<String, Double> e : scoreElements.entrySet()) {
             if (e.getKey().startsWith("ctx"))
@@ -265,7 +279,7 @@ public class TMPClazzScorer implements ClazzScorer {
                 STIConstantProperty.CLAZZBOW_INCLUDE_URI);
         double score = CollectionUtils.computeFrequencyWeightedDice(annotation_bow, domain_representation);
         score = Math.sqrt(score) * 2;
-        ha.getScoreElements().put(TColumnHeaderAnnotation.SCORE_DOMAIN_CONSENSUS, score);
+        ha.getScoreElements().put(SCORE_DOMAIN_CONSENSUS, score);
 
         return score;  //To change body of implemented methods use File | Settings | File Templates.
     }

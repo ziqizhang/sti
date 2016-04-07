@@ -7,6 +7,7 @@ import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseEnum;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIException;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
@@ -203,7 +204,7 @@ public class UPDATE {
             TColumnHeaderAnnotation[] columnHeaderAnnotations = currentAnnotation.getHeaderAnnotation(c);
 
             for (TColumnHeaderAnnotation ha : columnHeaderAnnotations) {
-                Double dc = ha.getScoreElements().get(TColumnHeaderAnnotation.SCORE_DOMAIN_CONSENSUS);
+                Double dc = ha.getScoreElements().get(TMPClazzScorer.SCORE_DOMAIN_CONSENSUS);
                 if (dc != null)
                     ha.setFinalScore(ha.getFinalScore() + dc);
             }

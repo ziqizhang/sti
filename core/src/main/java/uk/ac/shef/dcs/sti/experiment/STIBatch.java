@@ -40,7 +40,6 @@ public abstract class STIBatch {
     protected static final String PROPERTY_HOME = "sti.home";
 
     protected static final String PROPERTY_WEBSEARCH_PROP_FILE = "sti.websearch.properties";
-    protected static final String PROPERTY_WEBSEARCH_CLASS = "sti.websearch.class";
 
     protected static final String PROPERTY_NLP_RESOURCES = "sti.nlp";
 
@@ -58,8 +57,6 @@ public abstract class STIBatch {
     protected static final String PROPERTY_FAILED_LIST = "sti.list.failure";
 
     protected static final String PROPERTY_KBSEARCH_PROP_FILE = "sti.kbsearch.propertyfile";
-    protected static final String PROPERTY_KBSEARCH_CLASS = "sti.kbsearch.class";
-    protected static final String PROPERTY_KBSEARCH_TRY_FUZZY_KEYWORD = "sti.kbsearch.tryfuzzykeyword";
 
     protected static final String PROPERTY_IGNORE_COLUMNS = "sti.columns.ignore";
     protected static final String PROPERTY_MUSTDO_COLUMNS = "sti.columns.mustdo";

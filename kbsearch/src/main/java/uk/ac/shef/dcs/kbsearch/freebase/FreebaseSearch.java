@@ -33,10 +33,10 @@ public class FreebaseSearch extends KBSearch {
     protected Map<String, SolrCache> otherCache;
 
 
-    public FreebaseSearch(String kbSearchPropertyFile, Boolean fuzzyKeywords,
+    public FreebaseSearch(Properties properties, Boolean fuzzyKeywords,
                           EmbeddedSolrServer cacheEntity, EmbeddedSolrServer cacheConcept,
                           EmbeddedSolrServer cacheProperty) throws IOException {
-        super(kbSearchPropertyFile, fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty);
+        super(fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty);
         searcher = new FreebaseQueryProxy(properties);
         otherCache = new HashMap<>();
         resultFilter = new FreebaseSearchResultFilter(properties.getProperty(KB_SEARCH_RESULT_STOPLIST));

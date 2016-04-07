@@ -21,6 +21,13 @@ import java.util.*;
  * scoring based on how much overlap a candidate entity has with its context
  */
 public class TMPEntityScorer implements EntityScorer {
+
+    public static final String SCORE_NAME_MATCH="name_match";
+    public static final String SCORE_IN_CTX_COLUMN_HEADER ="ctx_column_header";
+    public static final String SCORE_IN_CTX_ROW ="ctx_row";
+    public static final String SCORE_IN_CTX_COLUMN ="ctx_column";
+    public static final String SCORE_OUT_CTX ="ctx_out";
+
     private List<String> stopWords;
     private double[] wt; //context weights: 0-row context; 1-column context; 2-column header; 3-context (all)
     private Lemmatizer lemmatizer;
@@ -57,12 +64,12 @@ public class TMPEntityScorer implements EntityScorer {
         double coverageRowCtx = CollectionUtils.computeCoverage(bow_of_entity, bow_of_row) * wt[0];
 
         //double contextOverlapScore = scoreOverlap(bag_of_words_for_entity, bag_of_words_for_context);
-        scoreMap.put(TCellAnnotation.SCORE_IN_CTX_ROW, coverageRowCtx);
+        scoreMap.put(SCORE_IN_CTX_ROW, coverageRowCtx);
 
         /*BOW OF Column context*/
         Collection<String> bow_of_column = createColumnBow(sourceColumnIndex, block, table, lemmatizer, stopWords);
         double coverageColumnCtx = CollectionUtils.computeCoverage(bow_of_entity, bow_of_column) * wt[1];
-        scoreMap.put(TCellAnnotation.SCORE_IN_CTX_COLUMN, coverageColumnCtx);
+        scoreMap.put(SCORE_IN_CTX_COLUMN, coverageColumnCtx);
 
         /*BOW of column header */
         String entityLabel = candidate.getLabel();
@@ -73,19 +80,19 @@ public class TMPEntityScorer implements EntityScorer {
         );
         bow_of_columnHeader = normalize(bow_of_columnHeader, lemmatizer, stopWords);
         double nameHeaderCtxScore = CollectionUtils.computeDice(bow_of_entityLabel, bow_of_columnHeader) * wt[2];
-        scoreMap.put(TCellAnnotation.SCORE_IN_CTX_COLUMN_HEADER, nameHeaderCtxScore/* +
+        scoreMap.put(SCORE_IN_CTX_COLUMN_HEADER, nameHeaderCtxScore/* +
                 name_and_col_match_score + name_and_context_match_score*/);
 
         /*BOW OF out table context (from paragraphs etc)*/
         Collection<String> bow_of_outctx = createOutCtxBow(table, lemmatizer, stopWords);
         double fwDice = CollectionUtils.computeFrequencyWeightedDice(bow_of_entity, bow_of_outctx) * wt[3];
-        scoreMap.put(TCellAnnotation.SCORE_OUT_CTX, fwDice);
+        scoreMap.put(SCORE_OUT_CTX, fwDice);
 
         /*NAME MATCH SCORE */
         String cellText = table.getContentCell(block.get(0), sourceColumnIndex).getText();
         Set<String> bow_of_cellText = new HashSet<>(StringUtils.toBagOfWords(cellText, true, true, STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
         double en_score = CollectionUtils.computeDice(bow_of_cellText, bow_of_entityLabel);
-        scoreMap.put(TCellAnnotation.SCORE_NAME_MATCH, Math.sqrt(en_score));
+        scoreMap.put(SCORE_NAME_MATCH, Math.sqrt(en_score));
         //scoreMap.put("matched_name_tokens", (double) intersection.size());
 
         return scoreMap;
@@ -107,7 +114,7 @@ public class TMPEntityScorer implements EntityScorer {
                 sum += e.getValue();*/
             ctx_scores += e.getValue();
         }
-        Double nameMatch = scoreMap.get(TCellAnnotation.SCORE_NAME_MATCH);
+        Double nameMatch = scoreMap.get(SCORE_NAME_MATCH);
         if (nameMatch != null)
             nm_score = nameMatch;
 

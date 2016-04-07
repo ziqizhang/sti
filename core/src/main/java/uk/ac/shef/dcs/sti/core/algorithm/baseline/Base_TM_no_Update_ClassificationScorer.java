@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.STIEnum;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
@@ -112,11 +113,13 @@ public class Base_TM_no_Update_ClassificationScorer {
 
                 Map<String, Double> tmp_score_elements = hAnnotation.getScoreElements();
                 if (tmp_score_elements == null || tmp_score_elements.size() == 0) {
-                    tmp_score_elements = new HashMap<String, Double>();
-                    tmp_score_elements.put(TColumnHeaderAnnotation.SUM_CELL_VOTE, 0.0);
+                    tmp_score_elements = new HashMap<>();
+                    tmp_score_elements.put(TMPClazzScorer.SUM_CELL_VOTE, 0.0);
                 }
-                tmp_score_elements.put(TColumnHeaderAnnotation.SUM_CELL_VOTE,
-                        tmp_score_elements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE) + 1.0);
+                Double sumCellVote = tmp_score_elements.get(TMPClazzScorer.SUM_CELL_VOTE);
+                if(sumCellVote==null) sumCellVote=0.0;
+                tmp_score_elements.put(TMPClazzScorer.SUM_CELL_VOTE,
+                        sumCellVote + 1.0);
                 hAnnotation.setScoreElements(tmp_score_elements);
 
                 candidate_header_annotations.add(hAnnotation);
@@ -163,10 +166,12 @@ public class Base_TM_no_Update_ClassificationScorer {
                 Map<String, Double> tmp_score_elements = hAnnotation.getScoreElements();
                 if (tmp_score_elements == null || tmp_score_elements.size() == 0) {
                     tmp_score_elements = new HashMap<>();
-                    tmp_score_elements.put(TColumnHeaderAnnotation.SUM_CELL_VOTE, 0.0);
+                    tmp_score_elements.put(TMPClazzScorer.SUM_CELL_VOTE, 0.0);
                 }
-                tmp_score_elements.put(TColumnHeaderAnnotation.SUM_CELL_VOTE,
-                        tmp_score_elements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE) + 1.0);
+
+                Double sumCellVote = tmp_score_elements.get(TMPClazzScorer.SUM_CELL_VOTE);
+                tmp_score_elements.put(TMPClazzScorer.SUM_CELL_VOTE,
+                        sumCellVote + 1.0);
                 hAnnotation.setScoreElements(tmp_score_elements);
 
                 candidate_header_annotations.add(hAnnotation);
@@ -178,7 +183,7 @@ public class Base_TM_no_Update_ClassificationScorer {
 
     public Set<TColumnHeaderAnnotation> score_context(Set<TColumnHeaderAnnotation> candidates, Table table, int column, boolean overwrite) {
         for (TColumnHeaderAnnotation ha : candidates) {
-            Double score_ctx_header_text = ha.getScoreElements().get(TColumnHeaderAnnotation.SCORE_CTX_IN_HEADER);
+            Double score_ctx_header_text = ha.getScoreElements().get(TMPClazzScorer.SCORE_CTX_IN_HEADER);
 
             if (score_ctx_header_text == null) {
                 TColumnHeader header = table.getColumnHeader(column);
@@ -189,7 +194,7 @@ public class Base_TM_no_Update_ClassificationScorer {
                     double score = stringSimilarityMetric.getSimilarity(
                             StringUtils.toAlphaNumericWhitechar(header.getHeaderText()),
                             StringUtils.toAlphaNumericWhitechar(ha.getAnnotation().getLabel()));
-                    ha.getScoreElements().put(TColumnHeaderAnnotation.SCORE_CTX_IN_HEADER, score);
+                    ha.getScoreElements().put(TMPClazzScorer.SCORE_CTX_IN_HEADER, score);
                 }
             }
         }
@@ -201,12 +206,13 @@ public class Base_TM_no_Update_ClassificationScorer {
 
     public Map<String, Double> compute_final_score(TColumnHeaderAnnotation ha, int tableRowsTotal) {
         Map<String, Double> scoreElements = ha.getScoreElements();
-        double sum_entity_vote = scoreElements.get(TColumnHeaderAnnotation.SUM_CELL_VOTE);
+        Double sum_entity_vote = scoreElements.get(TMPClazzScorer.SUM_CELL_VOTE);
+        if(sum_entity_vote==null) sum_entity_vote=0.0;
         double score_entity_vote = sum_entity_vote / (double) tableRowsTotal;
-        scoreElements.put(TColumnHeaderAnnotation.SCORE_CELL_VOTE, score_entity_vote);
+        scoreElements.put(TMPClazzScorer.SCORE_CELL_VOTE, score_entity_vote);
 
         double finalScore = score_entity_vote;
-        Double namematch = scoreElements.get(TColumnHeaderAnnotation.SCORE_CTX_IN_HEADER);
+        Double namematch = scoreElements.get(TMPClazzScorer.SCORE_CTX_IN_HEADER);
         if (namematch != null) {
             finalScore = finalScore + namematch;
         }

@@ -18,14 +18,6 @@ import java.util.Map;
 public class TColumnHeaderAnnotation implements Serializable,Comparable<TColumnHeaderAnnotation> {
     private static final long serialVersionUID = -6208426814708405913L;
 
-    public static final String SUM_CE ="sum_ce";
-    public static final String SUM_CELL_VOTE ="sum_cell_vote";
-    public static final String SCORE_CE ="ce_score";
-    public static final String SCORE_CELL_VOTE ="cell_vote";
-    public static final String SCORE_CTX_IN_HEADER ="ctx_header_text";
-    public static final String SCORE_CTX_IN_COLUMN ="ctx_column_text";
-    public static final String SCORE_CTX_OUT ="ctx_out_context";
-    public static final String SCORE_DOMAIN_CONSENSUS = "domain_consensus";
     public static final String FINAL="final";
 
     private String headerText;
@@ -41,13 +33,6 @@ public class TColumnHeaderAnnotation implements Serializable,Comparable<TColumnH
         this.finalScore = finalScore;
         supportingRows = new ArrayList<>();
         scoreElements=new HashMap<>();
-        scoreElements.put(SUM_CE, 0.0);
-        scoreElements.put(SUM_CELL_VOTE, 0.0);
-        scoreElements.put(SCORE_CE, 0.0);
-        scoreElements.put(SCORE_CELL_VOTE, 0.0);
-        scoreElements.put(SCORE_CTX_IN_HEADER, null);
-        scoreElements.put(SCORE_CTX_IN_COLUMN, null);
-        scoreElements.put(SCORE_CTX_OUT, null);
         scoreElements.put(FINAL, 0.0);
     }
 

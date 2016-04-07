@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPEntityScorer;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
@@ -92,7 +93,7 @@ public class Base_TM_no_Update_EntityDisambiguationScorer {
         bag_of_words_for_context.removeAll(stopWords);
         double contextOverlapScore = CollectionUtils.computeCoverage(bag_of_words_for_entity, bag_of_words_for_context);
         //double contextOverlapScore = scoreOverlap(bag_of_words_for_entity, bag_of_words_for_context);
-        scoreMap.put(TCellAnnotation.SCORE_IN_CTX_ROW, contextOverlapScore);
+        scoreMap.put(TMPEntityScorer.SCORE_IN_CTX_ROW, contextOverlapScore);
 
 
 
@@ -127,7 +128,7 @@ public class Base_TM_no_Update_EntityDisambiguationScorer {
         /*double stringSim = stringSimilarityMetric.getSimilarity(
                 StringUtils.toAlphaNumericWhitechar(cell_text),
                 StringUtils.toAlphaNumericWhitechar(entity_name));
-        */scoreMap.put(TCellAnnotation.SCORE_NAME_MATCH, stringSim);
+        */scoreMap.put(TMPEntityScorer.SCORE_NAME_MATCH, stringSim);
 
         return scoreMap;
     }
@@ -137,7 +138,7 @@ public class Base_TM_no_Update_EntityDisambiguationScorer {
         for (Map.Entry<String, Double> e : scoreMap.entrySet()) {
             if (e.getKey().startsWith("ctx_"))
                 sum += e.getValue();
-            if(e.getKey().equals(TCellAnnotation.SCORE_NAME_MATCH))
+            if(e.getKey().equals(TMPEntityScorer.SCORE_NAME_MATCH))
                 sum+=e.getValue();
         }
 

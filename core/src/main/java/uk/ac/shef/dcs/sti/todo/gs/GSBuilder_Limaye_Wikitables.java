@@ -26,6 +26,7 @@ import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.util.CollectionUtils;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 import uk.ac.shef.dcs.websearch.WebSearch;
+import uk.ac.shef.dcs.websearch.WebSearchException;
 import uk.ac.shef.dcs.websearch.WebSearchFactory;
 import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
 import uk.ac.shef.dcs.websearch.bing.v2.BingSearchResultParser;
@@ -74,18 +75,10 @@ public class GSBuilder_Limaye_Wikitables {
         this.xtractor = xtractor;
         try {
             searcher = new WebSearchFactory().createInstance(
-                    BingSearch.class.getName(), propertyFile);
-        } catch (ClassNotFoundException e) {
+                    propertyFile);
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        };
+        }
         parser = new BingSearchResultParser();
         parser = new BingSearchResultParser();
     }

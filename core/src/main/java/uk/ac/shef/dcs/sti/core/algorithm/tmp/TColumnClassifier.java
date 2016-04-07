@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.STIException;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
 import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 
@@ -171,8 +172,8 @@ public class TColumnClassifier {
 
         if(resetCESums){
             for (TColumnHeaderAnnotation ha : candidateColumnClazzAnnotations) {
-                ha.getScoreElements().put(TColumnHeaderAnnotation.SUM_CELL_VOTE, 0.0);
-                ha.getScoreElements().put(TColumnHeaderAnnotation.SUM_CE, 0.0);
+                ha.getScoreElements().put(TMPClazzScorer.SUM_CELL_VOTE, 0.0);
+                ha.getScoreElements().put(TMPClazzScorer.SUM_CE, 0.0);
             }
         }
 
@@ -186,13 +187,15 @@ public class TColumnClassifier {
                         ha.addSupportingRow(row);
                         if (!votedClazzIdsByThisCell.contains(ha.getAnnotation().getId())) {
                             //update the CE score elements for this column clazz annotation
-                            double sum_votes = ha.getScoreElements().get(TColumnHeaderAnnotation.SUM_CELL_VOTE);
+                            Double sum_votes = ha.getScoreElements().get(TMPClazzScorer.SUM_CELL_VOTE);
+                            if(sum_votes==null) sum_votes=0.0;
                             sum_votes++;
-                            ha.getScoreElements().put(TColumnHeaderAnnotation.SUM_CELL_VOTE, sum_votes);
+                            ha.getScoreElements().put(TMPClazzScorer.SUM_CELL_VOTE, sum_votes);
 
-                            double sum_ce = ha.getScoreElements().get(TColumnHeaderAnnotation.SUM_CE);
+                            Double sum_ce = ha.getScoreElements().get(TMPClazzScorer.SUM_CE);
+                            if(sum_ce==null) sum_ce=0.0;
                             sum_ce += ca.getFinalScore();
-                            ha.getScoreElements().put(TColumnHeaderAnnotation.SUM_CE, sum_ce);
+                            ha.getScoreElements().put(TMPClazzScorer.SUM_CE, sum_ce);
                             votedClazzIdsByThisCell.add(ha.getAnnotation().getId());
                         }
                     } else if (votedClazzIdsByThisCell.contains(ha.getAnnotation().getId())){}

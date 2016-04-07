@@ -12,6 +12,7 @@ import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeader;
 import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.util.StringUtils;
+import uk.ac.shef.dcs.websearch.WebSearchException;
 import uk.ac.shef.dcs.websearch.WebSearchFactory;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 
@@ -31,11 +32,10 @@ public class TColumnFeatureGenerator {
     public TColumnFeatureGenerator(EmbeddedSolrServer cache,
                                    String nlpResource,
                                    List<String> stopWords,
-                                   String webSearchClass,
-                                   String webSearchPropFile) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+                                   String webSearchPropFile) throws IOException, WebSearchException {
         cmScorer = new CMScorer(nlpResource);
         wsScorer = new WSScorer(new SolrCache(cache),
-                new WebSearchFactory().createInstance(webSearchClass, webSearchPropFile),
+                new WebSearchFactory().createInstance(webSearchPropFile),
                 stopWords);
         nlpTools = NLPTools.getInstance(nlpResource);
     }

@@ -19,16 +19,18 @@ public abstract class KBSearch {
     protected SolrCache cacheConcept;
     protected SolrCache cacheProperty;
     protected boolean fuzzyKeywords;
-    protected Properties properties = new Properties();
 
     protected static final String KB_SEARCH_RESULT_STOPLIST="kb.search.result.stoplistfile";
+    protected static final String KB_SEARCH_CLASS = "kb.search.class";
+    protected static final String KB_SEARCH_TRY_FUZZY_KEYWORD = "kb.search.tryfuzzykeyword";
+
 
     protected KBSearchResultFilter resultFilter;
 
-    public KBSearch(String kbSearchPropertyFile, Boolean fuzzyKeywords,
+    public KBSearch(Boolean fuzzyKeywords,
                     EmbeddedSolrServer cacheEntity, EmbeddedSolrServer cacheConcept,
                     EmbeddedSolrServer cacheProperty) throws IOException {
-        properties.load(new FileInputStream(kbSearchPropertyFile));
+
         if (cacheEntity != null)
             this.cacheEntity = new SolrCache(cacheEntity);
         if (cacheConcept != null)

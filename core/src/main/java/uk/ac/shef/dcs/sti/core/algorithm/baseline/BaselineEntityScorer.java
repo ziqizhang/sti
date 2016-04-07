@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPEntityScorer;
 import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
@@ -96,7 +97,7 @@ public class BaselineEntityScorer implements EntityScorer {
         bag_of_words_for_context.removeAll(stopWords);
         double contextOverlapScore = CollectionUtils.computeCoverage(bag_of_words_for_entity, bag_of_words_for_context);
         //double contextOverlapScore = scoreOverlap(bag_of_words_for_entity, bag_of_words_for_context);
-        scoreMap.put(TCellAnnotation.SCORE_IN_CTX_ROW, contextOverlapScore);
+        scoreMap.put(TMPEntityScorer.SCORE_IN_CTX_ROW, contextOverlapScore);
 
 
         /* TYPE MATCH SCORE */
@@ -125,7 +126,7 @@ public class BaselineEntityScorer implements EntityScorer {
         Set<String> intersection = new HashSet<String>(bag_of_words_for_cell_text);
         intersection.retainAll(bag_of_words_for_entity_name);
 
-        scoreMap.put(TCellAnnotation.SCORE_NAME_MATCH, Math.sqrt(name_score));
+        scoreMap.put(TMPEntityScorer.SCORE_NAME_MATCH, Math.sqrt(name_score));
         //scoreMap.put("matched_name_tokens",(double)intersection.size());
 
 
@@ -137,7 +138,7 @@ public class BaselineEntityScorer implements EntityScorer {
         for (Map.Entry<String, Double> e : scoreMap.entrySet()) {
             if (e.getKey().startsWith("ctx_"))
                 sum += e.getValue();
-            if (e.getKey().equals(TCellAnnotation.SCORE_NAME_MATCH))
+            if (e.getKey().equals(TMPEntityScorer.SCORE_NAME_MATCH))
                 sum += e.getValue();
         }
 

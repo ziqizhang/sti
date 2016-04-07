@@ -8,6 +8,7 @@ import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentRowRanker;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.StoppingCriteriaInstantiator;
 import uk.ac.shef.dcs.sti.core.model.Table;
+import uk.ac.shef.dcs.websearch.WebSearchException;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
@@ -36,10 +37,8 @@ public class SubjectColumnDetector {
             String nlpResource,
             boolean useWS,
             List<String> stopwords,
-            String webSearchClass,
-            String webSearchPropFile) throws IOException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+            String webSearchPropFile) throws IOException, WebSearchException {
         featureGenerator = new TColumnFeatureGenerator(cache, nlpResource, stopwords,
-                webSearchClass,
                 webSearchPropFile);
         this.tRowRanker = tRowRanker;
         this.stoppingCriteriaClassname = stoppingCriteriaClassname;

@@ -46,18 +46,10 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
         this.xtractor = xtractor;
         try {
             searcher = new WebSearchFactory().createInstance(
-                    BingSearch.class.getName(), propertyFile);
-        } catch (ClassNotFoundException e) {
+                    propertyFile);
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        };
+        }
         parser = new BingSearchResultParser();
     }
 

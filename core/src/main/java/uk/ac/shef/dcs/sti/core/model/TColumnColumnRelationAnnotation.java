@@ -16,15 +16,8 @@ public class TColumnColumnRelationAnnotation implements Serializable, Comparable
 
     private String relationURI;
     private String relationLabel;
-    public static final String SUM_RE ="sum_re"; //sum of attr match scores
-    public static final String SUM_CELL_VOTE ="sum_row_vote";
-    public static final String SCORE_RE ="re_score";
-    public static final String SCORE_CELL_VOTE ="row_vote";
-    public static final String SCORE_CTX_IN_HEADER ="ctx_header_text";
-    public static final String SCORE_CTX_IN_COLUMN ="ctx_column_text";
-    public static final String SCORE_CTX_OUT ="ctx_out_context";
+
     public static final String FINAL="final";
-    public static final String SCORE_DOMAIN_CONSENSUS="domain_consensus";
 
     private double finalScore;
     private Map<String, Double> scoreElements;
@@ -38,13 +31,6 @@ public class TColumnColumnRelationAnnotation implements Serializable, Comparable
         this.finalScore = score;
         this.scoreElements=new HashMap<>();
         scoreElements=new HashMap<>();
-        scoreElements.put(SUM_RE, 0.0);
-        scoreElements.put(SUM_CELL_VOTE, 0.0);
-        scoreElements.put(SCORE_RE, 0.0);
-        scoreElements.put(SCORE_CELL_VOTE, 0.0);
-        scoreElements.put(SCORE_CTX_IN_HEADER, null);
-        scoreElements.put(SCORE_CTX_IN_COLUMN, null);
-        scoreElements.put(SCORE_CTX_OUT, null);
         scoreElements.put(FINAL, 0.0);
         this.supportingRows = new ArrayList<>();
     }

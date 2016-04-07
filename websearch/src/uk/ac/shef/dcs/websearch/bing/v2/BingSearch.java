@@ -25,19 +25,19 @@ public class BingSearch extends WebSearch{
     protected Map<String, Date> obsoleteAccountKeys;
     protected String baseURL;// = "https://api.datamarket.azure.com/Bing/Search/Web?Query=";
 
-    public BingSearch(String propertyFile) throws IOException {
-        super(propertyFile);
+    public BingSearch(Properties properties) throws IOException {
+        super(properties);
 
         obsoleteAccountKeys = new HashMap<>();
         this.accountKeyPool = new ArrayList<>();
         for (String k : StringUtils.split(
-                properties.getProperty(BING_KEYS),','
+                this.properties.getProperty(BING_KEYS),','
         )) {
             k = k.trim();
             if(k.length()>0)
                 accountKeyPool.add(k);
         }
-        this.baseURL = properties.getProperty(BING_BASE_URL);
+        this.baseURL = this.properties.getProperty(BING_BASE_URL);
     }
 
     public InputStream search(String query) throws IOException, APIKeysDepletedException {

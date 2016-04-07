@@ -14,11 +14,6 @@ public class TCellAnnotation implements Serializable, Comparable<TCellAnnotation
     private static final long serialVersionUID = -8136725814000843856L;
 
     public static final String SCORE_FINAL="final";
-    public static final String SCORE_NAME_MATCH="name_match";
-    public static final String SCORE_IN_CTX_COLUMN_HEADER ="ctx_column_header";
-    public static final String SCORE_IN_CTX_ROW ="ctx_row";
-    public static final String SCORE_IN_CTX_COLUMN ="ctx_column";
-    public static final String SCORE_OUT_CTX ="ctx_out";
 
     private String term;
     private Entity annotation;

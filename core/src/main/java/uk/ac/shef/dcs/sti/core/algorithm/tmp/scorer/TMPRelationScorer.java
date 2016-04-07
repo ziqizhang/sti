@@ -19,6 +19,15 @@ import java.util.List;
  *
  */
 public class TMPRelationScorer implements RelationScorer {
+    public static final String SUM_RE = "sum_re"; //sum of attr match scores
+    public static final String SUM_CELL_VOTE = "sum_row_vote";
+    public static final String SCORE_RE = "re_score";
+    public static final String SCORE_CELL_VOTE = "row_vote";
+    public static final String SCORE_CTX_IN_HEADER = "ctx_header_text";
+    public static final String SCORE_CTX_IN_COLUMN = "ctx_column_text";
+    public static final String SCORE_CTX_OUT = "ctx_out_context";
+    public static final String SCORE_DOMAIN_CONSENSUS = "domain_consensus";
+
     private Lemmatizer lemmatizer;
     private List<String> stopWords;
     private OntologyBasedBoWCreator bowCreator;
@@ -34,9 +43,9 @@ public class TMPRelationScorer implements RelationScorer {
 
     @Override
     public List<TColumnColumnRelationAnnotation> computeElementScores(List<TCellCellRelationAnotation> cellcellRelationsOnRow,
-                                                                     Collection<TColumnColumnRelationAnnotation> output,
-                                                                     int subjectCol, int objectCol,
-                                                                     Table table) throws STIException {
+                                                                      Collection<TColumnColumnRelationAnnotation> output,
+                                                                      int subjectCol, int objectCol,
+                                                                      Table table) throws STIException {
         List<TColumnColumnRelationAnnotation> candidates;
 
         candidates = computeREScore(cellcellRelationsOnRow, output, subjectCol, objectCol);
@@ -47,6 +56,7 @@ public class TMPRelationScorer implements RelationScorer {
 
     /**
      * Compute relation instance score
+     *
      * @param cellcellRelationAnotations
      * @param output
      * @param subjectCol
@@ -54,8 +64,8 @@ public class TMPRelationScorer implements RelationScorer {
      * @return
      */
     public List<TColumnColumnRelationAnnotation> computeREScore(List<TCellCellRelationAnotation> cellcellRelationAnotations,
-                                                               Collection<TColumnColumnRelationAnnotation> output,
-                                                               int subjectCol, int objectCol) throws STIException {
+                                                                Collection<TColumnColumnRelationAnnotation> output,
+                                                                int subjectCol, int objectCol) throws STIException {
 
         //for this row
         TCellCellRelationAnotation winningAnnotation = null;
@@ -94,13 +104,17 @@ public class TMPRelationScorer implements RelationScorer {
             Map<String, Double> scoreElements = columncolumnRelationAnnotation.getScoreElements();
             if (scoreElements == null || scoreElements.size() == 0) {
                 scoreElements = new HashMap<>();
-                scoreElements.put(TColumnColumnRelationAnnotation.SUM_RE, 0.0);
-                scoreElements.put(TColumnColumnRelationAnnotation.SUM_CELL_VOTE, 0.0);
+                scoreElements.put(SUM_RE, 0.0);
+                scoreElements.put(SUM_CELL_VOTE, 0.0);
             }
-            scoreElements.put(TColumnColumnRelationAnnotation.SUM_RE,
-                    scoreElements.get(TColumnColumnRelationAnnotation.SUM_RE) + winningScore);
-            scoreElements.put(TColumnColumnRelationAnnotation.SUM_CELL_VOTE,
-                    scoreElements.get(TColumnColumnRelationAnnotation.SUM_CELL_VOTE) + 1.0);
+            Double sumRE = scoreElements.get(SUM_RE);
+            if (sumRE == null) sumRE = 0.0;
+            scoreElements.put(SUM_RE,
+                    sumRE + winningScore);
+            Double sumCellVote = scoreElements.get(SUM_CELL_VOTE);
+            if (sumCellVote == null) sumCellVote = 0.0;
+            scoreElements.put(SUM_CELL_VOTE, sumCellVote
+                    + 1.0);
             columncolumnRelationAnnotation.setScoreElements(scoreElements);
 
             output.add(columncolumnRelationAnnotation);
@@ -111,24 +125,25 @@ public class TMPRelationScorer implements RelationScorer {
 
     /**
      * compute relation context score
-     *
+     * <p>
      * context scores are only computed once. The code will check if they already edist for each TColumnColumnRelationAnnotation
      * and if so, it will not recompute it.
+     *
      * @param candidates
      * @param table
      * @param column
      * @return
      */
-    public List<TColumnColumnRelationAnnotation> computeRCScore (
+    public List<TColumnColumnRelationAnnotation> computeRCScore(
             Collection<TColumnColumnRelationAnnotation> candidates,
-            Table table, int column) throws STIException{
+            Table table, int column) throws STIException {
         Set<String> bowHeader = null;
         List<String> bowColumn = null,
                 bowOutTableImportantCtx = null, bowOutTableTrivialCtx = null;
         for (TColumnColumnRelationAnnotation ccRelationAnnotation : candidates) {
-            Double scoreCtxHeaderText = ccRelationAnnotation.getScoreElements().get(TColumnHeaderAnnotation.SCORE_CTX_IN_HEADER);
-            Double scoreCtxColumnText = ccRelationAnnotation.getScoreElements().get(TColumnHeaderAnnotation.SCORE_CTX_IN_COLUMN);
-            Double scoreCtxTableContext = ccRelationAnnotation.getScoreElements().get(TColumnHeaderAnnotation.SCORE_CTX_OUT);
+            Double scoreCtxHeaderText = ccRelationAnnotation.getScoreElements().get(SCORE_CTX_IN_HEADER);
+            Double scoreCtxColumnText = ccRelationAnnotation.getScoreElements().get(SCORE_CTX_IN_COLUMN);
+            Double scoreCtxTableContext = ccRelationAnnotation.getScoreElements().get(SCORE_CTX_OUT);
 
             if (scoreCtxColumnText != null &&
                     scoreCtxHeaderText != null
@@ -142,14 +157,14 @@ public class TMPRelationScorer implements RelationScorer {
                 bowHeader = createHeaderTextBOW(bowHeader, table, column);
                 double ctxScoreHeaderText =
                         CollectionUtils.computeFrequencyWeightedDice(relationBOW, bowHeader) * wt[0];
-                ccRelationAnnotation.getScoreElements().put(TColumnHeaderAnnotation.SCORE_CTX_IN_HEADER,
+                ccRelationAnnotation.getScoreElements().put(SCORE_CTX_IN_HEADER,
                         ctxScoreHeaderText);
             }
 
             if (scoreCtxColumnText == null) {
                 bowColumn = createColumnBOW(bowColumn, table, column);
                 double ctx_column = CollectionUtils.computeFrequencyWeightedDice(relationBOW, bowColumn) * wt[1];
-                ccRelationAnnotation.getScoreElements().put(TColumnHeaderAnnotation.SCORE_CTX_IN_COLUMN, ctx_column);
+                ccRelationAnnotation.getScoreElements().put(SCORE_CTX_IN_COLUMN, ctx_column);
             }
 
             if (scoreCtxTableContext == null) {
@@ -157,7 +172,7 @@ public class TMPRelationScorer implements RelationScorer {
                 double ctx_out_important = CollectionUtils.computeFrequencyWeightedDice(relationBOW, bowOutTableImportantCtx) * wt[2];
                 bowOutTableTrivialCtx = createOutTableCtx(bowOutTableTrivialCtx, table);
                 double ctx_out_trivial = CollectionUtils.computeFrequencyWeightedDice(relationBOW, bowOutTableTrivialCtx) * wt[3];
-                ccRelationAnnotation.getScoreElements().put(TColumnHeaderAnnotation.SCORE_CTX_OUT,
+                ccRelationAnnotation.getScoreElements().put(SCORE_CTX_OUT,
                         ctx_out_important + ctx_out_trivial);
             }
 
@@ -253,29 +268,32 @@ public class TMPRelationScorer implements RelationScorer {
     }
 
 
-
-
-
     public Map<String, Double> computeFinal(TColumnColumnRelationAnnotation relation, int tableRowsTotal) {
         Map<String, Double> scoreElements = relation.getScoreElements();
-        double sum_score_match =
-                scoreElements.get(TColumnColumnRelationAnnotation.SUM_RE);
-        double score_match = sum_score_match / scoreElements.get(TColumnColumnRelationAnnotation.SUM_CELL_VOTE);
-        scoreElements.put(TColumnColumnRelationAnnotation.SCORE_RE, score_match);
+        Double sumRE =
+                scoreElements.get(SUM_RE);
+        if(sumRE==null) sumRE = 0.0;
+        Double sumCellVote = scoreElements.get(SUM_CELL_VOTE);
+        if(sumCellVote==null) sumCellVote=0.0;
+        double scoreRE = sumRE / sumCellVote;
+        if(sumCellVote==0.0)
+            scoreRE=0.0;
 
-        scoreElements.put(TColumnColumnRelationAnnotation.SUM_RE, sum_score_match);
+        scoreElements.put(SCORE_RE, scoreRE);
 
-        double score_vote = scoreElements.get(TColumnColumnRelationAnnotation.SUM_CELL_VOTE) / (double) tableRowsTotal;
-        scoreElements.put(TColumnColumnRelationAnnotation.SCORE_CELL_VOTE, score_vote);
+        scoreElements.put(SUM_RE, sumRE);
 
-        double base_score = normalize(sum_score_match, scoreElements.get(TColumnColumnRelationAnnotation.SCORE_CELL_VOTE),
+        double score_vote = sumCellVote / (double) tableRowsTotal;
+        scoreElements.put(SCORE_CELL_VOTE, score_vote);
+
+        double base_score = normalize(sumRE, score_vote,
                 (double) tableRowsTotal);
 
         for (Map.Entry<String, Double> e : scoreElements.entrySet()) {
-            if (e.getKey().equals(TColumnColumnRelationAnnotation.SUM_RE) ||
-                    e.getKey().equals(TColumnColumnRelationAnnotation.SUM_CELL_VOTE) ||
-                    e.getKey().equals(TColumnColumnRelationAnnotation.SCORE_RE) ||
-                    e.getKey().equals(TColumnColumnRelationAnnotation.SCORE_CELL_VOTE) ||
+            if (e.getKey().equals(SUM_RE) ||
+                    e.getKey().equals(SUM_CELL_VOTE) ||
+                    e.getKey().equals(SCORE_RE) ||
+                    e.getKey().equals(SCORE_CELL_VOTE) ||
                     e.getKey().equals(TColumnColumnRelationAnnotation.FINAL))
                 continue;
 
@@ -287,26 +305,26 @@ public class TMPRelationScorer implements RelationScorer {
     }
 
     private double normalize(double sum_cbr_match,
-                                   double sum_cbr_vote,
-                                   double total_table_rows) {
+                             double sum_cbr_vote,
+                             double total_table_rows) {
         if (sum_cbr_vote == 0)
             return 0.0;
 
-        return sum_cbr_match/total_table_rows; //this is equivalent to below
+        return sum_cbr_match / total_table_rows; //this is equivalent to below
 
         /*double score_cbr_vote = sum_cbr_vote / total_table_rows;
         double base_score = score_cbr_vote * (sum_cbr_match / sum_cbr_vote);
         return base_score;*/
     }
 
-    public double scoreDC(TColumnColumnRelationAnnotation hbr, List<String> domain_representation) throws STIException{
+    public double scoreDC(TColumnColumnRelationAnnotation hbr, List<String> domain_representation) throws STIException {
         Set<String> annotation_bow = createRelationBOW(hbr,
                 true,
                 STIConstantProperty.BOW_DISCARD_SINGLE_CHAR);
         //annotation_bow.removeAll(TableMinerConstants.FUNCTIONAL_STOPWORDS);
         double score = CollectionUtils.computeFrequencyWeightedDice(annotation_bow, domain_representation);
         score = Math.sqrt(score);
-        hbr.getScoreElements().put(TColumnColumnRelationAnnotation.SCORE_DOMAIN_CONSENSUS, score);
+        hbr.getScoreElements().put(SCORE_DOMAIN_CONSENSUS, score);
 
         return score;  //To change body of implemented methods use File | Settings | File Templates.
     }

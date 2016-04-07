@@ -50,15 +50,14 @@ public class TableMinerPlusBatch extends STIBatch {
         LOG.info("Initializing KBSearch...");
         KBSearchFactory fbf = new KBSearchFactory();
         try {
-            kbSearch = fbf.createInstance(properties.getProperty(PROPERTY_KBSEARCH_CLASS),
+            kbSearch = fbf.createInstance(
                     getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE),
-                    Boolean.valueOf(properties.getProperty(PROPERTY_KBSEARCH_TRY_FUZZY_KEYWORD, "false")),
                     kbEntityServer, null, null);
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));
             throw new STIException("Failed initialising KBSearch:" +
-                    getAbsolutePath(PROPERTY_KBSEARCH_CLASS)
+                    getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE)
                     , e);
         }
 
@@ -80,7 +79,6 @@ public class TableMinerPlusBatch extends STIBatch {
                     //"/BlhLSReljQ3Koh+vDSOaYMji9/Ccwe/7/b9mGJLwDQ=");  //zqz.work
                     //"fXhmgvVQnz1aLBti87+AZlPYDXcQL0G9L2dVAav+aK0="); //ziqizhang
                     getStopwords(),
-                    properties.getProperty(PROPERTY_WEBSEARCH_CLASS),
                     getAbsolutePath(PROPERTY_WEBSEARCH_PROP_FILE)
                     //, lodie
                     //"7ql9acl+fXXfdjBGIIAH+N2WHk/dIZxdSkl4Uur68Hg"
@@ -88,7 +86,7 @@ public class TableMinerPlusBatch extends STIBatch {
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));
-            throw new STIException("Failed initialising SUBJECT COLUMN DETECTION components:" + properties.getProperty(PROPERTY_KBSEARCH_CLASS)
+            throw new STIException("Failed initialising SUBJECT COLUMN DETECTION components:" + properties.getProperty(PROPERTY_WEBSEARCH_PROP_FILE)
                     , e);
         }
 
