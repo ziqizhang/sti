@@ -12,9 +12,9 @@ import java.util.List;
 /**
  * Created by zqz on 21/04/2015.
  */
-public class RelationTextMatch_Scorer extends AttributeValueMatcher{
+public class SMPAttributeValueMatcher extends AttributeValueMatcher{
 
-    public RelationTextMatch_Scorer(double minScoreThreshold, List<String> stopWords,
+    public SMPAttributeValueMatcher(double minScoreThreshold, List<String> stopWords,
                                     AbstractStringMetric stringMetric) {
         super(minScoreThreshold,stopWords,stringMetric);
     }

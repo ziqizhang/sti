@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
 
@@ -8,21 +9,22 @@ import java.util.*;
 import java.util.List;
 
 /**
- * Created by zqz on 20/04/2015.
+ *
  */
-public class RelationLearner {
-    private RelationTextMatch_Scorer matcher;
+public class TColumnColumnRelationEnumerator {
+    private SMPAttributeValueMatcher matcher;
 
-    public RelationLearner(RelationTextMatch_Scorer matcher) {
+    public TColumnColumnRelationEnumerator(SMPAttributeValueMatcher matcher) {
         this.matcher = matcher;
     }
 
-    public void inferRelation(TAnnotation tableAnnotations, Table table, boolean useMainSubjectColumn, Collection<Integer> ignoreColumns) {
-        //RelationDataStructure result = new RelationDataStructure();
-
+    public void enumerateRelations(TAnnotation tableAnnotations,
+                                   Table table,
+                                   boolean useMainSubjectColumn,
+                                   Collection<Integer> ignoreColumns) {
         //mainColumnIndexes contains indexes of columns that are possible NEs
         Map<Integer, DataTypeClassifier.DataType> colTypes
-                = new HashMap<Integer, DataTypeClassifier.DataType>();
+                = new HashMap<>();
         for (int c = 0; c < table.getNumCols(); c++) {
             DataTypeClassifier.DataType type =
                     table.getColumnHeader(c).getTypes().get(0).getType();
@@ -30,7 +32,7 @@ public class RelationLearner {
         }
 
         //aggregate candidate relations between any pairs of columns
-        List<Integer> subjectColumnsToConsider = new ArrayList<Integer>();
+        List<Integer> subjectColumnsToConsider = new ArrayList<>();
         if(useMainSubjectColumn)
             subjectColumnsToConsider.add(tableAnnotations.getSubjectColumn());
         else {
@@ -43,28 +45,48 @@ public class RelationLearner {
             if (!table.getColumnHeader(subjectColumn).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                 continue;
 
-            for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
-                if (subjectColumn == objectColumn)
-                    continue;
-                DataTypeClassifier.DataType columnDataType = table.getColumnHeader(subjectColumn).getFeature().getMostFrequentDataType().getType();
-                if (columnDataType.equals(DataTypeClassifier.DataType.EMPTY) || columnDataType.equals(DataTypeClassifier.DataType.LONG_TEXT) ||
-                        columnDataType.equals(DataTypeClassifier.DataType.ORDERED_NUMBER))
-                    continue;
+            for (int row = 0; row < table.getNumRows(); row++) {
+                //get the winning annotation for this cell
+                List<TCellAnnotation> winningCellAnnotations =
+                        tableAnnotations.getWinningContentCellAnnotation(row, subjectColumn);
 
-                for (int r = 0; r < table.getNumRows(); r++) {
-                    //in SMP, only the highest ranked NE (the disambiguated NE) is needed from each cell to aggregate candidate relation
-                    List<TCellAnnotation> subjectCells = tableAnnotations.getWinningContentCellAnnotation(r, subjectColumn);
-                    TCell subjectCellText = table.getContentCell(r, subjectColumn);
-                    List<TCellAnnotation> objectCells = tableAnnotations.getWinningContentCellAnnotation(r, objectColumn);
-                    TCell objectCellText = table.getContentCell(r, objectColumn);
-
-                    //aggregate relation on each row, between each pair of subject-object cells
-                    matcher.match(r, subjectCells, subjectColumn, objectCells, objectColumn,
-                            objectCellText, colTypes.get(objectColumn),
-                            tableAnnotations);
+                //collect attributes from where candidate relations are created
+                List<Attribute> collectedAttributes = new ArrayList<>();
+                for (TCellAnnotation cellAnnotation : winningCellAnnotations) {
+                    collectedAttributes.addAll(cellAnnotation.getAnnotation().getAttributes());
                 }
-            }
-        }
+
+                //collect cell values on the same row, from other columns
+                Map<Integer, String> cellValuesToMatch = new HashMap<>();
+                for (int col : colTypes.keySet()) {
+                    if (col != subjectColumn) {
+                        String cellValue = table.getContentCell(row, col).getText();
+                        cellValuesToMatch.put(col, cellValue);
+                    }
+                }
+
+                //perform matching  and scoring
+                //key=col id; value: contains the attr that matched with the highest score against cell in that column
+                Map<Integer, List<Pair<Attribute, Double>>> cellMatchScores =
+                        attributeValueMatcher.match(collectedAttributes, cellValuesToMatch, colTypes);
+
+                for (Map.Entry<Integer, List<Pair<Attribute, Double>>> e : cellMatchScores.entrySet()) {
+                    RelationColumns subCol_to_objCol = new RelationColumns(subjectColumn, e.getKey());
+
+                    List<Pair<Attribute, Double>> matchedAttributes = e.getValue();
+                    for (Pair<Attribute, Double> entry : matchedAttributes) {
+                        String relationURI = entry.getKey().getRelationURI();
+                        String relationLabel = ""; //todo:currently we do not get the label!!!
+                        List<Attribute> matchedValues = new ArrayList<>();
+                        matchedValues.add(entry.getKey());
+                        TCellCellRelationAnotation cellcellRelation =
+                                new TCellCellRelationAnotation(
+                                        subCol_to_objCol, row, relationURI, relationLabel, matchedValues, entry.getValue()
+                                );
+                        tableAnnotations.addCellCellRelation(cellcellRelation);
+                    }
+                }
+            }}
 
         //aggregate overall scores for relations on each column pairs and populate relation annotation object
         aggregate(tableAnnotations, table);
@@ -73,7 +95,7 @@ public class RelationLearner {
     private void aggregate(
             TAnnotation tableAnnotation, Table table) {
 
-        List<RelationColumns> processed = new ArrayList<RelationColumns>();
+        List<RelationColumns> processed = new ArrayList<>();
         for (Map.Entry<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>> e :
                 tableAnnotation.getCellcellRelations().entrySet()) {
 
@@ -81,7 +103,7 @@ public class RelationLearner {
             RelationColumns current_relationKey = e.getKey(); //key indicating the directional relationship (subject col, object col)
             if (processed.contains(current_relationKey))
                 continue;
-            Map<String, Pair<Integer, Double>> votes = new HashMap<String, Pair<Integer, Double>>();
+            Map<String, Pair<Integer, Double>> votes = new HashMap<>();
 
             processed.add(current_relationKey);
             Map<Integer, List<TCellCellRelationAnotation>> relations_on_rows = e.getValue(); //map object where key=row id, value=collection of binary relations between the sub col and obj col on this row

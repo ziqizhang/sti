@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
-import uk.ac.shef.dcs.sti.core.algorithm.smp.RelationTextMatch_Scorer;
+import uk.ac.shef.dcs.sti.core.algorithm.smp.SMPAttributeValueMatcher;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
@@ -15,10 +15,10 @@ import java.util.List;
 /**
  * Created by zqz on 05/05/2015.
  */
-public class RelationTextMatcher_Scorer_JI_adapted extends RelationTextMatch_Scorer {
+public class RelationTextValueMatcher_Scorer_JI_adapted extends SMPAttributeValueMatcher {
 
-    public RelationTextMatcher_Scorer_JI_adapted(double minScoreThreshold, List<String> stopWords,
-                                                 AbstractStringMetric stringMetric) {
+    public RelationTextValueMatcher_Scorer_JI_adapted(double minScoreThreshold, List<String> stopWords,
+                                                      AbstractStringMetric stringMetric) {
         super(minScoreThreshold, stopWords,stringMetric);
     }
 
