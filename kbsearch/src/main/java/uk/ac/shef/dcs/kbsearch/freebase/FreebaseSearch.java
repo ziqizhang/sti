@@ -286,19 +286,6 @@ public class FreebaseSearch extends KBSearch {
         return result;
     }
 
-    @Override
-    public List<Clazz> findRangeOfRelation(String relationURI) throws KBSearchException {
-        List<Attribute> attributes =
-                findAttributesOfEntities(new FreebaseTopic(relationURI));
-        List<Clazz> types = new ArrayList<>();
-        for (Attribute attr : attributes) {
-            if (attr.getRelationURI().equals(FreebaseEnum.RELATION_RANGEOFPROPERTY.getString())) {
-                types.add(new Clazz(attr.getValueURI(), attr.getValue()));
-            }
-        }
-        return types;
-    }
-
 
     public double findEntityConceptSimilarity(String id1, String id2) {
         String query = createSolrCacheQuery_findEntityConceptSimilarity(id1, id2);

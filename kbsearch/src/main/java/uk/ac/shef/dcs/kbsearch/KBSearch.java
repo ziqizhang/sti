@@ -57,48 +57,36 @@ public abstract class KBSearch {
      * @param content
      * @param types
      * @return
-     * @throws IOException
+     * @throws KBSearchException
      */
     public abstract List<Entity> findEntityCandidatesOfTypes(String content, String... types) throws KBSearchException;
 
     /**
-     * get attributes that contain the entity candidate
-     *
-     * It is up to implementing class to decide whether the entity must be subject/object/either of attributes
-     *
-     *
-     * @param ec
-     * @return a list of attributes, each of which is represented as a string array. It is up to implementing class
-     * to decide what the array should be
-     * @throws IOException
+     * get attributes of the entity candidate
+     * @throws KBSearchException
      */
     public abstract List<Attribute> findAttributesOfEntities(Entity ec) throws KBSearchException;
 
     /**
-     * get attributes that contain the concept
-     *
-     * It is up to implementing class to decide whether the concept must be subject/object/either of attributes
-     *
-     *
-     * @return a list of attributes, each of which is represented as a string array. It is up to implementing class
-     * to decide what the array should be
-     * @throws IOException
+     * get attributes of the concept
+    * @throws KBSearchException
      */
     public abstract List<Attribute> findAttributesOfClazz(String conceptId) throws KBSearchException;
 
     /**
-     * get attributes that contain the property
+     * get attributes of the property
      *
-     *
-     * @return a list of attributes, each of which is represented as a string array. It is up to implementing class
-     * to decide what the array should be
-     * @throws IOException
+     * @throws KBSearchException
      */
     public abstract List<Attribute> findAttributesOfProperty(String propertyId) throws KBSearchException;
 
+    /**
+     *
+     * @param clazz
+     * @return the granularity of the class in the KB.
+     * @throws KBSearchException if the method is not supported
+     */
     public abstract double findGranularityOfClazz(String clazz) throws KBSearchException;
-
-    public abstract List<Clazz> findRangeOfRelation(String relationURI) throws KBSearchException;
 
     public abstract double findEntityConceptSimilarity(String entity_id, String concept_url) throws KBSearchException;
 
@@ -127,16 +115,9 @@ public abstract class KBSearch {
     protected String createSolrCacheQuery_findAttributesOfResource(String resource) {
         return "ATTR_"+resource;
     }
-    protected String createSolrCacheQuery_findClazzesOfResource(String resource){
-        return "CLAZZ_"+resource;
-    }
 
     protected String createSolrCacheQuery_findGranularityOfClazz(String clazz) {
         return "GRANULARITY_" + clazz;
-    }
-
-    protected String createSolrCacheQuery_findRangeOfRelation(String relation) {
-        return "RANGE_" + relation;
     }
 
     protected String createSolrCacheQuery_findEntityConceptSimilarity(String entity, String concept){
