@@ -3,7 +3,6 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.scorer.AttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;

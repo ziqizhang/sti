@@ -10,7 +10,7 @@ public enum VariableType {
     RELATION("relation");
 
     private String label;
-    private VariableType(String label){
+    VariableType(String label){
         this.label=label;
     }
     public String toString(){

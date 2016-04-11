@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * .
  */
-public class ChangeMessage implements Comparable<ChangeMessage> {
+class ChangeMessage implements Comparable<ChangeMessage> {
     protected double confidence;
     protected List<String> labels;    //values have OR logic relations
 

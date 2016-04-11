@@ -98,13 +98,13 @@ public class ChangeMessageComputer {
                 //if for this row no relation is present or no relation matches with the annotations for the two columns,
                 //we prepare change messages
                 if (!hasMatch) {
-                    ChangeMessageFromColumnColumnRelation forSubjectCell = new ChangeMessageFromColumnColumnRelation();
+                    ChangeMessageFromRelation forSubjectCell = new ChangeMessageFromRelation();
                     forSubjectCell.setLabels(highestScoringRelationStrings);
                     forSubjectCell.setConfidence(maxScore_of_relation_across_columns);
                     forSubjectCell.setSubobjIndicator(0);
                     updateMessageForCell(messages, row, subobj_col_ids.getSubjectCol(), forSubjectCell);
 
-                    ChangeMessageFromColumnColumnRelation forObjectCell = new ChangeMessageFromColumnColumnRelation();
+                    ChangeMessageFromRelation forObjectCell = new ChangeMessageFromRelation();
                     forObjectCell.setLabels(highestScoringRelationStrings);
                     forObjectCell.setConfidence(maxScore_of_relation_across_columns);
                     forObjectCell.setSubobjIndicator(1);

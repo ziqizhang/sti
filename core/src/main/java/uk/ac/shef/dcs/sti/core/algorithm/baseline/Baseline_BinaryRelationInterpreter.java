@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
+import uk.ac.shef.dcs.sti.core.scorer.AttributeValueMatcher;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
 
@@ -13,10 +13,10 @@ import java.util.List;
 scorer simply counts # of rows that uses the relation
  */
 public class Baseline_BinaryRelationInterpreter {
-    private TMPAttributeValueMatcher cellTextMatcher;
+    private AttributeValueMatcher cellTextMatcher;
 
     public Baseline_BinaryRelationInterpreter(
-            TMPAttributeValueMatcher cellTextMatcher) {
+            AttributeValueMatcher cellTextMatcher) {
         this.cellTextMatcher = cellTextMatcher;
     }
 

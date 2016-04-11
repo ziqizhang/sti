@@ -101,8 +101,10 @@ public class SemanticMessagePassingBatch extends STIBatch {
                         getStopwords(),
                         STIConstantProperty.SCORER_ENTITY_CONTEXT_WEIGHT,
                         getNLPResourcesDir());
-            } else
+            } else if(neRanker!=null && neRanker.equalsIgnoreCase("smpfreebase"))
                 entityScorer = new SMPAdaptedEntityScorer(getStopwords(), getNLPResourcesDir());
+            else
+             throw new STIException(neRanker+" is not a supported option for NE Ranker");
 
             Set<Integer> ignoreColumnSet = new HashSet<>();
             for(int i: getIgnoreColumns())

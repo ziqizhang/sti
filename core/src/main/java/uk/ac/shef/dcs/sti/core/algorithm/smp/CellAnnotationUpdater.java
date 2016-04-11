@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * Created by zqz on 23/04/2015.
  */
-public class CellAnnotationUpdater {
+class CellAnnotationUpdater {
 
     public int[] update(ObjectMatrix2D messages, TAnnotation tableAnnotation) {
         int countUpdateNeeded = 0, countUpdated = 0;// an update is invalid if the message requires the cell to change to
@@ -107,9 +107,9 @@ public class CellAnnotationUpdater {
 
     private boolean checkEntityAgainstMessage(TCellAnnotation ca, int row, int col, ChangeMessage m, TAnnotation tableAnnotation) {
         //if the change message is due to relation
-        if (m instanceof ChangeMessageFromColumnsRelation) {
-            ChangeMessageFromColumnsRelation message = (ChangeMessageFromColumnsRelation) m;
-            if (message.getFlag_subOrObj() == 0) { //the current cell's NE is the subject in the relation that sends the "change" message
+        if (m instanceof ChangeMessageFromRelation) {
+            ChangeMessageFromRelation message = (ChangeMessageFromRelation) m;
+            if (message.getSubobjIndicator() == 0) { //the current cell's NE is the subject in the relation that sends the "change" message
                 //we need to fetch all facts of a candidate entity annotation, check if any fact uses a relation same as identified
                 //in the message
                 List<Attribute> facts = ca.getAnnotation().getAttributes();
@@ -136,7 +136,7 @@ public class CellAnnotationUpdater {
                 }
             }
         } else {  //change message sent by header   todo at this point, we should re-query freebase to fetch more candidates
-            List<String> legitHeaderLabels = new ArrayList<String>(m.getLabels());
+            List<String> legitHeaderLabels = new ArrayList<>(m.getLabels());
             legitHeaderLabels.retainAll(ca.getAnnotation().getTypeIds());
             if (legitHeaderLabels.size() > 0)
                 return true;
@@ -151,7 +151,7 @@ public class CellAnnotationUpdater {
                                  TCellAnnotation[] candidateAnnotationsInCell
                                  ) {
         int bestPreferenceIndex = Integer.MAX_VALUE;
-        List<Integer> bestAnnotations = new ArrayList<Integer>();
+        List<Integer> bestAnnotations = new ArrayList<>();
         if (annotation_satisfies_messages.size() == 0)
             return bestAnnotations;
 
@@ -235,17 +235,14 @@ public class CellAnnotationUpdater {
             in.add(i);
         }
         List<String> rs = SubsetGenerator.generateSubsets(in);
-        Collections.sort(rs, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                Integer length1 = o1.length();
-                Integer length2 = o2.length();
-                int compare = length2.compareTo(length1);
-                if (compare == 0) {
-                    return o1.compareTo(o2);
-                } else
-                    return compare;
-            }
+        Collections.sort(rs, (o1, o2) -> {
+            Integer length1 = o1.length();
+            Integer length2 = o2.length();
+            int compare = length2.compareTo(length1);
+            if (compare == 0) {
+                return o1.compareTo(o2);
+            } else
+                return compare;
         });
         return rs;
     }
