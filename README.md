@@ -7,7 +7,7 @@ This project is based on the work described at [1]. The original code referred t
 This project provides implementation of several semantic table interpretation algorithms, including: [TO ADD]. **However, due to many things out of our control (e.g., use of in-house software in original works, different versions of knowledge bases), please note that we cannot guarantee identical replication of the original systems or reproduction of experiment results.**
 
 ### LICENCE
-[TO DECIDE]
+[TO DECIDE but will be open source]
 
 ### Quick Start
  - Place a copy of STI on your computer
