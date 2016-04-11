@@ -20,6 +20,6 @@ This project provides implementation of several semantic table interpretation al
  - - open 'websearch.properties', as a minimum, you need to change 'bing.keys' to use your own bing web search key
  - Run a test case. For example, to run TMP, use:  **uk.ac.shef.dcs.sti.experiment.TableMinerPlusBatch "[sti_data/Limaye200]" "[output_dir]" "/[sit_home_dir]/sti.properties"**
 
-**Note:** 'sti.properties' distributed with code is a default configuration for Limaye200 and LimayeAll datasets; for IMDB and MusicBrainz datasets, you can edit a template inside '/resources'
+**Note:** 'sti.properties' distributed with code is a default configuration for Limaye200 and LimayeAll datasets; for IMDB and MusicBrainz datasets, you can edit a template inside '/resources'. For both IMDB and MusicBrainz, you may want to provide the VM variable '-Djava.util.logging.config.file=' to configure the logging output of the any23-sti module (which can produce too many logs).
  
 [1] Under minor revision review: http://www.semantic-web-journal.net/content/effective-and-efficient-semantic-table-interpretation-using-tableminer-0
