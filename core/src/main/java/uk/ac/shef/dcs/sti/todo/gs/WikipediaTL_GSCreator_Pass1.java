@@ -2,15 +2,14 @@ package uk.ac.shef.dcs.sti.todo.gs;
 
 import info.bliki.wiki.dump.WikiXMLParser;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.sti.todo.gs.WikipediaTableListPageFilter;
-import uk.ac.shef.dcs.sti.xtractor.list.splitter.ListItemSplitterByURL;
-import uk.ac.shef.dcs.sti.xtractor.list.validator.ListVaildatorLanient;
-import uk.ac.shef.dcs.sti.xtractor.list.ListXtractorWikipedia;
-import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorWikipedia;
-import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorWikipediaGS;
-import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorForWikipediaGSLanient;
+import uk.ac.shef.dcs.sti.parser.list.splitter.ListItemSplitterByURL;
+import uk.ac.shef.dcs.sti.parser.list.validator.ListVaildatorLanient;
+import uk.ac.shef.dcs.sti.parser.list.ListXtractorWikipedia;
+import uk.ac.shef.dcs.sti.parser.table.TableParserWikipedia;
+import uk.ac.shef.dcs.sti.parser.table.creator.TableObjCreatorWikipediaGS;
+import uk.ac.shef.dcs.sti.parser.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.parser.table.normalizer.TableNormalizerDiscardIrregularRows;
+import uk.ac.shef.dcs.sti.parser.table.validator.TableValidatorForWikipediaGSLanient;
 
 import java.io.IOException;
 
@@ -29,7 +28,7 @@ public class WikipediaTL_GSCreator_Pass1 {
     public static void parse(String inputWikib2zFile, String outputTableDir, String outputListDir) throws IOException, SAXException {
         WikiXMLParser parser = new WikiXMLParser(inputWikib2zFile,
                 new WikipediaTableListPageFilter(
-                        new TableXtractorWikipedia(new TableNormalizerDiscardIrregularRows(true),
+                        new TableParserWikipedia(new TableNormalizerDiscardIrregularRows(true),
                                 new TableHODetectorByHTMLTag(),
                                 new TableObjCreatorWikipediaGS(false),
                                 new TableValidatorForWikipediaGSLanient()),

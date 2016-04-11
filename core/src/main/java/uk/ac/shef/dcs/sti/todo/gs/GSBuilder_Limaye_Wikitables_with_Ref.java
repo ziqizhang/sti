@@ -11,23 +11,21 @@ import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TContext;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.model.TCell;
-import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorLimayeDataset;
+import uk.ac.shef.dcs.sti.parser.table.TableParserLimayeDataset;
 import uk.ac.shef.dcs.util.SolrCache;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorGeneric;
-import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
-import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorWikipediaGS;
-import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorWikipedia;
+import uk.ac.shef.dcs.sti.parser.table.validator.TableValidatorGeneric;
+import uk.ac.shef.dcs.sti.parser.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.parser.table.normalizer.TableNormalizerDiscardIrregularRows;
+import uk.ac.shef.dcs.sti.parser.table.creator.TableObjCreatorWikipediaGS;
+import uk.ac.shef.dcs.sti.parser.table.TableParserWikipedia;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 import uk.ac.shef.dcs.websearch.WebSearchFactory;
-import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
 import uk.ac.shef.dcs.websearch.bing.v2.BingSearchResultParser;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -39,7 +37,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
 
     public GSBuilder_Limaye_Wikitables_with_Ref(FreebaseQueryProxy queryHelper,
                                                 SolrCache cache_solr,
-                                                TableXtractorWikipedia xtractor,
+                                                TableParserWikipedia xtractor,
                                                 String propertyFile) {
         this.queryHelper = queryHelper;
         this.solrCache = cache_solr;
@@ -85,7 +83,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
         EmbeddedSolrServer server = null;// new EmbeddedSolrServer(container, "collection1");
         SolrCache cache = new SolrCache(server);
 
-        TableXtractorWikipedia xtractor = new TableXtractorWikipedia(new TableNormalizerDiscardIrregularRows(true),
+        TableParserWikipedia xtractor = new TableParserWikipedia(new TableNormalizerDiscardIrregularRows(true),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorWikipediaGS(false),
                 new TableValidatorGeneric());
@@ -110,7 +108,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
                 }
 
                 System.out.println(count + "_" + f);
-                Table limaye_table = new TableXtractorLimayeDataset().extract(f.toString(), null).get(0);
+                Table limaye_table = new TableParserLimayeDataset().extract(f.toString(), null).get(0);
 
                 String wikiPage = null;
                 if (missedFile.size() > 0) {

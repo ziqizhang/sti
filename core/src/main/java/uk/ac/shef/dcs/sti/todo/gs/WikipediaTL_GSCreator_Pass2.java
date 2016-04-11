@@ -2,12 +2,12 @@ package uk.ac.shef.dcs.sti.todo.gs;
 
 import uk.ac.shef.dcs.sti.core.model.List;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.xtractor.list.validator.ListValidator;
-import uk.ac.shef.dcs.sti.xtractor.list.validator.ListValidatorStrict;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorForWikipediaGSStrict;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidator;
-import uk.ac.shef.dcs.sti.xtractor.list.ListXtractor;
-import uk.ac.shef.dcs.sti.xtractor.table.TableXtractor;
+import uk.ac.shef.dcs.sti.parser.list.validator.ListValidator;
+import uk.ac.shef.dcs.sti.parser.list.validator.ListValidatorStrict;
+import uk.ac.shef.dcs.sti.parser.table.TableParser;
+import uk.ac.shef.dcs.sti.parser.table.validator.TableValidatorForWikipediaGSStrict;
+import uk.ac.shef.dcs.sti.parser.table.validator.TableValidator;
+import uk.ac.shef.dcs.sti.parser.list.ListXtractor;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -35,9 +35,9 @@ public class WikipediaTL_GSCreator_Pass2 {
             File[] files = dir.listFiles();
             for (File file : files) {
                 try {
-                    Table table = TableXtractor.deserialize(file.getPath());
+                    Table table = TableParser.deserialize(file.getPath());
                     if (tValidator.validate(table)) {//todo: if selected
-                        TableXtractor.serialize(table, tableOutFinalDir + File.separator + countTableDirs);
+                        TableParser.serialize(table, tableOutFinalDir + File.separator + countTableDirs);
                         countTables++;
                         if (countTables != 0 && countTables % tablesPerDir == 0) {
                             logger.info("Done " + countTables + " for tables");

@@ -6,11 +6,11 @@ import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerSimple;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorGeneric;
-import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorMusicBrainz;
-import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorMusicBrainz;
+import uk.ac.shef.dcs.sti.parser.table.TableParserMusicBrainz;
+import uk.ac.shef.dcs.sti.parser.table.normalizer.TableNormalizerSimple;
+import uk.ac.shef.dcs.sti.parser.table.validator.TableValidatorGeneric;
+import uk.ac.shef.dcs.sti.parser.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.parser.table.creator.TableObjCreatorMusicBrainz;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -87,7 +87,7 @@ public class TestTableMainColFinder {
         server.closeConnection();
         System.exit(0);*/
         //String inFolder="E:\\Data\\table annotation\\corpus_analysis\\100_tables\\100_tables";
-        TableXtractorMusicBrainz xtractor = new TableXtractorMusicBrainz(new TableNormalizerSimple(),
+        TableParserMusicBrainz xtractor = new TableParserMusicBrainz(new TableNormalizerSimple(),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorMusicBrainz(),
                 new TableValidatorGeneric());

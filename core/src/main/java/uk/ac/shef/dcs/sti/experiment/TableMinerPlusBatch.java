@@ -188,7 +188,7 @@ public class TableMinerPlusBatch extends STIBatch {
     @Override
     protected List<Table> loadTable(String file) {
         try {
-            return getTableXtractor().extract(file, file);
+            return getTableParser().extract(file, file);
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();

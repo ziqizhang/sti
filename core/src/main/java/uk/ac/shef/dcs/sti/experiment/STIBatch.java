@@ -8,13 +8,12 @@ import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.TMPInterpreter;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.util.FileUtils;
-import uk.ac.shef.dcs.sti.xtractor.table.TableXtractor;
+import uk.ac.shef.dcs.sti.parser.table.TableParser;
 
 import java.io.*;
 import java.net.SocketTimeoutException;
@@ -33,7 +32,7 @@ public abstract class STIBatch {
 
     protected KBSearch kbSearch;
 
-    protected TableXtractor tableXtractor;
+    protected TableParser tableParser;
 
     protected SemanticTableInterpreter interpreter;
 
@@ -64,7 +63,7 @@ public abstract class STIBatch {
     protected static final String PROPERTY_OUTPUT_TRIPLE_KB_NAMESPACE = "sti.output.triple.namespace.kb";
     protected static final String PROPERTY_OUTPUT_TRIPLE_DEFAULT_NAMESPACE = "sti.output.triple.namespace.default";
 
-    protected static final String PROPERTY_TABLEXTRACTOR_CLASS = "sti.input.tablextractor.class";
+    protected static final String PROPERTY_TABLEXTRACTOR_CLASS = "sti.input.parser.class";
 
     protected static final String PROPERTY_TMP_SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH =
             "sti.subjectcolumndetection.ws";
@@ -107,12 +106,12 @@ public abstract class STIBatch {
         return Integer.valueOf(s);
     }
 
-    protected TableXtractor getTableXtractor() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        if (tableXtractor == null) {
+    protected TableParser getTableParser() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        if (tableParser == null) {
             String clazz = properties.get(PROPERTY_TABLEXTRACTOR_CLASS).toString();
-            tableXtractor = (TableXtractor) Class.forName(clazz).newInstance();
+            tableParser = (TableParser) Class.forName(clazz).newInstance();
         }
-        return tableXtractor;
+        return tableParser;
     }
 
     protected EmbeddedSolrServer getSolrServerCacheEntity() throws STIException {

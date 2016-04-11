@@ -8,11 +8,11 @@ import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerSimple;
-import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorMusicBrainz;
-import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorMusicBrainz;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorGeneric;
+import uk.ac.shef.dcs.sti.parser.table.TableParserMusicBrainz;
+import uk.ac.shef.dcs.sti.parser.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.parser.table.normalizer.TableNormalizerSimple;
+import uk.ac.shef.dcs.sti.parser.table.creator.TableObjCreatorMusicBrainz;
+import uk.ac.shef.dcs.sti.parser.table.validator.TableValidatorGeneric;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseTopic;
 
 import java.io.*;
@@ -34,7 +34,7 @@ public class GSBuilder_MusicBrainz {
         String outFolder = args[1];
         //read imdb page, create table object
 
-        TableXtractorMusicBrainz xtractor = new TableXtractorMusicBrainz(new TableNormalizerSimple(),
+        TableParserMusicBrainz xtractor = new TableParserMusicBrainz(new TableNormalizerSimple(),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorMusicBrainz(),
                 new TableValidatorGeneric());

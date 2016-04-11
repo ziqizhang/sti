@@ -15,20 +15,18 @@ import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.core.subjectcol.TColumnFeatureGenerator;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
-import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorLimayeDataset;
-import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
+import uk.ac.shef.dcs.sti.parser.table.TableParserLimayeDataset;
+import uk.ac.shef.dcs.sti.parser.table.TableParserWikipedia;
+import uk.ac.shef.dcs.sti.parser.table.normalizer.TableNormalizerDiscardIrregularRows;
 import uk.ac.shef.dcs.util.SolrCache;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorGeneric;
-import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorWikipediaGS;
-import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorWikipedia;
+import uk.ac.shef.dcs.sti.parser.table.validator.TableValidatorGeneric;
+import uk.ac.shef.dcs.sti.parser.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.parser.table.creator.TableObjCreatorWikipediaGS;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.util.CollectionUtils;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 import uk.ac.shef.dcs.websearch.WebSearch;
-import uk.ac.shef.dcs.websearch.WebSearchException;
 import uk.ac.shef.dcs.websearch.WebSearchFactory;
-import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
 import uk.ac.shef.dcs.websearch.bing.v2.BingSearchResultParser;
 import uk.ac.shef.dcs.websearch.WebSearchResultDoc;
 
@@ -42,7 +40,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -55,7 +52,7 @@ import java.util.logging.Logger;
 public class GSBuilder_Limaye_Wikitables {
     protected FreebaseQueryProxy queryHelper;
     protected SolrCache solrCache;
-    protected TableXtractorWikipedia xtractor;
+    protected TableParserWikipedia xtractor;
     protected WebSearch searcher;
     protected BingSearchResultParser parser;
     protected static String wikipediaURL = "http://en.wikipedia.org/wiki/";
@@ -65,7 +62,7 @@ public class GSBuilder_Limaye_Wikitables {
 
     public GSBuilder_Limaye_Wikitables(FreebaseQueryProxy queryHelper,
                                        SolrCache cache_solr,
-                                       TableXtractorWikipedia xtractor,
+                                       TableParserWikipedia xtractor,
                                        String propertyFile) throws IOException {
         this.queryHelper = queryHelper;
         this.solrCache = cache_solr;
@@ -119,7 +116,7 @@ public class GSBuilder_Limaye_Wikitables {
         EmbeddedSolrServer server = null; //new EmbeddedSolrServer(container, "collection1");
         SolrCache cache = new SolrCache(server);
 
-        TableXtractorWikipedia xtractor = new TableXtractorWikipedia(new TableNormalizerDiscardIrregularRows(true),
+        TableParserWikipedia xtractor = new TableParserWikipedia(new TableNormalizerDiscardIrregularRows(true),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorWikipediaGS(true),
                 new TableValidatorGeneric());
@@ -159,7 +156,7 @@ public class GSBuilder_Limaye_Wikitables {
                 System.out.println(count + "_" + f);
                 /* if (f.toString().contains("Portal~"))
                 System.out.println();*/
-                Table original = new TableXtractorLimayeDataset().extract(f.toString(), in_original_limaye_annotation_folder + "/" + f.getName()).get(0);
+                Table original = new TableParserLimayeDataset().extract(f.toString(), in_original_limaye_annotation_folder + "/" + f.getName()).get(0);
 
 
                 String wikiPage = null;

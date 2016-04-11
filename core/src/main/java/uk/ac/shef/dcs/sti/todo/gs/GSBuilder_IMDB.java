@@ -7,11 +7,11 @@ import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.xtractor.table.validator.TableValidatorGeneric;
-import uk.ac.shef.dcs.sti.xtractor.table.hodetector.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.xtractor.table.normalizer.TableNormalizerDiscardIrregularRows;
-import uk.ac.shef.dcs.sti.xtractor.table.creator.TableObjCreatorIMDB;
-import uk.ac.shef.dcs.sti.xtractor.table.TableXtractorIMDB;
+import uk.ac.shef.dcs.sti.parser.table.validator.TableValidatorGeneric;
+import uk.ac.shef.dcs.sti.parser.table.hodetector.TableHODetectorByHTMLTag;
+import uk.ac.shef.dcs.sti.parser.table.normalizer.TableNormalizerDiscardIrregularRows;
+import uk.ac.shef.dcs.sti.parser.table.creator.TableObjCreatorIMDB;
+import uk.ac.shef.dcs.sti.parser.table.TableParserIMDB;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseTopic;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
 
@@ -33,7 +33,7 @@ public class GSBuilder_IMDB {
         String outFolder = args[1];
         //read imdb page, create table object
 
-        TableXtractorIMDB xtractor = new TableXtractorIMDB(new TableNormalizerDiscardIrregularRows(true),
+        TableParserIMDB xtractor = new TableParserIMDB(new TableNormalizerDiscardIrregularRows(true),
                 new TableHODetectorByHTMLTag(),
                 new TableObjCreatorIMDB(),
                 new TableValidatorGeneric());

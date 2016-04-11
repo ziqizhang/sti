@@ -7,8 +7,8 @@ import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.List;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.xtractor.list.ListXtractor;
-import uk.ac.shef.dcs.sti.xtractor.table.TableXtractor;
+import uk.ac.shef.dcs.sti.parser.list.ListXtractor;
+import uk.ac.shef.dcs.sti.parser.table.TableParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  */
 public class WikipediaTableListPageFilter implements IArticleFilter {
 
-    private TableXtractor tXtractor;
+    private TableParser tXtractor;
     private String targetTableDir;
     private ListXtractor lXtractor;
     private String targetListDir;
@@ -40,7 +40,7 @@ public class WikipediaTableListPageFilter implements IArticleFilter {
 
     private static Logger logger = Logger.getLogger(WikipediaTableListPageFilter.class.getName());
 
-    public WikipediaTableListPageFilter(TableXtractor tXtractor, String targetTableDir,
+    public WikipediaTableListPageFilter(TableParser tXtractor, String targetTableDir,
                                         ListXtractor lXtractor, String targetListDir) {
         this.tXtractor = tXtractor;
         this.targetTableDir = targetTableDir;
@@ -68,7 +68,7 @@ public class WikipediaTableListPageFilter implements IArticleFilter {
                 }
                 for (Table t : tables) {
                     try {
-                        TableXtractor.serialize(t, targetTableDir + File.separator + countTableDirs);
+                        TableParser.serialize(t, targetTableDir + File.separator + countTableDirs);
                         countTables++;
                     } catch (IOException ioe) {
                         logger.warning("Serialization failed for table " + t.toString());
