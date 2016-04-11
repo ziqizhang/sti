@@ -7,11 +7,11 @@ import java.util.List;
  */
 public class STIConstantProperty {
 
-    public static final double FREEBASE_TOTAL_TOPICS=47560900;
+    public static final double FREEBASE_TOTAL_TOPICS = 47560900;
     public static final int TCELLDISAMBIGUATOR_MAX_REFERENCE_ENTITIES = 0;
     public static boolean RELATED_COLUMN_HEADER_TYPING_ONLY_FROM_MAIN_COL_RELATIONS = false;
     public static boolean RELATION_ALSO_CONTRIBUTES_TO_COLUMN_HEADER_SCORE = false;
-    public static final boolean COMMIT_SOLR_PER_FILE = true;
+    public static final boolean SOLR_COMMIT_PER_FILE = true;
 
     public static boolean USE_NESTED_RELATION_FOR_RELATION_INTERPRETATION = true;
 
@@ -22,8 +22,18 @@ public class STIConstantProperty {
     public static final List<String> FUNCTIONAL_STOPWORDS = new ArrayList<>();
     public static final boolean REVISE_RELATION_ANNOTATION_BY_DC = true;
     public static final boolean SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH = true;
-    public static final String SAMPLE_SIZE="300";
-    public static final int UPDATE_PHASE_MAX_ITERATIONS=10;
+    public static final String SAMPLE_SIZE = "300";
+    public static final int UPDATE_PHASE_MAX_ITERATIONS = 10;
+
+    public static final double[] SCORER_ENTITY_CONTEXT_WEIGHT =
+            new double[]{1.0, 0.5, 1.0, 0.5}; //row,column, column header, tablecontext all
+    public static final double[] SCORER_CLAZZ_CONTEXT_WEIGHT =
+            new double[]{1.0, 1.0, 1.0, 1.0}; //all 1.0
+    //header,column,out trivial, out important
+    public static final double[] SCORER_RELATION_CONTEXT_WEIGHT=
+            new double[]{1.0, 0.0, 1.0, 1.0};    //header text, column, out-trivial, out-important
+    public static final double ATTRIBUTE_MATCHER_MIN_SCORE=0.5;
+    //if the attributeMatcher produces a score lower than this, the score will be set to 0
 
     static {
         FUNCTIONAL_STOPWORDS.add("of");

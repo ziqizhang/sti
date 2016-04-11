@@ -11,6 +11,7 @@ import uk.ac.shef.dcs.sti.core.algorithm.smp.*;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerImpl;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPEntityScorer;
 import uk.ac.shef.dcs.sti.core.model.Table;
+import uk.ac.shef.dcs.sti.core.scorer.AttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
@@ -29,7 +30,9 @@ public class SemanticMessagePassingBatch extends STIBatch {
 
     private static final String PROPERTY_SMP_USE_SUBJECT_COLUMN = "sti.smp.usesubjectcolumn";
     private static final String PROPERTY_SMP_ENTITY_RANKER = "sti.smp.entityranker";
+    private static final String PROPERTY_SMP_HALTING_CONFIDTION_MAX_ITERATION="sti.smp.halting.maxiteration";
     private static final String PROPERTY_SMP_CLAZZ_SPECIFICITY_CALCULATOR="sti.smp.clazzspecificitycalculator";
+    private static final String PROPER_SMP_CHANGE_MESSAGE_SCORE_THRESHOLD ="sti.smp.changemessage.minscore" ;
 
     public SemanticMessagePassingBatch(String propertyFile) throws IOException, STIException {
         super(propertyFile);
@@ -96,7 +99,7 @@ public class SemanticMessagePassingBatch extends STIBatch {
             if (neRanker != null && neRanker.equalsIgnoreCase("tmp")) {
                 new TMPEntityScorer(
                         getStopwords(),
-                        new double[]{1.0, 0.5, 1.0, 0.5}, //row,column, column header, tablecontext all
+                        STIConstantProperty.SCORER_ENTITY_CONTEXT_WEIGHT,
                         getNLPResourcesDir());
             } else
                 entityScorer = new SMPAdaptedEntityScorer(getStopwords(), getNLPResourcesDir());
@@ -104,14 +107,21 @@ public class SemanticMessagePassingBatch extends STIBatch {
             Set<Integer> ignoreColumnSet = new HashSet<>();
             for(int i: getIgnoreColumns())
                 ignoreColumnSet.add(i);
+            SemanticMessagePassing smpAlgorithm = new SemanticMessagePassing(
+                    Integer.valueOf(properties.getProperty(PROPERTY_SMP_HALTING_CONFIDTION_MAX_ITERATION,"10")),
+                    Double.valueOf(properties.getProperty(PROPER_SMP_CHANGE_MESSAGE_SCORE_THRESHOLD,"0.5"))
+            );
             interpreter = new SMPInterpreter(
                     subcolDetector,
                     new TCellEntityRanker(kbSearch, entityScorer),
                     new TColumnClassifier(kbSearch,getClazzSpecificityCalculator()),
                     new TColumnColumnRelationEnumerator(
-                            new SMPAttributeValueMatcher(0.5, getStopwords(), new Levenshtein()),
+                            new AttributeValueMatcher(
+                                    STIConstantProperty.ATTRIBUTE_MATCHER_MIN_SCORE,
+                                    getStopwords(), new Levenshtein()),
                             ignoreColumnSet,
                             Boolean.valueOf(properties.getProperty(PROPERTY_SMP_USE_SUBJECT_COLUMN, "false"))),
+                    smpAlgorithm,
                     getIgnoreColumns(),
                     getMustdoColumns()
             );
@@ -172,7 +182,7 @@ public class SemanticMessagePassingBatch extends STIBatch {
                             smp.writer, outFolder,
                             Boolean.valueOf(smp.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
 
-                    if (STIConstantProperty.COMMIT_SOLR_PER_FILE)
+                    if (STIConstantProperty.SOLR_COMMIT_PER_FILE)
                         smp.commitAll();
                     if (!complete) {
                         smp.recordFailure(count, sourceTableFile, inFile);

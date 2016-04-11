@@ -6,7 +6,6 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.*;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPEntityScorer;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPRelationScorer;
@@ -229,7 +228,7 @@ public class TestTI_DataFiltering_TableMiner_LimayeDataset {
 
                 complete = process(interpreter, table, sourceTableFile, writer, outFolder, relationLearning);
 
-                if (STIConstantProperty.COMMIT_SOLR_PER_FILE)
+                if (STIConstantProperty.SOLR_COMMIT_PER_FILE)
                     server.commit();
                 /**************check bugged cache/load for "Deep Space 9" in Seinfeld document*****************/
                 /*   if (inFile.contains("Seinfeld")) {

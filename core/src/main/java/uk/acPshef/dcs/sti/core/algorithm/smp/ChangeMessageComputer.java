@@ -12,13 +12,13 @@ import java.util.Map;
 /**
  *
  */
-public class ChangeMessageBroadcaster {
+public class ChangeMessageComputer {
 
-    protected static double minConfidence = 0.5;
+    protected double minConfidence = 0.5;
 
-    public ChangeMessageBroadcaster(){}
+    public ChangeMessageComputer(){}
 
-    public ChangeMessageBroadcaster(double minConfidence){
+    public ChangeMessageComputer(double minConfidence){
         this.minConfidence=minConfidence;
     }
 
@@ -98,16 +98,16 @@ public class ChangeMessageBroadcaster {
                 //if for this row no relation is present or no relation matches with the annotations for the two columns,
                 //we prepare change messages
                 if (!hasMatch) {
-                    ChangeMessageFromColumnsRelation forSubjectCell = new ChangeMessageFromColumnsRelation();
+                    ChangeMessageFromRelation forSubjectCell = new ChangeMessageFromRelation();
                     forSubjectCell.setLabels(highestScoringRelationStrings);
                     forSubjectCell.setConfidence(maxScore_of_relation_across_columns);
-                    forSubjectCell.setFlag_subOrObj(0);
+                    forSubjectCell.setSubobjIndicator(0);
                     updateMessageForCell(messages, row, subobj_col_ids.getSubjectCol(), forSubjectCell);
 
-                    ChangeMessageFromColumnsRelation forObjectCell = new ChangeMessageFromColumnsRelation();
+                    ChangeMessageFromRelation forObjectCell = new ChangeMessageFromRelation();
                     forObjectCell.setLabels(highestScoringRelationStrings);
                     forObjectCell.setConfidence(maxScore_of_relation_across_columns);
-                    forObjectCell.setFlag_subOrObj(1);
+                    forObjectCell.setSubobjIndicator(1);
                     updateMessageForCell(messages, row, subobj_col_ids.getObjectCol(), forObjectCell);
                 }
             }
@@ -118,9 +118,9 @@ public class ChangeMessageBroadcaster {
     private void updateMessageForCell(ObjectMatrix2D messages, int row, int col, ChangeMessage m) {
         if (m.getConfidence() >= minConfidence) {
             Object container = messages.get(row, col);
-            List<ChangeMessage> messages_at_cell = null;
+            List<ChangeMessage> messages_at_cell;
             if (container == null) {
-                messages_at_cell = new ArrayList<ChangeMessage>();
+                messages_at_cell = new ArrayList<>();
             } else {
                 messages_at_cell = (List<ChangeMessage>) container;
             }

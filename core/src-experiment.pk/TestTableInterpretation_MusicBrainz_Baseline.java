@@ -8,7 +8,6 @@ import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.core.algorithm.baseline.*;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.LiteralColumnTagger;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.LiteralColumnTaggerImpl;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.IInf;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
@@ -148,7 +147,7 @@ public class TestTableInterpretation_MusicBrainz_Baseline {
 
                 complete = process(interpreter, table, sourceTableFile, writer, outFolder,relationLearning);
                 //server.commit();
-                if(STIConstantProperty.COMMIT_SOLR_PER_FILE)
+                if(STIConstantProperty.SOLR_COMMIT_PER_FILE)
                     server.commit();
                 if (!complete){
                     System.out.println("\t\t\t missed: " + count + "_" + sourceTableFile);

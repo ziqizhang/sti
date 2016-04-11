@@ -8,12 +8,12 @@ import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.*;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPEntityScorer;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPRelationScorer;
 import uk.ac.shef.dcs.sti.core.feature.FreebaseConceptBoWCreator;
 import uk.ac.shef.dcs.sti.core.feature.FreebaseRelationBoWCreator;
+import uk.ac.shef.dcs.sti.core.scorer.AttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerImpl;
@@ -101,12 +101,12 @@ public class TableMinerPlusBatch extends STIBatch {
             disambiguator = new TCellDisambiguator(kbSearch,
                     new TMPEntityScorer(
                             getStopwords(),
-                            new double[]{1.0, 0.5, 1.0, 0.5}, //row,column, column header, tablecontext all
+                            STIConstantProperty.SCORER_ENTITY_CONTEXT_WEIGHT, //row,column, column header, tablecontext all
                             getNLPResourcesDir()));
             classifier = new TColumnClassifier(new TMPClazzScorer(getNLPResourcesDir(),
                     new FreebaseConceptBoWCreator(),
                     getStopwords(),
-                    new double[]{1.0, 1.0, 1.0, 1.0})        //all 1.0
+                    STIConstantProperty.SCORER_CLAZZ_CONTEXT_WEIGHT)        //all 1.0
             );                                              //header,column,out trivial, out important
             selector = new OSPD_nonEmpty();
             preliminaryClassify = new LEARNINGPreliminaryColumnClassifier(
@@ -156,11 +156,12 @@ public class TableMinerPlusBatch extends STIBatch {
                     getNLPResourcesDir(),
                     new FreebaseRelationBoWCreator(),
                     getStopwords(),
-                    new double[]{1.0, 0.0, 1.0, 1.0}    //header text, column, out-trivial, out-important
+                    STIConstantProperty.SCORER_RELATION_CONTEXT_WEIGHT
                     // new double[]{1.0, 1.0, 0.0, 0.0, 1.0}
             );
             relationEnumerator = new TColumnColumnRelationEnumerator(
-                    new TMPAttributeValueMatcher(0.01, getStopwords(), new Levenshtein()),
+                    new AttributeValueMatcher(
+                            STIConstantProperty.ATTRIBUTE_MATCHER_MIN_SCORE, getStopwords(), new Levenshtein()),
                     relationScorer
             );
 
@@ -238,7 +239,7 @@ public class TableMinerPlusBatch extends STIBatch {
                             tmp.writer, outFolder,
                             Boolean.valueOf(tmp.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
 
-                    if (STIConstantProperty.COMMIT_SOLR_PER_FILE)
+                    if (STIConstantProperty.SOLR_COMMIT_PER_FILE)
                         tmp.commitAll();
                     if (!complete) {
                         tmp.recordFailure(count, sourceTableFile, inFile);

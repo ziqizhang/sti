@@ -154,7 +154,7 @@ public class TestTableInterpretation_MusicBrainz_JI {
 
                 complete = process(interpreter, table, sourceTableFile, writer, outFolder, relationLearning);
 
-                if (STIConstantProperty.COMMIT_SOLR_PER_FILE) {
+                if (STIConstantProperty.SOLR_COMMIT_PER_FILE) {
                     serverEntity.commit();
                 }
                 if (!complete) {

@@ -8,7 +8,6 @@ import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.core.algorithm.baseline.BaselineEntityScorer;
 import uk.ac.shef.dcs.sti.core.algorithm.baseline.BaselineTColumnClassifier;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.*;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPAttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPRelationScorer;
 import uk.ac.shef.dcs.sti.core.feature.FreebaseRelationBoWCreator;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
@@ -231,7 +230,7 @@ public class TestTI_DataFiltering_Baseline_IMDB {
 
                 complete = process(interpreter, table, sourceTableFile, writer, outFolder, relationLearning);
 
-                if (STIConstantProperty.COMMIT_SOLR_PER_FILE)
+                if (STIConstantProperty.SOLR_COMMIT_PER_FILE)
                     server.commit();
                 /**************check bugged cache/load for "Deep Space 9" in Seinfeld document*****************/
                 /*   if (inFile.contains("Seinfeld")) {

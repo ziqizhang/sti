@@ -44,4 +44,6 @@ public abstract class SemanticTableInterpreter {
     protected Set<Integer> getIgnoreColumns(){
         return ignoreCols;
     }
+
+    protected Set<Integer> getMustdoColumns() {return mustdoColumns;}
 }
