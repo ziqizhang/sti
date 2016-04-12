@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
 import javafx.util.Pair;
+import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
@@ -18,6 +19,8 @@ import java.util.*;
  *
  */
 public class TColumnClassifier {
+
+    private static final Logger LOG =Logger.getLogger(TColumnClassifier.class.getName());
 
     private KBSearch kbSearch;
     private ClazzSpecificityCalculator csCalculator;
@@ -61,6 +64,7 @@ public class TColumnClassifier {
             for (Map.Entry<String, Double> e : votes.entrySet()) {
                 double voteScore = e.getValue() / totalNonEmpty;
                 voteScore+=csCalculator.compute(e.getKey());
+                LOG.info("\t\t>> computing class specificity score (can involve querying the KB...) for "+e.getKey());
                 voteResult.add(new Pair<>(e.getKey(),
                         voteScore));
             }

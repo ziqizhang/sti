@@ -96,8 +96,14 @@ public abstract class STIBatch {
      */
     protected abstract void initComponents() throws STIException;
 
-    protected abstract List<Table> loadTable(String file);
-
+    protected List<Table> loadTable(String file) {
+        try {
+            return getTableParser().extract(file, file);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
 
     protected int getStartIndex() {
         String s = properties.get(PROPERTY_START_INDEX).toString();

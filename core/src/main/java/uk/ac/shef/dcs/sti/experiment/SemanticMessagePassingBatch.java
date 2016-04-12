@@ -4,6 +4,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
@@ -19,6 +20,7 @@ import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -30,9 +32,9 @@ public class SemanticMessagePassingBatch extends STIBatch {
 
     private static final String PROPERTY_SMP_USE_SUBJECT_COLUMN = "sti.smp.usesubjectcolumn";
     private static final String PROPERTY_SMP_ENTITY_RANKER = "sti.smp.entityranker";
-    private static final String PROPERTY_SMP_HALTING_CONFIDTION_MAX_ITERATION="sti.smp.halting.maxiteration";
-    private static final String PROPERTY_SMP_CLAZZ_SPECIFICITY_CALCULATOR="sti.smp.clazzspecificitycalculator";
-    private static final String PROPER_SMP_CHANGE_MESSAGE_SCORE_THRESHOLD ="sti.smp.changemessage.minscore" ;
+    private static final String PROPERTY_SMP_HALTING_CONFIDTION_MAX_ITERATION = "sti.smp.halting.maxiteration";
+    private static final String PROPERTY_SMP_CLAZZ_SPECIFICITY_CALCULATOR = "sti.smp.clazzspecificitycalculator";
+    private static final String PROPER_SMP_CHANGE_MESSAGE_SCORE_THRESHOLD = "sti.smp.changemessage.minscore";
 
     public SemanticMessagePassingBatch(String propertyFile) throws IOException, STIException {
         super(propertyFile);
@@ -43,9 +45,11 @@ public class SemanticMessagePassingBatch extends STIBatch {
                         ));
     }
 
-    private ClazzSpecificityCalculator getClazzSpecificityCalculator() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    private ClazzSpecificityCalculator getClazzSpecificityCalculator() throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         return (ClazzSpecificityCalculator)
-                Class.forName(properties.getProperty(PROPERTY_SMP_CLAZZ_SPECIFICITY_CALCULATOR)).newInstance();
+                Class.forName(properties.getProperty(PROPERTY_SMP_CLAZZ_SPECIFICITY_CALCULATOR))
+                        .getDeclaredConstructor(KBSearch.class)
+                        .newInstance(kbSearch);
     }
 
     @Override
@@ -101,22 +105,22 @@ public class SemanticMessagePassingBatch extends STIBatch {
                         getStopwords(),
                         STIConstantProperty.SCORER_ENTITY_CONTEXT_WEIGHT,
                         getNLPResourcesDir());
-            } else if(neRanker!=null && neRanker.equalsIgnoreCase("smpfreebase"))
+            } else if (neRanker != null && neRanker.equalsIgnoreCase("smpfreebase"))
                 entityScorer = new SMPAdaptedEntityScorer(getStopwords(), getNLPResourcesDir());
             else
-             throw new STIException(neRanker+" is not a supported option for NE Ranker");
+                throw new STIException(neRanker + " is not a supported option for NE Ranker");
 
             Set<Integer> ignoreColumnSet = new HashSet<>();
-            for(int i: getIgnoreColumns())
+            for (int i : getIgnoreColumns())
                 ignoreColumnSet.add(i);
             SemanticMessagePassing smpAlgorithm = new SemanticMessagePassing(
-                    Integer.valueOf(properties.getProperty(PROPERTY_SMP_HALTING_CONFIDTION_MAX_ITERATION,"10")),
-                    Double.valueOf(properties.getProperty(PROPER_SMP_CHANGE_MESSAGE_SCORE_THRESHOLD,"0.5"))
+                    Integer.valueOf(properties.getProperty(PROPERTY_SMP_HALTING_CONFIDTION_MAX_ITERATION, "10")),
+                    Double.valueOf(properties.getProperty(PROPER_SMP_CHANGE_MESSAGE_SCORE_THRESHOLD, "0.5"))
             );
             interpreter = new SMPInterpreter(
                     subcolDetector,
                     new TCellEntityRanker(kbSearch, entityScorer),
-                    new TColumnClassifier(kbSearch,getClazzSpecificityCalculator()),
+                    new TColumnClassifier(kbSearch, getClazzSpecificityCalculator()),
                     new TColumnColumnRelationEnumerator(
                             new AttributeValueMatcher(
                                     STIConstantProperty.ATTRIBUTE_MATCHER_MIN_SCORE,
@@ -135,12 +139,6 @@ public class SemanticMessagePassingBatch extends STIBatch {
         }
 
     }
-
-    @Override
-    protected List<Table> loadTable(String file) {
-        return null;
-    }
-
 
     public static void main(String[] args) throws IOException, STIException {
         String inFolder = args[0];

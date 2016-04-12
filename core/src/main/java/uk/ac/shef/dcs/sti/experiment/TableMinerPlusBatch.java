@@ -186,17 +186,6 @@ public class TableMinerPlusBatch extends STIBatch {
 
     }
 
-    @Override
-    protected List<Table> loadTable(String file) {
-        try {
-            return getTableParser().extract(file, file);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
-    }
-
-
     public static void main(String[] args) throws IOException, STIException {
         String inFolder = args[0];
         String outFolder = args[1];

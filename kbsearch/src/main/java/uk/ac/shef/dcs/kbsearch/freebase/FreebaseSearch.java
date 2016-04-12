@@ -72,6 +72,7 @@ public class FreebaseSearch extends KBSearch {
         String query = createSolrCacheQuery_findResources(text);
         ;
         boolean forceQuery = false;
+
         text = StringEscapeUtils.unescapeXml(text);
         int bracket = text.indexOf("(");
         if (bracket != -1) {
@@ -81,6 +82,8 @@ public class FreebaseSearch extends KBSearch {
             return new ArrayList<>();
         if (ALWAYS_CALL_REMOTE_SEARCHAPI)
             forceQuery = true;
+
+
 
         List<Entity> result = null;
         if (!forceQuery) {
@@ -255,6 +258,8 @@ public class FreebaseSearch extends KBSearch {
 
     @Override
     public double findGranularityOfClazz(String clazz) throws KBSearchException {
+        /*if(clazz.equals("/location/citytown"))
+            System.out.println();*/
         String query = createSolrCacheQuery_findGranularityOfClazz(clazz);
         Double result = null;
         try {

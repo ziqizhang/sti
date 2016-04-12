@@ -14,13 +14,13 @@ public abstract class Resource implements Serializable {
 
     protected String id; //id, uri
     protected String label; //label
-    protected List<Attribute> attributes = new ArrayList<>();
+    protected List<Attribute> attributes;
     private String description; //a description, if available
-    private Set<String> aliases = new HashSet<>(); //aliases, if available
+    private Set<String> aliases; //aliases, if available
 
     public String getDescription(){
         if(description==null||description.equals("")){
-            for(Attribute attr: attributes){
+            for(Attribute attr: getAttributes()){
                 if(attr.isDirect()&&attr.isDescription()) {
                     description = attr.getValue();
                     break;
@@ -33,8 +33,12 @@ public abstract class Resource implements Serializable {
     }
 
     public Set<String> getAliases(){
+        if(aliases==null) {
+            aliases = new HashSet<>();
+            return aliases;
+        }
         if(aliases.size()==0){
-            for(Attribute attr: attributes){
+            for(Attribute attr: getAttributes()){
                 if(attr.isDirect()&&attr.isAlias()) {
                     aliases.add(attr.getValue());
                 }
@@ -44,6 +48,8 @@ public abstract class Resource implements Serializable {
     }
 
     public List<Attribute> getAttributes() {
+        if(attributes==null)
+            attributes=new ArrayList<>();
         return attributes;
     }
 
