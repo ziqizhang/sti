@@ -99,6 +99,7 @@ public class TMPRelationScorer implements RelationScorer {
                         new RelationColumns(subjectCol, objectCol),
                         cellcellRelationAnnotation.getRelationURI(),
                         cellcellRelationAnnotation.getRelationLabel(), 0.0);
+                output.add(columncolumnRelationAnnotation);
             }
 
             Map<String, Double> scoreElements = columncolumnRelationAnnotation.getScoreElements();
@@ -117,7 +118,7 @@ public class TMPRelationScorer implements RelationScorer {
                     + 1.0);
             columncolumnRelationAnnotation.setScoreElements(scoreElements);
 
-            output.add(columncolumnRelationAnnotation);
+            //output.add(columncolumnRelationAnnotation);
         }
 
         return new ArrayList<>(output);

@@ -33,6 +33,7 @@ public class BaselineRelationScorer implements RelationScorer {
                         new RelationColumns(subjectCol, objectCol),
                         cellcellRelationAnnotation.getRelationURI(),
                         cellcellRelationAnnotation.getRelationLabel(), 0.0);
+                output.add(columncolumnRelationAnnotation);
             }
 
             Map<String, Double> scoreElements = columncolumnRelationAnnotation.getScoreElements();
