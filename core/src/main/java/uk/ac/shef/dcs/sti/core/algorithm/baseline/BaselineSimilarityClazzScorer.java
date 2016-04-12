@@ -124,6 +124,7 @@ public class BaselineSimilarityClazzScorer implements ClazzScorer {
                 }
                 if (hAnnotation == null) {
                     hAnnotation = new TColumnHeaderAnnotation(headerText, type, 0.0);
+                    candidateHeaderAnnotations.add(hAnnotation);
                 }
 
                 Map<String, Double> scoreElements = hAnnotation.getScoreElements();
@@ -137,7 +138,6 @@ public class BaselineSimilarityClazzScorer implements ClazzScorer {
                         sumCellVote + 1.0);
                 hAnnotation.setScoreElements(scoreElements);
 
-                candidateHeaderAnnotations.add(hAnnotation);
             }
         }
 
