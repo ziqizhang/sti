@@ -28,14 +28,14 @@ import java.util.List;
 /**
  * Created by - on 12/04/2016.
  */
-public class BaselineNameMatchBatch extends STIBatch {
+public class BaselineBatch extends STIBatch {
 
     private static final String BASELINE_METHOD="sti.baseline.method"; //nm=name match; sim=similarity
     private static final String BASELINE_SIMILARITY_STRING_METRIC="sti.baseline.similarity.stringmetric.class";
 
-    private static final Logger LOG = Logger.getLogger(BaselineNameMatchBatch.class.getName());
+    private static final Logger LOG = Logger.getLogger(BaselineBatch.class.getName());
     private AbstractStringMetric stringMetric;
-    public BaselineNameMatchBatch(String propertyFile) throws IOException, STIException {
+    public BaselineBatch(String propertyFile) throws IOException, STIException {
         super(propertyFile);
     }
 
@@ -158,7 +158,7 @@ public class BaselineNameMatchBatch extends STIBatch {
     public static void main(String[] args) throws IOException, STIException {
         String inFolder = args[0];
         String outFolder = args[1];
-        BaselineNameMatchBatch bnm = new BaselineNameMatchBatch(args[2]);
+        BaselineBatch bnm = new BaselineBatch(args[2]);
 
         int count = 0;
         List<File> all = Arrays.asList(new File(inFolder).listFiles());
