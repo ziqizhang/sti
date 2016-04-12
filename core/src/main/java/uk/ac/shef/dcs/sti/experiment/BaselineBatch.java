@@ -158,15 +158,15 @@ public class BaselineBatch extends STIBatch {
     public static void main(String[] args) throws IOException, STIException {
         String inFolder = args[0];
         String outFolder = args[1];
-        BaselineBatch bnm = new BaselineBatch(args[2]);
+        BaselineBatch baseline = new BaselineBatch(args[2]);
 
         int count = 0;
         List<File> all = Arrays.asList(new File(inFolder).listFiles());
         Collections.sort(all);
         LOG.info("Initialization complete. Begin STI. Total input files=" + all.size() + "\n");
 
-        List<Integer> previouslyFailed = bnm.loadPreviouslyFailed();
-        int start = bnm.getStartIndex();
+        List<Integer> previouslyFailed = baseline.loadPreviouslyFailed();
+        int start = baseline.getStartIndex();
         for (File f : all) {
             if (f.toString().contains(".DS_Store")) continue;
             count++;
@@ -186,32 +186,32 @@ public class BaselineBatch extends STIBatch {
                     sourceTableFile = sourceTableFile.substring(1, sourceTableFile.length() - 1).trim();
                 //System.out.println(count + "_" + sourceTableFile + " " + new Date());
                 LOG.info("\n<< " + count + "_" + sourceTableFile);
-                List<Table> tables = bnm.loadTable(inFile);
+                List<Table> tables = baseline.loadTable(inFile);
                 if (tables.size() == 0)
-                    bnm.recordFailure(count, inFile, inFile);
+                    baseline.recordFailure(count, inFile, inFile);
 
                 for (Table table : tables) {
-                    complete = bnm.process(
+                    complete = baseline.process(
                             table,
                             sourceTableFile,
-                            bnm.writer, outFolder,
-                            Boolean.valueOf(bnm.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
+                            baseline.writer, outFolder,
+                            Boolean.valueOf(baseline.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
 
                     if (STIConstantProperty.SOLR_COMMIT_PER_FILE)
-                        bnm.commitAll();
+                        baseline.commitAll();
                     if (!complete) {
-                        bnm.recordFailure(count, sourceTableFile, inFile);
+                        baseline.recordFailure(count, sourceTableFile, inFile);
                     }
                 }
                 //gs annotator
 
             } catch (Exception e) {
                 e.printStackTrace();
-                bnm.recordFailure(count, inFile, inFile);
+                baseline.recordFailure(count, inFile, inFile);
             }
 
         }
-        bnm.closeAll();
+        baseline.closeAll();
         LOG.info(new Date());
     }
 }

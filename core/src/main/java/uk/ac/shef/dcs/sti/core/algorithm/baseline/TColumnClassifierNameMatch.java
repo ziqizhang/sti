@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
+import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 
@@ -19,16 +20,29 @@ public class TColumnClassifierNameMatch extends TColumnClassifier{
                          int column){
         Map<Clazz, Double> state = new HashMap<>();
         for (Map.Entry<Integer, List<Pair<Entity, Map<String, Double>>>> e : rowIndex_and_entities.entrySet()) {
-            List<Pair<Entity, Map<String, Double>>> container = e.getValue();
-            if (container.size() > 0) {
-                Entity ec = container.get(0).getKey();
-                List<Clazz> types = ec.getTypes();
-                for (Clazz t : types) {
-                    Double score = state.get(t);
-                    if (score == null)
-                        score = 0.0;
-                    score += 1.0;
-                    state.put(t, score);
+            List<Pair<Entity, Map<String, Double>>> entities = e.getValue();
+            if (entities.size() > 0) {
+                Collections.sort(entities, (o1, o2) -> {
+                    Double score1 = o1.getValue().get(TCellAnnotation.SCORE_FINAL);
+                    Double score2=o2.getValue().get(TCellAnnotation.SCORE_FINAL);
+                    return score2.compareTo(score1);
+                });
+
+                double maxScore = entities.get(0).getValue().get(TCellAnnotation.SCORE_FINAL);
+                for(Pair<Entity, Map<String, Double>> p:entities){
+                    Entity ec=p.getKey();
+                    Double score = p.getValue().get(TCellAnnotation.SCORE_FINAL);
+                    if(score!=maxScore){
+                        break;
+                    }
+                    List<Clazz> types = ec.getTypes();
+                    for (Clazz t : types) {
+                        Double prevScore = state.get(t);
+                        if (prevScore == null)
+                            prevScore = 0.0;
+                        prevScore += 1.0;
+                        state.put(t, prevScore);
+                    }
                 }
             }
         }
