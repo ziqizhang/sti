@@ -7,10 +7,7 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.core.algorithm.baseline.BaselineRelationScorer;
-import uk.ac.shef.dcs.sti.core.algorithm.baseline.TCellDisambiguatorNameMatch;
-import uk.ac.shef.dcs.sti.core.algorithm.baseline.BaselineNameMatchInterpreter;
-import uk.ac.shef.dcs.sti.core.algorithm.baseline.TColumnClassifierNameMatch;
+import uk.ac.shef.dcs.sti.core.algorithm.baseline.*;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.LiteralColumnTagger;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.LiteralColumnTaggerImpl;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.TColumnColumnRelationEnumerator;
@@ -18,6 +15,7 @@ import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerIm
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.scorer.AttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
+import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.io.File;
@@ -31,9 +29,53 @@ import java.util.List;
  * Created by - on 12/04/2016.
  */
 public class BaselineNameMatchBatch extends STIBatch {
+
+    private static final String BASELINE_METHOD="sti.baseline.method"; //nm=name match; sim=similarity
+    private static final String BASELINE_SIMILARITY_STRING_METRIC="sti.baseline.similarity.stringmetric.class";
+
     private static final Logger LOG = Logger.getLogger(BaselineNameMatchBatch.class.getName());
+    private AbstractStringMetric stringMetric;
     public BaselineNameMatchBatch(String propertyFile) throws IOException, STIException {
         super(propertyFile);
+    }
+
+    private TCellDisambiguator getCellDisambiguator() throws STIException, IOException {
+        String method = properties.getProperty(BASELINE_METHOD,"nm");
+        if(method.equals("nm"))
+            return new TCellDisambiguatorNameMatch(kbSearch);
+        else if(method.equals("sim")){
+            if(stringMetric==null)
+                stringMetric=getStringMetric();
+            return new TCellDisambiguatorSimilarity(kbSearch,
+                    new BaselineSimilarityEntityScorer(getStopwords(), getNLPResourcesDir(),
+                            stringMetric));
+        }else
+            throw new STIException("Not supported");
+    }
+
+    private TColumnClassifier getColumnClassifier() throws STIException, IOException {
+        String method = properties.getProperty(BASELINE_METHOD,"nm");
+        if(method.equals("nm"))
+            return new TColumnClassifierNameMatch();
+        else if(method.equals("sim")){
+            if(stringMetric==null)
+                stringMetric=getStringMetric();
+            return new TColumnClassifierSimilarity(
+                    new BaselineSimilarityClazzScorer(getNLPResourcesDir(), getStopwords(),
+                            stringMetric));
+        }else
+            throw new STIException("Not supported");
+    }
+
+    private AbstractStringMetric getStringMetric() throws STIException{
+        String clazz = properties.getProperty(BASELINE_SIMILARITY_STRING_METRIC,
+                Levenshtein.class.getName());
+        try {
+            return (AbstractStringMetric) Class.forName(clazz).newInstance();
+        }catch (Exception e){
+            throw new STIException(e);
+        }
+
     }
 
     @Override
@@ -87,11 +129,7 @@ public class BaselineNameMatchBatch extends STIBatch {
 
         LOG.info("Initializing baseline STI components ...");
         try {
-            TCellDisambiguatorNameMatch disambiguator = new TCellDisambiguatorNameMatch(
-                    kbSearch
-            );
 
-            TColumnClassifierNameMatch tColumnClassifierNameMatch = new TColumnClassifierNameMatch();
             //object to computeElementScores relations between columns
             TColumnColumnRelationEnumerator interpreter_relation = new TColumnColumnRelationEnumerator(
                     new AttributeValueMatcher(STIConstantProperty.ATTRIBUTE_MATCHER_MIN_SCORE,
@@ -101,14 +139,14 @@ public class BaselineNameMatchBatch extends STIBatch {
             );
 
 
-            LiteralColumnTagger interpreter_with_knownRelations = new LiteralColumnTaggerImpl(
+            LiteralColumnTagger literalColumnTagger = new LiteralColumnTaggerImpl(
                     getIgnoreColumns()
             );
-            interpreter = new BaselineNameMatchInterpreter(
+            interpreter = new BaselineInterpreter(
                     subcolDetector,
-                    disambiguator,
-                    tColumnClassifierNameMatch,
-                    interpreter_relation, interpreter_with_knownRelations,
+                    getCellDisambiguator(),
+                    getColumnClassifier(),
+                    interpreter_relation, literalColumnTagger,
                     getIgnoreColumns(), getMustdoColumns());
 
         }catch (Exception e){

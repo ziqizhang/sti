@@ -24,25 +24,25 @@ import java.util.logging.Logger;
  * Time: 15:52
  * To change this template use File | Settings | File Templates.
  */
-public class BaselineNameMatchInterpreter extends SemanticTableInterpreter {
-    private static final Logger LOG = Logger.getLogger(BaselineNameMatchInterpreter.class.getName());
+public class BaselineInterpreter extends SemanticTableInterpreter {
+    private static final Logger LOG = Logger.getLogger(BaselineInterpreter.class.getName());
     private SubjectColumnDetector subjectColumnDetector;
-    private TCellDisambiguatorNameMatch disambiguator;
-    private TColumnClassifierNameMatch columnClassifier;
+    private TCellDisambiguator disambiguator;
+    private TColumnClassifier columnClassifier;
     private TColumnColumnRelationEnumerator relationEnumerator;
     private LiteralColumnTagger literalColumnTagger;
 
 
-    public BaselineNameMatchInterpreter(SubjectColumnDetector subjectColumnDetector,
-                                        TCellDisambiguatorNameMatch disambiguator,
-                                        TColumnClassifierNameMatch columnClassifier,
-                                        TColumnColumnRelationEnumerator relationEnumerator,
-                                        LiteralColumnTagger literalColumnTagger,
-                                        int[] ignoreColumns, int[] mustdoColumns) {
+    public BaselineInterpreter(SubjectColumnDetector subjectColumnDetector,
+                               TCellDisambiguator disambiguator,
+                               TColumnClassifier columnClassifier,
+                               TColumnColumnRelationEnumerator relationEnumerator,
+                               LiteralColumnTagger literalColumnTagger,
+                               int[] ignoreColumns, int[] mustdoColumns) {
         super(ignoreColumns, mustdoColumns);
         this.subjectColumnDetector = subjectColumnDetector;
         this.disambiguator = disambiguator;
-        this.columnClassifier=columnClassifier;
+        this.columnClassifier = columnClassifier;
         this.relationEnumerator = relationEnumerator;
         this.literalColumnTagger = literalColumnTagger;
     }
@@ -65,10 +65,10 @@ public class BaselineNameMatchInterpreter extends SemanticTableInterpreter {
             List<Integer> annotatedColumns = new ArrayList<>();
             Map<Integer, List<Pair<Entity, Map<String, Double>>>> disambResults;
             for (int col = 0; col < table.getNumCols(); col++) {
-                LOG.info(">\t Cell Disambiguation for column="+col);
+                LOG.info(">\t Cell Disambiguation for column=" + col);
                 if (getMustdoColumns().contains(col)) {
                     LOG.info("\t>> Column=(compulsory)" + col);
-                    disambResults=disambiguator.disambiguate(table, tableAnnotations, col);
+                    disambResults = disambiguator.disambiguate(table, tableAnnotations, col);
                     annotatedColumns.add(col);
                 } else {
                     if (getIgnoreColumns().contains(col)) continue;
@@ -77,13 +77,13 @@ public class BaselineNameMatchInterpreter extends SemanticTableInterpreter {
 
                     annotatedColumns.add(col);
                     LOG.info("\t>> Column=" + col);
-                    disambResults=disambiguator.disambiguate(table, tableAnnotations, col);
+                    disambResults = disambiguator.disambiguate(table, tableAnnotations, col);
                 }
 
-                LOG.info(">\t Column classification for column="+col);
-                columnClassifier.classify(disambResults,table,tableAnnotations,col);
-                LOG.info(">\t Update cell annotatation based on column class for colun="+col);
-                disambiguator.revise(tableAnnotations, table, disambResults,col);
+                LOG.info(">\t Column classification for column=" + col);
+                columnClassifier.classify(disambResults, table, tableAnnotations, col);
+                LOG.info(">\t Update cell annotatation based on column class for colun=" + col);
+                disambiguator.revise(tableAnnotations, table, disambResults, col);
             }
 
             if (relationLearning) {
@@ -93,34 +93,13 @@ public class BaselineNameMatchInterpreter extends SemanticTableInterpreter {
                         annotatedColumns, null);
                 //4. consolidation-for columns that have relation with main subject column, if the column is
                 // entity column, do column typing and disambiguation; otherwise, simply create header annotation
-                System.out.println("\t\t>> Annotate literal-columns in relation with main column");
+                LOG.info("\t\t>> Annotate literal-columns in relation with main column");
                 literalColumnTagger.annotate(table, tableAnnotations, annotatedColumns.toArray(new Integer[0]));
             }
             return tableAnnotations;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new STIException(e);
         }
     }
 
-    private double scoreSolution(TAnnotation tableAnnotations, Table table, int subjectColumn) {
-        double entityScores = 0.0;
-        for (int col = 0; col < table.getNumCols(); col++) {
-            for (int row = 0; row < table.getNumRows(); row++) {
-                TCellAnnotation[] cAnns = tableAnnotations.getContentCellAnnotations(row, col);
-                if (cAnns != null && cAnns.length > 0) {
-                    entityScores += cAnns[0].getFinalScore();
-                }
-            }
-        }
-
-        double relationScores = 0.0;
-        for (Map.Entry<RelationColumns, List<TColumnColumnRelationAnnotation>> entry : tableAnnotations.getColumncolumnRelations().entrySet()) {
-            TColumnColumnRelationAnnotation rel = entry.getValue().get(0);
-            relationScores += rel.getFinalScore();
-        }
-        TColumnFeature cf = table.getColumnHeader(subjectColumn).getFeature();
-
-        double diversity = cf.getUniqueCellCount() + cf.getUniqueTokenCount();
-        return (entityScores + relationScores) * diversity * ((table.getNumRows() - cf.getEmptyCellCount()) / (double) table.getNumRows());
-    }
 }

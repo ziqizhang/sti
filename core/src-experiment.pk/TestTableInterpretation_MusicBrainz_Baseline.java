@@ -102,7 +102,7 @@ public class TestTableInterpretation_MusicBrainz_Baseline {
         LiteralColumnTagger interpreter_with_knownRelations = new LiteralColumnTaggerImpl(
                 IGNORE_COLUMNS
         );
-        BaselineNameMatchInterpreter interpreter = new BaselineNameMatchInterpreter(
+        BaselineInterpreter interpreter = new BaselineInterpreter(
                 main_col_finder,
                 column_learner,
                 interpreter_relation, interpreter_with_knownRelations,
@@ -182,7 +182,7 @@ public class TestTableInterpretation_MusicBrainz_Baseline {
     }
 
 
-    public static boolean process(BaselineNameMatchInterpreter interpreter, Table table, String sourceTableFile, TAnnotationWriter writer,
+    public static boolean process(BaselineInterpreter interpreter, Table table, String sourceTableFile, TAnnotationWriter writer,
                                   String outFolder, boolean relationLearning) throws FileNotFoundException {
         String outFilename = sourceTableFile.replaceAll("\\\\", "/");
         try {
