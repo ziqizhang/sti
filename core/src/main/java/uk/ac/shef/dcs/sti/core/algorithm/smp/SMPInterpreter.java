@@ -90,7 +90,7 @@ public class SMPInterpreter extends SemanticTableInterpreter {
             }
 
             LOG.info(">\t COMPUTING Column CLASSIFICATION AND Column-column RELATION");
-            columnClassification(columnClassifier, tableAnnotations, table, getMustdoColumns());
+            columnClassification(columnClassifier, tableAnnotations, table, getMustdoColumns(), getIgnoreColumns());
             if (relationLearning) {
                 LOG.info("\t> RELATION ENUMERATION");
                 relationEnumeration(relationLearner, tableAnnotations, table, tableAnnotations.getSubjectColumn());
@@ -100,10 +100,10 @@ public class SMPInterpreter extends SemanticTableInterpreter {
             LOG.info(">\t SEMANTIC MESSAGE PASSING");
             if (relationLearning)
                 messagePassingCalculator.start(table, tableAnnotations, columnClassifier,
-                        relationLearner, getMustdoColumns());
+                        relationLearner, getMustdoColumns(),getIgnoreColumns());
             else
                 messagePassingCalculator.start(table, tableAnnotations, columnClassifier,
-                        null, getMustdoColumns());
+                        null, getMustdoColumns(),getIgnoreColumns());
 
             return tableAnnotations;
         } catch (Exception e) {
@@ -114,14 +114,15 @@ public class SMPInterpreter extends SemanticTableInterpreter {
 
     protected static void columnClassification(TColumnClassifier columnClassifier,
                                                TAnnotation tabAnnotations, Table table,
-                                               Collection<Integer> mustDoColumns) throws KBSearchException {
+                                               Collection<Integer> mustDoColumns,
+                                               Collection<Integer> ignoreColumns) throws KBSearchException {
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
             if (mustDoColumns.contains(col)) {
                 LOG.info("\t\t>> Column=(compulsory)" + col);
                 columnClassifier.classifyColumns(tabAnnotations, table, col);
             } else {
-                if (mustDoColumns.contains(col)) continue;
+                if (ignoreColumns.contains(col)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 LOG.info("\t\t>> Column=" + col);

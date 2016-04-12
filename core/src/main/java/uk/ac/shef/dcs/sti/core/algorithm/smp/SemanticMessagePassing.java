@@ -29,7 +29,8 @@ public class SemanticMessagePassing {
     protected void start(Table table, TAnnotation tableAnnotations,
                          TColumnClassifier columnClassifier,
                          TColumnColumnRelationEnumerator relationLearner,
-                         Collection<Integer> mustDoColumns) throws STIException, KBSearchException {
+                         Collection<Integer> mustDoColumns,
+                         Collection<Integer> ignoreColumns) throws STIException, KBSearchException {
         TAnnotation copy;
         for (int i = 1; i <= haltingMaxIterations; i++) {
             LOG.info("\t\t>> [ITERATION] " + i);
@@ -41,19 +42,20 @@ public class SemanticMessagePassing {
                     computeChangeMessages(tableAnnotations, table);
 
             //re-compute cell annotations based on messages
-            LOG.info("\t\t>> Cell annotation update");
+            LOG.info("\t\t>> cell annotation update");
             int[] updateResult = cellAnnotationUpdater.update(messages, tableAnnotations);
             LOG.info("\t\t   (requiredForUpdate=" + updateResult[1] + ", updated=" + updateResult[0] + ")");
 
             //check stopping condition
             boolean stop = haltingConditionReached(i, haltingMaxIterations, copy, tableAnnotations);
             if (stop) {
-                LOG.info(">\t Halting condition reached, iteration=" + i);
+                LOG.info("\t> Halting condition reached, iteration=" + i);
                 break;
             } else {
                 //re-compute header and relation annotations
+                LOG.info(">\t Halting condition NOT reached, re-compute column and relation annotations based on updated cell annotations: iter=" + i);
                 resetClassesAndRelations(tableAnnotations);
-                SMPInterpreter.columnClassification(columnClassifier, tableAnnotations, table,mustDoColumns);
+                SMPInterpreter.columnClassification(columnClassifier, tableAnnotations, table,mustDoColumns,ignoreColumns);
                 if (relationLearner!=null)
                     SMPInterpreter.relationEnumeration(relationLearner,
                             tableAnnotations, table, tableAnnotations.getSubjectColumn());

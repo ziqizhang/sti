@@ -26,8 +26,8 @@ public class ChangeMessageComputer {
         ObjectMatrix2D messages = new SparseObjectMatrix2D(table.getNumRows(), table.getNumCols());
         //messages by column header
         for (int col = 0; col < table.getNumCols(); col++) {
-            List<TColumnHeaderAnnotation> bestHeaderAnnotations = tableAnnotation.getWinningHeaderAnnotations(col);
-            if (bestHeaderAnnotations.size() == 0)
+            List<TColumnHeaderAnnotation> winningColumnClazz = tableAnnotation.getWinningHeaderAnnotations(col);
+            if (winningColumnClazz.size() == 0)
                 continue;
 
             for (int row = 0; row < table.getNumRows(); row++) {
@@ -35,13 +35,13 @@ public class ChangeMessageComputer {
                 if (cellAnnotations.size() == 0)
                     continue;
 
-                List<String> headerAnnotationStrings = new ArrayList<String>();
-                for (TColumnHeaderAnnotation ha : bestHeaderAnnotations)
+                List<String> headerAnnotationStrings = new ArrayList<>();
+                for (TColumnHeaderAnnotation ha : winningColumnClazz)
                     headerAnnotationStrings.add(ha.getAnnotation().getId());
                 boolean sendChange = false;
                 for (TCellAnnotation best : cellAnnotations) { //this cell can have multiple annotations with the same highest computeElementScores
                     //we need to check everyone of them. if any one's type does not overlap with the header annotations, it need changing
-                    List<String> copy = new ArrayList<String>(headerAnnotationStrings);
+                    List<String> copy = new ArrayList<>(headerAnnotationStrings);
                     copy.retainAll(best.getAnnotation().getTypeIds());
                     if (copy.size() == 0) {
                         sendChange = true;
@@ -49,8 +49,8 @@ public class ChangeMessageComputer {
                     }
                 }
                 if (sendChange) {
-                    ChangeMessage m = new ChangeMessage();
-                    for (TColumnHeaderAnnotation ha : bestHeaderAnnotations) {
+                    for (TColumnHeaderAnnotation ha : winningColumnClazz) {
+                        ChangeMessage m = new ChangeMessage();
                         m.setConfidence(ha.getFinalScore());
                         m.addLabel(ha.getAnnotation().getId());
                         updateMessageForCell(messages, row, col, m);
@@ -67,7 +67,7 @@ public class ChangeMessageComputer {
             List<TColumnColumnRelationAnnotation> relationAnnotations = e.getValue();
             Collections.sort(relationAnnotations);
             double maxScore_of_relation_across_columns = relationAnnotations.get(0).getFinalScore(); //what is the top relation's computeElementScores
-            List<String> highestScoringRelationStrings = new ArrayList<String>();
+            List<String> highestScoringRelationStrings = new ArrayList<>();
             for (TColumnColumnRelationAnnotation hba : relationAnnotations) {  //what are the top scoring relaions. these are the currently assigned relations for the two columns
                 if (hba.getFinalScore() == maxScore_of_relation_across_columns)
                     highestScoringRelationStrings.add(hba.getRelationLabel());
@@ -76,7 +76,7 @@ public class ChangeMessageComputer {
             Map<Integer, List<TCellCellRelationAnotation>>
                     relationAnnotations_per_row = tableAnnotation.getCellcellRelations().get(subobj_col_ids);
 
-            List<Integer> rows_annotated_with_relations = new ArrayList<Integer>(relationAnnotations_per_row.keySet());
+            List<Integer> rows_annotated_with_relations = new ArrayList<>(relationAnnotations_per_row.keySet());
             for (int row = 0; row < tableAnnotation.getRows(); row++) {
                 boolean hasMatch = false;
                 //do we know if this row is annotated with relations?

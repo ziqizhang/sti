@@ -43,8 +43,8 @@ class CellAnnotationUpdater {
                 //retrieve actual annotation based on their indexes...
                 if (bestAnnotations.size() > 0) {
                     boolean isValidUpdate = false;
-                    List<TCellAnnotation> currentBestAnnotations = tableAnnotation.getWinningContentCellAnnotation(r, c);
-                    double currentMaxScore = currentBestAnnotations.get(0).getFinalScore();
+                    List<TCellAnnotation> currentWinningAnnotations = tableAnnotation.getWinningContentCellAnnotation(r, c);
+                    double currentMaxScore = currentWinningAnnotations.get(0).getFinalScore();
                     double arbitraryNewScore = currentMaxScore + 0.000001;
 
                     for (int i = 0; i < candidateAnnotations.length; i++) {
@@ -85,13 +85,13 @@ class CellAnnotationUpdater {
                                                                  List<ChangeMessage> messages_for_cell,
                                                                  TAnnotation tableAnnotation) {
         TCellAnnotation[] cellAnnotations = tableAnnotation.getContentCellAnnotations(r, c);
-        Map<Integer, List<Integer>> out = new HashMap<Integer, List<Integer>>();
+        Map<Integer, List<Integer>> out = new HashMap<>();
         if (cellAnnotations == null || cellAnnotations.length == 0) //possible if message is sent by relation and request a change to its object which is not an NE
             return out;
 
         for (int i = 0; i < cellAnnotations.length; i++) {    //go through every candidate annotation for the cell, count # of messages that each candidate satisfies
             TCellAnnotation ca = cellAnnotations[i];
-            List<Integer> satisfied_messages = new ArrayList<Integer>();
+            List<Integer> satisfied_messages = new ArrayList<>();
 
             for (int j = 0; j < messages_for_cell.size(); j++) { //go through each message to check against that candidate
                 ChangeMessage m = messages_for_cell.get(j);
@@ -144,7 +144,7 @@ class CellAnnotationUpdater {
         return false;
     }
 
-    //key-index of the TCellAnnotation in the list of candidate CellAnnotations for the cell ranked by their computeElementScores
+    //key-index of the TCellAnnotation in the list of candidate CellAnnotations for the cell ranked by their scores
     //value-list of indexes of satisfied messages by this TCellAnnotation.
     private List<Integer> select(Map<Integer, List<Integer>> annotation_satisfies_messages,
                                  List<String> messagePreferencesSorted,
@@ -230,7 +230,7 @@ class CellAnnotationUpdater {
     }*/
 
     private List<String> createSortedPreferenceKeys(int totalMessages) {
-        Set<Integer> in = new HashSet<Integer>(totalMessages);
+        Set<Integer> in = new HashSet<>(totalMessages);
         for (int i = 0; i < totalMessages; i++) {
             in.add(i);
         }
