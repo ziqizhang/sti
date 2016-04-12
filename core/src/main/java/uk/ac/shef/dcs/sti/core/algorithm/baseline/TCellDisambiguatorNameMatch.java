@@ -89,13 +89,15 @@ public class TCellDisambiguatorNameMatch extends TCellDisambiguator {
                 }
             }
 
+            Map<String, Double> scoreMap = new HashMap<>();
+            scoreMap.put(TCellAnnotation.SCORE_FINAL,1.0);
             if (candidatesCopy.size() > 0) {
                 disambiguationScores.add(new Pair<>(
-                        candidatesCopy.get(0), new HashMap<>()
+                        candidatesCopy.get(0), scoreMap
                 ));
             } else {
                 disambiguationScores.add(new Pair<>(
-                        candidates.get(0), new HashMap<>()
+                        candidates.get(0), scoreMap
                 ));
             }
 
