@@ -85,16 +85,16 @@ public class TestTableInterpretation_MusicBrainz_Baseline {
         //List<String> stopProperties = FileUtils.readList("D:\\Work\\lodie\\resources\\nlp_resources/stopproperties_freebase.txt", true);
 
         //object to computeElementScores columns, and disambiguate entities
-        Base_NameMatch_Disambiguator disambiguator = new Base_NameMatch_Disambiguator();
+        TCellNameMatchDisambiguator disambiguator = new TCellNameMatchDisambiguator();
 
 
-        Base_NameMatch_ColumnLearner column_learner = new Base_NameMatch_ColumnLearner(
+        TCellDisambiguatorNameMatch column_learner = new TCellDisambiguatorNameMatch(
                 freebaseMatcher,
                 disambiguator
         );
 
         //object to computeElementScores relations between columns
-        Baseline_BinaryRelationInterpreter interpreter_relation = new Baseline_BinaryRelationInterpreter(
+        TColumnColumnRelationEnumerator interpreter_relation = new TColumnColumnRelationEnumerator(
                 new TMPAttributeValueMatcher(0.0, stopWords)
         );
 

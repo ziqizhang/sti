@@ -25,8 +25,7 @@ public class RELATIONENUMERATION {
                           TAnnotation tableAnnotations,
                           Table table,
                           List<Integer> annotatedColumns,
-                          UPDATE update,
-                          RelationScorer relationScorer
+                          UPDATE update
                           ) throws STIException {
         double winningSolutionScore = 0;
         int subjectCol;
@@ -66,7 +65,7 @@ public class RELATIONENUMERATION {
 
         if (STIConstantProperty.REVISE_RELATION_ANNOTATION_BY_DC && update != null) {
             List<String> domain_rep = update.createDomainRep(table, tableAnnotations, annotatedColumns);
-            reviseColumnColumnRelationAnnotations(tableAnnotations, domain_rep, relationScorer);
+            reviseColumnColumnRelationAnnotations(tableAnnotations, domain_rep, relationEnumerator.getRelationScorer());
         }
     }
 

@@ -2,7 +2,9 @@ package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.LiteralColumnTagger;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.TColumnColumnRelationEnumerator;
 import uk.ac.shef.dcs.sti.core.subjectcol.TColumnFeature;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
@@ -19,7 +21,7 @@ import java.util.Map;
 public class Base_SL_no_Update_MainInterpreter {
     private SubjectColumnDetector main_col_finder;
     private Base_TM_no_Update_ColumnLearner interpreter_column;
-    private Baseline_BinaryRelationInterpreter interpreter_relation;
+    private TColumnColumnRelationEnumerator interpreter_relation;
     private LiteralColumnTagger interpreter_column_with_knownReltaions;
     //private static Logger LOG = Logger.getLogger(MainInterpreter.class.getName());
     private int[] ignoreColumns;
@@ -28,7 +30,7 @@ public class Base_SL_no_Update_MainInterpreter {
 
     public Base_SL_no_Update_MainInterpreter(SubjectColumnDetector main_col_finder,
                                              Base_TM_no_Update_ColumnLearner interpreter_column,
-                                             Baseline_BinaryRelationInterpreter interpreter_relation,
+                                             TColumnColumnRelationEnumerator interpreter_relation,
                                              LiteralColumnTagger interpreter_column_with_knownReltaions,
                                              int[] ignoreColumns, int[] forceInterpretColumn) {
         this.main_col_finder = main_col_finder;
@@ -39,7 +41,7 @@ public class Base_SL_no_Update_MainInterpreter {
         this.interpreter_column_with_knownReltaions=interpreter_column_with_knownReltaions;
     }
 
-    public TAnnotation start(Table table, boolean relationLearning) throws IOException, KBSearchException, APIKeysDepletedException, ClassNotFoundException {
+    public TAnnotation start(Table table, boolean relationLearning) throws IOException, KBSearchException, APIKeysDepletedException, ClassNotFoundException, STIException {
         //1. find the main subject column of this table
         System.out.println(">\t Detecting main column...");
         List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table, ignoreColumns);
@@ -77,7 +79,7 @@ public class Base_SL_no_Update_MainInterpreter {
                 if (ignoreColumn(main_subject_column)) continue;
 
                 System.out.println(">\t Interpret relations with the main column, ="+main_subject_column);
-                int columns_having_relations_with_main_col = interpreter_relation.interpret(tab_annotations, table, main_subject_column);
+                int columns_having_relations_with_main_col = interpreter_relation.runRelationEnumeration(tab_annotations, table, main_subject_column);
                 boolean interpretable = false;
                 if (columns_having_relations_with_main_col > 0) {
                     interpretable = true;

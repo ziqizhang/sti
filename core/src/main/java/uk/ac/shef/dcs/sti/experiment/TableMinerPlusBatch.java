@@ -179,7 +179,6 @@ public class TableMinerPlusBatch extends STIBatch {
                 learning,
                 update,
                 relationEnumerator,
-                relationScorer,
                 literalColumnTagger,
                 getIgnoreColumns(), getMustdoColumns()
         );

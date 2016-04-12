@@ -25,6 +25,10 @@ public class TColumnColumnRelationEnumerator {
         this.relationScorer = scorer;
     }
 
+    public RelationScorer getRelationScorer(){
+        return relationScorer;
+    }
+
     public int runRelationEnumeration(TAnnotation annotations, Table table, int subjectCol) throws STIException {
         generateCellCellRelations(annotations, table, subjectCol);
         //now we have created relation annotations per row, consolidate them to create column-column relation

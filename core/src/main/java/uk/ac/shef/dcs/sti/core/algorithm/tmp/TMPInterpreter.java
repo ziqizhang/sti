@@ -24,7 +24,6 @@ public class TMPInterpreter extends SemanticTableInterpreter {
     private LEARNING learning;
     private LiteralColumnTagger literalColumnTagger;
     private TColumnColumnRelationEnumerator relationEnumerator;
-    private RelationScorer relationScorer;
     private UPDATE update;
 
     private static final Logger LOG = Logger.getLogger(TMPInterpreter.class.getName());
@@ -33,7 +32,6 @@ public class TMPInterpreter extends SemanticTableInterpreter {
                           LEARNING learning,
                           UPDATE update,
                           TColumnColumnRelationEnumerator relationEnumerator,
-                          RelationScorer relationScorer,
                           LiteralColumnTagger literalColumnTagger,
                           int[] ignoreColumns,
                           int[] mustdoColumns
@@ -45,7 +43,6 @@ public class TMPInterpreter extends SemanticTableInterpreter {
         this.relationEnumerator = relationEnumerator;
 
         this.update = update;
-        this.relationScorer = relationScorer;
     }
 
     public TAnnotation start(Table table, boolean relationLearning) throws STIException {
@@ -85,7 +82,6 @@ public class TMPInterpreter extends SemanticTableInterpreter {
                     //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
                     LOG.info("\t>> Column=" + col);
                     learning.learn(table, tableAnnotations, col);
-                    //}
                 }
             }
 
@@ -93,20 +89,18 @@ public class TMPInterpreter extends SemanticTableInterpreter {
                 LOG.info(">\t PHASE: UPDATE phase ...");
                 update.update(annotatedColumns, table, tableAnnotations);
             }
-
             if (relationLearning) {
                 LOG.info("\t> PHASE: RELATION ENUMERATION ...");
                 new RELATIONENUMERATION().enumerate(subjectColumnScores,
                         getIgnoreColumns(), relationEnumerator,
                         tableAnnotations, table,
-                        annotatedColumns, update, relationScorer);
+                        annotatedColumns, update);
 
                 //4. consolidation-for columns that have relation with main subject column, if the column is
                 // entity column, do column typing and disambiguation; otherwise, simply create header annotation
                 LOG.info("\t\t>> Annotate literal-columns in relation with main column");
                 literalColumnTagger.annotate(table, tableAnnotations, annotatedColumns.toArray(new Integer[0]));
             }
-
             return tableAnnotations;
         }catch (Exception e){
             throw new STIException(e);

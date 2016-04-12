@@ -7,12 +7,13 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.core.algorithm.baseline.Base_NameMatch_ColumnLearner;
-import uk.ac.shef.dcs.sti.core.algorithm.baseline.Base_NameMatch_Disambiguator;
+import uk.ac.shef.dcs.sti.core.algorithm.baseline.BaselineRelationScorer;
+import uk.ac.shef.dcs.sti.core.algorithm.baseline.TCellDisambiguatorNameMatch;
 import uk.ac.shef.dcs.sti.core.algorithm.baseline.BaselineNameMatchInterpreter;
-import uk.ac.shef.dcs.sti.core.algorithm.baseline.Baseline_BinaryRelationInterpreter;
+import uk.ac.shef.dcs.sti.core.algorithm.baseline.TColumnClassifierNameMatch;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.LiteralColumnTagger;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.LiteralColumnTaggerImpl;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.TColumnColumnRelationEnumerator;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerImpl;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.scorer.AttributeValueMatcher;
@@ -86,18 +87,17 @@ public class BaselineNameMatchBatch extends STIBatch {
 
         LOG.info("Initializing baseline STI components ...");
         try {
-            Base_NameMatch_Disambiguator disambiguator = new Base_NameMatch_Disambiguator();
-
-            Base_NameMatch_ColumnLearner column_learner = new Base_NameMatch_ColumnLearner(
-                    kbSearch,
-                    disambiguator
+            TCellDisambiguatorNameMatch disambiguator = new TCellDisambiguatorNameMatch(
+                    kbSearch
             );
 
+            TColumnClassifierNameMatch tColumnClassifierNameMatch = new TColumnClassifierNameMatch();
             //object to computeElementScores relations between columns
-            Baseline_BinaryRelationInterpreter interpreter_relation = new Baseline_BinaryRelationInterpreter(
+            TColumnColumnRelationEnumerator interpreter_relation = new TColumnColumnRelationEnumerator(
                     new AttributeValueMatcher(STIConstantProperty.ATTRIBUTE_MATCHER_MIN_SCORE,
                             getStopwords(),
-                            new Levenshtein())
+                            new Levenshtein()),
+                    new BaselineRelationScorer()
             );
 
 
@@ -106,7 +106,8 @@ public class BaselineNameMatchBatch extends STIBatch {
             );
             interpreter = new BaselineNameMatchInterpreter(
                     subcolDetector,
-                    column_learner,
+                    disambiguator,
+                    tColumnClassifierNameMatch,
                     interpreter_relation, interpreter_with_knownRelations,
                     getIgnoreColumns(), getMustdoColumns());
 
