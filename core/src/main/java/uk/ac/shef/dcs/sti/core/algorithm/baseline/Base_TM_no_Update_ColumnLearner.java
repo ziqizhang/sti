@@ -107,7 +107,7 @@ public class Base_TM_no_Update_ColumnLearner {
 
     private Map<Object, Double> update_column_class(
             Set<TColumnHeaderAnnotation> scores, int tableRowsTotal) {
-        Map<Object, Double> state = new HashMap<Object, Double>();
+        Map<Object, Double> state = new HashMap<>();
         for (TColumnHeaderAnnotation ha : scores) {
             //Map<String, Double> scoreElements =ha.getScoreElements();
             ha.getScoreElements().put(

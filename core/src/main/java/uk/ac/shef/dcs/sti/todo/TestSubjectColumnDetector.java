@@ -22,7 +22,7 @@ import java.util.*;
 
 /**
  */
-public class TestTableMainColFinder {
+public class TestSubjectColumnDetector {
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException, STIException {
         /*which_table_has_no_acronym_columns("E:\\Data\\table annotation\\freebase_crawl\\music_record_label/tmp.txt");
         System.exit(0);*/

@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.core.algorithm.ji;
+package uk.ac.shef.dcs.sti.todo.ji;
 
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 

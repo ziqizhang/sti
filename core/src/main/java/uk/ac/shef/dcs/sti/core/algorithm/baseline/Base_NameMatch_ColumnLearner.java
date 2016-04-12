@@ -31,16 +31,10 @@ public class Base_NameMatch_ColumnLearner {
     }
 
     public void interpret(Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws KBSearchException {
-        Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidate_for_each_row =
+        Map<Integer, List<Pair<Entity, Map<String, Double>>>> rowIndex_and_entities =
                 new HashMap<>();
-        Set<TColumnHeaderAnnotation> headerAnnotationScores = new HashSet<TColumnHeaderAnnotation>();
-
 
         for (int row_index = 0; row_index < table.getNumRows(); row_index++) {
-
-            /* if(row_index==13)
-            System.out.println();*/
-            //find candidate entities
             TCell tcc = table.getContentCell(row_index, column);
             System.out.println("\t>> Classification-, row " + row_index + "," + tcc);
 
@@ -57,21 +51,21 @@ public class Base_NameMatch_ColumnLearner {
                 }
             }
 
-            List<Pair<Entity, Map<String, Double>>> disamb_result = null;
+            List<Pair<Entity, Map<String, Double>>> disamb_result;
             if (skip) {
-                disamb_result = collect_existing(table_annotation, row_index, column);
+                collect_existing(table_annotation, row_index, column);
             } else {
                 List<Entity> candidates = kbSearch.findEntityCandidates(tcc.getText());
                 disamb_result =
                         disambiguator.disambiguate(candidates, table, row_index, column);
                 if (disamb_result != null && disamb_result.size() > 0) {
-                    candidate_for_each_row.put(row_index, disamb_result);
+                    rowIndex_and_entities.put(row_index, disamb_result);
                 }
             }
         }
 
-        Map<Object, Double> state = new HashMap<Object, Double>();
-        for (Map.Entry<Integer, List<Pair<Entity, Map<String, Double>>>> e : candidate_for_each_row.entrySet()) {
+        Map<Object, Double> state = new HashMap<>();
+        for (Map.Entry<Integer, List<Pair<Entity, Map<String, Double>>>> e : rowIndex_and_entities.entrySet()) {
             List<Pair<Entity, Map<String, Double>>> container = e.getValue();
             if (container.size() > 0) {
                 Entity ec = container.get(0).getKey();
@@ -86,7 +80,7 @@ public class Base_NameMatch_ColumnLearner {
             }
         }
         create_typing_annotations(state, table_annotation, column); //supporting rows not added
-        disambiguate(table_annotation, table, candidate_for_each_row, column);
+        disambiguate(table_annotation, table, rowIndex_and_entities, column);
 
     }
 

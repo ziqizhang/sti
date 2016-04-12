@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.util;
 
-import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotation_JI_Freebase;
+import uk.ac.shef.dcs.sti.todo.ji.TAnnotation_JI_Freebase;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 

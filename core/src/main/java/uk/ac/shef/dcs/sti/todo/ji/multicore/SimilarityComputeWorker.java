@@ -1,9 +1,9 @@
-package uk.ac.shef.dcs.sti.core.algorithm.ji.multicore;
+package uk.ac.shef.dcs.sti.todo.ji.multicore;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.sti.core.algorithm.ji.EntityAndConceptScorer_Freebase;
+import uk.ac.shef.dcs.sti.todo.ji.EntityAndConceptScorer_Freebase;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 

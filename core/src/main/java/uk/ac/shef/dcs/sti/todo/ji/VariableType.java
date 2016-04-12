@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.core.algorithm.ji;
+package uk.ac.shef.dcs.sti.todo.ji;
 
 /**
  * Created by zqz on 12/05/2015.

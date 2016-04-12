@@ -31,12 +31,12 @@ public class Base_NameMatch_Disambiguator {
 
             if (candidatesCopy.size() > 0) {
 
-                disambiguationScores.add(new Pair<Entity, Map<String, Double>>(
-                        candidatesCopy.get(0), new HashMap<String, Double>()
+                disambiguationScores.add(new Pair<>(
+                        candidatesCopy.get(0), new HashMap<>()
                 ));
             } else {
-                disambiguationScores.add(new Pair<Entity, Map<String, Double>>(
-                        candidates.get(0), new HashMap<String, Double>()
+                disambiguationScores.add(new Pair<>(
+                        candidates.get(0), new HashMap<>()
                 ));
             }
 

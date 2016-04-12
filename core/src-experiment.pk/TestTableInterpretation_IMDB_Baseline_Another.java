@@ -82,11 +82,13 @@ public class TestTableInterpretation_IMDB_Baseline_Another {
         //List<String> stopProperties = FileUtils.readList("D:\\Work\\lodie\\resources\\nlp_resources/stopproperties_freebase.txt", true);
 
         //object to computeElementScores columns, and disambiguate entities
-        Base_TM_no_Update_Disambiguator disambiguator = new Base_TM_no_Update_Disambiguator(freebaseMatcher,
+        Base_TM_no_Update_Disambiguator disambiguator =
+                new Base_TM_no_Update_Disambiguator(freebaseMatcher,
                 new Base_TM_no_Update_EntityDisambiguationScorer(
                         stopWords, null, nlpResources
                 ));
-        Base_TM_no_Update_ClassificationScorer class_scorer = new Base_TM_no_Update_ClassificationScorer(nlpResources, stopWords, null);
+        Base_TM_no_Update_ClassificationScorer class_scorer =
+                new Base_TM_no_Update_ClassificationScorer(nlpResources, stopWords, null);
 
         Base_TM_no_Update_ColumnLearner column_learner = new Base_TM_no_Update_ColumnLearner(
                 freebaseMatcher,
