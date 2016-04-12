@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.util;
+package uk.ac.shef.dcs.sti.util.simmetric;
 
 /**
  * Created by zqz on 15/05/2015.
@@ -43,6 +43,7 @@ package uk.ac.shef.dcs.sti.util;
  */
 
 
+import uk.ac.shef.dcs.sti.util.TokeniserWhitespace;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 import uk.ac.shef.wit.simmetrics.tokenisers.InterfaceTokeniser;
 

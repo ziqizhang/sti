@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.*;
@@ -15,27 +16,27 @@ public class Base_TM_no_Update_ColumnLearner {
 
     private KBSearch kbSearch;
     private Base_TM_no_Update_Disambiguator disambiguation_learn;
-    private Base_TM_no_Update_ClassificationScorer classifier_learn;
+    private BaselineSimilarityClazzScorer classifier_learn;
 
 
     public Base_TM_no_Update_ColumnLearner(
             KBSearch candidateFinder,
             Base_TM_no_Update_Disambiguator disambiguation_learn,
-            Base_TM_no_Update_ClassificationScorer algorithm) {
+            BaselineSimilarityClazzScorer algorithm) {
         this.kbSearch = candidateFinder;
         this.disambiguation_learn = disambiguation_learn;
         this.classifier_learn = algorithm;
 
     }
 
-    public void learn(Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws KBSearchException {
+    public void learn(Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws KBSearchException, STIException {
 
         //1. gather list of strings from this column to be interpreted
 
         //3. computeElementScores column and also disambiguate initial rows in the selected sample
         Map<Integer, List<Pair<Entity, Map<String, Double>>>> candidates_and_scores_for_each_row =
                 new HashMap<>();
-        Set<TColumnHeaderAnnotation> headerAnnotationScores = new HashSet<TColumnHeaderAnnotation>();
+        Collection<TColumnHeaderAnnotation> headerAnnotationScores = new HashSet<>();
 
         int countRows = 0;
         Map<Object, Double> state = new HashMap<Object, Double>();
@@ -77,8 +78,12 @@ public class Base_TM_no_Update_ColumnLearner {
             }
             //todo: wrong, state should be created based on the map object
             //run algorithm to runPreliminaryColumnClassifier column typing; header annotation scores are updated constantly, but supporting rows are not.
+            List<Integer> rowIndexes = new ArrayList<>();
+            rowIndexes.add(row_index);
             state = update_column_class(
-                    classifier_learn.score(candidates_and_scores_on_this_row, headerAnnotationScores, table, row_index, column),
+                    classifier_learn.computeElementScores(candidates_and_scores_on_this_row,
+                            headerAnnotationScores, table,
+                            rowIndexes, column),
                     table.getNumRows()
             );
 
@@ -106,13 +111,13 @@ public class Base_TM_no_Update_ColumnLearner {
     }
 
     private Map<Object, Double> update_column_class(
-            Set<TColumnHeaderAnnotation> scores, int tableRowsTotal) {
+            Collection<TColumnHeaderAnnotation> scores, int tableRowsTotal) {
         Map<Object, Double> state = new HashMap<>();
         for (TColumnHeaderAnnotation ha : scores) {
             //Map<String, Double> scoreElements =ha.getScoreElements();
             ha.getScoreElements().put(
                     TColumnHeaderAnnotation.FINAL,
-                    classifier_learn.compute_final_score(ha, tableRowsTotal).get(TColumnHeaderAnnotation.FINAL)
+                    classifier_learn.computeFinal(ha, tableRowsTotal).get(TColumnHeaderAnnotation.FINAL)
             );
             state.put(ha, ha.getFinalScore());
         }

@@ -220,35 +220,4 @@ public class TCellDisambiguatorNameMatch {
         }
         return candidates;
     }
-
-
-    public void update_typing_annotations_best_candidate_contribute(List<Integer> rowsUpdated,
-                                                                    int column,
-                                                                    TAnnotation table_annotations,
-                                                                    int tableRowsTotal) {
-        TColumnHeaderAnnotation[] header_annotations = table_annotations.getHeaderAnnotation(column);
-        //supporting rows are only added if a header for the type of the cell annotation exists
-        if (header_annotations != null) {
-            for (int row : rowsUpdated) {
-                List<TCellAnnotation> bestCellAnnotations = table_annotations.getWinningContentCellAnnotation(row, column);
-
-                for (TCellAnnotation ca : bestCellAnnotations) {
-                    for (TColumnHeaderAnnotation ha : header_annotations) {
-                        if (ca.getAnnotation().hasType(ha.getAnnotation().getId())) {
-                            ha.addSupportingRow(row);
-                        }
-                        /* if(ha.getAnnotation().equals("/periodicals/newspaper_circulation_area"))
-                        p.println(cAnn.getHeaderText()+","+ha.getFinalScore());*/
-                    }
-                }
-                //p.close();
-
-            }
-
-            //final update to compute revised typing scores, then sort them
-            List<TColumnHeaderAnnotation> resort = new ArrayList<TColumnHeaderAnnotation>(Arrays.asList(header_annotations));
-            Collections.sort(resort);
-            table_annotations.setHeaderAnnotation(column, resort.toArray(new TColumnHeaderAnnotation[0]));
-        }
-    }
 }

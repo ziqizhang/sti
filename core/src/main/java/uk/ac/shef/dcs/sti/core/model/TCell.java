@@ -53,7 +53,7 @@ public class TCell implements Serializable {
         this.type = type;
     }
 
-    public String getOther_text() {
+    public String getOtherText() {
         return other_text;
     }
 

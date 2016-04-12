@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.util;
+package uk.ac.shef.dcs.sti.util.simmetric;
 
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 

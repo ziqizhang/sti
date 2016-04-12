@@ -96,7 +96,7 @@ public class GSBuilder_MusicBrainz {
                 System.out.println();*/
                 TCell ltc = table.getContentCell(row, col);
                 String text = ltc.getText();
-                String url = ltc.getOther_text();
+                String url = ltc.getOtherText();
 
                 int start = -1, end = -1;
                 if (url != null) {

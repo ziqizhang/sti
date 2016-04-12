@@ -60,7 +60,7 @@ public class BaselineRelationScorer implements RelationScorer {
 
     @Override
     public Map<String, Double> computeFinal(TColumnColumnRelationAnnotation relation, int tableRowsTotal) {
-        return null;
+        return relation.getScoreElements();
     }
 
     @Override

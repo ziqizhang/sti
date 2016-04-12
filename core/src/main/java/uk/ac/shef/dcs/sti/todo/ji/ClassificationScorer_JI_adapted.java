@@ -3,8 +3,8 @@ package uk.ac.shef.dcs.sti.todo.ji;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeader;
-import uk.ac.shef.dcs.sti.util.CosineSimilarity;
-import uk.ac.shef.dcs.sti.util.JaccardSimilarity;
+import uk.ac.shef.dcs.sti.util.simmetric.CosineSimilarity;
+import uk.ac.shef.dcs.sti.util.simmetric.JaccardSimilarity;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 

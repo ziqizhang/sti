@@ -12,21 +12,6 @@ import java.util.*;
  */
 public class FileUtils {
 
-    public static List<File> listFilesRecursive(List<File> files, File dir, String... extFilter)
-    {
-        if (files == null)
-            files = new LinkedList<>();
-
-        if (!dir.isDirectory())
-        {
-            files.add(dir);
-            return files;
-        }
-
-        for (File file : dir.listFiles())
-            listFilesRecursive(files, file);
-        return files;
-    }
 
     /**
      * Read input raw text file as a list
@@ -37,7 +22,7 @@ public class FileUtils {
      * @throws IOException
      */
     public static List<String> readList(final String path, final boolean lowercase) throws IOException {
-        List<String> res = new ArrayList<String>();
+        List<String> res = new ArrayList<>();
         LineIterator it = org.apache.commons.io.FileUtils.lineIterator(new File(path));
         while(it.hasNext()){
             String line=it.nextLine().trim();
@@ -50,7 +35,7 @@ public class FileUtils {
     }
 
     public static List<String> readList(final String path, final boolean lowercase, final String charset) throws IOException {
-        List<String> res = new ArrayList<String>();
+        List<String> res = new ArrayList<>();
         final InputStreamReader ir = new InputStreamReader(new FileInputStream(path), charset);
 
         final BufferedReader reader = new BufferedReader(ir);

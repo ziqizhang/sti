@@ -1,8 +1,9 @@
-package uk.ac.shef.dcs.sti.util;
+package uk.ac.shef.dcs.sti.todo;
 
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
+import uk.ac.shef.dcs.sti.util.FileUtils;
 
 import java.io.File;
 import java.io.FileReader;

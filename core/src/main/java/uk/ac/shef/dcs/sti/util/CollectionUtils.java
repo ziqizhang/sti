@@ -12,7 +12,7 @@ import java.util.*;
 public class CollectionUtils {
 
     public static double computeDice(Collection<String> c1, Collection<String> c2) {
-        Set<String> intersection = new HashSet<String>(c1);
+        Set<String> intersection = new HashSet<>(c1);
         intersection.retainAll(c1);
         intersection.retainAll(c2);
 
@@ -41,11 +41,11 @@ public class CollectionUtils {
     }
 
     public static double computeFrequencyWeightedDice(Collection<String> c1, Collection<String> c2) {
-        List<String> union = new ArrayList<String>();
+        List<String> union = new ArrayList<>();
         union.addAll(c1);
         union.addAll(c2);
 
-        List<String> intersection = new ArrayList<String>(union);
+        List<String> intersection = new ArrayList<>(union);
         intersection.retainAll(c1);
         intersection.retainAll(c2);
 

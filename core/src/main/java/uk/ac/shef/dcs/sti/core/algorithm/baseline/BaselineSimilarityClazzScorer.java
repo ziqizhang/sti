@@ -2,7 +2,9 @@ package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.STIEnum;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
+import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
@@ -24,33 +26,18 @@ import java.util.*;
  * Time: 12:19
  * To change this template use File | Settings | File Templates.
  */
-public class Base_TM_no_Update_ClassificationScorer {
+public class BaselineSimilarityClazzScorer implements ClazzScorer {
     private Lemmatizer lemmatizer;
     private List<String> stopWords;
-    //private Levenshtein stringSimilarityMetric;
-    //private Jaro stringSimilarityMetric;
-    //private Levenshtein stringSimilarityMetric;
     private AbstractStringMetric stringSimilarityMetric;
 
-    public Base_TM_no_Update_ClassificationScorer(String nlpResources, List<String> stopWords,
-                                                  double[] weights) throws IOException {
+    public BaselineSimilarityClazzScorer(String nlpResources, List<String> stopWords,
+                                         AbstractStringMetric stringMetric) throws IOException {
         this.lemmatizer = NLPTools.getInstance(nlpResources).getLemmatizer();
         this.stopWords = stopWords;
-        this.stringSimilarityMetric = new Levenshtein();
-        //this.stringSimilarityMetric=new CosineSimilarity();
+        this.stringSimilarityMetric = stringMetric;
     }
 
-    public Set<TColumnHeaderAnnotation> score(List<Pair<Entity, Map<String, Double>>> input,
-                                       Set<TColumnHeaderAnnotation> headerAnnotations_prev,
-                                       Table table,
-                                       int row, int column) {
-        Set<TColumnHeaderAnnotation> candidates=new HashSet<>();
-
-            candidates = score_entity_best_candidate_vote(input, headerAnnotations_prev, table, row, column);
-        candidates = score_context(candidates, table, column, false);
-
-        return candidates;
-    }
 
     public Set<TColumnHeaderAnnotation> score_entity_best_candidate_vote(List<Pair<Entity, Map<String, Double>>> input,
                                                                   Set<TColumnHeaderAnnotation> headerAnnotations_prev, Table table,
@@ -130,57 +117,6 @@ public class Base_TM_no_Update_ClassificationScorer {
     }
 
 
-    public Set<TColumnHeaderAnnotation> score_entity_all_candidate_vote(List<Pair<Entity, Map<String, Double>>> input,
-                                                                 Set<TColumnHeaderAnnotation> headerAnnotations_prev, Table table,
-                                                                 int row, int column) {
-        final Set<TColumnHeaderAnnotation> candidate_header_annotations =
-                headerAnnotations_prev;
-
-        if (input.size() == 0) {
-            //this entity has a computeElementScores of 0.0, it should not contribute to the header typing, but we may still keep it as candidate for this cell
-            System.out.print("x(" + row + "," + column + ")");
-            return candidate_header_annotations;
-        }
-
-        for (Pair<Entity, Map<String, Double>> es : input) {
-            Entity current_candidate = es.getKey();
-
-            List<Clazz> type_voted_by_this_cell = current_candidate.getTypes();
-
-            //consolidate scores from this cell
-            for (Clazz type : type_voted_by_this_cell) {
-                String headerText = table.getColumnHeader(column).getHeaderText();
-
-                TColumnHeaderAnnotation hAnnotation = null;
-                for (TColumnHeaderAnnotation key : candidate_header_annotations) {
-                    if (key.getHeaderText().equals(headerText) && key.getAnnotation().getId().equals(type.getId()
-                    )) {
-                        hAnnotation = key;
-                        break;
-                    }
-                }
-                if (hAnnotation == null) {
-                    hAnnotation = new TColumnHeaderAnnotation(headerText, type, 0.0);
-                }
-
-                Map<String, Double> tmp_score_elements = hAnnotation.getScoreElements();
-                if (tmp_score_elements == null || tmp_score_elements.size() == 0) {
-                    tmp_score_elements = new HashMap<>();
-                    tmp_score_elements.put(TMPClazzScorer.SUM_CELL_VOTE, 0.0);
-                }
-
-                Double sumCellVote = tmp_score_elements.get(TMPClazzScorer.SUM_CELL_VOTE);
-                tmp_score_elements.put(TMPClazzScorer.SUM_CELL_VOTE,
-                        sumCellVote + 1.0);
-                hAnnotation.setScoreElements(tmp_score_elements);
-
-                candidate_header_annotations.add(hAnnotation);
-            }
-        }
-
-        return candidate_header_annotations;
-    }
-
     public Set<TColumnHeaderAnnotation> score_context(Set<TColumnHeaderAnnotation> candidates, Table table, int column, boolean overwrite) {
         for (TColumnHeaderAnnotation ha : candidates) {
             Double score_ctx_header_text = ha.getScoreElements().get(TMPClazzScorer.SCORE_CTX_IN_HEADER);
@@ -204,7 +140,8 @@ public class Base_TM_no_Update_ClassificationScorer {
     }
 
 
-    public Map<String, Double> compute_final_score(TColumnHeaderAnnotation ha, int tableRowsTotal) {
+    @Override
+    public Map<String, Double> computeFinal(TColumnHeaderAnnotation ha, int tableRowsTotal) {
         Map<String, Double> scoreElements = ha.getScoreElements();
         Double sum_entity_vote = scoreElements.get(TMPClazzScorer.SUM_CELL_VOTE);
         if(sum_entity_vote==null) sum_entity_vote=0.0;
@@ -223,4 +160,26 @@ public class Base_TM_no_Update_ClassificationScorer {
     }
 
 
+    @Override
+    public List<TColumnHeaderAnnotation> computeElementScores(
+            List<Pair<Entity, Map<String, Double>>> input,
+            Collection<TColumnHeaderAnnotation> headerAnnotationCandidates,
+            Table table, List<Integer> rows, int column) throws STIException {
+        return null;
+    }
+
+    @Override
+    public List<TColumnHeaderAnnotation> computeCEScore(List<Pair<Entity, Map<String, Double>>> entities, Collection<TColumnHeaderAnnotation> existingHeaderAnnotations, Table table, int row, int column) throws STIException {
+        return null;
+    }
+
+    @Override
+    public List<TColumnHeaderAnnotation> computeCCScore(Collection<TColumnHeaderAnnotation> candidates, Table table, int column) throws STIException {
+        return null;
+    }
+
+    @Override
+    public double computeDC(TColumnHeaderAnnotation ha, List<String> domain_representation) throws STIException {
+        throw new STIException("Not supported");
+    }
 }

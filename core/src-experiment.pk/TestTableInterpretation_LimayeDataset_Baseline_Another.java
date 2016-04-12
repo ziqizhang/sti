@@ -75,10 +75,10 @@ public class TestTableInterpretation_LimayeDataset_Baseline_Another {
 
         //object to computeElementScores columns, and disambiguate entities
         Base_TM_no_Update_Disambiguator disambiguator = new Base_TM_no_Update_Disambiguator(freebaseMatcher,
-                new Base_TM_no_Update_EntityDisambiguationScorer(
+                new BaselineSimilarityEntityScorer(
                         stopWords, null, nlpResources
                 ));
-        Base_TM_no_Update_ClassificationScorer class_scorer = new Base_TM_no_Update_ClassificationScorer(nlpResources, stopWords, null);
+        BaselineSimilarityClazzScorer class_scorer = new BaselineSimilarityClazzScorer(nlpResources, stopWords, null);
 
         Base_TM_no_Update_ColumnLearner column_learner = new Base_TM_no_Update_ColumnLearner(
                 freebaseMatcher,

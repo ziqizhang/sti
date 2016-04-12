@@ -5,8 +5,8 @@ import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.util.CosineSimilarity;
-import uk.ac.shef.dcs.sti.util.JaccardSimilarity;
+import uk.ac.shef.dcs.sti.util.simmetric.CosineSimilarity;
+import uk.ac.shef.dcs.sti.util.simmetric.JaccardSimilarity;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 

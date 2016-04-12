@@ -195,7 +195,7 @@ public class DataStats_TableSize_NameLength_Analysis_LimayeNew {
                     ////////////////////////printing average name length /////////////////////////
                     length = textContent.split("\\s+").length;
                     if (length > 10) {
-                        textContent = table.getContentCell(i, j).getOther_text();
+                        textContent = table.getContentCell(i, j).getOtherText();
                         textContent = textContent.replaceAll("[\\-_]"," ").trim();
 
                         if (textContent.length() > 0) {

@@ -16,8 +16,8 @@ import java.util.*;
 public class Base_TM_no_Update_Disambiguator {
 
     private KBSearch kbSearch;
-    private Base_TM_no_Update_EntityDisambiguationScorer disambScorer;
-    public Base_TM_no_Update_Disambiguator(KBSearch kbSearch, Base_TM_no_Update_EntityDisambiguationScorer disambScorer) {
+    private BaselineSimilarityEntityScorer disambScorer;
+    public Base_TM_no_Update_Disambiguator(KBSearch kbSearch, BaselineSimilarityEntityScorer disambScorer) {
         this.kbSearch = kbSearch;
         this.disambScorer = disambScorer;
     }
@@ -35,11 +35,11 @@ public class Base_TM_no_Update_Disambiguator {
                 c.setAttributes(facts);
             }
             Map<String, Double> scoreMap = disambScorer.
-                    score(c,
+                    computeElementScores(c,
                             new ArrayList<>(),
                             entity_column,
-                            entity_row, table, new HashSet<>());
-            Base_TM_no_Update_EntityDisambiguationScorer.compute_final_score(scoreMap);
+                            entity_row, new ArrayList<>(), table);
+            disambScorer.computeFinal(scoreMap, table.getContentCell(entity_row,entity_column).getText());
             Pair<Entity, Map<String, Double>> entry = new Pair<>(c,scoreMap);
             disambiguationScores.add(entry);
         }
