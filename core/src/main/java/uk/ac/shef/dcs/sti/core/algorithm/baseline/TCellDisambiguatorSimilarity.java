@@ -36,7 +36,6 @@ public class TCellDisambiguatorSimilarity extends TCellDisambiguatorNameMatch {
                         = entityScorer.computeElementScores(ec, candidates,
                         entity_column, entity_row, Collections.singletonList(entity_row),
                         table);
-
                 entityScorer.computeFinal(scoreElements, table.getContentCell(entity_row, entity_column).getText());
                 disambiguationScores.add(new Pair<>(ec, scoreElements));
             }

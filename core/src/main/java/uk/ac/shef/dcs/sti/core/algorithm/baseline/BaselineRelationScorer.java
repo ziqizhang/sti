@@ -44,6 +44,8 @@ public class BaselineRelationScorer implements RelationScorer {
 
             scoreElements.put(TColumnColumnRelationAnnotation.FINAL,
                     scoreElements.get(TColumnColumnRelationAnnotation.FINAL) + 1.0);
+            columncolumnRelationAnnotation.setFinalScore(scoreElements.
+                    get(TColumnColumnRelationAnnotation.FINAL));
 
         }
         return new ArrayList<>(output);
@@ -51,7 +53,7 @@ public class BaselineRelationScorer implements RelationScorer {
 
     @Override
     public List<TColumnColumnRelationAnnotation> computeREScore(List<TCellCellRelationAnotation> cellcellRelationAnotations, Collection<TColumnColumnRelationAnnotation> output, int subjectCol, int objectCol) throws STIException {
-        return null;
+        throw new STIException("Not supported");
     }
 
     @Override
