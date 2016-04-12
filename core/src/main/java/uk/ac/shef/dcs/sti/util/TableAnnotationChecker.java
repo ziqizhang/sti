@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.util;
 
-import uk.ac.shef.dcs.sti.todo.ji.TAnnotation_JI_Freebase;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJIFreebase;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 
@@ -28,7 +28,7 @@ public class TableAnnotationChecker {
         System.out.println("rel:"+annotation.getColumncolumnRelations());
     }
 
-    public static boolean hasAnnotation(TAnnotation_JI_Freebase tab_annotations) {
+    public static boolean hasAnnotation(TAnnotationJIFreebase tab_annotations) {
         for(int col=0; col<tab_annotations.getCols(); col++){
             TColumnHeaderAnnotation[] ha=tab_annotations.getHeaderAnnotation(col);
             if(ha.length>0)

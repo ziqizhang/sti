@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.todo.ji;
+package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 
@@ -7,25 +7,25 @@ import java.util.*;
 /**
  * Created by zqz on 01/05/2015.
  */
-public class TAnnotation_JI_Freebase extends TAnnotation {
+public class TAnnotationJIFreebase extends TAnnotation {
 
     //==debug purpose
-    private Set<String> usedKey_score_entityAndConcept = new HashSet<String>();
-    private Set<String> usedKey_score_entityPairAndRelation = new HashSet<String>();
-    private Set<String> usedKey_score_entityAndRelation = new HashSet<String>();
-    private Set<String> usedKey_score_conceptPairAndRelation_instaceEvidence = new HashSet<String>();
-    private Set<String> usedKey_score_conceptPairAndRelation_conceptEvidence = new HashSet<String>();
-    private Set<String> usedKey_scoreContributingRows_conceptPairAndRelation = new HashSet<String>();
+    private Set<String> usedKey_score_entityAndConcept = new HashSet<>();
+    private Set<String> usedKey_score_entityPairAndRelation = new HashSet<>();
+    private Set<String> usedKey_score_entityAndRelation = new HashSet<>();
+    private Set<String> usedKey_score_conceptPairAndRelation_instaceEvidence = new HashSet<>();
+    private Set<String> usedKey_score_conceptPairAndRelation_conceptEvidence = new HashSet<>();
+    private Set<String> usedKey_scoreContributingRows_conceptPairAndRelation = new HashSet<>();
     //==debug purpose
 
-    private Map<String, Double> score_entityAndConcept = new HashMap<String, Double>();
-    private Map<String, Double> score_entityPairAndRelation = new HashMap<String, Double>();
-    private Map<String, Double> score_entityAndRelation = new HashMap<String, Double>();
-    private Map<String, Double> score_conceptPairAndRelation_instaceEvidence = new HashMap<String, Double>();
-    private Map<String, Double> score_conceptPairAndRelation_conceptEvidence = new HashMap<String, Double>();
-    private Map<String, Map<String, Double>> scoreContributingRows_conceptPairAndRelation = new HashMap<String, Map<String, Double>>();
+    private Map<String, Double> score_entityAndConcept = new HashMap<>();
+    private Map<String, Double> score_entityPairAndRelation = new HashMap<>();
+    private Map<String, Double> score_entityAndRelation = new HashMap<>();
+    private Map<String, Double> score_conceptPairAndRelation_instaceEvidence = new HashMap<>();
+    private Map<String, Double> score_conceptPairAndRelation_conceptEvidence = new HashMap<>();
+    private Map<String, Map<String, Double>> scoreContributingRows_conceptPairAndRelation = new HashMap<>();
 
-    public TAnnotation_JI_Freebase(int rows, int cols) {
+    public TAnnotationJIFreebase(int rows, int cols) {
         super(rows, cols);
     }
 
@@ -118,7 +118,7 @@ public class TAnnotation_JI_Freebase extends TAnnotation {
                 key
         );
         if (contributingRows == null) {
-            contributingRows = new HashMap<String, Double>();
+            contributingRows = new HashMap<>();
             contributingRows.put(String.valueOf(row), score);
             score_conceptPairAndRelation_instaceEvidence.put(key, score);
             scoreContributingRows_conceptPairAndRelation.put(key, contributingRows);
@@ -160,17 +160,17 @@ public class TAnnotation_JI_Freebase extends TAnnotation {
     }
 
     public void checkAffinityUsage(String tableId) {
-        List<String> tmp = new ArrayList<String>(score_entityAndConcept.keySet());
+        List<String> tmp = new ArrayList<>(score_entityAndConcept.keySet());
         tmp.removeAll(usedKey_score_entityAndConcept);
         if (tmp.size() > 0)
             System.err.println(tableId+"-score_entityAndConcept unused:" + tmp);
 
-        tmp = new ArrayList<String>(score_entityPairAndRelation.keySet());
+        tmp = new ArrayList<>(score_entityPairAndRelation.keySet());
         tmp.removeAll(usedKey_score_entityPairAndRelation);
         if (tmp.size() > 0)
             System.err.println(tableId+"-score_entityPairAndRelation unused:" + tmp);
 
-        tmp = new ArrayList<String>(score_entityAndRelation.keySet());
+        tmp = new ArrayList<>(score_entityAndRelation.keySet());
         tmp.removeAll(usedKey_score_entityAndRelation);
         if (tmp.size() > 0)
             System.err.println(tableId+"-score_entityAndRelation unused:" + tmp);
@@ -180,12 +180,12 @@ public class TAnnotation_JI_Freebase extends TAnnotation {
         if (tmp.size() > 0)
             System.err.println("score_conceptPairAndRelation_instaceEvidence unused:" + tmp);*/
 
-        tmp = new ArrayList<String>(score_conceptPairAndRelation_conceptEvidence.keySet());
+        tmp = new ArrayList<>(score_conceptPairAndRelation_conceptEvidence.keySet());
         tmp.removeAll(usedKey_score_conceptPairAndRelation_conceptEvidence);
         if (tmp.size() > 0)
             System.err.println(tableId+"-score_conceptPairAndRelation_conceptEvidence unused:" + tmp);
 
-        tmp = new ArrayList<String>(scoreContributingRows_conceptPairAndRelation.keySet());
+        tmp = new ArrayList<>(scoreContributingRows_conceptPairAndRelation.keySet());
         tmp.removeAll(usedKey_scoreContributingRows_conceptPairAndRelation);
         if (tmp.size() > 0)
             System.err.println(tableId+"-scoreContributingRows_conceptPairAndRelation unused:" + tmp);

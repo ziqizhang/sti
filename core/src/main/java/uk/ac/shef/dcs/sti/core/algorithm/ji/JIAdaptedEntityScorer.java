@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.todo.ji;
+package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
 import uk.ac.shef.dcs.sti.core.model.TCell;

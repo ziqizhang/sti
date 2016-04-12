@@ -1,7 +1,8 @@
-package uk.ac.shef.dcs.sti.todo.ji;
+package uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph;
 
 import cc.mallet.grmm.types.*;
 import cc.mallet.grmm.types.Variable;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJIFreebase;
 import uk.ac.shef.dcs.sti.core.model.RelationColumns;
 
 import java.util.*;
@@ -27,7 +28,7 @@ public class FactorGraphBuilder {
 
     protected Map<Variable, String> typeOfVariable = new HashMap<Variable, String>();
 
-    public FactorGraph build(TAnnotation_JI_Freebase annotation, boolean relationLearning, String tableId) {
+    public FactorGraph build(TAnnotationJIFreebase annotation, boolean relationLearning, String tableId) {
         FactorGraph graph = new FactorGraph();
         //cell text and entity label
         Map<String, Variable> cellAnnotations = factorBuilderCell.addFactors(annotation, graph,

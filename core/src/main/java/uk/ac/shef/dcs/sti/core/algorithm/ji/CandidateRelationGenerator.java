@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.todo.ji;
+package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
@@ -14,10 +14,10 @@ import java.util.List;
  */
 public class CandidateRelationGenerator {
     public static boolean allowRelationCandidatesFromRows=true;
-    private RelationTextValueMatcher_Scorer_JI_adapted matcher;
+    private JIAdaptedAttributeMatcher matcher;
     private KBSearch kbSearch;
 
-    public CandidateRelationGenerator(RelationTextValueMatcher_Scorer_JI_adapted matcher,
+    public CandidateRelationGenerator(JIAdaptedAttributeMatcher matcher,
                                       KBSearch kbSearch,
                                       boolean allowRelationCandidatesFromRows) {
         this.matcher = matcher;
@@ -25,7 +25,7 @@ public class CandidateRelationGenerator {
         this.allowRelationCandidatesFromRows=allowRelationCandidatesFromRows;
     }
 
-    public void generateCandidateRelation(TAnnotation_JI_Freebase tableAnnotations,
+    public void generateCandidateRelation(TAnnotationJIFreebase tableAnnotations,
                                           Table table, boolean useMainSubjectColumn,
                                           Collection<Integer> ignoreColumns) throws IOException,KBSearchException {
         //RelationDataStructure result = new RelationDataStructure();
@@ -131,7 +131,7 @@ public class CandidateRelationGenerator {
     }
 
     private void aggregateRelationsAcrossColumns(
-            TAnnotation_JI_Freebase tableAnnotation
+            TAnnotationJIFreebase tableAnnotation
     ) throws IOException {
         for (Map.Entry<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>> e :
                 tableAnnotation.getCellcellRelations().entrySet()) {
@@ -158,7 +158,7 @@ public class CandidateRelationGenerator {
     }
 
     private void createRelationCandidateBetweenConceptCandidates(int sbjCol, int objCol,
-                                                                 TAnnotation_JI_Freebase annotation,
+                                                                 TAnnotationJIFreebase annotation,
                                                                  Map<Integer, DataTypeClassifier.DataType> colTypes,
                                                                  KBSearch kbSearch) throws KBSearchException {
         TColumnHeaderAnnotation[] candidates_col1 = annotation.getHeaderAnnotation(sbjCol);

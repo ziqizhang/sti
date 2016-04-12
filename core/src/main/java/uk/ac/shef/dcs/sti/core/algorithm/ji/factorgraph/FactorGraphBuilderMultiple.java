@@ -1,7 +1,8 @@
-package uk.ac.shef.dcs.sti.todo.ji;
+package uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph;
 
 import cc.mallet.grmm.types.FactorGraph;
 import cc.mallet.grmm.types.Variable;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJIFreebase;
 import uk.ac.shef.dcs.sti.core.model.RelationColumns;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 
@@ -15,7 +16,7 @@ public class FactorGraphBuilderMultiple extends FactorGraphBuilder {
         super(patchScores);
     }
 
-    public List<FactorGraph> buildDisconnectedGraphs(TAnnotation_JI_Freebase annotation,
+    public List<FactorGraph> buildDisconnectedGraphs(TAnnotationJIFreebase annotation,
                                                      boolean relationLearning,
                                                      String tableId) {
         List<FactorGraph> out=new ArrayList<FactorGraph>();

@@ -5,7 +5,6 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
-import uk.ac.shef.dcs.sti.todo.ji.*;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
@@ -15,9 +14,7 @@ import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
-import java.io.*;
 import java.net.SocketTimeoutException;
-import java.util.*;
 import java.util.logging.Logger;
 
 /**

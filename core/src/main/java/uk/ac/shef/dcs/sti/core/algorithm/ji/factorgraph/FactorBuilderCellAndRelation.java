@@ -1,6 +1,8 @@
-package uk.ac.shef.dcs.sti.todo.ji;
+package uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph;
 
 import cc.mallet.grmm.types.*;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.GraphCheckingUtil;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJIFreebase;
 import uk.ac.shef.dcs.sti.core.model.RelationColumns;
 
 import java.util.*;
@@ -12,7 +14,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
 
     public void addFactors(Map<String, Variable> relationVariables,
                            Map<String, Variable> cellVariables,
-                           TAnnotation_JI_Freebase annotation,
+                           TAnnotationJIFreebase annotation,
                            FactorGraph graph,
                            Map<String, RelationColumns> relationVarOutcomeDirection,
                            String tableId, Set<Integer> columns) {
@@ -45,7 +47,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
     private void createCellRelationFactor(Variable sbjCellVar,
                                           Variable objCellVar,
                                           Variable relationVar,
-                                          TAnnotation_JI_Freebase annotation,
+                                          TAnnotationJIFreebase annotation,
                                           FactorGraph graph,
                                           Map<String, RelationColumns> relationVarOutcomeDirection,
                                           String tableId) {
@@ -124,7 +126,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
 
     public void addFactors(Map<String, Variable> relationVariables,
                            Map<String, Variable> cellVariables,
-                           TAnnotation_JI_Freebase annotation,
+                           TAnnotationJIFreebase annotation,
                            FactorGraph graph,
                            Map<String, RelationColumns> relationVarOutcomeDirection,
                            String tableId) {

@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.todo.ji;
+package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
@@ -15,10 +15,10 @@ import java.util.List;
 /**
  * Created by zqz on 05/05/2015.
  */
-public class RelationTextValueMatcher_Scorer_JI_adapted extends AttributeValueMatcher {
+public class JIAdaptedAttributeMatcher extends AttributeValueMatcher {
 
-    public RelationTextValueMatcher_Scorer_JI_adapted(double minScoreThreshold, List<String> stopWords,
-                                                      AbstractStringMetric stringMetric) {
+    public JIAdaptedAttributeMatcher(double minScoreThreshold, List<String> stopWords,
+                                     AbstractStringMetric stringMetric) {
         super(minScoreThreshold, stopWords,stringMetric);
     }
 
@@ -26,7 +26,7 @@ public class RelationTextValueMatcher_Scorer_JI_adapted extends AttributeValueMa
                                 List<TCellAnnotation> subjectCellAnnotations, int subjectColumn,
                                 List<TCellAnnotation> objectCellAnnotations, int objectColumn,
                                 DataTypeClassifier.DataType object_column_type,
-                                TAnnotation_JI_Freebase tableAnnotation
+                                TAnnotationJIFreebase tableAnnotation
     ) {
         if (subjectCellAnnotations.size() != 0 && objectCellAnnotations.size() != 0) {
             for (int s = 0; s < subjectCellAnnotations.size(); s++) { //for each candidate subject entity
@@ -104,7 +104,7 @@ public class RelationTextValueMatcher_Scorer_JI_adapted extends AttributeValueMa
                                   List<TColumnHeaderAnnotation> objectHeaderColumnCandidates,
                                   int objCol,
                                   DataTypeClassifier.DataType objectColumnDataType,
-                                  TAnnotation_JI_Freebase annotation,
+                                  TAnnotationJIFreebase annotation,
                                   KBSearch kbSearch) throws KBSearchException {
         if (subjectHeaderColumnCandidates.size() > 0 && objectHeaderColumnCandidates.size() > 0) {
             for (int s = 0; s < subjectHeaderColumnCandidates.size(); s++) {
@@ -146,7 +146,7 @@ public class RelationTextValueMatcher_Scorer_JI_adapted extends AttributeValueMa
 
     }
 
-    private void createCandidateAnnotation(TAnnotation_JI_Freebase tableAnnotation,
+    private void createCandidateAnnotation(TAnnotationJIFreebase tableAnnotation,
                                            int row, int subjectColumn, int objectColumn,
                                            Attribute fact,
                                            double score,
@@ -164,7 +164,7 @@ public class RelationTextValueMatcher_Scorer_JI_adapted extends AttributeValueMa
                 fact.getRelationURI(), matchedObjCellCandidates, subjectColumn, objectColumn, score);
     }
 
-    private void populateConceptPairAndRelationScore_instanceEvidence(TAnnotation_JI_Freebase tableAnnotation,
+    private void populateConceptPairAndRelationScore_instanceEvidence(TAnnotationJIFreebase tableAnnotation,
                                                                       TCellAnnotation sbjEntity,
                                                                       int entityRow,
                                                                       String relationURL,
@@ -186,7 +186,7 @@ public class RelationTextValueMatcher_Scorer_JI_adapted extends AttributeValueMa
         }
     }
 
-    private void populateEntityPairAndRelationScore(TAnnotation_JI_Freebase tableAnnotation,
+    private void populateEntityPairAndRelationScore(TAnnotationJIFreebase tableAnnotation,
                                                     String entityId, String relationURL, List<TCellAnnotation> objEntities,
                                                     int relationFrom, int relationTo
     ) {
@@ -247,7 +247,7 @@ public class RelationTextValueMatcher_Scorer_JI_adapted extends AttributeValueMa
     private void createCandidateAnnotation(Attribute fact,
                                            TColumnHeaderAnnotation sbjCandidate,
                                            List<String> objectConcepts,
-                                           TAnnotation_JI_Freebase annotation,
+                                           TAnnotationJIFreebase annotation,
                                            int col1,
                                            int col2) {
         String relation_key = TColumnColumnRelationAnnotation.toStringExpanded(col1, col2, fact.getRelationURI());
@@ -280,7 +280,7 @@ public class RelationTextValueMatcher_Scorer_JI_adapted extends AttributeValueMa
     public void match_sbjCellsAndRelation(
             List<TCellAnnotation> subjectCellAnnotations,
             int subjectColumn, int objectColumn,
-            TAnnotation_JI_Freebase tableAnnotations) {
+            TAnnotationJIFreebase tableAnnotations) {
         if (subjectCellAnnotations.size() > 0) {
             RelationColumns relationColumns = new RelationColumns(subjectColumn, objectColumn);
             List<TColumnColumnRelationAnnotation> candidateRelations =

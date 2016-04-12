@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.todo.ji;
+package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import cc.mallet.grmm.inference.Inferencer;
 import cc.mallet.grmm.inference.LoopyBP;
@@ -6,6 +6,7 @@ import cc.mallet.grmm.types.FactorGraph;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph.FactorGraphBuilderMultiple;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.Table;
@@ -35,7 +36,7 @@ public class TI_JointInferenceFailSafe extends TI_JointInference {
     }
 
     public TAnnotation start(Table table, boolean relationLearning) throws IOException, KBSearchException, APIKeysDepletedException, STIException, ClassNotFoundException {
-        TAnnotation_JI_Freebase tab_annotations = new TAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
+        TAnnotationJIFreebase tab_annotations = new TAnnotationJIFreebase(table.getNumRows(), table.getNumCols());
         Set<Integer> ignoreColumnsLocal = updateIgnoreColumns(table, ignoreCols);
         int[] ignoreColumnsLocalArray = new int[ignoreColumnsLocal.size()];
         for(int i=0; i<ignoreColumnsLocal.size(); i++)

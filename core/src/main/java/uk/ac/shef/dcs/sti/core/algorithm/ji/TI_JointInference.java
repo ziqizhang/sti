@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.todo.ji;
+package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import cc.mallet.grmm.inference.Inferencer;
 import cc.mallet.grmm.inference.LoopyBP;
@@ -9,11 +9,13 @@ import cc.mallet.grmm.types.Variable;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph.FactorGraphBuilder;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.util.TableAnnotationChecker;
 import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJIFreebase;
 
 import java.io.IOException;
 import java.util.*;
@@ -60,7 +62,7 @@ public class TI_JointInference {
     }
 
     public TAnnotation start(Table table, boolean relationLearning) throws IOException, KBSearchException, APIKeysDepletedException, STIException, ClassNotFoundException {
-        TAnnotation_JI_Freebase tab_annotations = new TAnnotation_JI_Freebase(table.getNumRows(), table.getNumCols());
+        TAnnotationJIFreebase tab_annotations = new TAnnotationJIFreebase(table.getNumRows(), table.getNumCols());
         List<Integer> ignoreColumnsLocal = new ArrayList<Integer>(updateIgnoreColumns(table, ignoreCols));
         int[] ignoreColumnsLocalArray = new int[ignoreColumnsLocal.size()];
         Collections.sort(ignoreColumnsLocal);
@@ -168,7 +170,7 @@ public class TI_JointInference {
         return ignore;
     }
 
-    protected void computeClassCandidates(TAnnotation_JI_Freebase tab_annotations, Table table,
+    protected void computeClassCandidates(TAnnotationJIFreebase tab_annotations, Table table,
                                           Collection<Integer> ignoreColumnsLocal) throws KBSearchException {
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -185,7 +187,7 @@ public class TI_JointInference {
         }
     }
 
-    protected void computeRelationCandidates(TAnnotation_JI_Freebase tab_annotations, Table table,
+    protected void computeRelationCandidates(TAnnotationJIFreebase tab_annotations, Table table,
                                              boolean useMainSubjectColumn,
                                              Collection<Integer> ignoreColumnsLocal) throws IOException,KBSearchException {
         relationGenerator.generateCandidateRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumnsLocal);
@@ -194,7 +196,7 @@ public class TI_JointInference {
     protected boolean createFinalAnnotations(FactorGraph graph,
                                              FactorGraphBuilder graphBuilder,
                                              Inferencer infResidualBP,
-                                             TAnnotation_JI_Freebase tab_annotations) {
+                                             TAnnotationJIFreebase tab_annotations) {
         for (int i = 0; i < graph.numVariables(); i++) {
             Variable var = graph.get(i);
             Factor ptl = infResidualBP.lookupMarginal(var);

@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.todo.ji;
+package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
@@ -34,7 +34,7 @@ public class CandidateConceptGenerator {
         this.multiThreads = multiThreads;
     }
 
-    public void generateCandidateConcepts(TAnnotation_JI_Freebase tableAnnotation, Table table, int col) throws KBSearchException {
+    public void generateCandidateConcepts(TAnnotationJIFreebase tableAnnotation, Table table, int col) throws KBSearchException {
         List<Clazz> distinctTypes = new ArrayList<>();
         Map<String, List<String>> entityId_and_conceptURLs = new HashMap<String, List<String>>();
         Map<String, String> distinctTypeStrings = new HashMap<String, String>();

@@ -1,7 +1,9 @@
-package uk.ac.shef.dcs.sti.todo.ji;
+package uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph;
 
 import cc.mallet.grmm.types.*;
 import cc.mallet.types.LabelAlphabet;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.ClassificationScorer_JI_adapted;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.VariableType;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 

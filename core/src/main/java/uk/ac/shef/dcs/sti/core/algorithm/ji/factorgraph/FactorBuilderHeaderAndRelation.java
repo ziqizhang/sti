@@ -1,8 +1,11 @@
-package uk.ac.shef.dcs.sti.todo.ji;
+package uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph;
 
 import cc.mallet.grmm.types.*;
 import cc.mallet.grmm.types.Variable;
 import cc.mallet.types.LabelAlphabet;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.GraphCheckingUtil;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJIFreebase;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.VariableType;
 import uk.ac.shef.dcs.sti.core.model.RelationColumns;
 import uk.ac.shef.dcs.sti.core.model.TColumnColumnRelationAnnotation;
 
@@ -21,7 +24,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
 
     public Map<String, Variable> addFactors(
             Map<Integer, Variable> columnHeaders,
-            TAnnotation_JI_Freebase annotation,
+            TAnnotationJIFreebase annotation,
             FactorGraph graph,
             Map<Variable, String> typeOfVariable,
             String tableId, Set<Integer> columns) {
@@ -133,7 +136,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                         vars = new Variable[]{column2_header_variable, column1_header_variable, relationVariable};
 
                     TableFactor factor1 = new TableFactor(vars, compatibility);
-                    GraphCheckingUtil.checkFactorAgainstAffinity(factor1, affinity_scores,tableId);
+                    GraphCheckingUtil.checkFactorAgainstAffinity(factor1, affinity_scores, tableId);
                     graph.addFactor(factor1);
                 }
             }
@@ -144,7 +147,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
 
     public Map<String, Variable> addFactors(
             Map<Integer, Variable> columnHeaders,
-            TAnnotation_JI_Freebase annotation,
+            TAnnotationJIFreebase annotation,
             FactorGraph graph,
             Map<Variable, String> typeOfVariable,
             String tableId) {
