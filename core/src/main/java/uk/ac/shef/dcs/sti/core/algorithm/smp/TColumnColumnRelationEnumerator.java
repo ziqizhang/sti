@@ -12,7 +12,7 @@ import java.util.List;
 /**
  *
  */
-public class TColumnColumnRelationEnumerator extends uk.ac.shef.dcs.sti.core.algorithm.tmp.TColumnColumnRelationEnumerator{
+public class TColumnColumnRelationEnumerator extends uk.ac.shef.dcs.sti.core.algorithm.tmp.TColumnColumnRelationEnumerator {
 
     private boolean useSubjectColumn;
     private Collection<Integer> ignoreColumns;
@@ -21,22 +21,22 @@ public class TColumnColumnRelationEnumerator extends uk.ac.shef.dcs.sti.core.alg
                                            Collection<Integer> ignoreColumns,
                                            boolean useSubjectColumn) {
         super(attributeValueMatcher, null);
-        this.ignoreColumns=ignoreColumns;
-        this.useSubjectColumn=useSubjectColumn;
+        this.ignoreColumns = ignoreColumns;
+        this.useSubjectColumn = useSubjectColumn;
     }
 
     public int runRelationEnumeration(TAnnotation annotations, Table table, int subjectCol) throws STIException {
-        if(useSubjectColumn)
+        if (useSubjectColumn)
             super.generateCellCellRelations(annotations, table, subjectCol);
-        else{
+        else {
             List<Integer> subjectColumnsToConsider = new ArrayList<>();
 
-                for(int c=0; c<table.getNumCols(); c++) {
-                    if(!ignoreColumns.contains(c))
-                        subjectColumnsToConsider.add(c);
-                }
+            for (int c = 0; c < table.getNumCols(); c++) {
+                if (!ignoreColumns.contains(c))
+                    subjectColumnsToConsider.add(c);
+            }
 
-            for (int subjectColumn :subjectColumnsToConsider) {  //choose a column to be subject column (must be NE column)
+            for (int subjectColumn : subjectColumnsToConsider) {  //choose a column to be subject column (must be NE column)
                 if (!table.getColumnHeader(subjectColumn).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 super.generateCellCellRelations(annotations, table, subjectColumn);
@@ -59,7 +59,7 @@ public class TColumnColumnRelationEnumerator extends uk.ac.shef.dcs.sti.core.alg
             RelationColumns relationColumns = e.getKey(); //key indicating the directional relationship (subject col, object col)
             if (processed.contains(relationColumns))
                 continue;
-            //key: relationURI, value:
+            //key: relationURI, value: votes and score
             Map<String, Pair<Integer, Double>> votes = new HashMap<>();
 
             processed.add(relationColumns);
@@ -87,9 +87,8 @@ public class TColumnColumnRelationEnumerator extends uk.ac.shef.dcs.sti.core.alg
     }
 
     /**
-     *
      * @param relations key:row index; value: list of relations between the two columns
-     * @param votes key: relation uri; value-key: votes, value-value: score
+     * @param votes     key: relation uri; value-key: votes, value-value: score
      */
     private void collectVotes(Map<Integer, List<TCellCellRelationAnotation>> relations,
                               Map<String, Pair<Integer, Double>> votes
@@ -101,20 +100,19 @@ public class TColumnColumnRelationEnumerator extends uk.ac.shef.dcs.sti.core.alg
                 distinctRelations.add(relationCandidate);
             }
 
-            for (String relation: distinctRelations) { //go thru each candidate of each row
-                double maxScore=0.0;
-                for(TCellCellRelationAnotation candidate : candidatesOnRow){
-                    if(candidate.getRelationURI().equals(relation) && candidate.getWinningAttributeMatchScore()>maxScore)
-                        maxScore=candidate.getWinningAttributeMatchScore();
+            for (String relation : distinctRelations) { //go thru each candidate of each row
+                double maxScore = 0.0;
+                for (TCellCellRelationAnotation candidate : candidatesOnRow) {
+                    if (candidate.getRelationURI().equals(relation) && candidate.getWinningAttributeMatchScore() > maxScore)
+                        maxScore = candidate.getWinningAttributeMatchScore();
                 }
 
                 Pair<Integer, Double> votesAndScore = votes.get(relation); //let's record both votes and scores. so when there is a tie at votes, we resort to scores
                 if (votesAndScore == null) {
                     votesAndScore = new Pair<>(0, 0.0);
-                }
-                else{
-                    votesAndScore = new Pair<>(votesAndScore.getKey()+1,
-                            votesAndScore.getValue()+maxScore);
+                } else {
+                    votesAndScore = new Pair<>(votesAndScore.getKey() + 1,
+                            votesAndScore.getValue() + maxScore);
                 }
 
                 votes.put(relation, votesAndScore);
@@ -148,7 +146,8 @@ public class TColumnColumnRelationEnumerator extends uk.ac.shef.dcs.sti.core.alg
     }
 
 
-    /**need to resolve conflicts. between two directions (sub-ob, or ob-sub, we must choose only 1)
+    /**
+     * need to resolve conflicts. between two directions (sub-ob, or ob-sub, we must choose only 1)
      *
      * @param winner
      * @param winnerReverseDirection
@@ -186,10 +185,24 @@ public class TColumnColumnRelationEnumerator extends uk.ac.shef.dcs.sti.core.alg
                         rdt.relationString,
                         (double) maxVote / countNonEmptyRows);
                 tableAnnotation.addColumnColumnRelation(hbr);
+
+                //add supporting rows
+                Map<Integer, List<TCellCellRelationAnotation>>
+                        cellcellRelations = tableAnnotation.getRelationAnnotationsBetween(rdt.relationColumns.getSubjectCol(), rdt.relationColumns.getObjectCol());
+                for (Map.Entry<Integer, List<TCellCellRelationAnotation>> e : cellcellRelations.entrySet()) {
+                    for (TCellCellRelationAnotation cbr : e.getValue()) {
+                        if (hbr.getRelationURI().equals(cbr.getRelationURI())) {
+                            hbr.addSupportingRow(e.getKey());
+                            break;
+                        }
+                    }
+                }
+
             } else {
                 break;
             }
         }
+
 
     }
 

@@ -91,8 +91,10 @@ public class SMPInterpreter extends SemanticTableInterpreter {
 
             LOG.info(">\t COMPUTING Column CLASSIFICATION AND Column-column RELATION");
             columnClassification(columnClassifier, tableAnnotations, table, getMustdoColumns());
-            if (relationLearning)
+            if (relationLearning) {
+                LOG.info("\t> RELATION ENUMERATION");
                 relationEnumeration(relationLearner, tableAnnotations, table, tableAnnotations.getSubjectColumn());
+            }
 
             //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             LOG.info(">\t SEMANTIC MESSAGE PASSING");
@@ -113,7 +115,6 @@ public class SMPInterpreter extends SemanticTableInterpreter {
     protected static void columnClassification(TColumnClassifier columnClassifier,
                                                TAnnotation tabAnnotations, Table table,
                                                Collection<Integer> mustDoColumns) throws KBSearchException {
-        LOG.info("\t\t>> column classification...");
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
             if (mustDoColumns.contains(col)) {
@@ -132,7 +133,7 @@ public class SMPInterpreter extends SemanticTableInterpreter {
     protected static void relationEnumeration(TColumnColumnRelationEnumerator relationLearner,
                                               TAnnotation tabAnnotations,
                                               Table table, int subjectColumnIndex) throws STIException {
-        LOG.info("\t\t>> relation enumeration...");
+
         relationLearner.runRelationEnumeration(tabAnnotations, table, subjectColumnIndex);
     }
 

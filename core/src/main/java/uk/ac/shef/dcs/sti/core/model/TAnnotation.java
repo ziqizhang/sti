@@ -217,6 +217,15 @@ public class TAnnotation {
     public void addColumnColumnRelation(TColumnColumnRelationAnnotation ra) {
         java.util.List<TColumnColumnRelationAnnotation> annotations_for_columns
                 = columncolumnRelations.get(ra.getRelationColumns());
+
+        //debug
+        for(TColumnColumnRelationAnnotation existing: annotations_for_columns){
+            if(existing.getRelationURI().equals(ra.getRelationURI())) {
+                System.out.println("duplicate c-c relation");
+                break;
+            }
+        }
+
         if (annotations_for_columns == null)
             annotations_for_columns = new ArrayList<>();
         annotations_for_columns.add(ra);
