@@ -212,7 +212,7 @@ public class JIInterpreter extends SemanticTableInterpreter {
     }
 
     protected void generateClazzCandidates(TAnnotationJI tableAnnotations, Table table,
-                                           Collection<Integer> ignoreColumnsLocal) throws KBSearchException {
+                                           Collection<Integer> ignoreColumnsLocal) throws KBSearchException, STIException {
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
             if (getMustdoColumns().contains(col)) {

@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph;
 import cc.mallet.grmm.types.*;
 import cc.mallet.grmm.types.Variable;
 import cc.mallet.types.LabelAlphabet;
-import uk.ac.shef.dcs.sti.core.algorithm.ji.GraphCheckingUtil;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.DebuggingUtil;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJI;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.VariableType;
 import uk.ac.shef.dcs.sti.core.model.RelationColumns;
@@ -136,7 +136,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                         vars = new Variable[]{column2_header_variable, column1_header_variable, relationVariable};
 
                     TableFactor factor1 = new TableFactor(vars, compatibility);
-                    GraphCheckingUtil.checkFactorAgainstAffinity(factor1, affinity_scores, tableId);
+                    DebuggingUtil.debugFactorAndAffinity(factor1, affinity_scores, tableId);
                     graph.addFactor(factor1);
                 }
             }

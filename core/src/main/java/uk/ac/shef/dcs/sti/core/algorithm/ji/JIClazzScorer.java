@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import javafx.util.Pair;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
@@ -13,19 +14,16 @@ import uk.ac.shef.dcs.sti.util.simmetric.JaccardSimilarity;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by zqz on 01/05/2015.
  */
 public class JIClazzScorer implements ClazzScorer {
-    private static final String SCORE_FINAL ="score_factor_graph-clazz";
+    public static final String SCORE_FINAL = "score_factor_graph-clazz";
     private static final String SCORE_LEV = "stringsim_lev";
     private static final String SCORE_JACCARD = "stringsim_jaccard";
-    private static final String SCORE_COSINE="stringsim_cosine";
+    private static final String SCORE_COSINE = "stringsim_cosine";
 
     private AbstractStringMetric cosine;
     private AbstractStringMetric jaccard;
@@ -34,9 +32,8 @@ public class JIClazzScorer implements ClazzScorer {
     public JIClazzScorer() {
         cosine = new CosineSimilarity();
         jaccard = new JaccardSimilarity();
-        lev =new Levenshtein();
+        lev = new Levenshtein();
     }
-
 
 
     private double calculateStringSimilarity(String text, TColumnHeaderAnnotation candidate, AbstractStringMetric lev) {
@@ -44,19 +41,6 @@ public class JIClazzScorer implements ClazzScorer {
         return baseScore;
     }
 
-    public Map<String, Double> score(TColumnHeaderAnnotation candidate, TColumnHeader header
-    ) {
-        double levScore = calculateStringSimilarity(header.getHeaderText(), candidate, lev);
-        double jaccardScore = calculateStringSimilarity(header.getHeaderText(), candidate, jaccard);
-        double cosineScore = calculateStringSimilarity(header.getHeaderText(), candidate, cosine);
-
-        Map<String, Double> score_elements = new HashMap<>();
-        score_elements.put(SCORE_FINAL, levScore+jaccardScore+cosineScore);
-        score_elements.put(SCORE_COSINE,cosineScore);
-        score_elements.put(SCORE_JACCARD,jaccardScore);
-        score_elements.put(SCORE_LEV, levScore);
-        return score_elements;
-    }
 
     public double compute_final_score(Map<String, Double> scoreMap) {
         scoreMap.put(TCellAnnotation.SCORE_FINAL, scoreMap.get(SCORE_FINAL));
@@ -65,7 +49,11 @@ public class JIClazzScorer implements ClazzScorer {
 
     @Override
     public Map<String, Double> computeFinal(TColumnHeaderAnnotation ha, int tableRowsTotal) {
-        return null;
+        Map<String, Double> scoreMap = ha.getScoreElements();
+        double finalScore = scoreMap.get(SCORE_FINAL);
+        scoreMap.put(TCellAnnotation.SCORE_FINAL, finalScore);
+        ha.setFinalScore(finalScore);
+        return scoreMap;
     }
 
     @Override
@@ -74,17 +62,47 @@ public class JIClazzScorer implements ClazzScorer {
                                                               Table table,
                                                               List<Integer> rows,
                                                               int column) throws STIException {
-        /*double levScore = calculateStringSimilarity(header.getHeaderText(), candidate, lev);
-        double jaccardScore = calculateStringSimilarity(header.getHeaderText(), candidate, jaccard);
-        double cosineScore = calculateStringSimilarity(header.getHeaderText(), candidate, cosine);
 
-        Map<String, Double> score_elements = new HashMap<>();
-        score_elements.put(SCORE_FINAL, levScore+jaccardScore+cosineScore);
-        score_elements.put(SCORE_COSINE,cosineScore);
-        score_elements.put(SCORE_JACCARD,jaccardScore);
-        score_elements.put(SCORE_LEV, levScore);
-        return score_elements;*/
-        return null;
+        for (Pair<Entity, Map<String, Double>> entity : input) {
+            Entity e = entity.getKey();
+            Map<String, Double> scoreElements = entity.getValue();
+            if (scoreElements.get(
+                    JIAdaptedEntityScorer.SCORE_FINAL) == 0.0) {
+                continue;
+            }
+
+            for (Clazz c : e.getTypes()) {
+                TColumnHeaderAnnotation hAnnotation = null;
+                for (TColumnHeaderAnnotation headerAnnotation : headerAnnotationCandidates) {
+                    if (headerAnnotation.getAnnotation().equals(c)) {
+                        hAnnotation = headerAnnotation;
+                        break;
+                    }
+                }
+
+                if (hAnnotation == null) {
+                    String headerText = table.getColumnHeader(column).getHeaderText();
+                    hAnnotation = new TColumnHeaderAnnotation(
+                            headerText, c, 0.0
+                    );
+                    double levScore = calculateStringSimilarity(headerText, hAnnotation, lev);
+                    double jaccardScore = calculateStringSimilarity(headerText, hAnnotation, jaccard);
+                    double cosineScore = calculateStringSimilarity(headerText, hAnnotation, cosine);
+
+                    Map<String, Double> score_elements = new HashMap<>();
+                    score_elements.put(SCORE_FINAL, levScore + jaccardScore + cosineScore);
+                    score_elements.put(SCORE_COSINE, cosineScore);
+                    score_elements.put(SCORE_JACCARD, jaccardScore);
+                    score_elements.put(SCORE_LEV, levScore);
+                    hAnnotation.setScoreElements(scoreElements);
+
+                    headerAnnotationCandidates.add(hAnnotation);
+                }
+
+            }
+        }
+
+        return new ArrayList<>(headerAnnotationCandidates);
     }
 
     @Override

@@ -28,8 +28,10 @@ public class JIInterpreterFailSafe extends JIInterpreter {
                                  boolean useSubjectColumn,
                                  int[] ignoreColumns,
                                  int[] forceInterpretColumn,
-                                 int maxIteration) {
-        super(main_col_finder, neGenerator, columnClassifier, relationGenerator, useSubjectColumn, ignoreColumns, forceInterpretColumn, maxIteration);
+                                 int maxIteration,
+                                 boolean debugMode) {
+        super(main_col_finder, neGenerator, columnClassifier, relationGenerator, useSubjectColumn, ignoreColumns, forceInterpretColumn, maxIteration,
+                debugMode);
     }
 
     public TAnnotation start(Table table, boolean relationLearning) throws STIException {

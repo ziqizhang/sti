@@ -5,11 +5,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 
+import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
 
 import uk.ac.shef.dcs.sti.core.algorithm.ji.*;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.similarity.EntityAndClazzSimilarityScorer;
+import uk.ac.shef.dcs.sti.core.algorithm.smp.ClazzSpecificityCalculator;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerImpl;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
@@ -17,6 +20,7 @@ import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -28,6 +32,8 @@ public class JointInferenceBatch extends STIBatch {
     private static final String PROPERTY_SIMILARITY_CACHE_CORENAME="similarity";
     private static final String PROPERTY_JI_USE_SUBJECT_COLUMN = "sti.ji.usesubjectcolumn";
     private static final String PROPERTY_JI_MAX_ITERATIONS = "sti.ji.maxiterations";
+    private static final String PROPERTY_JI_DEBUG_MODE = "sti.ji.debugmode";
+    private static final String PROPERTY_SMP_CLAZZ_SPECIFICITY_CALCULATOR = "sti.ji.clazzspecificitycalculator";
 
     private EmbeddedSolrServer simlarityServer;
 
@@ -51,6 +57,13 @@ public class JointInferenceBatch extends STIBatch {
                 simlarityServer = new EmbeddedSolrServer(cores.getCore(PROPERTY_SIMILARITY_CACHE_CORENAME));
         }
         return simlarityServer;
+    }
+
+    private ClazzSpecificityCalculator getClazzSpecificityCalculator() throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+        return (ClazzSpecificityCalculator)
+                Class.forName(properties.getProperty(PROPERTY_SMP_CLAZZ_SPECIFICITY_CALCULATOR))
+                        .getDeclaredConstructor(KBSearch.class)
+                        .newInstance(kbSearch);
     }
 
     @Override
@@ -109,7 +122,8 @@ public class JointInferenceBatch extends STIBatch {
                             new JIAdaptedEntityScorer()),
                     new CandidateConceptGenerator(kbSearch,
                             new JIClazzScorer(),
-                            new EntityAndConceptScorer_Freebase(getStopwords(), getNLPResourcesDir()),
+                            new EntityAndClazzSimilarityScorer(getStopwords(), getNLPResourcesDir()),
+                            getClazzSpecificityCalculator(),
                             cores,true),
                     new CandidateRelationGenerator(
                             new JIAdaptedAttributeMatcher(STIConstantProperty.ATTRIBUTE_MATCHER_MIN_SCORE,getStopwords(), new Levenshtein()),
@@ -117,7 +131,8 @@ public class JointInferenceBatch extends STIBatch {
                     Boolean.valueOf(properties.getProperty(PROPERTY_JI_USE_SUBJECT_COLUMN, "false")),
                     getIgnoreColumns(),
                     getMustdoColumns(),
-                    Integer.valueOf(properties.getProperty(PROPERTY_JI_MAX_ITERATIONS,"10"))
+                    Integer.valueOf(properties.getProperty(PROPERTY_JI_MAX_ITERATIONS,"10")),
+                    Boolean.valueOf(properties.getProperty(PROPERTY_JI_DEBUG_MODE,"false"))
             );
         } catch (Exception e) {
             e.printStackTrace();

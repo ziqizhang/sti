@@ -5,7 +5,7 @@ import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 
 /**
- * Created by - on 06/04/2016.
+ *
  */
 public class FreebaseClazzSpecificityCalculator implements ClazzSpecificityCalculator {
 

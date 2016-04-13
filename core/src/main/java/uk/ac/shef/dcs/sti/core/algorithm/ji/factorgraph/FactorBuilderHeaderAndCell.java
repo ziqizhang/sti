@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph;
 
 import cc.mallet.grmm.types.*;
-import uk.ac.shef.dcs.sti.core.algorithm.ji.GraphCheckingUtil;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.DebuggingUtil;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJI;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 
@@ -59,7 +59,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                         Variable[] vars = new Variable[]{cellVar, headerVar};
                         //VarSet varSet = new HashVarSet(new Variable[]{cellVar, headerVar});
                         TableFactor factor = new TableFactor(vars, compatibility);
-                        GraphCheckingUtil.checkFactorAgainstAffinity(factor, affinity_values_between_variable_outcomes, tableId);
+                        DebuggingUtil.debugFactorAndAffinity(factor, affinity_values_between_variable_outcomes, tableId);
                         graph.addFactor(factor);
                     }
                 }

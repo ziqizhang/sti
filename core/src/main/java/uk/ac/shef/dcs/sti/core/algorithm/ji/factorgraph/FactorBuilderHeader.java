@@ -40,7 +40,7 @@ class FactorBuilderHeader extends FactorBuilder {
                 candidateIndex_header.lookupIndex(ha.getAnnotation().getId());
 
                 compatibility[i] = ha.getScoreElements().get(
-                        JIClazzScorer.SCORE_HEADER_FACTOR
+                        JIClazzScorer.SCORE_FINAL
                 );
             }
             Variable variable_header = new Variable(candidateIndex_header);
