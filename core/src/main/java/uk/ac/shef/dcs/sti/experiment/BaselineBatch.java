@@ -89,7 +89,7 @@ public class BaselineBatch extends STIBatch {
         try {
             kbSearch = fbf.createInstance(
                     getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE),
-                    kbEntityServer, null, null);
+                    kbEntityServer, null, null,null);
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));

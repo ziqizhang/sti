@@ -9,6 +9,7 @@ import uk.ac.shef.dcs.util.SolrCache;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -18,6 +19,8 @@ public abstract class KBSearch {
     protected SolrCache cacheEntity;
     protected SolrCache cacheConcept;
     protected SolrCache cacheProperty;
+    protected SolrCache cacheSimilarity;
+    protected Map<String, SolrCache> otherCache;
     protected boolean fuzzyKeywords;
 
     protected static final String KB_SEARCH_RESULT_STOPLIST="kb.search.result.stoplistfile";
@@ -29,7 +32,7 @@ public abstract class KBSearch {
 
     public KBSearch(Boolean fuzzyKeywords,
                     EmbeddedSolrServer cacheEntity, EmbeddedSolrServer cacheConcept,
-                    EmbeddedSolrServer cacheProperty) throws IOException {
+                    EmbeddedSolrServer cacheProperty, EmbeddedSolrServer cacheSimilarity) throws IOException {
 
         if (cacheEntity != null)
             this.cacheEntity = new SolrCache(cacheEntity);
@@ -37,9 +40,17 @@ public abstract class KBSearch {
             this.cacheConcept = new SolrCache(cacheConcept);
         if (cacheProperty != null)
             this.cacheProperty = new SolrCache(cacheProperty);
+        if(cacheSimilarity!=null)
+            this.cacheSimilarity=new SolrCache(cacheSimilarity);
         this.fuzzyKeywords = fuzzyKeywords;
 
     }
+
+
+    public void registerOtherCache(String name, EmbeddedSolrServer cacheServer) {
+        otherCache.put(name, new SolrCache(cacheServer));
+    }
+
 
     public KBSearchResultFilter getResultFilter(){
         return resultFilter;

@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.todo.evaluation;
+package uk.ac.shef.dcs.sti.TODO.evaluation;
 
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.extractor.html.TagSoupParser;

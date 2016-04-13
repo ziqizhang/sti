@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.todo.gs;
+package uk.ac.shef.dcs.sti.TODO.gs;
 
 import info.bliki.wiki.dump.WikiXMLParser;
 import org.xml.sax.SAXException;

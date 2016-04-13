@@ -75,7 +75,7 @@ public abstract class STIBatch {
 
     protected TAnnotationWriter writer;
 
-    private CoreContainer cores;
+    protected CoreContainer cores;
     private EmbeddedSolrServer entityCache;
     private EmbeddedSolrServer conceptCache;
     private EmbeddedSolrServer relationCache;

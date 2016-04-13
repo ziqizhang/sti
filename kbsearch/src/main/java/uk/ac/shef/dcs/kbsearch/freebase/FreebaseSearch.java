@@ -21,7 +21,6 @@ import java.util.*;
 public class FreebaseSearch extends KBSearch {
 
     private static final Logger LOG = Logger.getLogger(FreebaseSearch.class.getName());
-    public static String PROPERTY_SIMILARITY_CACHE_CORENAME = "similarity";
     private static final boolean AUTO_COMMIT = true;
 
     //two propperties for debugging purposes.In practice both should be false. set to true
@@ -30,22 +29,17 @@ public class FreebaseSearch extends KBSearch {
     private static final boolean ALWAYS_CALL_REMOTE_TOPICAPI = false;
     private FreebaseQueryProxy searcher;
 
-    protected Map<String, SolrCache> otherCache;
+
 
 
     public FreebaseSearch(Properties properties, Boolean fuzzyKeywords,
                           EmbeddedSolrServer cacheEntity, EmbeddedSolrServer cacheConcept,
-                          EmbeddedSolrServer cacheProperty) throws IOException {
-        super(fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty);
+                          EmbeddedSolrServer cacheProperty, EmbeddedSolrServer cacheSimilarity) throws IOException {
+        super(fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty,cacheSimilarity);
         searcher = new FreebaseQueryProxy(properties);
         otherCache = new HashMap<>();
         resultFilter = new FreebaseSearchResultFilter(properties.getProperty(KB_SEARCH_RESULT_STOPLIST));
     }
-
-    public void registerOtherCache(String name, EmbeddedSolrServer cacheServer) {
-        otherCache.put(name, new SolrCache(cacheServer));
-    }
-
 
     @Override
     public List<Entity> findEntityCandidates(String content) throws KBSearchException {
@@ -296,7 +290,7 @@ public class FreebaseSearch extends KBSearch {
         String query = createSolrCacheQuery_findEntityConceptSimilarity(id1, id2);
         Object result = null;
         try {
-            result = otherCache.get(PROPERTY_SIMILARITY_CACHE_CORENAME).retrieve(query);
+            result = cacheSimilarity.retrieve(query);
             if (result != null)
                 LOG.debug("QUERY (entity-clazz similarity, cache load)=" + query + "|" + query);
         } catch (Exception e) {
@@ -310,11 +304,11 @@ public class FreebaseSearch extends KBSearch {
                                              boolean commit) {
         String query = createSolrCacheQuery_findEntityConceptSimilarity(id1, id2);
         try {
-            otherCache.get(PROPERTY_SIMILARITY_CACHE_CORENAME).cache(query, score, commit);
+            cacheSimilarity.cache(query, score, commit);
             LOG.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
             if (biDirectional) {
                 query = id2 + "<>" + id1;
-                otherCache.get(PROPERTY_SIMILARITY_CACHE_CORENAME).cache(query, score, commit);
+                cacheSimilarity.cache(query, score, commit);
                 LOG.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
             }
         } catch (Exception e) {

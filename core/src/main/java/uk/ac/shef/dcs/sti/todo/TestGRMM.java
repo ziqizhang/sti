@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.todo;
+package uk.ac.shef.dcs.sti.TODO;
 
 import cc.mallet.grmm.inference.Inferencer;
 import cc.mallet.grmm.inference.LoopyBP;

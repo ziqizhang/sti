@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.todo.gs;
+package uk.ac.shef.dcs.sti.TODO.gs;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;

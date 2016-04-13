@@ -15,7 +15,7 @@ public class KBSearchFactory {
     public KBSearch createInstance(
             String kbSearchPropertyFile,
             EmbeddedSolrServer cacheEntity, EmbeddedSolrServer cacheConcept,
-            EmbeddedSolrServer cacheProperty) throws KBSearchException {
+            EmbeddedSolrServer cacheProperty,EmbeddedSolrServer cacheSimilarity) throws KBSearchException {
 
         Properties properties = new Properties();
         try {
@@ -29,9 +29,11 @@ public class KBSearchFactory {
                                 Boolean.class,
                                 EmbeddedSolrServer.class,
                                 EmbeddedSolrServer.class,
+                                EmbeddedSolrServer.class,
                                 EmbeddedSolrServer.class).
                         newInstance(properties,
-                                fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty);
+                                fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty,
+                                cacheSimilarity);
             } else {
                 throw new KBSearchException("Class:" + className + " not supported");
             }

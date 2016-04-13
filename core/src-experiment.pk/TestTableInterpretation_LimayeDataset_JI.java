@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.todo;
+package uk.ac.shef.dcs.sti.TODO;
 
 import com.google.api.client.http.HttpResponseException;
 import org.apache.solr.client.solrj.SolrServer;

@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.todo.gs;
+package uk.ac.shef.dcs.sti.TODO.gs;
 
 import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Document;

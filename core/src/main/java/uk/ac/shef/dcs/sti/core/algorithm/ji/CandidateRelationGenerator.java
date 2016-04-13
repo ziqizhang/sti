@@ -45,7 +45,7 @@ public class CandidateRelationGenerator {
             subjectColumnsToConsider.add(tableAnnotations.getSubjectColumn());
         else {
             for (int c = 0; c < table.getNumCols(); c++) {
-                if (!TI_JointInference.ignoreColumn(c, ignoreColumns))
+                if (!ignoreColumns.contains(c))
                     subjectColumnsToConsider.add(c);
             }
         }
@@ -55,7 +55,7 @@ public class CandidateRelationGenerator {
                 continue;
 
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
-                if (subjectColumn == objectColumn||TI_JointInference.ignoreColumn(objectColumn, ignoreColumns))
+                if (subjectColumn == objectColumn|| ignoreColumns.contains(objectColumn))
                     continue;
                 DataTypeClassifier.DataType columnDataType = table.getColumnHeader(objectColumn).getFeature().getMostFrequentDataType().getType();
                 if (!columnDataType.equals(DataTypeClassifier.DataType.NAMED_ENTITY))
@@ -90,7 +90,7 @@ public class CandidateRelationGenerator {
                 continue;
 
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
-                if (subjectColumn == objectColumn||TI_JointInference.ignoreColumn(objectColumn, ignoreColumns)) continue;
+                if (subjectColumn == objectColumn|| ignoreColumns.contains(objectColumn)) continue;
                 DataTypeClassifier.DataType columnDataType = table.getColumnHeader(objectColumn).getFeature().getMostFrequentDataType().getType();
                 if (!columnDataType.equals(DataTypeClassifier.DataType.NAMED_ENTITY)) continue;
                 System.out.print("(" + subjectColumn + "-" + objectColumn + ",");
@@ -108,7 +108,7 @@ public class CandidateRelationGenerator {
             if (!table.getColumnHeader(subjectColumn).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                 continue;
             for (int objectColumn = 0; objectColumn < table.getNumCols(); objectColumn++) { //choose a column to be object column (any data type)
-                if (subjectColumn == objectColumn||TI_JointInference.ignoreColumn(objectColumn, ignoreColumns)) continue;
+                if (subjectColumn == objectColumn|| ignoreColumns.contains(objectColumn)) continue;
                 DataTypeClassifier.DataType columnDataType = table.getColumnHeader(objectColumn).getFeature().getMostFrequentDataType().getType();
                 if (!columnDataType.equals(DataTypeClassifier.DataType.NAMED_ENTITY)) continue;
                 System.out.print("(" + subjectColumn + "-" + objectColumn + ",");
