@@ -17,10 +17,10 @@ import java.util.Map;
 /**
  */
 public class JIAdaptedEntityScorer implements EntityScorer {
-    public static String SCORE_CELL_FACTOR ="score_factor_graph-cell";
-    public static String SCORE_LEV = "stringsim_lev";
-    public static String SCORE_JACCARD = "stringsim_jaccard";
-    public static String SCORE_COSINE="stringsim_cosine";
+    public static final String SCORE_FINAL ="score_factor_graph-entity";
+    public static final String SCORE_LEV = "stringsim_lev";
+    public static final String SCORE_JACCARD = "stringsim_jaccard";
+    public static final String SCORE_COSINE="stringsim_cosine";
 
     private AbstractStringMetric cosine;
     private AbstractStringMetric jaccard;
@@ -43,12 +43,11 @@ public class JIAdaptedEntityScorer implements EntityScorer {
 
         TCell cell = table.getContentCell(sourceRowIndex, sourceColumnIndex);
         double levScore = calculateStringSimilarity(cell.getText(), candidate, lev);
-        //dice between NE and cell text
         double jaccardScore = calculateStringSimilarity(cell.getText(), candidate, jaccard);
         double cosineScore = calculateStringSimilarity(cell.getText(), candidate, cosine);
 
-        Map<String, Double> score_elements = new HashMap<String, Double>();
-        score_elements.put(SCORE_CELL_FACTOR, levScore+jaccardScore+cosineScore);
+        Map<String, Double> score_elements = new HashMap<>();
+        score_elements.put(SCORE_FINAL, levScore+jaccardScore+cosineScore);
         score_elements.put(SCORE_COSINE,cosineScore);
         score_elements.put(SCORE_JACCARD,jaccardScore);
         score_elements.put(SCORE_LEV, levScore);
@@ -62,7 +61,7 @@ public class JIAdaptedEntityScorer implements EntityScorer {
 
     @Override
     public double computeFinal(Map<String, Double> scoreMap, String cellTextOriginal) {
-        scoreMap.put(TCellAnnotation.SCORE_FINAL, scoreMap.get(SCORE_CELL_FACTOR));
-        return scoreMap.get(SCORE_CELL_FACTOR);
+        scoreMap.put(TCellAnnotation.SCORE_FINAL, scoreMap.get(SCORE_FINAL));
+        return scoreMap.get(SCORE_FINAL);
     }
 }

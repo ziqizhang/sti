@@ -13,56 +13,6 @@ import java.util.*;
  */
 class DebuggingUtil {
 
-    public static void checkFactorAgainstAffinity(Factor f, Map<String, Double> affinity, String tableId) {
-        Set<String> factorValues = new HashSet<>();
-        AssignmentIterator it = f.assignmentIterator();
-        while (it.hasNext()) {
-            Assignment assignment = it.assignment();
-            //assignment.numVariables();
-            String[] splits = assignment.dumpToString().trim().split("[\r\n]");
-            String indexString = splits[splits.length - 1].trim();
-            String[] indexes = indexString.split("\\s+");
-
-            double score = f.value(assignment);
-            if (score > 0) {
-                String line = "";
-                for (int v = 0; v < assignment.numVariables(); v++) {
-                    Variable var = assignment.getVariable(v);
-                    //System.out.print(indexes[v]+",");
-                    int idx = 0;
-                    try {
-                        idx = Integer.valueOf(indexes[v]);
-                    } catch (NumberFormatException e) {
-                        System.err.println(assignment.dumpToString() + ">>>>" + indexes[v]);
-                        System.exit(1);
-                    }
-                    //String label = var.getLabelAlphabet().lookupLabel(idx).toString();
-                    line = line + idx + " ";
-                }
-                factorValues.add(line.trim());
-            }
-            it.next();
-        }
-        Set<String> affinityValues = new HashSet<String>();
-        for (String k : affinity.keySet()) {
-            affinityValues.add(k.replaceAll("[^0-9]", " ").trim());
-        }
-
-        List<String> factorValuesCopy = new ArrayList<String>(factorValues);
-        List<String> affinityValuesCopy = new ArrayList<String>(affinityValues);
-        factorValuesCopy.removeAll(affinityValues);
-        affinityValuesCopy.removeAll(factorValues);
-
-        Collections.sort(factorValuesCopy);
-        Collections.sort(affinityValuesCopy);
-        if (factorValuesCopy.size() != 0) {
-            //System.err.println(tableId+"-"+f.toString() + " factorValuesRemain:" + factorValuesCopy);
-        }
-        if (affinityValuesCopy.size() != 0) {
-            System.err.println(tableId + "-" + f.toString() + " affinityValuesRemain:" + affinityValuesCopy);
-        }
-    }
-
     protected static Object[] debugAnnotations(TAnnotation annotation){
         Object[] res = new Object[3];
         Map<String, Integer> countHeader = new HashMap<>();
@@ -87,7 +37,6 @@ class DebuggingUtil {
         graph.dump(p);
         p.close();
 
-        boolean checkSuccess = true;
         Map<Variable, Set<Integer>> variableNonzerooutcome_collectedFromFactor = new HashMap<Variable, Set<Integer>>();
         Iterator it = graph.factorsIterator();
         while (it.hasNext()) {
@@ -140,7 +89,6 @@ class DebuggingUtil {
                 List<Integer> missing = new ArrayList<>(allOutcomesOfVariable);
                 Collections.sort(missing);
 
-                checkSuccess = false;
                 for (int m : missing) {
                     System.err.println("MISSING:" + v.getLabel() + "\t" + v.getLabelAlphabet().lookupLabel(m) + " in " + tableId);
                 }

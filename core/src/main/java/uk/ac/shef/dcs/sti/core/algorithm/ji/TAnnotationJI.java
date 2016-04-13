@@ -41,7 +41,7 @@ public class TAnnotationJI extends TAnnotation {
         score_entityAndRelation.put(createKeyPair(entityId, relationId), score);
     }
 
-    public double getScore_entityAndConcept(String entityId, String conceptId) {
+    public double getScoreEntityAndConceptSimilarity(String entityId, String conceptId) {
         usedKey_score_entityAndConcept.add(createKeyPair(entityId, conceptId));
         Double v = score_entityAndConcept.get(createKeyPair(entityId, conceptId));
         if (v == null)
@@ -49,7 +49,7 @@ public class TAnnotationJI extends TAnnotation {
         return v;
     }
 
-    public void setScore_entityAndConcept(String entityId, String conceptId, double score) {
+    public void setScoreEntityAndConceptSimilarity(String entityId, String conceptId, double score) {
         score_entityAndConcept.put(createKeyPair(entityId, conceptId), score);
     }
 
@@ -84,23 +84,6 @@ public class TAnnotationJI extends TAnnotation {
         if (cells != null)
             v = v + Math.sqrt(cells.size() / (double) norm);
         return v;
-
-        /*if (v == 0) {//todo change this back?
-            if(CandidateRelationGenerator.allowRelationCandidatesFromRows){
-                Map<String, Double> cells = scoreContributingRows_conceptPairAndRelation.get(
-                        createKeyTriple(sbjConceptId, objConceptId, relationId));
-                if (cells != null)
-                    v = Math.sqrt(cells.size() / (double) norm);
-                return v;
-            }
-            return v;
-        } else {
-            Map<String, Double> cells = scoreContributingRows_conceptPairAndRelation.get(
-                    createKeyTriple(sbjConceptId, objConceptId, relationId));
-            if (cells != null)
-                v = v + Math.sqrt(cells.size() / (double) norm);
-            return v;
-        }*/
     }
 
     /**

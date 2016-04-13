@@ -15,7 +15,6 @@ import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph.FactorGraphBuilder;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.util.TableAnnotationChecker;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.io.IOException;
@@ -37,7 +36,7 @@ public class JIInterpreter extends SemanticTableInterpreter {
     protected List<String> invalidCellValues = Arrays.asList("yes", "no", "away", "home");
 
     protected boolean useSubjectColumn = false;
-    protected boolean debugMode=false;
+    protected boolean debugMode = false;
     protected CandidateEntityGenerator neGenerator;
     protected CandidateConceptGenerator columnClazzClassifier;
     protected CandidateRelationGenerator relationGenerator;
@@ -61,7 +60,7 @@ public class JIInterpreter extends SemanticTableInterpreter {
         this.columnClazzClassifier = columnClazzClassifier;
         this.relationGenerator = relationGenerator;
         this.maxIteration = maxIteration;
-        this.debugMode=debugMode;
+        this.debugMode = debugMode;
     }
 
 
@@ -86,7 +85,7 @@ public class JIInterpreter extends SemanticTableInterpreter {
 
             LOG.info(">\t JOINT INFERENCE VARIABLE INIT");
             LOG.info(">\t named entity generator..."); //SMP begins with an initial NE ranker to rank candidate NEs for each cell
-            boolean graphNonEmpty=generateEntityCandidates(table,tableAnnotations,ignoreColumnsRevised);
+            boolean graphNonEmpty = generateEntityCandidates(table, tableAnnotations, ignoreColumnsRevised);
 
             LOG.info(">\t column class generator");
             generateClazzCandidates(tableAnnotations, table, ignoreColumnsRevised);
@@ -96,12 +95,12 @@ public class JIInterpreter extends SemanticTableInterpreter {
             }
 
 
-            if (graphNonEmpty && TableAnnotationChecker.hasAnnotation(tableAnnotations)) {
+            if (graphNonEmpty && hasAnnotation(tableAnnotations)) {
                 LOG.info(">\t BUILDING FACTOR GRAPH");
                 FactorGraph graph =
                         graphBuilder.build(tableAnnotations, relationLearning, table.getSourceId());
 
-                if(debugMode) {
+                if (debugMode) {
                     DebuggingUtil.debugGraph(graph, table.getSourceId());
                     tableAnnotations.debugAffinity(table.getSourceId());
                 }
@@ -116,17 +115,16 @@ public class JIInterpreter extends SemanticTableInterpreter {
                 try {
                     infResidualBP.computeMarginals(graph);
                 } catch (IndexOutOfBoundsException e) {
-                    if(debugMode) {
+                    if (debugMode) {
                         LOG.error("\t Graph empty exception, but checking did not catch this. System exists:" + table.getSourceId());
                         LOG.error(graph.dumpToString());
-                        Object[] debuggingResult=DebuggingUtil.debugAnnotations(tableAnnotations);
-                        for(Object o: debuggingResult) {
+                        Object[] debuggingResult = DebuggingUtil.debugAnnotations(tableAnnotations);
+                        for (Object o : debuggingResult) {
                             LOG.info(o.toString());
                         }
                         LOG.warn(ExceptionUtils.getFullStackTrace(e));
                         System.exit(1);
-                    }
-                    else
+                    } else
                         LOG.warn(ExceptionUtils.getFullStackTrace(e));
                 }
 
@@ -142,6 +140,22 @@ public class JIInterpreter extends SemanticTableInterpreter {
         } catch (Exception e) {
             throw new STIException(e);
         }
+    }
+
+    private boolean hasAnnotation(TAnnotationJI tabAnnotations) {
+        for (int col = 0; col < tabAnnotations.getCols(); col++) {
+            TColumnHeaderAnnotation[] ha = tabAnnotations.getHeaderAnnotation(col);
+            if (ha.length > 0)
+                return true;
+            for (int row = 0; row < tabAnnotations.getRows(); row++) {
+                if (tabAnnotations.getContentCellAnnotations(row, col).length > 0)
+                    return true;
+            }
+        }
+        if (tabAnnotations.getColumncolumnRelations().size() > 0)
+            return true;
+
+        return false;
     }
 
     /**
@@ -180,7 +194,7 @@ public class JIInterpreter extends SemanticTableInterpreter {
             if (getMustdoColumns().contains(col)) {
                 LOG.info("\t\t>> column=(compulsory)" + col);
                 for (int r = 0; r < table.getNumRows(); r++) {
-                    neGenerator.generateCandidateEntity(tableAnnotations, table, r, col);
+                    neGenerator.generateInitialCellAnnotations(tableAnnotations, table, r, col);
                 }
                 graphNonEmpty = true;
             } else {
@@ -189,7 +203,7 @@ public class JIInterpreter extends SemanticTableInterpreter {
                     continue;
                 LOG.info("\t\t>> column=" + col);
                 for (int r = 0; r < table.getNumRows(); r++) {
-                    neGenerator.generateCandidateEntity(tableAnnotations, table, r, col);
+                    neGenerator.generateInitialCellAnnotations(tableAnnotations, table, r, col);
                 }
                 graphNonEmpty = true;
             }
@@ -203,13 +217,13 @@ public class JIInterpreter extends SemanticTableInterpreter {
         for (int col = 0; col < table.getNumCols(); col++) {
             if (getMustdoColumns().contains(col)) {
                 LOG.info("\t\t>> column=(compulsory)" + col);
-                columnClazzClassifier.generateCandidateConcepts(tableAnnotations, table, col);
+                columnClazzClassifier.generateInitialColumnAnnotations(tableAnnotations, table, col);
             } else {
                 if (ignoreColumnsLocal.contains(col)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
                 LOG.info("\t\t>> column=" + col);
-                columnClazzClassifier.generateCandidateConcepts(tableAnnotations, table, col);
+                columnClazzClassifier.generateInitialColumnAnnotations(tableAnnotations, table, col);
             }
         }
     }

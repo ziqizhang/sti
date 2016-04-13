@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph;
 
 import cc.mallet.grmm.types.*;
 import cc.mallet.types.LabelAlphabet;
-import uk.ac.shef.dcs.sti.core.algorithm.ji.ClassificationScorer_JI_adapted;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.JIClazzScorer;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.VariableType;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
@@ -40,7 +40,7 @@ class FactorBuilderHeader extends FactorBuilder {
                 candidateIndex_header.lookupIndex(ha.getAnnotation().getId());
 
                 compatibility[i] = ha.getScoreElements().get(
-                        ClassificationScorer_JI_adapted.SCORE_HEADER_FACTOR
+                        JIClazzScorer.SCORE_HEADER_FACTOR
                 );
             }
             Variable variable_header = new Variable(candidateIndex_header);

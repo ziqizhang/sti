@@ -42,7 +42,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                         String conceptURL = headerVar.getLabelAlphabet().lookupLabel(headerVarOutcomeIndex).toString();
                         if (headerVarOutcomeIndex < 0) continue;
 
-                        double score = annotation.getScore_entityAndConcept(entId, conceptURL);
+                        double score = annotation.getScoreEntityAndConceptSimilarity(entId, conceptURL);
                         if (score > 0) {
                             affinity_values_between_variable_outcomes.put(
                                     cellVarOutcomeIndex + "," +headerVarOutcomeIndex , score

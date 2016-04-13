@@ -62,7 +62,7 @@ public class JIInterpreterFailSafe extends JIInterpreter {
                 if (getMustdoColumns().contains(col)) {
                     System.out.println("\t\t>> Column=(forced)" + col);
                     for (int r = 0; r < table.getNumRows(); r++) {
-                        neGenerator.generateCandidateEntity(tab_annotations, table, r, col);
+                        neGenerator.generateInitialCellAnnotations(tab_annotations, table, r, col);
                     }
                 } else {
                     if (ignoreColumnsLocal.contains(col)) continue;
@@ -73,7 +73,7 @@ public class JIInterpreterFailSafe extends JIInterpreter {
                     //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
                     System.out.println("\t\t>> Column=" + col);
                     for (int r = 0; r < table.getNumRows(); r++) {
-                        neGenerator.generateCandidateEntity(tab_annotations, table, r, col);
+                        neGenerator.generateInitialCellAnnotations(tab_annotations, table, r, col);
                     }
                 }
             }

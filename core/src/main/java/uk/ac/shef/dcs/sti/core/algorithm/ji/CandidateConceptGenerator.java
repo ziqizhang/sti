@@ -1,11 +1,13 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import javafx.util.Pair;
+import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.multicore.SimilarityComputerThread;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
@@ -16,37 +18,39 @@ import java.util.*;
  *
  */
 public class CandidateConceptGenerator {
-    private int multiThreads = 10;
+
+    private static final Logger LOG = Logger.getLogger(CandidateConceptGenerator.class.getName());
+    private int threads = 10;
     private boolean useCache=false;
     private KBSearch kbSearch;
-    private ClassificationScorer_JI_adapted conceptScorer;
+    private JIClazzScorer clazzScorer;
     private EntityAndConceptScorer_Freebase entityAndConceptScorer;
 
     public CandidateConceptGenerator(KBSearch kbSearch,
-                                     ClassificationScorer_JI_adapted conceptScorer,
+                                     JIClazzScorer clazzScorer,
                                      EntityAndConceptScorer_Freebase entityAndConceptScorer,
-                                     int multiThreads,
+                                     int threads,
                                      boolean useCache) {
         this.kbSearch = kbSearch;
         this.useCache=useCache;
-        this.conceptScorer = conceptScorer;
+        this.clazzScorer = clazzScorer;
         this.entityAndConceptScorer = entityAndConceptScorer;
-        this.multiThreads = multiThreads;
+        this.threads = threads;
     }
 
-    public void generateCandidateConcepts(TAnnotationJI tableAnnotation, Table table, int col) throws KBSearchException {
+    public void generateInitialColumnAnnotations(TAnnotationJI tableAnnotation, Table table, int col) throws KBSearchException {
         List<Clazz> distinctTypes = new ArrayList<>();
-        Map<String, List<String>> entityId_and_conceptURLs = new HashMap<String, List<String>>();
-        Map<String, String> distinctTypeStrings = new HashMap<String, String>();
-        Set<String> distinctEntityIds = new HashSet<String>();
+        Map<String, List<String>> entityId_and_conceptURLs = new HashMap<>();
+        Map<String, String> distinctTypeStrings = new HashMap<>();
         List<Entity> distinctEntities = new ArrayList<>();
+
         for (int r = 0; r < table.getNumRows(); r++) {
             TCellAnnotation[] cellAnnotations = tableAnnotation.getContentCellAnnotations(r, col);
             if (cellAnnotations.length > 0) {
                 for (TCellAnnotation ca : cellAnnotations) {
                     Entity e = ca.getAnnotation();
                     if (ca.getScoreElements().get(
-                            JIAdaptedEntityScorer.SCORE_CELL_FACTOR) ==0.0){
+                            JIAdaptedEntityScorer.SCORE_FINAL) ==0.0){
                         continue;
                     }
                     if(!distinctEntities.contains(e))
@@ -57,7 +61,7 @@ public class CandidateConceptGenerator {
                         distinctTypeStrings.put(url, label);
                         List<String> conceptURLs = entityId_and_conceptURLs.get(e.getId());
                         if (conceptURLs == null)
-                            conceptURLs = new ArrayList<String>();
+                            conceptURLs = new ArrayList<>();
                         if (!conceptURLs.contains(url))
                             conceptURLs.add(url);
                         entityId_and_conceptURLs.put(e.getId(), conceptURLs);
@@ -73,7 +77,8 @@ public class CandidateConceptGenerator {
             List<Attribute> triples = kbSearch.findAttributesOfClazz(conceptId);
             Clazz concept = new Clazz(conceptId, conceptName);
             concept.setAttributes(triples);
-            distinctTypes.add(concept);
+            if(!distinctTypes.contains(concept))
+                distinctTypes.add(concept);
         }
 
         //go thru every distinct type, create header annotation candidate
@@ -82,9 +87,9 @@ public class CandidateConceptGenerator {
         for (Map.Entry<String, String> concept : distinctTypeStrings.entrySet()) {
             TColumnHeaderAnnotation ha = new TColumnHeaderAnnotation(table.getColumnHeader(col).getHeaderText(),
                     new Clazz(concept.getKey(), concept.getValue()), 0.0);
-            Map<String, Double> score_elements = conceptScorer.score(ha, table.getColumnHeader(col));
-            conceptScorer.compute_final_score(score_elements);
-            ha.setFinalScore(score_elements.get(ClassificationScorer_JI_adapted.SCORE_HEADER_FACTOR));
+            Map<String, Double> score_elements = clazzScorer.score(ha, table.getColumnHeader(col));
+            clazzScorer.compute_final_score(score_elements);
+            ha.setFinalScore(score_elements.get(JIClazzScorer.SCORE_HEADER_FACTOR));
             ha.setScoreElements(score_elements);
             headerAnnotations[count] = ha;
             count++;
@@ -93,66 +98,49 @@ public class CandidateConceptGenerator {
         tableAnnotation.setHeaderAnnotation(col, headerAnnotations);
 
         //go thru every entity-concept pair, compute their scores
-        System.out.print("-E_and_C_scores-(tot.Ent:" + distinctEntities.size() + "-tot.Cpt:" + distinctTypes.size() + ">");
-        int cc = 0;
-
+        LOG.info("\t\t>> entity-clazz similarity (Ent:" + distinctEntities.size() + "Clz:" + distinctTypes.size() + ")");
         Map<String, Double> simScores =
-                computeSimilarityMultiThread(multiThreads, distinctEntities, distinctTypes, true);
+                computeSemanticSimilarity(threads, distinctEntities, distinctTypes, true);
         for (Entity entity : distinctEntities) {
             for (Clazz concept : distinctTypes) {
-                //cc++;
-                Double sim = //entityAndConceptScorer.computeEntityConceptSimilarity(entityId, conceptId, kbSearch);
-                        simScores.get(entity.getId() + "," + concept.getId());
-                if(sim==null)
-                    System.out.println("fuck");
-                tableAnnotation.setScore_entityAndConcept(entity.getId(), concept.getId(), sim);
-                //if(cc%50==0) System.out.print(cc + ",");
+                Double sim = simScores.get(entity.getId() + "," + concept.getId());
+                assert sim!=null;
+                tableAnnotation.setScoreEntityAndConceptSimilarity(entity.getId(), concept.getId(), sim);
             }
         }
-        System.out.println(")");
+
         //then update scores for every entity-concept pair where the entity votes for the concept
-        System.out.print("-E_and_C_scores_update-(tot.Ent:" + distinctEntities.size() + ">");
-        cc = 0;
+        LOG.info("\t\t>> entity-clazz similarity (Ent:" + distinctEntities.size() + ")");
+        int cc = 0;
         for (Map.Entry<String, List<String>> entry : entityId_and_conceptURLs.entrySet()) {
             String entityId = entry.getKey();
             List<String> conceptIds = entry.getValue();
             System.out.print(cc + "=" + conceptIds.size() + ",");
             for (String conceptId : conceptIds) {
                 double specificity = entityAndConceptScorer.computeConceptSpecificity(conceptId, kbSearch);
-                double simScore = tableAnnotation.getScore_entityAndConcept(entityId, conceptId);
-                tableAnnotation.setScore_entityAndConcept(entityId, conceptId, simScore + 1.0 + specificity);
+                double simScore = tableAnnotation.getScoreEntityAndConceptSimilarity(entityId, conceptId);
+                tableAnnotation.setScoreEntityAndConceptSimilarity(
+                        entityId, conceptId, simScore + 1.0 + specificity);
             }
             cc++;
         }
         System.out.println(")");
     }
 
-    private Map<String, Double> computeSimilarityMultiThread(int threads, Collection<Entity> entities,
-                                                             Collection<Clazz> concepts,
-                                                             boolean biDirectional)throws KBSearchException{
-        Map<String, Double> result = new HashMap<String, Double>();
+    private Map<String, Double> computeSemanticSimilarity(int threads, Collection<Entity> entities,
+                                                          Collection<Clazz> concepts,
+                                                          boolean biDirectional)throws KBSearchException{
+        Map<String, Double> result = new HashMap<>();
         List<Pair<Entity,Clazz>> pairs = new ArrayList<>();
-        int cc=0;
         for (Entity e : entities) {
             for (Clazz c : concepts) {
                 pairs.add(new Pair<>(e, c));
-                /*if(e.equals("/m/045clt")&&c.equals("/organization/organization"))
-                    System.out.println(c);*/
-                cc++;
             }
         }
 
         Collections.shuffle(pairs);
 
-        /*try {
-            result = SimilarityComputeManager.compute(multiThreads, pairs, useCache, entityAndConceptScorer,
-                    kbSearch);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return result;*/
-
-        List<SimilarityComputerThread> workers = new ArrayList<SimilarityComputerThread>();
+        List<SimilarityComputerThread> workers = new ArrayList<>();
         int size = pairs.size() / threads;
         if (size < 5) {
             threads = 1;

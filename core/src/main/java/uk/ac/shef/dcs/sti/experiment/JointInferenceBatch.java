@@ -108,7 +108,7 @@ public class JointInferenceBatch extends STIBatch {
                     new CandidateEntityGenerator(kbSearch,
                             new JIAdaptedEntityScorer()),
                     new CandidateConceptGenerator(kbSearch,
-                            new ClassificationScorer_JI_adapted(),
+                            new JIClazzScorer(),
                             new EntityAndConceptScorer_Freebase(getStopwords(), getNLPResourcesDir()),
                             cores,true),
                     new CandidateRelationGenerator(

@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import javafx.util.Pair;
+import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
@@ -9,6 +10,7 @@ import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
+import uk.ac.shef.dcs.util.StringUtils;
 
 import java.util.*;
 
@@ -18,37 +20,33 @@ import java.util.*;
 public class CandidateEntityGenerator {
     private KBSearch kbSearch;
     private JIAdaptedEntityScorer disambScorer;
-    //private static Logger LOG = Logger.getLogger(TCellDisambiguator.class.getName());
+    private static final Logger LOG = Logger.getLogger(CandidateEntityGenerator.class.getName());
 
     public CandidateEntityGenerator(KBSearch kbSearch, JIAdaptedEntityScorer disambScorer) {
         this.kbSearch = kbSearch;
         this.disambScorer = disambScorer;
     }
 
-    public void generateCandidateEntity(
+    public void generateInitialCellAnnotations(
             TAnnotation tableAnnotations, Table table,
             int row, int column
     ) throws KBSearchException {
-        List<Pair<Entity, Map<String, Double>>> scores = scoreCandidateNamedEntities(table, row, column);
+        List<Pair<Entity, Map<String, Double>>> scores = scoreEntities(table, row, column);
         List<Pair<Entity, Double>> sorted = new ArrayList<>();
         for (Pair<Entity, Map<String, Double>> e : scores) {
-            double score = e.getValue().get(JIAdaptedEntityScorer.SCORE_CELL_FACTOR);
-            sorted.add(new Pair<Entity, Double>(e.getKey(), score));
+            double score = e.getValue().get(JIAdaptedEntityScorer.SCORE_FINAL);
+            sorted.add(new Pair<>(e.getKey(), score));
         }
-        Collections.sort(sorted, new Comparator<Pair<Entity, Double>>() {
-            @Override
-            public int compare(Pair<Entity, Double> o1, Pair<Entity, Double> o2) {
-                return o2.getValue().compareTo(o1.getValue());
-            }
-        });
+        Collections.sort(sorted, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+
         TCell tcc = table.getContentCell(row, column);
-        String text = tcc.getText().trim().replaceAll("[^a-zA-Z0-9]", "");
+        String text = StringUtils.toAlphaNumericWhitechar(tcc.getText().trim()).trim();
         if (text.length() > 2) {
             TCellAnnotation[] annotations = new TCellAnnotation[scores.size()];
             int i = 0;
             for (Pair<Entity, Map<String, Double>> oo : scores) {
                 TCellAnnotation ca = new TCellAnnotation(tcc.getText(),
-                        oo.getKey(), oo.getValue().get(JIAdaptedEntityScorer.SCORE_CELL_FACTOR),
+                        oo.getKey(), oo.getValue().get(JIAdaptedEntityScorer.SCORE_FINAL),
                         oo.getValue());
                 annotations[i] = ca;
                 i++;
@@ -58,25 +56,20 @@ public class CandidateEntityGenerator {
         //return sorted;
     }
 
-    public List<Pair<Entity, Map<String, Double>>> scoreCandidateNamedEntities(Table table,
-                                                                                          int row, int column
+    private List<Pair<Entity, Map<String, Double>>> scoreEntities(Table table,
+                                                                  int row, int column
     ) throws KBSearchException {
-        //do disambiguation scoring
-        //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         TCell cell = table.getContentCell(row, column);
-        System.out.print("\t\t>> Candidate Entity Generator, position at (" + row + "," + column + ") " +
+        LOG.info("\t\t>> (generating candidate entities, position at (" + row + "," + column + ") " +
                 cell);
-       /* if(row==11)
-            System.out.println();*/
         List<Entity> candidates = kbSearch.findEntityCandidates(cell.getText());
-        List<Entity> removeDuplicates = new ArrayList<>();
-        for(Entity ec: candidates){
-            if(!removeDuplicates.contains(ec))
-                removeDuplicates.add(ec);
+        List<Entity> nonDuplicates = new ArrayList<>();
+        for (Entity ec : candidates) {
+            if (!nonDuplicates.contains(ec))
+                nonDuplicates.add(ec);
         }
-        candidates=removeDuplicates;
+        candidates = nonDuplicates;
 
-        System.out.println(" candidates=" + candidates.size());
         //each candidate will have a map containing multiple elements of scores. See SMPAdaptedEntityScorer
         List<Pair<Entity, Map<String, Double>>> disambiguationScores =
                 new ArrayList<>();
@@ -88,10 +81,10 @@ public class CandidateEntityGenerator {
             }
             Map<String, Double> scoreMap = disambScorer.
                     computeElementScores(c, candidates,
-                            column, row, Arrays.asList(row),
+                            column, row, Collections.singletonList(row),
                             table);
             disambScorer.computeFinal(scoreMap, cell.getText());
-            Pair<Entity, Map<String, Double>> entry = new Pair<>(c,scoreMap);
+            Pair<Entity, Map<String, Double>> entry = new Pair<>(c, scoreMap);
             disambiguationScores.add(entry);
         }
         return disambiguationScores;
