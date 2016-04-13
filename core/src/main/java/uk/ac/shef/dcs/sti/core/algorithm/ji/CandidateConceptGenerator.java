@@ -34,7 +34,7 @@ public class CandidateConceptGenerator {
         this.multiThreads = multiThreads;
     }
 
-    public void generateCandidateConcepts(TAnnotationJIFreebase tableAnnotation, Table table, int col) throws KBSearchException {
+    public void generateCandidateConcepts(TAnnotationJI tableAnnotation, Table table, int col) throws KBSearchException {
         List<Clazz> distinctTypes = new ArrayList<>();
         Map<String, List<String>> entityId_and_conceptURLs = new HashMap<String, List<String>>();
         Map<String, String> distinctTypeStrings = new HashMap<String, String>();

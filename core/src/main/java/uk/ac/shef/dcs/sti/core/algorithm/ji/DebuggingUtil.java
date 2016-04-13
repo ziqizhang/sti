@@ -1,6 +1,8 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import cc.mallet.grmm.types.*;
+import uk.ac.shef.dcs.sti.core.model.TAnnotation;
+import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -9,10 +11,10 @@ import java.util.*;
 /**
  * Created by zqz on 14/05/2015.
  */
-public class GraphCheckingUtil {
+class DebuggingUtil {
 
     public static void checkFactorAgainstAffinity(Factor f, Map<String, Double> affinity, String tableId) {
-        Set<String> factorValues = new HashSet<String>();
+        Set<String> factorValues = new HashSet<>();
         AssignmentIterator it = f.assignmentIterator();
         while (it.hasNext()) {
             Assignment assignment = it.assignment();
@@ -61,7 +63,26 @@ public class GraphCheckingUtil {
         }
     }
 
-    public static void checkGraph(FactorGraph graph, String tableId) throws FileNotFoundException {
+    protected static Object[] debugAnnotations(TAnnotation annotation){
+        Object[] res = new Object[3];
+        Map<String, Integer> countHeader = new HashMap<>();
+        Map<String, Integer> countCell = new HashMap<>();
+
+        for(int col=0; col<annotation.getCols(); col++){
+            TColumnHeaderAnnotation[] ha=annotation.getHeaderAnnotation(col);
+            countHeader.put(String.valueOf(col), ha.length);
+            for(int row=0; row<annotation.getRows(); row++){
+                countCell.put(row+","+col, annotation.getContentCellAnnotations(row, col).length);
+            }
+        }
+
+        res[0]=countHeader;
+        res[1]=countCell;
+        res[2]=annotation.getColumncolumnRelations();
+        return res;
+    }
+
+    protected static void debugGraph(FactorGraph graph, String tableId) throws FileNotFoundException {
         PrintWriter p = new PrintWriter("graph.txt");
         graph.dump(p);
         p.close();
@@ -95,7 +116,7 @@ public class GraphCheckingUtil {
 
                         Set<Integer> nonzerooutcomes = variableNonzerooutcome_collectedFromFactor.get(var);
                         if (nonzerooutcomes == null)
-                            nonzerooutcomes = new HashSet<Integer>();
+                            nonzerooutcomes = new HashSet<>();
                         nonzerooutcomes.add(idx);
                         variableNonzerooutcome_collectedFromFactor.put(var, nonzerooutcomes);
                     }
@@ -116,7 +137,7 @@ public class GraphCheckingUtil {
                 Set<Integer> nonzerooutcomes = variableNonzerooutcome_collectedFromFactor.get(v);
                 allOutcomesOfVariable.removeAll(nonzerooutcomes);
             if (allOutcomesOfVariable.size() > 0) {
-                List<Integer> missing = new ArrayList<Integer>(allOutcomesOfVariable);
+                List<Integer> missing = new ArrayList<>(allOutcomesOfVariable);
                 Collections.sort(missing);
 
                 checkSuccess = false;
@@ -125,11 +146,6 @@ public class GraphCheckingUtil {
                 }
             }
         }
-        /*List<String> keys = new ArrayList<String>(varOutcomeHasNonZeroPotential.keySet());
-        Collections.sort(keys);
-        for (String k : keys) {
-            if (!varOutcomeHasNonZeroPotential.get(k))
-                System.out.println("\tmissed: " + k);
-        }*/
+
     }
 }

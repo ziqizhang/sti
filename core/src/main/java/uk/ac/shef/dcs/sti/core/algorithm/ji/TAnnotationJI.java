@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Created by zqz on 01/05/2015.
  */
-public class TAnnotationJIFreebase extends TAnnotation {
+public class TAnnotationJI extends TAnnotation {
 
     //==debug purpose
     private Set<String> usedKey_score_entityAndConcept = new HashSet<>();
@@ -25,7 +25,7 @@ public class TAnnotationJIFreebase extends TAnnotation {
     private Map<String, Double> score_conceptPairAndRelation_conceptEvidence = new HashMap<>();
     private Map<String, Map<String, Double>> scoreContributingRows_conceptPairAndRelation = new HashMap<>();
 
-    public TAnnotationJIFreebase(int rows, int cols) {
+    public TAnnotationJI(int rows, int cols) {
         super(rows, cols);
     }
 
@@ -159,7 +159,7 @@ public class TAnnotationJIFreebase extends TAnnotation {
         return s1 + "|" + s2;
     }
 
-    public void checkAffinityUsage(String tableId) {
+    public void debugAffinity(String tableId) {
         List<String> tmp = new ArrayList<>(score_entityAndConcept.keySet());
         tmp.removeAll(usedKey_score_entityAndConcept);
         if (tmp.size() > 0)

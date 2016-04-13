@@ -62,6 +62,7 @@ public class SMPInterpreter extends SemanticTableInterpreter {
             index++;
         }
         try {
+            LOG.info(">\t COLUMN FEATURE GENERATION AND SUBJECT COLUMN DETECTION (if enabled)...");
             List<Pair<Integer, Pair<Double, Boolean>>> subjectColumnScores =
                     subjectColumnDetector.compute(table, ignoreColumnsArray);
             tableAnnotations.setSubjectColumn(subjectColumnScores.get(0).getKey());

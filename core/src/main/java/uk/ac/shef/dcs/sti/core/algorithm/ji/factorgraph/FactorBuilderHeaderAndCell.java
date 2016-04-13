@@ -2,7 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph;
 
 import cc.mallet.grmm.types.*;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.GraphCheckingUtil;
-import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJIFreebase;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJI;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 
 import java.util.HashMap;
@@ -16,7 +16,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
 
     public void addFactors(Map<String, Variable> cellVariables,
                            Map<Integer, Variable> headerVariables,
-                           TAnnotationJIFreebase annotation,
+                           TAnnotationJI annotation,
                            FactorGraph graph,
                            String tableId, Set<Integer> columns) {
         for (int col = 0; col < annotation.getCols(); col++) {
@@ -69,7 +69,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
 
     public void addFactors(Map<String, Variable> cellVariables,
                            Map<Integer, Variable> headerVariables,
-                           TAnnotationJIFreebase annotation,
+                           TAnnotationJI annotation,
                            FactorGraph graph,
                            String tableId) {
         addFactors(cellVariables, headerVariables, annotation, graph, tableId, null);

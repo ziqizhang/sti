@@ -25,7 +25,7 @@ public class CandidateRelationGenerator {
         this.allowRelationCandidatesFromRows=allowRelationCandidatesFromRows;
     }
 
-    public void generateCandidateRelation(TAnnotationJIFreebase tableAnnotations,
+    public void generateCandidateRelation(TAnnotationJI tableAnnotations,
                                           Table table, boolean useMainSubjectColumn,
                                           Collection<Integer> ignoreColumns) throws IOException,KBSearchException {
         //RelationDataStructure result = new RelationDataStructure();
@@ -131,7 +131,7 @@ public class CandidateRelationGenerator {
     }
 
     private void aggregateRelationsAcrossColumns(
-            TAnnotationJIFreebase tableAnnotation
+            TAnnotationJI tableAnnotation
     ) throws IOException {
         for (Map.Entry<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>> e :
                 tableAnnotation.getCellcellRelations().entrySet()) {
@@ -158,7 +158,7 @@ public class CandidateRelationGenerator {
     }
 
     private void createRelationCandidateBetweenConceptCandidates(int sbjCol, int objCol,
-                                                                 TAnnotationJIFreebase annotation,
+                                                                 TAnnotationJI annotation,
                                                                  Map<Integer, DataTypeClassifier.DataType> colTypes,
                                                                  KBSearch kbSearch) throws KBSearchException {
         TColumnHeaderAnnotation[] candidates_col1 = annotation.getHeaderAnnotation(sbjCol);

@@ -4,7 +4,7 @@ import cc.mallet.grmm.types.*;
 import cc.mallet.grmm.types.Variable;
 import cc.mallet.types.LabelAlphabet;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.GraphCheckingUtil;
-import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJIFreebase;
+import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJI;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.VariableType;
 import uk.ac.shef.dcs.sti.core.model.RelationColumns;
 import uk.ac.shef.dcs.sti.core.model.TColumnColumnRelationAnnotation;
@@ -24,7 +24,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
 
     public Map<String, Variable> addFactors(
             Map<Integer, Variable> columnHeaders,
-            TAnnotationJIFreebase annotation,
+            TAnnotationJI annotation,
             FactorGraph graph,
             Map<Variable, String> typeOfVariable,
             String tableId, Set<Integer> columns) {
@@ -147,7 +147,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
 
     public Map<String, Variable> addFactors(
             Map<Integer, Variable> columnHeaders,
-            TAnnotationJIFreebase annotation,
+            TAnnotationJI annotation,
             FactorGraph graph,
             Map<Variable, String> typeOfVariable,
             String tableId) {

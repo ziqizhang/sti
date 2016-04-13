@@ -7,6 +7,8 @@ import cc.mallet.grmm.types.Factor;
 import cc.mallet.grmm.types.FactorGraph;
 import cc.mallet.grmm.types.Variable;
 import javafx.util.Pair;
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
@@ -15,8 +17,6 @@ import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.util.TableAnnotationChecker;
 import uk.ac.shef.dcs.sti.core.model.*;
-import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
-import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJIFreebase;
 
 import java.io.IOException;
 import java.util.*;
@@ -25,108 +25,88 @@ import java.util.List;
 /**
  * Created by zqz on 01/05/2015.
  */
-public class JIInterpreter extends SemanticTableInterpreter{
+public class JIInterpreter extends SemanticTableInterpreter {
 
+    private static final Logger LOG = Logger.getLogger(JIInterpreter.class.getName());
     //main column finder is needed to generate data features of each column (e.g., data type in a column),
     //even though we do not use it to find the main column in SMP
-    protected SubjectColumnDetector main_col_finder;
+    protected SubjectColumnDetector subjectColumnDetector;
     //if there are any columns we want to isValidAttribute
     protected int maxIteration;
-    protected List<String> stoplist = Arrays.asList("yes", "no", "away", "home");
+
+    protected List<String> invalidCellValues = Arrays.asList("yes", "no", "away", "home");
 
     protected boolean useSubjectColumn = false;
+    protected boolean debugMode=false;
     protected CandidateEntityGenerator neGenerator;
-    protected CandidateConceptGenerator columnClassifier;
+    protected CandidateConceptGenerator columnClazzClassifier;
     protected CandidateRelationGenerator relationGenerator;
     private FactorGraphBuilder graphBuilder;
 
-    public JIInterpreter(SubjectColumnDetector main_col_finder,
+    public JIInterpreter(SubjectColumnDetector subjectColumnDetector,
                          CandidateEntityGenerator neGenerator,
-                         CandidateConceptGenerator columnClassifier,
+                         CandidateConceptGenerator columnClazzClassifier,
                          CandidateRelationGenerator relationGenerator,
                          boolean useSubjectColumn,
                          int[] ignoreColumns,
                          int[] mustdoColumns,
-                         int maxIteration
+                         int maxIteration,
+                         boolean debugMode
     ) {
-        super(ignoreColumns,mustdoColumns);
+        super(ignoreColumns, mustdoColumns);
         this.useSubjectColumn = useSubjectColumn;
-        this.main_col_finder = main_col_finder;
+        this.subjectColumnDetector = subjectColumnDetector;
         this.graphBuilder = new FactorGraphBuilder(false);
         this.neGenerator = neGenerator;
-        this.columnClassifier = columnClassifier;
+        this.columnClazzClassifier = columnClazzClassifier;
         this.relationGenerator = relationGenerator;
         this.maxIteration = maxIteration;
+        this.debugMode=debugMode;
     }
 
+
     public TAnnotation start(Table table, boolean relationLearning) throws STIException {
-        TAnnotationJIFreebase tab_annotations = new TAnnotationJIFreebase(table.getNumRows(), table.getNumCols());
-        int[] ignoreColumnsArray = new int[getIgnoreColumns().size()];
+        TAnnotationJI tableAnnotations = new TAnnotationJI(table.getNumRows(), table.getNumCols());
 
-        int index = 0;
-        for (Integer i : getIgnoreColumns()) {
-            ignoreColumnsArray[index] = i;
-            index++;
-        }
-
-        List<Integer> ignoreColumnsLocal = new ArrayList<Integer>(updateIgnoreColumns(table, ignoreColumnsArray));
-        int[] ignoreColumnsLocalArray = new int[ignoreColumnsLocal.size()];
-        Collections.sort(ignoreColumnsLocal);
-        for(int i=0; i<ignoreColumnsLocal.size(); i++)
-            ignoreColumnsLocalArray[i]=ignoreColumnsLocal.get(i);
         //Main col finder finds main column. Although this is not needed by SMP, it also generates important features of
         //table data types to be used later
         try {
-            List<Pair<Integer, Pair<Double, Boolean>>> candidate_main_NE_columns = main_col_finder.compute(table,
-                    ignoreColumnsLocalArray);
-            if (useSubjectColumn)
-                tab_annotations.setSubjectColumn(candidate_main_NE_columns.get(0).getKey());
-
-            System.out.println(">\t INITIALIZATION");
-            System.out.println(">\t\t NAMED ENTITY GENERATOR..."); //SMP begins with an initial NE ranker to rank candidate NEs for each cell
-            boolean graphNonEmpty = false;
-            for (int col = 0; col < table.getNumCols(); col++) {
-            /*if(col!=1)
-                continue;*/
-                if (getMustdoColumns().contains(col)) {
-                    System.out.println("\t\t>> Column=(forced)" + col);
-                    for (int r = 0; r < table.getNumRows(); r++) {
-                        neGenerator.generateCandidateEntity(tab_annotations, table, r, col);
-                    }
-                    graphNonEmpty = true;
-                } else {
-                    if (getIgnoreColumns().contains(col)) continue;
-                    if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
-                        continue;
-                                /*if (table.getColumnHeader(col).getFeature().isAcronymColumn())
-                    continue;*/
-                    //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
-                    System.out.println("\t\t>> Column=" + col);
-                    for (int r = 0; r < table.getNumRows(); r++) {
-                        neGenerator.generateCandidateEntity(tab_annotations, table, r, col);
-                    }
-                    graphNonEmpty = true;
-                }
+            Set<Integer> ignoreColumnsRevised = collectIgnoreColumns(table);
+            int[] iignoreColumnsRevisedArray = new int[ignoreColumnsRevised.size()];
+            int index = 0;
+            for (Integer i : ignoreColumnsRevised) {
+                iignoreColumnsRevisedArray[index] = i;
+                index++;
             }
 
-            System.out.println(">\t HEADER CLASSIFICATION GENERATOR");
-            computeClassCandidates(tab_annotations, table, ignoreColumnsLocal);
+            LOG.info(">\t COLUMN FEATURE GENERATION AND SUBJECT COLUMN DETECTION (if enabled)...");
+            List<Pair<Integer, Pair<Double, Boolean>>> subjectColumnScores = subjectColumnDetector.compute(table,
+                    iignoreColumnsRevisedArray);
+            tableAnnotations.setSubjectColumn(subjectColumnScores.get(0).getKey());
+
+            LOG.info(">\t JOINT INFERENCE VARIABLE INIT");
+            LOG.info(">\t named entity generator..."); //SMP begins with an initial NE ranker to rank candidate NEs for each cell
+            boolean graphNonEmpty=generateEntityCandidates(table,tableAnnotations,ignoreColumnsRevised);
+
+            LOG.info(">\t column class generator");
+            generateClazzCandidates(tableAnnotations, table, ignoreColumnsRevised);
             if (relationLearning) {
-                System.out.println(">\t RELATION GENERATOR");
-                computeRelationCandidates(tab_annotations, table, useSubjectColumn, ignoreColumnsLocal);
+                LOG.info(">\t column column relation generator");
+                generateRelationCandidates(tableAnnotations, table, useSubjectColumn, ignoreColumnsRevised);
             }
 
-            //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            System.out.println(">\t BUILDING FACTOR GRAPH");
-            if (graphNonEmpty && TableAnnotationChecker.hasAnnotation(tab_annotations)) {
-                FactorGraph graph = graphBuilder.build(tab_annotations, relationLearning, table.getSourceId());
 
-                //================debug
-                GraphCheckingUtil.checkGraph(graph, table.getSourceId());
-                tab_annotations.checkAffinityUsage(table.getSourceId());
-                //===============debug
+            if (graphNonEmpty && TableAnnotationChecker.hasAnnotation(tableAnnotations)) {
+                LOG.info(">\t BUILDING FACTOR GRAPH");
+                FactorGraph graph =
+                        graphBuilder.build(tableAnnotations, relationLearning, table.getSourceId());
 
-                System.out.println(">\t RUNNING INFERENCE");
+                if(debugMode) {
+                    DebuggingUtil.debugGraph(graph, table.getSourceId());
+                    tableAnnotations.debugAffinity(table.getSourceId());
+                }
+
+                LOG.info(">\t RUNNING INFERENCE");
                 Inferencer infResidualBP;
                 if (maxIteration > 0)
                     infResidualBP = new LoopyBP(maxIteration);
@@ -136,76 +116,114 @@ public class JIInterpreter extends SemanticTableInterpreter{
                 try {
                     infResidualBP.computeMarginals(graph);
                 } catch (IndexOutOfBoundsException e) {
-                    System.err.println(">>>>FUCK! graph empty exception, but checking did not catch this:" + table.getSourceId());
-                    System.err.println(">>>>");
-                    System.err.println(graph.dumpToString());
-                    System.err.println(">>>>");
-                    TableAnnotationChecker.checkAnnotation(tab_annotations);
-                    e.printStackTrace();
-                    System.exit(1);
+                    if(debugMode) {
+                        LOG.error("\t Graph empty exception, but checking did not catch this. System exists:" + table.getSourceId());
+                        LOG.error(graph.dumpToString());
+                        Object[] debuggingResult=DebuggingUtil.debugAnnotations(tableAnnotations);
+                        for(Object o: debuggingResult) {
+                            LOG.info(o.toString());
+                        }
+                        LOG.warn(ExceptionUtils.getFullStackTrace(e));
+                        System.exit(1);
+                    }
+                    else
+                        LOG.warn(ExceptionUtils.getFullStackTrace(e));
                 }
 
-                System.out.println(">\t COLLECTING MARGINAL PROB AND FINALIZING ANNOTATIONS");
-                boolean success = createFinalAnnotations(graph, graphBuilder, infResidualBP, tab_annotations);
+                LOG.info(">\t COLLECTING MARGINAL PROB AND FINALIZING ANNOTATIONS");
+                boolean success = createAnnotations(graph, graphBuilder, infResidualBP, tableAnnotations);
                 if (!success)
                     throw new STIException("Invalid marginals, failed: " + table.getSourceId());
 
             } else {
-                System.err.println("EMPTY_TABLE:" + table.getSourceId());
+                LOG.warn("EMPTY TABLE:" + table.getSourceId());
             }
-            return tab_annotations;
-        }catch (Exception e){
+            return tableAnnotations;
+        } catch (Exception e) {
             throw new STIException(e);
         }
     }
 
-    protected Set<Integer> updateIgnoreColumns(Table table, int[] ignoreColumns) {
-        Set<Integer> ignore = new HashSet<Integer>();
+    /**
+     * Cell values like "yes", "no", "home", "away" in some domains have caused problems to JI.
+     * Ignore these columns if they only contain such values
+     *
+     * @param table
+     * @return
+     */
+    protected Set<Integer> collectIgnoreColumns(Table table) {
+        Set<Integer> ignore = new HashSet<>();
+        ignore.addAll(getIgnoreColumns());
+
         for (int c = 0; c < table.getNumCols(); c++) {
-            Set<String> uniqueStrings = new HashSet<String>();
+            Set<String> uniqueStrings = new HashSet<>();
             for (int r = 0; r < table.getNumRows(); r++) {
                 TCell tcc = table.getContentCell(r, c);
                 String text = tcc.getText().trim().replaceAll("[^a-zA-Z0-9]", "");
-                if(text.length()>1)
+                if (text.length() > 1)
                     uniqueStrings.add(text);
             }
             if (uniqueStrings.size() < 4 && table.getNumRows() > 4) {
-                uniqueStrings.removeAll(stoplist);
+                uniqueStrings.removeAll(invalidCellValues);
                 if (uniqueStrings.size() == 0) ignore.add(c);
             }
         }
-        for (int i : ignoreColumns)
-            ignore.add(i);
+
         return ignore;
     }
 
-    protected void computeClassCandidates(TAnnotationJIFreebase tab_annotations, Table table,
-                                          Collection<Integer> ignoreColumnsLocal) throws KBSearchException {
+    protected boolean generateEntityCandidates(Table table,
+                                               TAnnotation tableAnnotations,
+                                               Collection<Integer> ignoreColumns) throws KBSearchException {
+        boolean graphNonEmpty = false;
+        for (int col = 0; col < table.getNumCols(); col++) {
+            if (getMustdoColumns().contains(col)) {
+                LOG.info("\t\t>> column=(compulsory)" + col);
+                for (int r = 0; r < table.getNumRows(); r++) {
+                    neGenerator.generateCandidateEntity(tableAnnotations, table, r, col);
+                }
+                graphNonEmpty = true;
+            } else {
+                if (ignoreColumns.contains(col)) continue;
+                if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
+                    continue;
+                LOG.info("\t\t>> column=" + col);
+                for (int r = 0; r < table.getNumRows(); r++) {
+                    neGenerator.generateCandidateEntity(tableAnnotations, table, r, col);
+                }
+                graphNonEmpty = true;
+            }
+        }
+        return graphNonEmpty;
+    }
+
+    protected void generateClazzCandidates(TAnnotationJI tableAnnotations, Table table,
+                                           Collection<Integer> ignoreColumnsLocal) throws KBSearchException {
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
             if (getMustdoColumns().contains(col)) {
-                System.out.println("\t\t>> Column=(forced)" + col);
-                columnClassifier.generateCandidateConcepts(tab_annotations, table, col);
+                LOG.info("\t\t>> column=(compulsory)" + col);
+                columnClazzClassifier.generateCandidateConcepts(tableAnnotations, table, col);
             } else {
-                if (getIgnoreColumns().contains(col)) continue;
+                if (ignoreColumnsLocal.contains(col)) continue;
                 if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                     continue;
-                System.out.println("\t\t>> Column=" + col);
-                columnClassifier.generateCandidateConcepts(tab_annotations, table, col);
+                LOG.info("\t\t>> column=" + col);
+                columnClazzClassifier.generateCandidateConcepts(tableAnnotations, table, col);
             }
         }
     }
 
-    protected void computeRelationCandidates(TAnnotationJIFreebase tab_annotations, Table table,
-                                             boolean useMainSubjectColumn,
-                                             Collection<Integer> ignoreColumnsLocal) throws IOException,KBSearchException {
-        relationGenerator.generateCandidateRelation(tab_annotations, table, useMainSubjectColumn, ignoreColumnsLocal);
+    protected void generateRelationCandidates(TAnnotationJI tabAnnotations, Table table,
+                                              boolean useSubjectColumn,
+                                              Collection<Integer> ignoreColumnsLocal) throws IOException, KBSearchException {
+        relationGenerator.generateCandidateRelation(tabAnnotations, table, useSubjectColumn, ignoreColumnsLocal);
     }
 
-    protected boolean createFinalAnnotations(FactorGraph graph,
-                                             FactorGraphBuilder graphBuilder,
-                                             Inferencer infResidualBP,
-                                             TAnnotationJIFreebase tab_annotations) {
+    protected boolean createAnnotations(FactorGraph graph,
+                                        FactorGraphBuilder graphBuilder,
+                                        Inferencer infResidualBP,
+                                        TAnnotationJI tabAnnotations) {
         for (int i = 0; i < graph.numVariables(); i++) {
             Variable var = graph.get(i);
             Factor ptl = infResidualBP.lookupMarginal(var);
@@ -218,7 +236,8 @@ public class JIInterpreter extends SemanticTableInterpreter{
                 int[] position = graphBuilder.getCellPosition(var);
                 if (position == null)
                     continue;
-                TCellAnnotation[] candidateCellAnnotations = tab_annotations.getContentCellAnnotations(position[0], position[1]);
+                TCellAnnotation[] candidateCellAnnotations =
+                        tabAnnotations.getContentCellAnnotations(position[0], position[1]);
 
                 for (TCellAnnotation ca : candidateCellAnnotations) {
                     AssignmentIterator it = ptl.assignmentIterator();
@@ -240,12 +259,12 @@ public class JIInterpreter extends SemanticTableInterpreter{
                         ca.setFinalScore(0.0);
                 }
                 Arrays.sort(candidateCellAnnotations);
-                tab_annotations.setContentCellAnnotations(position[0], position[1], candidateCellAnnotations);
+                tabAnnotations.setContentCellAnnotations(position[0], position[1], candidateCellAnnotations);
             } else if (varType.equals(VariableType.HEADER.toString())) {
                 Integer position = graphBuilder.getHeaderPosition(var);
                 if (position == null)
                     continue;
-                TColumnHeaderAnnotation[] candidateHeaderAnnotations = tab_annotations.getHeaderAnnotation(position);
+                TColumnHeaderAnnotation[] candidateHeaderAnnotations = tabAnnotations.getHeaderAnnotation(position);
                 for (TColumnHeaderAnnotation ha : candidateHeaderAnnotations) {
                     AssignmentIterator it = ptl.assignmentIterator();
                     boolean found = false;
@@ -266,7 +285,7 @@ public class JIInterpreter extends SemanticTableInterpreter{
                         ha.setFinalScore(0.0);
                 }
                 Arrays.sort(candidateHeaderAnnotations);
-                tab_annotations.setHeaderAnnotation(position, candidateHeaderAnnotations);
+                tabAnnotations.setHeaderAnnotation(position, candidateHeaderAnnotations);
             } else if (varType.equals(VariableType.RELATION.toString())) {
                 double maxScore = 0.0;
                 AssignmentIterator it = ptl.assignmentIterator();
@@ -285,9 +304,9 @@ public class JIInterpreter extends SemanticTableInterpreter{
                 }
 
                 List<TColumnColumnRelationAnnotation> relationCandidates =
-                        tab_annotations.getColumncolumnRelations().get(direction);
+                        tabAnnotations.getColumncolumnRelations().get(direction);
 
-                tab_annotations.getColumncolumnRelations().remove(new RelationColumns(
+                tabAnnotations.getColumncolumnRelations().remove(new RelationColumns(
                         direction.getObjectCol(), direction.getSubjectCol()
                 ));
 
@@ -309,7 +328,7 @@ public class JIInterpreter extends SemanticTableInterpreter{
                     if (!found) //this should not happen
                         hbr.setFinalScore(0.0);
                 }
-                tab_annotations.getColumncolumnRelations().put(direction,
+                tabAnnotations.getColumncolumnRelations().put(direction,
                         relationCandidates);
                 //go through again and collection only...
 

@@ -32,7 +32,7 @@ public class STIConstantProperty {
     //header,column,out trivial, out important
     public static final double[] SCORER_RELATION_CONTEXT_WEIGHT=
             new double[]{1.0, 0.0, 1.0, 1.0};    //header text, column, out-trivial, out-important
-    public static final double ATTRIBUTE_MATCHER_MIN_SCORE=0.5;
+    public static final double ATTRIBUTE_MATCHER_MIN_SCORE=0.5; //for TMP, 0.01; for SMP, 0.5; for JI 0.8
     //if the attributeMatcher produces a score lower than this, the score will be set to 0
 
     static {
