@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph;
 
 import cc.mallet.grmm.types.FactorGraph;
 import cc.mallet.grmm.types.Variable;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJI;
 import uk.ac.shef.dcs.sti.core.model.RelationColumns;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
@@ -12,14 +13,10 @@ import java.util.*;
  * Created by zqz on 15/05/2015.
  */
 public class FactorGraphBuilderMultiple extends FactorGraphBuilder {
-    public FactorGraphBuilderMultiple(boolean patchScores) {
-        super(patchScores);
-    }
-
     public List<FactorGraph> buildDisconnectedGraphs(TAnnotationJI annotation,
                                                      boolean relationLearning,
-                                                     String tableId) {
-        List<FactorGraph> out=new ArrayList<FactorGraph>();
+                                                     String tableId) throws STIException {
+        List<FactorGraph> out=new ArrayList<>();
         Map<String, Set<Integer>> subGraphs=computeDisconnectedTableColumns(annotation, relationLearning);
         for(Map.Entry<String, Set<Integer>> ent: subGraphs.entrySet()) {
             Set<Integer> columns=ent.getValue();
@@ -62,26 +59,23 @@ public class FactorGraphBuilderMultiple extends FactorGraphBuilder {
 
     private Map<String, Set<Integer>> computeDisconnectedTableColumns(TAnnotation annotation,
                                                                       boolean relationLearning) {
-        Map<String, Set<Integer>> result = new HashMap<String, Set<Integer>>();
+        Map<String, Set<Integer>> result = new HashMap<>();
         int counter = 0;
         String key = null;
         if (relationLearning) {
-            List<RelationColumns> relationColumnses = new ArrayList<RelationColumns>(
+            List<RelationColumns> relationColumnses = new ArrayList<>(
                     annotation.getColumncolumnRelations().keySet()
             );
-            Collections.sort(relationColumnses, new Comparator<RelationColumns>() {
-                @Override
-                public int compare(RelationColumns o1, RelationColumns o2) {
-                    int c= Integer.valueOf(o1.getSubjectCol()).compareTo(o2.getSubjectCol());
-                    if(c==0)
-                        return Integer.valueOf(o1.getObjectCol()).compareTo(o2.getObjectCol());
-                    return c;
-                }
+            Collections.sort(relationColumnses, (o1, o2) -> {
+                int c= Integer.valueOf(o1.getSubjectCol()).compareTo(o2.getSubjectCol());
+                if(c==0)
+                    return Integer.valueOf(o1.getObjectCol()).compareTo(o2.getObjectCol());
+                return c;
             });
             for (RelationColumns rel : relationColumnses) {
                 Set<Integer> components = findContainingGraph(result, rel.getSubjectCol(), rel.getObjectCol());
                 if (components == null) {
-                    components = new HashSet<Integer>();
+                    components = new HashSet<>();
                     key = "part" + counter;
                     counter++;
                 }
@@ -94,7 +88,7 @@ public class FactorGraphBuilderMultiple extends FactorGraphBuilder {
         } else {
             for (int c = 0; c < annotation.getCols(); c++) {
                 if (annotation.getHeaderAnnotation(c).length != 0) {
-                    Set<Integer> cols = new HashSet<Integer>();
+                    Set<Integer> cols = new HashSet<>();
                     cols.add(c);
                     result.put(String.valueOf(c), cols);
                 }

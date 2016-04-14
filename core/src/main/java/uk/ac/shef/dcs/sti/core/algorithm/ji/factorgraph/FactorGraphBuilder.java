@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph;
 
 import cc.mallet.grmm.types.*;
 import cc.mallet.grmm.types.Variable;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJI;
 import uk.ac.shef.dcs.sti.core.model.RelationColumns;
 
@@ -18,17 +19,10 @@ public class FactorGraphBuilder {
     protected FactorBuilderHeaderAndCell factorBuilderHeaderAndCell=new FactorBuilderHeaderAndCell();
     protected FactorBuilderCellAndRelation factorBuilderCellAndRelation = new FactorBuilderCellAndRelation();
 
-    public FactorGraphBuilder(boolean patchScores){
-        factorBuilderCell.setPatchScores(patchScores);
-        factorBuilderHeader.setPatchScores(patchScores);
-        factorBuilderCellAndRelation.setPatchScores(patchScores);
-        factorBuilderHeaderAndCell.setPatchScores(patchScores);
-        factorBuilderHeaderAndRelation.setPatchScores(patchScores);
-    }
 
-    protected Map<Variable, String> typeOfVariable = new HashMap<Variable, String>();
+    protected Map<Variable, String> typeOfVariable = new HashMap<>();
 
-    public FactorGraph build(TAnnotationJI annotation, boolean relationLearning, String tableId) {
+    public FactorGraph build(TAnnotationJI annotation, boolean relationLearning, String tableId) throws STIException{
         FactorGraph graph = new FactorGraph();
         //cell text and entity label
         Map<String, Variable> cellAnnotations = factorBuilderCell.addFactors(annotation, graph,

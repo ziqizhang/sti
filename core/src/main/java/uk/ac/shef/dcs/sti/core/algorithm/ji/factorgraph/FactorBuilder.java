@@ -12,12 +12,6 @@ import java.util.Set;
  */
 abstract class FactorBuilder {
 
-    protected boolean patchScores=false;
-
-    public void setPatchScores(boolean yes){
-        patchScores=yes;
-    }
-
     protected void checkVariableOutcomeUsage(double potential, String key, Map<String, Boolean> varOutcomeHasNonZeroPotential) {
         Boolean hasNonZeroPotential =
                 varOutcomeHasNonZeroPotential.
@@ -32,23 +26,7 @@ abstract class FactorBuilder {
         }
     }
 
-    protected double[] patchCompatibility(double[] potential1) {
-        double min = Double.MAX_VALUE;
-        for (int i = 0; i < potential1.length; i++) {
-            if (potential1[i]!=0&& potential1[i] < min)
-                min = potential1[i];
-        }
-
-        //debug this is a cheat to arbitrarily fill up zero values to ensure a dense graph
-        for (int i = 0; i < potential1.length; i++) {
-            if (potential1[i] == 0)
-                potential1[i] = min / 5000.0;
-        }
-        //
-        return potential1;
-    }
-
-    protected boolean isValidCompatibility(double[] potential1, Map<String, Double> affinityValues) {
+    protected boolean isValidGraphAffinity(double[] potential1, Map<String, Double> affinityValues) {
         int countZero = 0;
         double min = Double.MAX_VALUE;
         for (int i = 0; i < potential1.length; i++) {
@@ -137,23 +115,4 @@ abstract class FactorBuilder {
         //System.out.println(cc);
         return res;
     }
-
-    /*
-    for (int f = 0; f < dimensionFirstHeaderVar; f++) {
-            for (int r = 0; r < dimensionRelationVar; r++) {
-                for (int s = 0; s < dimensionSecondHeaderVar; s++) {
-                    Double affinity = affinity_values.get(f + ">" + r+">"+s);
-                    if(affinity==null) affinity=affinity_values.get(s+">"+r+">"+f);
-                    if (affinity == null) affinity = 0.0;
-                    int index=f * dimensionRelationVar * dimensionSecondHeaderVar +
-                            r*dimensionSecondHeaderVar + s;
-                    res[index] = affinity;
-                    if(affinity!=0) {
-                        cc++;
-                        indexes.add(index);
-                    }
-                }
-            }
-        }
-     */
 }

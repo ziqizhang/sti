@@ -54,8 +54,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                 if (affinity_values_between_variable_outcomes.size() > 0) {
                     double[] compatibility = computePotential(affinity_values_between_variable_outcomes,
                             cellVar, headerVar);
-                    if (isValidCompatibility(compatibility, affinity_values_between_variable_outcomes)) {
-                        if(patchScores) compatibility= patchCompatibility(compatibility);
+                    if (isValidGraphAffinity(compatibility, affinity_values_between_variable_outcomes)) {
                         Variable[] vars = new Variable[]{cellVar, headerVar};
                         //VarSet varSet = new HashVarSet(new Variable[]{cellVar, headerVar});
                         TableFactor factor = new TableFactor(vars, compatibility);

@@ -55,7 +55,7 @@ public class JIInterpreter extends SemanticTableInterpreter {
         super(ignoreColumns, mustdoColumns);
         this.useSubjectColumn = useSubjectColumn;
         this.subjectColumnDetector = subjectColumnDetector;
-        this.graphBuilder = new FactorGraphBuilder(false);
+        this.graphBuilder = new FactorGraphBuilder();
         this.neGenerator = neGenerator;
         this.columnClazzClassifier = columnClazzClassifier;
         this.relationGenerator = relationGenerator;

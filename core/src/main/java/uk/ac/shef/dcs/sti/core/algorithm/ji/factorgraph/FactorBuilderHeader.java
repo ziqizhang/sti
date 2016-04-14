@@ -49,8 +49,7 @@ class FactorBuilderHeader extends FactorBuilder {
             headerVarOutcomePosition.put(variable_header, col);
             variables.put(col, variable_header);
 
-            if (isValidCompatibility(compatibility, null)) {
-                if(patchScores) compatibility= patchCompatibility(compatibility);
+            if (isValidGraphAffinity(compatibility, null)) {
                 Variable[] vars = new Variable[]{dummyHeader, variable_header};
                 //VarSet varSet = new HashVarSet(new Variable[]{dummyHeader, variable_header});
                 TableFactor factor = new TableFactor(vars, compatibility);

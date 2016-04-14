@@ -91,8 +91,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                 else
                     compatibility = computePotential(affinity_scores,
                             objCellVar, sbjCellVar, relationVar, relationIndex_forwardRelation);
-                if (isValidCompatibility(compatibility, affinity_scores)) {
-                    if(patchScores) compatibility= patchCompatibility(compatibility);
+                if (isValidGraphAffinity(compatibility, affinity_scores)) {
      /*               VarSet varSet;
                     if(sbjCellVar.getIndex() < objCellVar.getIndex())
                         varSet= new HashVarSet(new Variable[]{sbjCellVar, objCellVar, relationVar});

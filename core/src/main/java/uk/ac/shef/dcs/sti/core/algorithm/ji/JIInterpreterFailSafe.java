@@ -19,7 +19,7 @@ import java.util.Set;
  */
 public class JIInterpreterFailSafe extends JIInterpreter {
 
-    private FactorGraphBuilderMultiple subGraphBuilder=new FactorGraphBuilderMultiple(true);
+    private FactorGraphBuilderMultiple subGraphBuilder=new FactorGraphBuilderMultiple();
 
     public JIInterpreterFailSafe(SubjectColumnDetector main_col_finder,
                                  CandidateEntityGenerator neGenerator,
