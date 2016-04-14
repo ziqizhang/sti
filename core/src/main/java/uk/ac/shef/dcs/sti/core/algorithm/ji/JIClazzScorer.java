@@ -1,6 +1,14 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import javafx.util.Pair;
+import org.simmetrics.Metric;
+import org.simmetrics.StringMetric;
+import org.simmetrics.builders.StringMetricBuilder;
+import org.simmetrics.metrics.CosineSimilarity;
+import org.simmetrics.metrics.Jaccard;
+import org.simmetrics.metrics.Levenshtein;
+import org.simmetrics.metrics.StringMetrics;
+import org.simmetrics.tokenizers.Tokenizers;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.STIException;
@@ -8,10 +16,6 @@ import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
-import uk.ac.shef.dcs.sti.util.simmetric.CosineSimilarity;
-import uk.ac.shef.dcs.sti.util.simmetric.JaccardSimilarity;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.util.*;
 
@@ -24,19 +28,19 @@ public class JIClazzScorer implements ClazzScorer {
     private static final String SCORE_JACCARD = "stringsim_jaccard";
     private static final String SCORE_COSINE = "stringsim_cosine";
 
-    private AbstractStringMetric cosine;
-    private AbstractStringMetric jaccard;
-    private AbstractStringMetric lev;
+    private StringMetric cosine;
+    private StringMetric jaccard;
+    private StringMetric lev;
 
     public JIClazzScorer() {
-        cosine = new CosineSimilarity();
-        jaccard = new JaccardSimilarity();
-        lev = new Levenshtein();
+        cosine = StringMetrics.cosineSimilarity();
+        jaccard = StringMetrics.jaccard();
+        lev = StringMetrics.levenshtein();
     }
 
 
-    private double calculateStringSimilarity(String text, TColumnHeaderAnnotation candidate, AbstractStringMetric lev) {
-        double baseScore = lev.getSimilarity(text, candidate.getAnnotation().getLabel());
+    private double calculateStringSimilarity(String text, TColumnHeaderAnnotation candidate, Metric<String> lev) {
+        double baseScore = lev.compare(text, candidate.getAnnotation().getLabel());
         return baseScore;
     }
 

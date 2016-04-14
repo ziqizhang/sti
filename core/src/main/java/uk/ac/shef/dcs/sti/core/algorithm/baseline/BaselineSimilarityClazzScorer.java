@@ -1,6 +1,8 @@
 package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
 import javafx.util.Pair;
+import org.simmetrics.Metric;
+import org.simmetrics.StringMetric;
 import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
@@ -13,7 +15,6 @@ import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeader;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.util.StringUtils;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -31,10 +32,10 @@ public class BaselineSimilarityClazzScorer implements ClazzScorer {
     private static final String SCORE_CELL_VOTE = "score_vote";
     private Lemmatizer lemmatizer;
     private List<String> stopWords;
-    private AbstractStringMetric stringSimilarityMetric;
+    private StringMetric stringSimilarityMetric;
 
     public BaselineSimilarityClazzScorer(String nlpResources, List<String> stopWords,
-                                         AbstractStringMetric stringMetric) throws IOException {
+                                         StringMetric stringMetric) throws IOException {
         this.lemmatizer = NLPTools.getInstance(nlpResources).getLemmatizer();
         this.stopWords = stopWords;
         this.stringSimilarityMetric = stringMetric;
@@ -154,7 +155,7 @@ public class BaselineSimilarityClazzScorer implements ClazzScorer {
                         header.getHeaderText() != null &&
                         !header.getHeaderText().equals(STIEnum.TABLE_HEADER_UNKNOWN.getValue())) {
                     //double computeElementScores = CollectionUtils.diceCoefficientOptimized(header.getHeaderText(), ha.getAnnotation_label());
-                    double score = stringSimilarityMetric.getSimilarity(
+                    double score = stringSimilarityMetric.compare(
                             StringUtils.toAlphaNumericWhitechar(header.getHeaderText()),
                             StringUtils.toAlphaNumericWhitechar(ha.getAnnotation().getLabel()));
                     ha.getScoreElements().put(SCORE_CTX_IN_HEADER, score);

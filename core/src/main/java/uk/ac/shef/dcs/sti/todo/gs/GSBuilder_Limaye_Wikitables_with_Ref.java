@@ -2,6 +2,9 @@ package uk.ac.shef.dcs.sti.TODO.gs;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+import org.simmetrics.StringMetric;
+import org.simmetrics.metrics.Levenshtein;
+import org.simmetrics.metrics.StringMetrics;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
@@ -21,7 +24,7 @@ import uk.ac.shef.dcs.sti.parser.table.TableParserWikipedia;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 import uk.ac.shef.dcs.websearch.WebSearchFactory;
 import uk.ac.shef.dcs.websearch.bing.v2.BingSearchResultParser;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
+
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -33,7 +36,7 @@ import java.util.*;
  * then each cell is searched in the column, if a cell text matches a link text in any cell in the column, it is assigned the link
  */
 public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikitables {
-    private Levenshtein stringSim = new Levenshtein();
+    private StringMetric stringSim = StringMetrics.levenshtein();
 
     public GSBuilder_Limaye_Wikitables_with_Ref(FreebaseQueryProxy queryHelper,
                                                 SolrCache cache_solr,
@@ -210,7 +213,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
                 for (int wr = 0; wr < wikitable.getNumRows(); wr++) {
                     TCellAnnotation[] annotations = wikitable.getTableAnnotations().getContentCellAnnotations(wr, matchedCol);
                     for (TCellAnnotation ca : annotations) {
-                        double matched_score = stringSim.getSimilarity(limaye_cell_text,
+                        double matched_score = stringSim.compare(limaye_cell_text,
                                 ca.getTerm());
                         if (matched_score > bestScore) {
                             bestScore = matched_score;

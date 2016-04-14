@@ -4,6 +4,8 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+import org.simmetrics.metrics.Levenshtein;
+import org.simmetrics.metrics.StringMetrics;
 import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
@@ -20,7 +22,6 @@ import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerIm
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.OSPD_nonEmpty;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.io.*;
 import java.util.*;
@@ -161,7 +162,8 @@ public class TableMinerPlusBatch extends STIBatch {
             );
             relationEnumerator = new TColumnColumnRelationEnumerator(
                     new AttributeValueMatcher(
-                            STIConstantProperty.ATTRIBUTE_MATCHER_MIN_SCORE, getStopwords(), new Levenshtein()),
+                            STIConstantProperty.ATTRIBUTE_MATCHER_MIN_SCORE, getStopwords(),
+                            StringMetrics.levenshtein()),
                     relationScorer
             );
 

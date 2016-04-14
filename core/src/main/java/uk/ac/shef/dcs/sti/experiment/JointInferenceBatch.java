@@ -5,6 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 
+import org.simmetrics.metrics.Levenshtein;
+import org.simmetrics.metrics.StringMetrics;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
@@ -16,7 +18,6 @@ import uk.ac.shef.dcs.sti.core.algorithm.smp.ClazzSpecificityCalculator;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerImpl;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.io.File;
 import java.io.IOException;
@@ -126,7 +127,8 @@ public class JointInferenceBatch extends STIBatch {
                             getClazzSpecificityCalculator(),
                             cores,true),
                     new CandidateRelationGenerator(
-                            new JIAdaptedAttributeMatcher(STIConstantProperty.ATTRIBUTE_MATCHER_MIN_SCORE,getStopwords(), new Levenshtein()),
+                            new JIAdaptedAttributeMatcher(STIConstantProperty.ATTRIBUTE_MATCHER_MIN_SCORE,getStopwords(),
+                                    StringMetrics.levenshtein()),
                             kbSearch,true),
                     Boolean.valueOf(properties.getProperty(PROPERTY_JI_USE_SUBJECT_COLUMN, "false")),
                     getIgnoreColumns(),

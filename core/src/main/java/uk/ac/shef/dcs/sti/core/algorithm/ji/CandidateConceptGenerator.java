@@ -84,7 +84,7 @@ public class CandidateConceptGenerator {
         tableAnnotation.setHeaderAnnotation(col, candidates.toArray(new TColumnHeaderAnnotation[candidates.size()]));
 
         //go thru every entity-concept pair, compute their scores
-        LOG.info("\t\t>> compute entity-clazz semantic similarity (Ent:" + distinctEntities.size() + "Clz:" + distinctTypes.size() + ")");
+        LOG.info("\t\t>> compute entity-clazz semantic similarity (Ent:" + distinctEntities.size() + " Clz:" + distinctTypes.size() + ")");
         Map<String, Double> simScores =
                 simComputer.computeSemanticSimilarity(threads, distinctEntities, distinctTypes, true);
         for (Entity entity : distinctEntities) {

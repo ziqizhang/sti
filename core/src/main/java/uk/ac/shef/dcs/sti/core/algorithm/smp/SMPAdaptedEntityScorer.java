@@ -1,5 +1,12 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
+import org.simmetrics.Metric;
+import org.simmetrics.StringMetric;
+import org.simmetrics.builders.StringMetricBuilder;
+import org.simmetrics.metrics.Dice;
+import org.simmetrics.metrics.Levenshtein;
+import org.simmetrics.metrics.StringMetrics;
+import org.simmetrics.tokenizers.Tokenizers;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
@@ -10,11 +17,8 @@ import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.util.simmetric.DiceSimilarity;
 import uk.ac.shef.dcs.sti.util.CollectionUtils;
 import uk.ac.shef.dcs.util.StringUtils;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.io.IOException;
 import java.util.*;
@@ -28,15 +32,15 @@ public class SMPAdaptedEntityScorer implements EntityScorer {
     private static final String SMP_SCORE_DICE = "smp_stringsim_dice";
     private static final String SMP_SCORE_CONTEXT = "smp_context";
 
-    private AbstractStringMetric lev;
-    private AbstractStringMetric dice;
+    private StringMetric lev;
+    private StringMetric dice;
     private List<String> stopWords;
     private Lemmatizer lemmatizer;
 
     public SMPAdaptedEntityScorer(List<String> stopWords,
                                   String nlpResources) throws IOException {
-        lev = new Levenshtein();
-        dice = new DiceSimilarity();
+        lev = StringMetrics.levenshtein();
+        dice = StringMetrics.dice();
         if (nlpResources != null)
             lemmatizer = NLPTools.getInstance(nlpResources).getLemmatizer();
 
@@ -108,13 +112,13 @@ public class SMPAdaptedEntityScorer implements EntityScorer {
         return score_elements;
     }
 
-    private double calculateStringSimilarity(String text, Entity candidate, AbstractStringMetric lev) {
+    private double calculateStringSimilarity(String text, Entity candidate, Metric<String> lev) {
         double totalAliases = 1.0,
-                totalScore = (double) lev.getSimilarity(text, candidate.getLabel());
+                totalScore = (double) lev.compare(text, candidate.getLabel());
 
         for (String alias : candidate.getAliases()) {
             if (alias.length() > 0) {
-                double score = lev.getSimilarity(text, alias);
+                double score = lev.compare(text, alias);
                 totalScore += score;
                 totalAliases += 1.0;
             }

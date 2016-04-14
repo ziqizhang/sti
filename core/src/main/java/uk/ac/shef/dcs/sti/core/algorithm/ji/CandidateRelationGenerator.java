@@ -1,5 +1,6 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
+import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
@@ -12,7 +13,6 @@ import uk.ac.shef.dcs.sti.core.model.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created by zqz on 01/05/2015.

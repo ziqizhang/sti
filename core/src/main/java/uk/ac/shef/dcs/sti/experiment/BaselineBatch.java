@@ -4,6 +4,13 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+import org.simmetrics.Metric;
+import org.simmetrics.StringMetric;
+import org.simmetrics.builders.StringMetricBuilder;
+import org.simmetrics.metrics.CosineSimilarity;
+import org.simmetrics.metrics.Levenshtein;
+import org.simmetrics.metrics.StringMetrics;
+import org.simmetrics.tokenizers.Tokenizers;
 import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
@@ -15,11 +22,10 @@ import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerIm
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.scorer.AttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.Levenshtein;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -31,10 +37,10 @@ import java.util.List;
 public class BaselineBatch extends STIBatch {
 
     private static final String BASELINE_METHOD="sti.baseline.method"; //nm=name match; sim=similarity
-    private static final String BASELINE_SIMILARITY_STRING_METRIC="sti.baseline.similarity.stringmetric.class";
+    private static final String BASELINE_SIMILARITY_STRING_METRIC="sti.baseline.similarity.stringmetrics.method";
 
     private static final Logger LOG = Logger.getLogger(BaselineBatch.class.getName());
-    private AbstractStringMetric stringMetric;
+    private StringMetric stringMetric;
     public BaselineBatch(String propertyFile) throws IOException, STIException {
         super(propertyFile);
     }
@@ -67,11 +73,16 @@ public class BaselineBatch extends STIBatch {
             throw new STIException("Not supported");
     }
 
-    private AbstractStringMetric getStringMetric() throws STIException{
-        String clazz = properties.getProperty(BASELINE_SIMILARITY_STRING_METRIC,
-                Levenshtein.class.getName());
+    private StringMetric getStringMetric() throws STIException{
         try {
-            return (AbstractStringMetric) Class.forName(clazz).newInstance();
+            Method m=StringMetrics.class.getDeclaredMethod(
+                    properties.getProperty(BASELINE_SIMILARITY_STRING_METRIC)
+            );
+            if(m!=null){
+                return (StringMetric)m.invoke(StringMetrics.class);
+            }
+            else
+                throw new STIException("Not supported string similarity method");
         }catch (Exception e){
             throw new STIException(e);
         }
@@ -134,7 +145,7 @@ public class BaselineBatch extends STIBatch {
             TColumnColumnRelationEnumerator interpreter_relation = new TColumnColumnRelationEnumerator(
                     new AttributeValueMatcher(STIConstantProperty.ATTRIBUTE_MATCHER_MIN_SCORE,
                             getStopwords(),
-                            new Levenshtein()),
+                            StringMetrics.levenshtein()),
                     new BaselineRelationScorer()
             );
 

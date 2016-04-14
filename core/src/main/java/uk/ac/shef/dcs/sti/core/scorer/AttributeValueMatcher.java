@@ -1,12 +1,13 @@
 package uk.ac.shef.dcs.sti.core.scorer;
 
 import javafx.util.Pair;
+import org.simmetrics.Metric;
+import org.simmetrics.StringMetric;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.util.CollectionUtils;
 import uk.ac.shef.dcs.util.StringUtils;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 
 import java.util.*;
 
@@ -17,10 +18,10 @@ public class AttributeValueMatcher {
 
     protected List<String> stopWords;
     protected double minScoreThreshold;
-    protected AbstractStringMetric stringMetric;
+    protected StringMetric stringMetric;
 
     public AttributeValueMatcher(double minScoreThreshold, List<String> stopWords,
-                                    AbstractStringMetric stringMetric) {
+                                 StringMetric stringMetric) {
         this.minScoreThreshold = minScoreThreshold;
         this.stopWords = stopWords;
         this.stringMetric = stringMetric;
@@ -115,7 +116,7 @@ public class AttributeValueMatcher {
         //long string like URL
         if (type_of_string1.equals(DataTypeClassifier.DataType.LONG_STRING) &&
                 type_of_string2.equals(DataTypeClassifier.DataType.LONG_STRING))
-            return stringMetric.getSimilarity(string1, string2);
+            return stringMetric.compare(string1, string2);
         if (type_of_string1.equals(DataTypeClassifier.DataType.LONG_STRING) ||
                 type_of_string2.equals(DataTypeClassifier.DataType.LONG_STRING))
             return 0.0;

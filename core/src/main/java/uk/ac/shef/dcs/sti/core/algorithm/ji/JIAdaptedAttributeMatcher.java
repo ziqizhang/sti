@@ -1,15 +1,14 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
+import org.simmetrics.Metric;
+import org.simmetrics.StringMetric;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.kbsearch.model.Resource;
 import uk.ac.shef.dcs.sti.core.scorer.AttributeValueMatcher;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
-
 import java.util.*;
 import java.util.List;
 
@@ -19,7 +18,7 @@ import java.util.List;
 public class JIAdaptedAttributeMatcher extends AttributeValueMatcher {
 
     public JIAdaptedAttributeMatcher(double minScoreThreshold, List<String> stopWords,
-                                     AbstractStringMetric stringMetric) {
+                                     StringMetric stringMetric) {
         super(minScoreThreshold, stopWords, stringMetric);
     }
 

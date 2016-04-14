@@ -1,5 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
+import org.simmetrics.Metric;
+import org.simmetrics.StringMetric;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPEntityScorer;
@@ -13,7 +15,6 @@ import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.util.CollectionUtils;
 import uk.ac.shef.dcs.util.StringUtils;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 
 import java.io.IOException;
 import java.util.*;
@@ -29,7 +30,7 @@ public class BaselineSimilarityEntityScorer implements EntityScorer {
     private static final String SCORE_NAME_MATCH = "name_string_similarity";
     private List<String> stopWords;
     private Lemmatizer lemmatizer;
-    private AbstractStringMetric stringSimilarityMetric;
+    private StringMetric stringSimilarityMetric;
 
     /*
     context weights: 0-row context; 1-column context; 2-table context
@@ -37,7 +38,7 @@ public class BaselineSimilarityEntityScorer implements EntityScorer {
     public BaselineSimilarityEntityScorer(
             List<String> stopWords,
             String nlpResources,
-            AbstractStringMetric stringSimilarityMetric) throws IOException {
+            StringMetric stringSimilarityMetric) throws IOException {
         if (nlpResources != null)
             lemmatizer = NLPTools.getInstance(nlpResources).getLemmatizer();
 
@@ -100,7 +101,7 @@ public class BaselineSimilarityEntityScorer implements EntityScorer {
         String cell_text = table.getContentCell(entity_source_row, entity_source_column).getText();
         String entity_name = candidate.getLabel();
         //double stringSim = CollectionUtils.diceCoefficientOptimized(cell_text,entity_name);
-        double stringSim = stringSimilarityMetric.getSimilarity(cell_text,entity_name);
+        double stringSim = stringSimilarityMetric.compare(cell_text, entity_name);
         scoreMap.put(SCORE_NAME_MATCH, stringSim);
 
         return scoreMap;
