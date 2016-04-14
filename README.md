@@ -7,10 +7,11 @@ This project is based on the work described at [1]. The original code referred t
 This project provides implementation of several semantic table interpretation algorithms, including: [TO ADD]. **However, due to many things out of our control (e.g., use of in-house software in original works, different versions of knowledge bases), please note that we cannot guarantee identical replication of the original systems or reproduction of experiment results.**
 
 ### LICENCE
-[TO DECIDE but will be open source]
+Apache 2.0
 
 ### Quick Start
  - Place a copy of STI on your computer
+ - Run mvninstal.bat to add two libraries to your local maven repository
  - Download test data, from [here](http://staffwww.dcs.shef.ac.uk/people/Z.Zhang/resources/tableminerplus/data.tar.gz)
  - Unzip the test data, into e.g., [sti_data]
  - Navigate into [sti_data/dataset], unzip, depending on the test cases: imdb.tar.gz for the IMDB dataset; musicbrainz.tar.gz for the MusicBrainz dataset; Limaye200.tar.gz for the Limaye200 dataset; Limaye_complete.tar.gz for the LimayeAll dataset

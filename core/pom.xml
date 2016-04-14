@@ -6,7 +6,7 @@
 
     <groupId>uk.ac.shef.dcs</groupId>
     <artifactId>sti</artifactId>
-    <version>1.0</version>
+    <version>1.0alpha</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,6 +18,9 @@
             <groupId>com.github.mpkorstanje</groupId>
             <artifactId>simmetrics</artifactId>
             <version>4.1.0L</version>
+            <!--Current repository version is 4.1.0, however that does not seem to include
+            a binary distributable. As a result, a local copy of binary is created and
+            called 4.1.0L. Run mvninstall.bat to add it to your local maven repository -->
         </dependency>
 
         <!--dependency>
