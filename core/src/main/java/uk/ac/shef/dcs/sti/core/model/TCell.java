@@ -14,14 +14,14 @@ public class TCell implements Serializable {
     private static final long serialVersionUID = -8136725814000405913L;
 
     private String text;    //the raw text found in the table cell
-    private String other_text;
+    private String otherText;
     private String xPath; //xpath that extracts this value
     private DataTypeClassifier.DataType type;
 
     public TCell(String text){
         this.text=text;
         this.type=DataTypeClassifier.DataType.UNKNOWN;
-        other_text="";
+        otherText ="";
     }
 
 
@@ -54,10 +54,10 @@ public class TCell implements Serializable {
     }
 
     public String getOtherText() {
-        return other_text;
+        return otherText;
     }
 
-    public void setOther_text(String other_text) {
-        this.other_text = other_text;
+    public void setOtherText(String otherText) {
+        this.otherText = otherText;
     }
 }

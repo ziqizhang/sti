@@ -163,7 +163,7 @@ public class DataStats_TableSize_NameLength_Analysis_LimayeNew {
                 TCell cell = new TCell(cells[c]);
                 String other = cells_other_text[c];
                 if(other!=null&&other.length()>0)
-                    cell.setOther_text(other);
+                    cell.setOtherText(other);
                 table.setContentCell(r - rowModifier, c, cell);
             }
         }

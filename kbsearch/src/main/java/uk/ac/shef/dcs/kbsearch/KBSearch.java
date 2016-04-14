@@ -30,6 +30,17 @@ public abstract class KBSearch {
 
     protected KBSearchResultFilter resultFilter;
 
+    /**
+     *
+     * @param fuzzyKeywords given a query string, kbsearch will firstly try to fetch results matching the exact query. when no match is
+     *                      found, you can set fuzzyKeywords to true, to let kbsearch to break the query string based on conjunective words.
+     *                      So if the query string is "tom and jerry", it will try "tom" and "jerry"
+     * @param cacheEntity the solr instance to cache retrieved entities from the kb. pass null if not needed
+     * @param cacheConcept the solr instance to cache retrieved classes from the kb. pass null if not needed
+     * @param cacheProperty the solr instance to cache retrieved properties from the kb. pass null if not needed
+     * @param cacheSimilarity the solr instance to cache computed semantic similarity between entity and class. pass null if not needed
+     * @throws IOException
+     */
     public KBSearch(Boolean fuzzyKeywords,
                     EmbeddedSolrServer cacheEntity, EmbeddedSolrServer cacheConcept,
                     EmbeddedSolrServer cacheProperty, EmbeddedSolrServer cacheSimilarity) throws IOException {
@@ -46,7 +57,11 @@ public abstract class KBSearch {
 
     }
 
-
+    /**
+     * If any other cache is needed you may add them here
+     * @param name
+     * @param cacheServer
+     */
     public void registerOtherCache(String name, EmbeddedSolrServer cacheServer) {
         otherCache.put(name, new SolrCache(cacheServer));
     }
@@ -56,7 +71,7 @@ public abstract class KBSearch {
         return resultFilter;
     }
     /**
-     * given a content cell, fetch candidate entities from a KB
+     * given a string, fetch candidate entities from a KB
      * @param content
      * @return
      * @throws IOException
@@ -64,7 +79,7 @@ public abstract class KBSearch {
     public abstract List<Entity> findEntityCandidates(String content) throws KBSearchException;
 
     /**
-     * given a content cell fetch candidate entities that only match certain types from a KB
+     * given a string fetch candidate entities that only match certain types from a KB
      * @param content
      * @param types
      * @return
@@ -79,10 +94,10 @@ public abstract class KBSearch {
     public abstract List<Attribute> findAttributesOfEntities(Entity ec) throws KBSearchException;
 
     /**
-     * get attributes of the concept
+     * get attributes of the class
     * @throws KBSearchException
      */
-    public abstract List<Attribute> findAttributesOfClazz(String conceptId) throws KBSearchException;
+    public abstract List<Attribute> findAttributesOfClazz(String clazzId) throws KBSearchException;
 
     /**
      * get attributes of the property
@@ -99,10 +114,26 @@ public abstract class KBSearch {
      */
     public abstract double findGranularityOfClazz(String clazz) throws KBSearchException;
 
-    public abstract double findEntityConceptSimilarity(String entity_id, String concept_url) throws KBSearchException;
+    /**
+     * compute the seamntic similarity between an entity and a class
+     * @param entity_id
+     * @param clazz_url
+     * @return
+     * @throws KBSearchException
+     */
+    public abstract double findEntityClazzSimilarity(String entity_id, String clazz_url) throws KBSearchException;
 
-    public abstract void cacheEntityConceptSimilarity(String entity_id, String concept_url, double score, boolean biDirectional,
-                                                      boolean commit) throws KBSearchException;
+    /**
+     * save the computed semantic similarity between the entity and class
+     * @param entity_id
+     * @param clazz_url
+     * @param score
+     * @param biDirectional
+     * @param commit
+     * @throws KBSearchException
+     */
+    public abstract void cacheEntityClazztSimilarity(String entity_id, String clazz_url, double score, boolean biDirectional,
+                                                     boolean commit) throws KBSearchException;
 
     public abstract void commitChanges() throws KBSearchException;
     public abstract void closeConnection() throws KBSearchException;
@@ -131,7 +162,7 @@ public abstract class KBSearch {
         return "GRANULARITY_" + clazz;
     }
 
-    protected String createSolrCacheQuery_findEntityConceptSimilarity(String entity, String concept){
+    protected String createSolrCacheQuery_findEntityClazzSimilarity(String entity, String concept){
         return entity+"<>"+concept;
     }
 

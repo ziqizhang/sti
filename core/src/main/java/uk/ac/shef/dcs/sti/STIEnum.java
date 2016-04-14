@@ -7,9 +7,7 @@ package uk.ac.shef.dcs.sti;
  */
 public enum STIEnum {
 
-    TABLE_HEADER_UNKNOWN("H_Unknown"),
-    LIST_ITEM_SEPARATOR("|"),
-    TRIPLE_LITERAL_VALUE_QUOTE("'");
+    TABLE_HEADER_UNKNOWN("H_Unknown");
 
     private String value;
 

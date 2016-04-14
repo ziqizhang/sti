@@ -75,7 +75,7 @@ public class TableObjCreatorMusicBrainz implements TableObjCreator {
 
                 TCell cell = new TCell(text);
                 cell.setText(text);
-                cell.setOther_text(other_text);
+                cell.setOtherText(other_text);
 
                 table.setContentCell(r - 1, c, cell);
 

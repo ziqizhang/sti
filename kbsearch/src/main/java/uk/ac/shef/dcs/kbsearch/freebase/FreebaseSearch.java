@@ -160,14 +160,8 @@ public class FreebaseSearch extends KBSearch {
             ec.clearTypes();
             for (Clazz ft : filteredTypes)
                 ec.addType(ft);
-
-            //no need to filter attributes as "find_attributes" method already does it
-            /*List<Attribute> filteredAttributes = getResultFilter().filterAttribute(ec.getAttributes());
-            ec.getAttributes().clear();
-            ec.getAttributes().addAll(filteredAttributes);*/
         }
 
-        //LOG.info("(QUERY_KB:" + beforeFiltering + " => " + result.size() + id);
         return result;
     }
 
@@ -286,8 +280,8 @@ public class FreebaseSearch extends KBSearch {
     }
 
 
-    public double findEntityConceptSimilarity(String id1, String id2) {
-        String query = createSolrCacheQuery_findEntityConceptSimilarity(id1, id2);
+    public double findEntityClazzSimilarity(String id1, String clazz_url) {
+        String query = createSolrCacheQuery_findEntityClazzSimilarity(id1, clazz_url);
         Object result = null;
         try {
             result = cacheSimilarity.retrieve(query);
@@ -300,14 +294,14 @@ public class FreebaseSearch extends KBSearch {
         return (Double) result;
     }
 
-    public void cacheEntityConceptSimilarity(String id1, String id2, double score, boolean biDirectional,
-                                             boolean commit) {
-        String query = createSolrCacheQuery_findEntityConceptSimilarity(id1, id2);
+    public void cacheEntityClazztSimilarity(String id1, String clazz_url, double score, boolean biDirectional,
+                                            boolean commit) {
+        String query = createSolrCacheQuery_findEntityClazzSimilarity(id1, clazz_url);
         try {
             cacheSimilarity.cache(query, score, commit);
             LOG.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
             if (biDirectional) {
-                query = id2 + "<>" + id1;
+                query = clazz_url + "<>" + id1;
                 cacheSimilarity.cache(query, score, commit);
                 LOG.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
             }

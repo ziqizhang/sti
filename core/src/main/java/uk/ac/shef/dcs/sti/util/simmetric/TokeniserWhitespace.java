@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.util;
+package uk.ac.shef.dcs.sti.util.simmetric;
 
 /**
  * Created by zqz on 15/05/2015.
@@ -59,7 +59,7 @@ package uk.ac.shef.dcs.sti.util;
  * @author Sam Chapman <a href="http://www.dcs.shef.ac.uk/~sam/">Website</a>, <a href="mailto:sam@dcs.shef.ac.uk">Email</a>.
  * @version 1.1
  */
-public final class TokeniserWhitespace implements InterfaceTokeniser, Serializable {
+final class TokeniserWhitespace implements InterfaceTokeniser, Serializable {
 
     /**
      * stopWordHandler used by the tokenisation.

@@ -10,7 +10,11 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by - on 17/03/2016.
+ * Information retrieved from a KB may contain those that are too generic or high level to be useful. E.g., in DBpedia, class 'Thing'
+ * may never be a sensible class to annotate a table column.
+ *
+ * KBSearchResultFilter is responsible for filtering such information. This can be class, relation, or entity, depending on the actual
+ * implementing classes.
  */
 public abstract class KBSearchResultFilter {
     protected Map<String, Set<String>> stoplists = new HashMap<>();
@@ -21,6 +25,12 @@ public abstract class KBSearchResultFilter {
         loadStoplists(stoplistsFile);
     }
 
+    /**
+     * an external file defining class/relation/entities to be filtered. the file must correspond to certain format.
+     * See 'resources/kbstoplist.txt' for explanation
+     * @param stoplistsFile
+     * @throws IOException
+     */
     protected void loadStoplists(String stoplistsFile) throws IOException {
         LineIterator it = FileUtils.lineIterator(new File(stoplistsFile));
         String label="";

@@ -37,7 +37,7 @@ public class EntityAndClazzSimilarityScorer {
                                                                boolean useCache) throws KBSearchException {
         double score = -1;
         if (useCache)
-            score = kbSearch.findEntityConceptSimilarity(entity.getId(), concept.getId());
+            score = kbSearch.findEntityClazzSimilarity(entity.getId(), concept.getId());
         boolean fromCache = false;
         if (score != -1)
             fromCache =true;

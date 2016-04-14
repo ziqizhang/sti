@@ -1,6 +1,5 @@
 package uk.ac.shef.dcs.sti.util.simmetric;
 
-import uk.ac.shef.dcs.sti.util.TokeniserWhitespace;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.AbstractStringMetric;
 import uk.ac.shef.wit.simmetrics.tokenisers.InterfaceTokeniser;
 

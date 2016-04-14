@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.TODO.evaluation;
 
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
-import uk.ac.shef.dcs.sti.io.TAnnotationKeyFileReader;
+import uk.ac.shef.dcs.sti.TODO.TAnnotationKeyFileReader;
 
 import java.io.File;
 import java.io.IOException;
