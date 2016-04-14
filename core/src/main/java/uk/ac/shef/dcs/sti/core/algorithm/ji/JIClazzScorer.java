@@ -16,6 +16,7 @@ import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
+import uk.ac.shef.dcs.util.StringUtils;
 
 import java.util.*;
 
@@ -39,8 +40,8 @@ public class JIClazzScorer implements ClazzScorer {
     }
 
 
-    private double calculateStringSimilarity(String text, TColumnHeaderAnnotation candidate, Metric<String> lev) {
-        double baseScore = lev.compare(text, candidate.getAnnotation().getLabel());
+    private double calculateStringSimilarity(String text, String candidate, StringMetric lev) {
+        double baseScore = lev.compare(text, candidate);
         return baseScore;
     }
 
@@ -83,9 +84,12 @@ public class JIClazzScorer implements ClazzScorer {
                     hAnnotation = new TColumnHeaderAnnotation(
                             headerText, c, 0.0
                     );
-                    double levScore = calculateStringSimilarity(headerText, hAnnotation, lev);
-                    double jaccardScore = calculateStringSimilarity(headerText, hAnnotation, jaccard);
-                    double cosineScore = calculateStringSimilarity(headerText, hAnnotation, cosine);
+
+                    String normText = StringUtils.toAlphaNumericWhitechar(headerText);
+                    String normAnnotationText = StringUtils.toAlphaNumericWhitechar(hAnnotation.getAnnotation().getLabel());
+                    double levScore = calculateStringSimilarity(normText, normAnnotationText, lev);
+                    double jaccardScore = calculateStringSimilarity(normText, normAnnotationText, jaccard);
+                    double cosineScore = calculateStringSimilarity(normText, normAnnotationText, cosine);
 
                     Map<String, Double> clazz_score_elements = new HashMap<>();
                     clazz_score_elements.put(SCORE_FINAL, levScore + jaccardScore + cosineScore);

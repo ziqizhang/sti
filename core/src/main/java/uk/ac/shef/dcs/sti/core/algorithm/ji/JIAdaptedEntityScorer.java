@@ -13,6 +13,7 @@ import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.Table;
+import uk.ac.shef.dcs.util.StringUtils;
 
 
 import java.util.HashMap;
@@ -47,9 +48,12 @@ public class JIAdaptedEntityScorer implements EntityScorer {
                                                     Entity... referenceEntities) {
 
         TCell cell = table.getContentCell(sourceRowIndex, sourceColumnIndex);
-        double levScore = calculateStringSimilarity(cell.getText(), candidate, lev);
-        double jaccardScore = calculateStringSimilarity(cell.getText(), candidate, jaccard);
-        double cosineScore = calculateStringSimilarity(cell.getText(), candidate, cosine);
+
+        String normText = StringUtils.toAlphaNumericWhitechar(cell.getText());
+        String normCandidateName = StringUtils.toAlphaNumericWhitechar(candidate.getLabel());
+        double levScore = calculateStringSimilarity(normText, normCandidateName, lev);
+        double jaccardScore = calculateStringSimilarity(normText, normCandidateName, jaccard);
+        double cosineScore = calculateStringSimilarity(normText, normCandidateName, cosine);
 
         Map<String, Double> score_elements = new HashMap<>();
         score_elements.put(SCORE_FINAL, levScore + jaccardScore + cosineScore);
@@ -59,8 +63,8 @@ public class JIAdaptedEntityScorer implements EntityScorer {
         return score_elements;
     }
 
-    private double calculateStringSimilarity(String text, Entity candidate, Metric<String> lev) {
-        double baseScore = lev.compare(text, candidate.getLabel());
+    private double calculateStringSimilarity(String text, String candidate, StringMetric lev) {
+        double baseScore = lev.compare(text, candidate);
         return baseScore;
     }
 

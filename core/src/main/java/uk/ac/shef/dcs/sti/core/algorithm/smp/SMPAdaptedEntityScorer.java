@@ -113,12 +113,16 @@ public class SMPAdaptedEntityScorer implements EntityScorer {
     }
 
     private double calculateStringSimilarity(String text, Entity candidate, Metric<String> lev) {
+        String normText = StringUtils.toAlphaNumericWhitechar(text);
         double totalAliases = 1.0,
-                totalScore = (double) lev.compare(text, candidate.getLabel());
+                totalScore = (double) lev.compare(
+                        normText,
+                        StringUtils.toAlphaNumericWhitechar(candidate.getLabel()));
 
         for (String alias : candidate.getAliases()) {
+            alias=StringUtils.toAlphaNumericWhitechar(alias);
             if (alias.length() > 0) {
-                double score = lev.compare(text, alias);
+                double score = lev.compare(normText, alias);
                 totalScore += score;
                 totalAliases += 1.0;
             }

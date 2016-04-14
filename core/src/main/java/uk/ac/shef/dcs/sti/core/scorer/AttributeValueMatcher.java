@@ -53,7 +53,7 @@ public class AttributeValueMatcher {
                 if (!isValidType(dataTypeOfAttrValue))
                     continue;
 
-                double score = score(textValue, cellDataType, attr.getValue(), dataTypeOfAttrValue,stopWords);
+                double score = score(textValue, cellDataType, attr.getValue(), dataTypeOfAttrValue, stopWords);
                 if (score > maxScore) {
                     maxScore = score;
                 }
@@ -61,17 +61,17 @@ public class AttributeValueMatcher {
             }
 
 
-            if (maxScore!=0&&maxScore >= minScoreThreshold) {
+            if (maxScore != 0 && maxScore >= minScoreThreshold) {
                 List<Pair<Attribute, Double>> list = new ArrayList<>();
-                for(Map.Entry<Integer, Double> entry: attrIndex_to_matchScores.entrySet()){
-                    if(entry.getValue()==maxScore){
+                for (Map.Entry<Integer, Double> entry : attrIndex_to_matchScores.entrySet()) {
+                    if (entry.getValue() == maxScore) {
                         Attribute winningAttr = attributes.get(entry.getKey());
                         Pair<Attribute, Double> score_obj = new Pair<>(winningAttr,
                                 maxScore);
                         list.add(score_obj);
                     }
                 }
-                if(list.size()>0)
+                if (list.size() > 0)
                     matchedScores.put(column, list);
 
             }
@@ -93,6 +93,7 @@ public class AttributeValueMatcher {
     /**
      * number match scores are computed by matchNumber; text match scores are computed by dice;
      * long string (urls) are computed by a string similarity metric
+     *
      * @param string1
      * @param type_of_string1
      * @param string2
@@ -101,10 +102,10 @@ public class AttributeValueMatcher {
      * @return
      */
     protected double score(String string1,
-                               DataTypeClassifier.DataType type_of_string1,
-                               String string2,
-                               DataTypeClassifier.DataType type_of_string2,
-                               Collection<String> stopWords) {
+                           DataTypeClassifier.DataType type_of_string1,
+                           String string2,
+                           DataTypeClassifier.DataType type_of_string2,
+                           Collection<String> stopWords) {
         if (type_of_string1.equals(DataTypeClassifier.DataType.NAMED_ENTITY) &&
                 (type_of_string2.equals(DataTypeClassifier.DataType.NUMBER)
                         || type_of_string2.equals(DataTypeClassifier.DataType.DATE)))
@@ -115,8 +116,11 @@ public class AttributeValueMatcher {
             return 0.0;
         //long string like URL
         if (type_of_string1.equals(DataTypeClassifier.DataType.LONG_STRING) &&
-                type_of_string2.equals(DataTypeClassifier.DataType.LONG_STRING))
+                type_of_string2.equals(DataTypeClassifier.DataType.LONG_STRING)) {
+            string1 = StringUtils.toAlphaNumericWhitechar(string1);
+            string2 = StringUtils.toAlphaNumericWhitechar(string2);
             return stringMetric.compare(string1, string2);
+        }
         if (type_of_string1.equals(DataTypeClassifier.DataType.LONG_STRING) ||
                 type_of_string2.equals(DataTypeClassifier.DataType.LONG_STRING))
             return 0.0;
@@ -129,7 +133,7 @@ public class AttributeValueMatcher {
         }
 
         if (score == -1) {
-            score = matchText(string1, string2,stopWords);
+            score = matchText(string1, string2, stopWords);
         }
         return score == -1.0 ? 0.0 : score;
     }
@@ -139,10 +143,10 @@ public class AttributeValueMatcher {
         //method 1, check how much overlap the two texts have
         target = StringUtils.toAlphaNumericWhitechar(target);
         base = StringUtils.toAlphaNumericWhitechar(base);
-        Set<String> target_toks = new HashSet<>(StringUtils.toBagOfWords(target,true,true,
+        Set<String> target_toks = new HashSet<>(StringUtils.toBagOfWords(target, true, true,
                 STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
         target_toks.removeAll(stopWords);
-        Set<String> base_toks = new HashSet<>(StringUtils.toBagOfWords(base,true,true,
+        Set<String> base_toks = new HashSet<>(StringUtils.toBagOfWords(base, true, true,
                 STIConstantProperty.BOW_DISCARD_SINGLE_CHAR));
         base_toks.removeAll(stopWords);
 

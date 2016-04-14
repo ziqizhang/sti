@@ -99,7 +99,9 @@ public class BaselineSimilarityEntityScorer implements EntityScorer {
         scoreMap.put(TMPEntityScorer.SCORE_IN_CTX_ROW, contextOverlapScore);
 
         String cell_text = table.getContentCell(entity_source_row, entity_source_column).getText();
+        cell_text=StringUtils.toAlphaNumericWhitechar(cell_text);
         String entity_name = candidate.getLabel();
+        entity_name=StringUtils.toAlphaNumericWhitechar(entity_name);
         //double stringSim = CollectionUtils.diceCoefficientOptimized(cell_text,entity_name);
         double stringSim = stringSimilarityMetric.compare(cell_text, entity_name);
         scoreMap.put(SCORE_NAME_MATCH, stringSim);
