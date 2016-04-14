@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  *
  */
-public class ChangeMessageComputer {
+class ChangeMessageComputer {
 
     protected double minConfidence = 0.5;
 
