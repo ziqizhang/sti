@@ -2,10 +2,10 @@ package uk.ac.shef.dcs.sti.TODO.gs;
 
 import org.apache.any23.util.FileUtils;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
+import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.core.model.TCell;
-import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.parser.table.TableParserMusicBrainz;

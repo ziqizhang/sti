@@ -231,7 +231,7 @@ public class JIInterpreter extends SemanticTableInterpreter {
     protected void generateRelationCandidates(TAnnotationJI tabAnnotations, Table table,
                                               boolean useSubjectColumn,
                                               Collection<Integer> ignoreColumnsLocal) throws IOException, KBSearchException {
-        relationGenerator.generateCandidateRelation(tabAnnotations, table, useSubjectColumn, ignoreColumnsLocal);
+        relationGenerator.generateInitialColumnColumnRelations(tabAnnotations, table, useSubjectColumn, ignoreColumnsLocal);
     }
 
     protected boolean createAnnotations(FactorGraph graph,

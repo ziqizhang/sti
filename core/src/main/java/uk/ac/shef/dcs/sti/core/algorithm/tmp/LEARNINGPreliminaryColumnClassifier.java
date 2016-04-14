@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.StoppingCriteria;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.StoppingCriteriaInstantiator;

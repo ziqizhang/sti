@@ -39,13 +39,13 @@ public class BaselineRelationScorer implements RelationScorer {
             Map<String, Double> scoreElements = columncolumnRelationAnnotation.getScoreElements();
             if (scoreElements == null || scoreElements.size() == 0) {
                 scoreElements = new HashMap<>();
-                scoreElements.put(TColumnColumnRelationAnnotation.FINAL, 0.0);
+                scoreElements.put(TColumnColumnRelationAnnotation.SCORE_FINAL, 0.0);
             }
 
-            scoreElements.put(TColumnColumnRelationAnnotation.FINAL,
-                    scoreElements.get(TColumnColumnRelationAnnotation.FINAL) + 1.0);
+            scoreElements.put(TColumnColumnRelationAnnotation.SCORE_FINAL,
+                    scoreElements.get(TColumnColumnRelationAnnotation.SCORE_FINAL) + 1.0);
             columncolumnRelationAnnotation.setFinalScore(scoreElements.
-                    get(TColumnColumnRelationAnnotation.FINAL));
+                    get(TColumnColumnRelationAnnotation.SCORE_FINAL));
 
         }
         return new ArrayList<>(output);

@@ -70,13 +70,13 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                         String obj = objCellVar.getLabelAlphabet().lookupLabel(o).toString();
                         double score;
                         if (forwardRelation) {
-                            score = annotation.getScore_entityPairAndRelation(sbj, obj, rel);
-                            score = score + annotation.getScore_entityAndRelation(sbj, rel);
+                            score = annotation.getScoreEntityPairAndRelation(sbj, obj, rel);
+                            score = score + annotation.getScoreEntityAndRelation(sbj, rel);
                             if (score > 0)
                                 updateAffinity(affinity_scores, sbjCellVar, s, objCellVar, o, r, score);
                         } else {
-                            score = annotation.getScore_entityPairAndRelation(obj, sbj, rel);
-                            score = score + annotation.getScore_entityAndRelation(obj, rel);
+                            score = annotation.getScoreEntityPairAndRelation(obj, sbj, rel);
+                            score = score + annotation.getScoreEntityAndRelation(obj, rel);
                             if (score > 0)
                                 updateAffinity(affinity_scores, sbjCellVar, s, objCellVar, o, r, score);
                         }

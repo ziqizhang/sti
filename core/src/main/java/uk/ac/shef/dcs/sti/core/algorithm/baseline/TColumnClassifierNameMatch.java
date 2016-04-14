@@ -3,8 +3,8 @@ package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
-import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
+import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 
 import java.util.*;

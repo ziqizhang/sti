@@ -81,11 +81,11 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                                 String col2_header_concept_url = column2_header_variable.getLabelAlphabet().lookupLabel(col2_outcome).toString();
                                 double score = 0.0;
                                 if (current_rel_direction.getSubjectCol() == c1 && current_rel_direction.getObjectCol() == c2) {
-                                    score = annotation.getScore_conceptPairAndRelation(col1_header_concept_url,
+                                    score = annotation.getScoreClazzPairAndRelation(col1_header_concept_url,
                                             hbr.toStringExpanded(), col2_header_concept_url, annotation.getRows());
                                 } else if (current_rel_direction.getObjectCol() == c1 && current_rel_direction.getSubjectCol() == c2) {
 
-                                    score = annotation.getScore_conceptPairAndRelation(col2_header_concept_url,
+                                    score = annotation.getScoreClazzPairAndRelation(col2_header_concept_url,
                                             hbr.toStringExpanded(), col1_header_concept_url, annotation.getRows());
                                 }
                                 if (score > 0) {

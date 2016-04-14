@@ -295,12 +295,12 @@ public class TMPRelationScorer implements RelationScorer {
                     e.getKey().equals(SUM_CELL_VOTE) ||
                     e.getKey().equals(SCORE_RE) ||
                     e.getKey().equals(SCORE_CELL_VOTE) ||
-                    e.getKey().equals(TColumnColumnRelationAnnotation.FINAL))
+                    e.getKey().equals(TColumnColumnRelationAnnotation.SCORE_FINAL))
                 continue;
 
             base_score += e.getValue();
         }
-        scoreElements.put(TColumnHeaderAnnotation.FINAL, base_score);
+        scoreElements.put(TColumnHeaderAnnotation.SCORE_FINAL, base_score);
         relation.setFinalScore(base_score);
         return scoreElements;
     }

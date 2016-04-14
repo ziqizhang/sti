@@ -3,7 +3,6 @@ package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 import javafx.util.Pair;
 import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
@@ -55,7 +54,7 @@ public class BaselineSimilarityClazzScorer implements ClazzScorer {
             finalScore = finalScore + namematch;
         }
 
-        scoreElements.put(TColumnHeaderAnnotation.FINAL, finalScore);
+        scoreElements.put(TColumnHeaderAnnotation.SCORE_FINAL, finalScore);
         ha.setFinalScore(finalScore);
         return scoreElements;
     }

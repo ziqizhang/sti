@@ -4,8 +4,8 @@ import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
-import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
+import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 

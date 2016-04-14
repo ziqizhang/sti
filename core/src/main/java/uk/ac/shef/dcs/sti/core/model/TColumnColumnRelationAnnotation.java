@@ -17,7 +17,7 @@ public class TColumnColumnRelationAnnotation implements Serializable, Comparable
     private String relationURI;
     private String relationLabel;
 
-    public static final String FINAL="final";
+    public static final String SCORE_FINAL ="final";
 
     private double finalScore;
     private Map<String, Double> scoreElements;
@@ -32,9 +32,9 @@ public class TColumnColumnRelationAnnotation implements Serializable, Comparable
         this.scoreElements=new HashMap<>();
         scoreElements=new HashMap<>();
         if(score!=0)
-            scoreElements.put(FINAL, score);
+            scoreElements.put(SCORE_FINAL, score);
         else
-            scoreElements.put(FINAL, 0.0);
+            scoreElements.put(SCORE_FINAL, 0.0);
         this.supportingRows = new ArrayList<>();
     }
 

@@ -18,7 +18,7 @@ import java.util.Map;
 public class TColumnHeaderAnnotation implements Serializable,Comparable<TColumnHeaderAnnotation> {
     private static final long serialVersionUID = -6208426814708405913L;
 
-    public static final String FINAL="final";
+    public static final String SCORE_FINAL ="final";
 
     private String headerText;
     private Clazz annotation;
@@ -34,9 +34,9 @@ public class TColumnHeaderAnnotation implements Serializable,Comparable<TColumnH
         supportingRows = new ArrayList<>();
         scoreElements=new HashMap<>();
         if(finalScore>0)
-            scoreElements.put(FINAL, finalScore);
+            scoreElements.put(SCORE_FINAL, finalScore);
         else
-            scoreElements.put(FINAL, 0.0);
+            scoreElements.put(SCORE_FINAL, 0.0);
     }
 
     public static TColumnHeaderAnnotation copy(TColumnHeaderAnnotation ha) {

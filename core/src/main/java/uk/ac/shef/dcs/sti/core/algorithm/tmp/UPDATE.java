@@ -4,15 +4,12 @@ import javafx.util.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseEnum;
-import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
-import uk.ac.shef.dcs.kbsearch.model.Resource;
 import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.util.StringUtils;
 
@@ -227,7 +224,7 @@ public class UPDATE {
                 constrainedClazz.toArray(new String[0]));
 
         int ignore = 0;
-        for (Resource ec : candidates) {
+        for (uk.ac.shef.dcs.kbsearch.model.Resource ec : candidates) {
             if (ignoreEntityIds.contains(ec.getId()))
                 ignore++;
         }

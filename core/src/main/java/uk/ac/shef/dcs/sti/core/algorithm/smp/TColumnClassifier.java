@@ -5,10 +5,9 @@ import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
-import uk.ac.shef.dcs.sti.STIConstantProperty;
+import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
-import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
@@ -102,7 +101,7 @@ public class TColumnClassifier {
                 Double granularity = granularityScore.get(oo.getKey());
                 granularity = granularity == null ? 0 : granularity;
                 ha.getScoreElements().put(SMP_SCORE_GRANULARITY, granularity);
-                ha.getScoreElements().put(TColumnHeaderAnnotation.FINAL, oo.getValue());
+                ha.getScoreElements().put(TColumnHeaderAnnotation.SCORE_FINAL, oo.getValue());
                 headerAnnotations[i] = ha;
                 i++;
             }

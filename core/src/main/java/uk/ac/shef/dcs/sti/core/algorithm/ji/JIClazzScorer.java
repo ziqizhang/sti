@@ -6,7 +6,6 @@ import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
-import uk.ac.shef.dcs.sti.core.model.TColumnHeader;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.core.scorer.ClazzScorer;
 import uk.ac.shef.dcs.sti.util.simmetric.CosineSimilarity;

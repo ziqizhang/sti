@@ -259,7 +259,7 @@ public class TMPClazzScorer implements ClazzScorer {
             if (e.getKey().startsWith("ctx"))
                 ce += e.getValue();
         }
-        scoreElements.put(TColumnHeaderAnnotation.FINAL, ce);
+        scoreElements.put(TColumnHeaderAnnotation.SCORE_FINAL, ce);
         ha.setFinalScore(ce);
         return scoreElements;
     }

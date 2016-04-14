@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.parser.table.validator;
 
-import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
+import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.Table;
 
 /**
