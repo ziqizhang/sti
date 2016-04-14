@@ -41,11 +41,6 @@ public class JIClazzScorer implements ClazzScorer {
     }
 
 
-    public double compute_final_score(Map<String, Double> scoreMap) {
-        scoreMap.put(TCellAnnotation.SCORE_FINAL, scoreMap.get(SCORE_FINAL));
-        return scoreMap.get(SCORE_FINAL);
-    }
-
     @Override
     public Map<String, Double> computeFinal(TColumnHeaderAnnotation ha, int tableRowsTotal) {
         Map<String, Double> scoreMap = ha.getScoreElements();
@@ -88,12 +83,12 @@ public class JIClazzScorer implements ClazzScorer {
                     double jaccardScore = calculateStringSimilarity(headerText, hAnnotation, jaccard);
                     double cosineScore = calculateStringSimilarity(headerText, hAnnotation, cosine);
 
-                    Map<String, Double> score_elements = new HashMap<>();
-                    score_elements.put(SCORE_FINAL, levScore + jaccardScore + cosineScore);
-                    score_elements.put(SCORE_COSINE, cosineScore);
-                    score_elements.put(SCORE_JACCARD, jaccardScore);
-                    score_elements.put(SCORE_LEV, levScore);
-                    hAnnotation.setScoreElements(scoreElements);
+                    Map<String, Double> clazz_score_elements = new HashMap<>();
+                    clazz_score_elements.put(SCORE_FINAL, levScore + jaccardScore + cosineScore);
+                    clazz_score_elements.put(SCORE_COSINE, cosineScore);
+                    clazz_score_elements.put(SCORE_JACCARD, jaccardScore);
+                    clazz_score_elements.put(SCORE_LEV, levScore);
+                    hAnnotation.setScoreElements(clazz_score_elements);
 
                     headerAnnotationCandidates.add(hAnnotation);
                 }

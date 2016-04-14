@@ -179,7 +179,7 @@ public class TMPClazzScorer implements ClazzScorer {
             Set<String> clazzBOW = new HashSet<>(createClazzBOW(ha,
                     true,
                     STIConstantProperty.BOW_DISCARD_SINGLE_CHAR,
-                    STIConstantProperty.CLAZZBOW_INCLUDE_URI));
+                    STIConstantProperty.BOW_CLAZZ_INCLUDE_URI));
 
             if (scoreCtxHeader == null) {
                 bowHeader = createHeaderTextBOW(bowHeader, table, column);
@@ -276,7 +276,7 @@ public class TMPClazzScorer implements ClazzScorer {
         List<String> annotation_bow = createClazzBOW(ha,
                 true,
                 STIConstantProperty.BOW_DISCARD_SINGLE_CHAR,
-                STIConstantProperty.CLAZZBOW_INCLUDE_URI);
+                STIConstantProperty.BOW_CLAZZ_INCLUDE_URI);
         double score = CollectionUtils.computeFrequencyWeightedDice(annotation_bow, domain_representation);
         score = Math.sqrt(score) * 2;
         ha.getScoreElements().put(SCORE_DOMAIN_CONSENSUS, score);

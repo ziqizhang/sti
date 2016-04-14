@@ -65,7 +65,7 @@ public class SMPAdaptedEntityScorer implements EntityScorer {
         List<Attribute> attributes = candidate.getAttributes();
         List<String> entityBoW = new ArrayList<>();
         for (Attribute f : attributes) {
-            if (!STIConstantProperty.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE &&
+            if (!STIConstantProperty.BOW_ENTITY_INCLUDE_INDIRECT_ATTRIBUTE &&
                     !f.isDirect())
                 continue;
             String value = f.getValue();

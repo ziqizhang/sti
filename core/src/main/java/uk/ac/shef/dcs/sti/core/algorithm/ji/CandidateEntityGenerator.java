@@ -61,7 +61,7 @@ public class CandidateEntityGenerator {
     ) throws KBSearchException {
         TCell cell = table.getContentCell(row, column);
         LOG.info("\t\t>> (generating candidate entities, position at (" + row + "," + column + ") " +
-                cell);
+                cell+")");
         List<Entity> candidates = kbSearch.findEntityCandidates(cell.getText());
         List<Entity> nonDuplicates = new ArrayList<>();
         for (Entity ec : candidates) {
@@ -73,18 +73,18 @@ public class CandidateEntityGenerator {
         //each candidate will have a map containing multiple elements of scores. See SMPAdaptedEntityScorer
         List<Pair<Entity, Map<String, Double>>> disambiguationScores =
                 new ArrayList<>();
-        for (Entity c : candidates) {
+        for (Entity entity : candidates) {
             //find facts of each entity
-            if (c.getAttributes() == null || c.getAttributes().size() == 0) {
-                List<Attribute> facts = kbSearch.findAttributesOfEntities(c);
-                c.setAttributes(facts);
+            if (entity.getAttributes() == null || entity.getAttributes().size() == 0) {
+                List<Attribute> facts = kbSearch.findAttributesOfEntities(entity);
+                entity.setAttributes(facts);
             }
             Map<String, Double> scoreMap = disambScorer.
-                    computeElementScores(c, candidates,
+                    computeElementScores(entity, candidates,
                             column, row, Collections.singletonList(row),
                             table);
             disambScorer.computeFinal(scoreMap, cell.getText());
-            Pair<Entity, Map<String, Double>> entry = new Pair<>(c, scoreMap);
+            Pair<Entity, Map<String, Double>> entry = new Pair<>(entity, scoreMap);
             disambiguationScores.add(entry);
         }
         return disambiguationScores;

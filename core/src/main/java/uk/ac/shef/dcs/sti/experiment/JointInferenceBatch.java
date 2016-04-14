@@ -25,7 +25,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 /**
- * Created by - on 13/04/2016.
+ *
  */
 public class JointInferenceBatch extends STIBatch {
     private static final Logger LOG = Logger.getLogger(JointInferenceBatch.class.getName());
@@ -33,7 +33,7 @@ public class JointInferenceBatch extends STIBatch {
     private static final String PROPERTY_JI_USE_SUBJECT_COLUMN = "sti.ji.usesubjectcolumn";
     private static final String PROPERTY_JI_MAX_ITERATIONS = "sti.ji.maxiterations";
     private static final String PROPERTY_JI_DEBUG_MODE = "sti.ji.debugmode";
-    private static final String PROPERTY_SMP_CLAZZ_SPECIFICITY_CALCULATOR = "sti.ji.clazzspecificitycalculator";
+    private static final String PROPERTY_JI_CLAZZ_SPECIFICITY_CALCULATOR = "sti.ji.clazzspecificitycalculator";
 
     private EmbeddedSolrServer simlarityServer;
 
@@ -61,7 +61,7 @@ public class JointInferenceBatch extends STIBatch {
 
     private ClazzSpecificityCalculator getClazzSpecificityCalculator() throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         return (ClazzSpecificityCalculator)
-                Class.forName(properties.getProperty(PROPERTY_SMP_CLAZZ_SPECIFICITY_CALCULATOR))
+                Class.forName(properties.getProperty(PROPERTY_JI_CLAZZ_SPECIFICITY_CALCULATOR))
                         .getDeclaredConstructor(KBSearch.class)
                         .newInstance(kbSearch);
     }

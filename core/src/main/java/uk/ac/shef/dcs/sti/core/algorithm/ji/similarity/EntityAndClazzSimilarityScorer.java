@@ -5,7 +5,6 @@ import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.sti.core.algorithm.smp.ClazzSpecificityCalculator;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
@@ -47,7 +46,7 @@ public class EntityAndClazzSimilarityScorer {
         /* BOW OF THE ENTITY*/
             List<String> entityBow = new ArrayList<>();
             for (Attribute f : entityAttributes) {
-                if (!STIConstantProperty.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE &&
+                if (!STIConstantProperty.BOW_ENTITY_INCLUDE_INDIRECT_ATTRIBUTE &&
                         !f.isDirect())
                     continue;
 
@@ -64,7 +63,7 @@ public class EntityAndClazzSimilarityScorer {
             List<Attribute> clazzAttributes = concept.getAttributes();
             List<String> clazzBow = new ArrayList<>();
             for (Attribute f : clazzAttributes) {
-                if (!STIConstantProperty.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE
+                if (!STIConstantProperty.BOW_ENTITY_INCLUDE_INDIRECT_ATTRIBUTE
                         && !f.isDirect())
                     continue;
                 String value = f.getValue();

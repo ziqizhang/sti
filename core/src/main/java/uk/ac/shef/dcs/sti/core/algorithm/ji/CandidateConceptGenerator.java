@@ -44,7 +44,7 @@ public class CandidateConceptGenerator {
 
     public void generateInitialColumnAnnotations(TAnnotationJI tableAnnotation, Table table, int col) throws KBSearchException, STIException {
         List<Clazz> distinctTypes = new ArrayList<>();
-        Map<String, Set<String>> entityId_and_conceptURLs = new HashMap<>();
+        Map<String, Set<String>> entityId_and_clazzURLs = new HashMap<>();
         List<Entity> distinctEntities = new ArrayList<>();
 
         List<TColumnHeaderAnnotation> candidates = new ArrayList<>();
@@ -58,11 +58,11 @@ public class CandidateConceptGenerator {
                     distinctEntities.add(tCellAnnotation.getAnnotation());
 
                 for (Clazz c : e.getTypes()) {
-                    Set<String> conceptURLs = entityId_and_conceptURLs.get(e.getId());
+                    Set<String> conceptURLs = entityId_and_clazzURLs.get(e.getId());
                     if (conceptURLs == null)
                         conceptURLs = new HashSet<>();
                     conceptURLs.add(c.getId());
-                    entityId_and_conceptURLs.put(e.getId(), conceptURLs);
+                    entityId_and_clazzURLs.put(e.getId(), conceptURLs);
                 }
 
             }
@@ -98,7 +98,7 @@ public class CandidateConceptGenerator {
         //then update scores for every entity-concept pair where the entity votes for the concept
         LOG.info("\t\t>> compute entity-clazz affinity scores, can involve querying KB for computing clazz specificity (Ent:" + distinctEntities.size() + ")");
         int cc = 0;
-        for (Map.Entry<String, Set<String>> entry : entityId_and_conceptURLs.entrySet()) {
+        for (Map.Entry<String, Set<String>> entry : entityId_and_clazzURLs.entrySet()) {
             String entityId = entry.getKey();
             Set<String> conceptIds = entry.getValue();
             for (String conceptId : conceptIds) {

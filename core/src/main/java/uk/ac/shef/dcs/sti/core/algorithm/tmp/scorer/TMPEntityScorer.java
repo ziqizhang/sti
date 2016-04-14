@@ -136,7 +136,7 @@ public class TMPEntityScorer implements EntityScorer {
         List<Attribute> attributes = candidate.getAttributes();
         List<String> bow_of_entity = new ArrayList<>();
         for (Attribute f : attributes) {
-            if (!STIConstantProperty.ENTITYBOW_INCLUDE_INDIRECT_ATTRIBUTE
+            if (!STIConstantProperty.BOW_ENTITY_INCLUDE_INDIRECT_ATTRIBUTE
                     && !f.isDirect())
                 continue;
             String value = f.getValue();
