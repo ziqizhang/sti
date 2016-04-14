@@ -194,7 +194,7 @@ public class BaselineBatch extends STIBatch {
                     complete = baseline.process(
                             table,
                             sourceTableFile,
-                            baseline.writer, outFolder,
+                            baseline.getTAnnotationWriter(), outFolder,
                             Boolean.valueOf(baseline.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
 
                     if (STIConstantProperty.SOLR_COMMIT_PER_FILE)

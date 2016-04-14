@@ -224,7 +224,7 @@ public class TableMinerPlusBatch extends STIBatch {
                     complete = tmp.process(
                             table,
                             sourceTableFile,
-                            tmp.writer, outFolder,
+                            tmp.getTAnnotationWriter(), outFolder,
                             Boolean.valueOf(tmp.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
 
                     if (STIConstantProperty.SOLR_COMMIT_PER_FILE)

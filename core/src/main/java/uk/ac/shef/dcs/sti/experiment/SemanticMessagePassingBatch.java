@@ -179,7 +179,7 @@ public class SemanticMessagePassingBatch extends STIBatch {
                     complete = smp.process(
                             table,
                             sourceTableFile,
-                            smp.writer, outFolder,
+                            smp.getTAnnotationWriter(), outFolder,
                             Boolean.valueOf(smp.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
 
                     if (STIConstantProperty.SOLR_COMMIT_PER_FILE)

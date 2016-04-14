@@ -74,9 +74,6 @@ public class TCellAnnotation implements Serializable, Comparable<TCellAnnotation
         return score_element_map;
     }
 
-    public void setScore_element_map(Map<String, Double> score_element_map) {
-        this.score_element_map = score_element_map;
-    }
 
     public boolean equals(Object o){
         if(o instanceof TCellAnnotation){

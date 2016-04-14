@@ -182,7 +182,7 @@ public class JointInferenceBatch extends STIBatch {
                     complete = ji.process(
                             table,
                             sourceTableFile,
-                            ji.writer, outFolder,
+                            ji.getTAnnotationWriter(), outFolder,
                             Boolean.valueOf(ji.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
 
                     if (STIConstantProperty.SOLR_COMMIT_PER_FILE)
