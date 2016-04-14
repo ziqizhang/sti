@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph;
 
 import cc.mallet.grmm.types.*;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.DebuggingUtil;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJI;
 import uk.ac.shef.dcs.sti.core.model.RelationColumns;
@@ -17,8 +18,8 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                            TAnnotationJI annotation,
                            FactorGraph graph,
                            Map<String, RelationColumns> relationVarOutcomeDirection,
-                           String tableId, Set<Integer> columns) {
-        List<String> processed = new ArrayList<String>();
+                           String tableId, Set<Integer> columns) throws STIException {
+        List<String> processed = new ArrayList<>();
         for (int c1 = 0; c1 < annotation.getCols(); c1++) {
             for (int c2 = 0; c2 < annotation.getCols(); c2++) {
                 if (c1 == c2) continue;
@@ -50,10 +51,10 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                                           TAnnotationJI annotation,
                                           FactorGraph graph,
                                           Map<String, RelationColumns> relationVarOutcomeDirection,
-                                          String tableId) {
+                                          String tableId) throws STIException {
         if (sbjCellVar != null && objCellVar != null) {
-            Map<String, Double> affinity_scores = new HashMap<String, Double>();
-            Map<Integer, Boolean> relationIndex_forwardRelation = new HashMap<Integer, Boolean>();
+            Map<String, Double> affinity_scores = new HashMap<>();
+            Map<Integer, Boolean> relationIndex_forwardRelation = new HashMap<>();
             for (int s = 0; s < sbjCellVar.getNumOutcomes(); s++) {
                 String sbj = sbjCellVar.getLabelAlphabet().lookupLabel(s).toString();
                 for (int r = 0; r < relationVar.getNumOutcomes(); r++) {
@@ -92,12 +93,6 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                     compatibility = computePotential(affinity_scores,
                             objCellVar, sbjCellVar, relationVar, relationIndex_forwardRelation);
                 if (isValidGraphAffinity(compatibility, affinity_scores)) {
-     /*               VarSet varSet;
-                    if(sbjCellVar.getIndex() < objCellVar.getIndex())
-                        varSet= new HashVarSet(new Variable[]{sbjCellVar, objCellVar, relationVar});
-                    else
-                        varSet= new HashVarSet(new Variable[]{objCellVar, sbjCellVar, relationVar});
-                    */
                     Variable[] vars;
                     if(sbjCellVar.getIndex() < objCellVar.getIndex())
                         vars= new Variable[]{sbjCellVar, objCellVar, relationVar};
@@ -108,6 +103,9 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                     DebuggingUtil.debugFactorAndAffinity(factor, affinity_scores, tableId);
                     graph.addFactor(factor);
                 }
+            }
+            else{
+                throw new STIException("Fatal: inconsistency detected on graph, while mapping affinity scores to potentials");
             }
         }
     }
@@ -128,7 +126,7 @@ class FactorBuilderCellAndRelation extends FactorBuilder {
                            TAnnotationJI annotation,
                            FactorGraph graph,
                            Map<String, RelationColumns> relationVarOutcomeDirection,
-                           String tableId) {
+                           String tableId) throws STIException {
         addFactors(relationVariables, cellVariables, annotation, graph,
                 relationVarOutcomeDirection, tableId, null);
     }

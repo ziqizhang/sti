@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph;
 
 import cc.mallet.grmm.types.*;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.DebuggingUtil;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJI;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
@@ -18,7 +19,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                            Map<Integer, Variable> headerVariables,
                            TAnnotationJI annotation,
                            FactorGraph graph,
-                           String tableId, Set<Integer> columns) {
+                           String tableId, Set<Integer> columns) throws STIException {
         for (int col = 0; col < annotation.getCols(); col++) {
             if(columns!=null&& !columns.contains(col)) continue;
 
@@ -31,7 +32,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                 Variable cellVar = cellVariables.get(row + "," + col);
                 if (cellVar == null) continue;
 
-                Map<String, Double> affinity_values_between_variable_outcomes = new HashMap<String, Double>();
+                Map<String, Double> affinity_values_between_variable_outcomes = new HashMap<>();
                 //go thru every candidate cell entity
                 for (TCellAnnotation ca : candidateEntityAnnotations) {
                     //which concept it has a relation with
@@ -61,6 +62,9 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                         DebuggingUtil.debugFactorAndAffinity(factor, affinity_values_between_variable_outcomes, tableId);
                         graph.addFactor(factor);
                     }
+                    else{
+                        throw new STIException("Fatal: inconsistency detected on graph, while mapping affinity scores to potentials");
+                    }
                 }
             }
         }
@@ -70,7 +74,7 @@ class FactorBuilderHeaderAndCell extends FactorBuilder {
                            Map<Integer, Variable> headerVariables,
                            TAnnotationJI annotation,
                            FactorGraph graph,
-                           String tableId) {
+                           String tableId) throws STIException {
         addFactors(cellVariables, headerVariables, annotation, graph, tableId, null);
     }
 }

@@ -97,42 +97,43 @@ public class JIInterpreter extends SemanticTableInterpreter {
 
             if (graphNonEmpty && hasAnnotation(tableAnnotations)) {
                 LOG.info(">\t BUILDING FACTOR GRAPH");
-                FactorGraph graph =
+                List<FactorGraph> subGraphs =
                         graphBuilder.build(tableAnnotations, relationLearning, table.getSourceId());
-
-                if (debugMode) {
-                    DebuggingUtil.debugGraph(graph, table.getSourceId());
-                    tableAnnotations.debugAffinity(table.getSourceId());
-                }
-
-                LOG.info(">\t RUNNING INFERENCE");
-                Inferencer infResidualBP;
-                if (maxIteration > 0)
-                    infResidualBP = new LoopyBP(maxIteration);
-                else
-                    infResidualBP = new LoopyBP();
-
-                try {
-                    infResidualBP.computeMarginals(graph);
-                } catch (IndexOutOfBoundsException e) {
+                LOG.info(">\t\t "+subGraphs.size()+" maximum connected sub-graphs");
+                for (int i = 0; i < subGraphs.size(); i++) {
+                    FactorGraph graph = subGraphs.get(i);
                     if (debugMode) {
-                        LOG.error("\t Graph empty exception, but checking did not catch this. System exists:" + table.getSourceId());
-                        LOG.error(graph.dumpToString());
-                        Object[] debuggingResult = DebuggingUtil.debugAnnotations(tableAnnotations);
-                        for (Object o : debuggingResult) {
-                            LOG.info(o.toString());
-                        }
-                        LOG.warn(ExceptionUtils.getFullStackTrace(e));
-                        System.exit(1);
-                    } else
-                        LOG.warn(ExceptionUtils.getFullStackTrace(e));
+                        DebuggingUtil.debugGraph(graph, i+"th_graph,"+table.getSourceId());
+                        tableAnnotations.debugAffinity(i + "th_graph,"+table.getSourceId());
+                    }
+
+                    LOG.info(">\t RUNNING INFERENCE");
+                    Inferencer infResidualBP;
+                    if (maxIteration > 0)
+                        infResidualBP = new LoopyBP(maxIteration);
+                    else
+                        infResidualBP = new LoopyBP();
+
+                    try {
+                        infResidualBP.computeMarginals(graph);
+                    } catch (IndexOutOfBoundsException e) {
+                        if (debugMode) {
+                            LOG.error("\t Graph empty exception, but checking did not catch this. System exists:" + table.getSourceId());
+                            LOG.error(graph.dumpToString());
+                            Object[] debuggingResult = DebuggingUtil.debugAnnotations(tableAnnotations);
+                            for (Object o : debuggingResult) {
+                                LOG.info(o.toString());
+                            }
+                            LOG.warn(ExceptionUtils.getFullStackTrace(e));
+                            System.exit(1);
+                        } else
+                            LOG.warn(ExceptionUtils.getFullStackTrace(e));
+                    }
+                    LOG.info(">\t COLLECTING MARGINAL PROB AND FINALIZING ANNOTATIONS");
+                    boolean success = createAnnotations(graph, graphBuilder, infResidualBP, tableAnnotations);
+                    if (!success)
+                        throw new STIException("Invalid marginals, failed: " + table.getSourceId());
                 }
-
-                LOG.info(">\t COLLECTING MARGINAL PROB AND FINALIZING ANNOTATIONS");
-                boolean success = createAnnotations(graph, graphBuilder, infResidualBP, tableAnnotations);
-                if (!success)
-                    throw new STIException("Invalid marginals, failed: " + table.getSourceId());
-
             } else {
                 LOG.warn("EMPTY TABLE:" + table.getSourceId());
             }

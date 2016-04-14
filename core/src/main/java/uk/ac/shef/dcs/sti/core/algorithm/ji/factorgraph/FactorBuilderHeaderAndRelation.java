@@ -3,6 +3,7 @@ package uk.ac.shef.dcs.sti.core.algorithm.ji.factorgraph;
 import cc.mallet.grmm.types.*;
 import cc.mallet.grmm.types.Variable;
 import cc.mallet.types.LabelAlphabet;
+import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.DebuggingUtil;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.TAnnotationJI;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.VariableType;
@@ -16,8 +17,7 @@ import java.util.*;
  */
 class FactorBuilderHeaderAndRelation extends FactorBuilder {
 
-    protected Map<String, RelationColumns> relationVarOutcomeDirection = new HashMap<String, RelationColumns>();
-
+    protected Map<String, RelationColumns> relationVarOutcomeDirection = new HashMap<>();
     public Map<String, RelationColumns> getRelationVarOutcomeDirection() {
         return relationVarOutcomeDirection;
     }
@@ -27,9 +27,9 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
             TAnnotationJI annotation,
             FactorGraph graph,
             Map<Variable, String> typeOfVariable,
-            String tableId, Set<Integer> columns) {
-        Map<String, Variable> result = new HashMap<String, Variable>(); //for each pair of col, will only have 1 key stored, both both directional keys are processed
-        List<String> processed = new ArrayList<String>();
+            String tableId, Set<Integer> columns) throws STIException {
+        Map<String, Variable> result = new HashMap<>(); //for each pair of col, will only have 1 key stored, both both directional keys are processed
+        List<String> processed = new ArrayList<>();
         Map<RelationColumns, List<TColumnColumnRelationAnnotation>>
                 candidateRelations = annotation.getColumncolumnRelations();
         for (int c1 = 0; c1 < annotation.getCols(); c1++) {
@@ -44,7 +44,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                 );
                 List<TColumnColumnRelationAnnotation> candidate_relations = candidateRelations.get(relation_direction);
                 if (candidate_relations == null) {
-                    candidate_relations = new ArrayList<TColumnColumnRelationAnnotation>();
+                    candidate_relations = new ArrayList<>();
                 }
                 List<TColumnColumnRelationAnnotation> candidate_relations_reversed = candidateRelations.get(relation_direction_reverse);
                 if (candidate_relations_reversed != null) candidate_relations.addAll(candidate_relations_reversed);
@@ -59,16 +59,11 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                 if(column1_header_variable==null||column2_header_variable==null)
                     continue;
 
-                Collections.sort(candidate_relations, new Comparator<TColumnColumnRelationAnnotation>() {
-                    @Override
-                    public int compare(TColumnColumnRelationAnnotation o1, TColumnColumnRelationAnnotation o2) {
-                        return o1.getRelationURI().compareTo(o2.getRelationURI());
-                    }
-                });
+                Collections.sort(candidate_relations, (o1, o2) -> o1.getRelationURI().compareTo(o2.getRelationURI()));
                 LabelAlphabet candidateIndex_relation = new LabelAlphabet();
 
                 //key- outcome index of a relation var; value-true if relation is forward; false otherwise
-                Map<Integer, Boolean> relationIndex_forwardRelation = new HashMap<Integer, Boolean>();
+                Map<Integer, Boolean> relationIndex_forwardRelation = new HashMap<>();
                 for (TColumnColumnRelationAnnotation hbr : candidate_relations) {
                     int index_relation = candidateIndex_relation.lookupIndex(hbr.toStringExpanded(), true);
                     RelationColumns current_rel_direction = hbr.getRelationColumns();
@@ -122,12 +117,6 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                             column1_header_variable, relationVariable, relationIndex_forwardRelation);
                 }
                 if (isValidGraphAffinity(compatibility, affinity_scores)) {
-                    /*VarSet varSet;
-                    if (column1_header_variable.getIndex() < column2_header_variable.getIndex())
-                        varSet = new HashVarSet(new Variable[]{column1_header_variable, column2_header_variable, relationVariable});
-                    else
-                        varSet = new HashVarSet(new Variable[]{column2_header_variable, column1_header_variable, relationVariable});
-                    */
                     Variable[] vars = null;
                     if (column1_header_variable.getIndex() < column2_header_variable.getIndex())
                         vars = new Variable[]{column1_header_variable, column2_header_variable, relationVariable};
@@ -137,6 +126,9 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
                     TableFactor factor1 = new TableFactor(vars, compatibility);
                     DebuggingUtil.debugFactorAndAffinity(factor1, affinity_scores, tableId);
                     graph.addFactor(factor1);
+                }
+                else{
+                    throw new STIException("Fatal: inconsistency detected on graph, while mapping affinity scores to potentials");
                 }
             }
 
@@ -149,7 +141,7 @@ class FactorBuilderHeaderAndRelation extends FactorBuilder {
             TAnnotationJI annotation,
             FactorGraph graph,
             Map<Variable, String> typeOfVariable,
-            String tableId) {
+            String tableId) throws STIException {
         return addFactors(columnHeaders, annotation, graph, typeOfVariable, tableId, null);
     }
 
