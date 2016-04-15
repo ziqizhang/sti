@@ -6,6 +6,10 @@ This project is based on the work described at [1]. The original code referred t
 
 This project provides implementation of several semantic table interpretation algorithms, including: [TO ADD]. **However, due to many things out of our control (e.g., use of in-house software in original works, different versions of knowledge bases), please note that we cannot guarantee identical replication of the original systems or reproduction of experiment results.**
 
+
+### ACKNOWLEDGEMENT
+Part of this work was funded by the EPSRC project LODIE - Linked Open Data for Information Extraction, EP/ J019488/1.
+
 ### LICENCE
 Apache 2.0
 

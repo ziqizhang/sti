@@ -99,26 +99,36 @@ public class FactorGraphBuilder {
         int counter = 0;
         String key = null;
         if (relationLearning) {
-            List<RelationColumns> relationColumnses = new ArrayList<>(
+            List<RelationColumns> relationColumns = new ArrayList<>(
                     annotation.getColumncolumnRelations().keySet()
             );
-            Collections.sort(relationColumnses, (o1, o2) -> {
-                int c= Integer.valueOf(o1.getSubjectCol()).compareTo(o2.getSubjectCol());
-                if(c==0)
-                    return Integer.valueOf(o1.getObjectCol()).compareTo(o2.getObjectCol());
-                return c;
-            });
-            for (RelationColumns rel : relationColumnses) {
-                Set<Integer> components = findContainingGraph(result, rel.getSubjectCol(), rel.getObjectCol());
-                if (components == null) {
-                    components = new HashSet<>();
-                    key = "part" + counter;
-                    counter++;
-                }
-                components.add(rel.getSubjectCol());
-                components.add(rel.getObjectCol());
+            if(relationColumns.size()>0) {
+                Collections.sort(relationColumns, (o1, o2) -> {
+                    int c = Integer.valueOf(o1.getSubjectCol()).compareTo(o2.getSubjectCol());
+                    if (c == 0)
+                        return Integer.valueOf(o1.getObjectCol()).compareTo(o2.getObjectCol());
+                    return c;
+                });
+                for (RelationColumns rel : relationColumns) {
+                    Set<Integer> components = findContainingGraph(result, rel.getSubjectCol(), rel.getObjectCol());
+                    if (components == null) {
+                        components = new HashSet<>();
+                        key = "part" + counter;
+                        counter++;
+                    }
+                    components.add(rel.getSubjectCol());
+                    components.add(rel.getObjectCol());
 
-                result.put(key, components);
+                    result.put(key, components);
+                }
+            }else{//no relation, must be a single column
+                for (int c = 0; c < annotation.getCols(); c++) {
+                    if (annotation.getHeaderAnnotation(c).length != 0) {
+                        Set<Integer> cols = new HashSet<>();
+                        cols.add(c);
+                        result.put(String.valueOf(c), cols);
+                    }
+                }
             }
             return result;
         } else {
