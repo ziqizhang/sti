@@ -1,0 +1,30 @@
+#each of the ‘!’ preceded token is a name of a property required by KBSearchResultFilter. DO NOT CHANGE THEM, or the system may not function
+
+!invalid_attribute
+#If a resource’s attribute contains one of these relations the attribute will be ignored
+#this can be a list of fully defined relation URIs, or just pre/suffix. It is up to
+#the implementing classes of KBSearchResultFilter to decide how to use these
+/type/
+/common/
+/media_common/
+creator
+lang
+timestamp
+count
+
+!invalid_clazz
+#the following list of class URIs should not be considered for labelling columns
+#this can be a list of fully defined URIs, or just pre/suffix. It is up to
+#the implementing classes of KBSearchResultFilter to decide how to use these
+/user/
+/type/
+/common/
+topic
+/pipeline/
+skos_concept
+_instance
+/base/type_ontology
+thing
+concept
+things
+entity

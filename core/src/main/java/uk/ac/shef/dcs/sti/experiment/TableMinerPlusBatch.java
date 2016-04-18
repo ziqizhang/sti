@@ -4,14 +4,24 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+import org.simmetrics.metrics.StringMetrics;
 import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
+import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.algorithm.tm.subjectcol.SubjectColumnDetector;
-import uk.ac.shef.dcs.sti.algorithm.tm.*;
-import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentTContentRowRankerImpl;
-import uk.ac.shef.dcs.sti.algorithm.tm.sampler.TContentCellRanker;
-import uk.ac.shef.dcs.sti.algorithm.tm.sampler.OSPD_nonEmpty;
-import uk.ac.shef.dcs.sti.rep.Table;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.*;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPEntityScorer;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPRelationScorer;
+import uk.ac.shef.dcs.sti.core.feature.FreebaseConceptBoWCreator;
+import uk.ac.shef.dcs.sti.core.feature.FreebaseRelationBoWCreator;
+import uk.ac.shef.dcs.sti.core.scorer.AttributeValueMatcher;
+import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
+import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerImpl;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
+import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.OSPD_nonEmpty;
+import uk.ac.shef.dcs.sti.core.model.Table;
+
 import java.io.*;
 import java.util.*;
 
@@ -19,22 +29,12 @@ import java.util.*;
  */
 public class TableMinerPlusBatch extends STIBatch {
 
-
-    protected static final String PROPERTY_TMP_SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH =
-            "sti.subjectcolumndetection.ws";
-    protected static final String PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS = "sti.iinf.websearch.stopping.class";
-    protected static final String PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS_CONSTR_PARAM
-            = "sti.iinf.websearch.stopping.class.constructor.params";
-    protected static final String PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS = "sti.iinf.learning.stopping.class";
+    protected static final String PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS = "sti.tmp.iinf.learning.stopping.class";
     protected static final String PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS_CONSTR_PARAM
-            = "sti.iinf.learning.stopping.class.constructor.params";
+            = "sti.tmp.iinf.learning.stopping.class.constructor.params";
 
 
     private static final Logger LOG = Logger.getLogger(TableMinerPlusBatch.class.getName());
-
-    public static int[] IGNORE_COLUMNS = new int[]{};
-
-    TMPInterpreter interpreter;
 
 
     public TableMinerPlusBatch(String propertyFile) throws IOException, STIException {
@@ -50,15 +50,14 @@ public class TableMinerPlusBatch extends STIBatch {
         LOG.info("Initializing KBSearch...");
         KBSearchFactory fbf = new KBSearchFactory();
         try {
-            kbSearch = fbf.createInstance(properties.getProperty(PROPERTY_KBSEARCH_CLASS),
+            kbSearch = fbf.createInstance(
                     getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE),
-                    Boolean.valueOf(properties.getProperty(PROPERTY_KBSEARCH_TRY_FUZZY_KEYWORD, "false")),
-                    kbEntityServer, null, null);
+                    kbEntityServer, null, null,null);
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));
             throw new STIException("Failed initialising KBSearch:" +
-                    getAbsolutePath(PROPERTY_KBSEARCH_CLASS)
+                    getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE)
                     , e);
         }
 
@@ -80,7 +79,6 @@ public class TableMinerPlusBatch extends STIBatch {
                     //"/BlhLSReljQ3Koh+vDSOaYMji9/Ccwe/7/b9mGJLwDQ=");  //zqz.work
                     //"fXhmgvVQnz1aLBti87+AZlPYDXcQL0G9L2dVAav+aK0="); //ziqizhang
                     getStopwords(),
-                    properties.getProperty(PROPERTY_WEBSEARCH_CLASS),
                     getAbsolutePath(PROPERTY_WEBSEARCH_PROP_FILE)
                     //, lodie
                     //"7ql9acl+fXXfdjBGIIAH+N2WHk/dIZxdSkl4Uur68Hg"
@@ -88,13 +86,13 @@ public class TableMinerPlusBatch extends STIBatch {
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));
-            throw new STIException("Failed initialising SUBJECT COLUMN DETECTION components:" + properties.getProperty(PROPERTY_KBSEARCH_CLASS)
+            throw new STIException("Failed initialising SUBJECT COLUMN DETECTION components:" + properties.getProperty(PROPERTY_WEBSEARCH_PROP_FILE)
                     , e);
         }
 
 
         LOG.info("Initializing LEARNING components ...");
-        LEARNINGPreliminaryClassify preliminaryClassify;
+        LEARNINGPreliminaryColumnClassifier preliminaryClassify;
         TCellDisambiguator disambiguator;
         TColumnClassifier classifier;
         TContentCellRanker selector;
@@ -103,15 +101,15 @@ public class TableMinerPlusBatch extends STIBatch {
             disambiguator = new TCellDisambiguator(kbSearch,
                     new TMPEntityScorer(
                             getStopwords(),
-                            new double[]{1.0, 0.5, 0.5, 1.0, 1.0}, //row,column, tablecontext other,refent, tablecontext pagetitle (unused)
-                            getNLPResourcesDir()));                         //1.0, 0.5, 0.25, 1.0, 1.0
-            classifier = new TMPTColumnClassifier(getNLPResourcesDir(),
-                    new Creator_ConceptHierarchicalBOW_Freebase(),
+                            STIConstantProperty.SCORER_ENTITY_CONTEXT_WEIGHT, //row,column, column header, tablecontext all
+                            getNLPResourcesDir()));
+            classifier = new TColumnClassifier(new TMPClazzScorer(getNLPResourcesDir(),
+                    new FreebaseConceptBoWCreator(),
                     getStopwords(),
-                    new double[]{1.0, 1.0, 1.0, 1.0}         //all 1.0
-            );                                              //header,column,tablecontext other, page title+caption
+                    STIConstantProperty.SCORER_CLAZZ_CONTEXT_WEIGHT)        //all 1.0
+            );                                              //header,column,out trivial, out important
             selector = new OSPD_nonEmpty();
-            preliminaryClassify = new LEARNINGPreliminaryClassify(
+            preliminaryClassify = new LEARNINGPreliminaryColumnClassifier(
                     selector,
                     properties.getProperty(PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS),
                     StringUtils.split(
@@ -126,12 +124,11 @@ public class TableMinerPlusBatch extends STIBatch {
             );
 
             learning = new LEARNING(
-                    preliminaryClassify, preliminaryDisamb,
-                    TableMinerConstants.TCELLDISAMBIGUATOR_MAX_REFERENCE_ENTITIES);
+                    preliminaryClassify, preliminaryDisamb);
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));
-            throw new STIException("Failed initialising LEARNING components:" + properties.getProperty(PROPERTY_KBSEARCH_CLASS)
+            throw new STIException("Failed initialising LEARNING components:"
                     , e);
         }
 
@@ -144,35 +141,37 @@ public class TableMinerPlusBatch extends STIBatch {
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));
-            throw new STIException("Failed initialising LEARNING components:" + properties.getProperty(PROPERTY_KBSEARCH_CLASS)
+            throw new STIException("Failed initialising LEARNING components:"
                     , e);
         }
 
 
         LOG.info("Initializing RELATIONLEARNING components ...");
-        HeaderBinaryRelationScorer relation_scorer=null;
-        BinaryRelationInterpreter interpreter_relation=null;
-        DataLiteralColumnClassifier interpreter_with_knownRelations=null;
+        RelationScorer relationScorer = null;
+        TColumnColumnRelationEnumerator relationEnumerator = null;
+        LiteralColumnTagger literalColumnTagger = null;
         try {
-            //object to interpret relations between columns
-             relation_scorer = new HeaderBinaryRelationScorer_Vote(
+            //object to computeElementScores relations between columns
+            relationScorer = new TMPRelationScorer(
                     getNLPResourcesDir(),
-                    new Creator_RelationHierarchicalBOW_Freebase(),
+                    new FreebaseRelationBoWCreator(),
                     getStopwords(),
-                    new double[]{1.0, 1.0, 0.0, 0.0, 1.0}    //entity, header text, column, title&caption, other
+                    STIConstantProperty.SCORER_RELATION_CONTEXT_WEIGHT
                     // new double[]{1.0, 1.0, 0.0, 0.0, 1.0}
             );
-             interpreter_relation = new BinaryRelationInterpreter(
-                    new RelationTextMatch_Scorer(0.0, getStopwords()),
-                    relation_scorer
+            relationEnumerator = new TColumnColumnRelationEnumerator(
+                    new AttributeValueMatcher(
+                            STIConstantProperty.ATTRIBUTE_MATCHER_MIN_SCORE, getStopwords(),
+                            StringMetrics.levenshtein()),
+                    relationScorer
             );
 
-            //object to consolidate previous output, further score columns and disamgiuate entities
-             interpreter_with_knownRelations =
-                    new DataLiteralColumnClassifier_exclude_entity_col(
+            //object to consolidate previous output, further computeElementScores columns and disamgiuate entities
+            literalColumnTagger =
+                    new LiteralColumnTaggerImpl(
                             getIgnoreColumns()
                     );
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -180,24 +179,12 @@ public class TableMinerPlusBatch extends STIBatch {
                 subcolDetector,
                 learning,
                 update,
-                interpreter_relation,
-                relation_scorer,
-                interpreter_with_knownRelations,
+                relationEnumerator,
+                literalColumnTagger,
                 getIgnoreColumns(), getMustdoColumns()
-                );
+        );
 
     }
-
-    @Override
-    protected Table loadTable(String file) {
-        try {
-            return LimayeDatasetLoader.readTable(file, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 
     public static void main(String[] args) throws IOException, STIException {
         String inFolder = args[0];
@@ -207,44 +194,45 @@ public class TableMinerPlusBatch extends STIBatch {
         int count = 0;
         List<File> all = Arrays.asList(new File(inFolder).listFiles());
         Collections.sort(all);
-        System.out.println(all.size());
+        LOG.info("Initialization complete. Begin STI. Total input files=" + all.size() + "\n");
 
         List<Integer> previouslyFailed = tmp.loadPreviouslyFailed();
-        int start=tmp.getStartIndex();
+        int start = tmp.getStartIndex();
         for (File f : all) {
+            if (f.toString().contains(".DS_Store")) continue;
             count++;
 
-            //if a previously failed list of files is given, only process these.
+            //if a previously failed list of files is given, only learn these.
             if (previouslyFailed.size() != 0 && !previouslyFailed.contains(count))
                 continue;
 
-            if (count - 1 <start )
+            if (count - 1 < start)
                 continue;
             boolean complete;
             String inFile = f.toString();
 
             try {
-                Table table = tmp.loadTable(inFile);
                 String sourceTableFile = inFile;
                 if (sourceTableFile.startsWith("\"") && sourceTableFile.endsWith("\""))
                     sourceTableFile = sourceTableFile.substring(1, sourceTableFile.length() - 1).trim();
-                System.out.println(count + "_" + sourceTableFile + " " + new Date());
-                LOG.info(">>>" + count + "_" + sourceTableFile);
+                //System.out.println(count + "_" + sourceTableFile + " " + new Date());
+                LOG.info("\n<< " + count + "_" + sourceTableFile);
+                List<Table> tables = tmp.loadTable(inFile);
+                if (tables.size() == 0)
+                    tmp.recordFailure(count, inFile, inFile);
 
-                if(table==null){
-                    tmp.recordFailure(count,sourceTableFile, inFile);
-                }
+                for (Table table : tables) {
+                    complete = tmp.process(
+                            table,
+                            sourceTableFile,
+                            tmp.getTAnnotationWriter(), outFolder,
+                            Boolean.valueOf(tmp.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
 
-                complete = process(tmp.interpreter,
-                        table,
-                        sourceTableFile,
-                        tmp.writer, outFolder,
-                        Boolean.valueOf(tmp.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
-
-                if (TableMinerConstants.COMMIT_SOLR_PER_FILE)
-                    tmp.commitAll();
-                if (!complete) {
-                    tmp.recordFailure(count, sourceTableFile, inFile);
+                    if (STIConstantProperty.SOLR_COMMIT_PER_FILE)
+                        tmp.commitAll();
+                    if (!complete) {
+                        tmp.recordFailure(count, sourceTableFile, inFile);
+                    }
                 }
                 //gs annotator
 
@@ -255,9 +243,8 @@ public class TableMinerPlusBatch extends STIBatch {
 
         }
         tmp.closeAll();
-        System.out.println(new Date());
+        LOG.info(new Date());
     }
-
 
 
 }

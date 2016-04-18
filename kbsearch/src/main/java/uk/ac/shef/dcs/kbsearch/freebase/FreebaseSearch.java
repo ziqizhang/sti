@@ -2,140 +2,139 @@ package uk.ac.shef.dcs.kbsearch.freebase;
 
 import com.google.api.client.http.HttpResponseException;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.rep.Clazz;
-import uk.ac.shef.dcs.kbsearch.rep.Entity;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
+import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.util.StringUtils;
 
 import java.io.IOException;
 import java.util.*;
 
-import java.util.logging.Logger;
 
 /**
  */
 public class FreebaseSearch extends KBSearch {
 
-    private static Logger log = Logger.getLogger(FreebaseSearch.class.getName());
-    public static String NAME_SIMILARITY_CACHE = "similarity";
-    private static final boolean AUTO_COMMIT =true;
+    private static final Logger LOG = Logger.getLogger(FreebaseSearch.class.getName());
+    private static final boolean AUTO_COMMIT = true;
 
     //two propperties for debugging purposes.In practice both should be false. set to true
     //if you want to deliberately trigger calls to FB apis
-    private static final boolean ALWAYS_CALL_REMOTE_SEARCHAPI =false;
-    private static final boolean ALWAYS_CALL_REMOTE_TOPICAPI =false;
-    private FreebaseQueryHelper searcher;
-
-    protected Map<String, SolrCache> otherCache;
+    private static final boolean ALWAYS_CALL_REMOTE_SEARCHAPI = false;
+    private static final boolean ALWAYS_CALL_REMOTE_TOPICAPI = false;
+    private FreebaseQueryProxy searcher;
 
 
-    public FreebaseSearch(String kbSearchPropertyFile, Boolean fuzzyKeywords,
+
+
+    public FreebaseSearch(Properties properties, Boolean fuzzyKeywords,
                           EmbeddedSolrServer cacheEntity, EmbeddedSolrServer cacheConcept,
-                          EmbeddedSolrServer cacheProperty) throws IOException {
-        super(kbSearchPropertyFile, fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty);
-        searcher = new FreebaseQueryHelper(properties);
+                          EmbeddedSolrServer cacheProperty, EmbeddedSolrServer cacheSimilarity) throws IOException {
+        super(fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty,cacheSimilarity);
+        searcher = new FreebaseQueryProxy(properties);
         otherCache = new HashMap<>();
-
-    }
-
-    public void registerOtherCache(String name, EmbeddedSolrServer cacheServer) {
-        otherCache.put(name, new SolrCache(cacheServer));
+        resultFilter = new FreebaseSearchResultFilter(properties.getProperty(KB_SEARCH_RESULT_STOPLIST));
     }
 
     @Override
-    public List<Entity> findEntityCandidates(String content) throws IOException {
-        String query = createQuery_findEntities(content);
-        return find_matchingEntitiesForText_clientFilterTypes(query);
+    public List<Entity> findEntityCandidates(String content) throws KBSearchException {
+        return find_matchingEntitiesForTextAndType(content);
     }
 
     @Override
-    public List<Entity> findEntityCandidatesOfTypes(String content, String... types) throws IOException {
-        String query = createQuery_findEntities(content);
-        return find_matchingEntitiesForText_clientFilterTypes(query, types);
+    public List<Entity> findEntityCandidatesOfTypes(String content, String... types) throws KBSearchException {
+        return find_matchingEntitiesForTextAndType(content, types);
     }
 
-    protected List<Entity> find_matchingEntitiesForText_clientFilterTypes(String text, String... types) throws IOException {
+    @Override
+    public List<Attribute> findAttributesOfEntities(Entity ec) throws KBSearchException {
+        return find_attributes(ec.getId(), cacheEntity);
+    }
+
+    @Override
+    public List<Attribute> findAttributesOfProperty(String propertyId) throws KBSearchException {
+        return find_attributes(propertyId, cacheProperty);
+    }
+
+
+    private List<Entity> find_matchingEntitiesForTextAndType(String text, String... types) throws KBSearchException {
+        String query = createSolrCacheQuery_findResources(text);
+        ;
         boolean forceQuery = false;
+
         text = StringEscapeUtils.unescapeXml(text);
         int bracket = text.indexOf("(");
         if (bracket != -1) {
             text = text.substring(0, bracket).trim();
         }
-        List<String> query_tokens = StringUtils.toAlphaNumericTokens(text, true);
-        if (query_tokens.size() == 0)
+        if (StringUtils.toAlphaNumericWhitechar(text).trim().length() == 0)
             return new ArrayList<>();
         if (ALWAYS_CALL_REMOTE_SEARCHAPI)
             forceQuery = true;
 
+
+
         List<Entity> result = null;
         if (!forceQuery) {
             try {
-                result = (List<Entity>) cacheEntity.retrieve(toSolrKey(text));
+                result = (List<Entity>) cacheEntity.retrieve(query);
                 if (result != null)
-                    log.warning("QUERY (cache load)=" + toSolrKey(text) + "|" + text);
+                    LOG.debug("QUERY (entities, cache load)=" + query + "|" + query);
             } catch (Exception e) {
             }
         }
         if (result == null) {
             result = new ArrayList<>();
-            //List<EntityCandidate_FreebaseTopic> topics = searcher.searchapi_topics_with_name_and_type(text, "any",true,15,types);
-            List<FreebaseEntity> topics = searcher.searchapi_topics_with_name_and_type(text, "any", true, 20); //search api does not retrieve complete types, find types for them
-            for (FreebaseEntity ec : topics) {
-                //find_triplesForEntityId()
-                //instantiate facts and types
-                List<String[]> facts = findTriplesOfEntityCandidates(ec);
-                ec.setTriples(facts);
-                for (String[] f : facts) {
-                    if (f[0].equals("/type/object/type") &&
-                            f[3].equals("n") &&
-                            !ec.hasType(f[2]))
-                        ec.addType(new Clazz(f[2], f[1]));
-                }
-            }
-
-            Iterator<FreebaseEntity> it = topics.iterator();
-            while (it.hasNext()) {
-                FreebaseEntity ec = it.next();
-                List<String> cell_text_tokens = StringUtils.toAlphaNumericTokens(ec.getLabel(), true);
-                int size = cell_text_tokens.size();
-                cell_text_tokens.removeAll(query_tokens);
-                if (cell_text_tokens.size() == size)
-                    it.remove(); //the entity name does not contain any query word. remove it
-            }
-
-            if (topics.size() == 0 && fuzzyKeywords) { //does the query has conjunection? if so, we may need to try again with split queries
-                String[] queries = text.split("\\band\\b");
-                if (queries.length < 2) {
-                    queries = text.split("\\bor\\b");
-                    if (queries.length < 2) {
-                        queries = text.split("/");
-                        if (queries.length < 2) {
-                            queries = text.split(",");
+            try {
+                //firstly fetch candidate freebase topics. pass 'true' to only keep candidates whose name overlap with the query term
+                List<FreebaseTopic> topics = searcher.searchapi_getTopicsByNameAndType(text, "any", true, 20); //search api does not retrieve complete types, find types for them
+                LOG.debug("(FB QUERY =" +topics.size()+" results)");
+                for (FreebaseTopic ec : topics) {
+                    //Next get attributes for each topic
+                    List<Attribute> attributes = findAttributesOfEntities(ec);
+                    ec.setAttributes(attributes);
+                    for (Attribute attr : attributes) {
+                        if (attr.getRelationURI().equals(FreebaseEnum.RELATION_HASTYPE.getString()) &&
+                                attr.isDirect() &&
+                                !ec.hasType(attr.getValueURI())) {
+                            ec.addType(new Clazz(attr.getValueURI(), attr.getValue()));
                         }
                     }
                 }
-                if (queries.length > 1) {
-                    for (String q : queries) {
-                        q = q.trim();
-                        if (q.length() < 1) continue;
-                        result.addAll(find_matchingEntitiesForText_clientFilterTypes(q, types));
+
+                if (topics.size() == 0 && fuzzyKeywords) { //does the query has conjunection word? if so, we may need to try again with split queries
+                    String[] queries = text.split("\\band\\b");
+                    if (queries.length < 2) {
+                        queries = text.split("\\bor\\b");
+                        if (queries.length < 2) {
+                            queries = text.split("/");
+                            if (queries.length < 2) {
+                                queries = text.split(",");
+                            }
+                        }
+                    }
+                    if (queries.length > 1) {
+                        for (String q : queries) {
+                            q = q.trim();
+                            if (q.length() < 1) continue;
+                            result.addAll(find_matchingEntitiesForTextAndType(q, types));
+                        }
                     }
                 }
-            }
 
-            result.addAll(topics);
-            try {
-                cacheEntity.cache(toSolrKey(text), result, AUTO_COMMIT);
-                log.warning("QUERY (cache save)=" + toSolrKey(text) + "|" + text);
+                result.addAll(topics);
+                cacheEntity.cache(query, result, AUTO_COMMIT);
+                LOG.debug("QUERY (entities, cache save)=" + query + "|" + query);
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new KBSearchException(e);
             }
         }
 
-        int beforeFiltering = result.size();
         if (types.length > 0) {
             Iterator<Entity> it = result.iterator();
             while (it.hasNext()) {
@@ -152,115 +151,109 @@ public class FreebaseSearch extends KBSearch {
             }
         }
 
-        //filter EC types
+        //filter entity's clazz, and attributes
         String id = "|";
         for (Entity ec : result) {
             id = id + ec.getId() + ",";
-            //ec.setTypes(FreebaseSearchResultFilter.filterTypes(ec.getTypes()));
-            List<Clazz> filteredTypes = FreebaseSearchResultFilter.filterTypes(ec.getTypes());
-            ec.getTypes().clear();
+            //ec.setTypes(FreebaseSearchResultFilter.filterClazz(ec.getTypes()));
+            List<Clazz> filteredTypes = getResultFilter().filterClazz(ec.getTypes());
+            ec.clearTypes();
             for (Clazz ft : filteredTypes)
                 ec.addType(ft);
         }
 
-        System.out.println("(QUERY_KB:" + beforeFiltering + " => " + result.size() + id);
         return result;
     }
 
 
-    protected List<String[]> findTriplesOfEntityCandidates(String entityId) throws IOException {
-        return find_triples_filtered(entityId, cacheEntity);
-    }
-
-
-
+    /*
+    In FB, getting the attributes of a class is different from that for entities and properties, we need to implement it differently
+    and cannot use find_attributes method
+     */
     @Override
-    protected List<String[]> findTriplesOfProperty(String propertyId) throws IOException {
-        return find_triples_filtered(propertyId, cacheProperty);
-    }
-
-    @Override
-    public List<String[]> findTriplesOfConcept(String conceptId) throws IOException {
+    public List<Attribute> findAttributesOfClazz(String clazz) throws KBSearchException {
         //return find_triplesForEntity(conceptId);
         boolean forceQuery = false;
         if (ALWAYS_CALL_REMOTE_TOPICAPI)
             forceQuery = true;
-        List<String[]> facts = new ArrayList<String[]>();
-        String query = createQuery_findFacts(conceptId);
-        if (query.length() == 0) return facts;
+        List<Attribute> attributes = new ArrayList<>();
+        String query = createSolrCacheQuery_findAttributesOfResource(clazz);
+        if (query.length() == 0) return attributes;
 
         try {
-            facts = (List<String[]>) cacheConcept.retrieve(toSolrKey(query));
-            if (facts != null)
-                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+            attributes = (List<Attribute>) cacheConcept.retrieve(query);
+            if (attributes != null)
+                LOG.debug("QUERY (attributes of clazz, cache load)=" + query + "|" + query);
         } catch (Exception e) {
         }
-        if (facts == null || forceQuery) {
-            facts = new ArrayList<>();
-            List<String[]> retrievedFacts = searcher.topicapi_facts_of_id(conceptId);
-            //check firstly, is this a concept?
-            boolean isConcept = false;
-            for (String[] f : retrievedFacts) {
-                if (f[0].equals("/type/object/type") && f[2] != null && f[2].equals("/type/type")) {
-                    isConcept = true;
-                    break;
-                }
-            }
-            if (!isConcept) {
-                try {
-                    cacheConcept.cache(toSolrKey(query), facts, AUTO_COMMIT);
-                    log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return facts;
-            }
 
-            //ok, this is a concept. We need to deep-fetch its properties, and find out the range of their properties
-            System.out.println(">>" + retrievedFacts.size());
-            for (String[] f : retrievedFacts) {
-                if (f[0].equals("/type/type/properties")) { //this is a property of a concept, we need to process it further
-                    String propertyId = f[2];
-                    if (f[2] == null) continue;
-
-                    List<String[]> triples4Property = findTriplesOfProperty(propertyId);
-                    for (String[] t : triples4Property) {
-                        if (t[0].equals("/type/property/expected_type")) {
-                            String rangeLabel = t[1];
-                            String rangeURL = t[2];
-                            facts.add(new String[]{f[2], rangeLabel, rangeURL, "n"});
-                        }
-                    }
-                } else {
-                    facts.add(f);
-                }
-            }
+        if (attributes == null || forceQuery) {
             try {
-                cacheConcept.cache(toSolrKey(query), facts, AUTO_COMMIT);
-                log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
+                attributes = new ArrayList<>();
+                List<Attribute> retrievedAttributes = searcher.topicapi_getAttributesOfTopic(clazz);
+                //check firstly, is this a concept?
+                boolean isConcept = false;
+                for (Attribute f : retrievedAttributes) {
+                    if (f.getRelationURI().equals(FreebaseEnum.RELATION_HASTYPE.getString())
+                            && f.getValueURI() != null && f.getValueURI().equals(FreebaseEnum.TYPE_TYPE.getString())) {
+                        isConcept = true;
+                        break;
+                    }
+                }
+                if (!isConcept) {
+                    try {
+                        cacheConcept.cache(query, attributes, AUTO_COMMIT);
+                        LOG.debug("QUERY (attributes of clazz, cache save)=" + query + "|" + query);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return attributes;
+                }
+
+                //ok, this is a concept. We need to deep-fetch its properties, and find out the range of their properties
+                for (Attribute f : retrievedAttributes) {
+                    if (f.getRelationURI().equals(FreebaseEnum.TYPE_PROPERTYOFTYPE.getString())) { //this is a property of a concept, we need to process it further
+                        String propertyId = f.getValueURI();
+                        if (propertyId == null) continue;
+
+                        List<Attribute> attrOfProperty = findAttributesOfProperty(propertyId);
+                        for (Attribute t : attrOfProperty) {
+                            if (t.getRelationURI().equals(FreebaseEnum.RELATION_RANGEOFPROPERTY.getString())) {
+                                String rangeLabel = t.getValue();
+                                String rangeURL = t.getValueURI();
+                                Attribute attr = new FreebaseAttribute(f.getValueURI(), rangeLabel);
+                                attr.setValueURI(rangeURL);
+                                attr.setIsDirect(true);
+                                //attributes.add(new String[]{f[2], rangeLabel, rangeURL, "n"});
+                            }
+                        }
+                    } else {
+                        attributes.add(f);
+                    }
+                }
+
+                cacheConcept.cache(query, attributes, AUTO_COMMIT);
+                LOG.debug("QUERY (attributes of clazz, cache save)=" + query + "|" + query);
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new KBSearchException(e);
             }
         }
 
         //filtering
-        Iterator<String[]> it = facts.iterator();
-        while (it.hasNext()) {
-            String[] f = it.next();
-            if (FreebaseSearchResultFilter.ignoreFactWithPredicate(f[0]))
-                it.remove();
-        }
-        return facts;
+        attributes=getResultFilter().filterAttribute(attributes);
+        return attributes;
     }
 
     @Override
-    public double find_granularityForConcept(String type) throws IOException {
-        String query = createQuery_findGranularity(type);
+    public double findGranularityOfClazz(String clazz) throws KBSearchException {
+        /*if(clazz.equals("/location/citytown"))
+            System.out.println();*/
+        String query = createSolrCacheQuery_findGranularityOfClazz(clazz);
         Double result = null;
         try {
-            Object o = cacheConcept.retrieve(toSolrKey(query));
+            Object o = cacheConcept.retrieve(query);
             if (o != null) {
-                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + type);
+                LOG.debug("QUERY (granularity of clazz, cache load)=" + query + "|" + clazz);
                 return (Double) o;
             }
         } catch (Exception e) {
@@ -268,17 +261,17 @@ public class FreebaseSearch extends KBSearch {
 
         if (result == null) {
             try {
-                double granularity = searcher.find_granularityForType(type);
+                double granularity = searcher.find_granularityForType(clazz);
                 result = granularity;
                 try {
-                    cacheConcept.cache(toSolrKey(query), result, AUTO_COMMIT);
-                    log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + type);
+                    cacheConcept.cache(query, result, AUTO_COMMIT);
+                    LOG.debug("QUERY (granularity of clazz, cache save)=" + query + "|" + clazz);
                 } catch (Exception e) {
-                    System.out.println("FAILED:" + type);
+                    LOG.error("FAILED:" + clazz);
                     e.printStackTrace();
                 }
             } catch (IOException ioe) {
-                log.warning("ERROR(Instances of Type): Unable to fetch freebase page of instances of type: " + type);
+                LOG.error("ERROR(Instances of Type): Unable to fetch freebase page of instances of type: " + clazz);
             }
         }
         if (result == null)
@@ -286,128 +279,87 @@ public class FreebaseSearch extends KBSearch {
         return result;
     }
 
-    @Override
-    public List<String[]> find_expected_types_of_relation(String majority_relation_name) throws IOException {
-        List<String[]> triples =
-                findTriplesOfEntityCandidates(new Entity(majority_relation_name, majority_relation_name));
-        List<String[]> types = new ArrayList<String[]>();
-        for (String[] t : triples) {
-            if (t[0].equals("/type/property/expected_type")) {
-                types.add(new String[]{t[2], t[1]});
-            }
-        }
-        return types;
-    }
 
-    public List<Clazz> find_typesForEntity_filtered(String id) throws IOException {
-        String query = createQuery_findTypes(id);
-        List<Clazz> result = null;
-        try {
-            result = (List<Clazz>) cacheEntity.retrieve(toSolrKey(query));
-            if (result != null) {
-                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
-            }
-        } catch (Exception e) {
-        }
-        if (result == null) {
-            result = new ArrayList<Clazz>();
-            List<String[]> facts = searcher.topicapi_types_of_id(id);
-            for (String[] f : facts) {
-                String type = f[2]; //this is the id of the type
-                result.add(new Clazz(type, f[1]));
-            }
-            try {
-                cacheEntity.cache(toSolrKey(query), result, AUTO_COMMIT);
-                // debug_helper_method(id, facts);
-                log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return FreebaseSearchResultFilter.filterTypes(result);
-    }
-
-    private List<String[]> find_triples_filtered(String id, SolrCache cache) throws IOException {
-        boolean forceQuery = false;
-        if (ALWAYS_CALL_REMOTE_TOPICAPI)
-            forceQuery = true;
-
-        String query = createQuery_findFacts(id);
-        if (query.length() == 0)
-            return new ArrayList<>();
-        List<String[]> result = null;
-        try {
-            result = (List<String[]>) cache.retrieve(toSolrKey(query));
-            if (result != null)
-                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
-        } catch (Exception e) {
-        }
-        if (result == null || forceQuery) {
-            List<String[]> facts;
-            try {
-                facts = searcher.topicapi_facts_of_id(id);
-            } catch (HttpResponseException e) {
-                if (donotRepeatQuery(e))
-                    facts = new ArrayList<>();
-                else
-                    throw e;
-            }
-            result = new ArrayList<>();
-            result.addAll(facts);
-            try {
-                cache.cache(toSolrKey(query), result, AUTO_COMMIT);
-                log.warning("QUERY (cache save)=" + toSolrKey(query) + "|" + query);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        //filtering
-        Iterator<String[]> it = result.iterator();
-        while (it.hasNext()) {
-            String[] fact = it.next();
-            if (FreebaseSearchResultFilter.ignoreFactWithPredicate(fact[0]))
-                it.remove();
-        }
-        return result;
-    }
-
-    public double find_similarity(String id1, String id2) {
-        String query = id1 + "<>" + id2;
+    public double findEntityClazzSimilarity(String id1, String clazz_url) {
+        String query = createSolrCacheQuery_findEntityClazzSimilarity(id1, clazz_url);
         Object result = null;
         try {
-            result = otherCache.get(NAME_SIMILARITY_CACHE).retrieve(toSolrKey(query));
+            result = cacheSimilarity.retrieve(query);
             if (result != null)
-                log.warning("QUERY (cache load)=" + toSolrKey(query) + "|" + query);
+                LOG.debug("QUERY (entity-clazz similarity, cache load)=" + query + "|" + query);
         } catch (Exception e) {
         }
-        if(result==null)
+        if (result == null)
             return -1.0;
         return (Double) result;
     }
 
-    public void saveSimilarity(String id1, String id2, double score, boolean biDirectional,
-                               boolean commit) {
-        String query = id1 + "<>" + id2;
+    public void cacheEntityClazztSimilarity(String id1, String clazz_url, double score, boolean biDirectional,
+                                            boolean commit) {
+        String query = createSolrCacheQuery_findEntityClazzSimilarity(id1, clazz_url);
         try {
-            otherCache.get(NAME_SIMILARITY_CACHE).cache(toSolrKey(query), score, commit);
-            log.warning("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
-            if(biDirectional){
-                query = id2 + "<>" + id1;
-                otherCache.get(NAME_SIMILARITY_CACHE).cache(toSolrKey(query), score, commit);
-                log.warning("QUERY (cache saving)=" + toSolrKey(query) + "|" + query);
+            cacheSimilarity.cache(query, score, commit);
+            LOG.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
+            if (biDirectional) {
+                query = clazz_url + "<>" + id1;
+                cacheSimilarity.cache(query, score, commit);
+                LOG.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void commitChanges() throws IOException, SolrServerException {
-        cacheConcept.commit();
-        cacheEntity.commit();
-        cacheProperty.commit();
-        for(SolrCache cache: otherCache.values())
-            cache.commit();
+    private List<Attribute> find_attributes(String id, SolrCache cache) throws KBSearchException {
+        if (id.length() == 0)
+            return new ArrayList<>();
+        boolean forceQuery = false;
+        if (ALWAYS_CALL_REMOTE_TOPICAPI)
+            forceQuery = true;
+
+        String query = createSolrCacheQuery_findAttributesOfResource(id);
+        List<Attribute> result = null;
+        try {
+            result = (List<Attribute>) cache.retrieve(query);
+            if (result != null)
+                LOG.debug("QUERY (attributes of id, cache load)=" + query + "|" + query);
+        } catch (Exception e) {
+        }
+        if (result == null || forceQuery) {
+            List<Attribute> attributes;
+            try {
+                attributes = searcher.topicapi_getAttributesOfTopic(id);
+            } catch (Exception e) {
+                if (e instanceof HttpResponseException && donotRepeatQuery((HttpResponseException) e))
+                    attributes = new ArrayList<>();
+                else
+                    throw new KBSearchException(e);
+            }
+            result = new ArrayList<>();
+            result.addAll(attributes);
+            try {
+                cache.cache(query, result, AUTO_COMMIT);
+                LOG.debug("QUERY (attributes of id, cache save)=" + query + "|" + query);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        //filtering
+        result = getResultFilter().filterAttribute(result);
+        return result;
+    }
+
+    public void commitChanges() throws KBSearchException {
+        try {
+            cacheConcept.commit();
+            cacheEntity.commit();
+            cacheProperty.commit();
+            for (SolrCache cache : otherCache.values())
+                cache.commit();
+        } catch (Exception e) {
+            throw new KBSearchException(e);
+        }
     }
 
     private boolean donotRepeatQuery(HttpResponseException e) {
@@ -418,19 +370,17 @@ public class FreebaseSearch extends KBSearch {
     }
 
 
-    private String toSolrKey(String text) {
-        //return String.valueOf(text.hashCode());
-        return String.valueOf(text);
-    }
-
-
     @Override
-    public void finalizeConnection() throws IOException {
-        if (cacheEntity != null)
-            cacheEntity.shutdown();
-        if (cacheConcept != null)
-            cacheConcept.shutdown();
-        if (cacheProperty != null)
-            cacheProperty.shutdown();
+    public void closeConnection() throws KBSearchException {
+        try {
+            if (cacheEntity != null)
+                cacheEntity.shutdown();
+            if (cacheConcept != null)
+                cacheConcept.shutdown();
+            if (cacheProperty != null)
+                cacheProperty.shutdown();
+        } catch (Exception e) {
+            throw new KBSearchException(e);
+        }
     }
 }

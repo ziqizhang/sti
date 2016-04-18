@@ -22,7 +22,7 @@ public class StringUtils {
     }
 
     public static List<String> toBagOfWords(String text, boolean lowercase, boolean alphanumeric, boolean discard_single_char) {
-        List<String> rs = new ArrayList<String>();
+        List<String> rs = new ArrayList<>();
         if (lowercase)
             text=text.toLowerCase();
         if(alphanumeric)
@@ -37,8 +37,8 @@ public class StringUtils {
         return rs;
     }
 
-    public static List<String> toAlphaNumericTokens(String value, boolean lowercase) {
-        List<String> query_tokens = new ArrayList<String>();
+    public static List<String> splitToAlphaNumericTokens(String value, boolean lowercase) {
+        List<String> query_tokens = new ArrayList<>();
         for (String t : toAlphaNumericWhitechar(value).split("\\s+")) {
             if(t.length()==0)
                 continue;
@@ -50,23 +50,6 @@ public class StringUtils {
         return query_tokens;
     }
 
-    public static String findPossibleNameSpace(String urlString) {
-        try {
-            URL u = new URL(urlString);
-            if (u.getFile().equals(""))
-                return urlString;
-        } catch (MalformedURLException m) {
-        }
-
-        int hash = urlString.lastIndexOf("#");
-        int slash = urlString.lastIndexOf("/");
-        int end = hash > slash ? hash : slash;
-
-        if (end != -1)
-            return urlString.substring(0, end);
-        return urlString;
-
-    }
 
     //permitted tokens must be numeric, or ordinal
     public static boolean isNumericArray(String[] alphanums) {

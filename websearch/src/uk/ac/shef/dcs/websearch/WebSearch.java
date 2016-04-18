@@ -12,11 +12,13 @@ import java.util.*;
  */
 public abstract class WebSearch {
 
-    protected Properties properties = new Properties();
+    protected static final String WEB_SEARCH_CLASS = "web.search.class";
+
+    protected Properties properties;
 
 
-    public WebSearch(String propertyFile) throws IOException {
-        properties.load(new FileInputStream(propertyFile));
+    public WebSearch(Properties properties) throws IOException {
+        this.properties=properties;
     }
 
     public abstract InputStream search(String s) throws Exception;

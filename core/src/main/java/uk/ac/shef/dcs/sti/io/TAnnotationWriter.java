@@ -1,8 +1,8 @@
 package uk.ac.shef.dcs.sti.io;
 
-import uk.ac.shef.dcs.sti.algorithm.tm.TripleGenerator;
-import uk.ac.shef.dcs.sti.misc.DataTypeClassifier;
-import uk.ac.shef.dcs.sti.rep.*;
+import uk.ac.shef.dcs.sti.util.TripleGenerator;
+import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
+import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,7 +25,7 @@ public class TAnnotationWriter {
     }
 
 
-    public void writeHTML(Table table, LTableAnnotation tab_annotations, String outFile) throws FileNotFoundException {
+    public void writeHTML(Table table, TAnnotation tab_annotations, String outFile) throws FileNotFoundException {
         StringBuilder table_sb = new StringBuilder();
         table_sb.append("<html><body>\n");
         String sourceId = table.getSourceId();
@@ -36,9 +36,9 @@ public class TAnnotationWriter {
         trimEnd = trimEnd == -1 ? sourceId.length() : trimEnd;
         sourceId = sourceId.substring(trimStart + 1, trimEnd);
 
-        List<LTableTriple> triples = tripleGenerator.generate_newTriples(tab_annotations, table);
-        table_sb.append("source:" + sourceId + " with " + triples.size() + "<a href=\"" + outFile + ".triples.html\"> new triples</a>.");
-        writeTriples(triples, outFile + ".triples.html");
+        List<TableTriple> triples = tripleGenerator.generate_newTriples(tab_annotations, table);
+        table_sb.append("source:" + sourceId + " with " + triples.size() + "<a href=\"" + outFile + ".attributes.html\"> new attributes</a>.");
+        writeTriples(triples, outFile + ".attributes.html");
 
         table_sb.append("<h1>Table column types and entity disambiguation</h1>\n");
         table_sb.append("<table border=\"1\">");
@@ -68,16 +68,16 @@ public class TAnnotationWriter {
 
     }
 
-    protected void writeCellKeyFile(Table table, LTableAnnotation table_annotation, String cell_key) throws FileNotFoundException {
+    protected void writeCellKeyFile(Table table, TAnnotation table_annotation, String cell_key) throws FileNotFoundException {
         PrintWriter p = new PrintWriter(cell_key);
         for (int r = 0; r < table.getNumRows(); r++) {
             for (int c = 0; c < table.getNumCols(); c++) {
-                CellAnnotation[] cans = table_annotation.getContentCellAnnotations(r, c);
+                TCellAnnotation[] cans = table_annotation.getContentCellAnnotations(r, c);
                 if (cans != null && cans.length > 0) {
                     StringBuilder s = new StringBuilder();
                     s.append(r).append(",").append(c).append("=");
                     double prevScore=0.0;
-                    for (CellAnnotation ca : cans) {
+                    for (TCellAnnotation ca : cans) {
                         if (prevScore == 0.0) {
 
                             s.append(ca.getAnnotation().getId());
@@ -98,28 +98,28 @@ public class TAnnotationWriter {
         p.close();
     }
 
-    protected void writeRelationKeyFile(LTableAnnotation table_annotation, String relation_key) throws FileNotFoundException {
+    protected void writeRelationKeyFile(TAnnotation table_annotation, String relation_key) throws FileNotFoundException {
         PrintWriter p = new PrintWriter(relation_key);
-        for (Map.Entry<Key_SubjectCol_ObjectCol, List<HeaderBinaryRelationAnnotation>> e :
-                table_annotation.getRelationAnnotations_across_columns().entrySet()) {
+        for (Map.Entry<RelationColumns, List<TColumnColumnRelationAnnotation>> e :
+                table_annotation.getColumncolumnRelations().entrySet()) {
             int subCol = e.getKey().getSubjectCol();
             int objCol = e.getKey().getObjectCol();
-            List<HeaderBinaryRelationAnnotation> relations = e.getValue();
+            List<TColumnColumnRelationAnnotation> relations = e.getValue();
             Collections.sort(relations);
             StringBuilder s = new StringBuilder();
             double prevScore=0.0;
-            for (HeaderBinaryRelationAnnotation hr : relations) {
+            for (TColumnColumnRelationAnnotation hr : relations) {
                 if (prevScore == 0.0) {
 
-                    s.append(hr.getAnnotation_url());
+                    s.append(hr.getRelationURI());
                     prevScore=hr.getFinalScore();
                 }
                 else{
                     if(hr.getFinalScore()==prevScore){
-                        s.append("=").append(hr.getAnnotation_url());
+                        s.append("=").append(hr.getRelationURI());
                     }
                     else
-                        s.append("|").append(hr.getAnnotation_url());
+                        s.append("|").append(hr.getRelationURI());
                 }
             }
             p.println(subCol + "," + objCol + "=" + s.toString());
@@ -127,28 +127,28 @@ public class TAnnotationWriter {
         p.close();
     }
 
-    protected void writeHeaderKeyFile(Table table, LTableAnnotation table_annotation, String header_key) throws FileNotFoundException {
+    protected void writeHeaderKeyFile(Table table, TAnnotation table_annotation, String header_key) throws FileNotFoundException {
         PrintWriter p = new PrintWriter(header_key);
 
         for (int c = 0; c < table.getNumCols(); c++) {
-            HeaderAnnotation[] anns = table_annotation.getHeaderAnnotation(c);
+            TColumnHeaderAnnotation[] anns = table_annotation.getHeaderAnnotation(c);
             if (anns != null && anns.length > 0) {
                 StringBuilder s = new StringBuilder();
                 s.append(c).append("=");
 
                 double prevScore = 0.0;
-                for (HeaderAnnotation ha : anns) {
+                for (TColumnHeaderAnnotation ha : anns) {
                     if (prevScore == 0.0) {
 
-                        s.append(ha.getAnnotation_url());
+                        s.append(ha.getAnnotation().getId());
                         prevScore=ha.getFinalScore();
                     }
                     else{
                         if(ha.getFinalScore()==prevScore){
-                            s.append("=").append(ha.getAnnotation_url());
+                            s.append("=").append(ha.getAnnotation().getId());
                         }
                         else
-                            s.append("|").append(ha.getAnnotation_url());
+                            s.append("|").append(ha.getAnnotation().getId());
                     }
                 }
                 if(table.getColumnHeader(c).getFeature().getMostFrequentDataType().getType().equals(
@@ -162,10 +162,10 @@ public class TAnnotationWriter {
         p.close();
     }
 
-    protected void writeTriples(List<LTableTriple> triples, String outFile) throws FileNotFoundException {
+    protected void writeTriples(List<TableTriple> triples, String outFile) throws FileNotFoundException {
         PrintWriter p = new PrintWriter(outFile);
         p.println("<html><body>");
-        for (LTableTriple ltt : triples) {
+        for (TableTriple ltt : triples) {
             p.println("<br>&lt;" + ltt.getSubject_annotation() + "," + ltt.getRelation_annotation() + "," + ltt.getObject_annotation() + "&gt;, " +
                     "(" + ltt.getSubject() + "," + ltt.getObject() + "), " + "[" + ltt.getSubject_position()[0] + "," + ltt.getSubject_position()[1] + "][" +
                     ltt.getObject_position()[0] + "," + ltt.getObject_position()[1] + "]</br>");
@@ -174,27 +174,27 @@ public class TAnnotationWriter {
         p.close();
     }
 
-    protected String writeRelation_inCell(Table table, LTableAnnotation tab_annotations) {
+    protected String writeRelation_inCell(Table table, TAnnotation tab_annotations) {
         StringBuilder out = new StringBuilder();
         out.append("<tr>\n");
         for (int row = 0; row < table.getNumRows(); row++) {
             for (int col = 0; col < table.getNumCols(); col++) {
                 String color = col == tab_annotations.getSubjectColumn() ? " bgcolor=\"yellow\"" : "";
-                TContentCell cell = table.getContentCell(row, col);
+                TCell cell = table.getContentCell(row, col);
 
-                out.append("\t<td").append(color).append(">").append(cell.getText()).append(cell.getOther_text()).append("</td>\n");
+                out.append("\t<td").append(color).append(">").append(cell.getText()).append(cell.getOtherText()).append("</td>\n");
 
                 //then annotations
                 if (col == tab_annotations.getSubjectColumn()) {
                     out.append("\t<td");
                     StringBuilder annotation = new StringBuilder();
-                    CellAnnotation[] cAnns = tab_annotations.getContentCellAnnotations(row, col);
+                    TCellAnnotation[] cAnns = tab_annotations.getContentCellAnnotations(row, col);
                     if (cAnns == null)
                         annotation.append(">-");
                     else {
                         annotation.append(" bgcolor=\"#00FF00\">");
                         for (int i = 0; i < cAnns.length; i++) {
-                            CellAnnotation cAnn = cAnns[i];
+                            TCellAnnotation cAnn = cAnns[i];
                             if (i == 0) { //the winning annotation
                                 annotation.append("<br><b>").append(generateCellAnnotationString(cAnn)).append("</b></br>");
                             } else if (showLosingCandidates) {  //others
@@ -209,15 +209,15 @@ public class TAnnotationWriter {
                     out.append("\t<td");
 
                     StringBuilder annotation = new StringBuilder();
-                    Key_SubjectCol_ObjectCol key = new Key_SubjectCol_ObjectCol(tab_annotations.getSubjectColumn(), col);
-                    Map<Integer, List<CellBinaryRelationAnnotation>> tmp = tab_annotations.getRelationAnnotationsBetween(key.getSubjectCol(), key.getObjectCol());
+                    RelationColumns key = new RelationColumns(tab_annotations.getSubjectColumn(), col);
+                    Map<Integer, List<TCellCellRelationAnotation>> tmp = tab_annotations.getRelationAnnotationsBetween(key.getSubjectCol(), key.getObjectCol());
                     if (tmp == null) {
                         annotation.append(">-");
                         annotation.append("</td>\n");
                         out.append(annotation);
                         continue;
                     }
-                    List<CellBinaryRelationAnnotation> crAnns = tmp.get(row);
+                    List<TCellCellRelationAnotation> crAnns = tmp.get(row);
 
                     if (crAnns == null)
                         annotation.append(">-");
@@ -225,7 +225,7 @@ public class TAnnotationWriter {
                         Collections.sort(crAnns);
                         annotation.append(" bgcolor=\"#00FF00\">");
                         for (int i = 0; i < crAnns.size(); i++) {
-                            CellBinaryRelationAnnotation crAnn = crAnns.get(i);
+                            TCellCellRelationAnotation crAnn = crAnns.get(i);
                             if (i == 0) { //the winning annotation
                                 annotation.append("<br><b>").append(generateAcrossCellRelationString(crAnn)).append("</b></br>");
                             } else if (showLosingCandidates) {  //others
@@ -244,7 +244,7 @@ public class TAnnotationWriter {
         return out.toString();
     }
 
-    protected String writeRelation_inHeader(Table table, LTableAnnotation tab_annotations) {
+    protected String writeRelation_inHeader(Table table, TAnnotation tab_annotations) {
         StringBuilder out = new StringBuilder();
         out.append("<tr>\n");
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -258,14 +258,14 @@ public class TAnnotationWriter {
             if (col == tab_annotations.getSubjectColumn()) {
                 out.append("\t<th");
                 StringBuilder annotation = new StringBuilder();
-                HeaderAnnotation[] hAnns = tab_annotations.getHeaderAnnotation(col);
+                TColumnHeaderAnnotation[] hAnns = tab_annotations.getHeaderAnnotation(col);
                 if (hAnns == null)
                     annotation.append(">-");
                 else {
                     annotation.append(" bgcolor=\"#00FF00\">");
                     double best_score = 0.0;
                     for (int i = 0; i < hAnns.length; i++) {
-                        HeaderAnnotation hAnn = hAnns[i];
+                        TColumnHeaderAnnotation hAnn = hAnns[i];
                         if (i == 0) { //the winning annotation
                             annotation.append("<br><b>").append(generateHeaderAnnotationString(hAnn)).append("</b></br>");
                             best_score = hAnn.getFinalScore();
@@ -283,8 +283,8 @@ public class TAnnotationWriter {
                 out.append("\t<th");
 
                 StringBuilder annotation = new StringBuilder();
-                Key_SubjectCol_ObjectCol key = new Key_SubjectCol_ObjectCol(tab_annotations.getSubjectColumn(), col);
-                List<HeaderBinaryRelationAnnotation> hAnns = tab_annotations.getRelationAnnotations_across_columns().get(key);
+                RelationColumns key = new RelationColumns(tab_annotations.getSubjectColumn(), col);
+                List<TColumnColumnRelationAnnotation> hAnns = tab_annotations.getColumncolumnRelations().get(key);
 
                 if (hAnns == null)
                     annotation.append(">-");
@@ -292,7 +292,7 @@ public class TAnnotationWriter {
                     Collections.sort(hAnns);
                     annotation.append(" bgcolor=\"#00FF00\">");
                     for (int i = 0; i < hAnns.size(); i++) {
-                        HeaderBinaryRelationAnnotation hAnn = hAnns.get(i);
+                        TColumnColumnRelationAnnotation hAnn = hAnns.get(i);
                         if (i == 0) { //the winning annotation
                             annotation.append("<br><b>").append(generateAcrossHeaderRelationString(hAnn)).append("</b></br>");
                         } else if (showLosingCandidates) {  //others
@@ -311,7 +311,7 @@ public class TAnnotationWriter {
     }
 
 
-    protected String writeHeader(Table table, LTableAnnotation tab_annotations) {
+    protected String writeHeader(Table table, TAnnotation tab_annotations) {
         StringBuilder out = new StringBuilder();
         out.append("<tr>\n");
         for (int col = 0; col < table.getNumCols(); col++) {
@@ -323,14 +323,14 @@ public class TAnnotationWriter {
             //then annotations
             out.append("\t<th");
             StringBuilder annotation = new StringBuilder();
-            HeaderAnnotation[] hAnns = tab_annotations.getHeaderAnnotation(col);
+            TColumnHeaderAnnotation[] hAnns = tab_annotations.getHeaderAnnotation(col);
             if (hAnns == null)
                 annotation.append(">-");
             else {
                 annotation.append(" bgcolor=\"#00FF00\">");
                 double best_score = 0.0;
                 for (int i = 0; i < hAnns.length; i++) {
-                    HeaderAnnotation hAnn = hAnns[i];
+                    TColumnHeaderAnnotation hAnn = hAnns[i];
                     if (i == 0) { //the winning annotation
                         annotation.append("<br><b>").append(generateHeaderAnnotationString(hAnn)).append("</b></br>");
                         best_score = hAnn.getFinalScore();
@@ -349,27 +349,27 @@ public class TAnnotationWriter {
         return out.toString();
     }
 
-    protected String writeCell(Table table, LTableAnnotation tab_annotations) {
+    protected String writeCell(Table table, TAnnotation tab_annotations) {
         StringBuilder out = new StringBuilder();
 
         for (int row = 0; row < table.getNumRows(); row++) {
             out.append("<tr>\n");
             for (int col = 0; col < table.getNumCols(); col++) {
-                TContentCell tcc = table.getContentCell(row, col);
-                out.append("\t<td>").append(tcc.getText()).append(tcc.getOther_text()).append("<font color=\"grey\">").append(" [").
+                TCell tcc = table.getContentCell(row, col);
+                out.append("\t<td>").append(tcc.getText()).append(tcc.getOtherText()).append("<font color=\"grey\">").append(" [").
                         append(tcc.getType().getValue()).append("]</font>").
                         append("</td>\n");
 
                 //then annotations
                 out.append("\t<td");
                 StringBuilder annotation = new StringBuilder();
-                CellAnnotation[] cAnns = tab_annotations.getContentCellAnnotations(row, col);
+                TCellAnnotation[] cAnns = tab_annotations.getContentCellAnnotations(row, col);
                 if (cAnns == null)
                     annotation.append(">-");
                 else {
                     annotation.append(" bgcolor=\"#00FF00\">");
                     for (int i = 0; i < cAnns.length; i++) {
-                        CellAnnotation cAnn = cAnns[i];
+                        TCellAnnotation cAnn = cAnns[i];
                         if (i == 0) { //the winning annotation
                             annotation.append("<br><b>").append(generateCellAnnotationString(cAnn)).append("</b></br>");
                         } else if (showLosingCandidates) {  //others
@@ -386,7 +386,7 @@ public class TAnnotationWriter {
         return out.toString();
     }
 
-    protected Object generateCellAnnotationString(CellAnnotation cAnn) {
+    protected Object generateCellAnnotationString(TCellAnnotation cAnn) {
         StringBuilder sb = new StringBuilder();
         sb.append("<a href=\"" + linkPrefix + cAnn.getAnnotation().getId() + "\">").
                 append(cAnn.getAnnotation().getLabel()).append("</a>").
@@ -394,29 +394,29 @@ public class TAnnotationWriter {
         return sb.toString();
     }
 
-    protected String generateHeaderAnnotationString(HeaderAnnotation ha) {
+    protected String generateHeaderAnnotationString(TColumnHeaderAnnotation ha) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<a href=\"" + linkPrefix + ha.getAnnotation_url() + "\">").
-                append(ha.getAnnotation_url()).append("(").append(ha.getAnnotation_label()).append(")</a>").
+        sb.append("<a href=\"" + linkPrefix + ha.getAnnotation().getId() + "\">").
+                append(ha.getAnnotation().getId()).append("(").append(ha.getAnnotation().getId()).append(")</a>").
                 append("=").append(Math.round(ha.getFinalScore() * 100.0) / 100.0).append(ha.getSupportingRows());
         return sb.toString();
     }
 
-    protected String generateAcrossHeaderRelationString(HeaderBinaryRelationAnnotation ha) {
+    protected String generateAcrossHeaderRelationString(TColumnColumnRelationAnnotation ha) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<a href=\"" + linkPrefix + ha.getAnnotation_url() + "\">").
-                append(ha.getAnnotation_url()).
+        sb.append("<a href=\"" + linkPrefix + ha.getRelationURI() + "\">").
+                append(ha.getRelationURI()).
                 append("</a>").
                 append("=").append(Math.round(ha.getFinalScore() * 100.0) / 100.0).append(ha.getSupportingRows());
         return sb.toString();
     }
 
-    protected String generateAcrossCellRelationString(CellBinaryRelationAnnotation ca) {
+    protected String generateAcrossCellRelationString(TCellCellRelationAnotation ca) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<a href=\"" + linkPrefix + ca.getAnnotation_url() + "\">").
-                append(ca.getAnnotation_url()).
+        sb.append("<a href=\"" + linkPrefix + ca.getRelationURI() + "\">").
+                append(ca.getRelationURI()).
                 append("</a>").
-                append("=").append(Math.round(ca.getScore() * 100.0) / 100.0);
+                append("=").append(Math.round(ca.getWinningAttributeMatchScore() * 100.0) / 100.0);
         return sb.toString();
     }
 }

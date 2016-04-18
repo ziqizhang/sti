@@ -38,14 +38,14 @@ public class Any23Xtractor {
 
     }
 
-    public static List<LTriple> extract_from_url(String link) throws STIException {
+    public static List<LTriple> extract(String uri) throws STIException {
         LNTripleWriter handler = null;
         try {
             HTTPClient httpClient = getInstance().runner.getHTTPClient();
 
             DocumentSource source = new HTTPDocumentSource(
                     httpClient,
-                    link
+                    uri
             );
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             handler = new LNTripleWriter(out);
@@ -53,10 +53,8 @@ public class Any23Xtractor {
             return handler.getOutput();
         } catch (IOException ioe) {
             throw new STIException("Any23 cannot obtain " + HTTPClient.class.getName(), ioe);
-        } catch (URISyntaxException use) {
-            throw new STIException("Document source error " + link, use);
-        } catch (ExtractionException ee) {
-            throw new STIException("Document source error " + link, ee);
+        } catch (URISyntaxException | ExtractionException use) {
+            throw new STIException("Document source error " + uri, use);
         } finally {
             if (handler != null)
                 try {
@@ -65,13 +63,11 @@ public class Any23Xtractor {
                 }
         }
     }
-    public static List<LTriple> extract_from_file(String file) throws STIException {
+    public static List<LTriple> extract(File file) throws STIException {
         LNTripleWriter handler = null;
         try {
-            HTTPClient httpClient = getInstance().runner.getHTTPClient();
-
             DocumentSource source = new FileDocumentSource(
-                    new File(file)
+                    file
             );
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             handler = new LNTripleWriter(out);
@@ -90,11 +86,4 @@ public class Any23Xtractor {
         }
     }
 
-    public static void main(String[] args) throws STIException {
-        List<LTriple> triples = Any23Xtractor.extract_from_url("http://www.bbc.co.uk/music/artists/650e7db6-b795-4eb5-a702-5ea2fc46c848");
-        for(LTriple t: triples){
-            //if(t.getsXPath().contains("TABLE"))
-                System.out.println(t+"\t\t\t"+t.getoXPath());
-        }
-    }
 }
