@@ -1,11 +1,11 @@
-package uk.ac.shef.dcs.sti.TODO.evaluation;
-
-import uk.ac.shef.dcs.sti.TODO.TAnnotationKeyFileReader;
+package uk.ac.shef.dcs.sti.todo.evaluation;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
+
+import uk.ac.shef.dcs.sti.todo.TAnnotationKeyFileReader;
 
 /**
  * Created with IntelliJ IDEA.

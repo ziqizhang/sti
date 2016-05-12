@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.TODO.gs;
+package uk.ac.shef.dcs.sti.todo.gs;
 
 import info.aduna.io.FileUtil;
 import uk.ac.shef.dcs.sti.util.FileUtils;

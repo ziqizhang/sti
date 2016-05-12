@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.TODO.gs;
+package uk.ac.shef.dcs.sti.todo.gs;
 
 import org.apache.any23.util.FileUtils;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;

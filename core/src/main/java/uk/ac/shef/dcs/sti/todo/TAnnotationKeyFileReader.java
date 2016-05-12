@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.TODO;
+package uk.ac.shef.dcs.sti.todo;
 
 import uk.ac.shef.dcs.sti.util.FileUtils;
 

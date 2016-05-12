@@ -1,6 +1,6 @@
-package uk.ac.shef.dcs.sti.TODO.evaluation;
+package uk.ac.shef.dcs.sti.todo.evaluation;
 
-import uk.ac.shef.dcs.sti.TODO.TAnnotationKeyFileReader;
+import uk.ac.shef.dcs.sti.todo.TAnnotationKeyFileReader;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 
 import java.io.File;

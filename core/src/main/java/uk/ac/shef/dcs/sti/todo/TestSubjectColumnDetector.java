@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.TODO;
+package uk.ac.shef.dcs.sti.todo;
 
 import javafx.util.Pair;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
