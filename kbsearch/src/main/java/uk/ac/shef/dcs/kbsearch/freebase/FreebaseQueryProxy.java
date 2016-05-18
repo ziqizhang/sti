@@ -133,6 +133,7 @@ public class FreebaseQueryProxy {
     private void parseTopicAPIResult(JSONObject json, List<Attribute> out, boolean directRelation) {
         /*if(json==null)
             System.out.println();*/
+        @SuppressWarnings("unchecked")
         Iterator<String> prop_keys = json.keySet().iterator();
         while (prop_keys.hasNext()) {
             String prop = prop_keys.next();
