@@ -55,5 +55,16 @@
         <!-- LUCENE -->
     </dependencies>
 
-
+    <repositories>
+        <repository>
+            <id>aduna-old-repository</id>
+            <url>http://maven.ontotext.com/content/repositories/aduna/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>

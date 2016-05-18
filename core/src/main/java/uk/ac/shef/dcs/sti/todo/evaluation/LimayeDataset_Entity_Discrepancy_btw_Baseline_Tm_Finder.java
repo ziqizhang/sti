@@ -4,8 +4,8 @@ import info.aduna.io.FileUtil;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
-import uk.ac.shef.dcs.sti.todo.TAnnotationKeyFileReader;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.sti.todo.TAnnotationKeyFileReader;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 
 import java.io.File;
