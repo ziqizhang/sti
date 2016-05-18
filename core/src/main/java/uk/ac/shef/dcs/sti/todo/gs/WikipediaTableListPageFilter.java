@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.TODO.gs;
+package uk.ac.shef.dcs.sti.todo.gs;
 
 import info.bliki.wiki.dump.IArticleFilter;
 import info.bliki.wiki.dump.Siteinfo;
@@ -49,8 +49,9 @@ public class WikipediaTableListPageFilter implements IArticleFilter {
 
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public void process(WikiArticle page, Siteinfo siteinfo) throws SAXException {
+    public void process(WikiArticle page, Siteinfo siteinfo) throws IOException {
         if (countMainPages % 200 == 0) {
             logger.info("Pages processed: " + countMainPages + ", tables " + countTables + ", lists " + countLists);
         }

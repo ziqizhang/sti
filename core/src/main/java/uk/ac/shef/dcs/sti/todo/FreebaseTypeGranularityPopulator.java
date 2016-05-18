@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.TODO;
+package uk.ac.shef.dcs.sti.todo;
 
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;

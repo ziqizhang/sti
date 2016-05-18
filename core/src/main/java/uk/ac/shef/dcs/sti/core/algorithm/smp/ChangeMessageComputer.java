@@ -115,6 +115,7 @@ class ChangeMessageComputer {
         return messages;
     }
 
+    @SuppressWarnings("unchecked")
     private void updateMessageForCell(ObjectMatrix2D messages, int row, int col, ChangeMessage m) {
         if (m.getConfidence() >= minConfidence) {
             Object container = messages.get(row, col);

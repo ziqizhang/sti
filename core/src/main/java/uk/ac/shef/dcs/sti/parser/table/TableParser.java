@@ -40,7 +40,7 @@ public abstract class TableParser {
         this.validators = validators;
     }
 
-    public abstract List<Table> extract(String input, String sourceId) throws STIException;
+    public abstract List<Table> extract(String input, String sourceId) throws STIException, IOException;
 
     /**
      * Processes table elements following the basic principles:

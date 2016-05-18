@@ -36,7 +36,7 @@ public class TableParserWikipedia extends TableParser {
 
 
     @Override
-    public List<Table> extract(String inFile, String sourceId) throws STIException {
+    public List<Table> extract(String inFile, String sourceId) throws STIException, IOException {
         String input;
         try {
             input = FileUtils.readFileToString(new File(inFile));

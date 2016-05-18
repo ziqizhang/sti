@@ -32,6 +32,7 @@ public class WSScorer {
         this.stopWords = stopWords;
     }
 
+    @SuppressWarnings("unchecked")
     protected List<WebSearchResultDoc> findInCache(String queryId) throws IOException, ClassNotFoundException, SolrServerException {
         return (List<WebSearchResultDoc>)cache.retrieve(queryId);
     }

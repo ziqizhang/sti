@@ -26,8 +26,9 @@ public class ListXtractorHTML extends ListXtractor {
         listTagSelectors = new String[]{"UL","OL"};
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public java.util.List extract(String input, String sourceId) {
+    public java.util.List extract(String input, String sourceId) throws IOException {
         /*if (sourceId.startsWith("Altruism"))
             System.out.println();*/
         java.util.List rs = new ArrayList<List>();

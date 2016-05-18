@@ -26,7 +26,7 @@ public abstract class ListXtractor {
         this.tokenizer = tokenizer;
     }
 
-    public abstract java.util.List extract(String input, String sourceId);
+    public abstract java.util.List extract(String input, String sourceId) throws IOException;
 
     /**
      * ONLY extracts IMMEDIATE children

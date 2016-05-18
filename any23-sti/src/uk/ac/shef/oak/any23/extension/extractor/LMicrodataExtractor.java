@@ -32,7 +32,7 @@ import org.apache.any23.extractor.microdata.MicrodataParserException;
 import org.apache.any23.extractor.microdata.MicrodataParserReport;
 import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.rdf.RDFUtils;
-import org.apache.any23.vocab.DCTERMS;
+import org.apache.any23.vocab.DCTerms;
 import org.apache.any23.vocab.XHTML;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -53,14 +53,7 @@ public class LMicrodataExtractor extends MicrodataExtractor{
     private static final URI MICRODATA_ITEM
             = RDFUtils.uri("http://www.w3.org/1999/xhtml/microdata#item");
 
-    public final static ExtractorFactory<LMicrodataExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "lodie-html-microdata",
-                    PopularPrefixes.createSubset("rdf", "doac", "foaf"),
-                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    "example-microdata.html",
-                    LMicrodataExtractor.class
-            );
+    public final static ExtractorFactory<LMicrodataExtractor> factory = new LMicrodataExtractorFactory();
 
     private String documentLanguage;
 
@@ -200,7 +193,7 @@ public class LMicrodataExtractor extends MicrodataExtractor{
             }
             out.writeTriple(
                     documentURI,
-                    DCTERMS.getInstance().title,
+                    DCTerms.getInstance().title,
                     object
             );
         }
@@ -418,7 +411,7 @@ public class LMicrodataExtractor extends MicrodataExtractor{
         if (item.getAttributes().getNamedItem("cite") != null) {
             out.writeTriple(
                     documentURI,
-                    DCTERMS.getInstance().source,
+                    DCTerms.getInstance().source,
                     RDFUtils.uri(item.getAttributes().getNamedItem("cite").getTextContent())
             );
         }

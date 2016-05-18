@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.TODO.evaluation;
+package uk.ac.shef.dcs.sti.todo.evaluation;
 
 import org.apache.any23.util.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
