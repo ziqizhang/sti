@@ -85,6 +85,14 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>com.github.mpkorstanje</groupId>
+            <artifactId>simmetrics</artifactId>
+            <version>4.1.0L</version>
+            <!--Current repository version is 4.1.0, however that does not seem to include
+            a binary distributable. As a result, a local copy of binary is created and
+            called 4.1.0L. Run mvninstall.bat to add it to your local maven repository -->
+        </dependency>
 
     </dependencies>
     <build>

@@ -92,7 +92,7 @@ public class SimilarityComputerManager {
                 String[] key = e.getKey();
                 if (e.getValue() != -1) {
                     if (useCache && !key[2].equals("cache")) {
-                        kbSearch.cacheEntityClazztSimilarity(key[0], key[1], e.getValue(), biDirectional, false);
+                        kbSearch.cacheEntityClazzSimilarity(key[0], key[1], e.getValue(), biDirectional, false);
                         doCommit = true;
                     }
                     result.put(key[0] + "," + key[1], e.getValue());
