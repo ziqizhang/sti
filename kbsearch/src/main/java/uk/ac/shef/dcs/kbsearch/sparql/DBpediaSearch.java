@@ -244,10 +244,42 @@ public class DBpediaSearch extends SPARQLSearch {
     }
 
     // if the attribute's value is an URL, fetch the label of that resource, and reset its attr value
-    private void resetResourceValue(Attribute attr) {
+    private void resetResourceValue(Attribute attr) throws KBSearchException {
         String value = attr.getValue();
         if(value.startsWith("http")){
-            //todo continue here
+            String queryCache = createSolrCacheQuery_findLabelForResource(value);
+            boolean forceQuery = false;
+
+            if (ALWAYS_CALL_REMOTE_SEARCHAPI)
+                forceQuery = true;
+
+            List<String> result = null;
+            if (!forceQuery) {
+                try {
+                    result = (List<String>) cacheEntity.retrieve(queryCache);
+                    if (result != null) {
+                        LOG.debug("QUERY (resource labels, cache load)=" + queryCache + "|" + queryCache);
+                    }
+                } catch (Exception e) {
+                }
+            }
+            if (result == null) {
+                try {
+                    //1. try exact string
+                    String sparqlQuery = createGetLabelQuery(value);
+                    result = queryForLabel(sparqlQuery);
+
+                    cacheEntity.cache(queryCache, result, AUTO_COMMIT);
+                    LOG.debug("QUERY (entities, cache save)=" + queryCache + "|" + queryCache);
+                } catch (Exception e) {
+                    throw new KBSearchException(e);
+                }
+            }
+
+            if(result.size()>0) {
+                attr.setValueURI(value);
+                attr.setValue(result.get(0));
+            }
         }
     }
 
@@ -371,5 +403,9 @@ public class DBpediaSearch extends SPARQLSearch {
         } catch (Exception e) {
             throw new KBSearchException(e);
         }
+    }
+
+    protected String createSolrCacheQuery_findLabelForResource(String url){
+        return "LABEL_"+url;
     }
 }
