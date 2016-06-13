@@ -56,14 +56,14 @@ public abstract class SPARQLSearch extends KBSearch {
 
     protected String createRegexQuery(String content){
         String query = "SELECT DISTINCT ?s ?o WHERE {"+
-            "?s "+RDFEnum.RELATION_HASTYPE.getString()+" ?o ."+
+            "?s <"+RDFEnum.RELATION_HASLABEL.getString()+"> ?o ."+
             "FILTER ( regex (str(?o), \"\\b"+content+"\\b\", \"i\") ) }";
         return query;
     }
 
     protected String createRegexQuery(String content, String... types){
         StringBuilder query = new StringBuilder("SELECT DISTINCT ?s ?o WHERE {").append(
-                "?s ").append(RDFEnum.RELATION_HASTYPE.getString()).append(" ?o .").append("\n");
+                "?s <").append(RDFEnum.RELATION_HASLABEL.getString()).append("> ?o .").append("\n");
 
         if(types.length>0){
             query.append("{?s a <").append(types[0]).append(">}\n");
@@ -79,34 +79,28 @@ public abstract class SPARQLSearch extends KBSearch {
 
     protected String createExactMatchQueries(String content){
         String query = "SELECT DISTINCT ?s WHERE {"+
-            "?s "+RDFEnum.RELATION_HASLABEL.getString()+" \""+content+"\"@en . }";
+            "?s <"+RDFEnum.RELATION_HASLABEL.getString()+"> \""+content+"\"@en . }";
 
         return query;
+    }
 
+    protected String createExactMatchWithOptionalTypes(String content){
+        String query = "SELECT DISTINCT ?s ?o WHERE {"+
+                "?s <"+RDFEnum.RELATION_HASLABEL.getString()+"> \""+content+"\"@en . \n"+
+                "OPTIONAL {?s a ?o} }";
+
+        return query;
     }
 
     protected String createGetLabelQuery(String content){
         String query = "SELECT DISTINCT ?o WHERE {<"+
-                content+"> "+RDFEnum.RELATION_HASLABEL.getString()+" ?o . }";
+                content+"> <"+RDFEnum.RELATION_HASLABEL.getString()+"> ?o . }";
 
         return query;
 
     }
 
-    protected String createExactMatchQueries(String content, String... types){
-        StringBuilder query = new StringBuilder("SELECT DISTINCT ?s WHERE {").append(
-                "?s ").append(RDFEnum.RELATION_HASTYPE.getString()).append(" \"").append(content).append("\"@en . ");
-        if(types.length>0){
-            query.append("{?s a <").append(types[0]).append(">}\n");
-            for(int i=1; i<types.length; i++){
-                query.append("UNION { ?s a <").append(types[i]).append(">}\n");
-            }
-            query.append(".\n");
-        }
 
-        return query.toString();
-
-    }
 
     protected List<Pair<String, String>> queryByLabel(String sparqlQuery, String string){
         org.apache.jena.query.Query query = QueryFactory.create(sparqlQuery);
@@ -114,7 +108,7 @@ public abstract class SPARQLSearch extends KBSearch {
 
         List<Pair<String, String>> out = new ArrayList<>();
         ResultSet rs = qexec.execSelect();
-        if(rs.hasNext()){
+        while(rs.hasNext()){
             QuerySolution qs = rs.next();
             RDFNode range = qs.get("?s");
             String r = range.toString();
@@ -129,22 +123,8 @@ public abstract class SPARQLSearch extends KBSearch {
         return out;
     }
 
-    protected List<String> queryForLabel(String sparqlQuery){
-        org.apache.jena.query.Query query = QueryFactory.create(sparqlQuery);
-        QueryExecution qexec = QueryExecutionFactory.sparqlService(sparqlEndpoint, query);
+    protected abstract List<String> queryForLabel(String sparqlQuery, String resourceURI);
 
-        List<String> out = new ArrayList<>();
-        ResultSet rs = qexec.execSelect();
-        if(rs.hasNext()){
-            QuerySolution qs = rs.next();
-            RDFNode domain = qs.get("?o");
-            String d=null;
-            if(domain!=null)
-                d=domain.toString();
-            out.add(d);
-        }
-        return out;
-    }
 
     protected void rank(List<Pair<String, String>> candidates, String originalQueryLabel){
         final Map<Pair<String, String>, Double> scores = new HashMap<>();

@@ -5,7 +5,7 @@ package uk.ac.shef.dcs.kbsearch.sparql;
  */
 public enum  FOAFEnum {
 
-    RELATION_HASLABEL("<http://xmlns.com/foaf/0.1/name>");
+    RELATION_HASLABEL("http://xmlns.com/foaf/0.1/name");
 
 
     private String string;

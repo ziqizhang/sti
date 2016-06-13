@@ -28,8 +28,8 @@ public class DBpediaSearch extends SPARQLSearch {
     private static final Logger LOG = Logger.getLogger(DBpediaSearch.class.getName());
     private static final boolean AUTO_COMMIT = true;
 
-    private static final String DBP_SPARQL_ENDPOINT="dbp.sparql.endpoint";
-    private static final String DBP_ONTOLOGY_URL="dbp.ontology.url";
+    private static final String DBP_SPARQL_ENDPOINT = "dbp.sparql.endpoint";
+    private static final String DBP_ONTOLOGY_URL = "dbp.ontology.url";
 
     private OntModel ontology;
 
@@ -51,7 +51,7 @@ public class DBpediaSearch extends SPARQLSearch {
                          EmbeddedSolrServer cacheSimilarity) throws IOException {
         super(properties.getProperty(DBP_SPARQL_ENDPOINT), fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty, cacheSimilarity);
         String ontURL = properties.getProperty(DBP_ONTOLOGY_URL);
-        if(ontURL!=null)
+        if (ontURL != null)
             ontology = loadModel(ontURL);
         otherCache = new HashMap<>();
         resultFilter = new DBpediaSearchResultFilter(properties.getProperty(KB_SEARCH_RESULT_STOPLIST));
@@ -59,8 +59,8 @@ public class DBpediaSearch extends SPARQLSearch {
 
     private OntModel loadModel(String ontURL) {
         OntModel base = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM);
-        base.read( ontURL);
-        return ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM_MICRO_RULE_INF, base );
+        base.read(ontURL);
+        return ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF, base);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class DBpediaSearch extends SPARQLSearch {
                 List<Pair<String, String>> queryResult = queryByLabel(sparqlQuery, content);
 
                 //2. if result is empty, try regex
-                if(queryResult.size()==0 && fuzzyKeywords) {
+                if (queryResult.size() == 0 && fuzzyKeywords) {
                     LOG.debug("(query by regex. This can take a long time)");
                     sparqlQuery = createRegexQuery(content);
                     queryResult = queryByLabel(sparqlQuery, content);
@@ -105,18 +105,18 @@ public class DBpediaSearch extends SPARQLSearch {
                 rank(queryResult, content);
 
                 //firstly fetch candidate freebase topics. pass 'true' to only keep candidates whose name overlap with the query term
-                LOG.debug("(FB QUERY =" +queryResult.size()+" results)");
+                LOG.debug("(FB QUERY =" + queryResult.size() + " results)");
                 for (Pair<String, String> candidate : queryResult) {
                     //Next get attributes for each topic
                     String label = candidate.getValue();
-                    if(label==null)
+                    if (label == null)
                         label = content;
                     Entity ec = new Entity(candidate.getKey(), label);
                     List<Attribute> attributes = findAttributesOfEntities(ec);
                     ec.setAttributes(attributes);
                     for (Attribute attr : attributes) {
                         resetResourceValue(attr);
-                        if (attr.getRelationURI().equals(RDFEnum.RELATION_HASTYPE.getString()) &&
+                        if (attr.getRelationURI().endsWith(RDFEnum.RELATION_HASTYPE_SUFFIX_PATTERN.getString()) &&
                                 !ec.hasType(attr.getValueURI())) {
                             ec.addType(new Clazz(attr.getValueURI(), attr.getValue()));
                         }
@@ -190,11 +190,32 @@ public class DBpediaSearch extends SPARQLSearch {
             result = new ArrayList<>();
             try {
                 //1. try exact string
-                String sparqlQuery = createExactMatchQueries(content, types);
-                List<Pair<String, String>> queryResult = queryByLabel(sparqlQuery, content);
+                String sparqlQuery = createExactMatchWithOptionalTypes(content);
+                List<Pair<String, String>> resourceAndType = queryByLabel(sparqlQuery, content);
+                boolean hasExactMatch = resourceAndType.size() > 0;
+                if (types.length > 0) {
+                    Iterator<Pair<String, String>> it = resourceAndType.iterator();
+                    while (it.hasNext()) {
+                        Pair<String, String> ec = it.next();
+                        boolean typeSatisfied = false;
+                        for (String t : types) {
+                            if (t.equals(ec.getValue())) {
+                                typeSatisfied = true;
+                                break;
+                            }
+                        }
+                        if (!typeSatisfied)
+                            it.remove();
+                    }
+                }//with this query the 'value' of the pair will be the type, now need to reset it to actual value
+                List<Pair<String, String>> queryResult = new ArrayList<>();
+                if (resourceAndType.size() > 0) {
+                    Pair<String, String> matchedResource = resourceAndType.get(0);
+                    queryResult.add(new Pair<>(matchedResource.getKey(), content));
+                }
 
                 //2. if result is empty, try regex
-                if(queryResult.size()==0 && fuzzyKeywords) {
+                if (!hasExactMatch && fuzzyKeywords) {
                     LOG.debug("(query by regex. This can take a long time)");
                     sparqlQuery = createRegexQuery(content, types);
                     queryResult = queryByLabel(sparqlQuery, content);
@@ -203,18 +224,18 @@ public class DBpediaSearch extends SPARQLSearch {
                 rank(queryResult, content);
 
                 //firstly fetch candidate freebase topics. pass 'true' to only keep candidates whose name overlap with the query term
-                LOG.debug("(FB QUERY =" +queryResult.size()+" results)");
+                LOG.debug("(FB QUERY =" + queryResult.size() + " results)");
                 for (Pair<String, String> candidate : queryResult) {
                     //Next get attributes for each topic
                     String label = candidate.getValue();
-                    if(label==null)
+                    if (label == null)
                         label = content;
                     Entity ec = new Entity(candidate.getKey(), label);
                     List<Attribute> attributes = findAttributesOfEntities(ec);
                     ec.setAttributes(attributes);
                     for (Attribute attr : attributes) {
                         resetResourceValue(attr);
-                        if (attr.getRelationURI().equals(RDFEnum.RELATION_HASTYPE.getString()) &&
+                        if (attr.getRelationURI().endsWith(RDFEnum.RELATION_HASTYPE_SUFFIX_PATTERN.getString()) &&
                                 !ec.hasType(attr.getValueURI())) {
                             ec.addType(new Clazz(attr.getValueURI(), attr.getValue()));
                         }
@@ -246,7 +267,7 @@ public class DBpediaSearch extends SPARQLSearch {
     // if the attribute's value is an URL, fetch the label of that resource, and reset its attr value
     private void resetResourceValue(Attribute attr) throws KBSearchException {
         String value = attr.getValue();
-        if(value.startsWith("http")){
+        if (value.startsWith("http")) {
             String queryCache = createSolrCacheQuery_findLabelForResource(value);
             boolean forceQuery = false;
 
@@ -267,7 +288,7 @@ public class DBpediaSearch extends SPARQLSearch {
                 try {
                     //1. try exact string
                     String sparqlQuery = createGetLabelQuery(value);
-                    result = queryForLabel(sparqlQuery);
+                    result = queryForLabel(sparqlQuery, value);
 
                     cacheEntity.cache(queryCache, result, AUTO_COMMIT);
                     LOG.debug("QUERY (entities, cache save)=" + queryCache + "|" + queryCache);
@@ -276,9 +297,11 @@ public class DBpediaSearch extends SPARQLSearch {
                 }
             }
 
-            if(result.size()>0) {
+            if (result.size() > 0) {
                 attr.setValueURI(value);
                 attr.setValue(result.get(0));
+            } else {
+                attr.setValueURI(value);
             }
         }
     }
@@ -306,27 +329,27 @@ public class DBpediaSearch extends SPARQLSearch {
         if (result == null || forceQuery) {
             result = new ArrayList<>();
             String query = "SELECT DISTINCT ?p ?o WHERE {\n" +
-                    "<"+id+"> ?p ?o .\n" +
+                    "<" + id + "> ?p ?o .\n" +
                     "}";
 
             Query sparqlQuery = QueryFactory.create(query);
             QueryExecution qexec = QueryExecutionFactory.sparqlService(sparqlEndpoint, sparqlQuery);
 
             ResultSet rs = qexec.execSelect();
-            while(rs.hasNext()){
+            while (rs.hasNext()) {
                 QuerySolution qs = rs.next();
                 RDFNode range = qs.get("?p");
                 String r = range.toString();
                 RDFNode domain = qs.get("?o");
-                if(domain!=null) {
+                if (domain != null) {
                     String d = domain.toString();
-                    Attribute attr = new DBpediaAttribute(r,d);
+                    Attribute attr = new DBpediaAttribute(r, d);
                     result.add(attr);
                 }
             }
 
             try {
-                cache.cache(query, result, AUTO_COMMIT);
+                cache.cache(queryCache, result, AUTO_COMMIT);
                 LOG.debug("QUERY (attributes of id, cache save)=" + query + "|" + query);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -350,14 +373,14 @@ public class DBpediaSearch extends SPARQLSearch {
 
     @Override
     public double findGranularityOfClazz(String clazz) throws KBSearchException {
-        if(ontology==null)
+        if (ontology == null)
             throw new KBSearchException("Not supported");
         return 0;
     }
 
     @Override
     public double findEntityClazzSimilarity(String entity_id, String clazz_url) throws KBSearchException {
-        if(ontology==null)
+        if (ontology == null)
             throw new KBSearchException("Not supported");
         return 0;
     }
@@ -405,7 +428,62 @@ public class DBpediaSearch extends SPARQLSearch {
         }
     }
 
-    protected String createSolrCacheQuery_findLabelForResource(String url){
-        return "LABEL_"+url;
+    protected String createSolrCacheQuery_findLabelForResource(String url) {
+        return "LABEL_" + url;
+    }
+
+    @Override
+    protected List<String> queryForLabel(String sparqlQuery, String resourceURI) {
+        org.apache.jena.query.Query query = QueryFactory.create(sparqlQuery);
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(sparqlEndpoint, query);
+
+        List<String> out = new ArrayList<>();
+        ResultSet rs = qexec.execSelect();
+        while (rs.hasNext()) {
+            QuerySolution qs = rs.next();
+            RDFNode domain = qs.get("?o");
+            String d = null;
+            if (domain != null)
+                d = domain.toString();
+            if (d != null) {
+                if (d.contains("@")) { //language tag in dbpedia literals
+                    if (!d.endsWith("@en"))
+                        continue;
+                    else {
+                        int trim = d.lastIndexOf("@en");
+                        if (trim != -1)
+                            d = d.substring(0, trim).trim();
+                    }
+                }
+
+            }
+            out.add(d);
+        }
+
+        if (out.size() == 0) { //the resource has no statement with prop "rdfs:label", apply heuristics to parse the
+            //resource uri
+            int trim = resourceURI.lastIndexOf("#");
+            if (trim == -1)
+                trim = resourceURI.lastIndexOf("/");
+            if (trim != -1) {
+                String stringValue = resourceURI.substring(trim + 1).replaceAll("[^a-zA-Z0-9]", "").trim();
+                if (resourceURI.contains("yago")) { //this is an yago resource, which may have numbered ids as suffix
+                    //e.g., City015467
+                    int end = 0;
+                    for (int i = 0; i < stringValue.length(); i++) {
+                        if (Character.isDigit(stringValue.charAt(i))) {
+                            end = i;
+                            break;
+                        }
+                    }
+                    if (end > 0)
+                        stringValue = stringValue.substring(0, end);
+                }
+                stringValue = StringUtils.splitCamelCase(stringValue);
+                out.add(stringValue);
+            }
+        }
+        return out;
+
     }
 }

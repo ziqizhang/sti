@@ -6,7 +6,6 @@ import uk.ac.shef.dcs.kbsearch.model.Attribute;
  * Created by - on 10/06/2016.
  */
 public class DBpediaAttribute extends Attribute {
-    private String valueURI;
 
     public DBpediaAttribute(String relationURI, String value) {
         super(relationURI, value);
@@ -14,16 +13,17 @@ public class DBpediaAttribute extends Attribute {
 
     @Override
     public boolean isAlias() {
-        return getRelationURI().equals(RDFEnum.RELATION_HASLABEL.getString()) ||
+        return getRelationURI().endsWith(RDFEnum.RELATION_HASLABEL_SUFFIX_PATTERN.getString()) ||
                 getRelationURI().equals(FOAFEnum.RELATION_HASLABEL.getString()) ||
                 getRelationURI().equals(DBpediaEnum.RELATION_HASFULLNAME.getString()) ||
-                getRelationURI().equals(DBpediaEnum.RELATION_HASNAME.getString());
+                getRelationURI().equals(DBpediaEnum.RELATION_HASNAME.getString())||
+                getRelationURI().equals(DCEnum.RELATION_HASLABEL.getString());
     }
 
     @Override
     public boolean isDescription() {
         return getRelationURI().equals(DBpediaEnum.RELATION_HASABSTRACT.getString()) ||
-                getRelationURI().equals(RDFEnum.RELATION_HASCOMMENT.getString()) ||
+                getRelationURI().endsWith(RDFEnum.RELATION_HASCOMMENT_SUFFIX_PATTERN.getString()) ||
                 getRelationURI().equals(DCEnum.RELATION_HASDESCRIPTION.getString());
     }
 

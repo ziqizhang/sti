@@ -7,7 +7,7 @@ public enum DBpediaEnum {
 
     RELATION_HASNAME("http://dbpedia.org/property/name"),
     RELATION_HASFULLNAME("http://dbpedia.org/property/fullname"),
-    RELATION_HASABSTRACT("<http://dbpedia.org/ontology/abstract>");
+    RELATION_HASABSTRACT("http://dbpedia.org/ontology/abstract");
 
 
     private String string;

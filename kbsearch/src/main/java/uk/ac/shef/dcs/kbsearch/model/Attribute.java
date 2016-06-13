@@ -8,10 +8,10 @@ import java.io.Serializable;
  */
 public abstract class Attribute implements Serializable{
 
-    private String relationURI;
-    private String value;
-    private String valueURI; //in case 'value' is a resource, define its URI if available
-    private boolean isDirect=true; //if this attribute is a direct attribute. this is generally 'true'. for freebase,
+    protected String relationURI;
+    protected String value;
+    protected String valueURI; //in case 'value' is a resource, define its URI if available
+    protected boolean isDirect=true; //if this attribute is a direct attribute. this is generally 'true'. for freebase,
                               //triples that form an indirect relation with a resource can be returned. In which case this
                               //is used to indicate whether the attribute is a direct attribute of the resource or not
 

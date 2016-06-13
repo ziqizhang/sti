@@ -19,3 +19,5 @@ http://xmlns.com/foaf/0.1/isPrimaryTopicOf
 #the implementing classes of KBSearchResultFilter to decide how to use these
 http://www.w3.org/2002/07/owl#Thing
 http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Agent
+http://www.w3.org/2004/02/skos/core#Concept
+http://www.opengis.net/gml/_Feature
