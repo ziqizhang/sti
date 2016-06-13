@@ -1,3 +1,4 @@
 ## Travis build file
 
 language: java
+before_script: cd odalic
