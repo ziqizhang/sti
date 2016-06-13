@@ -93,6 +93,7 @@ public abstract class SPARQLSearch extends KBSearch {
     }
 
     protected String createGetLabelQuery(String content){
+        content=content.replaceAll("\\s+","");
         String query = "SELECT DISTINCT ?o WHERE {<"+
                 content+"> <"+RDFEnum.RELATION_HASLABEL.getString()+"> ?o . }";
 
