@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"	
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans	
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="cz.cuni.mff.xrg.odalic.api.*" />
+
+	<bean id="fileService" class="cz.cuni.mff.xrg.odalic.files.MemoryOnlyFileService" />
+	<bean id="taskService" class="cz.cuni.mff.xrg.odalic.tasks.TaskServiceImpl" />
+	<bean id="configurationService" class="cz.cuni.mff.xrg.odalic.tasks.configurations.ConfigurationServiceImpl" />
+	<bean id="draftService" class="cz.cuni.mff.xrg.odalic.tasks.drafts.DraftServiceImpl" />
+	<bean id="executionService" class="cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionServiceImpl" />
+	<bean id="resultService" class="cz.cuni.mff.xrg.odalic.tasks.results.ResultServiceImpl" />
+	
+	<bean id="fileResource" class="cz.cuni.mff.xrg.odalic.files.FileResource" />
+	<bean id="taskResource" class="cz.cuni.mff.xrg.odalic.tasks.TaskResource" />
+	<bean id="configurationResource" class="cz.cuni.mff.xrg.odalic.tasks.configurations.ConfigurationResource" />
+	<bean id="draftResource" class="cz.cuni.mff.xrg.odalic.tasks.drafts.DraftResource" />
+	<bean id="executionResource" class="cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionResource" />
+	<bean id="resultResource" class="cz.cuni.mff.xrg.odalic.tasks.results.ResultResource" />
+</beans>
