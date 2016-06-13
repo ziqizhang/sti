@@ -12,6 +12,7 @@ http://dbpedia.org/ontology/wikiPageOutDegree
 http://dbpedia.org/ontology/wikiPageRevisionID
 http://xmlns.com/foaf/0.1/isPrimaryTopicOf
 
+
 !invalid_clazz
 #the following list of class URIs should not be considered for labelling columns
 #this can be a list of fully defined URIs, or just pre/suffix. It is up to

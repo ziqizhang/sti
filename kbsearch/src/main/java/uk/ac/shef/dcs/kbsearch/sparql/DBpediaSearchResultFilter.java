@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * TODO
+ *
  */
 public class DBpediaSearchResultFilter extends KBSearchResultFilter {
     public DBpediaSearchResultFilter(String property) throws IOException {

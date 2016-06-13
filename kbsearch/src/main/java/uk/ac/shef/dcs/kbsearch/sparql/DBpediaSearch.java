@@ -93,13 +93,13 @@ public class DBpediaSearch extends SPARQLSearch {
             try {
                 //1. try exact string
                 String sparqlQuery = createExactMatchQueries(content);
-                List<Pair<String, String>> queryResult = queryByLabel(sparqlQuery);
+                List<Pair<String, String>> queryResult = queryByLabel(sparqlQuery, content);
 
                 //2. if result is empty, try regex
                 if(queryResult.size()==0 && fuzzyKeywords) {
                     LOG.debug("(query by regex. This can take a long time)");
                     sparqlQuery = createRegexQuery(content);
-                    queryResult = queryByLabel(sparqlQuery);
+                    queryResult = queryByLabel(sparqlQuery, content);
                 }
                 //3. rank result by the degree of matches
                 rank(queryResult, content);
@@ -191,13 +191,13 @@ public class DBpediaSearch extends SPARQLSearch {
             try {
                 //1. try exact string
                 String sparqlQuery = createExactMatchQueries(content, types);
-                List<Pair<String, String>> queryResult = queryByLabel(sparqlQuery);
+                List<Pair<String, String>> queryResult = queryByLabel(sparqlQuery, content);
 
                 //2. if result is empty, try regex
                 if(queryResult.size()==0 && fuzzyKeywords) {
                     LOG.debug("(query by regex. This can take a long time)");
                     sparqlQuery = createRegexQuery(content, types);
-                    queryResult = queryByLabel(sparqlQuery);
+                    queryResult = queryByLabel(sparqlQuery, content);
                 }
                 //3. rank result by the degree of matches
                 rank(queryResult, content);
@@ -313,7 +313,7 @@ public class DBpediaSearch extends SPARQLSearch {
             QueryExecution qexec = QueryExecutionFactory.sparqlService(sparqlEndpoint, sparqlQuery);
 
             ResultSet rs = qexec.execSelect();
-            if(rs.hasNext()){
+            while(rs.hasNext()){
                 QuerySolution qs = rs.next();
                 RDFNode range = qs.get("?p");
                 String r = range.toString();

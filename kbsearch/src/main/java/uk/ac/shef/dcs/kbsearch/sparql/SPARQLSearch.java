@@ -79,15 +79,15 @@ public abstract class SPARQLSearch extends KBSearch {
 
     protected String createExactMatchQueries(String content){
         String query = "SELECT DISTINCT ?s WHERE {"+
-            "?s "+RDFEnum.RELATION_HASTYPE.getString()+" \""+content+"\"@en . }";
+            "?s "+RDFEnum.RELATION_HASLABEL.getString()+" \""+content+"\"@en . }";
 
         return query;
 
     }
 
     protected String createGetLabelQuery(String content){
-        String query = "SELECT DISTINCT ?o WHERE {"+
-                content+RDFEnum.RELATION_HASLABEL.getString()+" ?o . }";
+        String query = "SELECT DISTINCT ?o WHERE {<"+
+                content+"> "+RDFEnum.RELATION_HASLABEL.getString()+" ?o . }";
 
         return query;
 
@@ -108,7 +108,7 @@ public abstract class SPARQLSearch extends KBSearch {
 
     }
 
-    protected List<Pair<String, String>> queryByLabel(String sparqlQuery){
+    protected List<Pair<String, String>> queryByLabel(String sparqlQuery, String string){
         org.apache.jena.query.Query query = QueryFactory.create(sparqlQuery);
         QueryExecution qexec = QueryExecutionFactory.sparqlService(sparqlEndpoint, query);
 
@@ -122,6 +122,8 @@ public abstract class SPARQLSearch extends KBSearch {
             String d=null;
             if(domain!=null)
                 d=domain.toString();
+            if(d==null)
+                d=string;
             out.add(new Pair<>(r,d));
         }
         return out;

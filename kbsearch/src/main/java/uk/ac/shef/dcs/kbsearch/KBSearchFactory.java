@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.kbsearch;
 
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
+import uk.ac.shef.dcs.kbsearch.sparql.DBpediaSearch;
 
 import java.io.FileInputStream;
 import java.util.Properties;
@@ -34,7 +35,20 @@ public class KBSearchFactory {
                         newInstance(properties,
                                 fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty,
                                 cacheSimilarity);
-            } else {
+            }else if(className.equals(DBpediaSearch.class.getName())){
+                return (KBSearch) Class.forName(className).
+                        getDeclaredConstructor(Properties.class,
+                                Boolean.class,
+                                EmbeddedSolrServer.class,
+                                EmbeddedSolrServer.class,
+                                EmbeddedSolrServer.class,
+                                EmbeddedSolrServer.class).
+                        newInstance(properties,
+                                fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty,
+                                cacheSimilarity);
+            }
+
+            else {
                 throw new KBSearchException("Class:" + className + " not supported");
             }
         } catch (Exception e) {
