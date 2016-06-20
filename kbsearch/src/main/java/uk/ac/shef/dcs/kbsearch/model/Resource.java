@@ -39,7 +39,7 @@ public abstract class Resource implements Serializable {
         }
         if(aliases.size()==0){
             for(Attribute attr: getAttributes()){
-                if(attr.isDirect()&&attr.isAlias()) {
+                if(attr.isDirect()&&attr.isAlias() && !attr.getValue().equals(getLabel())) {
                     aliases.add(attr.getValue());
                 }
             }

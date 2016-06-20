@@ -61,7 +61,11 @@
             <artifactId>json-simple</artifactId>
             <version>1.1.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-arq</artifactId>
+            <version>3.0.1</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.solr</groupId>
             <artifactId>solr-core</artifactId>
@@ -79,6 +83,20 @@
             <artifactId>jena-arq</artifactId>
             <version>3.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.mpkorstanje</groupId>
+            <artifactId>simmetrics</artifactId>
+            <version>4.1.0L</version>
+            <!--Current repository version is 4.1.0, however that does not seem to include
+            a binary distributable. As a result, a local copy of binary is created and
+            called 4.1.0L. Run mvninstall.bat to add it to your local maven repository -->
+        </dependency>
+
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.json</artifactId>
+			<version>1.0.4</version>
+		</dependency>
 
     </dependencies>
 

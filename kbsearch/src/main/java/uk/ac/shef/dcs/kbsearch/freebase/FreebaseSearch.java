@@ -29,9 +29,6 @@ public class FreebaseSearch extends KBSearch {
     private static final boolean ALWAYS_CALL_REMOTE_TOPICAPI = false;
     private FreebaseQueryProxy searcher;
 
-
-
-
     public FreebaseSearch(Properties properties, Boolean fuzzyKeywords,
                           EmbeddedSolrServer cacheEntity, EmbeddedSolrServer cacheConcept,
                           EmbeddedSolrServer cacheProperty, EmbeddedSolrServer cacheSimilarity) throws IOException {
@@ -296,8 +293,8 @@ public class FreebaseSearch extends KBSearch {
         return (Double) result;
     }
 
-    public void cacheEntityClazztSimilarity(String id1, String clazz_url, double score, boolean biDirectional,
-                                            boolean commit) {
+    public void cacheEntityClazzSimilarity(String id1, String clazz_url, double score, boolean biDirectional,
+                                           boolean commit) {
         String query = createSolrCacheQuery_findEntityClazzSimilarity(id1, clazz_url);
         try {
             cacheSimilarity.cache(query, score, commit);
