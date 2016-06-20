@@ -6,6 +6,7 @@ package cz.cuni.mff.xrg.odalic.files;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,7 +93,7 @@ public final class MemoryOnlyFileService implements FileService {
   @Override
   public void replace(File file, InputStream fileInputStream) throws IOException {
     this.files.put(file.getId(), file);
-    this.data.put(file.getLocation(), IOUtils.toString(fileInputStream));
+    this.data.put(file.getLocation(), IOUtils.toString(fileInputStream, StandardCharsets.UTF_8));
   }
 
   /* (non-Javadoc)
@@ -115,5 +116,18 @@ public final class MemoryOnlyFileService implements FileService {
     }
     
     return file.getId().equals(id);
+  }
+
+  @Override
+  public String getDataById(String id) throws IOException {
+    File file = getById(id);
+    
+    String data = this.data.get(file.getLocation());
+    if (data == null) {
+      return IOUtils.toString(file.getLocation(), StandardCharsets.UTF_8);
+    } else {
+      return data;
+    }
+    
   }
 }

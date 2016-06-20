@@ -2,6 +2,8 @@ package cz.cuni.mff.xrg.odalic.api.rest.resources;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -11,8 +13,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -33,15 +37,17 @@ import cz.cuni.mff.xrg.odalic.files.FileService;
 @Path("/files")
 public class FileResource {
 
+  public static final String TEXT_CSV_MEDIA_TYPE = "text/csv";
+
   private FileService fileService;
 
   @Autowired
   public FileResource(FileService fileService) {
     Preconditions.checkNotNull(fileService);
-    
+
     this.fileService = fileService;
   }
-  
+
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public List<File> getFiles() {
@@ -60,12 +66,11 @@ public class FileResource {
   @Path("{id}")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response putFileById(
-      @PathParam("id") String id,
+  public Response putFileById(@PathParam("id") String id,
       @FormDataParam("input") InputStream fileInputStream,
       @FormDataParam("disposition") FormDataContentDisposition disposition,
       @FormDataParam("file") File file) throws IOException {
-            
+
     if (!fileService.hasId(file, id)) {
       return Response.status(Response.Status.NOT_ACCEPTABLE)
           .entity("The ID in the payload is not the same as the ID of resource.").build();
@@ -73,25 +78,24 @@ public class FileResource {
 
     if (!fileService.existsFileWithId(id)) {
       fileService.create(file, fileInputStream);
-      
+
       return Response.status(Response.Status.CREATED)
           .entity("A new file has been created AT THE STANDARD LOCATION.")
           .header("Location", "/files/" + String.valueOf(id)).build();
     } else {
       fileService.replace(file);
       return Response.status(Response.Status.OK)
-          .entity(
-              "The file you specified has been fully updated AT THE STANDARD LOCATION.")
+          .entity("The file you specified has been fully updated AT THE STANDARD LOCATION.")
           .header("Location", "/files/" + String.valueOf(id)).build();
     }
   }
-  
+
   @PUT
   @Path("{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response putFileById(@PathParam("id") String id, File file) {
-            
+
     if (!fileService.hasId(file, id)) {
       return Response.status(Response.Status.NOT_ACCEPTABLE)
           .entity("The ID in the payload is not the same as the ID of resource.").build();
@@ -118,5 +122,24 @@ public class FileResource {
     fileService.deleteById(id);
     return Response.status(Response.Status.NO_CONTENT)
         .entity("File successfully removed from database").build();
+  }
+
+  @GET
+  @Path("{id}")
+  @Produces(TEXT_CSV_MEDIA_TYPE)
+  public Response getDataById(@PathParam("id") String id) throws IOException {
+    String data = fileService.getDataById(id);
+    
+    StreamingOutput output = new StreamingOutput() {
+
+      @Override
+      public void write(OutputStream output) throws IOException, WebApplicationException {
+        output.write(data.getBytes(StandardCharsets.UTF_8));
+        output.flush();
+      }
+      
+    };
+     
+    return Response.status(Response.Status.OK).entity(output).type(TEXT_CSV_MEDIA_TYPE).build();
   }
 }

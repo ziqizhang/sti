@@ -23,4 +23,6 @@ public interface FileService {
   boolean existsFileWithId(String id);
 
   boolean hasId(File file, String id);
+
+  String getDataById(String id) throws IOException;
 }
