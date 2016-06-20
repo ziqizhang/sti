@@ -14,6 +14,16 @@ import java.util.regex.Pattern;
 public class StringUtils {
     private static Pattern ORDINAL_NUMBER_PATTERN = Pattern.compile("(?<=[0-9])(?:st|nd|rd|th)");
 
+    public static String splitCamelCase(String s) {
+        return s.replaceAll(
+                String.format("%s|%s|%s",
+                        "(?<=[A-Z])(?=[A-Z][a-z])",
+                        "(?<=[^A-Z])(?=[A-Z])",
+                        "(?<=[A-Za-z])(?=[^A-Za-z])"
+                ),
+                " "
+        );
+    }
     //convert a string to only alphenumeric and white chars. any other chars are removed
     public static String toAlphaNumericWhitechar(String value) {
         //keep only alpha-numeric characters

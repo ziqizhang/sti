@@ -132,8 +132,8 @@ public abstract class KBSearch {
      * @param commit
      * @throws KBSearchException
      */
-    public abstract void cacheEntityClazztSimilarity(String entity_id, String clazz_url, double score, boolean biDirectional,
-                                                     boolean commit) throws KBSearchException;
+    public abstract void cacheEntityClazzSimilarity(String entity_id, String clazz_url, double score, boolean biDirectional,
+                                                    boolean commit) throws KBSearchException;
 
     public abstract void commitChanges() throws KBSearchException;
     public abstract void closeConnection() throws KBSearchException;
