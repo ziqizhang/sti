@@ -1,5 +1,8 @@
 package uk.ac.shef.dcs.kbsearch.dbpedia;
 
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.rdf.model.Model;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 
@@ -15,6 +18,8 @@ public class DBpediaQueryProxy {
     }
 
     public List<Attribute> topicapi_getAttributesOfTopic(String clazzId) {
+        Query query = QueryFactory.create("test");
+
         return null;
     }
 
