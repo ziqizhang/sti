@@ -1,8 +1,10 @@
-package cz.cuni.mff.xrg.odalic.tasks.drafts;
+package cz.cuni.mff.xrg.odalic.api.rest.resources;
 
 import javax.ws.rs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import cz.cuni.mff.xrg.odalic.tasks.drafts.DraftService;
 
 @Component
 @Path("/tasks/{id}/draft")

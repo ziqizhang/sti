@@ -7,18 +7,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Message {
 
-  @XmlElement(name = "status")
+  @XmlElement
   int status;
 
-  @XmlElement(name = "text")
+  @XmlElement
   String text;
 
-  @XmlElement(name = "link")
+  @XmlElement
   String link;
 
-  @XmlElement(name = "developerText")
+  @XmlElement
   String developerText;
 
+  public Message() {}
+
+  public Message(int status) {
+    this.status = status;
+  }
+  
   public int getStatus() {
     return status;
   }
@@ -49,11 +55,5 @@ public class Message {
 
   public void setLink(String link) {
     this.link = link;
-  }
-
-  public Message() {}
-
-  public Message(int status) {
-    this.status = status;
   }
 }

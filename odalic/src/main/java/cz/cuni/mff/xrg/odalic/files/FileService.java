@@ -1,11 +1,15 @@
 package cz.cuni.mff.xrg.odalic.files;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public interface FileService {
 
   void create(File file);
 
+  void create(File file, InputStream fileInputStream) throws IOException;
+  
   void deleteById(String id);
 
   File getById(String id);
@@ -13,9 +17,10 @@ public interface FileService {
   List<File> getFiles();
 
   void replace(File file);
+  
+  void replace(File file, InputStream fileInputStream) throws IOException;
 
-  File verifyFileExistenceById(String id);
+  boolean existsFileWithId(String id);
 
   boolean hasId(File file, String id);
-
 }

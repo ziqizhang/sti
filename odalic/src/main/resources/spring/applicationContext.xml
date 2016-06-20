@@ -21,10 +21,10 @@
 	<bean id="executionService" class="cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionServiceImpl" />
 	<bean id="resultService" class="cz.cuni.mff.xrg.odalic.tasks.results.ResultServiceImpl" />
 	
-	<bean id="fileResource" class="cz.cuni.mff.xrg.odalic.files.FileResource" />
-	<bean id="taskResource" class="cz.cuni.mff.xrg.odalic.tasks.TaskResource" />
-	<bean id="configurationResource" class="cz.cuni.mff.xrg.odalic.tasks.configurations.ConfigurationResource" />
-	<bean id="draftResource" class="cz.cuni.mff.xrg.odalic.tasks.drafts.DraftResource" />
-	<bean id="executionResource" class="cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionResource" />
-	<bean id="resultResource" class="cz.cuni.mff.xrg.odalic.tasks.results.ResultResource" />
+	<bean id="fileResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.FileResource" />
+	<bean id="taskResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.TaskResource" />
+	<bean id="configurationResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.ConfigurationResource" />
+	<bean id="draftResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.DraftResource" />
+	<bean id="executionResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.ExecutionResource" />
+	<bean id="resultResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.ResultResource" />
 </beans>

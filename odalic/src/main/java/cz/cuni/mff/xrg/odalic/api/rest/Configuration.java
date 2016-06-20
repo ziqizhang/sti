@@ -11,12 +11,12 @@ import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 import cz.cuni.mff.xrg.odalic.api.rest.errors.ThrowableMapper;
 import cz.cuni.mff.xrg.odalic.api.rest.filters.CorsResponseFilter;
 import cz.cuni.mff.xrg.odalic.api.rest.filters.LoggingResponseFilter;
-import cz.cuni.mff.xrg.odalic.files.FileResource;
-import cz.cuni.mff.xrg.odalic.tasks.TaskResource;
-import cz.cuni.mff.xrg.odalic.tasks.configurations.ConfigurationResource;
-import cz.cuni.mff.xrg.odalic.tasks.drafts.DraftResource;
-import cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionResource;
-import cz.cuni.mff.xrg.odalic.tasks.results.ResultResource;
+import cz.cuni.mff.xrg.odalic.api.rest.resources.ConfigurationResource;
+import cz.cuni.mff.xrg.odalic.api.rest.resources.DraftResource;
+import cz.cuni.mff.xrg.odalic.api.rest.resources.ExecutionResource;
+import cz.cuni.mff.xrg.odalic.api.rest.resources.FileResource;
+import cz.cuni.mff.xrg.odalic.api.rest.resources.ResultResource;
+import cz.cuni.mff.xrg.odalic.api.rest.resources.TaskResource;
 
 public final class Configuration extends ResourceConfig {
 

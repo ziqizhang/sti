@@ -1,4 +1,4 @@
-package cz.cuni.mff.xrg.odalic.tasks;
+package cz.cuni.mff.xrg.odalic.api.rest.resources;
 
 import java.util.List;
 
@@ -14,6 +14,10 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import cz.cuni.mff.xrg.odalic.tasks.Task;
+import cz.cuni.mff.xrg.odalic.tasks.TaskDigest;
+import cz.cuni.mff.xrg.odalic.tasks.TaskService;
 
 /**
  * Task resource definition.
