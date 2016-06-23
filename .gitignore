@@ -54,8 +54,6 @@ failed.txt
 output/*
 *.log
 */target
-*.iml
-*/.idea
 cache/empty/class/data/*
 cache/empty/entity/data/*
 cache/empty/relation/data/*
@@ -117,3 +115,11 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+# =========================
+# IntelliJ IDEA
+# =========================
+
+*.iml
+*/.idea
+.Idea/*
