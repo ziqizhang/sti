@@ -18,6 +18,6 @@ public class DisambiguationAdapter
   @Override
   public Disambiguation unmarshal(DisambiguationValue value)
       throws Exception {
-    return new Disambiguation(value.getPosition(), value.getEntity());
+    return new Disambiguation(value.getPosition(), value.getAnnotation());
   }
 }

@@ -6,9 +6,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.google.common.base.Preconditions;
 
-import cz.cuni.mff.xrg.odalic.feedbacks.types.ColumnPosition;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.Entity;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.RowPosition;
+import cz.cuni.mff.xrg.odalic.positions.CellRelationPosition;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.CellRelationAnnotation;
 
 @XmlRootElement(name = "cellRelation")
 public final class CellRelation implements Serializable {
@@ -16,70 +15,41 @@ public final class CellRelation implements Serializable {
   private static final long serialVersionUID = -9087389821835847372L;
 
   @XmlElement
-  private final ColumnPosition subjectColumnPosition;
+  private final CellRelationPosition position;
   
   @XmlElement
-  private final ColumnPosition objectColumnPosition;
-  
-  @XmlElement
-  private final RowPosition rowPosition;
-  
-  @XmlElement
-  private final Entity entity;
+  private final CellRelationAnnotation annotation;
 
   @SuppressWarnings("unused")
   private CellRelation() {
-    subjectColumnPosition = null;
-    objectColumnPosition = null;
-    rowPosition = null;
-    entity = null;
+    position = null;
+    annotation = null;
   }
   
   /**
-   * @param subjectColumnPosition
-   * @param objectColumnPosition
-   * @param rowPosition
-   * @param entity
+   * @param position
+   * @param annotation
    */
-  public CellRelation(ColumnPosition subjectColumnPosition, ColumnPosition objectColumnPosition,
-      RowPosition rowPosition, Entity entity) {
-    Preconditions.checkNotNull(subjectColumnPosition);
-    Preconditions.checkNotNull(objectColumnPosition);
-    Preconditions.checkNotNull(rowPosition);
-    Preconditions.checkNotNull(entity);
+  public CellRelation(CellRelationPosition position, CellRelationAnnotation annotation) {
+    Preconditions.checkNotNull(position);
+    Preconditions.checkNotNull(annotation);
     
-    this.subjectColumnPosition = subjectColumnPosition;
-    this.objectColumnPosition = objectColumnPosition;
-    this.rowPosition = rowPosition;
-    this.entity = entity;
+    this.position = position;
+    this.annotation = annotation;
   }
 
   /**
-   * @return the subjectColumnPosition
+   * @return the position
    */
-  public ColumnPosition getSubjectColumnPosition() {
-    return subjectColumnPosition;
+  public CellRelationPosition getPosition() {
+    return position;
   }
 
   /**
-   * @return the objectColumnPosition
+   * @return the annotation
    */
-  public ColumnPosition getObjectColumnPosition() {
-    return objectColumnPosition;
-  }
-
-  /**
-   * @return the rowPosition
-   */
-  public RowPosition getRowPosition() {
-    return rowPosition;
-  }
-
-  /**
-   * @return the entity
-   */
-  public Entity getEntity() {
-    return entity;
+  public CellRelationAnnotation getAnnotation() {
+    return annotation;
   }
 
   /* (non-Javadoc)
@@ -89,12 +59,8 @@ public final class CellRelation implements Serializable {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((entity == null) ? 0 : entity.hashCode());
-    result =
-        prime * result + ((objectColumnPosition == null) ? 0 : objectColumnPosition.hashCode());
-    result = prime * result + ((rowPosition == null) ? 0 : rowPosition.hashCode());
-    result =
-        prime * result + ((subjectColumnPosition == null) ? 0 : subjectColumnPosition.hashCode());
+    result = prime * result + ((annotation == null) ? 0 : annotation.hashCode());
+    result = prime * result + ((position == null) ? 0 : position.hashCode());
     return result;
   }
 
@@ -113,32 +79,18 @@ public final class CellRelation implements Serializable {
       return false;
     }
     CellRelation other = (CellRelation) obj;
-    if (entity == null) {
-      if (other.entity != null) {
+    if (annotation == null) {
+      if (other.annotation != null) {
         return false;
       }
-    } else if (!entity.equals(other.entity)) {
+    } else if (!annotation.equals(other.annotation)) {
       return false;
     }
-    if (objectColumnPosition == null) {
-      if (other.objectColumnPosition != null) {
+    if (position == null) {
+      if (other.position != null) {
         return false;
       }
-    } else if (!objectColumnPosition.equals(other.objectColumnPosition)) {
-      return false;
-    }
-    if (rowPosition == null) {
-      if (other.rowPosition != null) {
-        return false;
-      }
-    } else if (!rowPosition.equals(other.rowPosition)) {
-      return false;
-    }
-    if (subjectColumnPosition == null) {
-      if (other.subjectColumnPosition != null) {
-        return false;
-      }
-    } else if (!subjectColumnPosition.equals(other.subjectColumnPosition)) {
+    } else if (!position.equals(other.position)) {
       return false;
     }
     return true;
@@ -149,8 +101,6 @@ public final class CellRelation implements Serializable {
    */
   @Override
   public String toString() {
-    return "CellRelation [subjectColumnPosition=" + subjectColumnPosition
-        + ", objectColumnPosition=" + objectColumnPosition + ", rowPosition=" + rowPosition
-        + ", entity=" + entity + "]";
+    return "CellRelation [position=" + position + ", annotation=" + annotation + "]";
   }
 }

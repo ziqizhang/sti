@@ -12,6 +12,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateDeserializer;
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateSerializer;
+import cz.cuni.mff.xrg.odalic.tasks.executions.State;
 import cz.cuni.mff.xrg.odalic.tasks.results.Result;
 
 

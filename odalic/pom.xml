@@ -103,6 +103,13 @@
 			<artifactId>spring-tx</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		
+		<!-- Universal Java Matrix Package -->
+		<dependency>
+		    <groupId>org.ujmp</groupId>
+		    <artifactId>ujmp-core</artifactId>
+		    <version>0.3.0</version>
+		</dependency>
 
 		<!-- Logging (uses slf4j API implemented by Logback) -->
 		<dependency>

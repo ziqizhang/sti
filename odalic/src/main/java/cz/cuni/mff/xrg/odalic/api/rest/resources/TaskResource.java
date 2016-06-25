@@ -48,7 +48,7 @@ public class TaskResource {
   @Path("/tasks/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response putTaskById(@PathParam("id") String id, Task task) {
+  public Response putTaskWithId(@PathParam("id") String id, Task task) {
     if (!taskService.hasId(task, id)) {
       return Response.status(Response.Status.NOT_ACCEPTABLE)
           .entity("The ID in the payload is not the same as the ID of resource.").build();

@@ -1,18 +1,16 @@
 package cz.cuni.mff.xrg.odalic.api.rest.values;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
 
 import cz.cuni.mff.xrg.odalic.feedbacks.Classification;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.ColumnPosition;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.Entity;
+import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.HeaderAnnotation;
 
 @XmlRootElement(name = "classification")
 public class ClassificationValue implements Serializable {
@@ -23,15 +21,13 @@ public class ClassificationValue implements Serializable {
   private ColumnPosition position;
 
   @XmlElement
-  private Set<Entity> entities;
+  private HeaderAnnotation annotation;
 
-  public ClassificationValue() {
-    entities = ImmutableSet.of();
-  }
+  public ClassificationValue() {}
   
   public ClassificationValue(Classification adaptee) {
     this.position = adaptee.getPosition();
-    this.entities = adaptee.getEntities();
+    this.annotation = adaptee.getAnnotation();
   }
 
   /**
@@ -52,19 +48,20 @@ public class ClassificationValue implements Serializable {
   }
 
   /**
-   * @return the entities
+   * @return the annotation
    */
-  public Set<Entity> getEntities() {
-    return entities;
+  @Nullable
+  public HeaderAnnotation getAnnotation() {
+    return annotation;
   }
 
   /**
-   * @param entities the entities to set
+   * @param annotation the annotation to set
    */
-  public void setEntities(Set<? extends Entity> entities) {
-    Preconditions.checkNotNull(entities);
+  public void setAnnotation(HeaderAnnotation annotation) {
+    Preconditions.checkNotNull(annotation);
     
-    this.entities = ImmutableSet.copyOf(entities);
+    this.annotation = annotation;
   }
 
   /* (non-Javadoc)
@@ -72,6 +69,6 @@ public class ClassificationValue implements Serializable {
    */
   @Override
   public String toString() {
-    return "ClassificationValue [position=" + position + ", entities=" + entities + "]";
+    return "ClassificationValue [position=" + position + ", annotation=" + annotation + "]";
   }
 }

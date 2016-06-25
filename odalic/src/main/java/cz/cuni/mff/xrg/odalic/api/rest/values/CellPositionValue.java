@@ -6,9 +6,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.common.base.Preconditions;
 
-import cz.cuni.mff.xrg.odalic.feedbacks.types.CellPosition;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.ColumnPosition;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.RowPosition;
+import cz.cuni.mff.xrg.odalic.positions.CellPosition;
+import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
+import cz.cuni.mff.xrg.odalic.positions.RowPosition;
 
 @XmlRootElement(name = "cellPosition")
 public class CellPositionValue {

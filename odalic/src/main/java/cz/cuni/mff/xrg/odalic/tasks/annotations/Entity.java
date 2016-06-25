@@ -1,4 +1,4 @@
-package cz.cuni.mff.xrg.odalic.feedbacks.types;
+package cz.cuni.mff.xrg.odalic.tasks.annotations;
 
 import java.io.Serializable;
 import java.net.URI;
@@ -14,7 +14,7 @@ import com.google.common.base.Preconditions;
  * @author Václav Brodec
  */
 @XmlRootElement(name = "entity")
-public final class Entity implements Serializable {
+public final class Entity implements Comparable<Entity>, Serializable {
 
   private static final long serialVersionUID = -3001706805535088480L;
 
@@ -97,4 +97,11 @@ public final class Entity implements Serializable {
   public String toString() {
     return "Annotation [resource=" + resource + ", label=" + label + "]";
   }
+
+  @Override
+  public int compareTo(Entity o) {
+    return resource.compareTo(o.resource);
+  }
+  
+  
 }

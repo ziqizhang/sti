@@ -39,8 +39,8 @@ public class FileResource {
 
   public static final String TEXT_CSV_MEDIA_TYPE = "text/csv";
 
-  private FileService fileService;
-
+  private final FileService fileService;
+  
   @Autowired
   public FileResource(FileService fileService) {
     Preconditions.checkNotNull(fileService);
@@ -127,7 +127,7 @@ public class FileResource {
   @GET
   @Path("{id}")
   @Produces(TEXT_CSV_MEDIA_TYPE)
-  public Response getDataById(@PathParam("id") String id) throws IOException {
+  public Response getCsvDataById(@PathParam("id") String id) throws IOException {
     String data = fileService.getDataById(id);
     
     StreamingOutput output = new StreamingOutput() {

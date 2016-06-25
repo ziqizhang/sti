@@ -128,6 +128,5 @@ public final class MemoryOnlyFileService implements FileService {
     } else {
       return data;
     }
-    
   }
 }

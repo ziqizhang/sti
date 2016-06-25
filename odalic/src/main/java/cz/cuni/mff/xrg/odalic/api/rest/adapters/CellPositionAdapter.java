@@ -3,7 +3,7 @@ package cz.cuni.mff.xrg.odalic.api.rest.adapters;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import cz.cuni.mff.xrg.odalic.api.rest.values.CellPositionValue;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.CellPosition;
+import cz.cuni.mff.xrg.odalic.positions.CellPosition;
 
 
 public class CellPositionAdapter

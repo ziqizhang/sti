@@ -1,34 +1,32 @@
-package cz.cuni.mff.xrg.odalic.feedbacks.types;
+package cz.cuni.mff.xrg.odalic.positions;
 
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import com.google.common.base.Preconditions;
 
-@XmlRootElement(name = "columnPosition")
-public final class ColumnPosition implements Serializable {
+@XmlRootElement(name = "rowPosition")
+public final class RowPosition implements Serializable {
 
-  private static final long serialVersionUID = -1179554576389130985L;
+  private static final long serialVersionUID = 3435359552551500579L;
   
   @XmlElement
   private final int index;
 
   @SuppressWarnings("unused")
-  private ColumnPosition() {
+  private RowPosition() {
     index = Integer.MIN_VALUE;
   }
   
   /**
    * @param index
    */
-  public ColumnPosition(int index) {
+  public RowPosition(int index) {
     Preconditions.checkArgument(index >= 0);
     
     this.index = index;
   }
-
 
   /**
    * @return the index
@@ -36,10 +34,8 @@ public final class ColumnPosition implements Serializable {
   public int getIndex() {
     return index;
   }
-  
-  /*
-   * (non-Javadoc)
-   * 
+
+  /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -50,9 +46,7 @@ public final class ColumnPosition implements Serializable {
     return result;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -66,16 +60,14 @@ public final class ColumnPosition implements Serializable {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    ColumnPosition other = (ColumnPosition) obj;
+    RowPosition other = (RowPosition) obj;
     if (index != other.index) {
       return false;
     }
     return true;
   }
-  
-  /*
-   * (non-Javadoc)
-   * 
+
+  /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override

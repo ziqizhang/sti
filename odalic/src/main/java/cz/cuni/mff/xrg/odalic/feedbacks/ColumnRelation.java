@@ -6,8 +6,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.google.common.base.Preconditions;
 
-import cz.cuni.mff.xrg.odalic.feedbacks.types.ColumnPosition;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.Entity;
+import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.ColumnRelationAnnotation;
 
 @XmlRootElement(name = "columnRelation")
 public final class ColumnRelation implements Serializable {
@@ -15,19 +15,15 @@ public final class ColumnRelation implements Serializable {
   private static final long serialVersionUID = -9087389821835847372L;
 
   @XmlElement
-  private final ColumnPosition subjectColumnPosition;
+  private final ColumnRelationPosition position;
 
   @XmlElement
-  private final ColumnPosition objectColumnPosition;
-
-  @XmlElement
-  private final Entity entity;
+  private final ColumnRelationAnnotation annotation;
 
   @SuppressWarnings("unused")
   private ColumnRelation() {
-    subjectColumnPosition = null;
-    objectColumnPosition = null;
-    entity = null;
+    position = null;
+    annotation = null;
   }
   
   /**
@@ -35,58 +31,41 @@ public final class ColumnRelation implements Serializable {
    * @param objectColumnPosition
    * @param entity
    */
-  public ColumnRelation(ColumnPosition subjectColumnPosition, ColumnPosition objectColumnPosition,
-      Entity entity) {
-    Preconditions.checkNotNull(subjectColumnPosition);
-    Preconditions.checkNotNull(objectColumnPosition);
-    Preconditions.checkNotNull(entity);
+  public ColumnRelation(ColumnRelationPosition position, ColumnRelationAnnotation annotation) {
+    Preconditions.checkNotNull(position);
+    Preconditions.checkNotNull(annotation);
 
-    this.subjectColumnPosition = subjectColumnPosition;
-    this.objectColumnPosition = objectColumnPosition;
-    this.entity = entity;
+    this.position = position;
+    this.annotation = annotation;
   }
 
   /**
-   * @return the subjectColumnPosition
+   * @return the position
    */
-  public ColumnPosition getSubjectColumnPosition() {
-    return subjectColumnPosition;
+  public ColumnRelationPosition getPosition() {
+    return position;
   }
 
   /**
-   * @return the objectColumnPosition
+   * @return the annotation
    */
-  public ColumnPosition getObjectColumnPosition() {
-    return objectColumnPosition;
+  public ColumnRelationAnnotation getAnnotation() {
+    return annotation;
   }
 
-  /**
-   * @return the entity
-   */
-  public Entity getEntity() {
-    return entity;
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((entity == null) ? 0 : entity.hashCode());
-    result =
-        prime * result + ((objectColumnPosition == null) ? 0 : objectColumnPosition.hashCode());
-    result =
-        prime * result + ((subjectColumnPosition == null) ? 0 : subjectColumnPosition.hashCode());
+    result = prime * result + ((annotation == null) ? 0 : annotation.hashCode());
+    result = prime * result + ((position == null) ? 0 : position.hashCode());
     return result;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -101,38 +80,28 @@ public final class ColumnRelation implements Serializable {
       return false;
     }
     ColumnRelation other = (ColumnRelation) obj;
-    if (entity == null) {
-      if (other.entity != null) {
+    if (annotation == null) {
+      if (other.annotation != null) {
         return false;
       }
-    } else if (!entity.equals(other.entity)) {
+    } else if (!annotation.equals(other.annotation)) {
       return false;
     }
-    if (objectColumnPosition == null) {
-      if (other.objectColumnPosition != null) {
+    if (position == null) {
+      if (other.position != null) {
         return false;
       }
-    } else if (!objectColumnPosition.equals(other.objectColumnPosition)) {
-      return false;
-    }
-    if (subjectColumnPosition == null) {
-      if (other.subjectColumnPosition != null) {
-        return false;
-      }
-    } else if (!subjectColumnPosition.equals(other.subjectColumnPosition)) {
+    } else if (!position.equals(other.position)) {
       return false;
     }
     return true;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    return "CellRelation [subjectColumnPosition=" + subjectColumnPosition
-        + ", objectColumnPosition=" + objectColumnPosition + ", entity=" + entity + "]";
+    return "ColumnRelation [position=" + position + ", annotation=" + annotation + "]";
   }
 }

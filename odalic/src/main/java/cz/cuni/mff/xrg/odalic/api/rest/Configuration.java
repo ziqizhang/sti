@@ -14,8 +14,10 @@ import cz.cuni.mff.xrg.odalic.api.rest.filters.LoggingResponseFilter;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.ConfigurationResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.DraftResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.ExecutionResource;
+import cz.cuni.mff.xrg.odalic.api.rest.resources.FeedbackResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.FileResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.ResultResource;
+import cz.cuni.mff.xrg.odalic.api.rest.resources.StateResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.TaskResource;
 
 public final class Configuration extends ResourceConfig {
@@ -25,9 +27,11 @@ public final class Configuration extends ResourceConfig {
     register(FileResource.class);
     register(TaskResource.class);
     register(ConfigurationResource.class);
+    register(FeedbackResource.class);
     register(DraftResource.class);
     register(ExecutionResource.class);
     register(ResultResource.class);
+    register(StateResource.class);
     
     // Filters registration
     register(RequestContextFilter.class);

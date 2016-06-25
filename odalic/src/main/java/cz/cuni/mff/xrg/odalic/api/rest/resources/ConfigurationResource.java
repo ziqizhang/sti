@@ -25,14 +25,14 @@ public class ConfigurationResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response putConfigurationForTaskId(@PathParam("id") String id, Configuration configuration) {
-    configurationService.setConfigurationForTaskId(id, configuration);
+    configurationService.setForTaskId(id, configuration);
     return Response.status(Response.Status.OK).entity("Configuration set.").build();
   }
   
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getConfigurationForTaskId(@PathParam("id") String taskId) {
-    Configuration configurationForTaskId = configurationService.getConfigurationForTaskId(taskId);
+    Configuration configurationForTaskId = configurationService.getForTaskId(taskId);
     
     return Response.status(Response.Status.OK).entity(configurationForTaskId).build();
   }

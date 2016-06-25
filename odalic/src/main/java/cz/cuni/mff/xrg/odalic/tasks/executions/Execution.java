@@ -1,50 +1,38 @@
 package cz.cuni.mff.xrg.odalic.tasks.executions;
 
 import java.io.Serializable;
-import java.net.URL;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import cz.cuni.mff.xrg.odalic.tasks.State;
-
-@XmlRootElement
+@XmlRootElement(name = "execution")
 public class Execution implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
   
-  @XmlElement(name = "state")
-  private State state;
+  @XmlElement
+  private final boolean draft;
   
-  @XmlElement(name = "draft")
-  private boolean draft;
+  public Execution() {
+    draft = false;
+  }
   
-  @XmlElement(name = "result")
-  private URL result;
-
-  public State getState() {
-    return state;
+  public Execution(boolean draft) {
+    this.draft = draft;
   }
 
-  public void setState(State state) {
-    this.state = state;
-  }
-
+  /**
+   * @return the draft
+   */
   public boolean isDraft() {
     return draft;
   }
 
-  public void setDraft(boolean draft) {
-    this.draft = draft;
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "Execution [draft=" + draft + "]";
   }
-
-  public URL getResult() {
-    return result;
-  }
-
-  public void setResult(URL result) {
-    this.result = result;
-  }
-  
-  public Execution() {}
 }

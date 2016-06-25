@@ -1,7 +1,6 @@
 package cz.cuni.mff.xrg.odalic.tasks;
 
 import java.io.Serializable;
-import java.net.URL;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -14,8 +13,8 @@ import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateDeserializer;
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateSerializer;
-import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
-import cz.cuni.mff.xrg.odalic.tasks.results.Result;
+import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
+import cz.cuni.mff.xrg.odalic.tasks.executions.Execution;
 
 @XmlRootElement(name = "task")
 public final class Task implements Serializable {
@@ -31,41 +30,53 @@ public final class Task implements Serializable {
   private final Date created;
 
   @XmlElement
-  private final URL input;
-
-  @XmlElement
-  private final Feedback feedback;
-  
-  @XmlElement
-  private final Result result;
+  private Configuration configuration;
 
   @SuppressWarnings("unused")
   private Task() {
     id = null;
     created = null;
-    input = null;
-    feedback = null;
-    result = null;
+    configuration = null;
   }
 
   /**
    * @param id
    * @param created
-   * @param input
-   * @param feedback
-   * @param result
+   * @param configuration   * 
    */
-  public Task(String id, Date created, URL input, Feedback feedback, Result result) {
+  public Task(String id, Date created, Configuration configuration) {
     Preconditions.checkNotNull(id);
-    Preconditions.checkNotNull(input);
-    Preconditions.checkNotNull(feedback);
-    Preconditions.checkNotNull(result);
+    Preconditions.checkNotNull(created);
+    Preconditions.checkNotNull(configuration);    
     
     this.id = id;
     this.created = created;
-    this.input = input;
-    this.feedback = feedback;
-    this.result = result;
+    this.configuration = configuration;
+  }
+  
+  public Task(String id, Date created, Configuration configuration, Execution execution) {
+    Preconditions.checkNotNull(id);
+    Preconditions.checkNotNull(created);
+    Preconditions.checkNotNull(configuration);
+    Preconditions.checkNotNull(execution);
+    
+    this.id = id;
+    this.created = created;
+    this.configuration = configuration;
+  }
+
+  /**
+   * @return the configuration
+   */
+  public Configuration getConfiguration() {
+    return configuration;
+  }
+
+  /**
+   * @param configuration the configuration to set
+   */
+  public void setConfiguration(Configuration configuration) {
+    this.configuration = configuration;
   }
 
   /**
@@ -82,27 +93,6 @@ public final class Task implements Serializable {
     return created;
   }
 
-  /**
-   * @return the input
-   */
-  public URL getInput() {
-    return input;
-  }
-
-  /**
-   * @return the feedback
-   */
-  public Feedback getFeedback() {
-    return feedback;
-  }
-
-  /**
-   * @return the result
-   */
-  public Result getResult() {
-    return result;
-  }
-
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -110,11 +100,7 @@ public final class Task implements Serializable {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((created == null) ? 0 : created.hashCode());
-    result = prime * result + ((feedback == null) ? 0 : feedback.hashCode());
     result = prime * result + ((id == null) ? 0 : id.hashCode());
-    result = prime * result + ((input == null) ? 0 : input.hashCode());
-    result = prime * result + ((this.result == null) ? 0 : this.result.hashCode());
     return result;
   }
 
@@ -133,39 +119,11 @@ public final class Task implements Serializable {
       return false;
     }
     Task other = (Task) obj;
-    if (created == null) {
-      if (other.created != null) {
-        return false;
-      }
-    } else if (!created.equals(other.created)) {
-      return false;
-    }
-    if (feedback == null) {
-      if (other.feedback != null) {
-        return false;
-      }
-    } else if (!feedback.equals(other.feedback)) {
-      return false;
-    }
     if (id == null) {
       if (other.id != null) {
         return false;
       }
     } else if (!id.equals(other.id)) {
-      return false;
-    }
-    if (input == null) {
-      if (other.input != null) {
-        return false;
-      }
-    } else if (!input.equals(other.input)) {
-      return false;
-    }
-    if (result == null) {
-      if (other.result != null) {
-        return false;
-      }
-    } else if (!result.equals(other.result)) {
       return false;
     }
     return true;
@@ -176,7 +134,7 @@ public final class Task implements Serializable {
    */
   @Override
   public String toString() {
-    return "Task [id=" + id + ", created=" + created + ", input=" + input + ", feedback=" + feedback
-        + ", result=" + result + "]";
+    return "Task [id=" + id + ", created=" + created + ", configuration=" + configuration
+        + "]";
   }
 }

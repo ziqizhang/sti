@@ -1,9 +1,19 @@
 package cz.cuni.mff.xrg.odalic.tasks.executions;
 
-public interface ExecutionService {
-  void scheduleExecutionForTaskId(String id, Execution execution);
-  
-  Execution getExecutionForTaskId(String id);
+import java.util.concurrent.ExecutionException;
 
-  void stopExecutionForTaskId(String id);
+import cz.cuni.mff.xrg.odalic.tasks.results.Result;
+
+public interface ExecutionService {
+  void submitForTaskId(String id);
+  
+  void cancelForTaskId(String id);
+  
+  boolean isDoneForTaskId(String id);
+  
+  boolean isCancelledForTaskId(String id);
+  
+  Result getResultForTaskId(String id) throws InterruptedException, ExecutionException;
+
+  boolean hasBeenScheduledForTaskId(String id);
 }

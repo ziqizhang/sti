@@ -18,6 +18,6 @@ public class ClassificationAdapter
   @Override
   public Classification unmarshal(ClassificationValue value)
       throws Exception {
-    return new Classification(value.getPosition(), value.getEntities());
+    return new Classification(value.getPosition(), value.getAnnotation());
   }
 }

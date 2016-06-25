@@ -14,12 +14,16 @@
 
 	<context:component-scan base-package="cz.cuni.mff.xrg.odalic.api.*" />
 
+	<bean id="inputParser" class="cz.cuni.mff.xrg.odalic.feedbacks.input.DefaultCsvInputParser" />
+	
+	<bean id="annotationToResultAdapter" class="cz.cuni.mff.xrg.odalic.tasks.results.DefaultAnnotationToResultAdapter" />
+
 	<bean id="fileService" class="cz.cuni.mff.xrg.odalic.files.MemoryOnlyFileService" />
-	<bean id="taskService" class="cz.cuni.mff.xrg.odalic.tasks.TaskServiceImpl" />
-	<bean id="configurationService" class="cz.cuni.mff.xrg.odalic.tasks.configurations.ConfigurationServiceImpl" />
+	<bean id="configurationService" class="cz.cuni.mff.xrg.odalic.tasks.configurations.MemoryOnlyConfigurationService" />
 	<bean id="draftService" class="cz.cuni.mff.xrg.odalic.tasks.drafts.DraftServiceImpl" />
-	<bean id="executionService" class="cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionServiceImpl" />
-	<bean id="resultService" class="cz.cuni.mff.xrg.odalic.tasks.results.ResultServiceImpl" />
+	<bean id="executionService" class="cz.cuni.mff.xrg.odalic.tasks.executions.FutureBasedExecutionService" />
+	<bean id="feedbackService" class="cz.cuni.mff.xrg.odalic.tasks.feedbacks.MemoryOnlyFeedbackService" />
+	<bean id="taskService" class="cz.cuni.mff.xrg.odalic.tasks.TaskServiceImpl" />
 	
 	<bean id="fileResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.FileResource" />
 	<bean id="taskResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.TaskResource" />

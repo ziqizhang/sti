@@ -15,7 +15,6 @@ public class ColumnRelationAdapter extends XmlAdapter<ColumnRelationValue, Colum
 
   @Override
   public ColumnRelation unmarshal(ColumnRelationValue value) throws Exception {
-    return new ColumnRelation(value.getSubjectColumnPosition(), value.getObjectColumnPosition(),
-        value.getEntity());
+    return new ColumnRelation(value.getPosition(), value.getAnnotation());
   }
 }

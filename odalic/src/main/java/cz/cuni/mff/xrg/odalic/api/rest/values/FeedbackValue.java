@@ -17,7 +17,7 @@ import cz.cuni.mff.xrg.odalic.feedbacks.ColumnIgnore;
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnRelation;
 import cz.cuni.mff.xrg.odalic.feedbacks.Disambiguation;
 import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.ColumnPosition;
+import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 
 @XmlRootElement(name = "feedback")
 public class FeedbackValue implements Serializable {

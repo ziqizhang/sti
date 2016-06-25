@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.feedbacks.Ambiguity;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.CellPosition;
+import cz.cuni.mff.xrg.odalic.positions.CellPosition;
 
 @XmlRootElement(name = "ambiguity")
 public final class AmbiguityValue implements Serializable {

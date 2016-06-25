@@ -3,7 +3,7 @@ package cz.cuni.mff.xrg.odalic.api.rest.values;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import cz.cuni.mff.xrg.odalic.feedbacks.types.RowPosition;
+import cz.cuni.mff.xrg.odalic.positions.RowPosition;
 
 @XmlRootElement(name = "rowPosition")
 public class RowPositionValue {

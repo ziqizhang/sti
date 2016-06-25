@@ -18,6 +18,6 @@ public class CellRelationAdapter
   @Override
   public CellRelation unmarshal(CellRelationValue value)
       throws Exception {
-    return new CellRelation(value.getSubjectColumnPosition(), value.getObjectColumnPosition(), value.getRowPosition(), value.getEntity());
+    return new CellRelation(value.getPosition(), value.getAnnotation());
   }
 }

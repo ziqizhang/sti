@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.feedbacks.Disambiguation;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.CellPosition;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.Entity;
+import cz.cuni.mff.xrg.odalic.positions.CellPosition;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.CellAnnotation;
 
 @XmlRootElement(name = "disambiguation")
 public final class DisambiguationValue implements Serializable {
@@ -21,13 +21,13 @@ public final class DisambiguationValue implements Serializable {
   private CellPosition position;
   
   @XmlElement
-  private Entity entity;
+  private CellAnnotation annotation;
   
   public DisambiguationValue() {}
   
   public DisambiguationValue(Disambiguation adaptee) {
     this.position = adaptee.getPosition();
-    this.entity = adaptee.getEntity();
+    this.annotation = adaptee.getAnnotation();
   }
 
   /**
@@ -48,20 +48,20 @@ public final class DisambiguationValue implements Serializable {
   }
 
   /**
-   * @return the entity
+   * @return the annotation
    */
   @Nullable
-  public Entity getEntity() {
-    return entity;
+  public CellAnnotation getAnnotation() {
+    return annotation;
   }
 
   /**
-   * @param entity the entity to set
+   * @param annotation the annotation to set
    */
-  public void setEntity(Entity entity) {
-    Preconditions.checkNotNull(entity);
+  public void setAnnotation(CellAnnotation annotation) {
+    Preconditions.checkNotNull(annotation);
     
-    this.entity = entity;
+    this.annotation = annotation;
   }
 
   /* (non-Javadoc)
@@ -69,6 +69,6 @@ public final class DisambiguationValue implements Serializable {
    */
   @Override
   public String toString() {
-    return "DisambiguationValue [position=" + position + ", entity=" + entity + "]";
+    return "DisambiguationValue [position=" + position + ", annotation=" + annotation + "]";
   }
 }

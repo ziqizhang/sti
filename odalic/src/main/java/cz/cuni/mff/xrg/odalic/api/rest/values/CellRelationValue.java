@@ -9,9 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.feedbacks.CellRelation;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.ColumnPosition;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.Entity;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.RowPosition;
+import cz.cuni.mff.xrg.odalic.positions.CellRelationPosition;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.CellRelationAnnotation;
 
 @XmlRootElement(name = "cellRelation")
 public final class CellRelationValue implements Serializable {
@@ -19,90 +18,50 @@ public final class CellRelationValue implements Serializable {
   private static final long serialVersionUID = -9087389821835847372L;
 
   @XmlElement
-  private ColumnPosition subjectColumnPosition;
+  private CellRelationPosition position;
   
   @XmlElement
-  private ColumnPosition objectColumnPosition;
-  
-  @XmlElement
-  private RowPosition rowPosition;
-  
-  @XmlElement
-  private Entity entity;
+  private CellRelationAnnotation annotation;
   
   public CellRelationValue() {}
   
   public CellRelationValue(CellRelation adaptee) {
-    this.subjectColumnPosition = adaptee.getSubjectColumnPosition();
-    this.objectColumnPosition = adaptee.getObjectColumnPosition();
-    this.rowPosition = adaptee.getRowPosition();
-    this.entity = adaptee.getEntity();
+    this.position = adaptee.getPosition();
+    this.annotation = adaptee.getAnnotation();
   }
 
   /**
-   * @return the subjectColumnPosition
+   * @return the position
    */
   @Nullable
-  public ColumnPosition getSubjectColumnPosition() {
-    return subjectColumnPosition;
+  public CellRelationPosition getPosition() {
+    return position;
   }
 
   /**
-   * @param subjectColumnPosition the subjectColumnPosition to set
+   * @param position the position to set
    */
-  public void setSubjectColumnPosition(@Nullable ColumnPosition subjectColumnPosition) {
-    this.subjectColumnPosition = subjectColumnPosition;
-  }
-
-  /**
-   * @return the objectColumnPosition
-   */
-  @Nullable
-  public ColumnPosition getObjectColumnPosition() {
-    return objectColumnPosition;
-  }
-
-  /**
-   * @param objectColumnPosition the objectColumnPosition to set
-   */
-  public void setObjectColumnPosition(ColumnPosition objectColumnPosition) {
-    Preconditions.checkNotNull(objectColumnPosition);
+  public void setPosition(CellRelationPosition position) {
+    Preconditions.checkNotNull(position);
     
-    this.objectColumnPosition = objectColumnPosition;
+    this.position = position;
   }
 
   /**
-   * @return the rowPosition
+   * @return the annotation
    */
   @Nullable
-  public RowPosition getRowPosition() {
-    return rowPosition;
+  public CellRelationAnnotation getAnnotation() {
+    return annotation;
   }
 
   /**
-   * @param rowPosition the rowPosition to set
+   * @param annotation the annotation to set
    */
-  public void setRowPosition(RowPosition rowPosition) {
-    Preconditions.checkNotNull(rowPosition);
+  public void setAnnotation(CellRelationAnnotation annotation) {
+    Preconditions.checkNotNull(annotation);
     
-    this.rowPosition = rowPosition;
-  }
-
-  /**
-   * @return the entity
-   */
-  @Nullable
-  public Entity getEntity() {
-    return entity;
-  }
-
-  /**
-   * @param entity the entity to set
-   */
-  public void setEntity(Entity entity) {
-    Preconditions.checkNotNull(entity);
-    
-    this.entity = entity;
+    this.annotation = annotation;
   }
 
   /* (non-Javadoc)
@@ -110,8 +69,6 @@ public final class CellRelationValue implements Serializable {
    */
   @Override
   public String toString() {
-    return "CellRelationValue [subjectColumnPosition=" + subjectColumnPosition
-        + ", objectColumnPosition=" + objectColumnPosition + ", rowPosition="
-        + rowPosition + ", entity=" + entity + "]";
+    return "CellRelationValue [position=" + position + ", annotation=" + annotation + "]";
   }
 }

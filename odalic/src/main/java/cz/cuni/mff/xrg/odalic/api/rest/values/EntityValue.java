@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.common.base.Preconditions;
 
-import cz.cuni.mff.xrg.odalic.feedbacks.types.Entity;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 
 @XmlRootElement(name = "entity")
 public class EntityValue implements Serializable {

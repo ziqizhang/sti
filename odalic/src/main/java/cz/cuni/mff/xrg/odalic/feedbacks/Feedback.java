@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 
-import cz.cuni.mff.xrg.odalic.feedbacks.types.ColumnPosition;
+import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 
 @XmlRootElement(name = "feedback")
 public final class Feedback implements Serializable {
@@ -23,10 +23,16 @@ public final class Feedback implements Serializable {
   private final Set<ColumnIgnore> columnIgnores;
   
   @XmlElement
+  private final Set<Classification> classifications;
+  
+  @XmlElement
   private final Set<ColumnAmbiguity> columnAmbiguities;
   
   @XmlElement
-  private final Set<Classification> classifications;
+  private final Set<Ambiguity> ambiguities;
+  
+  @XmlElement
+  private final Set<Disambiguation> disambiguations;
   
   @XmlElement
   private final Set<CellRelation> cellRelations;
@@ -34,14 +40,8 @@ public final class Feedback implements Serializable {
   @XmlElement
   private final Set<ColumnRelation> columnRelations;
   
-  @XmlElement
-  private final Set<Disambiguation> disambiguations;
-  
-  @XmlElement
-  private final Set<Ambiguity> ambiguities;
 
-  @SuppressWarnings("unused")
-  private Feedback() {
+  public Feedback() {
     this.subjectColumnPosition = null;
     this.columnIgnores = ImmutableSet.of();
     this.columnAmbiguities = ImmutableSet.of();

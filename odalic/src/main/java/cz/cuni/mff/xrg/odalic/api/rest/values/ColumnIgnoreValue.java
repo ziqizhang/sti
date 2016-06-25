@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnIgnore;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.ColumnPosition;
+import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 
 @XmlRootElement(name = "columnIgnore")
 public final class ColumnIgnoreValue implements Serializable {

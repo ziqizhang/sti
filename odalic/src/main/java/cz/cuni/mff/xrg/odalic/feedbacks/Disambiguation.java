@@ -6,8 +6,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.google.common.base.Preconditions;
 
-import cz.cuni.mff.xrg.odalic.feedbacks.types.CellPosition;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.Entity;
+import cz.cuni.mff.xrg.odalic.positions.CellPosition;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.CellAnnotation;
 
 @XmlRootElement(name = "disambiguation")
 public final class Disambiguation implements Serializable {
@@ -18,23 +18,24 @@ public final class Disambiguation implements Serializable {
   private final CellPosition position;
   
   @XmlElement
-  private final Entity entity;
+  private final CellAnnotation annotation;
 
-  public Disambiguation() {
+  @SuppressWarnings("unused")
+  private Disambiguation() {
     position = null;
-    entity = null;
+    annotation = null;
   }
   
   /**
    * @param position
-   * @param entity
+   * @param annotation
    */
-  public Disambiguation(CellPosition position, Entity entity) {
+  public Disambiguation(CellPosition position, CellAnnotation annotation) {
     Preconditions.checkNotNull(position);
-    Preconditions.checkNotNull(entity);
+    Preconditions.checkNotNull(annotation);
         
     this.position = position;
-    this.entity = entity;
+    this.annotation = annotation;
   }
 
   /**
@@ -45,10 +46,10 @@ public final class Disambiguation implements Serializable {
   }
 
   /**
-   * @return the entity
+   * @return the annotation
    */
-  public Entity getEntity() {
-    return entity;
+  public CellAnnotation getAnnotation() {
+    return annotation;
   }
 
   /* (non-Javadoc)
@@ -58,7 +59,7 @@ public final class Disambiguation implements Serializable {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((entity == null) ? 0 : entity.hashCode());
+    result = prime * result + ((annotation == null) ? 0 : annotation.hashCode());
     result = prime * result + ((position == null) ? 0 : position.hashCode());
     return result;
   }
@@ -78,11 +79,11 @@ public final class Disambiguation implements Serializable {
       return false;
     }
     Disambiguation other = (Disambiguation) obj;
-    if (entity == null) {
-      if (other.entity != null) {
+    if (annotation == null) {
+      if (other.annotation != null) {
         return false;
       }
-    } else if (!entity.equals(other.entity)) {
+    } else if (!annotation.equals(other.annotation)) {
       return false;
     }
     if (position == null) {
@@ -100,6 +101,6 @@ public final class Disambiguation implements Serializable {
    */
   @Override
   public String toString() {
-    return "Disambiguation [position=" + position + ", entity=" + entity + "]";
+    return "Disambiguation [position=" + position + ", annotation=" + annotation + "]";
   }
 }

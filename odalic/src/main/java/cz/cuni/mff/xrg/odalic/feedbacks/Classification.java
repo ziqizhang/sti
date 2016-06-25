@@ -1,15 +1,12 @@
 package cz.cuni.mff.xrg.odalic.feedbacks;
 
 import java.io.Serializable;
-import java.util.Set;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
 
-import cz.cuni.mff.xrg.odalic.feedbacks.types.ColumnPosition;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.Entity;
+import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.HeaderAnnotation;
 
 @XmlRootElement(name = "classification")
 public final class Classification implements Serializable {
@@ -20,20 +17,20 @@ public final class Classification implements Serializable {
   private final ColumnPosition position;
 
   @XmlElement
-  private final Set<Entity> entities;
+  private final HeaderAnnotation annotation;
 
   @SuppressWarnings("unused")
   private Classification() {
     position = null;
-    entities = ImmutableSet.of();
+    annotation = null;
   }
   
-  public Classification(ColumnPosition position, Set<? extends Entity> entity) {
+  public Classification(ColumnPosition position, HeaderAnnotation annotation) {
     Preconditions.checkNotNull(position);
-    Preconditions.checkNotNull(entity);
+    Preconditions.checkNotNull(annotation);
 
     this.position = position;
-    this.entities = ImmutableSet.copyOf(entity);
+    this.annotation = annotation;
   }
 
   /**
@@ -44,10 +41,10 @@ public final class Classification implements Serializable {
   }
 
   /**
-   * @return the entity
+   * @return the annotation
    */
-  public Set<Entity> getEntities() {
-    return ImmutableSet.copyOf(entities);
+  public HeaderAnnotation getAnnotation() {
+    return annotation;
   }
 
   /* (non-Javadoc)
@@ -57,7 +54,7 @@ public final class Classification implements Serializable {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((entities == null) ? 0 : entities.hashCode());
+    result = prime * result + ((annotation == null) ? 0 : annotation.hashCode());
     result = prime * result + ((position == null) ? 0 : position.hashCode());
     return result;
   }
@@ -77,11 +74,11 @@ public final class Classification implements Serializable {
       return false;
     }
     Classification other = (Classification) obj;
-    if (entities == null) {
-      if (other.entities != null) {
+    if (annotation == null) {
+      if (other.annotation != null) {
         return false;
       }
-    } else if (!entities.equals(other.entities)) {
+    } else if (!annotation.equals(other.annotation)) {
       return false;
     }
     if (position == null) {
@@ -99,6 +96,6 @@ public final class Classification implements Serializable {
    */
   @Override
   public String toString() {
-    return "Classification [position=" + position + ", entities=" + entities + "]";
+    return "Classification [position=" + position + ", annotation=" + annotation + "]";
   }
 }

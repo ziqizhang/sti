@@ -3,7 +3,7 @@ package cz.cuni.mff.xrg.odalic.api.rest.adapters;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import cz.cuni.mff.xrg.odalic.api.rest.values.EntityValue;
-import cz.cuni.mff.xrg.odalic.feedbacks.types.Entity;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 
 
 public class EntityAdapter
