@@ -41,7 +41,7 @@ public final class FutureBasedExecutionService implements ExecutionService {
   private final Map<Task, Future<Result>> tasksToResults = new HashMap<>();
   
   // TODO: Initialize, but verify whether per submit instantiation is not necessary. Provide as injected bean then.
-  private final SemanticTableInterpreter semanticTableInterpreter = null;
+  private final SemanticTableInterpreter semanticTableInterpreter = InterpreterFactory.getInterpreter();
   
   //TODO: This dependency should be made explicit and more reliable.
   private final TableXtractorCSV tableExtractor = new TableXtractorCSV();
@@ -50,7 +50,8 @@ public final class FutureBasedExecutionService implements ExecutionService {
   public FutureBasedExecutionService(TaskService taskService,
       AnnotationToResultAdapter annotationToResultAdapter) {
     Preconditions.checkNotNull(taskService);
-    //TODO: When set, uncomment this: Preconditions.checkNotNull(semanticTableInterpreter);
+    
+    Preconditions.checkNotNull(semanticTableInterpreter);
     
     this.taskService = taskService;
     this.annotationResultAdapter = annotationToResultAdapter;
