@@ -23,8 +23,8 @@ public class ResultResource {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getResult(@PathParam("id") String taskId) throws InterruptedException, ExecutionException {
-    if (!executionService.isDoneForTaskId(taskId) || executionService.isCancelledForTaskId(taskId)) {
-      return Response.status(Response.Status.NO_CONTENT).entity("The result is not ready.")
+    if (executionService.isCancelledForTaskId(taskId)) {
+      return Response.status(Response.Status.NOT_FOUND).entity("The execution was cancelled.")
           .build();
     }
 

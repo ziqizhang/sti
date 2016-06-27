@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
-import cz.cuni.mff.xrg.odalic.files.File;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
 
 @XmlRootElement(name = "configuration")
@@ -18,7 +17,7 @@ public class ConfigurationValue implements Serializable {
   private static final long serialVersionUID = -6359038623760039155L;
   
   @XmlElement(name = "input")
-  private File input;
+  private String input;
 
   @XmlElement(name = "feedback")
   private Feedback feedback;
@@ -29,7 +28,7 @@ public class ConfigurationValue implements Serializable {
   }
 
   public ConfigurationValue(Configuration adaptee) {
-    input = adaptee.getInput();
+    input = adaptee.getInput().getId();
     feedback = adaptee.getFeedback();
   }
 
@@ -37,14 +36,14 @@ public class ConfigurationValue implements Serializable {
    * @return the input
    */
   @Nullable
-  public File getInput() {
+  public String getInput() {
     return input;
   }
 
   /**
    * @param input the input to set
    */
-  public void setInput(File input) {
+  public void setInput(String input) {
     Preconditions.checkNotNull(input);
     
     this.input = input;
