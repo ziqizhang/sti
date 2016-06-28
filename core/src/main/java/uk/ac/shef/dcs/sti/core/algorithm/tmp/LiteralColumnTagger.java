@@ -8,4 +8,6 @@ import uk.ac.shef.dcs.sti.core.model.Table;
  */
 public interface LiteralColumnTagger {
     void annotate(Table table, TAnnotation annotations, Integer... enColumnIndexes) throws KBSearchException;
+    
+    void setIgnoreColumns(int... ignoreCols);
 }

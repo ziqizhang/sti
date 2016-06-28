@@ -44,6 +44,10 @@ public abstract class SemanticTableInterpreter {
     protected Set<Integer> getIgnoreColumns(){
         return ignoreCols;
     }
+    
+    public void setIgnoreColumns(Set<Integer> ignoreCols) {
+      this.ignoreCols = ignoreCols;
+    }
 
     protected Set<Integer> getMustdoColumns() {return mustdoColumns;}
 }
