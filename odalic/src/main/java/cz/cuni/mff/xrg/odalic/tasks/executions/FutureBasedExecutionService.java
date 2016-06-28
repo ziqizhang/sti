@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.feedbacks.ColumnIgnore;
 import cz.cuni.mff.xrg.odalic.files.File;
 import cz.cuni.mff.xrg.odalic.tasks.Task;
 import cz.cuni.mff.xrg.odalic.tasks.TaskService;
@@ -72,6 +74,15 @@ public final class FutureBasedExecutionService implements ExecutionService {
     final File file = configuration.getInput();
     final URL fileLocation = file.getLocation();
     final java.io.File inputFile = urlToFile(fileLocation);
+    
+    final Set<ColumnIgnore> columnIgnores = configuration.getFeedback().getColumnIgnores();
+    Integer[] ignoreCols = new Integer[columnIgnores.size()];
+    int i = 0;
+    for (ColumnIgnore col : columnIgnores) {
+      ignoreCols[i] = col.getPosition().getIndex();
+      i++;
+    }
+    InterpreterFactory.setIgnoreColumnsForInterpreter(ignoreCols);
     
     final Callable<Result> execution = () -> {
       final List<Table> tables = tableExtractor.extract(inputFile, inputFile.getName());

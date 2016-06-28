@@ -21,9 +21,10 @@ public class InterpreterExecutionBatch {
     
     SemanticTableInterpreter semanticTableInterpreter = InterpreterFactory.getInterpreter();
     Preconditions.checkNotNull(semanticTableInterpreter);
+    InterpreterFactory.setIgnoreColumnsForInterpreter(new Integer[]{});
     
-    //TODO: Write path of your own folder containing the input file
-    List<File> all = Arrays.asList(new File("C:\\Users\\Acer\\data-odalic\\sti-data\\Limaye200\\my").listFiles());
+    //TODO: Write your own path to the folder containing (only) the input file.
+    List<File> all = Arrays.asList(new File("/Users/-/work/sti/sti_data/Limaye200").listFiles());
     File inputFile = all.get(0);
     
     // code for extraction from CSV
