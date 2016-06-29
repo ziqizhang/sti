@@ -19,9 +19,10 @@ public class InterpreterExecutionBatch {
   public static void main(String[] args) {
     // for test of execution of semantic table interpreter from Odalic project
     
-    SemanticTableInterpreter semanticTableInterpreter = InterpreterFactory.getInterpreter();
+    SemanticTableInterpreterFactory factory = new TableMinerPlusFactory();
+    SemanticTableInterpreter semanticTableInterpreter = factory.getInterpreter();
     Preconditions.checkNotNull(semanticTableInterpreter);
-    InterpreterFactory.setIgnoreColumnsForInterpreter(new Integer[]{});
+    factory.setIgnoreColumnsForInterpreter(new Integer[]{});
     
     //TODO: Write your own path to the folder containing (only) the input file.
     List<File> all = Arrays.asList(new File("/Users/-/work/sti/sti_data/Limaye200").listFiles());
@@ -49,13 +50,13 @@ public class InterpreterExecutionBatch {
     try {
       annotationResult = semanticTableInterpreter.start(tables.get(0), true);
       
-      System.out.println("Výsledek - OK:");
+      System.out.println("Vï¿½sledek - OK:");
       System.out.println(annotationResult.toString());
     } catch (STIException e) {
-      System.out.println("Výsledek - Chyba:");
+      System.out.println("Vï¿½sledek - Chyba:");
       e.printStackTrace();
     }
-    System.out.println("Konec výsledku.");
+    System.out.println("Konec vï¿½sledku.");
   }
 
 }

@@ -14,7 +14,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
@@ -39,67 +38,62 @@ public final class FutureBasedExecutionService implements ExecutionService {
 
   private final TaskService taskService;
   private final AnnotationToResultAdapter annotationResultAdapter;
+  private final SemanticTableInterpreterFactory semanticTableInterpreterFactory;
+  private final TableXtractorCSV tableExtractor;
   private final ExecutorService executorService = Executors.newFixedThreadPool(1);
   private final Map<Task, Future<Result>> tasksToResults = new HashMap<>();
-  
-  // TODO: Initialize, but verify whether per submit instantiation is not necessary. Provide as injected bean then.
-  private final SemanticTableInterpreter semanticTableInterpreter = InterpreterFactory.getInterpreter();
-  
-  //TODO: This dependency should be made explicit and more reliable.
-  private final TableXtractorCSV tableExtractor = new TableXtractorCSV();
-  
+
   @Autowired
   public FutureBasedExecutionService(TaskService taskService,
-      AnnotationToResultAdapter annotationToResultAdapter) {
+      AnnotationToResultAdapter annotationToResultAdapter,
+      SemanticTableInterpreterFactory semanticTableInterpreterFactory, TableXtractorCSV tableExtractor) {
     Preconditions.checkNotNull(taskService);
-    
-    Preconditions.checkNotNull(semanticTableInterpreter);
-    
+    Preconditions.checkNotNull(annotationToResultAdapter);
+    Preconditions.checkNotNull(semanticTableInterpreterFactory);
+    Preconditions.checkNotNull(tableExtractor);
+
     this.taskService = taskService;
     this.annotationResultAdapter = annotationToResultAdapter;
+    this.semanticTableInterpreterFactory = semanticTableInterpreterFactory;
+    this.tableExtractor = tableExtractor;
   }
-  
+
   @Override
   public void submitForTaskId(String id) {
     final Task task = taskService.getById(id);
-    
+
     final Future<Result> resultFuture = tasksToResults.get(task);
     if (resultFuture != null) {
       if (!resultFuture.isDone()) {
         throw new IllegalStateException();
       }
     }
-    
+
     final Configuration configuration = task.getConfiguration();
     final File file = configuration.getInput();
     final URL fileLocation = file.getLocation();
     final java.io.File inputFile = urlToFile(fileLocation);
-    
+
     final Set<ColumnIgnore> columnIgnores = configuration.getFeedback().getColumnIgnores();
-    Integer[] ignoreCols = new Integer[columnIgnores.size()];
-    int i = 0;
-    for (ColumnIgnore col : columnIgnores) {
-      ignoreCols[i] = col.getPosition().getIndex();
-      i++;
-    }
-    InterpreterFactory.setIgnoreColumnsForInterpreter(ignoreCols);
-    
+    final Integer[] columnIgnoresArray =
+        columnIgnores.stream().map(e -> e.getPosition().getIndex()).toArray(Integer[]::new);
+
     final Callable<Result> execution = () -> {
       final List<Table> tables = tableExtractor.extract(inputFile, inputFile.getName());
-      
       if (tables.isEmpty()) {
         throw new IllegalArgumentException();
       }
-      
-      final TAnnotation annotationResult = semanticTableInterpreter.start(tables.get(0), true);
-      
-      final Result result = annotationResultAdapter.toResult(annotationResult); 
-      
+
+      final SemanticTableInterpreter interpreter = semanticTableInterpreterFactory.getInterpreter();
+      semanticTableInterpreterFactory.setIgnoreColumnsForInterpreter(columnIgnoresArray);
+
+      final TAnnotation annotationResult = interpreter.start(tables.get(0), true);
+      final Result result = annotationResultAdapter.toResult(annotationResult);
+
       return result;
     };
-    
-    final Future<Result> future = executorService.submit(execution);
 
+    final Future<Result> future = executorService.submit(execution);
     tasksToResults.put(task, future);
   }
 
@@ -117,7 +111,7 @@ public final class FutureBasedExecutionService implements ExecutionService {
   public Result getResultForTaskId(String id) throws InterruptedException, ExecutionException {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
-    
+
     return resultFuture.get();
   }
 
@@ -125,7 +119,7 @@ public final class FutureBasedExecutionService implements ExecutionService {
   public void cancelForTaskId(String id) {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
-    
+
     resultFuture.cancel(true);
   }
 
@@ -133,23 +127,23 @@ public final class FutureBasedExecutionService implements ExecutionService {
   public boolean isDoneForTaskId(String id) {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
-    
+
     return resultFuture.isDone();
   }
-  
+
   @Override
   public boolean isCancelledForTaskId(String id) {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
-    
+
     return resultFuture.isCancelled();
   }
-  
+
   @Override
   public boolean hasBeenScheduledForTaskId(String id) {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
-    
+
     return resultFuture != null;
   }
 }

@@ -17,6 +17,7 @@ import org.apache.solr.core.CoreContainer;
 import org.simmetrics.metrics.StringMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
@@ -37,48 +38,52 @@ import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerIm
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 
-public class InterpreterFactory {
+public final class TableMinerPlusFactory implements SemanticTableInterpreterFactory {
 
-  private static final Logger LOG = LoggerFactory.getLogger(InterpreterFactory.class);
-
-  //TODO: Write your own path to the property file.
-  protected static final String PROPERTYFILE = "/Users/-/work/sti/sti.properties";
-
-  protected static SemanticTableInterpreter interpreter;
-
-  protected static KBSearch kbSearch;
-  protected static LiteralColumnTagger literalColumnTagger;
-
-  protected static final String PROPERTY_HOME = "sti.home";
-  protected static final String PROPERTY_WEBSEARCH_PROP_FILE = "sti.websearch.properties";
-  protected static final String PROPERTY_NLP_RESOURCES = "sti.nlp";
-  protected static final String PROPERTY_KBSEARCH_PROP_FILE = "sti.kbsearch.propertyfile";
-  protected static final String PROPERTY_CACHE_FOLDER = "sti.cache.main.dir";
+  private static final String PROPERTY_HOME = "sti.home";
+  private static final String PROPERTY_WEBSEARCH_PROP_FILE = "sti.websearch.properties";
+  private static final String PROPERTY_NLP_RESOURCES = "sti.nlp";
+  private static final String PROPERTY_KBSEARCH_PROP_FILE = "sti.kbsearch.propertyfile";
+  private static final String PROPERTY_CACHE_FOLDER = "sti.cache.main.dir";
 
   private static final String PROPERTY_ENTITY_CACHE_CORENAME = "entity";
   private static final String PROPERTY_RELATION_CACHE_CORENAME = "relation";
   private static final String PROPERTY_WEBSEARCH_CACHE_CORENAME = "websearch";
 
-  protected static final String PROPERTY_IGNORE_COLUMNS = "sti.columns.ignore";
-  protected static final String PROPERTY_MUSTDO_COLUMNS = "sti.columns.mustdo";
+  private static final String PROPERTY_IGNORE_COLUMNS = "sti.columns.ignore";
+  private static final String PROPERTY_MUSTDO_COLUMNS = "sti.columns.mustdo";
 
-  protected static final String PROPERTY_TMP_SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH =
+  private static final String PROPERTY_TMP_SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH =
       "sti.subjectcolumndetection.ws";
-  protected static final String PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS = "sti.iinf.websearch.stopping.class";
-  protected static final String PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS_CONSTR_PARAM =
+  private static final String PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS = "sti.iinf.websearch.stopping.class";
+  private static final String PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS_CONSTR_PARAM =
       "sti.iinf.websearch.stopping.class.constructor.params";
 
-  protected static final String PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS = "sti.tmp.iinf.learning.stopping.class";
-  protected static final String PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS_CONSTR_PARAM =
+  private static final String PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS = "sti.tmp.iinf.learning.stopping.class";
+  private static final String PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS_CONSTR_PARAM =
       "sti.tmp.iinf.learning.stopping.class.constructor.params";
+  
+  private static final Logger logger = LoggerFactory.getLogger(TableMinerPlusFactory.class);
 
-  protected static Properties properties;
+  @Value("${cz.cuni.mff.xrg.odalic.sti}")
+  private String propertyFilePath;
 
-  protected static CoreContainer cores;
-  private static EmbeddedSolrServer entityCache;
-  private static EmbeddedSolrServer websearchCache;
+  private SemanticTableInterpreter interpreter;
 
-  public static SemanticTableInterpreter getInterpreter() {
+  private KBSearch kbSearch;
+  private LiteralColumnTagger literalColumnTagger;
+
+  private Properties properties;
+
+  private CoreContainer cores;
+  private EmbeddedSolrServer entityCache;
+  private EmbeddedSolrServer websearchCache;
+
+  /* (non-Javadoc)
+   * @see cz.cuni.mff.xrg.odalic.tasks.executions.InterpreterFactory#getInterpreter()
+   */
+  @Override
+  public SemanticTableInterpreter getInterpreter() {
     if (interpreter == null) {
       try {
         initComponents();
@@ -89,21 +94,25 @@ public class InterpreterFactory {
     return interpreter;
   }
   
-  public static void setIgnoreColumnsForInterpreter(Integer[] ignoreCols) {
+  /* (non-Javadoc)
+   * @see cz.cuni.mff.xrg.odalic.tasks.executions.InterpreterFactory#setIgnoreColumnsForInterpreter(java.lang.Integer[])
+   */
+  @Override
+  public void setIgnoreColumnsForInterpreter(Integer[] ignoreCols) {
     interpreter.setIgnoreColumns(new HashSet<Integer>(Arrays.asList(ignoreCols)));
     literalColumnTagger.setIgnoreColumns(ArrayUtils.toPrimitive(ignoreCols));
   }
 
   //Initialize kbsearcher, websearcher
-  protected static void initComponents() throws STIException, IOException {
+  private void initComponents() throws STIException, IOException {
     properties = new Properties();
-    properties.load(new FileInputStream(PROPERTYFILE));
+    properties.load(new FileInputStream(propertyFilePath));
 
-    LOG.info("Initializing entity cache...");
+    logger.info("Initializing entity cache...");
     EmbeddedSolrServer kbEntityServer = getSolrServerCacheEntity();
     //object to fetch things from KB
 
-    LOG.info("Initializing KBSearch...");
+    logger.info("Initializing KBSearch...");
     KBSearchFactory fbf = new KBSearchFactory();
     try {
       kbSearch = fbf.createInstance(
@@ -111,7 +120,7 @@ public class InterpreterFactory {
           kbEntityServer, null, null,null);
     } catch (Exception e) {
       e.printStackTrace();
-      LOG.error(ExceptionUtils.getFullStackTrace(e));
+      logger.error(ExceptionUtils.getFullStackTrace(e));
       throw new STIException("Failed initialising KBSearch:" +
           getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE)
       , e);
@@ -120,7 +129,7 @@ public class InterpreterFactory {
     //LOG.info("Initializing WebSearcher...");
 
 
-    LOG.info("Initializing SUBJECT COLUMN DETECTION components ...");
+    logger.info("Initializing SUBJECT COLUMN DETECTION components ...");
     SubjectColumnDetector subcolDetector;
     try {
       subcolDetector = new SubjectColumnDetector(
@@ -141,13 +150,13 @@ public class InterpreterFactory {
           );//   dobs
     } catch (Exception e) {
       e.printStackTrace();
-      LOG.error(ExceptionUtils.getFullStackTrace(e));
+      logger.error(ExceptionUtils.getFullStackTrace(e));
       throw new STIException("Failed initialising SUBJECT COLUMN DETECTION components:" + properties.getProperty(PROPERTY_WEBSEARCH_PROP_FILE)
       , e);
     }
 
 
-    LOG.info("Initializing LEARNING components ...");
+    logger.info("Initializing LEARNING components ...");
     LEARNINGPreliminaryColumnClassifier preliminaryClassify;
     TCellDisambiguator disambiguator;
     TColumnClassifier classifier;
@@ -183,26 +192,26 @@ public class InterpreterFactory {
           preliminaryClassify, preliminaryDisamb);
     } catch (Exception e) {
       e.printStackTrace();
-      LOG.error(ExceptionUtils.getFullStackTrace(e));
+      logger.error(ExceptionUtils.getFullStackTrace(e));
       throw new STIException("Failed initialising LEARNING components:"
           , e);
     }
 
 
-    LOG.info("Initializing UPDATE components ...");
+    logger.info("Initializing UPDATE components ...");
     UPDATE update;
     try {
       update =
           new UPDATE(selector, kbSearch, disambiguator, classifier, getStopwords(), getNLPResourcesDir());
     } catch (Exception e) {
       e.printStackTrace();
-      LOG.error(ExceptionUtils.getFullStackTrace(e));
+      logger.error(ExceptionUtils.getFullStackTrace(e));
       throw new STIException("Failed initialising LEARNING components:"
           , e);
     }
 
 
-    LOG.info("Initializing RELATIONLEARNING components ...");
+    logger.info("Initializing RELATIONLEARNING components ...");
     RelationScorer relationScorer = null;
     TColumnColumnRelationEnumerator relationEnumerator = null;
     
@@ -242,13 +251,13 @@ public class InterpreterFactory {
 
   }
 
-  protected static EmbeddedSolrServer getSolrServerCacheEntity() throws STIException {
+  private EmbeddedSolrServer getSolrServerCacheEntity() throws STIException {
     if (entityCache == null) {
       String solrHomePath = properties.getProperty(PROPERTY_CACHE_FOLDER);
       if (solrHomePath == null || !new File(solrHomePath).exists()) {
         String error = "Cannot proceed: the cache dir is not set or does not exist. " +
             PROPERTY_CACHE_FOLDER + "=" + solrHomePath;
-        LOG.error(error);
+        logger.error(error);
         throw new STIException(error);
       }
 
@@ -261,13 +270,13 @@ public class InterpreterFactory {
     return entityCache;
   }
 
-  protected static EmbeddedSolrServer getSolrServerCacheWebsearch() throws STIException {
+  private EmbeddedSolrServer getSolrServerCacheWebsearch() throws STIException {
     if (websearchCache == null) {
       String solrHomePath = properties.getProperty(PROPERTY_CACHE_FOLDER);
       if (solrHomePath == null || !new File(solrHomePath).exists() || PROPERTY_RELATION_CACHE_CORENAME == null) {
         String error = "Cannot proceed: the cache dir is not set or does not exist. " +
             PROPERTY_CACHE_FOLDER + "=" + solrHomePath;
-        LOG.error(error);
+        logger.error(error);
         throw new STIException(error);
       }
       if (cores == null) {
@@ -279,27 +288,27 @@ public class InterpreterFactory {
     return websearchCache;
   }
 
-  protected static String getNLPResourcesDir() throws STIException {
+  private String getNLPResourcesDir() throws STIException {
     String prop = getAbsolutePath(PROPERTY_NLP_RESOURCES);
     if (prop == null || !new File(prop).exists()) {
       String error = "Cannot proceed: nlp resources folder is not set or does not exist. " +
           PROPERTY_KBSEARCH_PROP_FILE + "=" + prop;
-      LOG.error(error);
+      logger.error(error);
       throw new STIException(error);
     }
     return prop;
   }
 
-  protected static List<String> getStopwords() throws STIException, IOException {
+  private List<String> getStopwords() throws STIException, IOException {
     return FileUtils.readList(getNLPResourcesDir() + File.separator + "stoplist.txt", true);
   }
 
-  protected static String getAbsolutePath(String propertyName) {
+  private String getAbsolutePath(String propertyName) {
     return properties.getProperty(PROPERTY_HOME)
         + File.separator + properties.getProperty(propertyName);
   }
 
-  protected static int[] getIgnoreColumns() {
+  private int[] getIgnoreColumns() {
     String ignore = properties.getProperty(PROPERTY_IGNORE_COLUMNS);
     String[] splits = StringUtils.split(ignore, ',');
     int[] res = new int[splits.length];
@@ -309,7 +318,7 @@ public class InterpreterFactory {
     return res;
   }
 
-  protected static int[] getMustdoColumns() {
+  private int[] getMustdoColumns() {
     String ignore = properties.getProperty(PROPERTY_MUSTDO_COLUMNS);
     String[] splits = StringUtils.split(ignore, ',');
     int[] res = new int[0];
