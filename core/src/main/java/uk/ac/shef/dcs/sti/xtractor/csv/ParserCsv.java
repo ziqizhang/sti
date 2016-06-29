@@ -43,6 +43,7 @@ public class ParserCsv implements Parser {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Table parse(File inFile) throws ParseFailed, NoCSVDataException {
 
         log.debug("Starting parsing file: " + inFile.getName());

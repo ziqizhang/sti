@@ -64,6 +64,7 @@ public class DBpediaSearch extends SPARQLSearch {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Entity> findEntityCandidates(String content) throws KBSearchException {
         String query = createSolrCacheQuery_findResources(content);
         boolean forceQuery = false;
@@ -146,6 +147,7 @@ public class DBpediaSearch extends SPARQLSearch {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Entity> findEntityCandidatesOfTypes(String content, String... types) throws KBSearchException {
         String queryCache = createSolrCacheQuery_findResources(content);
         boolean forceQuery = false;
@@ -265,6 +267,7 @@ public class DBpediaSearch extends SPARQLSearch {
     }
 
     // if the attribute's value is an URL, fetch the label of that resource, and reset its attr value
+    @SuppressWarnings("unchecked")
     private void resetResourceValue(Attribute attr) throws KBSearchException {
         String value = attr.getValue();
         if (value.startsWith("http")) {
@@ -311,6 +314,7 @@ public class DBpediaSearch extends SPARQLSearch {
         return find_attributes(ec.getId(), cacheEntity);
     }
 
+    @SuppressWarnings("unchecked")
     private List<Attribute> find_attributes(String id, SolrCache cache) throws KBSearchException {
         if (id.length() == 0)
             return new ArrayList<>();
