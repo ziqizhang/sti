@@ -2,8 +2,6 @@ package cz.cuni.mff.xrg.odalic.api.rest.resources;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -13,12 +11,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
-
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -65,10 +59,9 @@ public class FileResource {
   @PUT
   @Path("{id}")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
-  @Produces(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.TEXT_PLAIN)
   public Response putFileById(@PathParam("id") String id,
       @FormDataParam("input") InputStream fileInputStream,
-      @FormDataParam("disposition") FormDataContentDisposition disposition,
       @FormDataParam("file") File file) throws IOException {
 
     if (!fileService.hasId(file, id)) {
@@ -93,7 +86,7 @@ public class FileResource {
   @PUT
   @Path("{id}")
   @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.TEXT_PLAIN)
   public Response putFileById(@PathParam("id") String id, File file) {
 
     if (!fileService.hasId(file, id)) {
@@ -117,11 +110,10 @@ public class FileResource {
 
   @DELETE
   @Path("{id}")
-  @Produces({MediaType.APPLICATION_JSON})
+  @Produces({MediaType.TEXT_PLAIN})
   public Response deleteFileById(@PathParam("id") String id) {
     fileService.deleteById(id);
-    return Response.status(Response.Status.NO_CONTENT)
-        .entity("File successfully removed from database").build();
+    return Response.status(Response.Status.NO_CONTENT).build();
   }
 
   @GET
@@ -130,16 +122,6 @@ public class FileResource {
   public Response getCsvDataById(@PathParam("id") String id) throws IOException {
     String data = fileService.getDataById(id);
     
-    StreamingOutput output = new StreamingOutput() {
-
-      @Override
-      public void write(OutputStream output) throws IOException, WebApplicationException {
-        output.write(data.getBytes(StandardCharsets.UTF_8));
-        output.flush();
-      }
-      
-    };
-     
-    return Response.status(Response.Status.OK).entity(output).type(TEXT_CSV_MEDIA_TYPE).build();
+    return Response.ok(data).build();
   }
 }
