@@ -11,22 +11,22 @@ import org.apache.jena.ext.com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;
 
-import cz.cuni.mff.xrg.odalic.api.rest.values.CellAnnotationValue;
+import cz.cuni.mff.xrg.odalic.api.rest.values.CellRelationAnnotationValue;
 import cz.cuni.mff.xrg.odalic.api.rest.values.EntityCandidateValue;
-import cz.cuni.mff.xrg.odalic.tasks.annotations.CellAnnotation;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.CellRelationAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 
 
-public class CellAnnotationAdapter extends XmlAdapter<CellAnnotationValue, CellAnnotation> {
+public class CellRelationRelationAnnotationAdapter extends XmlAdapter<CellRelationAnnotationValue, CellRelationAnnotation> {
 
   @Override
-  public CellAnnotationValue marshal(CellAnnotation bound) throws Exception {
-    return new CellAnnotationValue(bound);
+  public CellRelationAnnotationValue marshal(CellRelationAnnotation bound) throws Exception {
+    return new CellRelationAnnotationValue(bound);
   }
 
   @Override
-  public CellAnnotation unmarshal(CellAnnotationValue value) throws Exception {
+  public CellRelationAnnotation unmarshal(CellRelationAnnotationValue value) throws Exception {
     final ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder =
         ImmutableMap.builder();
     final ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder =
@@ -42,6 +42,6 @@ public class CellAnnotationAdapter extends XmlAdapter<CellAnnotationValue, CellA
           .map(e -> new EntityCandidate(e.getEntity(), e.getLikelihood())).iterator()));
     }
 
-    return new CellAnnotation(candidatesBuilder.build(), chosenBuilder.build());
+    return new CellRelationAnnotation(candidatesBuilder.build(), chosenBuilder.build());
   }
 }

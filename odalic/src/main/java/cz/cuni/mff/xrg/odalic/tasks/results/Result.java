@@ -8,12 +8,14 @@ import java.util.Map;
 import javax.annotation.Nullable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.jena.ext.com.google.common.collect.ImmutableMap;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.ResultAdapter;
 import cz.cuni.mff.xrg.odalic.positions.CellRelationPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
@@ -22,6 +24,7 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.CellRelationAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.ColumnRelationAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.HeaderAnnotation;
 
+@XmlJavaTypeAdapter(ResultAdapter.class)
 @XmlRootElement(name = "result")
 public class Result implements Serializable {
 

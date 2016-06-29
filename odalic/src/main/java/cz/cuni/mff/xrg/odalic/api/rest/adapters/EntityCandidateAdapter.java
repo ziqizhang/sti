@@ -12,7 +12,7 @@ public class EntityCandidateAdapter
   @Override
   public EntityCandidateValue marshal(EntityCandidate bound)
       throws Exception {
-    return new EntityCandidateValue(bound);
+    return new EntityCandidateValue(bound, false);
   }
 
   @Override

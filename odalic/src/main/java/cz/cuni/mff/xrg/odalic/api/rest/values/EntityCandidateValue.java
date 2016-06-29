@@ -20,22 +20,23 @@ public final class EntityCandidateValue implements Serializable {
   
   @XmlElement
   private Likelihood likelihood;
+  
+  @XmlElement
+  private boolean chosen;
 
   /**
    * @param entity
    * @param likelihood
    */
-  public EntityCandidateValue() {
-    entity = null;
-    likelihood = null;
-  }
+  public EntityCandidateValue() { }
 
   /**
    * @param adaptee
    */
-  public EntityCandidateValue(EntityCandidate adaptee) {
+  public EntityCandidateValue(EntityCandidate adaptee, boolean chosen) {
     entity = adaptee.getEntity();
     likelihood = adaptee.getLikelihood();
+    this.chosen = chosen;
   }
 
   /**
@@ -72,11 +73,26 @@ public final class EntityCandidateValue implements Serializable {
     this.likelihood = likelihood;
   }
 
+  /**
+   * @return the chosen
+   */
+  public boolean isChosen() {
+    return chosen;
+  }
+
+  /**
+   * @param chosen the chosen to set
+   */
+  public void setChosen(boolean chosen) {
+    this.chosen = chosen;
+  }
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    return "EntityCandidateValue [entity=" + entity + ", likelihood=" + likelihood + "]";
+    return "EntityCandidateValue [entity=" + entity + ", likelihood=" + likelihood + ", chosen="
+        + chosen + "]";
   }
 }
