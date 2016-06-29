@@ -20,6 +20,10 @@ public class LiteralColumnTaggerImpl implements LiteralColumnTagger {
         this.ignoreColumns = ignoreColumns;
 
     }
+    
+    public void setIgnoreColumns(int... ignoreCols) {
+      this.ignoreColumns = ignoreCols;
+    }
 
     public void annotate(Table table, TAnnotation annotations, Integer... neColumns) throws KBSearchException {
         //for each column that has a relation with the subject column, infer its type

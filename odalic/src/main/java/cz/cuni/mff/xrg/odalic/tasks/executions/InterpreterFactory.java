@@ -4,10 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
@@ -39,11 +42,12 @@ public class InterpreterFactory {
   private static final Logger LOG = LoggerFactory.getLogger(InterpreterFactory.class);
 
   //TODO: Write your own path to the property file.
-  protected static final String PROPERTYFILE = "C:\\Users\\Acer\\git\\sti\\sti.properties";
-
-  protected static KBSearch kbSearch;
+  protected static final String PROPERTYFILE = "/Users/-/work/sti/sti.properties";
 
   protected static SemanticTableInterpreter interpreter;
+
+  protected static KBSearch kbSearch;
+  protected static LiteralColumnTagger literalColumnTagger;
 
   protected static final String PROPERTY_HOME = "sti.home";
   protected static final String PROPERTY_WEBSEARCH_PROP_FILE = "sti.websearch.properties";
@@ -83,6 +87,11 @@ public class InterpreterFactory {
       }
     }
     return interpreter;
+  }
+  
+  public static void setIgnoreColumnsForInterpreter(Integer[] ignoreCols) {
+    interpreter.setIgnoreColumns(new HashSet<Integer>(Arrays.asList(ignoreCols)));
+    literalColumnTagger.setIgnoreColumns(ArrayUtils.toPrimitive(ignoreCols));
   }
 
   //Initialize kbsearcher, websearcher
@@ -148,13 +157,13 @@ public class InterpreterFactory {
       disambiguator = new TCellDisambiguator(kbSearch,
           new TMPEntityScorer(
               getStopwords(),
-              STIConstantProperty.SCORER_ENTITY_CONTEXT_WEIGHT, //row,column, column header, tablecontext all
+              STIConstantProperty.SCORER_ENTITY_CONTEXT_WEIGHT, //row, column, column header, tablecontext all
               getNLPResourcesDir()));
       classifier = new TColumnClassifier(new TMPClazzScorer(getNLPResourcesDir(),
           new FreebaseConceptBoWCreator(),
           getStopwords(),
-          STIConstantProperty.SCORER_CLAZZ_CONTEXT_WEIGHT)        //all 1.0
-          );                                              //header,column,out trivial, out important
+          STIConstantProperty.SCORER_CLAZZ_CONTEXT_WEIGHT)      //all 1.0
+          );                                                    //header, column, out trivial, out important
       selector = new OSPD_nonEmpty();
       preliminaryClassify = new LEARNINGPreliminaryColumnClassifier(
           selector,
@@ -196,7 +205,7 @@ public class InterpreterFactory {
     LOG.info("Initializing RELATIONLEARNING components ...");
     RelationScorer relationScorer = null;
     TColumnColumnRelationEnumerator relationEnumerator = null;
-    LiteralColumnTagger literalColumnTagger = null;
+    
     try {
       //object to computeElementScores relations between columns
       relationScorer = new TMPRelationScorer(
@@ -213,7 +222,7 @@ public class InterpreterFactory {
           relationScorer
           );
 
-      //object to consolidate previous output, further computeElementScores columns and disamgiuate entities
+      //object to consolidate previous output, further computeElementScores columns and disambiguate entities
       literalColumnTagger =
           new LiteralColumnTaggerImpl(
               getIgnoreColumns()
