@@ -3,8 +3,6 @@
  */
 package cz.cuni.mff.xrg.odalic.tasks.executions;
 
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,12 +12,14 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
-
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnIgnore;
 import cz.cuni.mff.xrg.odalic.files.File;
+import cz.cuni.mff.xrg.odalic.files.FileService;
 import cz.cuni.mff.xrg.odalic.tasks.Task;
 import cz.cuni.mff.xrg.odalic.tasks.TaskService;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
@@ -37,6 +37,7 @@ import uk.ac.shef.dcs.sti.xtractor.csv.TableXtractorCSV;
 public final class FutureBasedExecutionService implements ExecutionService {
 
   private final TaskService taskService;
+  private final FileService fileService;
   private final AnnotationToResultAdapter annotationResultAdapter;
   private final SemanticTableInterpreterFactory semanticTableInterpreterFactory;
   private final TableXtractorCSV tableExtractor;
@@ -44,15 +45,17 @@ public final class FutureBasedExecutionService implements ExecutionService {
   private final Map<Task, Future<Result>> tasksToResults = new HashMap<>();
 
   @Autowired
-  public FutureBasedExecutionService(TaskService taskService,
+  public FutureBasedExecutionService(TaskService taskService, FileService fileService,
       AnnotationToResultAdapter annotationToResultAdapter,
       SemanticTableInterpreterFactory semanticTableInterpreterFactory, TableXtractorCSV tableExtractor) {
     Preconditions.checkNotNull(taskService);
+    Preconditions.checkNotNull(fileService);
     Preconditions.checkNotNull(annotationToResultAdapter);
     Preconditions.checkNotNull(semanticTableInterpreterFactory);
     Preconditions.checkNotNull(tableExtractor);
 
     this.taskService = taskService;
+    this.fileService = fileService;
     this.annotationResultAdapter = annotationToResultAdapter;
     this.semanticTableInterpreterFactory = semanticTableInterpreterFactory;
     this.tableExtractor = tableExtractor;
@@ -71,15 +74,19 @@ public final class FutureBasedExecutionService implements ExecutionService {
 
     final Configuration configuration = task.getConfiguration();
     final File file = configuration.getInput();
-    final URL fileLocation = file.getLocation();
-    final java.io.File inputFile = urlToFile(fileLocation);
-
+    
     final Set<ColumnIgnore> columnIgnores = configuration.getFeedback().getColumnIgnores();
     final Integer[] columnIgnoresArray =
         columnIgnores.stream().map(e -> e.getPosition().getIndex()).toArray(Integer[]::new);
-
+    
     final Callable<Result> execution = () -> {
-      final List<Table> tables = tableExtractor.extract(inputFile, inputFile.getName());
+      final String data = fileService.getDataById(file.getId());
+      
+      final java.io.File tempFile = java.io.File.createTempFile("odalic", "csv");
+      tempFile.deleteOnExit();
+      FileUtils.writeStringToFile(tempFile, data);
+      
+      final List<Table> tables = tableExtractor.extract(tempFile, tempFile.getName());
       if (tables.isEmpty()) {
         throw new IllegalArgumentException();
       }
@@ -95,16 +102,6 @@ public final class FutureBasedExecutionService implements ExecutionService {
 
     final Future<Result> future = executorService.submit(execution);
     tasksToResults.put(task, future);
-  }
-
-  private java.io.File urlToFile(final URL fileLocation) {
-    java.io.File inputFile;
-    try {
-      inputFile = new java.io.File(fileLocation.toURI());
-    } catch (URISyntaxException e) {
-      inputFile = new java.io.File(fileLocation.getPath());
-    }
-    return inputFile;
   }
 
   @Override

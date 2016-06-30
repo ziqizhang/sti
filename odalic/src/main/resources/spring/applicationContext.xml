@@ -11,14 +11,6 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- Demands environmental variable 'cz.cuni.mff.xrg.odalic.sti' set to 
-		path to sti.properties file, e.g. by providing -Dfile:cz.cuni.mff.xrg.odalic.sti="path 
-		to sti.properties file" as java startup argument, or setting CATALINA_OPTS="-Dfile:cz.cuni.mff.xrg.odalic.sti=path 
-		to sti.properties file". -->
-	<context:property-placeholder location="${cz.cuni.mff.xrg.odalic.sti}" />
-
-	<context:spring-configured />
-
 	<context:component-scan base-package="cz.cuni.mff.xrg.odalic.*" />
 
 	<bean id="tableExtractor" class="uk.ac.shef.dcs.sti.xtractor.csv.TableXtractorCSV"
