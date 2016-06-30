@@ -1,6 +1,7 @@
 package cz.cuni.mff.xrg.odalic.files;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
@@ -39,6 +40,17 @@ public class File implements Serializable {
     id = null;
     uploaded = null;    
     owner = null;
+  }
+  
+  public File(String id, String owner, URL location) throws MalformedURLException {
+    Preconditions.checkNotNull(id);
+    Preconditions.checkNotNull(owner);
+    Preconditions.checkNotNull(location);
+    
+    this.id = id;
+    this.uploaded = new Date();
+    this.owner = owner;
+    this.location = location;
   }
   
   public File(String id, Date uploaded, String owner, URL location) {

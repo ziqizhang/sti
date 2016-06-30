@@ -37,7 +37,7 @@ public class TaskResource {
   }
 
   @GET
-  @Path("/tasks/{id}")
+  @Path("{id}")
   @Produces(MediaType.APPLICATION_JSON)
   public Response getTaskById(@PathParam("id") String id) {
     Task task = taskService.getById(id);
@@ -45,7 +45,7 @@ public class TaskResource {
   }
 
   @PUT
-  @Path("/tasks/{id}")
+  @Path("{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response putTaskWithId(@PathParam("id") String id, Task task) {
@@ -71,12 +71,10 @@ public class TaskResource {
   }
 
   @DELETE
-  @Path("/tasks/{id}")
-  @Produces({MediaType.APPLICATION_JSON})
+  @Path("{id}")
   public Response deleteTaskById(@PathParam("id") String id) {
     taskService.deleteById(id);
-    return Response.status(Response.Status.NO_CONTENT)
-        .entity("Task successfully removed from database").build();
+    return Response.status(Response.Status.NO_CONTENT).build();
   }
 
   @Autowired
