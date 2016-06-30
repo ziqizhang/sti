@@ -14,7 +14,12 @@ public final class CellRelationPosition {
   @XmlElement
   private final RowPosition rowPosition;
   
-    
+  @SuppressWarnings("unused")
+  private CellRelationPosition() {
+    columnsPosition = null;
+    rowPosition = null;
+  }
+  
   public CellRelationPosition(ColumnRelationPosition columnsPosition, RowPosition rowPosition) {
     Preconditions.checkNotNull(columnsPosition);
     Preconditions.checkNotNull(rowPosition);

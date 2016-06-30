@@ -15,6 +15,6 @@ public class TaskAdapter extends XmlAdapter<TaskValue, Task> {
 
   @Override
   public Task unmarshal(TaskValue value) throws Exception {
-    return new Task(value.getId(), value.getCreated(), value.getConfiguration());
+    throw new UnsupportedOperationException();
   }
 }

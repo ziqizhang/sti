@@ -1,26 +1,22 @@
 package cz.cuni.mff.xrg.odalic.api.rest.conversions;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
-public class CustomJsonDateSerializer extends JsonSerializer<Date> {
+import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
+
+public class KnowledgeBaseKeyJsonSerializer extends JsonSerializer<KnowledgeBase> {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
 
     @Override
-    public void serialize(Date value, JsonGenerator jgen,
+    public void serialize(KnowledgeBase value, JsonGenerator jgen,
             SerializerProvider provider) throws IOException,
             JsonProcessingException {
-        
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-        String dateString = dateFormat.format(value);
-        jgen.writeString(dateString);       
+        jgen.writeString(value.getName());       
     }
 
 }

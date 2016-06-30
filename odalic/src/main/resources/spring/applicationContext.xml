@@ -17,16 +17,22 @@
 		to sti.properties file". -->
 	<context:property-placeholder location="${cz.cuni.mff.xrg.odalic.sti}" />
 
+	<context:spring-configured />
+
 	<context:component-scan base-package="cz.cuni.mff.xrg.odalic.*" />
 
-	<bean id="tableExtractor" class="uk.ac.shef.dcs.sti.xtractor.csv.TableXtractorCSV" />
+	<bean id="tableExtractor" class="uk.ac.shef.dcs.sti.xtractor.csv.TableXtractorCSV"
+		scope="prototype" />
 
-	<bean id="semanticTableInterpreterFactory" class="cz.cuni.mff.xrg.odalic.tasks.executions.TableMinerPlusFactory" />
+	<bean id="semanticTableInterpreterFactory"
+		class="cz.cuni.mff.xrg.odalic.tasks.executions.TableMinerPlusFactory" />
 
 	<bean id="inputParser"
-		class="cz.cuni.mff.xrg.odalic.feedbacks.input.DefaultCsvInputParser" />
+		class="cz.cuni.mff.xrg.odalic.feedbacks.input.DefaultCsvInputParser"
+		scope="prototype" />
 	<bean id="annotationToResultAdapter"
-		class="cz.cuni.mff.xrg.odalic.tasks.results.DefaultAnnotationToResultAdapter" />
+		class="cz.cuni.mff.xrg.odalic.tasks.results.DefaultAnnotationToResultAdapter"
+		scope="prototype" />
 
 	<bean id="fileService" class="cz.cuni.mff.xrg.odalic.files.MemoryOnlyFileService" />
 	<bean id="configurationService"
@@ -43,7 +49,8 @@
 	<bean id="draftResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.DraftResource" />
 	<bean id="executionResource"
 		class="cz.cuni.mff.xrg.odalic.api.rest.resources.ExecutionResource" />
-	<bean id="feedbackResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.FeedbackResource" />
+	<bean id="feedbackResource"
+		class="cz.cuni.mff.xrg.odalic.api.rest.resources.FeedbackResource" />
 	<bean id="fileResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.FileResource" />
 	<bean id="resultResource"
 		class="cz.cuni.mff.xrg.odalic.api.rest.resources.ResultResource" />

@@ -3,10 +3,12 @@
  */
 package cz.cuni.mff.xrg.odalic.api.rest;
 
+import javax.xml.bind.JAXBException;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
+import org.springframework.stereotype.Component;
 
 import cz.cuni.mff.xrg.odalic.api.rest.errors.ThrowableMapper;
 import cz.cuni.mff.xrg.odalic.api.rest.filters.CorsResponseFilter;
@@ -20,9 +22,10 @@ import cz.cuni.mff.xrg.odalic.api.rest.resources.ResultResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.StateResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.TaskResource;
 
+@Component
 public final class Configuration extends ResourceConfig {
 
-  public Configuration() {
+  public Configuration() throws JAXBException {
     // Resources registration
     register(FileResource.class);
     register(TaskResource.class);

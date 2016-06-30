@@ -7,8 +7,8 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateDeserializer;
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateSerializer;

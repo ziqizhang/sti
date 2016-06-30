@@ -76,7 +76,7 @@ public class FileResource {
           .entity("The ID in the payload is not the same as the ID of resource.").build();
     }
 
-    if (!file.getLocation().equals(getDefaultFileLocation(uriInfo, id))) {
+    if (!file.getLocation().equals(cz.cuni.mff.xrg.odalic.util.URL.getResourceUrL(uriInfo, id))) {
       return Response.status(Response.Status.NOT_ACCEPTABLE)
           .entity(
               "The location you provided for the file is not equal to the default location for uploaded file.")
@@ -97,11 +97,6 @@ public class FileResource {
           .entity("The file you specified has been fully updated AT THE STANDARD LOCATION.")
           .header("Location", location).build();
     }
-  }
-
-  private static URL getDefaultFileLocation(UriInfo uriInfo, String id)
-      throws MalformedURLException {
-    return uriInfo.getAbsolutePath().resolve(id).toURL();
   }
 
   @PUT
@@ -139,7 +134,7 @@ public class FileResource {
       @FormDataParam("file") FormDataContentDisposition fileDetail) throws IOException {
 
     final String id = fileDetail.getFileName();
-    final File file = new File(id, "", getDefaultFileLocation(uriInfo, id));
+    final File file = new File(id, "", cz.cuni.mff.xrg.odalic.util.URL.getResourceUrL(uriInfo, id));
 
     if (fileService.existsFileWithId(id)) {
       return Response.status(Response.Status.NOT_ACCEPTABLE)

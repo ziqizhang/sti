@@ -2,11 +2,8 @@ package cz.cuni.mff.xrg.odalic.api.rest.values;
 
 import java.io.Serializable;
 
-import javax.annotation.Nullable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
@@ -17,12 +14,13 @@ public class ConfigurationValue implements Serializable {
   private static final long serialVersionUID = -6359038623760039155L;
   
   @XmlElement(name = "input")
-  private String input;
+  private final String input;
 
   @XmlElement(name = "feedback")
-  private Feedback feedback;
+  private final Feedback feedback;
 
-  public ConfigurationValue() {
+  @SuppressWarnings("unused")
+  private ConfigurationValue() {
     input = null;
     feedback = null;
   }
@@ -35,35 +33,15 @@ public class ConfigurationValue implements Serializable {
   /**
    * @return the input
    */
-  @Nullable
   public String getInput() {
     return input;
   }
 
   /**
-   * @param input the input to set
-   */
-  public void setInput(String input) {
-    Preconditions.checkNotNull(input);
-    
-    this.input = input;
-  }
-
-  /**
    * @return the feedback
    */
-  @Nullable
   public Feedback getFeedback() {
     return feedback;
-  }
-
-  /**
-   * @param feedback the feedback to set
-   */
-  public void setFeedback(Feedback feedback) {
-    Preconditions.checkNotNull(feedback);
-    
-    this.feedback = feedback;
   }
 
   /* (non-Javadoc)

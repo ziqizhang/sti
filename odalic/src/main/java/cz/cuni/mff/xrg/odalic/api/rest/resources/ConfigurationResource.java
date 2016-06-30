@@ -12,6 +12,11 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Preconditions;
+
+import cz.cuni.mff.xrg.odalic.api.rest.values.ConfigurationValue;
+import cz.cuni.mff.xrg.odalic.files.File;
+import cz.cuni.mff.xrg.odalic.files.FileService;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.ConfigurationService;
 
@@ -19,26 +24,36 @@ import cz.cuni.mff.xrg.odalic.tasks.configurations.ConfigurationService;
 @Path("/tasks/{id}/configuration")
 public class ConfigurationResource {
 
-  private ConfigurationService configurationService;
+  private final ConfigurationService configurationService;
+
+  private final FileService fileService;
 
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response putConfigurationForTaskId(@PathParam("id") String id, Configuration configuration) {
+  public Response putConfigurationForTaskId(@PathParam("id") String id,
+      ConfigurationValue configurationValue) {
+    final File input = fileService.getById(configurationValue.getInput());
+    final Configuration configuration = new Configuration(input, configurationValue.getFeedback());
+
     configurationService.setForTaskId(id, configuration);
     return Response.status(Response.Status.OK).entity("Configuration set.").build();
   }
-  
+
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getConfigurationForTaskId(@PathParam("id") String taskId) {
     Configuration configurationForTaskId = configurationService.getForTaskId(taskId);
-    
+
     return Response.status(Response.Status.OK).entity(configurationForTaskId).build();
   }
 
   @Autowired
-  public ConfigurationResource(ConfigurationService configurationService) {
+  public ConfigurationResource(ConfigurationService configurationService, FileService fileService) {
+    Preconditions.checkNotNull(configurationService);
+    Preconditions.checkNotNull(fileService);
+    
     this.configurationService = configurationService;
+    this.fileService = fileService;
   }
 }

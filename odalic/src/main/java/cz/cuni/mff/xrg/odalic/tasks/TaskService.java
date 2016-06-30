@@ -1,10 +1,10 @@
 package cz.cuni.mff.xrg.odalic.tasks;
 
-import java.util.List;
+import java.util.Set;
 
 public interface TaskService {
 
-  List<TaskDigest> getTasks();
+  Set<Task> getTasks();
 
   Task getById(String id);
 

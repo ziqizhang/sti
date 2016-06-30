@@ -8,6 +8,12 @@ public final class ColumnRelationPosition {
   
   private final ColumnPosition second;
   
+  @SuppressWarnings("unused")
+  private ColumnRelationPosition() {
+    first = null;
+    second = null;
+  }
+  
   public ColumnRelationPosition(ColumnPosition first, ColumnPosition second) {
     Preconditions.checkNotNull(first);
     Preconditions.checkNotNull(second);

@@ -10,11 +10,11 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<jcloverslf4j.version>1.7.6</jcloverslf4j.version>
-		<jersey.version>2.8</jersey.version>
-		<jetty.version>9.0.7.v20131107</jetty.version>
-		<logback.version>1.1.1</logback.version>
-		<spring.version>4.0.3.RELEASE</spring.version>
+		<jcloverslf4j.version>1.7.21</jcloverslf4j.version>
+		<jersey.version>2.23.1</jersey.version>
+		<logback.version>1.1.7</logback.version>
+		<spring.version>4.3.0.RELEASE</spring.version>
+		<weaver.version>1.7.2.RELEASE</weaver.version>
 	</properties>
 
 	<licenses>
@@ -29,6 +29,11 @@
 			<id>maven2-repository.java.net</id>
 			<name>Java.net Repository for Maven</name>
 			<url>http://download.java.net/maven/2/</url>
+		</repository>
+		<repository>
+			<id>com.springsource.repository.bundles.external</id>
+			<name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/external</url>
 		</repository>
 	</repositories>
 
@@ -103,12 +108,15 @@
 			<artifactId>spring-tx</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
-		<!-- Universal Java Matrix Package -->
 		<dependency>
-		    <groupId>org.ujmp</groupId>
-		    <artifactId>ujmp-core</artifactId>
-		    <version>0.3.0</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>com.springsource.org.aspectj.weaver</artifactId>
+			<version>${weaver.version}</version>
 		</dependency>
 
 		<!-- Logging (uses slf4j API implemented by Logback) -->

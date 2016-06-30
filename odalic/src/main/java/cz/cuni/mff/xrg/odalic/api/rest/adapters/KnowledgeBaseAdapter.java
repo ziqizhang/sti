@@ -18,6 +18,6 @@ public class KnowledgeBaseAdapter
   @Override
   public KnowledgeBase unmarshal(KnowledgeBaseValue value)
       throws Exception {
-    return new KnowledgeBase();
+    return new KnowledgeBase(value.getName());
   }
 }

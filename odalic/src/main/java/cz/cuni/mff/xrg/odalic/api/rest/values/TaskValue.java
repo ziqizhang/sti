@@ -7,15 +7,14 @@ import javax.annotation.Nullable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateDeserializer;
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateSerializer;
 import cz.cuni.mff.xrg.odalic.tasks.Task;
-import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
 
 @XmlRootElement(name = "task")
 public final class TaskValue implements Serializable {
@@ -31,7 +30,7 @@ public final class TaskValue implements Serializable {
   private Date created;
 
   @XmlElement
-  private Configuration configuration;
+  private ConfigurationValue configuration;
   
   public TaskValue() {
     id = null;
@@ -46,7 +45,7 @@ public final class TaskValue implements Serializable {
   public TaskValue(Task adaptee) {
     id = adaptee.getId();
     created = adaptee.getCreated();
-    configuration = adaptee.getConfiguration();
+    configuration = new ConfigurationValue(adaptee.getConfiguration());
   }
 
   /**
@@ -87,14 +86,14 @@ public final class TaskValue implements Serializable {
    * @return the configuration
    */
   @Nullable
-  public Configuration getConfiguration() {
+  public ConfigurationValue getConfiguration() {
     return configuration;
   }
 
   /**
    * @param configuration the configuration to set
    */
-  public void setConfiguration(Configuration configuration) {
+  public void setConfiguration(ConfigurationValue configuration) {
     Preconditions.checkNotNull(configuration);
     
     this.configuration = configuration;

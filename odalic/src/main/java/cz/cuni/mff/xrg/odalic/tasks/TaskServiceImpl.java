@@ -1,11 +1,11 @@
 package cz.cuni.mff.xrg.odalic.tasks;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * @author Václav Brodec
@@ -13,14 +13,12 @@ import com.google.common.collect.ImmutableList;
  */
 public final class TaskServiceImpl implements TaskService {
 
-  private final Map<String, TaskDigest> tasksDigests = new HashMap<>();
-  
   private final Map<String, Task> tasks = new HashMap<>();
   
   public TaskServiceImpl() {}
   
-  public List<TaskDigest> getTasks() {
-    return ImmutableList.copyOf(this.tasksDigests.values());
+  public Set<Task> getTasks() {
+    return ImmutableSet.copyOf(this.tasks.values());
   }
 
   public Task getById(String id) {
