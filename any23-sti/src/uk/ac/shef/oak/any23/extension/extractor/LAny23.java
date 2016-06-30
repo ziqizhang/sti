@@ -31,7 +31,6 @@ import org.apache.any23.mime.TikaMIMETypeDetector;
 import org.apache.any23.mime.purifier.WhiteSpacesPurifier;
 import org.apache.any23.source.*;
 import org.apache.any23.writer.TripleHandler;
-import org.apache.log4j.spi.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;

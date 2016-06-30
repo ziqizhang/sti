@@ -1,3 +1,7 @@
+# =========================
+# Operating System Files
+# =========================
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -18,9 +22,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # =========================
-# Operating System Files
-# =========================
-
 # OSX
 # =========================
 
@@ -53,8 +54,6 @@ failed.txt
 output/*
 *.log
 */target
-*.iml
-*/.idea
 cache/empty/class/data/*
 cache/empty/entity/data/*
 cache/empty/relation/data/*
@@ -116,3 +115,11 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+# =========================
+# IntelliJ IDEA
+# =========================
+
+*.iml
+*/.idea
+.Idea/*

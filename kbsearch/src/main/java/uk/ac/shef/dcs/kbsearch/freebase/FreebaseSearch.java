@@ -59,6 +59,7 @@ public class FreebaseSearch extends KBSearch {
     }
 
 
+    @SuppressWarnings("unchecked")
     private List<Entity> find_matchingEntitiesForTextAndType(String text, String... types) throws KBSearchException {
         String query = createSolrCacheQuery_findResources(text);
         ;
@@ -168,6 +169,7 @@ public class FreebaseSearch extends KBSearch {
     and cannot use find_attributes method
      */
     @Override
+    @SuppressWarnings("unchecked")
     public List<Attribute> findAttributesOfClazz(String clazz) throws KBSearchException {
         //return find_triplesForEntity(conceptId);
         boolean forceQuery = false;
@@ -307,6 +309,7 @@ public class FreebaseSearch extends KBSearch {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private List<Attribute> find_attributes(String id, SolrCache cache) throws KBSearchException {
         if (id.length() == 0)
             return new ArrayList<>();

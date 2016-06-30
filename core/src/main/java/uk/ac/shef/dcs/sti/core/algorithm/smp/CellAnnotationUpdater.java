@@ -25,6 +25,7 @@ class CellAnnotationUpdater {
                 if (container == null)
                     continue;
                 countUpdateNeeded++;
+                @SuppressWarnings("unchecked")
                 List<ChangeMessage> messages_for_cell = (List<ChangeMessage>) container;
                 if(messages_for_cell.size()==0)
                     continue;

@@ -49,8 +49,9 @@ public class WikipediaTableListPageFilter implements IArticleFilter {
 
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public void process(WikiArticle page, Siteinfo siteinfo) throws SAXException {
+    public void process(WikiArticle page, Siteinfo siteinfo) throws IOException {
         if (countMainPages % 200 == 0) {
             logger.info("Pages processed: " + countMainPages + ", tables " + countTables + ", lists " + countLists);
         }

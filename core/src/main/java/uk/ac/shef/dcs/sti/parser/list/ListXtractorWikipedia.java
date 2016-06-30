@@ -5,6 +5,8 @@ import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.parser.list.splitter.ListItemSplitter;
 import uk.ac.shef.dcs.sti.parser.list.validator.ListValidator;
 
+import java.io.IOException;
+
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)
  * Date: 09/10/12
@@ -24,7 +26,7 @@ public class ListXtractorWikipedia extends ListXtractorHTML {
     }
 
     @Override
-    public java.util.List extract(String input, String sourceId) {
+    public java.util.List extract(String input, String sourceId) throws IOException {
         String html = model.render(input);
         return super.extract(html, sourceId);
     }

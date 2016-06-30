@@ -11,6 +11,7 @@ import uk.ac.shef.dcs.sti.parser.table.hodetector.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.parser.table.normalizer.TableNormalizerDiscardIrregularRows;
 import uk.ac.shef.dcs.sti.parser.table.validator.TableValidatorForWikipediaGSLanient;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -26,19 +27,22 @@ public class WikipediaTL_GSCreator_Pass1 {
 
 
     public static void parse(String inputWikib2zFile, String outputTableDir, String outputListDir) throws IOException, SAXException {
-        WikiXMLParser parser = new WikiXMLParser(inputWikib2zFile,
-                new WikipediaTableListPageFilter(
-                        new TableParserWikipedia(new TableNormalizerDiscardIrregularRows(true),
-                                new TableHODetectorByHTMLTag(),
-                                new TableObjCreatorWikipediaGS(false),
-                                new TableValidatorForWikipediaGSLanient()),
-                        outputTableDir,
-                        new ListXtractorWikipedia(new ListItemSplitterByURL(),
-                                new ListVaildatorLanient()),
-                        outputListDir
-                ));
+        try(FileInputStream stream = new FileInputStream(inputWikib2zFile)) {
 
-        parser.parse();
+            WikiXMLParser parser = new WikiXMLParser(stream,
+                    new WikipediaTableListPageFilter(
+                            new TableParserWikipedia(new TableNormalizerDiscardIrregularRows(true),
+                                    new TableHODetectorByHTMLTag(),
+                                    new TableObjCreatorWikipediaGS(false),
+                                    new TableValidatorForWikipediaGSLanient()),
+                            outputTableDir,
+                            new ListXtractorWikipedia(new ListItemSplitterByURL(),
+                                    new ListVaildatorLanient()),
+                            outputListDir
+                    ));
+
+            parser.parse();
+        }
     }
 
 

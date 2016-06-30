@@ -235,10 +235,11 @@ public class Evaluator_EntityOnly {
                     Map<int[], List<List<String>>> cp_cells =
                             TAnnotationKeyFileReader.readCellAnnotation(cpFile_name);
 
-
+                    @SuppressWarnings("deprecation")
                     double[] cell_data_mode_0 = Evaluator_ClassOnly.compute_prf_relation_or_entity(gs_cells, cp_cells, 0);
                     line.append(appendResult(cell_data_mode_0));
 
+                    @SuppressWarnings("deprecation")
                     double[] cell_data_mode_1 = Evaluator_ClassOnly.compute_prf_relation_or_entity(gs_cells, cp_cells, 1);
                     line.append(appendResult(cell_data_mode_1));
 
