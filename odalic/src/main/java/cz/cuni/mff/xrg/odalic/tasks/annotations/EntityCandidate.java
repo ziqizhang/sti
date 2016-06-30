@@ -17,6 +17,12 @@ public final class EntityCandidate implements Comparable<EntityCandidate>, Seria
   @XmlElement
   private final Likelihood likelihood;
 
+  @SuppressWarnings("unused")
+  private EntityCandidate() {
+    entity = null;
+    likelihood = null;
+  }
+  
   /**
    * @param entity
    * @param likelihood

@@ -11,7 +11,7 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Likelihood;
 
-public final class EntityCandidateValue implements Serializable {
+public final class EntityCandidateValue implements Serializable, Comparable<EntityCandidateValue> {
   
   private static final long serialVersionUID = 3072774254576336747L;
 
@@ -94,5 +94,16 @@ public final class EntityCandidateValue implements Serializable {
   public String toString() {
     return "EntityCandidateValue [entity=" + entity + ", likelihood=" + likelihood + ", chosen="
         + chosen + "]";
+  }
+
+  @Override
+  public int compareTo(EntityCandidateValue o) {
+    final int likelihoodComparison = likelihood.compareTo(o.likelihood);
+    
+    if (likelihoodComparison == 0) {
+      return entity.compareTo(o.entity);
+    } else {
+      return likelihoodComparison;
+    }
   }
 }

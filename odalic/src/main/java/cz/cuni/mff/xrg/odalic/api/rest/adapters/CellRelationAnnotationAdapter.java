@@ -18,7 +18,7 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 
 
-public class CellRelationRelationAnnotationAdapter extends XmlAdapter<CellRelationAnnotationValue, CellRelationAnnotation> {
+public class CellRelationAnnotationAdapter extends XmlAdapter<CellRelationAnnotationValue, CellRelationAnnotation> {
 
   @Override
   public CellRelationAnnotationValue marshal(CellRelationAnnotation bound) throws Exception {

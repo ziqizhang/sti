@@ -3,8 +3,10 @@ package cz.cuni.mff.xrg.odalic.tasks.annotations;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Set;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.jena.ext.com.google.common.collect.ImmutableSet;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -14,9 +16,11 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;
 
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.CellRelationAnnotationAdapter;
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.KnowledgeBaseKeyJsonDeserializer;
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.KnowledgeBaseKeyJsonSerializer;
 
+@XmlJavaTypeAdapter(CellRelationAnnotationAdapter.class)
 @XmlRootElement(name = "cellRelationAnnotation")
 public final class CellRelationAnnotation {
 
