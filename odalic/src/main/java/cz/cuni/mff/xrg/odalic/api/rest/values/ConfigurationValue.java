@@ -2,6 +2,7 @@ package cz.cuni.mff.xrg.odalic.api.rest.values;
 
 import java.io.Serializable;
 
+import javax.annotation.Nullable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -9,7 +10,7 @@ import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
 
 @XmlRootElement(name = "configuration")
-public class ConfigurationValue implements Serializable {
+public final class ConfigurationValue implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
   
@@ -33,6 +34,7 @@ public class ConfigurationValue implements Serializable {
   /**
    * @return the input
    */
+  @Nullable
   public String getInput() {
     return input;
   }
@@ -40,6 +42,7 @@ public class ConfigurationValue implements Serializable {
   /**
    * @return the feedback
    */
+  @Nullable
   public Feedback getFeedback() {
     return feedback;
   }

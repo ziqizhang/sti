@@ -3,6 +3,7 @@ package uk.ac.shef.dcs.sti.xtractor.csv;
 import cern.colt.matrix.ObjectMatrix2D;
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -75,8 +76,9 @@ public class ParserCsv implements Parser {
 
         //Charset decoder 1
         TestDetector td = new TestDetector();
-        String encoding = td.detect(inFile);
-        Charset charset = Charset.forName(encoding);
+        //String encoding = td.detect(inFile);
+        //Charset charset = Charset.forName(encoding);
+        Charset charset = StandardCharsets.UTF_8;
         // Charset charset = Charset.forName("ISO-8859-1");
 
         //Charset decoder 2
