@@ -34,7 +34,13 @@ public class ConfigurationResource {
   public Response putConfigurationForTaskId(@PathParam("id") String id,
       ConfigurationValue configurationValue) {
     final File input = fileService.getById(configurationValue.getInput());
-    final Configuration configuration = new Configuration(input, configurationValue.getFeedback());
+    
+    final Configuration configuration;
+    if (configurationValue.getFeedback() == null) {
+      configuration = new Configuration(input);
+    } else {
+      configuration = new Configuration(input, configurationValue.getFeedback());
+    }
 
     configurationService.setForTaskId(id, configuration);
     return Response.status(Response.Status.OK).entity("Configuration set.").build();

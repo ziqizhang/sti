@@ -97,7 +97,7 @@ public class FeedbackValue implements Serializable {
   /**
    * @param columnIgnores the columnIgnores to set
    */
-  public void setColumnIgnores(Set<ColumnIgnore> columnIgnores) {
+  public void setColumnIgnores(Set<? extends ColumnIgnore> columnIgnores) {
     Preconditions.checkNotNull(columnIgnores);
     
     this.columnIgnores = ImmutableSet.copyOf(columnIgnores);
@@ -113,7 +113,7 @@ public class FeedbackValue implements Serializable {
   /**
    * @param columnAmbiguities the columnAmbiguities to set
    */
-  public void setColumnAmbiguities(Set<ColumnAmbiguity> columnAmbiguities) {
+  public void setColumnAmbiguities(Set<? extends ColumnAmbiguity> columnAmbiguities) {
     Preconditions.checkNotNull(columnAmbiguities);
     
     this.columnAmbiguities = ImmutableSet.copyOf(columnAmbiguities);
@@ -129,7 +129,7 @@ public class FeedbackValue implements Serializable {
   /**
    * @param classifications the classifications to set
    */
-  public void setClassifications(Set<Classification> classifications) {
+  public void setClassifications(Set<? extends Classification> classifications) {
     Preconditions.checkNotNull(classifications);
     
     this.classifications = ImmutableSet.copyOf(classifications);
@@ -145,7 +145,7 @@ public class FeedbackValue implements Serializable {
   /**
    * @param cellRelations the cellRelations to set
    */
-  public void setCellRelations(Set<CellRelation> cellRelations) {
+  public void setCellRelations(Set<? extends CellRelation> cellRelations) {
     Preconditions.checkNotNull(cellRelations);
     
     this.cellRelations = ImmutableSet.copyOf(cellRelations);
@@ -161,7 +161,7 @@ public class FeedbackValue implements Serializable {
   /**
    * @param columnRelations the columnRelations to set
    */
-  public void setColumnRelations(Set<ColumnRelation> columnRelations) {
+  public void setColumnRelations(Set<? extends ColumnRelation> columnRelations) {
     Preconditions.checkNotNull(columnRelations);
     
     this.columnRelations = ImmutableSet.copyOf(columnRelations);
@@ -177,7 +177,7 @@ public class FeedbackValue implements Serializable {
   /**
    * @param disambiguations the disambiguations to set
    */
-  public void setDisambiguations(Set<Disambiguation> disambiguations) {
+  public void setDisambiguations(Set<? extends Disambiguation> disambiguations) {
     Preconditions.checkNotNull(disambiguations);
     
     this.disambiguations = ImmutableSet.copyOf(disambiguations);
@@ -193,7 +193,7 @@ public class FeedbackValue implements Serializable {
   /**
    * @param ambiguities the ambiguities to set
    */
-  public void setAmbiguities(Set<Ambiguity> ambiguities) {
+  public void setAmbiguities(Set<? extends Ambiguity> ambiguities) {
     Preconditions.checkNotNull(ambiguities);
     
     this.ambiguities = ImmutableSet.copyOf(ambiguities);

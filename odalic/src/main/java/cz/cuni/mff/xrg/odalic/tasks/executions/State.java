@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(String.class)
 @XmlRootElement
 public enum State {
-  @XmlEnumValue("1") READY,
-  @XmlEnumValue("2") SCHEDULED,
-  @XmlEnumValue("3") CANCELLED,
-  @XmlEnumValue("4") FINISHED
+  @XmlEnumValue("READY") READY,
+  @XmlEnumValue("SCHEDULED") SCHEDULED,
+  @XmlEnumValue("CANCELLED") CANCELLED,
+  @XmlEnumValue("FINISHED") FINISHED
 }

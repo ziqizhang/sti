@@ -4,40 +4,33 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.annotation.Nullable;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.FeedbackAdapter;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 
-@XmlRootElement(name = "feedback")
+@XmlJavaTypeAdapter(FeedbackAdapter.class)
 public final class Feedback implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
 
-  @XmlElement
   private final ColumnPosition subjectColumnPosition;
 
-  @XmlElement
   private final Set<ColumnIgnore> columnIgnores;
   
-  @XmlElement
   private final Set<Classification> classifications;
   
-  @XmlElement
   private final Set<ColumnAmbiguity> columnAmbiguities;
   
-  @XmlElement
   private final Set<Ambiguity> ambiguities;
   
-  @XmlElement
   private final Set<Disambiguation> disambiguations;
   
-  @XmlElement
   private final Set<CellRelation> cellRelations;
   
-  @XmlElement
   private final Set<ColumnRelation> columnRelations;
   
 

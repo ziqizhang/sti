@@ -29,7 +29,6 @@
 	<bean id="fileService" class="cz.cuni.mff.xrg.odalic.files.MemoryOnlyFileService" />
 	<bean id="configurationService"
 		class="cz.cuni.mff.xrg.odalic.tasks.configurations.MemoryOnlyConfigurationService" />
-	<bean id="draftService" class="cz.cuni.mff.xrg.odalic.tasks.drafts.DraftServiceImpl" />
 	<bean id="executionService"
 		class="cz.cuni.mff.xrg.odalic.tasks.executions.FutureBasedExecutionService" />
 	<bean id="feedbackService"
@@ -38,7 +37,6 @@
 
 	<bean id="configurationResource"
 		class="cz.cuni.mff.xrg.odalic.api.rest.resources.ConfigurationResource" />
-	<bean id="draftResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.DraftResource" />
 	<bean id="executionResource"
 		class="cz.cuni.mff.xrg.odalic.api.rest.resources.ExecutionResource" />
 	<bean id="feedbackResource"

@@ -14,7 +14,6 @@ import cz.cuni.mff.xrg.odalic.api.rest.errors.ThrowableMapper;
 import cz.cuni.mff.xrg.odalic.api.rest.filters.CorsResponseFilter;
 import cz.cuni.mff.xrg.odalic.api.rest.filters.LoggingResponseFilter;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.ConfigurationResource;
-import cz.cuni.mff.xrg.odalic.api.rest.resources.DraftResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.ExecutionResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.FeedbackResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.FileResource;
@@ -31,7 +30,6 @@ public final class Configuration extends ResourceConfig {
     register(TaskResource.class);
     register(ConfigurationResource.class);
     register(FeedbackResource.class);
-    register(DraftResource.class);
     register(ExecutionResource.class);
     register(ResultResource.class);
     register(StateResource.class);

@@ -1,8 +1,6 @@
 package cz.cuni.mff.xrg.odalic.tasks.configurations;
 
 import java.io.Serializable;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.base.Preconditions;
@@ -12,22 +10,13 @@ import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
 import cz.cuni.mff.xrg.odalic.files.File;
 
 @XmlJavaTypeAdapter(ConfigurationAdapter.class)
-@XmlRootElement(name = "configuration")
-public class Configuration implements Serializable {
+public final class Configuration implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
   
-  @XmlElement(name = "input")
   private final File input; 
 
-  @XmlElement(name = "feedback")
   private final Feedback feedback;
-
-  @SuppressWarnings("unused")
-  private Configuration() {
-    input = null;
-    feedback = new Feedback();
-  }
 
   public Configuration(File input) {
     Preconditions.checkNotNull(input);
