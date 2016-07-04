@@ -17,7 +17,7 @@ public class EntityValue implements Serializable {
   private static final long serialVersionUID = 5750987769573292984L;
 
   @XmlElement
-  private URI resource;
+  private String resource;
 
   @XmlElement
   private String label;
@@ -25,7 +25,7 @@ public class EntityValue implements Serializable {
   public EntityValue() {}
 
   public EntityValue(Entity adaptee) {
-    this.resource = adaptee.getResource();
+    this.resource = adaptee.getResourceID();
     this.label = adaptee.getLabel();
   }
 
@@ -33,14 +33,14 @@ public class EntityValue implements Serializable {
    * @return the resource
    */
   @Nullable
-  public URI getResource() {
+  public String getResource() {
     return resource;
   }
 
   /**
    * @param resource the resource to set
    */
-  public void setResouce(URI resource) {
+  public void setResouce(String resource) {
     Preconditions.checkNotNull(resource);
     
     this.resource = resource;

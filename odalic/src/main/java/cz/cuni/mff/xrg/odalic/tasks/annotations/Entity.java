@@ -19,27 +19,27 @@ public final class Entity implements Comparable<Entity>, Serializable {
   private static final long serialVersionUID = -3001706805535088480L;
 
   @XmlElement
-  private final URI resource;
+  private final String resourceID;
   
   @XmlElement
   private final String label;
   
   @SuppressWarnings("unused")
   private Entity() {
-    resource = null;
+    resourceID = null;
     label = null;
   }
   
-  public Entity(URI resource, String label) {
-    Preconditions.checkNotNull(resource);
+  public Entity(String resourceID, String label) {
+    Preconditions.checkNotNull(resourceID);
     Preconditions.checkNotNull(label);
     
-    this.resource = resource;
+    this.resourceID = resourceID;
     this.label = label;
   }
   
-  public URI getResource() {
-    return resource;
+  public String getResourceID() {
+    return resourceID;
   }
   
   public String getLabel() {
@@ -53,7 +53,7 @@ public final class Entity implements Comparable<Entity>, Serializable {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((resource == null) ? 0 : resource.hashCode());
+    result = prime * result + ((resourceID == null) ? 0 : resourceID.hashCode());
     result = prime * result + ((label == null) ? 0 : label.hashCode());
     return result;
   }
@@ -73,11 +73,11 @@ public final class Entity implements Comparable<Entity>, Serializable {
       return false;
     }
     Entity other = (Entity) obj;
-    if (resource == null) {
-      if (other.resource != null) {
+    if (resourceID == null) {
+      if (other.resourceID != null) {
         return false;
       }
-    } else if (!resource.equals(other.resource)) {
+    } else if (!resourceID.equals(other.resourceID)) {
       return false;
     }
     if (label == null) {
@@ -95,12 +95,12 @@ public final class Entity implements Comparable<Entity>, Serializable {
    */
   @Override
   public String toString() {
-    return "Annotation [resource=" + resource + ", label=" + label + "]";
+    return "Annotation [resourceID=" + resourceID + ", label=" + label + "]";
   }
 
   @Override
   public int compareTo(Entity o) {
-    return resource.compareTo(o.resource);
+    return resourceID.compareTo(o.resourceID);
   }
   
   
