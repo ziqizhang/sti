@@ -95,11 +95,10 @@ public final class Feedback implements Serializable {
    * @param disambiguations
    * @param ambiguities
    */
-  public Feedback(ColumnPosition subjectColumnPosition, Set<? extends ColumnIgnore> columnIgnores,
+  public Feedback(@Nullable ColumnPosition subjectColumnPosition, Set<? extends ColumnIgnore> columnIgnores,
       Set<? extends ColumnAmbiguity> columnAmbiguities, Set<? extends Classification> classifications,
       Set<? extends CellRelation> cellRelations, Set<? extends ColumnRelation> columnRelations,
       Set<? extends Disambiguation> disambiguations, Set<? extends Ambiguity> ambiguities) {
-    Preconditions.checkNotNull(subjectColumnPosition);
     checkMandatory(columnIgnores, columnAmbiguities, classifications, cellRelations, columnRelations, disambiguations, ambiguities);
     
     this.subjectColumnPosition = subjectColumnPosition;
@@ -124,49 +123,49 @@ public final class Feedback implements Serializable {
    * @return the columnIgnores
    */
   public Set<ColumnIgnore> getColumnIgnores() {
-    return ImmutableSet.copyOf(columnIgnores);
+    return columnIgnores;
   }
 
   /**
    * @return the columnAmbiguities
    */
   public Set<ColumnAmbiguity> getColumnAmbiguities() {
-    return ImmutableSet.copyOf(columnAmbiguities);
+    return columnAmbiguities;
   }
 
   /**
    * @return the classifications
    */
   public Set<Classification> getClassifications() {
-    return ImmutableSet.copyOf(classifications);
+    return classifications;
   }
 
   /**
    * @return the cellRelations
    */
   public Set<CellRelation> getCellRelations() {
-    return ImmutableSet.copyOf(cellRelations);
+    return cellRelations;
   }
 
   /**
    * @return the columnRelations
    */
   public Set<ColumnRelation> getColumnRelations() {
-    return ImmutableSet.copyOf(columnRelations);
+    return columnRelations;
   }
 
   /**
    * @return the disambiguations
    */
   public Set<Disambiguation> getDisambiguations() {
-    return ImmutableSet.copyOf(disambiguations);
+    return disambiguations;
   }
 
   /**
    * @return the ambiguities
    */
   public Set<Ambiguity> getAmbiguities() {
-    return ImmutableSet.copyOf(ambiguities);
+    return ambiguities;
   }
 
   /* (non-Javadoc)

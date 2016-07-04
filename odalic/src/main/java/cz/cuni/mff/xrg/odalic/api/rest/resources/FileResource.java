@@ -129,7 +129,7 @@ public class FileResource {
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response putFileById(@Context UriInfo uriInfo,
+  public Response postFile(@Context UriInfo uriInfo,
       @FormDataParam("file") InputStream fileInputStream,
       @FormDataParam("file") FormDataContentDisposition fileDetail) throws IOException {
 
