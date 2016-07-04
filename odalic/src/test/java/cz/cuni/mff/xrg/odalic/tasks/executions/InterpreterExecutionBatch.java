@@ -19,13 +19,16 @@ public class InterpreterExecutionBatch {
   public static void main(String[] args) {
     // for test of execution of semantic table interpreter from Odalic project
     
-    SemanticTableInterpreterFactory factory = new TableMinerPlusFactory();
+    final String propertyFilePath = args[0];
+    final String testFileDirectoryPath = args[1];
+    
+    SemanticTableInterpreterFactory factory = new TableMinerPlusFactory(propertyFilePath);
     SemanticTableInterpreter semanticTableInterpreter = factory.getInterpreter();
     Preconditions.checkNotNull(semanticTableInterpreter);
     factory.setIgnoreColumnsForInterpreter(new Integer[]{});
     
     //TODO: Write your own path to the folder containing (only) the input file.
-    List<File> all = Arrays.asList(new File("/Users/-/work/sti/sti_data/Limaye200").listFiles());
+    List<File> all = Arrays.asList(new File(testFileDirectoryPath).listFiles());
     File inputFile = all.get(0);
     
     // code for extraction from CSV

@@ -17,6 +17,9 @@ import org.apache.solr.core.CoreContainer;
 import org.simmetrics.metrics.StringMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Preconditions;
+
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
@@ -65,7 +68,7 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
 
   private static final Logger logger = LoggerFactory.getLogger(TableMinerPlusFactory.class);
 
-  private static final String PROPERTY_FILE_PATH = System.getProperty("cz.cuni.mff.xrg.odalic.sti");
+  private final String propertyFilePath;
 
   private SemanticTableInterpreter interpreter;
 
@@ -78,6 +81,16 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
   private EmbeddedSolrServer entityCache;
   private EmbeddedSolrServer websearchCache;
 
+  public TableMinerPlusFactory(String propertyFilePath) {
+    Preconditions.checkNotNull(propertyFilePath);
+    
+    this.propertyFilePath = propertyFilePath;
+  }
+  
+  public TableMinerPlusFactory() {
+    this(System.getProperty("cz.cuni.mff.xrg.odalic.sti"));
+  }
+  
   /*
    * (non-Javadoc)
    * 
@@ -111,7 +124,7 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
   // Initialize kbsearcher, websearcher
   private void initComponents() throws STIException, IOException {
     properties = new Properties();
-    properties.load(new FileInputStream(PROPERTY_FILE_PATH));
+    properties.load(new FileInputStream(propertyFilePath));
 
     logger.info("Initializing entity cache...");
     EmbeddedSolrServer kbEntityServer = getSolrServerCacheEntity();
