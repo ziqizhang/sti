@@ -7,6 +7,7 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.simmetrics.StringMetric;
 import org.simmetrics.metrics.Levenshtein;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 
 import java.io.IOException;
 import java.util.*;
@@ -124,7 +125,7 @@ public abstract class SPARQLSearch extends KBSearch {
         return out;
     }
 
-    protected abstract List<String> queryForLabel(String sparqlQuery, String resourceURI);
+    protected abstract List<String> queryForLabel(String sparqlQuery, String resourceURI) throws KBSearchException;
 
 
     protected void rank(List<Pair<String, String>> candidates, String originalQueryLabel){

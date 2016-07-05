@@ -12,4 +12,8 @@ public class KBSearchException extends Exception {
     public KBSearchException(Exception e){
         super(e);
     }
+
+    public KBSearchException(String msg, Exception e){
+        super(msg, e);
+    }
 }

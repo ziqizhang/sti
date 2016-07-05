@@ -437,57 +437,61 @@ public class DBpediaSearch extends SPARQLSearch {
     }
 
     @Override
-    protected List<String> queryForLabel(String sparqlQuery, String resourceURI) {
-        org.apache.jena.query.Query query = QueryFactory.create(sparqlQuery);
-        QueryExecution qexec = QueryExecutionFactory.sparqlService(sparqlEndpoint, query);
+    protected List<String> queryForLabel(String sparqlQuery, String resourceURI) throws KBSearchException {
+        try {
+            org.apache.jena.query.Query query = QueryFactory.create(sparqlQuery);
+            QueryExecution qexec = QueryExecutionFactory.sparqlService(sparqlEndpoint, query);
 
-        List<String> out = new ArrayList<>();
-        ResultSet rs = qexec.execSelect();
-        while (rs.hasNext()) {
-            QuerySolution qs = rs.next();
-            RDFNode domain = qs.get("?o");
-            String d = null;
-            if (domain != null)
-                d = domain.toString();
-            if (d != null) {
-                if (d.contains("@")) { //language tag in dbpedia literals
-                    if (!d.endsWith("@en"))
-                        continue;
-                    else {
-                        int trim = d.lastIndexOf("@en");
-                        if (trim != -1)
-                            d = d.substring(0, trim).trim();
-                    }
-                }
-
-            }
-            out.add(d);
-        }
-
-        if (out.size() == 0) { //the resource has no statement with prop "rdfs:label", apply heuristics to parse the
-            //resource uri
-            int trim = resourceURI.lastIndexOf("#");
-            if (trim == -1)
-                trim = resourceURI.lastIndexOf("/");
-            if (trim != -1) {
-                String stringValue = resourceURI.substring(trim + 1).replaceAll("[^a-zA-Z0-9]", "").trim();
-                if (resourceURI.contains("yago")) { //this is an yago resource, which may have numbered ids as suffix
-                    //e.g., City015467
-                    int end = 0;
-                    for (int i = 0; i < stringValue.length(); i++) {
-                        if (Character.isDigit(stringValue.charAt(i))) {
-                            end = i;
-                            break;
+            List<String> out = new ArrayList<>();
+            ResultSet rs = qexec.execSelect();
+            while (rs.hasNext()) {
+                QuerySolution qs = rs.next();
+                RDFNode domain = qs.get("?o");
+                String d = null;
+                if (domain != null)
+                    d = domain.toString();
+                if (d != null) {
+                    if (d.contains("@")) { //language tag in dbpedia literals
+                        if (!d.endsWith("@en"))
+                            continue;
+                        else {
+                            int trim = d.lastIndexOf("@en");
+                            if (trim != -1)
+                                d = d.substring(0, trim).trim();
                         }
                     }
-                    if (end > 0)
-                        stringValue = stringValue.substring(0, end);
-                }
-                stringValue = StringUtils.splitCamelCase(stringValue);
-                out.add(stringValue);
-            }
-        }
-        return out;
 
+                }
+                out.add(d);
+            }
+
+            if (out.size() == 0) { //the resource has no statement with prop "rdfs:label", apply heuristics to parse the
+                //resource uri
+                int trim = resourceURI.lastIndexOf("#");
+                if (trim == -1)
+                    trim = resourceURI.lastIndexOf("/");
+                if (trim != -1) {
+                    String stringValue = resourceURI.substring(trim + 1).replaceAll("[^a-zA-Z0-9]", "").trim();
+                    if (resourceURI.contains("yago")) { //this is an yago resource, which may have numbered ids as suffix
+                        //e.g., City015467
+                        int end = 0;
+                        for (int i = 0; i < stringValue.length(); i++) {
+                            if (Character.isDigit(stringValue.charAt(i))) {
+                                end = i;
+                                break;
+                            }
+                        }
+                        if (end > 0)
+                            stringValue = stringValue.substring(0, end);
+                    }
+                    stringValue = StringUtils.splitCamelCase(stringValue);
+                    out.add(stringValue);
+                }
+            }
+            return out;
+        }
+        catch (QueryParseException ex) {
+            throw new KBSearchException("Invalid query: " + sparqlQuery, ex);
+        }
     }
 }
