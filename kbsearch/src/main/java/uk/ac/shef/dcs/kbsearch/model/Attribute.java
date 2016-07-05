@@ -18,7 +18,7 @@ public abstract class Attribute implements Serializable{
 
     public Attribute(String relationURI, String value) {
         this.relationURI =relationURI;
-        this.value=value;
+        this.value= fixValue(value);
     }
 
     /**
@@ -42,7 +42,7 @@ public abstract class Attribute implements Serializable{
     }
 
     public void setValue(String value) {
-        this.value = value;
+        this.value = fixValue(value);
     }
 
     public String getRelationURI() {
@@ -75,5 +75,15 @@ public abstract class Attribute implements Serializable{
 
     public String toString(){
         return "r="+ relationURI +",o="+value+" ("+valueURI+"), direct="+isDirect;
+    }
+
+    String fixValue(String originalValue) {
+        Integer index = originalValue.indexOf("^^");
+        if (originalValue.startsWith("http") && index > 0) {
+            return originalValue.substring(0, index);
+        }
+        else {
+            return originalValue;
+        }
     }
 }

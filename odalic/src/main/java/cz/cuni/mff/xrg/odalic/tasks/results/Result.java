@@ -79,11 +79,10 @@ public class Result implements Serializable {
       CellAnnotation[][] cellAnnotations,
       Map<ColumnRelationPosition, ColumnRelationAnnotation> columnRelationAnnotations,
       Map<CellRelationPosition, CellRelationAnnotation> cellRelationAnnotations) {
-    checkMandatory(headerAnnotations, cellAnnotations, columnRelationAnnotations,
-        cellRelationAnnotations);
-    
+
     Preconditions.checkArgument(!cz.cuni.mff.xrg.odalic.util.Arrays.containsNull(cellAnnotations));
-    Preconditions.checkArgument(cz.cuni.mff.xrg.odalic.util.Arrays.isMatrix(cellAnnotations));
+    // TODO: Check this with Vaclac. It makes no sense, why should it be a square matrix.
+    // Preconditions.checkArgument(cz.cuni.mff.xrg.odalic.util.Arrays.isMatrix(cellAnnotations));
   }
   
   /**

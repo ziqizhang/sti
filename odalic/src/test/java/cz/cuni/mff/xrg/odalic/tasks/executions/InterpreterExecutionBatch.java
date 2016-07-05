@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.tasks.results.DefaultAnnotationToResultAdapter;
+import cz.cuni.mff.xrg.odalic.tasks.results.Result;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
@@ -25,7 +27,7 @@ public class InterpreterExecutionBatch {
     factory.setIgnoreColumnsForInterpreter(new Integer[]{});
     
     //TODO: Write your own path to the folder containing (only) the input file.
-    List<File> all = Arrays.asList(new File("/Users/-/work/sti/sti_data/Limaye200").listFiles());
+    List<File> all = Arrays.asList(new File("d:\\Documents\\Odalic\\Input\\").listFiles());
     File inputFile = all.get(0);
     
     // code for extraction from CSV
@@ -49,14 +51,17 @@ public class InterpreterExecutionBatch {
     TAnnotation annotationResult;
     try {
       annotationResult = semanticTableInterpreter.start(tables.get(0), true);
+
+      DefaultAnnotationToResultAdapter adapter = new DefaultAnnotationToResultAdapter();
+      Result odalicResult = adapter.toResult(annotationResult);
       
-      System.out.println("V�sledek - OK:");
-      System.out.println(annotationResult.toString());
+      System.out.println("Výsledek - OK:");
+      System.out.println(odalicResult.toString());
     } catch (STIException e) {
-      System.out.println("V�sledek - Chyba:");
+      System.out.println("Výsledek - Chyba:");
       e.printStackTrace();
     }
-    System.out.println("Konec v�sledku.");
+    System.out.println("Konec výsledku.");
   }
 
 }
