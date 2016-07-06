@@ -65,7 +65,38 @@ public class Result implements Serializable {
    * @param cellRelationAnnotations suggested annotation for relations existing between two cells at
    *        the same row
    */
-  public Result(ColumnPosition subjectColumnPosition, List<HeaderAnnotation> headerAnnotations,
+  public Result(List<HeaderAnnotation> headerAnnotations,
+      CellAnnotation[][] cellAnnotations,
+      Map<ColumnRelationPosition, ColumnRelationAnnotation> columnRelationAnnotations,
+      Map<CellRelationPosition, CellRelationAnnotation> cellRelationAnnotations) {
+    checkMandatory(headerAnnotations, cellAnnotations, columnRelationAnnotations,
+        cellRelationAnnotations);
+    
+    this.subjectColumnPosition = null;
+    this.headerAnnotations = ImmutableList.copyOf(headerAnnotations);
+    this.cellAnnotations = cz.cuni.mff.xrg.odalic.util.Arrays.deepCopy(CellAnnotation.class, cellAnnotations);
+    this.columnRelationAnnotations = ImmutableMap.copyOf(columnRelationAnnotations);
+    this.cellRelationAnnotations = ImmutableMap.copyOf(cellRelationAnnotations);
+  }
+
+  private static void checkMandatory(List<HeaderAnnotation> headerAnnotations,
+      CellAnnotation[][] cellAnnotations,
+      Map<ColumnRelationPosition, ColumnRelationAnnotation> columnRelationAnnotations,
+      Map<CellRelationPosition, CellRelationAnnotation> cellRelationAnnotations) {
+
+    Preconditions.checkArgument(!cz.cuni.mff.xrg.odalic.util.Arrays.containsNull(cellAnnotations));
+    Preconditions.checkArgument(cz.cuni.mff.xrg.odalic.util.Arrays.isMatrix(cellAnnotations));
+  }
+  
+  /**
+   * @param subjectColumnPosition
+   * @param headerAnnotations
+   * @param cellAnnotations
+   * @param columnRelationAnnotations
+   * @param cellRelationAnnotations
+   */
+  public Result(ColumnPosition subjectColumnPosition,
+      List<HeaderAnnotation> headerAnnotations,
       CellAnnotation[][] cellAnnotations,
       Map<ColumnRelationPosition, ColumnRelationAnnotation> columnRelationAnnotations,
       Map<CellRelationPosition, CellRelationAnnotation> cellRelationAnnotations) {

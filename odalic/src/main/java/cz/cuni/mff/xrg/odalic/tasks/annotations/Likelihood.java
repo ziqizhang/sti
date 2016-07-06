@@ -25,7 +25,6 @@ public final class Likelihood implements Comparable<Likelihood>, Serializable {
 
   public Likelihood(double value) {
     Preconditions.checkArgument(value >= 0);
-    Preconditions.checkArgument(value <= 1);
 
     this.value = value;
   }

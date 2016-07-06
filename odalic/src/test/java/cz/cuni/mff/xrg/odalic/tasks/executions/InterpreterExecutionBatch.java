@@ -6,8 +6,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
+import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
+import cz.cuni.mff.xrg.odalic.tasks.results.DefaultAnnotationToResultAdapter;
+import cz.cuni.mff.xrg.odalic.tasks.results.Result;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
@@ -24,6 +28,7 @@ public class InterpreterExecutionBatch {
    * @param args command line arguments
    * 
    * @author Josef Janoušek
+   * @author Jan Váňa
    */
   public static void main(String[] args) {
     final String propertyFilePath = args[0];
@@ -51,6 +56,11 @@ public class InterpreterExecutionBatch {
 
       System.out.println("Result - OK:");
       System.out.println(annotationResult.toString());
+      
+      DefaultAnnotationToResultAdapter adapter = new DefaultAnnotationToResultAdapter();
+      Result odalicResult = adapter.toResult(ImmutableMap.of(new KnowledgeBase("DBpedia"), annotationResult));
+      
+      System.out.println(odalicResult.toString());
     } catch (STIException e) {
       System.out.println("Result - Error:");
       e.printStackTrace();
