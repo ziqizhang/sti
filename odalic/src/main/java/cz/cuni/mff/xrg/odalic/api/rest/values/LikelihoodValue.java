@@ -9,6 +9,12 @@ import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Likelihood;
 
+/**
+ * Domain class {@link Likelihood} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "likelihood")
 public final class LikelihoodValue implements Serializable {
   
@@ -17,14 +23,16 @@ public final class LikelihoodValue implements Serializable {
   @XmlElement
   private double value;
 
-  public LikelihoodValue() {}
+  public LikelihoodValue() {
+    value = Double.MIN_VALUE;
+  }
   
   public LikelihoodValue(Likelihood adaptee) {
     value = adaptee.getValue();
   }
 
   /**
-   * @return the value
+   * @return the value (when not set, may be out of range)
    */
   public double getValue() {
     return value;

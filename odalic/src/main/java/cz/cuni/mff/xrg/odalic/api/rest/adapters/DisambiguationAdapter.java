@@ -6,7 +6,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.values.DisambiguationValue;
 import cz.cuni.mff.xrg.odalic.feedbacks.Disambiguation;
 
 
-public class DisambiguationAdapter
+public final class DisambiguationAdapter
     extends XmlAdapter<DisambiguationValue, Disambiguation> {
 
   @Override

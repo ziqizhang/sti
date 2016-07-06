@@ -6,9 +6,9 @@ import java.util.Set;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import org.apache.jena.ext.com.google.common.collect.ImmutableSet;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 
 import cz.cuni.mff.xrg.odalic.api.rest.values.CellAnnotationValue;
@@ -18,7 +18,7 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 
 
-public class CellAnnotationAdapter extends XmlAdapter<CellAnnotationValue, CellAnnotation> {
+public final class CellAnnotationAdapter extends XmlAdapter<CellAnnotationValue, CellAnnotation> {
 
   @Override
   public CellAnnotationValue marshal(CellAnnotation bound) throws Exception {

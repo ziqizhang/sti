@@ -3,46 +3,38 @@ package cz.cuni.mff.xrg.odalic.tasks.annotations;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Set;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.apache.jena.ext.com.google.common.collect.ImmutableSet;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 
 import cz.cuni.mff.xrg.odalic.api.rest.adapters.CellAnnotationAdapter;
-import cz.cuni.mff.xrg.odalic.api.rest.conversions.KnowledgeBaseKeyJsonDeserializer;
-import cz.cuni.mff.xrg.odalic.api.rest.conversions.KnowledgeBaseKeyJsonSerializer;
 
 
+/**
+ * Annotates cell in a table.
+ * 
+ * @author Václav Brodec
+ *
+ */
+@Immutable
 @XmlJavaTypeAdapter(CellAnnotationAdapter.class)
-@XmlRootElement(name = "cellAnnotation")
 public final class CellAnnotation {
 
-  @XmlElement
-  @JsonDeserialize(keyUsing = KnowledgeBaseKeyJsonDeserializer.class)
-  @JsonSerialize(keyUsing = KnowledgeBaseKeyJsonSerializer.class)
   private final Map<KnowledgeBase, NavigableSet<EntityCandidate>> candidates;
   
-  @XmlElement
-  @JsonDeserialize(keyUsing = KnowledgeBaseKeyJsonDeserializer.class)
-  @JsonSerialize(keyUsing = KnowledgeBaseKeyJsonSerializer.class)
   private final Map<KnowledgeBase, Set<EntityCandidate>> chosen;
 
-  @SuppressWarnings("unused")
-  private CellAnnotation() {
-    candidates = ImmutableMap.of();
-    chosen = ImmutableMap.of();
-  }
-  
   /**
-   * @param candidates
-   * @param chosen
+   * Creates new annotation.
+   * 
+   * @param candidates all possible candidates for the assigned entity sorted by with their
+   *        likelihood
+   * @param chosen subset of candidates chosen to annotate the element
    */
   public CellAnnotation(Map<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> candidates,
       Map<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> chosen) {
@@ -82,7 +74,26 @@ public final class CellAnnotation {
     return chosen;
   }
 
-  /* (non-Javadoc)
+  /**
+   * Merges with the other annotation.
+   * 
+   * @param other annotation based on different set of knowledge bases
+   * @return merged annotation
+   * @throws IllegalArgumentException If both this and the other annotation have some candidates from the same knowledge base
+   */
+  public CellAnnotation merge(CellAnnotation other) throws IllegalArgumentException {
+    final ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder = ImmutableMap.builder();
+    candidatesBuilder.putAll(other.candidates);
+    
+    final ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder = ImmutableMap.builder();
+    chosenBuilder.putAll(other.chosen);
+    
+    return new CellAnnotation(candidatesBuilder.build(), chosenBuilder.build());
+  }
+  
+  /**
+   * Computes hash code based on the candidates and the chosen.
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -126,8 +137,11 @@ public final class CellAnnotation {
     return true;
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
+  /**
+   * Compares for equality (only other annotation of the same kind with equally ordered set of
+   * candidates and the same chosen set passes).
+   * 
+   * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
   public String toString() {

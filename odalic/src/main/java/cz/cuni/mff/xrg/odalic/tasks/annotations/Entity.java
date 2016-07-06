@@ -1,47 +1,51 @@
 package cz.cuni.mff.xrg.odalic.tasks.annotations;
 
 import java.io.Serializable;
-import java.net.URI;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import com.google.common.base.Preconditions;
+
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.EntityAdapter;
 
 
 /**
- * Groups the resource URI and its label in one handy class.
+ * Groups the resource ID and its label in one handy class.
  * 
  * @author Václav Brodec
  */
-@XmlRootElement(name = "entity")
+@XmlJavaTypeAdapter(EntityAdapter.class)
 public final class Entity implements Comparable<Entity>, Serializable {
 
   private static final long serialVersionUID = -3001706805535088480L;
 
-  @XmlElement
-  private final String resourceID;
+  private final String resource;
   
-  @XmlElement
   private final String label;
   
-  @SuppressWarnings("unused")
-  private Entity() {
-    resourceID = null;
-    label = null;
-  }
-  
-  public Entity(String resourceID, String label) {
-    Preconditions.checkNotNull(resourceID);
+  /**
+   * Creates new entity representation.
+   * 
+   * @param resource entity resource ID
+   * @param label label
+   */
+  public Entity(String resource, String label) {
+    Preconditions.checkNotNull(resource);
     Preconditions.checkNotNull(label);
     
-    this.resourceID = resourceID;
+    this.resource = resource;
     this.label = label;
   }
   
-  public String getResourceID() {
-    return resourceID;
+  /**
+   * @return the resource ID
+   */
+  public String getResource() {
+    return resource;
   }
   
+  /**
+   * @return the label
+   */
   public String getLabel() {
     return label;
   }
@@ -53,7 +57,7 @@ public final class Entity implements Comparable<Entity>, Serializable {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((resourceID == null) ? 0 : resourceID.hashCode());
+    result = prime * result + ((resource == null) ? 0 : resource.hashCode());
     result = prime * result + ((label == null) ? 0 : label.hashCode());
     return result;
   }
@@ -73,11 +77,11 @@ public final class Entity implements Comparable<Entity>, Serializable {
       return false;
     }
     Entity other = (Entity) obj;
-    if (resourceID == null) {
-      if (other.resourceID != null) {
+    if (resource == null) {
+      if (other.resource != null) {
         return false;
       }
-    } else if (!resourceID.equals(other.resourceID)) {
+    } else if (!resource.equals(other.resource)) {
       return false;
     }
     if (label == null) {
@@ -90,18 +94,22 @@ public final class Entity implements Comparable<Entity>, Serializable {
     return true;
   }
 
+  /**
+   * Compares the entities by their resource ID lexicographically.
+   * 
+   * @see java.lang.Comparable#compareTo(java.lang.Object)
+   * @see java.lang.String#compareTo(String) for the definition of resource ID comparison
+   */
+  @Override
+  public int compareTo(Entity o) {
+    return resource.compareTo(o.resource);
+  }
+  
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    return "Annotation [resourceID=" + resourceID + ", label=" + label + "]";
+    return "Annotation [resource=" + resource + ", label=" + label + "]";
   }
-
-  @Override
-  public int compareTo(Entity o) {
-    return resourceID.compareTo(o.resourceID);
-  }
-  
-  
 }

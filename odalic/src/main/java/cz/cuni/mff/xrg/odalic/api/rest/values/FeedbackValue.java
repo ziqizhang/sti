@@ -19,8 +19,14 @@ import cz.cuni.mff.xrg.odalic.feedbacks.Disambiguation;
 import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 
+/**
+ * Domain class {@link Feedback} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "feedback")
-public class FeedbackValue implements Serializable {
+public final class FeedbackValue implements Serializable {
 
   private static final long serialVersionUID = -7968455903789693405L;
 
@@ -49,31 +55,29 @@ public class FeedbackValue implements Serializable {
   private Set<Ambiguity> ambiguities;
 
   public FeedbackValue() {
-    this.subjectColumnPosition = null;
-    this.columnIgnores = ImmutableSet.of();
-    this.columnAmbiguities = ImmutableSet.of();
-    this.classifications = ImmutableSet.of();
-    this.cellRelations = ImmutableSet.of();
-    this.columnRelations = ImmutableSet.of();
-    this.disambiguations = ImmutableSet.of();
-    this.ambiguities = ImmutableSet.of();
+    subjectColumnPosition = null;
+    columnIgnores = ImmutableSet.of();
+    columnAmbiguities = ImmutableSet.of();
+    classifications = ImmutableSet.of();
+    cellRelations = ImmutableSet.of();
+    columnRelations = ImmutableSet.of();
+    disambiguations = ImmutableSet.of();
+    ambiguities = ImmutableSet.of();
   }
   
   public FeedbackValue(Feedback adaptee) {
-    Preconditions.checkNotNull(adaptee);
-    
-    this.subjectColumnPosition = adaptee.getSubjectColumnPosition();
-    this.columnIgnores = adaptee.getColumnIgnores();
-    this.columnAmbiguities = adaptee.getColumnAmbiguities();
-    this.classifications = adaptee.getClassifications();
-    this.cellRelations = adaptee.getCellRelations();
-    this.columnRelations = adaptee.getColumnRelations();
-    this.disambiguations = adaptee.getDisambiguations();
-    this.ambiguities = adaptee.getAmbiguities();
+    subjectColumnPosition = adaptee.getSubjectColumnPosition();
+    columnIgnores = adaptee.getColumnIgnores();
+    columnAmbiguities = adaptee.getColumnAmbiguities();
+    classifications = adaptee.getClassifications();
+    cellRelations = adaptee.getCellRelations();
+    columnRelations = adaptee.getColumnRelations();
+    disambiguations = adaptee.getDisambiguations();
+    ambiguities = adaptee.getAmbiguities();
   }
 
   /**
-   * @return the subjectColumnPosition
+   * @return the subject column position
    */
   @Nullable
   public ColumnPosition getSubjectColumnPosition() {
@@ -81,21 +85,21 @@ public class FeedbackValue implements Serializable {
   }
 
   /**
-   * @param subjectColumnPosition the subjectColumnPosition to set
+   * @param subjectColumnPosition the subject column position to set
    */
   public void setSubjectColumnPosition(ColumnPosition subjectColumnPosition) {
     this.subjectColumnPosition = subjectColumnPosition;
   }
 
   /**
-   * @return the columnIgnores
+   * @return the column ignores
    */
   public Set<ColumnIgnore> getColumnIgnores() {
     return columnIgnores;
   }
 
   /**
-   * @param columnIgnores the columnIgnores to set
+   * @param columnIgnores the column ignores to set
    */
   public void setColumnIgnores(Set<? extends ColumnIgnore> columnIgnores) {
     Preconditions.checkNotNull(columnIgnores);
@@ -104,14 +108,14 @@ public class FeedbackValue implements Serializable {
   }
 
   /**
-   * @return the columnAmbiguities
+   * @return the column ambiguities
    */
   public Set<ColumnAmbiguity> getColumnAmbiguities() {
     return columnAmbiguities;
   }
 
   /**
-   * @param columnAmbiguities the columnAmbiguities to set
+   * @param columnAmbiguities the column ambiguities to set
    */
   public void setColumnAmbiguities(Set<? extends ColumnAmbiguity> columnAmbiguities) {
     Preconditions.checkNotNull(columnAmbiguities);
@@ -136,7 +140,7 @@ public class FeedbackValue implements Serializable {
   }
 
   /**
-   * @return the cellRelations
+   * @return the cell relations
    */
   public Set<CellRelation> getCellRelations() {
     return cellRelations;
@@ -152,14 +156,14 @@ public class FeedbackValue implements Serializable {
   }
 
   /**
-   * @return the columnRelations
+   * @return the column relations
    */
   public Set<ColumnRelation> getColumnRelations() {
     return columnRelations;
   }
 
   /**
-   * @param columnRelations the columnRelations to set
+   * @param columnRelations the column relations to set
    */
   public void setColumnRelations(Set<? extends ColumnRelation> columnRelations) {
     Preconditions.checkNotNull(columnRelations);

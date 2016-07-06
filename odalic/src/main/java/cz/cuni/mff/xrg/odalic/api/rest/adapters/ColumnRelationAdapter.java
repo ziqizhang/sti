@@ -6,7 +6,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.values.ColumnRelationValue;
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnRelation;
 
 
-public class ColumnRelationAdapter extends XmlAdapter<ColumnRelationValue, ColumnRelation> {
+public final class ColumnRelationAdapter extends XmlAdapter<ColumnRelationValue, ColumnRelation> {
 
   @Override
   public ColumnRelationValue marshal(ColumnRelation bound) throws Exception {

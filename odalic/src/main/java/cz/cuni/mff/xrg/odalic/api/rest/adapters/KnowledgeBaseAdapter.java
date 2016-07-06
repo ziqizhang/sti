@@ -6,7 +6,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.values.KnowledgeBaseValue;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 
 
-public class KnowledgeBaseAdapter
+public final class KnowledgeBaseAdapter
     extends XmlAdapter<KnowledgeBaseValue, KnowledgeBase> {
 
   @Override

@@ -2,26 +2,31 @@ package cz.cuni.mff.xrg.odalic.positions;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.base.Preconditions;
 
-@XmlRootElement(name = "columnPosition")
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.ColumnPositionAdapter;
+
+/**
+ * Position of column in a table.
+ * 
+ * @author Václav Brodec
+ *
+ */
+@Immutable
+@XmlJavaTypeAdapter(ColumnPositionAdapter.class)
 public final class ColumnPosition implements Serializable {
 
   private static final long serialVersionUID = -1179554576389130985L;
   
-  @XmlElement
   private final int index;
 
-  @SuppressWarnings("unused")
-  private ColumnPosition() {
-    index = Integer.MIN_VALUE;
-  }
-  
   /**
-   * @param index
+   * Creates new column position representation.
+   * 
+   * @param index zero-based index
    */
   public ColumnPosition(int index) {
     Preconditions.checkArgument(index >= 0);
@@ -37,8 +42,8 @@ public final class ColumnPosition implements Serializable {
     return index;
   }
   
-  /*
-   * (non-Javadoc)
+  /**
+   * Computes hash code based on the index.
    * 
    * @see java.lang.Object#hashCode()
    */
@@ -50,8 +55,8 @@ public final class ColumnPosition implements Serializable {
     return result;
   }
 
-  /*
-   * (non-Javadoc)
+  /**
+   * Compares for equality (only other column position with the same index passes).
    * 
    * @see java.lang.Object#equals(java.lang.Object)
    */

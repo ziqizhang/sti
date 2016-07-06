@@ -8,39 +8,49 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService;
-import cz.cuni.mff.xrg.odalic.tasks.executions.State;
+import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.values.StateValue;
+import cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService;
+
+/**
+ * State resource definition.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @Component
 @Path("/tasks/{id}/state")
-public class StateResource {
+public final class StateResource {
 
-  private ExecutionService executionService;
-
-  @GET
-  @Produces({MediaType.APPLICATION_JSON})
-  public State getStateForTaskId(@PathParam("id") String id) {
-    final boolean scheduled = executionService.hasBeenScheduledForTaskId(id);
-    if (!scheduled) {
-      return State.READY;
-    }
-    
-    final boolean done = executionService.isDoneForTaskId(id);
-    final boolean cancelled = executionService.isCancelledForTaskId(id);
-    
-    if (done) {
-      if (cancelled) {
-        return State.CANCELLED;
-      } else {
-        return State.FINISHED;
-      }
-    } else {
-      return State.SCHEDULED;
-    }
-  }
+  private final ExecutionService executionService;
   
   @Autowired
   public StateResource(ExecutionService executionService) {
+    Preconditions.checkNotNull(executionService);
+    
     this.executionService = executionService;
+  }
+
+  @GET
+  @Produces({MediaType.APPLICATION_JSON})
+  public StateValue getStateForTaskId(@PathParam("id") String id) {
+    final boolean scheduled = executionService.hasBeenScheduledForTaskId(id);
+    if (!scheduled) {
+      return StateValue.READY;
+    }
+    
+    final boolean done = executionService.isDoneForTaskId(id);
+    final boolean canceled = executionService.isCanceledForTaskId(id);
+    
+    if (done) {
+      if (canceled) {
+        return StateValue.CANCELLED;
+      } else {
+        return StateValue.FINISHED;
+      }
+    } else {
+      return StateValue.SCHEDULED;
+    }
   }
 }

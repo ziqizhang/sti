@@ -6,7 +6,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.values.FeedbackValue;
 import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
 
 
-public class FeedbackAdapter extends XmlAdapter<FeedbackValue, Feedback> {
+public final class FeedbackAdapter extends XmlAdapter<FeedbackValue, Feedback> {
 
   @Override
   public FeedbackValue marshal(Feedback bound) throws Exception {

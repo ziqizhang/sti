@@ -62,7 +62,7 @@ public class SimpleInput implements Input, Serializable {
 
   @Override
   public String at(CellPosition position) {
-    return content[position.getRowPosition().getIndex()][position.getColumnPosition().getIndex()];
+    return content[position.getRowIndex()][position.getColumnIndex()];
   }
 
   @Override

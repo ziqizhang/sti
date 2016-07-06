@@ -10,17 +10,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LoggingResponseFilter
+/**
+ * Filter that logs the API responses. 
+ * 
+ * @author Václav Brodec
+ *
+ */
+public final class LoggingResponseFilter
         implements ContainerResponseFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(LoggingResponseFilter.class);
 
+    /* (non-Javadoc)
+     * @see javax.ws.rs.container.ContainerResponseFilter#filter(javax.ws.rs.container.ContainerRequestContext, javax.ws.rs.container.ContainerResponseContext)
+     */
+    @Override
     public void filter(ContainerRequestContext requestContext,
             ContainerResponseContext responseContext) throws IOException {
-        String method = requestContext.getMethod();
+        final String method = requestContext.getMethod();
 
         logger.debug("Requesting " + method + " for path " + requestContext.getUriInfo().getPath());
-        Object entity = responseContext.getEntity();
+        final Object entity = responseContext.getEntity();
         if (entity != null) {
             logger.debug("Response " + new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(entity));
         }

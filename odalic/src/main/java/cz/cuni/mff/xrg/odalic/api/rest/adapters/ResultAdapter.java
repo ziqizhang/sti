@@ -16,7 +16,7 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.ColumnRelationAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.results.Result;
 
 
-public class ResultAdapter extends XmlAdapter<ResultValue, Result> {
+public final class ResultAdapter extends XmlAdapter<ResultValue, Result> {
 
   @Override
   public ResultValue marshal(Result bound) throws Exception {
@@ -53,7 +53,7 @@ public class ResultAdapter extends XmlAdapter<ResultValue, Result> {
       }
     }
     
-    return new Result(value.getHeaderAnnotations(), value.getCellAnnotations(),
+    return new Result(value.getSubjectColumnPosition(), value.getHeaderAnnotations(), value.getCellAnnotations(),
         columnRelationAnnotationsBuilder.build(), cellRelationAnnotationsBuilder.build());
   }
 }

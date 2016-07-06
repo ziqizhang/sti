@@ -15,6 +15,8 @@ import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.ConfigurationService;
 
 /**
+ * This {@link FeedbackService} implementation provides no persistence.
+ * 
  * @author Václav Brodec
  *
  */

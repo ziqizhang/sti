@@ -3,66 +3,56 @@ package cz.cuni.mff.xrg.odalic.tasks;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.base.Preconditions;
 
-import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateDeserializer;
-import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateSerializer;
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.TaskAdapter;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
-import cz.cuni.mff.xrg.odalic.tasks.executions.Execution;
 
-@XmlRootElement(name = "task")
+/**
+ * Task represents the single unit of work done by the Odalic core. Its configuration is
+ * replaceable.
+ * 
+ * @author Václav Brodec
+ *
+ */
+@XmlJavaTypeAdapter(TaskAdapter.class)
 public final class Task implements Serializable {
 
   private static final long serialVersionUID = 1610346823333685091L;
 
-  @XmlElement
   private final String id;
-  
-  @JsonSerialize(using = CustomJsonDateSerializer.class)
-  @JsonDeserialize(using = CustomJsonDateDeserializer.class)
-  @XmlElement
+
   private final Date created;
 
-  @XmlElement
   private Configuration configuration;
 
-  @SuppressWarnings("unused")
-  private Task() {
-    id = null;
-    created = null;
-    configuration = null;
-  }
-
   /**
-   * @param id
-   * @param created
-   * @param configuration   * 
+   * Creates the task instance.
+   * 
+   * @param id ID of the task
+   * @param created provided time of creation
+   * @param configuration configuration of the task
    */
   public Task(String id, Date created, Configuration configuration) {
     Preconditions.checkNotNull(id);
     Preconditions.checkNotNull(created);
-    Preconditions.checkNotNull(configuration);    
-    
+    Preconditions.checkNotNull(configuration);
+
     this.id = id;
     this.created = created;
     this.configuration = configuration;
   }
-  
-  public Task(String id, Date created, Configuration configuration, Execution execution) {
-    Preconditions.checkNotNull(id);
-    Preconditions.checkNotNull(created);
-    Preconditions.checkNotNull(configuration);
-    Preconditions.checkNotNull(execution);
-    
-    this.id = id;
-    this.created = created;
-    this.configuration = configuration;
+
+  /**
+   * Creates the task instance and sets it creation date to now.
+   * 
+   * @param id ID of the task
+   * @param configuration configuration of the task
+   */
+  public Task(String id, Configuration configuration) {
+    this(id, new Date(), configuration);
   }
 
   /**
@@ -76,6 +66,8 @@ public final class Task implements Serializable {
    * @param configuration the configuration to set
    */
   public void setConfiguration(Configuration configuration) {
+    Preconditions.checkNotNull(configuration);
+
     this.configuration = configuration;
   }
 
@@ -93,7 +85,9 @@ public final class Task implements Serializable {
     return created;
   }
 
-  /* (non-Javadoc)
+  /**
+   * Computes hash code value for this object based solely on its ID.
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -104,7 +98,10 @@ public final class Task implements Serializable {
     return result;
   }
 
-  /* (non-Javadoc)
+  /**
+   * Compares for equality (comparable to other {@link Task} instances only, based solely on their
+   * IDs).
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -129,12 +126,13 @@ public final class Task implements Serializable {
     return true;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    return "Task [id=" + id + ", created=" + created + ", configuration=" + configuration
-        + "]";
+    return "Task [id=" + id + ", created=" + created + ", configuration=" + configuration + "]";
   }
 }

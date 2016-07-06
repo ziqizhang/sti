@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.base.Preconditions;
@@ -12,6 +13,14 @@ import com.google.common.collect.ImmutableSet;
 import cz.cuni.mff.xrg.odalic.api.rest.adapters.FeedbackAdapter;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 
+/**
+ * User feedback for the result of annotating algorithm. Expresses also input constraints for the
+ * next run.
+ * 
+ * @author Václav Brodec
+ *
+ */
+@Immutable
 @XmlJavaTypeAdapter(FeedbackAdapter.class)
 public final class Feedback implements Serializable {
 
@@ -20,20 +29,23 @@ public final class Feedback implements Serializable {
   private final ColumnPosition subjectColumnPosition;
 
   private final Set<ColumnIgnore> columnIgnores;
-  
-  private final Set<Classification> classifications;
-  
-  private final Set<ColumnAmbiguity> columnAmbiguities;
-  
-  private final Set<Ambiguity> ambiguities;
-  
-  private final Set<Disambiguation> disambiguations;
-  
-  private final Set<CellRelation> cellRelations;
-  
-  private final Set<ColumnRelation> columnRelations;
-  
 
+  private final Set<Classification> classifications;
+
+  private final Set<ColumnAmbiguity> columnAmbiguities;
+
+  private final Set<Ambiguity> ambiguities;
+
+  private final Set<Disambiguation> disambiguations;
+
+  private final Set<CellRelation> cellRelations;
+
+  private final Set<ColumnRelation> columnRelations;
+
+
+  /**
+   * Creates empty feedback.
+   */
   public Feedback() {
     this.subjectColumnPosition = null;
     this.columnIgnores = ImmutableSet.of();
@@ -44,35 +56,21 @@ public final class Feedback implements Serializable {
     this.disambiguations = ImmutableSet.of();
     this.ambiguities = ImmutableSet.of();
   }
-  
-  /**
-   * @param columnIgnores
-   * @param columnAmbiguities
-   * @param classifications
-   * @param cellRelations
-   * @param columnRelations
-   * @param disambiguations
-   * @param ambiguities
-   */
-  public Feedback(Set<? extends ColumnIgnore> columnIgnores,
-      Set<? extends ColumnAmbiguity> columnAmbiguities, Set<? extends Classification> classifications,
-      Set<? extends CellRelation> cellRelations, Set<? extends ColumnRelation> columnRelations,
-      Set<? extends Disambiguation> disambiguations, Set<? extends Ambiguity> ambiguities) {
-    checkMandatory(columnIgnores, columnAmbiguities, classifications, cellRelations,
-        columnRelations, disambiguations, ambiguities);
-    
-    this.subjectColumnPosition = null;
-    this.columnIgnores = ImmutableSet.copyOf(columnIgnores);
-    this.columnAmbiguities = ImmutableSet.copyOf(columnAmbiguities);
-    this.classifications = ImmutableSet.copyOf(classifications);
-    this.cellRelations = ImmutableSet.copyOf(cellRelations);
-    this.columnRelations = ImmutableSet.copyOf(columnRelations);
-    this.disambiguations = ImmutableSet.copyOf(disambiguations);
-    this.ambiguities = ImmutableSet.copyOf(ambiguities);
-  }
 
-  private static void checkMandatory(Set<? extends ColumnIgnore> columnIgnores,
-      Set<? extends ColumnAmbiguity> columnAmbiguities,
+  /**
+   * Creates feedback.
+   * 
+   * @param subjectColumnPosition position of the subject column (optional)
+   * @param columnIgnores ignored columns
+   * @param columnAmbiguities columns whose cells will not be disambiguated
+   * @param classifications classification hints for columns
+   * @param cellRelations hints with relations between cells on the same rows
+   * @param columnRelations hints with relation between columns
+   * @param disambiguations custom disambiguations
+   * @param ambiguities hints for cells to be left ambiguous
+   */
+  public Feedback(@Nullable ColumnPosition subjectColumnPosition,
+      Set<? extends ColumnIgnore> columnIgnores, Set<? extends ColumnAmbiguity> columnAmbiguities,
       Set<? extends Classification> classifications, Set<? extends CellRelation> cellRelations,
       Set<? extends ColumnRelation> columnRelations, Set<? extends Disambiguation> disambiguations,
       Set<? extends Ambiguity> ambiguities) {
@@ -83,24 +81,7 @@ public final class Feedback implements Serializable {
     Preconditions.checkNotNull(columnRelations);
     Preconditions.checkNotNull(disambiguations);
     Preconditions.checkNotNull(ambiguities);
-  }
-  
-  /**
-   * @param subjectColumnIndex
-   * @param columnIgnores
-   * @param columnAmbiguities
-   * @param classifications
-   * @param cellRelations
-   * @param columnRelations
-   * @param disambiguations
-   * @param ambiguities
-   */
-  public Feedback(@Nullable ColumnPosition subjectColumnPosition, Set<? extends ColumnIgnore> columnIgnores,
-      Set<? extends ColumnAmbiguity> columnAmbiguities, Set<? extends Classification> classifications,
-      Set<? extends CellRelation> cellRelations, Set<? extends ColumnRelation> columnRelations,
-      Set<? extends Disambiguation> disambiguations, Set<? extends Ambiguity> ambiguities) {
-    checkMandatory(columnIgnores, columnAmbiguities, classifications, cellRelations, columnRelations, disambiguations, ambiguities);
-    
+
     this.subjectColumnPosition = subjectColumnPosition;
     this.columnIgnores = ImmutableSet.copyOf(columnIgnores);
     this.columnAmbiguities = ImmutableSet.copyOf(columnAmbiguities);
@@ -112,7 +93,7 @@ public final class Feedback implements Serializable {
   }
 
   /**
-   * @return the subjectColumnPosition
+   * @return the subject column position
    */
   @Nullable
   public ColumnPosition getSubjectColumnPosition() {
@@ -120,14 +101,14 @@ public final class Feedback implements Serializable {
   }
 
   /**
-   * @return the columnIgnores
+   * @return ignored columns
    */
   public Set<ColumnIgnore> getColumnIgnores() {
     return columnIgnores;
   }
 
   /**
-   * @return the columnAmbiguities
+   * @return ambiguous columns
    */
   public Set<ColumnAmbiguity> getColumnAmbiguities() {
     return columnAmbiguities;
@@ -141,14 +122,14 @@ public final class Feedback implements Serializable {
   }
 
   /**
-   * @return the cellRelations
+   * @return the cell relations
    */
   public Set<CellRelation> getCellRelations() {
     return cellRelations;
   }
 
   /**
-   * @return the columnRelations
+   * @return the column relations
    */
   public Set<ColumnRelation> getColumnRelations() {
     return columnRelations;
@@ -162,13 +143,15 @@ public final class Feedback implements Serializable {
   }
 
   /**
-   * @return the ambiguities
+   * @return the forced ambiguous cells
    */
   public Set<Ambiguity> getAmbiguities() {
     return ambiguities;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -187,7 +170,9 @@ public final class Feedback implements Serializable {
     return result;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -261,7 +246,9 @@ public final class Feedback implements Serializable {
     return true;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override

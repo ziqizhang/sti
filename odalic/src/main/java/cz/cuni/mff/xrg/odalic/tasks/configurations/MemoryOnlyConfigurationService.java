@@ -8,6 +8,8 @@ import cz.cuni.mff.xrg.odalic.tasks.Task;
 import cz.cuni.mff.xrg.odalic.tasks.TaskService;
 
 /**
+ * This {@link ConfigurationService} implementation provides no persistence.
+ * 
  * @author Václav Brodec
  *
  */

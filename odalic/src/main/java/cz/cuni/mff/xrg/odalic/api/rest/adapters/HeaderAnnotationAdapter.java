@@ -6,9 +6,9 @@ import java.util.Set;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import org.apache.jena.ext.com.google.common.collect.ImmutableSet;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 
 import cz.cuni.mff.xrg.odalic.api.rest.values.HeaderAnnotationValue;
@@ -18,7 +18,7 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 
 
-public class HeaderAnnotationAdapter extends XmlAdapter<HeaderAnnotationValue, HeaderAnnotation> {
+public final class HeaderAnnotationAdapter extends XmlAdapter<HeaderAnnotationValue, HeaderAnnotation> {
 
   @Override
   public HeaderAnnotationValue marshal(HeaderAnnotation bound) throws Exception {

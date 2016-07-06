@@ -9,8 +9,14 @@ import com.google.common.base.Preconditions;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
 
+/**
+ * Domain class {@link ColumnRelationPosition} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "cellPosition")
-public class ColumnRelationPositionValue {
+public final class ColumnRelationPositionValue {
 
   @XmlElement
   private ColumnPosition first;
@@ -20,9 +26,6 @@ public class ColumnRelationPositionValue {
   
   public ColumnRelationPositionValue() {}
   
-  /**
-   * @param adaptee
-   */
   public ColumnRelationPositionValue(ColumnRelationPosition adaptee) {
     this.first = adaptee.getFirst();
     this.second = adaptee.getSecond();

@@ -11,9 +11,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.jena.ext.com.google.common.collect.ImmutableMap;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.ColumnPositionKeyJsonDeserializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.ColumnPositionKeyJsonSerializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.ColumnPositionToColumnPositionToCellRelationAnnotationMapMapDeserializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.ColumnPositionToColumnPositionToCellRelationAnnotationMapMapSerializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.ColumnPositionToColumnRelationAnnotationMapDeserializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.ColumnPositionToColumnRelationAnnotationMapSerializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.RowPositionKeyJsonDeserializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.RowPositionKeyJsonSerializer;
 import cz.cuni.mff.xrg.odalic.positions.CellRelationPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
@@ -24,8 +34,14 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.ColumnRelationAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.HeaderAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.results.Result;
 
+/**
+ * Domain class {@link Result} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "result")
-public class ResultValue implements Serializable {
+public final class ResultValue implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
 
@@ -39,13 +55,16 @@ public class ResultValue implements Serializable {
   private CellAnnotation[][] cellAnnotations;
   
   @XmlElement
+  @JsonDeserialize(keyUsing = ColumnPositionKeyJsonDeserializer.class, contentUsing = ColumnPositionToColumnRelationAnnotationMapDeserializer.class)
+  @JsonSerialize(keyUsing = ColumnPositionKeyJsonSerializer.class, contentUsing = ColumnPositionToColumnRelationAnnotationMapSerializer.class)
   private Map<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> columnRelationAnnotations;
   
   @XmlElement
+  @JsonDeserialize(keyUsing = RowPositionKeyJsonDeserializer.class, contentUsing = ColumnPositionToColumnPositionToCellRelationAnnotationMapMapDeserializer.class)
+  @JsonSerialize(keyUsing = RowPositionKeyJsonSerializer.class, contentUsing = ColumnPositionToColumnPositionToCellRelationAnnotationMapMapSerializer.class)
   private Map<RowPosition, Map<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>>> cellRelationAnnotations;
 
-  @SuppressWarnings("unused")
-  private ResultValue() {
+  public ResultValue() {
     subjectColumnPosition = null;
     headerAnnotations = ImmutableList.of();
     cellAnnotations = new CellAnnotation[0][0];;
@@ -93,14 +112,15 @@ public class ResultValue implements Serializable {
   }
 
   /**
-   * @return the subjectColumnPosition
+   * @return the subject column position
    */
+  @Nullable
   public ColumnPosition getSubjectColumnPosition() {
     return subjectColumnPosition;
   }
 
   /**
-   * @param subjectColumnPosition the subjectColumnPosition to set
+   * @param subjectColumnPosition the subject column position to set
    */
   public void setSubjectColumnPosition(ColumnPosition subjectColumnPosition) {
     Preconditions.checkNotNull(subjectColumnPosition);
@@ -109,15 +129,14 @@ public class ResultValue implements Serializable {
   }
 
   /**
-   * @return the headerAnnotations
+   * @return the header annotations
    */
-  @Nullable
   public List<HeaderAnnotation> getHeaderAnnotations() {
     return headerAnnotations;
   }
 
   /**
-   * @param headerAnnotations the headerAnnotations to set
+   * @param headerAnnotations the header annotations to set
    */
   public void setHeaderAnnotations(List<HeaderAnnotation> headerAnnotations) {
     Preconditions.checkNotNull(headerAnnotations);
@@ -126,15 +145,14 @@ public class ResultValue implements Serializable {
   }
 
   /**
-   * @return the cellAnnotations
+   * @return the cell annotations
    */
-  @Nullable
   public CellAnnotation[][] getCellAnnotations() {
     return cz.cuni.mff.xrg.odalic.util.Arrays.deepCopy(CellAnnotation.class, cellAnnotations);
   }
 
   /**
-   * @param cellAnnotations the cellAnnotations to set
+   * @param cellAnnotations the cell annotations to set
    */
   public void setCellAnnotations(CellAnnotation[][] cellAnnotations) {
     Preconditions.checkNotNull(cellAnnotations);
@@ -143,15 +161,14 @@ public class ResultValue implements Serializable {
   }
 
   /**
-   * @return the columnRelationAnnotations
+   * @return the column relation Annotations
    */
-  @Nullable
   public Map<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> getColumnRelationAnnotations() {
     return columnRelationAnnotations;
   }
 
   /**
-   * @param columnRelationAnnotations the columnRelationAnnotations to set
+   * @param columnRelationAnnotations the column relation annotations to set
    */
   public void setColumnRelationAnnotations(
       Map<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> columnRelationAnnotations) {
@@ -163,15 +180,14 @@ public class ResultValue implements Serializable {
   }
 
   /**
-   * @return the cellRelationAnnotations
+   * @return the cell relation annotations
    */
-  @Nullable
   public Map<RowPosition, Map<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>>> getCellRelationAnnotations() {
     return cellRelationAnnotations;
   }
 
   /**
-   * @param cellRelationAnnotations the cellRelationAnnotations to set
+   * @param cellRelationAnnotations the cell relation annotations to set
    */
   public void setCellRelationAnnotations(
       Map<RowPosition, Map<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>>> cellRelationAnnotations) {

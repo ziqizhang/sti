@@ -7,8 +7,14 @@ import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 
+/**
+ * Domain class {@link ColumnPosition} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "columnPosition")
-public class ColumnPositionValue {
+public final class ColumnPositionValue {
 
   @XmlElement
   private int index;

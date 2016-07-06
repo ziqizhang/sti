@@ -1,25 +1,27 @@
 package cz.cuni.mff.xrg.odalic.tasks.annotations;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.base.Preconditions;
 
-@XmlRootElement(name = "knowledgeBase")
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.KnowledgeBaseAdapter;
+
+/**
+ * Knowledge base identifier. May turn into full-fledged domain entity class in future version.
+ * 
+ * @author Václav Brodec
+ *
+ */
+@Immutable
+@XmlJavaTypeAdapter(KnowledgeBaseAdapter.class)
 public final class KnowledgeBase {
-  
+
   private final String name;
 
-  @SuppressWarnings("unused")
-  private KnowledgeBase() {
-    name = null;
-  }
-  
-  /**
-   * @param name
-   */
   public KnowledgeBase(String name) {
     Preconditions.checkNotNull(name);
-    
+
     this.name = name;
   }
 
@@ -30,7 +32,9 @@ public final class KnowledgeBase {
     return name;
   }
 
-  /* (non-Javadoc)
+  /**
+   * Computes hash code (for now) based on the name.
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -41,7 +45,9 @@ public final class KnowledgeBase {
     return result;
   }
 
-  /* (non-Javadoc)
+  /**
+   * Compares for equality (only other knowledge base instance with the same name passes, for now).
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -66,7 +72,9 @@ public final class KnowledgeBase {
     return true;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override

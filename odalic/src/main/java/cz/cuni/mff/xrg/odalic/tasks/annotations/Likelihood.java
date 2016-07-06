@@ -2,27 +2,27 @@ package cz.cuni.mff.xrg.odalic.tasks.annotations;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.base.Preconditions;
 
-@XmlRootElement(name = "likelihood")
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.LikelihoodAdapter;
+
+/**
+ * Probability based score value for annotation.
+ * 
+ * @author Václav Brodec
+ *
+ */
+@Immutable
+@XmlJavaTypeAdapter(LikelihoodAdapter.class)
 public final class Likelihood implements Comparable<Likelihood>, Serializable {
 
   private static final long serialVersionUID = -901650058091668104L;
 
-  @XmlElement
   private final double value;
 
-  @SuppressWarnings("unused")
-  private Likelihood() {
-    value = Double.NEGATIVE_INFINITY;
-  }
-
-  /**
-   * @param value
-   */
   public Likelihood(double value) {
     Preconditions.checkArgument(value >= 0);
     Preconditions.checkArgument(value <= 1);
@@ -37,8 +37,8 @@ public final class Likelihood implements Comparable<Likelihood>, Serializable {
     return value;
   }
 
-  /*
-   * (non-Javadoc)
+  /**
+   * Computes hash code based on the value.
    * 
    * @see java.lang.Object#hashCode()
    */
@@ -52,8 +52,8 @@ public final class Likelihood implements Comparable<Likelihood>, Serializable {
     return result;
   }
 
-  /*
-   * (non-Javadoc)
+  /**
+   * Compares for equality (only other Likelihood with the same values passes).
    * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
@@ -75,6 +75,14 @@ public final class Likelihood implements Comparable<Likelihood>, Serializable {
     return true;
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Comparable#compareTo(java.lang.Object)
+   */
+  @Override
+  public int compareTo(Likelihood o) {
+    return Double.compare(value, o.value);
+  }
+  
   /*
    * (non-Javadoc)
    * 
@@ -85,8 +93,4 @@ public final class Likelihood implements Comparable<Likelihood>, Serializable {
     return "Likelihood [value=" + value + "]";
   }
 
-  @Override
-  public int compareTo(Likelihood o) {
-    return Double.compare(value, o.value);
-  }
 }

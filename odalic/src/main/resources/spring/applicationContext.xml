@@ -33,7 +33,7 @@
 		class="cz.cuni.mff.xrg.odalic.tasks.executions.FutureBasedExecutionService" />
 	<bean id="feedbackService"
 		class="cz.cuni.mff.xrg.odalic.tasks.feedbacks.MemoryOnlyFeedbackService" />
-	<bean id="taskService" class="cz.cuni.mff.xrg.odalic.tasks.TaskServiceImpl" />
+	<bean id="taskService" class="cz.cuni.mff.xrg.odalic.tasks.MemoryOnlyTaskService" />
 
 	<bean id="configurationResource"
 		class="cz.cuni.mff.xrg.odalic.api.rest.resources.ConfigurationResource" />

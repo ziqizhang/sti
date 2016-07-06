@@ -2,6 +2,12 @@ package cz.cuni.mff.xrg.odalic.tasks;
 
 import java.util.Set;
 
+/**
+ * Task service handles the CRUD operations for {@link Task} instances.
+ * 
+ * @author Václav Brodec
+ *
+ */
 public interface TaskService {
 
   Set<Task> getTasks();

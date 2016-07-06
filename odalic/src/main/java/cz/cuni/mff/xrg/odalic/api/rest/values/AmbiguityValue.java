@@ -11,6 +11,12 @@ import com.google.common.base.Preconditions;
 import cz.cuni.mff.xrg.odalic.feedbacks.Ambiguity;
 import cz.cuni.mff.xrg.odalic.positions.CellPosition;
 
+/**
+ * Domain class {@link Ambiguity} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "ambiguity")
 public final class AmbiguityValue implements Serializable {
 

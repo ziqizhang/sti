@@ -12,6 +12,12 @@ import cz.cuni.mff.xrg.odalic.feedbacks.CellRelation;
 import cz.cuni.mff.xrg.odalic.positions.CellRelationPosition;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.CellRelationAnnotation;
 
+/**
+ * Domain class {@link CellRelation} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "cellRelation")
 public final class CellRelationValue implements Serializable {
 

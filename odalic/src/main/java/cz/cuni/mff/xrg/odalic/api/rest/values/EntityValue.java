@@ -1,8 +1,6 @@
 package cz.cuni.mff.xrg.odalic.api.rest.values;
 
 import java.io.Serializable;
-import java.net.URI;
-
 import javax.annotation.Nullable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -11,8 +9,14 @@ import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 
+/**
+ * Domain class {@link Entity} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "entity")
-public class EntityValue implements Serializable {
+public final class EntityValue implements Serializable {
 
   private static final long serialVersionUID = 5750987769573292984L;
 
@@ -25,12 +29,12 @@ public class EntityValue implements Serializable {
   public EntityValue() {}
 
   public EntityValue(Entity adaptee) {
-    this.resource = adaptee.getResourceID();
+    this.resource = adaptee.getResource();
     this.label = adaptee.getLabel();
   }
 
   /**
-   * @return the resource
+   * @return the resource ID
    */
   @Nullable
   public String getResource() {
@@ -38,9 +42,9 @@ public class EntityValue implements Serializable {
   }
 
   /**
-   * @param resource the resource to set
+   * @param resource the resource ID to set
    */
-  public void setResouce(String resource) {
+  public void setResource(String resource) {
     Preconditions.checkNotNull(resource);
     
     this.resource = resource;

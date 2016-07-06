@@ -2,25 +2,31 @@ package cz.cuni.mff.xrg.odalic.positions;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import com.google.common.base.Preconditions;
 
-@XmlRootElement(name = "rowPosition")
-public final class RowPosition implements Serializable {
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.RowPositionAdapter;
+
+/**
+ * Position of a row in a table.
+ * 
+ * @author Václav Brodec
+ *
+ */
+@Immutable
+@XmlJavaTypeAdapter(RowPositionAdapter.class)
+public final class RowPosition implements Serializable, Comparable<RowPosition> {
 
   private static final long serialVersionUID = 3435359552551500579L;
   
-  @XmlElement
   private final int index;
 
-  @SuppressWarnings("unused")
-  private RowPosition() {
-    index = Integer.MIN_VALUE;
-  }
-  
   /**
-   * @param index
+   * Creates new row position representation.
+   * 
+   * @param index zero-base index
    */
   public RowPosition(int index) {
     Preconditions.checkArgument(index >= 0);
@@ -35,7 +41,9 @@ public final class RowPosition implements Serializable {
     return index;
   }
 
-  /* (non-Javadoc)
+  /**
+   * Computes hash code based on the index.
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -46,7 +54,9 @@ public final class RowPosition implements Serializable {
     return result;
   }
 
-  /* (non-Javadoc)
+  /**
+   * Compares for equality (only other row position with the same index passes).
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -65,6 +75,14 @@ public final class RowPosition implements Serializable {
       return false;
     }
     return true;
+  }
+  
+  /* (non-Javadoc)
+   * @see java.lang.Comparable#compareTo(java.lang.Object)
+   */
+  @Override
+  public int compareTo(RowPosition other) {
+    return Integer.compare(index, other.index);
   }
 
   /* (non-Javadoc)

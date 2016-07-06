@@ -6,6 +6,12 @@ import cz.cuni.mff.xrg.odalic.positions.CellPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 import cz.cuni.mff.xrg.odalic.positions.RowPosition;
 
+/**
+ * Input interface.
+ * 
+ * @author Václav Brodec
+ *
+ */
 public interface Input {
   String at(CellPosition position);
   String headerAt(ColumnPosition position);

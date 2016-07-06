@@ -2,33 +2,30 @@ package cz.cuni.mff.xrg.odalic.feedbacks;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.DisambiguationAdapter;
 import cz.cuni.mff.xrg.odalic.positions.CellPosition;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.CellAnnotation;
 
-@XmlRootElement(name = "disambiguation")
+@Immutable
+@XmlJavaTypeAdapter(DisambiguationAdapter.class)
 public final class Disambiguation implements Serializable {
 
   private static final long serialVersionUID = -5229197850609921790L;
 
-  @XmlElement
   private final CellPosition position;
   
-  @XmlElement
   private final CellAnnotation annotation;
 
-  @SuppressWarnings("unused")
-  private Disambiguation() {
-    position = null;
-    annotation = null;
-  }
-  
   /**
-   * @param position
-   * @param annotation
+   * Creates new cell disambiguation hint.
+   * 
+   * @param position cell position
+   * @param annotation hinted cell annotation
    */
   public Disambiguation(CellPosition position, CellAnnotation annotation) {
     Preconditions.checkNotNull(position);

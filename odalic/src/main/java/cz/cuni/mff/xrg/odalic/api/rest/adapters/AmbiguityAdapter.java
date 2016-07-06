@@ -6,7 +6,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.values.AmbiguityValue;
 import cz.cuni.mff.xrg.odalic.feedbacks.Ambiguity;
 
 
-public class AmbiguityAdapter
+public final class AmbiguityAdapter
     extends XmlAdapter<AmbiguityValue, Ambiguity> {
 
   @Override

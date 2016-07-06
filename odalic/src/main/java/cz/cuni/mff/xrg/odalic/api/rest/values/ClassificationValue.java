@@ -12,6 +12,12 @@ import cz.cuni.mff.xrg.odalic.feedbacks.Classification;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.HeaderAnnotation;
 
+/**
+ * Domain class {@link Classification} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "classification")
 public class ClassificationValue implements Serializable {
 

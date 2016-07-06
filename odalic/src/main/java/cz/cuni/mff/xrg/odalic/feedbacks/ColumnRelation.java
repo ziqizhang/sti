@@ -2,34 +2,30 @@ package cz.cuni.mff.xrg.odalic.feedbacks;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.ColumnRelationAdapter;
 import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.ColumnRelationAnnotation;
 
-@XmlRootElement(name = "columnRelation")
+@Immutable
+@XmlJavaTypeAdapter(ColumnRelationAdapter.class)
 public final class ColumnRelation implements Serializable {
 
   private static final long serialVersionUID = -9087389821835847372L;
 
-  @XmlElement
   private final ColumnRelationPosition position;
 
-  @XmlElement
   private final ColumnRelationAnnotation annotation;
 
-  @SuppressWarnings("unused")
-  private ColumnRelation() {
-    position = null;
-    annotation = null;
-  }
-  
   /**
-   * @param subjectColumnPosition
-   * @param objectColumnPosition
-   * @param entity
+   * Creates column relation hint.
+   * 
+   * @param position position of columns
+   * @param annotation relation annotation hint
    */
   public ColumnRelation(ColumnRelationPosition position, ColumnRelationAnnotation annotation) {
     Preconditions.checkNotNull(position);

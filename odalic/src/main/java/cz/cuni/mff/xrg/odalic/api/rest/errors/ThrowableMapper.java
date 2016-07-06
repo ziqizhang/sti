@@ -8,14 +8,25 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
-public class ThrowableMapper implements ExceptionMapper<Throwable> {
+/**
+ * Catch-all throwable mapper.
+ * 
+ * @author Václav Brodec
+ *
+ */
+public final class ThrowableMapper implements ExceptionMapper<Throwable> {
 
+  /* (non-Javadoc)
+   * @see javax.ws.rs.ext.ExceptionMapper#toResponse(java.lang.Throwable)
+   */
+  @Override
   public Response toResponse(Throwable throwable) {
-    Message errorMessage = new Message(getHttpStatus(throwable));
+    //TODO: Add specialized mappers.
     
+    final Message errorMessage = new Message(getHttpStatus(throwable));
     errorMessage.setText(throwable.getMessage());
     
-    StringWriter trace = new StringWriter();
+    final StringWriter trace = new StringWriter();
     throwable.printStackTrace(new PrintWriter(trace));
     errorMessage.setDeveloperText(trace.toString());
 

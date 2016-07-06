@@ -35,10 +35,19 @@ import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
  */
 @Component
 @Path("/tasks")
-public class TaskResource {
+public final class TaskResource {
 
-  private TaskService taskService;
-  private FileService fileService;
+  private final TaskService taskService;
+  private final FileService fileService;
+  
+  @Autowired
+  public TaskResource(TaskService taskService, FileService fileService) {
+    Preconditions.checkNotNull(taskService);
+    Preconditions.checkNotNull(fileService);
+    
+    this.taskService = taskService;
+    this.fileService = fileService;
+  }
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
@@ -75,13 +84,13 @@ public class TaskResource {
       taskService.create(task);
       return Response.status(Response.Status.CREATED)
           .entity("A new task has been created AT THE LOCATION you specified")
-          .header("Location", cz.cuni.mff.xrg.odalic.util.URL.getResourceUrL(uriInfo, id)).build();
+          .header("Location", cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id)).build();
     } else {
       taskService.replace(task);
       return Response.status(Response.Status.OK)
           .entity(
               "The task you specified has been fully updated AT THE LOCATION you specified.")
-          .header("Location", cz.cuni.mff.xrg.odalic.util.URL.getResourceUrL(uriInfo, id)).build();
+          .header("Location", cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id)).build();
     }
   }
 
@@ -90,14 +99,5 @@ public class TaskResource {
   public Response deleteTaskById(@PathParam("id") String id) {
     taskService.deleteById(id);
     return Response.status(Response.Status.NO_CONTENT).build();
-  }
-
-  @Autowired
-  public TaskResource(TaskService taskService, FileService fileService) {
-    Preconditions.checkNotNull(taskService);
-    Preconditions.checkNotNull(fileService);
-    
-    this.taskService = taskService;
-    this.fileService = fileService;
   }
 }

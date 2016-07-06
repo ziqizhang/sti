@@ -2,34 +2,36 @@ package cz.cuni.mff.xrg.odalic.tasks.annotations;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import com.google.common.base.Preconditions;
 
-@XmlRootElement(name = "entityCandidate")
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.EntityCandidateAdapter;
+
+/**
+ * Encapsulates annotating entity and the likelihood that is assigned to it.
+ * 
+ * @author Václav Brodec
+ *
+ */
+@Immutable
+@XmlJavaTypeAdapter(EntityCandidateAdapter.class)
 public final class EntityCandidate implements Comparable<EntityCandidate>, Serializable {
-  
+
   private static final long serialVersionUID = 3072774254576336747L;
 
-  @XmlElement
   private final Entity entity;
-  
-  @XmlElement
+
   private final Likelihood likelihood;
 
-  @SuppressWarnings("unused")
-  private EntityCandidate() {
-    entity = null;
-    likelihood = null;
-  }
-  
   /**
    * @param entity
    * @param likelihood
    */
   public EntityCandidate(Entity entity, Likelihood likelihood) {
     Preconditions.checkNotNull(entity);
-        
+
     this.entity = entity;
     this.likelihood = likelihood;
   }
@@ -48,7 +50,9 @@ public final class EntityCandidate implements Comparable<EntityCandidate>, Seria
     return likelihood;
   }
 
-  /* (non-Javadoc)
+  /**
+   * Computes hash code based on the entity and the likelihood.
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -60,7 +64,9 @@ public final class EntityCandidate implements Comparable<EntityCandidate>, Seria
     return result;
   }
 
-  /* (non-Javadoc)
+  /**
+   * Compares for equality (only other candidates entity with the same likelihood passes).
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -91,15 +97,13 @@ public final class EntityCandidate implements Comparable<EntityCandidate>, Seria
     }
     return true;
   }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
+  
+  /**
+   * Entity candidates are naturally ordered by their likelihood in ascending order. In case of the
+   * equal likelihood the natural ordering of entities is taken into account.
+   * 
+   * @see java.lang.Comparable#compareTo(java.lang.Object)
    */
-  @Override
-  public String toString() {
-    return "EntityCandidate [entity=" + entity + ", likelihood=" + likelihood + "]";
-  }
-
   @Override
   public int compareTo(EntityCandidate o) {
     final int likelihoodComparison = likelihood.compareTo(o.likelihood);
@@ -109,5 +113,15 @@ public final class EntityCandidate implements Comparable<EntityCandidate>, Seria
     } else {
       return likelihoodComparison;
     }
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "EntityCandidate [entity=" + entity + ", likelihood=" + likelihood + "]";
   }
 }

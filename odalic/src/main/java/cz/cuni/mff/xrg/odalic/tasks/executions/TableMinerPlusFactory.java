@@ -4,22 +4,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import org.simmetrics.metrics.StringMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.feedbacks.ColumnIgnore;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
@@ -39,6 +38,13 @@ import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerIm
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 
+/**
+ * Implementation of {@link SemanticTableInterpreterFactory} that provides {@link TMPInterpreter}
+ * instances.
+ * 
+ * @author Josef Janoušek
+ *
+ */
 public final class TableMinerPlusFactory implements SemanticTableInterpreterFactory {
 
   private static final String PROPERTY_HOME = "sti.home";
@@ -83,14 +89,14 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
 
   public TableMinerPlusFactory(String propertyFilePath) {
     Preconditions.checkNotNull(propertyFilePath);
-    
+
     this.propertyFilePath = propertyFilePath;
   }
-  
+
   public TableMinerPlusFactory() {
     this(System.getProperty("cz.cuni.mff.xrg.odalic.sti"));
   }
-  
+
   /*
    * (non-Javadoc)
    * 
@@ -111,14 +117,17 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
   /*
    * (non-Javadoc)
    * 
-   * @see
-   * cz.cuni.mff.xrg.odalic.tasks.executions.InterpreterFactory#setIgnoreColumnsForInterpreter(java.
-   * lang.Integer[])
+   * @see cz.cuni.mff.xrg.odalic.tasks.executions.SemanticTableInterpreterFactory#
+   * setColumnIgnoresForInterpreter(java.util.Set)
    */
   @Override
-  public void setIgnoreColumnsForInterpreter(Integer[] ignoreCols) {
-    interpreter.setIgnoreColumns(new HashSet<Integer>(Arrays.asList(ignoreCols)));
-    literalColumnTagger.setIgnoreColumns(ArrayUtils.toPrimitive(ignoreCols));
+  public void setColumnIgnoresForInterpreter(Set<? extends ColumnIgnore> ignoreColumnsPositions) {
+    final Set<Integer> indexSet = ignoreColumnsPositions.stream()
+        .map(e -> e.getPosition().getIndex()).collect(Collectors.toSet());
+
+    interpreter.setIgnoreColumns(indexSet);
+    literalColumnTagger
+        .setIgnoreColumns(indexSet.stream().mapToInt(e -> e.intValue()).sorted().toArray());
   }
 
   // Initialize kbsearcher, websearcher
@@ -324,5 +333,4 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
     }
     return res;
   }
-
 }

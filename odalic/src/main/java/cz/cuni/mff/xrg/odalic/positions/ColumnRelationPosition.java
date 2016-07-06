@@ -1,43 +1,82 @@
 package cz.cuni.mff.xrg.odalic.positions;
 
+import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.ColumnRelationPositionAdapter;
+
+/**
+ * Position of columns in a relation.
+ * 
+ * @author Václav Brodec
+ *
+ */
+@Immutable
+@XmlJavaTypeAdapter(ColumnRelationPositionAdapter.class)
 public final class ColumnRelationPosition {
 
   private final ColumnPosition first;
-  
+
   private final ColumnPosition second;
-  
-  @SuppressWarnings("unused")
-  private ColumnRelationPosition() {
-    first = null;
-    second = null;
-  }
-  
+
+  /**
+   * Creates new representation of a position of columns in relation.
+   * 
+   * @param first first column position
+   * @param second second column position
+   */
   public ColumnRelationPosition(ColumnPosition first, ColumnPosition second) {
     Preconditions.checkNotNull(first);
     Preconditions.checkNotNull(second);
     Preconditions.checkArgument(first.getIndex() != second.getIndex());
-    
+
     this.first = first;
     this.second = second;
   }
+  
+  /**
+   * Creates new representation of a position of columns in relation.
+   * 
+   * @param firstIndex first column index
+   * @param second second column index
+   */
+  public ColumnRelationPosition(int firstIndex, int secondIndex) {
+    this(new ColumnPosition(firstIndex), new ColumnPosition(secondIndex));
+  }
 
   /**
-   * @return the first
+   * @return the first column position
    */
   public ColumnPosition getFirst() {
     return first;
   }
 
   /**
-   * @return the second
+   * @return the second column position
    */
   public ColumnPosition getSecond() {
     return second;
   }
+  
+  /**
+   * @return the first column index
+   */
+  public int getFirstIndex() {
+    return first.getIndex();
+  }
+  
+  /**
+   * @return the second column index
+   */
+  public int getSecondIndex() {
+    return second.getIndex();
+  }
 
-  /* (non-Javadoc)
+  /**
+   * Computes hash code based on the first and second column position.
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -49,7 +88,10 @@ public final class ColumnRelationPosition {
     return result;
   }
 
-  /* (non-Javadoc)
+  /**
+   * Compares for equivalence (only other column relation position with the same first and second
+   * column position passes).
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -81,7 +123,9 @@ public final class ColumnRelationPosition {
     return true;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override

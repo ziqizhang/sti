@@ -2,27 +2,32 @@ package cz.cuni.mff.xrg.odalic.feedbacks;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.ColumnIgnoreAdapter;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 
-@XmlRootElement(name = "columnIgnore")
+/**
+ * Hint to ignore column.
+ * 
+ * @author Václav Brodec
+ *
+ */
+@Immutable
+@XmlJavaTypeAdapter(ColumnIgnoreAdapter.class)
 public final class ColumnIgnore implements Serializable {
 
   private static final long serialVersionUID = -4305681863714969261L;
   
-  @XmlElement
   private final ColumnPosition position;
 
-  @SuppressWarnings("unused")
-  private ColumnIgnore() {
-    position = null;
-  }
-  
   /**
-   * @param position
+   * Creates new hint to ignore column at given position.
+   * 
+   * @param position position of the ignored column
    */
   public ColumnIgnore(ColumnPosition position) {
     Preconditions.checkNotNull(position);

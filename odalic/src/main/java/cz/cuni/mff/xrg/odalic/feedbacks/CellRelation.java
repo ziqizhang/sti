@@ -2,33 +2,36 @@ package cz.cuni.mff.xrg.odalic.feedbacks;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.CellRelationAdapter;
 import cz.cuni.mff.xrg.odalic.positions.CellRelationPosition;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.CellRelationAnnotation;
 
-@XmlRootElement(name = "cellRelation")
+/**
+ * Cell relation hint.
+ * 
+ * @author Václav Brodec
+ *
+ */
+@Immutable
+@XmlJavaTypeAdapter(CellRelationAdapter.class)
 public final class CellRelation implements Serializable {
 
   private static final long serialVersionUID = -9087389821835847372L;
 
-  @XmlElement
   private final CellRelationPosition position;
   
-  @XmlElement
   private final CellRelationAnnotation annotation;
 
-  @SuppressWarnings("unused")
-  private CellRelation() {
-    position = null;
-    annotation = null;
-  }
-  
   /**
-   * @param position
-   * @param annotation
+   * Creates new hint for discovered cell relations.
+   * 
+   * @param position cell position
+   * @param annotation custom annotation
    */
   public CellRelation(CellRelationPosition position, CellRelationAnnotation annotation) {
     Preconditions.checkNotNull(position);

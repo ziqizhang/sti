@@ -6,7 +6,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.values.TaskValue;
 import cz.cuni.mff.xrg.odalic.tasks.Task;
 
 
-public class TaskAdapter extends XmlAdapter<TaskValue, Task> {
+public final class TaskAdapter extends XmlAdapter<TaskValue, Task> {
 
   @Override
   public TaskValue marshal(Task bound) throws Exception {

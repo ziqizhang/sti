@@ -12,27 +12,37 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Preconditions;
+
 import cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService;
 
+/**
+ * Result resource definition.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @Component
 @Path("/tasks/{id}/result")
-public class ResultResource {
+public final class ResultResource {
 
   private final ExecutionService executionService;
+  
+  @Autowired
+  public ResultResource(ExecutionService executionService) {
+    Preconditions.checkNotNull(executionService);
+    
+    this.executionService = executionService;
+  }
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getResult(@PathParam("id") String taskId) throws InterruptedException, ExecutionException {
-    if (executionService.isCancelledForTaskId(taskId)) {
-      return Response.status(Response.Status.NOT_FOUND).entity("The execution was cancelled.")
+    if (executionService.isCanceledForTaskId(taskId)) {
+      return Response.status(Response.Status.NOT_FOUND).entity("The execution was canceled.")
           .build();
     }
 
     return Response.ok(executionService.getResultForTaskId(taskId)).build();
-  }
-
-  @Autowired
-  public ResultResource(ExecutionService executionService) {
-    this.executionService = executionService;
   }
 }

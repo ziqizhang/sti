@@ -36,7 +36,7 @@ import cz.cuni.mff.xrg.odalic.files.FileService;
  */
 @Component
 @Path("/files")
-public class FileResource {
+public final class FileResource {
 
   public static final String TEXT_CSV_MEDIA_TYPE = "text/csv";
 
@@ -76,7 +76,7 @@ public class FileResource {
           .entity("The ID in the payload is not the same as the ID of resource.").build();
     }
 
-    if (!file.getLocation().equals(cz.cuni.mff.xrg.odalic.util.URL.getResourceUrL(uriInfo, id))) {
+    if (!file.getLocation().equals(cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id))) {
       return Response.status(Response.Status.NOT_ACCEPTABLE)
           .entity(
               "The location you provided for the file is not equal to the default location for uploaded file.")
@@ -134,7 +134,7 @@ public class FileResource {
       @FormDataParam("file") FormDataContentDisposition fileDetail) throws IOException {
 
     final String id = fileDetail.getFileName();
-    final File file = new File(id, "", cz.cuni.mff.xrg.odalic.util.URL.getResourceUrL(uriInfo, id));
+    final File file = new File(id, "", cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id));
 
     if (fileService.existsFileWithId(id)) {
       return Response.status(Response.Status.NOT_ACCEPTABLE)

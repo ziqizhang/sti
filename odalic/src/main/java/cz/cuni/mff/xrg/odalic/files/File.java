@@ -1,58 +1,44 @@
 package cz.cuni.mff.xrg.odalic.files;
 
 import java.io.Serializable;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.base.Preconditions;
 
-import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateSerializer;
-import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateDeserializer;
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.FileAdapter;
 
-@XmlRootElement(name = "file")
+/**
+ * File description.
+ * 
+ * @author Václav Brodec
+ *
+ */
+@Immutable
+@XmlJavaTypeAdapter(FileAdapter.class)
 public class File implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
 
-  @XmlElement
-  private String id;
+  private final String id;
 
-  @JsonSerialize(using = CustomJsonDateSerializer.class)
-  @JsonDeserialize(using = CustomJsonDateDeserializer.class)
-  @XmlElement
-  private Date uploaded;
+  private final Date uploaded;
 
-  @XmlElement
-  private String owner;
+  private final String owner;
   
-  @XmlElement
-  private URL location;
+  private final URL location;
 
-  @SuppressWarnings("unused")
-  private File() {
-    id = null;
-    uploaded = null;    
-    owner = null;
-  }
-  
-  public File(String id, String owner, URL location) throws MalformedURLException {
-    Preconditions.checkNotNull(id);
-    Preconditions.checkNotNull(owner);
-    Preconditions.checkNotNull(location);
-    
-    this.id = id;
-    this.uploaded = new Date();
-    this.owner = owner;
-    this.location = location;
-  }
-  
+  /**
+   * Create new file description.
+   * 
+   * @param id file ID
+   * @param uploaded time of upload
+   * @param owner file owner description
+   * @param location file location
+   */
   public File(String id, Date uploaded, String owner, URL location) {
     Preconditions.checkNotNull(id);
     Preconditions.checkNotNull(uploaded);
@@ -64,19 +50,23 @@ public class File implements Serializable {
     this.owner = owner;
     this.location = location;
   }
+  
+  /**
+   * Create new file description for a file uploaded now.
+   * 
+   * @param id file ID
+   * @param owner file owner description
+   * @param location file location
+   */
+  public File(String id, String owner, URL location) {
+    this(id, new Date(), owner, location);
+  }
 
   /**
    * @return the id
    */
   public String getId() {
     return id;
-  }
-
-  /**
-   * @param id the id to set
-   */
-  public void setId(String id) {
-    this.id = id;
   }
 
   /**
@@ -87,24 +77,10 @@ public class File implements Serializable {
   }
 
   /**
-   * @param uploaded the uploaded to set
-   */
-  public void setUploaded(Date uploaded) {
-    this.uploaded = uploaded;
-  }
-
-  /**
    * @return the owner
    */
   public String getOwner() {
     return owner;
-  }
-
-  /**
-   * @param owner the owner to set
-   */
-  public void setOwner(String owner) {
-    this.owner = owner;
   }
 
   /**
@@ -115,13 +91,8 @@ public class File implements Serializable {
   }
 
   /**
-   * @param location the location to set
-   */
-  public void setLocation(URL location) {
-    this.location = location;
-  }
-
-  /* (non-Javadoc)
+   * Computes the hash code based on all components.
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -135,7 +106,9 @@ public class File implements Serializable {
     return result;
   }
 
-  /* (non-Javadoc)
+  /**
+   * Compares for equivalence (only other File description with the same components passes).
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override

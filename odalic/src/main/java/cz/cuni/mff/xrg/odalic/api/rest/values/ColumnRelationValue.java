@@ -12,6 +12,12 @@ import cz.cuni.mff.xrg.odalic.feedbacks.ColumnRelation;
 import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.ColumnRelationAnnotation;
 
+/**
+ * Domain class {@link ColumnRelation} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "columnRelation")
 public final class ColumnRelationValue implements Serializable {
 

@@ -8,7 +8,13 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 
-public class KnowledgeBaseKeyJsonSerializer extends JsonSerializer<KnowledgeBase> {
+/**
+ * Map key JSON serializer for {@link KnowledgeBase} instances.
+ * 
+ * @author Václav Brodec
+ *
+ */
+public final class KnowledgeBaseKeyJsonSerializer extends JsonSerializer<KnowledgeBase> {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
 

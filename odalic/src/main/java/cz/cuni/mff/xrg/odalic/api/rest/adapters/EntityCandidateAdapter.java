@@ -6,13 +6,13 @@ import cz.cuni.mff.xrg.odalic.api.rest.values.EntityCandidateValue;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
 
 
-public class EntityCandidateAdapter
+public final class EntityCandidateAdapter
     extends XmlAdapter<EntityCandidateValue, EntityCandidate> {
 
   @Override
   public EntityCandidateValue marshal(EntityCandidate bound)
       throws Exception {
-    return new EntityCandidateValue(bound, false);
+    throw new UnsupportedOperationException();
   }
 
   @Override

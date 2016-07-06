@@ -6,7 +6,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.values.CellPositionValue;
 import cz.cuni.mff.xrg.odalic.positions.CellPosition;
 
 
-public class CellPositionAdapter
+public final class CellPositionAdapter
     extends XmlAdapter<CellPositionValue, CellPosition> {
 
   @Override

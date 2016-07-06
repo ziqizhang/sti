@@ -1,6 +1,8 @@
 package cz.cuni.mff.xrg.odalic.tasks.configurations;
 
 import java.io.Serializable;
+
+import javax.annotation.concurrent.Immutable;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.base.Preconditions;
@@ -9,6 +11,13 @@ import cz.cuni.mff.xrg.odalic.api.rest.adapters.ConfigurationAdapter;
 import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
 import cz.cuni.mff.xrg.odalic.files.File;
 
+/**
+ * Task configuration.
+ * 
+ * @author Václav Brodec
+ *
+ */
+@Immutable
 @XmlJavaTypeAdapter(ConfigurationAdapter.class)
 public final class Configuration implements Serializable {
 
@@ -18,6 +27,11 @@ public final class Configuration implements Serializable {
 
   private final Feedback feedback;
 
+  /**
+   * Creates configuration without any feedback, thus implying fully automatic processing.
+   * 
+   * @param input input specification
+   */
   public Configuration(File input) {
     Preconditions.checkNotNull(input);
     
@@ -25,6 +39,12 @@ public final class Configuration implements Serializable {
     this.feedback = new Feedback();
   }
   
+  /**
+   * Creates configuration with provided feedback, which serves as hint for the processing algorithm.
+   * 
+   * @param input input specification
+   * @param feedback constraints for the algorithm
+   */
   public Configuration(File input, Feedback feedback) {
     Preconditions.checkNotNull(input);
     Preconditions.checkNotNull(feedback);

@@ -10,6 +10,12 @@ import cz.cuni.mff.xrg.odalic.positions.CellPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 import cz.cuni.mff.xrg.odalic.positions.RowPosition;
 
+/**
+ * Domain class {@link CellPosition} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "cellPosition")
 public class CellPositionValue {
 

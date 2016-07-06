@@ -2,27 +2,32 @@ package cz.cuni.mff.xrg.odalic.feedbacks;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.ColumnAmbiguityAdapter;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 
-@XmlRootElement(name = "columnAmbiguity")
+/**
+ * Hint to leave the cells in column ambiguous.
+ * 
+ * @author Václav Brodec
+ *
+ */
+@Immutable
+@XmlJavaTypeAdapter(ColumnAmbiguityAdapter.class)
 public final class ColumnAmbiguity implements Serializable {
 
   private static final long serialVersionUID = -6608929731300596230L;
   
-  @XmlElement
   private final ColumnPosition position;
 
-  @SuppressWarnings("unused")
-  private ColumnAmbiguity() {
-    position = null;
-  }
-  
   /**
-   * @param position
+   * Creates a new hint to leave the cells in column ambiguous.
+   * 
+   * @param position column position
    */
   public ColumnAmbiguity(ColumnPosition position) {
     Preconditions.checkNotNull(position);

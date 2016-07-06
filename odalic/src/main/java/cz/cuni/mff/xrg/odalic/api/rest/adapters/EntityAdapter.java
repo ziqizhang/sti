@@ -6,7 +6,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.values.EntityValue;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 
 
-public class EntityAdapter
+public final class EntityAdapter
     extends XmlAdapter<EntityValue, Entity> {
 
   @Override

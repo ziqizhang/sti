@@ -4,18 +4,34 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 
 /**
+ * This {@link TaskService} implementation provides no persistence.
+ * 
  * @author Václav Brodec
+ * @author Josef Janoušek
  *
  */
-public final class TaskServiceImpl implements TaskService {
+public final class MemoryOnlyTaskService implements TaskService {
 
-  private final Map<String, Task> tasks = new HashMap<>();
+  private final Map<String, Task> tasks;
   
-  public TaskServiceImpl() {}
+  private MemoryOnlyTaskService(Map<String, Task> tasks) {
+    Preconditions.checkNotNull(tasks);
+    
+    this.tasks = tasks;
+  }
+  
+  /**
+   * Creates the task service with no registered tasks.
+   */
+  public MemoryOnlyTaskService() {
+    this(new HashMap<>());
+  }
   
   public Set<Task> getTasks() {
     return ImmutableSet.copyOf(this.tasks.values());
@@ -25,9 +41,7 @@ public final class TaskServiceImpl implements TaskService {
     Preconditions.checkNotNull(id);
     
     Task task = this.tasks.get(id);
-    if (task == null) {
-      throw new IllegalArgumentException();
-    }
+    Preconditions.checkArgument(task != null);
     
     return task;
   }
@@ -46,11 +60,10 @@ public final class TaskServiceImpl implements TaskService {
     Preconditions.checkNotNull(id);
     
     Task task = this.tasks.remove(id);
-    if (task == null) {
-      throw new IllegalArgumentException();
-    }
+    Preconditions.checkArgument(task != null);
   }
 
+  @Nullable
   public Task verifyTaskExistenceById(String id) {
     Preconditions.checkNotNull(id);
     
@@ -63,9 +76,7 @@ public final class TaskServiceImpl implements TaskService {
   }
 
   public void create(Task task) {
-    if (verifyTaskExistenceById(task.getId()) != null) {
-      throw new IllegalArgumentException();
-    }
+    Preconditions.checkArgument(verifyTaskExistenceById(task.getId()) == null);
     
     replace(task);
   }

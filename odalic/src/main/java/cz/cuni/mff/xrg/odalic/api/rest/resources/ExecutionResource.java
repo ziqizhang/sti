@@ -12,19 +12,28 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cz.cuni.mff.xrg.odalic.tasks.executions.Execution;
+import com.google.common.base.Preconditions;
+
+import cz.cuni.mff.xrg.odalic.api.rest.values.ExecutionValue;
 import cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService;
 
 @Component
 @Path("/tasks/{id}/execution")
-public class ExecutionResource {
+public final class ExecutionResource {
 
   private ExecutionService executionService;
+  
+  @Autowired
+  public ExecutionResource(ExecutionService executionService) {
+    Preconditions.checkNotNull(executionService);
+    
+    this.executionService = executionService;
+  }
 
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response putExecutionForTaskId(@PathParam("id") String id, Execution execution) {
+  public Response putExecutionForTaskId(@PathParam("id") String id, ExecutionValue execution) {
     executionService.submitForTaskId(id);
     return Response.status(Response.Status.OK).entity("Execution submitted.").build();
   }
@@ -34,11 +43,6 @@ public class ExecutionResource {
   public Response deleteExecutionForTaskId(@PathParam("id") String id) {
     executionService.cancelForTaskId(id);
     return Response.status(Response.Status.OK)
-        .entity("Execution cancelled.").build();
-  }
-  
-  @Autowired
-  public ExecutionResource(ExecutionService executionService) {
-    this.executionService = executionService;
+        .entity("Execution canceled.").build();
   }
 }

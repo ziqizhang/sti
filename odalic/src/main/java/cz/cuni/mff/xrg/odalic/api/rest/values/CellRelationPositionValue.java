@@ -12,6 +12,12 @@ import cz.cuni.mff.xrg.odalic.positions.CellRelationPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
 import cz.cuni.mff.xrg.odalic.positions.RowPosition;
 
+/**
+ * Domain class {@link CellRelationPosition} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "cellRelationPosition")
 public class CellRelationPositionValue implements Serializable {
   

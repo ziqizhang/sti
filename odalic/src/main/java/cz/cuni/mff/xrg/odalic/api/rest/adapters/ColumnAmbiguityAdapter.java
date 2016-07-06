@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 import cz.cuni.mff.xrg.odalic.api.rest.values.ColumnAmbiguityValue;
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnAmbiguity;
 
-public class ColumnAmbiguityAdapter extends XmlAdapter<ColumnAmbiguityValue, ColumnAmbiguity> {
+public final class ColumnAmbiguityAdapter extends XmlAdapter<ColumnAmbiguityValue, ColumnAmbiguity> {
 
   @Override
   public ColumnAmbiguityValue marshal(ColumnAmbiguity bound) throws Exception {

@@ -6,25 +6,29 @@ import javax.annotation.Nullable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.google.common.base.Preconditions;
+
 import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
 
+/**
+ * Domain class {@link Configuration} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "configuration")
 public final class ConfigurationValue implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
   
   @XmlElement(name = "input")
-  private final String input;
+  private String input;
 
   @XmlElement(name = "feedback")
-  private final Feedback feedback;
+  private Feedback feedback;
 
-  @SuppressWarnings("unused")
-  private ConfigurationValue() {
-    input = null;
-    feedback = null;
-  }
+  public ConfigurationValue() {}
 
   public ConfigurationValue(Configuration adaptee) {
     input = adaptee.getInput().getId();
@@ -40,11 +44,30 @@ public final class ConfigurationValue implements Serializable {
   }
 
   /**
+   * @param input the input to set
+   */
+  public void setInput(String input) {
+    Preconditions.checkNotNull(input);
+    
+    this.input = input;
+  }
+  
+  /**
    * @return the feedback
    */
   @Nullable
   public Feedback getFeedback() {
     return feedback;
+  }
+
+
+  /**
+   * @param feedback the feedback to set
+   */
+  public void setFeedback(Feedback feedback) {
+    Preconditions.checkNotNull(feedback);
+    
+    this.feedback = feedback;
   }
 
   /* (non-Javadoc)

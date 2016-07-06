@@ -6,7 +6,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.values.ColumnPositionValue;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 
 
-public class ColumnPositionAdapter
+public final class ColumnPositionAdapter
     extends XmlAdapter<ColumnPositionValue, ColumnPosition> {
 
   @Override

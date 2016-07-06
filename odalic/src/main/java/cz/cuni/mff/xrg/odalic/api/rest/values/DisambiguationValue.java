@@ -12,6 +12,12 @@ import cz.cuni.mff.xrg.odalic.feedbacks.Disambiguation;
 import cz.cuni.mff.xrg.odalic.positions.CellPosition;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.CellAnnotation;
 
+/**
+ * Domain class {@link Disambiguation} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "disambiguation")
 public final class DisambiguationValue implements Serializable {
 

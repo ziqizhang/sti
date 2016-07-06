@@ -7,8 +7,14 @@ import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 
+/**
+ * Domain class {@link KnowledgeBase} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "knowledgeBase")
-public class KnowledgeBaseValue {
+public final class KnowledgeBaseValue {
 
   private String name;
   

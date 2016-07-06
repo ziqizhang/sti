@@ -6,7 +6,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.values.ClassificationValue;
 import cz.cuni.mff.xrg.odalic.feedbacks.Classification;
 
 
-public class ClassificationAdapter
+public final class ClassificationAdapter
     extends XmlAdapter<ClassificationValue, Classification> {
 
   @Override

@@ -6,7 +6,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.values.LikelihoodValue;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Likelihood;
 
 
-public class LikelihoodAdapter
+public final class LikelihoodAdapter
     extends XmlAdapter<LikelihoodValue, Likelihood> {
 
   @Override

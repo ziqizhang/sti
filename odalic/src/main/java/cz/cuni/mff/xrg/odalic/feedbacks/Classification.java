@@ -2,13 +2,21 @@ package cz.cuni.mff.xrg.odalic.feedbacks;
 
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.ClassificationAdapter;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.HeaderAnnotation;
 
-@XmlRootElement(name = "classification")
+/**
+ * Classification hint.
+ * 
+ * @author Václav Brodec
+ *
+ */
+@XmlJavaTypeAdapter(ClassificationAdapter.class)
 public final class Classification implements Serializable {
 
   private static final long serialVersionUID = 6053349406668481968L;
@@ -19,12 +27,12 @@ public final class Classification implements Serializable {
   @XmlElement
   private final HeaderAnnotation annotation;
 
-  @SuppressWarnings("unused")
-  private Classification() {
-    position = null;
-    annotation = null;
-  }
-  
+  /**
+   * Creates custom classification hint of a column.
+   * 
+   * @param position column position
+   * @param annotation custom annotation
+   */
   public Classification(ColumnPosition position, HeaderAnnotation annotation) {
     Preconditions.checkNotNull(position);
     Preconditions.checkNotNull(annotation);

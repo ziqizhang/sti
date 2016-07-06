@@ -22,11 +22,19 @@ import cz.cuni.mff.xrg.odalic.tasks.configurations.ConfigurationService;
 
 @Component
 @Path("/tasks/{id}/configuration")
-public class ConfigurationResource {
+public final class ConfigurationResource {
 
   private final ConfigurationService configurationService;
-
   private final FileService fileService;
+  
+  @Autowired
+  public ConfigurationResource(ConfigurationService configurationService, FileService fileService) {
+    Preconditions.checkNotNull(configurationService);
+    Preconditions.checkNotNull(fileService);
+    
+    this.configurationService = configurationService;
+    this.fileService = fileService;
+  }
 
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
@@ -52,14 +60,5 @@ public class ConfigurationResource {
     Configuration configurationForTaskId = configurationService.getForTaskId(taskId);
 
     return Response.status(Response.Status.OK).entity(configurationForTaskId).build();
-  }
-
-  @Autowired
-  public ConfigurationResource(ConfigurationService configurationService, FileService fileService) {
-    Preconditions.checkNotNull(configurationService);
-    Preconditions.checkNotNull(fileService);
-    
-    this.configurationService = configurationService;
-    this.fileService = fileService;
   }
 }

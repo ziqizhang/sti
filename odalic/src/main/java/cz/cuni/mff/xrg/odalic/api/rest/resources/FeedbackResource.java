@@ -14,15 +14,24 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Preconditions;
+
 import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
 import cz.cuni.mff.xrg.odalic.feedbacks.input.Input;
 import cz.cuni.mff.xrg.odalic.tasks.feedbacks.FeedbackService;
 
 @Component
 @Path("/tasks/{id}/configuration/feedback")
-public class FeedbackResource {
+public final class FeedbackResource {
 
-  private FeedbackService feedbackService;
+  private final FeedbackService feedbackService;
+  
+  @Autowired
+  public FeedbackResource(FeedbackService feedbackService) {
+    Preconditions.checkNotNull(feedbackService);
+    
+    this.feedbackService = feedbackService;
+  }
 
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
@@ -45,10 +54,5 @@ public class FeedbackResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Input getJsonDataById(@PathParam("id") String id) throws IOException {
     return feedbackService.getInputForTaskId(id);
-  }
-
-  @Autowired
-  public FeedbackResource(FeedbackService feedbackService) {
-    this.feedbackService = feedbackService;
   }
 }

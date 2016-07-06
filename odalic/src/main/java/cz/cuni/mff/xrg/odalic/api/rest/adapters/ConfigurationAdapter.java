@@ -6,7 +6,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.values.ConfigurationValue;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
 
 
-public class ConfigurationAdapter extends XmlAdapter<ConfigurationValue, Configuration> {
+public final class ConfigurationAdapter extends XmlAdapter<ConfigurationValue, Configuration> {
 
   @Override
   public ConfigurationValue marshal(Configuration bound) throws Exception {

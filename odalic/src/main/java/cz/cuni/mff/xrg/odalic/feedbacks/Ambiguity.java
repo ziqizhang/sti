@@ -2,25 +2,27 @@ package cz.cuni.mff.xrg.odalic.feedbacks;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.AmbiguityAdapter;
 import cz.cuni.mff.xrg.odalic.positions.CellPosition;
 
-@XmlRootElement(name = "ambiguity")
+@Immutable
+@XmlJavaTypeAdapter(AmbiguityAdapter.class)
 public final class Ambiguity implements Serializable {
 
   private static final long serialVersionUID = -9087389821835847372L;
 
-  @XmlElement
   private final CellPosition position;
 
-  @SuppressWarnings("unused")
-  private Ambiguity() {
-    position = null;
-  }
-  
+  /**
+   * Creates a new hint to keep a cell ambiguous.
+   * 
+   * @param position position of the cell
+   */
   public Ambiguity(CellPosition position) {
     Preconditions.checkNotNull(position);
     

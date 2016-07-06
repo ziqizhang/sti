@@ -16,6 +16,12 @@ import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateDeserializer;
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateSerializer;
 import cz.cuni.mff.xrg.odalic.tasks.Task;
 
+/**
+ * Domain class {@link Task} adapted for REST API.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @XmlRootElement(name = "task")
 public final class TaskValue implements Serializable {
 
@@ -32,16 +38,8 @@ public final class TaskValue implements Serializable {
   @XmlElement
   private ConfigurationValue configuration;
   
-  public TaskValue() {
-    id = null;
-    created = null;
-    configuration = null;
-  }
+  public TaskValue() {}
 
-  /**
-   * @param id
-   * @param created
-   */
   public TaskValue(Task adaptee) {
     id = adaptee.getId();
     created = adaptee.getCreated();

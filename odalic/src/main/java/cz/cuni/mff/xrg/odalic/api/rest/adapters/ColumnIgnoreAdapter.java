@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 import cz.cuni.mff.xrg.odalic.api.rest.values.ColumnIgnoreValue;
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnIgnore;
 
-public class ColumnIgnoreAdapter extends XmlAdapter<ColumnIgnoreValue, ColumnIgnore> {
+public final class ColumnIgnoreAdapter extends XmlAdapter<ColumnIgnoreValue, ColumnIgnore> {
 
   @Override
   public ColumnIgnoreValue marshal(ColumnIgnore bound) throws Exception {

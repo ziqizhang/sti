@@ -6,7 +6,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.values.CellRelationValue;
 import cz.cuni.mff.xrg.odalic.feedbacks.CellRelation;
 
 
-public class CellRelationAdapter
+public final class CellRelationAdapter
     extends XmlAdapter<CellRelationValue, CellRelation> {
 
   @Override

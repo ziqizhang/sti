@@ -17,11 +17,14 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
+
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnIgnore;
 import cz.cuni.mff.xrg.odalic.files.File;
 import cz.cuni.mff.xrg.odalic.files.FileService;
 import cz.cuni.mff.xrg.odalic.tasks.Task;
 import cz.cuni.mff.xrg.odalic.tasks.TaskService;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
 import cz.cuni.mff.xrg.odalic.tasks.results.AnnotationToResultAdapter;
 import cz.cuni.mff.xrg.odalic.tasks.results.Result;
@@ -31,11 +34,19 @@ import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.xtractor.csv.TableXtractorCSV;
 
 /**
+ * <p>Implementation of {@link ExecutionService} based on {@link Future} and {@link ExecutorServicee}
+ * implementations.</p>
+ * 
+ * <p>Provides no persistence whatsoever</p>
+ * 
  * @author Václav Brodec
  *
  */
 public final class FutureBasedExecutionService implements ExecutionService {
 
+  private static final String TEMP_FILE_PREFIX = "odalic";
+  private static final String TEMP_FILE_SUFFIX = "csv";
+  
   private final TaskService taskService;
   private final FileService fileService;
   private final AnnotationToResultAdapter annotationResultAdapter;
@@ -47,7 +58,8 @@ public final class FutureBasedExecutionService implements ExecutionService {
   @Autowired
   public FutureBasedExecutionService(TaskService taskService, FileService fileService,
       AnnotationToResultAdapter annotationToResultAdapter,
-      SemanticTableInterpreterFactory semanticTableInterpreterFactory, TableXtractorCSV tableExtractor) {
+      SemanticTableInterpreterFactory semanticTableInterpreterFactory,
+      TableXtractorCSV tableExtractor) {
     Preconditions.checkNotNull(taskService);
     Preconditions.checkNotNull(fileService);
     Preconditions.checkNotNull(annotationToResultAdapter);
@@ -61,41 +73,42 @@ public final class FutureBasedExecutionService implements ExecutionService {
     this.tableExtractor = tableExtractor;
   }
 
+  /* (non-Javadoc)
+   * @see cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService#submitForTaskId(java.lang.String)
+   */
   @Override
-  public void submitForTaskId(String id) {
+  public void submitForTaskId(String id) throws IllegalStateException {
     final Task task = taskService.getById(id);
 
     final Future<Result> resultFuture = tasksToResults.get(task);
-    if (resultFuture != null) {
-      if (!resultFuture.isDone()) {
-        throw new IllegalStateException();
-      }
-    }
+    Preconditions.checkState(resultFuture == null || resultFuture.isDone());
 
     final Configuration configuration = task.getConfiguration();
     final File file = configuration.getInput();
-    
+
     final Set<ColumnIgnore> columnIgnores = configuration.getFeedback().getColumnIgnores();
-    final Integer[] columnIgnoresArray =
-        columnIgnores.stream().map(e -> e.getPosition().getIndex()).toArray(Integer[]::new);
-    
+
     final Callable<Result> execution = () -> {
       final String data = fileService.getDataById(file.getId());
-      
-      final java.io.File tempFile = java.io.File.createTempFile("odalic", "csv");
+
+      //TODO: Remove dependency on temporary file creation.
+      final java.io.File tempFile = java.io.File.createTempFile(TEMP_FILE_PREFIX, TEMP_FILE_SUFFIX);
       tempFile.deleteOnExit();
       FileUtils.writeStringToFile(tempFile, data);
-      
+
+      //TODO: Substitute table extractor with something more robust as soon as possible.
       final List<Table> tables = tableExtractor.extract(tempFile, tempFile.getName());
       if (tables.isEmpty()) {
         throw new IllegalArgumentException();
       }
 
       final SemanticTableInterpreter interpreter = semanticTableInterpreterFactory.getInterpreter();
-      semanticTableInterpreterFactory.setIgnoreColumnsForInterpreter(columnIgnoresArray);
+      semanticTableInterpreterFactory.setColumnIgnoresForInterpreter(columnIgnores);
 
       final TAnnotation annotationResult = interpreter.start(tables.get(0), true);
-      final Result result = annotationResultAdapter.toResult(annotationResult);
+      //TODO: Add multiple KB support to configuration.
+      final Result result = annotationResultAdapter
+          .toResult(ImmutableMap.of(new KnowledgeBase("DBpedia"), annotationResult));
 
       return result;
     };
@@ -129,7 +142,7 @@ public final class FutureBasedExecutionService implements ExecutionService {
   }
 
   @Override
-  public boolean isCancelledForTaskId(String id) {
+  public boolean isCanceledForTaskId(String id) {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
 
