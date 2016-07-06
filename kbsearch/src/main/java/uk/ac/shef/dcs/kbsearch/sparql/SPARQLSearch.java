@@ -56,8 +56,9 @@ public abstract class SPARQLSearch extends KBSearch {
 
     protected String createRegexQuery(String content){
         String query = "SELECT DISTINCT ?s ?o WHERE {"+
-            "?s <"+RDFEnum.RELATION_HASLABEL.getString()+"> ?o ."+
-            "FILTER ( regex (str(?o), \"\\b"+content+"\\b\", \"i\") ) }";
+            "?s <"+RDFEnum.RELATION_HASLABEL.getString()+"> ?o . \n"+
+                //"?o bif:contains \""+content+"\"}";
+            "FILTER ( regex (str(?o), \"\\\\b"+content+"\\\\b\", \"i\") ) }";
         return query;
     }
 
