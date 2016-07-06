@@ -43,7 +43,6 @@ public final class LikelihoodValue implements Serializable {
    */
   public void setValue(double value) {
     Preconditions.checkArgument(value >= 0);
-    Preconditions.checkArgument(value <= 1);
     
     this.value = value;
   }

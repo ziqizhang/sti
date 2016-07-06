@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
-import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
+import cz.cuni.mff.xrg.odalic.positions.RowPosition;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 
 /**
@@ -15,16 +15,16 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
  * @author Václav Brodec
  *
  */
-public final class RowPositionKeyJsonSerializer extends JsonSerializer<ColumnPosition> {
+public final class RowPositionKeyJsonSerializer extends JsonSerializer<RowPosition> {
 
     /* (non-Javadoc)
      * @see com.fasterxml.jackson.databind.JsonSerializer#serialize(java.lang.Object, com.fasterxml.jackson.core.JsonGenerator, com.fasterxml.jackson.databind.SerializerProvider)
      */
     @Override
-    public void serialize(ColumnPosition value, JsonGenerator jgen,
+    public void serialize(RowPosition value, JsonGenerator jgen,
             SerializerProvider provider) throws IOException,
             JsonProcessingException {
-        jgen.writeString(Integer.toString(value.getIndex()));       
+        jgen.writeFieldName(Integer.toString(value.getIndex()));       
     }
 
 }

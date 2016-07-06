@@ -23,7 +23,7 @@ public final class ColumnPositionKeyJsonSerializer extends JsonSerializer<Column
     public void serialize(ColumnPosition value, JsonGenerator jgen,
             SerializerProvider provider) throws IOException,
             JsonProcessingException {
-        jgen.writeString(Integer.toString(value.getIndex()));       
+        jgen.writeFieldName(Integer.toString(value.getIndex()));       
     }
 
 }

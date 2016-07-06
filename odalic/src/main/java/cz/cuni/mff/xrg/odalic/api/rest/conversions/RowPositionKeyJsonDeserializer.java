@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.KeyDeserializer;
 
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
+import cz.cuni.mff.xrg.odalic.positions.RowPosition;
 
 /**
  * Map key JSON deserializer for {@link ColumnPosition} instances.
@@ -18,6 +19,6 @@ public final class RowPositionKeyJsonDeserializer extends KeyDeserializer {
      */
     @Override
     public Object deserializeKey(String key, DeserializationContext ctxt) {
-      return new ColumnPosition(Integer.parseInt(key));
+      return new RowPosition(Integer.parseInt(key));
     }
 }

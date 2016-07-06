@@ -16,13 +16,11 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
  */
 public final class KnowledgeBaseKeyJsonSerializer extends JsonSerializer<KnowledgeBase> {
 
-    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
-
     @Override
     public void serialize(KnowledgeBase value, JsonGenerator jgen,
             SerializerProvider provider) throws IOException,
             JsonProcessingException {
-        jgen.writeString(value.getName());       
+        jgen.writeFieldName(value.getName());       
     }
 
 }

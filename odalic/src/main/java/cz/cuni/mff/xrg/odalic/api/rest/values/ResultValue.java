@@ -2,6 +2,7 @@ package cz.cuni.mff.xrg.odalic.api.rest.values;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
 
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.ColumnPositionKeyJsonDeserializer;
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.ColumnPositionKeyJsonSerializer;
@@ -47,21 +49,25 @@ public final class ResultValue implements Serializable {
 
   @XmlElement
   private ColumnPosition subjectColumnPosition;
-  
+
   @XmlElement
   private List<HeaderAnnotation> headerAnnotations;
-  
+
   @XmlElement
   private CellAnnotation[][] cellAnnotations;
-  
+
   @XmlElement
-  @JsonDeserialize(keyUsing = ColumnPositionKeyJsonDeserializer.class, contentUsing = ColumnPositionToColumnRelationAnnotationMapDeserializer.class)
-  @JsonSerialize(keyUsing = ColumnPositionKeyJsonSerializer.class, contentUsing = ColumnPositionToColumnRelationAnnotationMapSerializer.class)
+  @JsonDeserialize(keyUsing = ColumnPositionKeyJsonDeserializer.class,
+      contentUsing = ColumnPositionToColumnRelationAnnotationMapDeserializer.class)
+  @JsonSerialize(keyUsing = ColumnPositionKeyJsonSerializer.class,
+      contentUsing = ColumnPositionToColumnRelationAnnotationMapSerializer.class)
   private Map<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> columnRelationAnnotations;
-  
+
   @XmlElement
-  @JsonDeserialize(keyUsing = RowPositionKeyJsonDeserializer.class, contentUsing = ColumnPositionToColumnPositionToCellRelationAnnotationMapMapDeserializer.class)
-  @JsonSerialize(keyUsing = RowPositionKeyJsonSerializer.class, contentUsing = ColumnPositionToColumnPositionToCellRelationAnnotationMapMapSerializer.class)
+  @JsonDeserialize(keyUsing = RowPositionKeyJsonDeserializer.class,
+      contentUsing = ColumnPositionToColumnPositionToCellRelationAnnotationMapMapDeserializer.class)
+  @JsonSerialize(keyUsing = RowPositionKeyJsonSerializer.class,
+      contentUsing = ColumnPositionToColumnPositionToCellRelationAnnotationMapMapSerializer.class)
   private Map<RowPosition, Map<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>>> cellRelationAnnotations;
 
   public ResultValue() {
@@ -71,44 +77,70 @@ public final class ResultValue implements Serializable {
     columnRelationAnnotations = ImmutableMap.of();
     cellRelationAnnotations = ImmutableMap.of();
   }
-  
-  /**
-   * @param subjectColumnPosition
-   * @param headerAnnotations
-   * @param cellAnnotations
-   * @param columnRelationAnnotations
-   * @param cellRelationAnnotations
-   */
+
   public ResultValue(Result adaptee) {
     subjectColumnPosition = adaptee.getSubjectColumnPosition();
     headerAnnotations = adaptee.getHeaderAnnotations();
     cellAnnotations = adaptee.getCellAnnotations();
-    
-    final ImmutableMap.Builder<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> columnRelationAnnotationsBuilder = ImmutableMap.builder();
-    for (final Map.Entry<ColumnRelationPosition, ColumnRelationAnnotation> entry : adaptee.getColumnRelationAnnotations().entrySet()) {
+
+    initializeColumnRelationAnnotations(adaptee);
+    initializeCellRelationAnnotations(adaptee);
+  }
+
+  private void initializeCellRelationAnnotations(Result adaptee) {
+    cellRelationAnnotations = new HashMap<>();
+    for (final Map.Entry<CellRelationPosition, CellRelationAnnotation> entry : adaptee
+        .getCellRelationAnnotations().entrySet()) {
+      final CellRelationPosition key = entry.getKey();
+      final RowPosition row = key.getRowPosition();
+      final ColumnRelationPosition columns = key.getColumnsPosition();
+
+      final ColumnPosition firstColumn = columns.getFirst();
+      final ColumnPosition secondColumn = columns.getSecond();
+
+      final CellRelationAnnotation annotation = entry.getValue();
+
+      final Map<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>> subMap =
+          cellRelationAnnotations.get(row);
+      if (subMap == null) {
+        final Map<ColumnPosition, CellRelationAnnotation> newSubSubMap =
+            Maps.newHashMap(ImmutableMap.of(secondColumn, annotation));
+        final Map<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>> newSubMap =
+            new HashMap<>();
+        newSubMap.put(firstColumn, newSubSubMap);
+
+        cellRelationAnnotations.put(row, newSubMap);
+      } else {
+        final Map<ColumnPosition, CellRelationAnnotation> subSubMap = subMap.get(firstColumn);
+        if (subSubMap == null) {
+          final Map<ColumnPosition, CellRelationAnnotation> newSubSubMap =
+              Maps.newHashMap(ImmutableMap.of(secondColumn, annotation));
+          subMap.put(firstColumn, newSubSubMap);
+        } else {
+          subSubMap.put(secondColumn, annotation);
+        }
+      }
+    }
+  }
+
+  private void initializeColumnRelationAnnotations(Result adaptee) {
+    columnRelationAnnotations = new HashMap<>();
+    for (final Map.Entry<ColumnRelationPosition, ColumnRelationAnnotation> entry : adaptee
+        .getColumnRelationAnnotations().entrySet()) {
       final ColumnRelationPosition key = entry.getKey();
       final ColumnPosition firstColumn = key.getFirst();
       final ColumnPosition secondColumn = key.getSecond();
       final ColumnRelationAnnotation annotation = entry.getValue();
-      
-      columnRelationAnnotationsBuilder.put(firstColumn, ImmutableMap.of(secondColumn, annotation));
+
+      final Map<ColumnPosition, ColumnRelationAnnotation> subMap =
+          columnRelationAnnotations.get(firstColumn);
+      if (subMap == null) {
+        columnRelationAnnotations.put(firstColumn,
+            new HashMap<>(ImmutableMap.of(secondColumn, annotation)));
+      } else {
+        subMap.put(secondColumn, annotation);
+      }
     }
-    columnRelationAnnotations = columnRelationAnnotationsBuilder.build();
-    
-    final ImmutableMap.Builder<RowPosition, Map<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>>> cellRelationAnnotationsBuilder = ImmutableMap.builder();
-    for (final Map.Entry<CellRelationPosition, CellRelationAnnotation> entry : adaptee.getCellRelationAnnotations().entrySet()) {
-      final CellRelationPosition key = entry.getKey();
-      final RowPosition row = key.getRowPosition();
-      final ColumnRelationPosition columns = key.getColumnsPosition();
-      
-      final ColumnPosition firstColumn = columns.getFirst();
-      final ColumnPosition secondColumn = columns.getSecond();
-      
-      final CellRelationAnnotation annotation = entry.getValue();
-      
-      cellRelationAnnotationsBuilder.put(row, ImmutableMap.of(firstColumn, ImmutableMap.of(secondColumn, annotation)));
-    }
-    cellRelationAnnotations = cellRelationAnnotationsBuilder.build();
   }
 
   /**
@@ -124,7 +156,7 @@ public final class ResultValue implements Serializable {
    */
   public void setSubjectColumnPosition(ColumnPosition subjectColumnPosition) {
     Preconditions.checkNotNull(subjectColumnPosition);
-    
+
     this.subjectColumnPosition = subjectColumnPosition;
   }
 
@@ -140,7 +172,7 @@ public final class ResultValue implements Serializable {
    */
   public void setHeaderAnnotations(List<HeaderAnnotation> headerAnnotations) {
     Preconditions.checkNotNull(headerAnnotations);
-    
+
     this.headerAnnotations = ImmutableList.copyOf(headerAnnotations);
   }
 
@@ -156,8 +188,9 @@ public final class ResultValue implements Serializable {
    */
   public void setCellAnnotations(CellAnnotation[][] cellAnnotations) {
     Preconditions.checkNotNull(cellAnnotations);
-    
-    this.cellAnnotations = cz.cuni.mff.xrg.odalic.util.Arrays.deepCopy(CellAnnotation.class, cellAnnotations);
+
+    this.cellAnnotations =
+        cz.cuni.mff.xrg.odalic.util.Arrays.deepCopy(CellAnnotation.class, cellAnnotations);
   }
 
   /**
@@ -172,8 +205,10 @@ public final class ResultValue implements Serializable {
    */
   public void setColumnRelationAnnotations(
       Map<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> columnRelationAnnotations) {
-    final ImmutableMap.Builder<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> columnRelationAnnotationsBuilder = ImmutableMap.builder();
-    for (final Map.Entry<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> entry : columnRelationAnnotations.entrySet()) {
+    final ImmutableMap.Builder<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> columnRelationAnnotationsBuilder =
+        ImmutableMap.builder();
+    for (final Map.Entry<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> entry : columnRelationAnnotations
+        .entrySet()) {
       columnRelationAnnotationsBuilder.put(entry.getKey(), ImmutableMap.copyOf(entry.getValue()));
     }
     this.columnRelationAnnotations = columnRelationAnnotationsBuilder.build();
@@ -191,19 +226,25 @@ public final class ResultValue implements Serializable {
    */
   public void setCellRelationAnnotations(
       Map<RowPosition, Map<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>>> cellRelationAnnotations) {
-    final ImmutableMap.Builder<RowPosition, Map<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>>> cellRelationAnnotationsBuilder = ImmutableMap.builder();
-    for (final Map.Entry<RowPosition, Map<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>>> entry : cellRelationAnnotations.entrySet()) {
-      final ImmutableMap.Builder<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>> innerMapBuilder = ImmutableMap.builder();
-      for (final Map.Entry<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>> innerEntry : entry.getValue().entrySet()) {
+    final ImmutableMap.Builder<RowPosition, Map<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>>> cellRelationAnnotationsBuilder =
+        ImmutableMap.builder();
+    for (final Map.Entry<RowPosition, Map<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>>> entry : cellRelationAnnotations
+        .entrySet()) {
+      final ImmutableMap.Builder<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>> innerMapBuilder =
+          ImmutableMap.builder();
+      for (final Map.Entry<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>> innerEntry : entry
+          .getValue().entrySet()) {
         innerMapBuilder.put(innerEntry.getKey(), ImmutableMap.copyOf(innerEntry.getValue()));
       }
-            
+
       cellRelationAnnotationsBuilder.put(entry.getKey(), innerMapBuilder.build());
     }
     this.cellRelationAnnotations = cellRelationAnnotationsBuilder.build();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override
@@ -212,5 +253,5 @@ public final class ResultValue implements Serializable {
         + headerAnnotations + ", cellAnnotations=" + Arrays.toString(cellAnnotations)
         + ", columnRelationAnnotations=" + columnRelationAnnotations + ", cellRelationAnnotations="
         + cellRelationAnnotations + "]";
-  }  
+  }
 }

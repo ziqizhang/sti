@@ -32,8 +32,8 @@ extends JsonSerializer<Map<ColumnPosition, Map<ColumnPosition, CellRelationAnnot
         jgen.writeFieldName(Integer.toString(entry.getKey().getIndex()));
         
         jgen.writeStartObject();
-        for (final Map.Entry<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>> subentry : value.entrySet()) {
-          jgen.writeObjectField(Integer.toString(entry.getKey().getIndex()), subentry.getValue());
+        for (final Map.Entry<ColumnPosition, CellRelationAnnotation> subEntry : entry.getValue().entrySet()) {
+          jgen.writeObjectField(Integer.toString(subEntry.getKey().getIndex()), subEntry.getValue());
         }
         jgen.writeEndObject();
       }

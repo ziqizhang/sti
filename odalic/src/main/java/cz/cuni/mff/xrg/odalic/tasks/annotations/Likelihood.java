@@ -10,7 +10,7 @@ import com.google.common.base.Preconditions;
 import cz.cuni.mff.xrg.odalic.api.rest.adapters.LikelihoodAdapter;
 
 /**
- * Probability based score value for annotation.
+ * Score value for annotation.
  * 
  * @author Václav Brodec
  *

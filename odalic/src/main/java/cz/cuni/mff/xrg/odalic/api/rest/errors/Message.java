@@ -63,8 +63,6 @@ public final class Message {
    * @param text the text to set
    */
   public void setText(String text) {
-    Preconditions.checkNotNull(text);
-    
     this.text = text;
   }
 
@@ -80,8 +78,6 @@ public final class Message {
    * @param link the link to set
    */
   public void setLink(String link) {
-    Preconditions.checkNotNull(link);
-    
     this.link = link;
   }
 
@@ -97,8 +93,6 @@ public final class Message {
    * @param developerText the developer text to set
    */
   public void setDeveloperText(String developerText) {
-    Preconditions.checkNotNull(developerText);
-    
     this.developerText = developerText;
   }
 }
