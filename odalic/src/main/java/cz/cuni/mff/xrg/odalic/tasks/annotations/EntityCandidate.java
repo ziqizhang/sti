@@ -99,7 +99,7 @@ public final class EntityCandidate implements Comparable<EntityCandidate>, Seria
   }
   
   /**
-   * Entity candidates are naturally ordered by their likelihood in descending order. In case of the
+   * Entity candidates are naturally ordered by their likelihood in ascending order. In case of the
    * equal likelihood the natural ordering of entities is taken into account.
    * 
    * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -109,7 +109,7 @@ public final class EntityCandidate implements Comparable<EntityCandidate>, Seria
     final int likelihoodComparison = likelihood.compareTo(o.likelihood);
     
     if (likelihoodComparison == 0) {
-      return -entity.compareTo(o.entity);
+      return entity.compareTo(o.entity);
     } else {
       return likelihoodComparison;
     }
