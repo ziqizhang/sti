@@ -107,7 +107,7 @@ public class DBpediaSearch extends SPARQLSearch {
                 rank(queryResult, content);
 
                 //firstly fetch candidate freebase topics. pass 'true' to only keep candidates whose name overlap with the query term
-                LOG.debug("(FB QUERY =" + queryResult.size() + " results)");
+                LOG.debug("(DBpedia QUERY =" + queryResult.size() + " results)");
                 for (Pair<String, String> candidate : queryResult) {
                     //Next get attributes for each topic
                     String label = candidate.getValue();

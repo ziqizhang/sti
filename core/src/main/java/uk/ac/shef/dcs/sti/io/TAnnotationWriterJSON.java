@@ -1,6 +1,9 @@
 package uk.ac.shef.dcs.sti.io;
 
 import com.google.gson.Gson;
+import javafx.util.Pair;
+import org.apache.jena.reasoner.rulesys.builtins.Print;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
 
@@ -21,8 +24,10 @@ public class TAnnotationWriterJSON extends TAnnotationWriter {
 
     protected void writeCellKeyFile(Table table, TAnnotation table_annotation, String cell_key) throws FileNotFoundException {
         PrintWriter p = new PrintWriter(cell_key);
+        PrintWriter p_cellCllass= new PrintWriter(cell_key+".clazz");
 
         List<JSONOutputCellAnnotation> jsonCells = new ArrayList<>();
+        List<Pair<String, Set<String>>> cellCandidateEntityAndClass = new ArrayList<>();
         for (int r = 0; r < table.getNumRows(); r++) {
             for (int c = 0; c < table.getNumCols(); c++) {
                 JSONOutputCellAnnotation jc = new JSONOutputCellAnnotation(r, c);
@@ -30,6 +35,13 @@ public class TAnnotationWriterJSON extends TAnnotationWriter {
                 if (cans != null && cans.length > 0) {
                     for (TCellAnnotation ca : cans) {
                         jc.add(ca);
+
+                        Set<String> classes = new HashSet<>();
+                        for(Clazz clazz: ca.getAnnotation().getTypes())
+                            classes.add(clazz.getId());
+                        Pair<String, Set<String>> entityClasses = new Pair<>(ca.getAnnotation().getId(),
+                                classes);
+                        cellCandidateEntityAndClass.add(entityClasses);
                     }
                 }
                 jsonCells.add(jc);
@@ -39,6 +51,10 @@ public class TAnnotationWriterJSON extends TAnnotationWriter {
         String string = gson.toJson(jsonCells);
         p.println(string);
         p.close();
+
+        string=gson.toJson(cellCandidateEntityAndClass);
+        p_cellCllass.println(string);
+        p_cellCllass.close();
     }
 
     protected void writeRelationKeyFile(TAnnotation table_annotation, String relation_key) throws FileNotFoundException {
