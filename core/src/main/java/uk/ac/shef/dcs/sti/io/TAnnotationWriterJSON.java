@@ -30,9 +30,9 @@ public class TAnnotationWriterJSON extends TAnnotationWriter {
         List<Pair<String, Set<String>>> cellCandidateEntityAndClass = new ArrayList<>();
         for (int r = 0; r < table.getNumRows(); r++) {
             for (int c = 0; c < table.getNumCols(); c++) {
-                JSONOutputCellAnnotation jc = new JSONOutputCellAnnotation(r, c);
+                JSONOutputCellAnnotation jc = new JSONOutputCellAnnotation(r, c, table.getContentCell(r,c).getText());
                 TCellAnnotation[] cans = table_annotation.getContentCellAnnotations(r, c);
-                if (cans != null && cans.length > 0) {
+                //if (cans != null && cans.length > 0) {
                     for (TCellAnnotation ca : cans) {
                         jc.add(ca);
 
@@ -43,7 +43,7 @@ public class TAnnotationWriterJSON extends TAnnotationWriter {
                                 classes);
                         cellCandidateEntityAndClass.add(entityClasses);
                     }
-                }
+                //}
                 jsonCells.add(jc);
             }
         }
@@ -113,12 +113,12 @@ public class TAnnotationWriterJSON extends TAnnotationWriter {
         List<JSONOutputColumnAnnotation> jsonColumns = new ArrayList<>();
         for (int c = 0; c < table.getNumCols(); c++) {
             TColumnHeaderAnnotation[] anns = table_annotation.getHeaderAnnotation(c);
-            JSONOutputColumnAnnotation jc = new JSONOutputColumnAnnotation(c);
-            if (anns != null && anns.length > 0) {
+            JSONOutputColumnAnnotation jc = new JSONOutputColumnAnnotation(c, table.getColumnHeader(c).getHeaderText());
+            //if (anns != null && anns.length > 0) {
                 for (TColumnHeaderAnnotation ha : anns) {
                     jc.add(ha);
                 }
-            }
+            //}
             jsonColumns.add(jc);
         }
         String string = gson.toJson(jsonColumns);
