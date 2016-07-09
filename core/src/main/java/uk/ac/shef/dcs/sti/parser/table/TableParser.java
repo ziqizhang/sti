@@ -42,6 +42,7 @@ public abstract class TableParser {
 
     public abstract List<Table> extract(String input, String sourceId) throws STIException;
 
+
     /**
      * Processes table elements following the basic principles:
      * 1. normalize a table element (Jsoup) into a regular n x m table

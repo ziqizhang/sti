@@ -3,7 +3,9 @@ package uk.ac.shef.dcs.sti.parser.table;
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.extractor.html.TagSoupParser;
 import org.apache.commons.io.FileUtils;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.Table;
@@ -23,15 +25,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import static org.joox.JOOX.$;
 
 /**
- * Created with IntelliJ IDEA.
- * User: zqz
- * Date: 17/02/14
- * Time: 11:56
- * To change this template use File | Settings | File Templates.
+ * for parsing IMDB cast table on movie pages, e.g.,
+ * http://www.imdb.com/title/tt0371746/
+ *
+ * see TableContextExtractorIMDB for the extraction of context for the table
  */
-public class TableParserIMDB extends TableParser {
+public class TableParserIMDB extends TableParser implements Browsable {
 
     public TableParserIMDB(){
         super(new TableNormalizerDiscardIrregularRows(true),
@@ -44,23 +46,27 @@ public class TableParserIMDB extends TableParser {
         super(normalizer, detector, creator, validators);
     }
 
-    @Override
-    public List<Table> extract(String inFile, String sourceId) throws STIException {
+    private Document createDocument(String inFile, String sourceId) throws STIException{
         String input;
         try {
             input = FileUtils.readFileToString(new File(inFile));
         } catch (IOException e) {
             throw new STIException(e);
         }
-
-        List<Table> rs = new ArrayList<>();
         parser = new TagSoupParser(new ByteArrayInputStream(input.getBytes()), sourceId,"UTF-8");
         Document doc = null;
         try {
             doc = parser.getDOM();
         } catch (IOException e) {
-            return rs;
         }
+
+        return doc;
+    }
+
+    @Override
+    public List<Table> extract(String inFile, String sourceId) throws STIException {
+        List<Table> rs = new ArrayList<>();
+        Document doc = createDocument(inFile, sourceId);
 
         List<Node> tables = DomUtils.findAll(doc, "//TABLE[@class='cast_list']");
         List<TContext> contexts = new ArrayList<>();
@@ -86,4 +92,25 @@ public class TableParserIMDB extends TableParser {
     }
 
 
+    @Override
+    public List<String> extract(String inFile, String sourceId, String outputFolder) throws STIException {
+        Document doc = createDocument(inFile, sourceId);
+
+        List<Node> tables = DomUtils.findAll(doc, "//TABLE[@class='cast_list']");
+        int count=1;
+        for(Node n: tables){
+            String xpath = $(n).xpath();
+            Node parent = n.getParentNode();
+            if(parent!=null) {
+                Element checkbox = doc.createElement("input");
+                checkbox.setAttribute("type","checkbox");
+                checkbox.setAttribute("name","table"+count);
+                checkbox.setAttribute("checked","true");
+                //todo: continue here
+                parent.insertBefore(checkbox, n);
+            }
+        }
+
+        return new ArrayList<>();
+    }
 }
