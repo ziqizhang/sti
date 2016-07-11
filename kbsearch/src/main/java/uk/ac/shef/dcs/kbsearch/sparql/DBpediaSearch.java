@@ -66,6 +66,8 @@ public class DBpediaSearch extends SPARQLSearch {
     @Override
     @SuppressWarnings("unchecked")
     public List<Entity> findEntityCandidates(String content) throws KBSearchException {
+        /*if(content.equals("Ramji Manjhi"))
+            System.out.println();*/
         String query = createSolrCacheQuery_findResources(content);
         boolean forceQuery = false;
 
@@ -106,7 +108,7 @@ public class DBpediaSearch extends SPARQLSearch {
                 rank(queryResult, content);
 
                 //firstly fetch candidate freebase topics. pass 'true' to only keep candidates whose name overlap with the query term
-                LOG.debug("(FB QUERY =" + queryResult.size() + " results)");
+                LOG.debug("(DBpedia QUERY =" + queryResult.size() + " results)");
                 for (Pair<String, String> candidate : queryResult) {
                     //Next get attributes for each topic
                     String label = candidate.getValue();
@@ -226,7 +228,7 @@ public class DBpediaSearch extends SPARQLSearch {
                 rank(queryResult, content);
 
                 //firstly fetch candidate freebase topics. pass 'true' to only keep candidates whose name overlap with the query term
-                LOG.debug("(FB QUERY =" + queryResult.size() + " results)");
+                LOG.debug("(DBpedia QUERY =" + queryResult.size() + " results)");
                 for (Pair<String, String> candidate : queryResult) {
                     //Next get attributes for each topic
                     String label = candidate.getValue();

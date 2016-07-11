@@ -55,10 +55,30 @@ public abstract class SPARQLSearch extends KBSearch {
         this.sparqlEndpoint=sparqlEndpoint;
     }
 
+
+    /**
+     * SELECT DISTINCT ?s ?o
+     WHERE
+     {
+     {
+     ?s  <http://www.w3.org/2000/01/rdf-schema#label>  ?o      .
+     ?o  bif:contains                                  "Ramji"
+     }
+     UNION
+     {
+     ?s  <http://www.w3.org/2000/01/rdf-schema#label>  ?o      .
+     ?o  bif:contains                                  "Manjhi"
+     }
+     }
+     ORDER BY ?s
+     * @param content
+     * @return
+     */
     protected String createRegexQuery(String content){
         String query = "SELECT DISTINCT ?s ?o WHERE {"+
-            "?s <"+RDFEnum.RELATION_HASLABEL.getString()+"> ?o ."+
-            "FILTER ( regex (str(?o), \"\\b"+content+"\\b\", \"i\") ) }";
+            "?s <"+RDFEnum.RELATION_HASLABEL.getString()+"> ?o . \n"+
+                //"?o bif:contains \""+content+"\"}";
+            "FILTER ( regex (str(?o), \"\\\\b"+content+"\\\\b\", \"i\") ) }";
         return query;
     }
 

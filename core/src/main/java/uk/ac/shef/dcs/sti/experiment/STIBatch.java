@@ -8,6 +8,7 @@ import org.apache.solr.core.CoreContainer;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
+import uk.ac.shef.dcs.sti.io.TAnnotationWriterJSON;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
@@ -85,9 +86,9 @@ public abstract class STIBatch {
         properties = new Properties();
         properties.load(new FileInputStream(propertyFile));
         initComponents();
-        writer = new TAnnotationWriter(new TripleGenerator(
+        /*writer = new TAnnotationWriter(new TripleGenerator(
                 properties.getProperty(PROPERTY_OUTPUT_TRIPLE_KB_NAMESPACE), properties.getProperty(PROPERTY_OUTPUT_TRIPLE_DEFAULT_NAMESPACE)
-        ));
+        ));*/
     }
 
     /**
@@ -242,7 +243,10 @@ public abstract class STIBatch {
 
     protected TAnnotationWriter getTAnnotationWriter() {
         if (writer == null) {
-            writer = new TAnnotationWriter(
+            /*writer = new TAnnotationWriter(
+                    new TripleGenerator(properties.getProperty(PROPERTY_OUTPUT_TRIPLE_KB_NAMESPACE),
+                            properties.getProperty(PROPERTY_OUTPUT_TRIPLE_DEFAULT_NAMESPACE)));*/
+            writer = new TAnnotationWriterJSON(
                     new TripleGenerator(properties.getProperty(PROPERTY_OUTPUT_TRIPLE_KB_NAMESPACE),
                             properties.getProperty(PROPERTY_OUTPUT_TRIPLE_DEFAULT_NAMESPACE)));
         }
