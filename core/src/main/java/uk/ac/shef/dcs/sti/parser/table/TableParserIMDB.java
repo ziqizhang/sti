@@ -3,7 +3,6 @@ package uk.ac.shef.dcs.sti.parser.table;
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.extractor.html.TagSoupParser;
 import org.apache.commons.io.FileUtils;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,9 +19,11 @@ import uk.ac.shef.dcs.sti.parser.table.normalizer.TableNormalizerDiscardIrregula
 import uk.ac.shef.dcs.sti.parser.table.validator.TableValidatorGeneric;
 import uk.ac.shef.dcs.sti.parser.table.validator.TableValidator;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import static org.joox.JOOX.$;
@@ -96,21 +97,49 @@ public class TableParserIMDB extends TableParser implements Browsable {
     public List<String> extract(String inFile, String sourceId, String outputFolder) throws STIException {
         Document doc = createDocument(inFile, sourceId);
 
+        List<String> xpaths = new ArrayList<>();
         List<Node> tables = DomUtils.findAll(doc, "//TABLE[@class='cast_list']");
         int count=1;
-        for(Node n: tables){
-            String xpath = $(n).xpath();
-            Node parent = n.getParentNode();
+        for(Node tableNode: tables){
+            String xpath = $(tableNode).xpath();
+            Node parent = tableNode.getParentNode();
             if(parent!=null) {
                 Element checkbox = doc.createElement("input");
                 checkbox.setAttribute("type","checkbox");
                 checkbox.setAttribute("name","table"+count);
                 checkbox.setAttribute("checked","true");
-                //todo: continue here
-                parent.insertBefore(checkbox, n);
+                parent.insertBefore(checkbox, tableNode);
+
+                Element span =doc.createElement("span");
+                span.setAttribute("style","background-color:red");
+                span.setTextContent("check this box to annotate table#"+count);
+                parent.insertBefore(span, tableNode);
             }
+
+            xpaths.add(xpath);
         }
 
-        return new ArrayList<>();
+
+        File in = new File(inFile);
+        File outFile = new File(outputFolder+ File.separator+in.getName());
+        if(in.toString().equals(outFile.toString())){
+            //rename input file
+            in.renameTo(new File(in.toString()+".original"));
+        }
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            StreamResult result = new StreamResult(new StringWriter());
+            DOMSource source = new DOMSource(doc);
+            transformer.transform(source, result);
+            String value=result.getWriter().toString();
+            PrintWriter p = new PrintWriter(outFile);
+            p.println(value);
+            p.close();
+        }catch (Exception ioe){
+            throw new STIException(ioe);
+        }
+
+        return xpaths;
     }
+
 }
