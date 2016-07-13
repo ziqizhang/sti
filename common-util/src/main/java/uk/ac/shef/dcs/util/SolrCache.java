@@ -33,7 +33,7 @@ public class SolrCache {
     public void cache(String queryId, Object obj, boolean commit) throws IOException, SolrServerException {
         SolrInputDocument newDoc = new SolrInputDocument();
         newDoc.addField(idFieldName, queryId);
-        newDoc.addField(valueFieldName, SerializableUtils.serializeBase64(obj));
+        newDoc.addField(valueFieldName, SerializationUtils.serializeBase64(obj));
        // newDoc.addField(valueTextFieldName, ojbectToString(obj));
         server.add(newDoc);
         if(commit)
@@ -70,7 +70,7 @@ public class SolrCache {
         Object data = doc.getFieldValue(valueFieldName);
         Object dataBytes = ((ArrayList)data).get(0);
 
-        Object object =  SerializableUtils.deserializeBase64((byte[])dataBytes);
+        Object object =  SerializationUtils.deserializeBase64((byte[]) dataBytes);
         return object;
     }
 

@@ -1,3 +1,7 @@
+# =========================
+# Operating System Files
+# =========================
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -18,9 +22,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # =========================
-# Operating System Files
-# =========================
-
 # OSX
 # =========================
 
@@ -42,18 +43,83 @@ Network Trash Folder
 Temporary Items
 .apdisk
 *.class
-*.jar
-*.jar
 *.log
 *.lck
-*.zip
 graph.txt
 *.csv
 core/lodie.log.1
 *.csv
 *.1
-core/limaye_missed.csv
+failed.txt
 output/*
+*.log
 */target
+cache/empty/class/data/*
+cache/empty/entity/data/*
+cache/empty/relation/data/*
+cache/empty/websearch/data/*
+cache/empty/similarity/data/*
+delete/*
+
+# =========================
+# Eclipse files
+# =========================
+
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+# Eclipse Core
+.project
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
+
+# CDT-specific (C/C++ Development Tooling)
+.cproject
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# Java annotation processor (APT)
+.factorypath
+
+# PDT-specific (PHP Development Tools)
+.buildpath
+
+# sbteclipse plugin
+.target
+
+# Tern plugin
+.tern-project
+
+# TeXlipse plugin
+.texlipse
+
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/
+
+# =========================
+# IntelliJ IDEA
+# =========================
+
 *.iml
 */.idea
+.Idea/*

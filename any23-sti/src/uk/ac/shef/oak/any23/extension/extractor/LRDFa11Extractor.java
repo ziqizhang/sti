@@ -17,14 +17,7 @@ import java.util.Arrays;
 public class LRDFa11Extractor extends RDFa11Extractor {
     public final static String NAME = "lodie-html-rdfa11";
 
-        public final static ExtractorFactory<LRDFa11Extractor> factory =
-                SimpleExtractorFactory.create(
-                        NAME,
-                        null,
-                        Arrays.asList("text/html;q=0.3", "application/xhtml+xml;q=0.3"),
-                        "example-rdfa11.html",
-                        LRDFa11Extractor.class
-                );
+        public final static ExtractorFactory<LRDFa11Extractor> factory = new LRDFa11ExtractorFactory();
 
         private final LRDFa11Parser parser;
 

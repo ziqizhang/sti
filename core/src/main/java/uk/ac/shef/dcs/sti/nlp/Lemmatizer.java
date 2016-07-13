@@ -9,7 +9,7 @@ import java.util.*;
 public class Lemmatizer {
 
     private EngLemmatiser lemmatizer;
-    private Map<String, Integer> tagLookUp = new HashMap<String, Integer>();
+    private Map<String, Integer> tagLookUp = new HashMap<>();
 
     public Lemmatizer(String dict) {
         init(dict);
@@ -44,7 +44,7 @@ public class Lemmatizer {
     }
 
     public List<String> lemmatize(Collection<String> words){
-        List<String> lemmas = new ArrayList<String>();
+        List<String> lemmas = new ArrayList<>();
         for(String w: words){
             String lem = getLemma(w, "NN");
             if(lem.trim().length()<1)

@@ -18,7 +18,7 @@ import java.util.List;
 
 public class BingSearchResultParser extends SearchResultParser {
     public List<WebSearchResultDoc> parse(InputStream is) throws IOException {
-        List<WebSearchResultDoc> result = new ArrayList<WebSearchResultDoc>();
+        List<WebSearchResultDoc> result = new ArrayList<>();
         if(is==null)
             return result;
         InputStreamReader isr = new InputStreamReader(is);

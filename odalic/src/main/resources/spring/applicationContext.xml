@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans	
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="cz.cuni.mff.xrg.odalic.*" />
+
+	<bean id="tableExtractor" class="uk.ac.shef.dcs.sti.xtractor.csv.TableXtractorCSV"
+		scope="prototype" />
+
+	<bean id="semanticTableInterpreterFactory"
+		class="cz.cuni.mff.xrg.odalic.tasks.executions.TableMinerPlusFactory" />
+
+	<bean id="inputParser"
+		class="cz.cuni.mff.xrg.odalic.feedbacks.input.DefaultCsvInputParser"
+		scope="prototype" />
+	<bean id="annotationToResultAdapter"
+		class="cz.cuni.mff.xrg.odalic.tasks.results.DefaultAnnotationToResultAdapter"
+		scope="prototype" />
+
+	<bean id="fileService" class="cz.cuni.mff.xrg.odalic.files.MemoryOnlyFileService" />
+	<bean id="configurationService"
+		class="cz.cuni.mff.xrg.odalic.tasks.configurations.MemoryOnlyConfigurationService" />
+	<bean id="executionService"
+		class="cz.cuni.mff.xrg.odalic.tasks.executions.FutureBasedExecutionService" />
+	<bean id="feedbackService"
+		class="cz.cuni.mff.xrg.odalic.tasks.feedbacks.MemoryOnlyFeedbackService" />
+	<bean id="taskService" class="cz.cuni.mff.xrg.odalic.tasks.MemoryOnlyTaskService" />
+
+	<bean id="configurationResource"
+		class="cz.cuni.mff.xrg.odalic.api.rest.resources.ConfigurationResource" />
+	<bean id="executionResource"
+		class="cz.cuni.mff.xrg.odalic.api.rest.resources.ExecutionResource" />
+	<bean id="feedbackResource"
+		class="cz.cuni.mff.xrg.odalic.api.rest.resources.FeedbackResource" />
+	<bean id="fileResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.FileResource" />
+	<bean id="resultResource"
+		class="cz.cuni.mff.xrg.odalic.api.rest.resources.ResultResource" />
+	<bean id="stateResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.StateResource" />
+	<bean id="taskResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.TaskResource" />
+</beans>

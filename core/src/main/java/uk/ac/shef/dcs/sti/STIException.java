@@ -14,4 +14,8 @@ public class STIException extends Exception {
         super(s);
     }
 
+    public STIException(Exception e){
+        super(e);
+    }
+
 }

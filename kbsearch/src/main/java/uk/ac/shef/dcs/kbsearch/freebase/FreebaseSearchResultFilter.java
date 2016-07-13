@@ -1,11 +1,11 @@
 package uk.ac.shef.dcs.kbsearch.freebase;
 
 import uk.ac.shef.dcs.kbsearch.KBSearchResultFilter;
-import uk.ac.shef.dcs.kbsearch.rep.Clazz;
+import uk.ac.shef.dcs.kbsearch.model.Attribute;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,39 +16,16 @@ import java.util.List;
  */
 public class FreebaseSearchResultFilter extends KBSearchResultFilter {
 
-    //todo: what is this?
-    private static final boolean IGNORE_NOTABLE_EXTRACTED_TYPE=false;
-
-
-    //todo MOVE THESE "stop" LIST TO FILES
-    private static List<String> PREDICATES_TO_IGNORE_FROM_FACTS = new ArrayList<String>();
-
-    static {
-        PREDICATES_TO_IGNORE_FROM_FACTS = Arrays.asList(
-                new String[]{
-                        "/type/permission/controls",
-                        "/media_common/creative_work/credit",
-                        "/type/object/timestamp",
-                        "/type/object/creator",
-                        "creator",
-                        "lang",
-                        "timestamp",
-                        "count",
-                        "/type/object/key",
-                        "/type/object/attribution",
-                        "/type/object/permission",
-                        "/type/object/guid",
-                        "/common/document/updated"
-                }
-        );
+    public FreebaseSearchResultFilter(String stoplistsFile) throws IOException {
+        super(stoplistsFile);
     }
 
-    private static boolean ignoreType(String type, String label) {
-        if (type.startsWith("/user/") ||
+    public boolean isValidClazz(Clazz c) {
+        /*if (type.startsWith("/user/") ||
                 type.startsWith("/common/")||
                 //type.equals("/common/image") ||
-                /*type.equals("/type/content") ||
-                type.startsWith("/type/type/domain")||*/
+                *//*type.equals("/type/content") ||
+                type.startsWith("/type/type/domain")||*//*
                 type.startsWith("/type/")||
                 type.endsWith("topic") || type.startsWith("/pipeline/") ||
                 type.endsWith("skos_concept") ||
@@ -57,73 +34,56 @@ public class FreebaseSearchResultFilter extends KBSearchResultFilter {
                 ||label.equalsIgnoreCase("topic")||label.equalsIgnoreCase("thing")||label.equalsIgnoreCase("concept")
                 ||label.equalsIgnoreCase("things")||label.equalsIgnoreCase("entity"))
             return true;
-
-        if (IGNORE_NOTABLE_EXTRACTED_TYPE &&
-                type.startsWith("/m/"))
+        return false;*/
+        Set<String> stop = stoplists.get(LABEL_INVALID_CLAZZ);
+        if (stop == null)
             return true;
 
-        return false;
+        for (String s : stop) {
+            if (c.getId().contains(s) || c.getLabel().equalsIgnoreCase(s))
+                return false;
+        }
+        return true;
 
     }
 
-    public static List<Clazz> filterTypes(List<Clazz> types){
+    public List<Clazz> filterClazz(Collection<Clazz> types) {
         List<Clazz> r = new ArrayList<>();
-        for(Clazz t: types) {
-            String url = t.getId();
-            String label = t.getLabel();
-            if (ignoreType(url, label)) continue;
+        /*if(types==null)
+            System.out.println();*/
+        for (Clazz t : types) {
+            if (!isValidClazz(t)) continue;
             r.add(t);
         }
         return r;
     }
 
-    private static boolean ignoreRelation(String relation) {
-        if (/*relation.equals("/common/topic/article") ||
-                relation.equals("/common/topic/image") ||
-                relation.equals("/common/document/text") ||
-                relation.equals("/common/topic/description") ||
-                relation.equals("/common/topic/notable_properties")||
-                relation.equals("/common/document/updated")||
-                relation.equals("/common/document/content")||
-                relation.equals("/common/document/text")||*/
-                relation.startsWith("/common/")||
-                //relation.equals("/common/document/source_uri") ||
-                relation.equals("id") ||
-                /*relation.equals("/type/object/type") ||
-                relation.equals("/type/object/name") ||
-                relation.equals("/type/object/mid") ||
-                relation.equals("/type/object/id")||
-                relation.equals("/type/object/attribution")||
-                relation.equals("/type/object/permission")||
-                relation.equals("/type/object/key")||
-                relation.equals("/type/type/domain")||
-                relation.equals("/type/type/properties")||
-                relation.equals("/type/type/expected_by")*/
-                relation.startsWith("/type/")
-                )
-
-            return true;
-        return false;
-    }
-
-    public static List<String[]> filterRelations(List<String[]> facts){
-        List<String[]> r = new ArrayList<String[]>();
-        for(String [] t: facts) {
-            String url = t[0];
-            if (ignoreRelation(url)) continue;
+    public List<Attribute> filterAttribute(Collection<Attribute> facts) {
+        List<Attribute> r = new ArrayList<>();
+        for (Attribute t : facts) {
+            if(!isValidAttribute(t)) continue;
             r.add(t);
         }
         return r;
     }
 
-    @Deprecated
-    public static boolean ignoreFactFromBOW(String predicate) {
-        return false; //predicate should have been fitltered by calling ignorePreidcate_from_triple
-    }
-
-    protected static boolean ignoreFactWithPredicate(String s) {
-        if (PREDICATES_TO_IGNORE_FROM_FACTS.contains(s))
+    public boolean isValidAttribute(Attribute attribute) {
+        //here is a list of 'pass' relations that should always be kept as the stoplist can be over-generalising
+        String rel = attribute.getRelationURI();
+        if(rel.startsWith(FreebaseEnum.TYPE_COMMON_TOPIC.getString())||rel.equals(FreebaseEnum.RELATION_HASTYPE.getString())
+                ||rel.equals(FreebaseEnum.RELATION_HASNAME.getString()))
             return true;
-        return false;
+
+        Set<String> stop = stoplists.get(LABEL_INVALID_ATTRIBUTE);
+        String relation =attribute.getRelationURI();
+        if (stop != null) {
+            relation = attribute.getRelationURI();
+            for (String s : stop) {
+                if (relation.startsWith(s))
+                    return false;
+            }
+
+        }
+        return !relation.equalsIgnoreCase("id");
     }
 }

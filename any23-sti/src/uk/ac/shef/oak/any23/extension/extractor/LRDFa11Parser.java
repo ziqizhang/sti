@@ -33,25 +33,35 @@ public class LRDFa11Parser {
     private static final Logger logger = Logger.getLogger(LRDFa11Parser.class.getName());
 
     public static final String CURIE_SEPARATOR = ":";
+
     public static final char URI_PREFIX_SEPARATOR = ':';
+
     public static final String URI_SCHEMA_SEPARATOR = "://";
+
     public static final String URI_PATH_SEPARATOR = "/";
 
     public static final String HEAD_TAG = "HEAD";
+
     public static final String BODY_TAG = "BODY";
 
     public static final String XMLNS_ATTRIBUTE = "xmlns";
+
     public static final String XML_LANG_ATTRIBUTE = "xml:lang";
 
     public static final String REL_ATTRIBUTE = "rel";
+
     public static final String REV_ATTRIBUTE = "rev";
 
     public static final String ABOUT_ATTRIBUTE = "about";
+
     public static final String RESOURCE_ATTRIBUTE = "resource";
+
     public static final String SRC_ATTRIBUTE = "src";
+
     public static final String HREF_ATTRIBUTE = "href";
 
     public static final String TYPE_ATTRIBUTE = "type";
+
     public static final String ATTRIBUTE_CSS = "text/css";
 
     public static final String[] SUBJECT_ATTRIBUTES = {
@@ -62,11 +72,17 @@ public class LRDFa11Parser {
     };
 
     public static final String PREFIX_ATTRIBUTE = "prefix";
+
     public static final String TYPEOF_ATTRIBUTE = "typeof";
+
     public static final String PROPERTY_ATTRIBUTE = "property";
+
     public static final String DATATYPE_ATTRIBUTE = "datatype";
+
     public static final String CONTENT_ATTRIBUTE = "content";
+
     public static final String VOCAB_ATTRIBUTE = "vocab";
+
     // TODO: introduce support for RDFa profiles. (http://www.w3.org/TR/rdfa-core/#s_profiles)
     public static final String PROFILE_ATTRIBUTE = "profile";
 
@@ -77,6 +93,7 @@ public class LRDFa11Parser {
     private IssueReport issueReport;
 
     private URL documentBase;
+
     private String docmentBaseCtx;
 
     private final Stack<URIMapping> uriMappingStack = new Stack<URIMapping>();
@@ -90,13 +107,13 @@ public class LRDFa11Parser {
     protected static Object[] getDocumentBase(URL documentURL, Document document) throws MalformedURLException {
         Object[] rs = new Object[2];
         String base;
-        base = DomUtils.find(document, "/HTML/HEAD/BASE/@href");                  // Non XHTML documents.
+        base = DomUtils.find(document, "/HTML/HEAD/BASE/@href"); // Non XHTML documents.
         if (!"".equals(base)) {
             rs[0] = new URL(base);
             rs[1] = "/BASE/@href";
             return rs;
         }
-        base = DomUtils.find(document, "//*/h:head/h:base[position()=1]/@href");  // XHTML documents.
+        base = DomUtils.find(document, "//*/h:head/h:base[position()=1]/@href"); // XHTML documents.
         if (!"".equals(base)) {
             rs[0] = new URL(base);
             rs[1] = "h:base[position()=1]/@href";
@@ -111,7 +128,7 @@ public class LRDFa11Parser {
     /**
      * Given a prefix declaration returns a list of <code>prefixID:prefixURL</code> strings
      * normalizing blanks where present.
-     *
+     * 
      * @param prefixesDeclaration
      * @return list of extracted prefixes.
      */
@@ -127,7 +144,8 @@ public class LRDFa11Parser {
             }
             if (part.charAt(part.length() - 1) == URI_PREFIX_SEPARATOR) {
                 i++;
-                while (i < parts.length && parts[i].length() == 0) i++;
+                while (i < parts.length && parts[i].length() == 0)
+                    i++;
                 out.add(part + (i < parts.length ? parts[i] : ""));
                 i++;
             } else {
@@ -146,10 +164,12 @@ public class LRDFa11Parser {
         if (curie == null) {
             throw new NullPointerException("curie string cannot be null.");
         }
-        if (curie.trim().length() == 0) return false;
+        if (curie.trim().length() == 0)
+            return false;
 
         // '[' PREFIX ':' VALUE ']'
-        if (curie.charAt(0) != '[' || curie.charAt(curie.length() - 1) != ']') return false;
+        if (curie.charAt(0) != '[' || curie.charAt(curie.length() - 1) != ']')
+            return false;
         int separatorIndex = curie.indexOf(CURIE_SEPARATOR);
         return separatorIndex > 0 && curie.indexOf(CURIE_SEPARATOR, separatorIndex + 1) == -1;
     }
@@ -159,7 +179,8 @@ public class LRDFa11Parser {
     }
 
     protected static boolean isRelativeNode(Node node) {
-        if (ATTRIBUTE_CSS.equals(DomUtils.readAttribute(node, TYPE_ATTRIBUTE))) return false;
+        if (ATTRIBUTE_CSS.equals(DomUtils.readAttribute(node, TYPE_ATTRIBUTE)))
+            return false;
         return DomUtils.hasAttribute(node, REL_ATTRIBUTE) || DomUtils.hasAttribute(node, REV_ATTRIBUTE);
     }
 
@@ -190,7 +211,8 @@ public class LRDFa11Parser {
 
     protected static Object[] getAsXMLLiteral(Node node) throws IOException, TransformerException {
         final String datatype = DomUtils.readAttribute(node, DATATYPE_ATTRIBUTE, null);
-        if (!XML_LITERAL_DATATYPE.equals(datatype)) return null;
+        if (!XML_LITERAL_DATATYPE.equals(datatype))
+            return null;
 
         final String xmlSerializedNode = DomUtils.serializeToXML(node, false);
         Literal literal = RDFUtils.literal(xmlSerializedNode, RDF.XMLLITERAL);
@@ -205,7 +227,8 @@ public class LRDFa11Parser {
 
     protected static boolean isXMLNSDeclared(Document document) {
         final String attributeValue = document.getDocumentElement().getAttribute(XMLNS_ATTRIBUTE);
-        if (attributeValue.length() == 0) return false;
+        if (attributeValue.length() == 0)
+            return false;
         return XMLNS_DEFAULT.equals(attributeValue);
     }
 
@@ -214,7 +237,7 @@ public class LRDFa11Parser {
 
     /**
      * <a href="http://www.w3.org/TR/rdfa-syntax/#s_model">RDFa Syntax - Processing Model</a>.
-     *
+     * 
      * @param documentURL
      * @param extractionResult
      * @param document
@@ -231,16 +254,15 @@ public class LRDFa11Parser {
                         String.format(
                                 "The default %s namespace is expected to be declared and equal to '%s' .",
                                 XMLNS_ATTRIBUTE, XMLNS_DEFAULT
-                        )
-                );
+                                ));
             }
 
             try {
                 Object[] docbase = getDocumentBase(documentURL, document);
                 documentBase = (URL) docbase[0];
                 docmentBaseCtx = (String) docbase[1];
-                if(docmentBaseCtx.equals("null"))
-                    docmentBaseCtx=LAny23Util.appendArbitraryDocument();
+                if (docmentBaseCtx.equals("null"))
+                    docmentBaseCtx = LAny23Util.appendArbitraryDocument();
             } catch (MalformedURLException murle) {
                 throw new RDFa11ParserException("Invalid document base URL.", murle);
             }
@@ -250,9 +272,7 @@ public class LRDFa11Parser {
 
             depthFirstNode(document, extractionResult);
 
-            assert listOfIncompleteTriples.isEmpty()
-                    :
-                    "The list of incomplete triples is expected to be empty at the end of processing.";
+            assert listOfIncompleteTriples.isEmpty() : "The list of incomplete triples is expected to be empty at the end of processing.";
         } finally {
             reset();
         }
@@ -271,12 +291,14 @@ public class LRDFa11Parser {
 
     /**
      * Updates the vocabulary context with possible <em>@vocab</em> declarations.
-     *
-     * @param currentNode the current node.
+     * 
+     * @param currentNode
+     *            the current node.
      */
     protected void updateVocabulary(Node currentNode) {
         final String vocabularyStr = DomUtils.readAttribute(currentNode, VOCAB_ATTRIBUTE, null);
-        if (vocabularyStr == null) return;
+        if (vocabularyStr == null)
+            return;
         try {
             pushVocabulary(currentNode, RDFUtils.uri(vocabularyStr));
         } catch (Exception e) {
@@ -286,12 +308,14 @@ public class LRDFa11Parser {
 
     /**
      * Updates the URI mapping with the XMLNS attributes declared in the current node.
-     *
-     * @param node input node.
+     * 
+     * @param node
+     *            input node.
      */
     protected void updateURIMapping(Node node) {
         final NamedNodeMap attributes = node.getAttributes();
-        if (null == attributes) return;
+        if (null == attributes)
+            return;
 
         Node attribute;
         final List<PrefixMap> prefixMapList = new ArrayList<PrefixMap>();
@@ -304,23 +328,24 @@ public class LRDFa11Parser {
                                 attribute.getNodeName().substring(namespacePrefix.length()),
                                 resolveURI(attribute.getNodeValue())
                         )
-                );
+                        );
             }
         }
 
         extractPrefixes(node, prefixMapList);
 
-        if (prefixMapList.size() == 0) return;
+        if (prefixMapList.size() == 0)
+            return;
         pushMappings(
                 node,
-                prefixMapList
-        );
+                prefixMapList);
     }
 
     /**
      * Returns a URI mapping for a given prefix.
-     *
-     * @param prefix input prefix.
+     * 
+     * @param prefix
+     *            input prefix.
      * @return URI mapping.
      */
     protected URI getMapping(String prefix) {
@@ -335,15 +360,18 @@ public class LRDFa11Parser {
 
     /**
      * Resolves a <rm>whitelist</em> separated list of <i>CURIE</i> or <i>URI</i>.
-     *
-     * @param n              current node.
-     * @param curieOrURIList list of CURIE/URI.
+     * 
+     * @param n
+     *            current node.
+     * @param curieOrURIList
+     *            list of CURIE/URI.
      * @return list of resolved URIs.
      * @throws java.net.URISyntaxException
      */
     protected URI[] resolveCurieOrURIList(Node n, String curieOrURIList, boolean termAllowed)
             throws URISyntaxException {
-        if (curieOrURIList == null || curieOrURIList.trim().length() == 0) return new URI[0];
+        if (curieOrURIList == null || curieOrURIList.trim().length() == 0)
+            return new URI[0];
 
         final String[] curieOrURIListParts = curieOrURIList.split("\\s");
         final List<URI> result = new ArrayList<URI>();
@@ -361,40 +389,41 @@ public class LRDFa11Parser {
 
     /**
      * Resolves a URI string as URI.
-     *
-     * @param uriStr (partial) URI string to be resolved.
+     * 
+     * @param uriStr
+     *            (partial) URI string to be resolved.
      * @return the resolved URI.
      */
     protected URI resolveURI(String uriStr) {
-        return
-                isAbsoluteURI(uriStr)
-                        ?
-                        RDFUtils.uri(uriStr)
-                        :
-                        RDFUtils.uri(this.documentBase.toExternalForm(), uriStr);
+        return isAbsoluteURI(uriStr)
+                ?
+                RDFUtils.uri(uriStr)
+                :
+                RDFUtils.uri(this.documentBase.toExternalForm(), uriStr);
     }
 
     /**
      * Resolves a <i>CURIE</i> or <i>URI</i> string.
-     *
+     * 
      * @param curieOrURI
-     * @param termAllowed if <code>true</code> the resolution can be a term.
+     * @param termAllowed
+     *            if <code>true</code> the resolution can be a term.
      * @return the resolved resource.
      */
     protected Resource resolveCURIEOrURI(String curieOrURI, boolean termAllowed) {
         if (isCURIE(curieOrURI)) {
             return resolveNamespacedURI(curieOrURI.substring(1, curieOrURI.length() - 1), ResolutionPolicy.NSRequired);
         }
-        if (isAbsoluteURI(curieOrURI)) return resolveURI(curieOrURI);
+        if (isAbsoluteURI(curieOrURI))
+            return resolveURI(curieOrURI);
         return resolveNamespacedURI(
                 curieOrURI,
-                termAllowed ? ResolutionPolicy.TermAllowed : ResolutionPolicy.NSNotRequired
-        );
+                termAllowed ? ResolutionPolicy.TermAllowed : ResolutionPolicy.NSNotRequired);
     }
 
     /**
      * Pushes a context whiting the evaluation context stack, associated to tha given generation node.
-     *
+     * 
      * @param current
      * @param ec
      */
@@ -412,8 +441,9 @@ public class LRDFa11Parser {
 
     /**
      * Pops out the peek evaluation context if ancestor of current node.
-     *
-     * @param current current node.
+     * 
+     * @param current
+     *            current node.
      */
     private void popContext(Node current) {
         final Node peekNode = evaluationContextStack.peek().node;
@@ -424,9 +454,11 @@ public class LRDFa11Parser {
 
     /**
      * Pushes a new vocabulary definition.
-     *
-     * @param currentNode node proving the vocabulary.
-     * @param vocab       the vocabulary URI.
+     * 
+     * @param currentNode
+     *            node proving the vocabulary.
+     * @param vocab
+     *            the vocabulary URI.
      */
     private void pushVocabulary(Node currentNode, URI vocab) {
         vocabularyStack.push(new Vocabulary(currentNode, vocab));
@@ -436,17 +468,19 @@ public class LRDFa11Parser {
      * @return the current peek vocabulary.
      */
     private URI getVocabulary() {
-        if (vocabularyStack.isEmpty()) return null;
+        if (vocabularyStack.isEmpty())
+            return null;
         return vocabularyStack.peek().prefix;
     }
 
     /**
      * Pops out the vocabulary definition.
-     *
+     * 
      * @param current
      */
     private void popVocabulary(Node current) {
-        if (vocabularyStack.isEmpty()) return;
+        if (vocabularyStack.isEmpty())
+            return;
         if (DomUtils.isAncestorOf(current, vocabularyStack.peek().originatingNode)) {
             vocabularyStack.pop();
         }
@@ -454,7 +488,7 @@ public class LRDFa11Parser {
 
     /**
      * Purge all incomplete triples originated from a node that is descendant of <code>current</code>.
-     *
+     * 
      * @param current
      */
     private void purgeIncompleteTriples(Node current) {
@@ -470,28 +504,31 @@ public class LRDFa11Parser {
 
     /**
      * Reports an error to the error reporter.
-     *
-     * @param n   originating node.
-     * @param msg human readable message.
+     * 
+     * @param n
+     *            originating node.
+     * @param msg
+     *            human readable message.
      */
     private void reportError(Node n, String msg) {
         final String errorMsg = String.format(
                 "Error while processing node [%s] : '%s'",
                 DomUtils.getXPathForNode(n), msg
-        );
+                );
         final int[] errorLocation = DomUtils.getNodeLocation(n);
         this.issueReport.notifyIssue(
                 IssueReport.IssueLevel.Warning,
                 errorMsg,
                 errorLocation == null ? -1 : errorLocation[0],
                 errorLocation == null ? -1 : errorLocation[1]
-        );
+                );
     }
 
     /**
      * Performs a <i>deep-first</i> tree visit on the given root node.
-     *
-     * @param node             root node.
+     * 
+     * @param node
+     *            root node.
      * @param extractionResult
      */
     private void depthFirstNode(Node node, LExtractionResultImpl extractionResult) {
@@ -508,7 +545,7 @@ public class LRDFa11Parser {
 
     /**
      * Performs a <i>deep-first</i> children list visit.
-     *
+     * 
      * @param nodeList
      * @param extractionResult
      */
@@ -524,7 +561,7 @@ public class LRDFa11Parser {
 
     /**
      * Writes a triple on the extraction result.
-     *
+     * 
      * @param s
      * @param p
      * @param o
@@ -541,9 +578,8 @@ public class LRDFa11Parser {
     /**
      * Processes the current node on the extraction algorithm.
      * All the steps of this algorithm are annotated with the
-     * specification and section which describes it. The annotation is at form
-     * <em>RDFa&lt;spec-version%gt;[&lt;section&gt;]</em>
-     *
+     * specification and section which describes it. The annotation is at form <em>RDFa&lt;spec-version%gt;[&lt;section&gt;]</em>
+     * 
      * @param currentElement
      * @param extractionResult
      * @throws Exception
@@ -553,11 +589,10 @@ public class LRDFa11Parser {
         // if(logger.isTraceEnabled()) logger.trace("processNode(" + DomUtils.getXPathForNode(currentElement) + ")");
         final EvaluationContext currentEvaluationContext = getContext();
         try {
-            if (
-                    currentElement.getNodeType() != Node.DOCUMENT_NODE
-                            &&
-                            currentElement.getNodeType() != Node.ELEMENT_NODE
-                    ) return;
+            if (currentElement.getNodeType() != Node.DOCUMENT_NODE
+                    &&
+                    currentElement.getNodeType() != Node.ELEMENT_NODE)
+                return;
 
             // RDFa1.1[7.5.3]
             updateVocabulary(currentElement);
@@ -576,8 +611,7 @@ public class LRDFa11Parser {
                 // RDFa1.0[5.5.5] / RDFa1.1[7.5.7]
                 establishNewSubjectCurrentObjectResource(
                         currentElement,
-                        currentEvaluationContext
-                );
+                        currentEvaluationContext);
             }
 
             /*
@@ -586,8 +620,9 @@ public class LRDFa11Parser {
             }
             assert currentEvaluationContext.newSubject != null : "newSubject must be not null.";
             */
-            if (currentEvaluationContext.newSubject == null) return;
-            logger.warning("newSubject: " + currentEvaluationContext.newSubject);
+            if (currentEvaluationContext.newSubject == null)
+                return;
+            //logger.warning("newSubject: " + currentEvaluationContext.newSubject);
 
             // RDFa1.0[5.5.6] / RDFa1.1[7.5.8]
             final URI[] types = getTypes(currentElement);
@@ -613,8 +648,7 @@ public class LRDFa11Parser {
                             rel,
                             currentEvaluationContext.currentObjectResource,
                             subjectCtx, predicateCtx, objectCtx,
-                            extractionResult
-                    );
+                            extractionResult);
                 }
                 for (URI rev : revs) {
                     String objectCtx = currentEvaluationContext.currentObjectResourceCtx;
@@ -625,8 +659,7 @@ public class LRDFa11Parser {
                             rev,
                             currentEvaluationContext.newSubject,
                             subjectCtx, predicateCtx, objectCtx,
-                            extractionResult
-                    );
+                            extractionResult);
                 }
             } else { // RDFa1.0[5.5.8] / RDFa1.1[7.5.10]
                 for (URI rel : rels) {
@@ -637,7 +670,7 @@ public class LRDFa11Parser {
                                     rel,
                                     IncompleteTripleDirection.Forward
                             )
-                    );
+                            );
                 }
                 for (URI rev : revs) {
                     listOfIncompleteTriples.add(
@@ -647,7 +680,7 @@ public class LRDFa11Parser {
                                     rev,
                                     IncompleteTripleDirection.Reverse
                             )
-                    );
+                            );
                 }
             }
 
@@ -672,7 +705,7 @@ public class LRDFa11Parser {
                             currentElement,
                             currentEvaluationContext.newSubject,
                             extractionResult
-                    );
+                            );
                 }
             }
         } catch (Exception e) {
@@ -714,13 +747,14 @@ public class LRDFa11Parser {
 
     /**
      * Extract URI namespaces (prefixes) from the current node.
-     *
+     * 
      * @param node
      * @param prefixMapList
      */
     private void extractPrefixes(Node node, List<PrefixMap> prefixMapList) {
         final String prefixAttribute = DomUtils.readAttribute(node, PREFIX_ATTRIBUTE, null);
-        if (prefixAttribute == null) return;
+        if (prefixAttribute == null)
+            return;
         final String[] prefixParts = extractPrefixSections(prefixAttribute);
         for (String prefixPart : prefixParts) {
             int splitPoint = prefixPart.indexOf(URI_PREFIX_SEPARATOR);
@@ -739,8 +773,7 @@ public class LRDFa11Parser {
                         String.format(
                                 "Resolution of prefix '%s' defines an invalid URI: '%s'",
                                 prefixAttribute, uriStr
-                        )
-                );
+                                ));
                 continue;
             }
             prefixMapList.add(new PrefixMap(prefix, uri));
@@ -749,19 +782,20 @@ public class LRDFa11Parser {
 
     /**
      * Updates the current language.
-     *
+     * 
      * @param node
      * @param currentEvaluationContext
      */
     private void updateLanguage(Node node, EvaluationContext currentEvaluationContext) {
         final String candidateLanguage = DomUtils.readAttribute(node, XML_LANG_ATTRIBUTE, null);
-        if (candidateLanguage != null) currentEvaluationContext.language = candidateLanguage;
+        if (candidateLanguage != null)
+            currentEvaluationContext.language = candidateLanguage;
     }
 
     /**
      * Establish the new subject for the current recursion.
      * See <i>RDFa 1.0 Specification section 5.5.4</i>, <i>RDFa 1.1 Specification section 7.5.6</i>.
-     *
+     * 
      * @param node
      * @param currentEvaluationContext
      * @throws URISyntaxException
@@ -807,7 +841,7 @@ public class LRDFa11Parser {
      * Establishes the new subject and the current object resource.
      * <p/>
      * See <i>RDFa 1.0 Specification section 5.5.5</i>, <i>RDFa 1.1 Specification section 7.5.7</i>.
-     *
+     * 
      * @param node
      * @param currentEvaluationContext
      * @throws URISyntaxException
@@ -878,14 +912,15 @@ public class LRDFa11Parser {
 
     private URI[] getPredicate(Node node) throws URISyntaxException {
         final String candidateURI = DomUtils.readAttribute(node, PROPERTY_ATTRIBUTE, null);
-        if (candidateURI == null) return null;
+        if (candidateURI == null)
+            return null;
         return resolveCurieOrURIList(node, candidateURI, true);
     }
 
     /**
      * Establishes the new object value.
      * See <i>RDFa 1.0 Specification section 5.5.9</i>, <i>RDFa 1.1 Specification section 7.5.11</i>.
-     *
+     * 
      * @param node
      * @return
      * @throws URISyntaxException
@@ -911,7 +946,8 @@ public class LRDFa11Parser {
         Object[] rs;
 
         rs = getAsTypedLiteral(node);
-        if (rs != null) return rs;
+        if (rs != null)
+            return rs;
 
         rs = getAsXMLLiteral(node);
         if (rs != null) {
@@ -920,21 +956,23 @@ public class LRDFa11Parser {
         }
 
         rs = getAsPlainLiteral(node, currentEvaluationContext.language);
-        if (rs != null) return rs;
+        if (rs != null)
+            return rs;
 
         return null;
     }
 
     private static String getNodeContent(Node node) {
         final String candidateContent = DomUtils.readAttribute(node, CONTENT_ATTRIBUTE, null);
-        if (candidateContent != null) return candidateContent;
+        if (candidateContent != null)
+            return candidateContent;
         return node.getTextContent();
     }
 
     /**
      * Extracts the current typed literal from the given node.
      * See <i>RDFa 1.0 Specification section 5.5.9.1</i>.
-     *
+     * 
      * @param node
      * @return
      * @throws URISyntaxException
@@ -966,7 +1004,8 @@ public class LRDFa11Parser {
     }
 
     private void popMappings(Node node) {
-        if (uriMappingStack.isEmpty()) return;
+        if (uriMappingStack.isEmpty())
+            return;
         final URIMapping peek = uriMappingStack.peek();
         if (!DomUtils.isAncestorOf(peek.sourceNode, node)) {
             // logger.trace("popMappings()");
@@ -975,9 +1014,8 @@ public class LRDFa11Parser {
     }
 
     /**
-     * Resolve a namespaced URI, if <code>safe</code> is <code>true</code>
-     * then the mapping must define a prefix, otherwise it is considered relative.
-     *
+     * Resolve a namespaced URI, if <code>safe</code> is <code>true</code> then the mapping must define a prefix, otherwise it is considered relative.
+     * 
      * @param mapping
      * @param resolutionPolicy
      * @return
@@ -991,8 +1029,7 @@ public class LRDFa11Parser {
         if (prefixSeparatorIndex == -1) { // there is no prefix separator.
             if (resolutionPolicy == ResolutionPolicy.NSRequired) {
                 throw new IllegalArgumentException(
-                        String.format("Invalid mapping string [%s], must declare a prefix.", mapping)
-                );
+                        String.format("Invalid mapping string [%s], must declare a prefix.", mapping));
             }
             if (resolutionPolicy == ResolutionPolicy.TermAllowed) {
                 final URI currentVocabulary = getVocabulary();
@@ -1016,13 +1053,11 @@ public class LRDFa11Parser {
         } catch (URISyntaxException urise) {
             throw new IllegalArgumentException(String.format("Invalid CURIE '%s'", candidateCURIEStr));
         }
-        return resolveURI(
-                candidateCURIE.isAbsolute()
-                        ?
-                        candidateCURIE.toString()
-                        :
-                        documentBase.toString() + candidateCURIE.toString()
-        );
+        return resolveURI(candidateCURIE.isAbsolute()
+                ?
+                candidateCURIE.toString()
+                :
+                documentBase.toString() + candidateCURIE.toString());
     }
 
     /**
@@ -1039,22 +1074,34 @@ public class LRDFa11Parser {
      */
     private class EvaluationContext {
         private Node node;
+
         private URL base;
+
         private Resource parentSubject;
+
         private String parentSubjectCtx;
+
         private Value parentObject;
+
         private String parentObjectCtx;
+
         private String language;
+
         private boolean recourse;
+
         private boolean skipElem;
+
         private Resource newSubject;
+
         private String newSubjectCtx;
+
         private Resource currentObjectResource;
+
         private String currentObjectResourceCtx;
 
         /**
          * Sections <em>RDFa1.0[5.5]</em>, <em>RDFa1.0[5.5.1]</em>, <em>RDFa1.1[7.5.1]</em> .
-         *
+         * 
          * @param base
          */
         EvaluationContext(URL base) {
@@ -1074,6 +1121,7 @@ public class LRDFa11Parser {
      */
     private class PrefixMap {
         final String prefix;
+
         final URI uri;
 
         public PrefixMap(String prefix, URI uri) {
@@ -1087,6 +1135,7 @@ public class LRDFa11Parser {
      */
     private class URIMapping {
         final Node sourceNode;
+
         final Map<String, URI> map;
 
         public URIMapping(Node sourceNode, Map<String, URI> map) {
@@ -1108,16 +1157,18 @@ public class LRDFa11Parser {
      */
     private class IncompleteTriple {
         final Node originatingNode;
+
         final Resource subject;
+
         final URI predicate;
+
         final IncompleteTripleDirection direction;
 
         public IncompleteTriple(
                 Node originatingNode,
                 Resource subject,
                 URI predicate,
-                IncompleteTripleDirection direction
-        ) {
+                IncompleteTripleDirection direction) {
             if (originatingNode == null || subject == null || predicate == null || direction == null)
                 throw new IllegalArgumentException();
 
@@ -1128,9 +1179,11 @@ public class LRDFa11Parser {
         }
 
         public boolean produceTriple(Node resourceNode, Resource r, ExtractionResult extractionResult) {
-            if (!DomUtils.isAncestorOf(originatingNode, resourceNode, true)) return false;
+            if (!DomUtils.isAncestorOf(originatingNode, resourceNode, true))
+                return false;
 
-            if (r == null) throw new IllegalArgumentException();
+            if (r == null)
+                throw new IllegalArgumentException();
             switch (direction) {
                 case Forward:
                     extractionResult.writeTriple(subject, predicate, r);
@@ -1150,6 +1203,7 @@ public class LRDFa11Parser {
      */
     private class Vocabulary {
         final Node originatingNode;
+
         final URI prefix;
 
         public Vocabulary(Node originatingNode, URI prefix) {
