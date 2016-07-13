@@ -13,6 +13,13 @@ import java.util.List;
 public class FreebaseRelationBoWCreator implements OntologyBasedBoWCreator {
     @Override
     public List<String> create(String uri) {
+        int discardBegin=uri.indexOf("://");
+        if(discardBegin!=-1)
+            uri=uri.substring(discardBegin+4).trim();
+        if(!uri.startsWith("/")){
+            int discardEnd=uri.indexOf("/");
+            uri=uri.substring(discardEnd+1).trim();
+        }
         List<String> bow = new ArrayList<>();
         for (String part : uri.split("/")) {
             part = part.trim();

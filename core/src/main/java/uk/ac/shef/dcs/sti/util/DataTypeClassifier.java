@@ -165,7 +165,7 @@ public class DataTypeClassifier implements Serializable {
 
 
         //is it long text
-        if (tokens.length >= 10 || (tokens.length >= 5 && isLikelySentence(original)))
+        if (tokens.length >= 15 || (tokens.length >= 5 && isLikelySentence(original)))
             return DataType.LONG_TEXT;
         return DataType.UNKNOWN;
     }
