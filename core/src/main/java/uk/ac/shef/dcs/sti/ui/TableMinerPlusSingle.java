@@ -22,6 +22,7 @@ public class TableMinerPlusSingle extends TableMinerPlusBatch {
     }
 
     public void process(String userId,
+                        String email,
                         String inFileURL,
                         String outFolderStr,
                         String tableParserClass,
@@ -70,6 +71,9 @@ public class TableMinerPlusSingle extends TableMinerPlusBatch {
 
         closeAll();
 
+        //todo: prepare webpage
+        //todo: email notification
+
         System.exit(0);
     }
 
@@ -94,18 +98,19 @@ public class TableMinerPlusSingle extends TableMinerPlusBatch {
 
     public static void main(String[] args) throws IOException, STIException {
         String userId=args[0];
-        String inFileURL = args[1];
-        String outFolderStr = args[2];
+        String userEmail=args[1];
+        String inFileURL = args[2];
+        String outFolderStr = args[3];
 
-        String tableParserClass=args[3];
-        String tableIndexes=args[4];
-        TableMinerPlusSingle tmp = new TableMinerPlusSingle(args[5]);
+        String tableParserClass=args[4];
+        String tableIndexes=args[5];
+        TableMinerPlusSingle tmp = new TableMinerPlusSingle(args[6]);
         tmp.process(userId,
+                userEmail,
                 inFileURL,
                 outFolderStr,
                 tableParserClass,
                 tableIndexes);
-
 
     }
 

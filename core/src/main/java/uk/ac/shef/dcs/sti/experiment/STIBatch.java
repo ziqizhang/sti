@@ -329,7 +329,7 @@ public abstract class STIBatch {
             if (startIndex != -1) {
                 outFilename = outFilename.substring(startIndex + 1).trim();
             }
-            writer.writeHTML(table, annotations, outFolder + "/" + outFilename + ".html");
+            writer.writeHTML(table, annotations, outFolder + "/" + outFilename + ".ann");
 
         } catch (Exception ste) {
             if (ste instanceof SocketTimeoutException || ste instanceof HttpResponseException) {
