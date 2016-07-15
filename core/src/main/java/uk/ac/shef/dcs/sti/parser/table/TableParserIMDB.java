@@ -93,6 +93,14 @@ public class TableParserIMDB extends TableParser implements Browsable {
     }
 
 
+    /**
+     * if the preview html file wants to support selection of
+     * @param inFile
+     * @param sourceId
+     * @param outputFolder
+     * @return
+     * @throws STIException
+     */
     @Override
     public List<String> extract(String inFile, String sourceId, String outputFolder) throws STIException {
         Document doc = createDocument(inFile, sourceId);
@@ -102,18 +110,35 @@ public class TableParserIMDB extends TableParser implements Browsable {
         int count=1;
         for(Node tableNode: tables){
             String xpath = $(tableNode).xpath();
-            Node parent = tableNode.getParentNode();
-            if(parent!=null) {
+            Node prevTableParent = tableNode.getParentNode();
+            Node prevTableNextSib=tableNode.getNextSibling();
+            Node newTableParent=doc.createElement("div");
+            if(prevTableParent!=null) {
                 Element checkbox = doc.createElement("input");
                 checkbox.setAttribute("type","checkbox");
                 checkbox.setAttribute("name","table"+count);
+                checkbox.setAttribute("class","targetTables");
                 checkbox.setAttribute("checked","true");
-                parent.insertBefore(checkbox, tableNode);
+                prevTableParent.insertBefore(checkbox, tableNode);
 
                 Element span =doc.createElement("span");
                 span.setAttribute("style","background-color:red");
                 span.setTextContent("check this box to annotate table#"+count);
-                parent.insertBefore(span, tableNode);
+                prevTableParent.insertBefore(span, tableNode);
+
+                prevTableParent.removeChild(tableNode);
+                newTableParent.appendChild(tableNode);
+                if(prevTableNextSib==null)
+                    prevTableParent.appendChild(newTableParent);
+                else
+                    prevTableParent.insertBefore(newTableParent, prevTableNextSib);
+            }
+
+            int lastSlash=xpath.lastIndexOf("/TABLE");
+            if(lastSlash!=-1){
+                String lastSuffix=xpath.substring(lastSlash);
+                xpath=xpath.substring(0, lastSlash);
+                xpath+="/DIV";//+lastSuffix;
             }
 
             xpaths.add(xpath);

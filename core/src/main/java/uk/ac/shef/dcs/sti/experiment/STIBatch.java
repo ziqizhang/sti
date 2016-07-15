@@ -97,9 +97,9 @@ public abstract class STIBatch {
      */
     protected abstract void initComponents() throws STIException;
 
-    protected List<Table> loadTable(String file) {
+    public List<Table> loadTable(String file, TableParser parser) {
         try {
-            return getTableParser().extract(file, file);
+            return parser.extract(file, file);
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
@@ -117,6 +117,13 @@ public abstract class STIBatch {
         if (tableParser == null) {
             String clazz = properties.get(PROPERTY_TABLEXTRACTOR_CLASS).toString();
             tableParser = (TableParser) Class.forName(clazz).newInstance();
+        }
+        return tableParser;
+    }
+
+    public TableParser getTableParser(String parserClass) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        if (tableParser == null) {
+            tableParser = (TableParser) Class.forName(parserClass).newInstance();
         }
         return tableParser;
     }

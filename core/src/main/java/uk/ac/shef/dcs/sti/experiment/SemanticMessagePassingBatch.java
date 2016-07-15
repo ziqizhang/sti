@@ -171,7 +171,7 @@ public class SemanticMessagePassingBatch extends STIBatch {
                     sourceTableFile = sourceTableFile.substring(1, sourceTableFile.length() - 1).trim();
                 //System.out.println(count + "_" + sourceTableFile + " " + new Date());
                 LOG.info("\n<< " + count + "_" + sourceTableFile);
-                List<Table> tables = smp.loadTable(inFile);
+                List<Table> tables = smp.loadTable(inFile, smp.getTableParser());
                 if (tables.size() == 0)
                     smp.recordFailure(count, inFile, inFile);
 

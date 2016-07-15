@@ -197,7 +197,7 @@ public class BaselineBatch extends STIBatch {
                     sourceTableFile = sourceTableFile.substring(1, sourceTableFile.length() - 1).trim();
                 //System.out.println(count + "_" + sourceTableFile + " " + new Date());
                 LOG.info("\n<< " + count + "_" + sourceTableFile);
-                List<Table> tables = baseline.loadTable(inFile);
+                List<Table> tables = baseline.loadTable(inFile, baseline.getTableParser());
                 if (tables.size() == 0)
                     baseline.recordFailure(count, inFile, inFile);
 

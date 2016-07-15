@@ -1,14 +1,11 @@
 package uk.ac.shef.dcs.sti.ui;
 
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.parser.table.Browsable;
-import uk.ac.shef.dcs.sti.parser.table.TableParser;
-import uk.ac.shef.dcs.sti.parser.table.TableParserIMDB;
 
 import java.io.*;
 import java.net.URL;
@@ -30,7 +27,7 @@ public class InputFilePreview {
             FileUtils.cleanDirectory(new File(folder));
     }
 
-    protected String downloadWebpage(String urlStr, String folder) throws STIException {
+    public String downloadWebpage(String urlStr, String folder) throws STIException {
         String line;
         try {
             cleanDirectory(folder);
