@@ -16,10 +16,9 @@ public interface Input {
   String at(CellPosition position);
   String headerAt(ColumnPosition position);
   List<String> rowAt(RowPosition position);
-  List<String> columnAt(ColumnPosition position);
   int rowsCount();
   int columnsCount();
   List<String> headers();
   List<List<String>> rows();
-  List<List<String>> columns();
+  String fileIdentifier();
 }

@@ -1,6 +1,8 @@
 package cz.cuni.mff.xrg.odalic.feedbacks.input;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -18,51 +20,21 @@ import cz.cuni.mff.xrg.odalic.util.Arrays;
 public class SimpleInput implements Input, Serializable {
 
   private static final long serialVersionUID = 4101912998363935336L;
-  
+
   @XmlElement
-  private final List<String> headers;
-  
+  private final List<List<String>> rows = new ArrayList<>();
   @XmlElement
-  private final String[][] content;
+  private final List<String> headers = new ArrayList<>();
+  @XmlElement
+  private final String fileIdentifier;
 
-  @SuppressWarnings("unused")
-  private SimpleInput() {
-    headers = ImmutableList.of();
-    content = new String[0][0];
-  }
-  
-  /**
-   * @param headers
-   * @param content
-   */
-  public SimpleInput(List<? extends String> headers, String[][] content) {
-    Preconditions.checkNotNull(headers);
-    Preconditions.checkNotNull(content);
-    
-    Preconditions.checkArgument(!Arrays.containsNull(content));
-    Preconditions.checkArgument(Arrays.isMatrix(content));
-    
-    this.headers = ImmutableList.copyOf(headers);
-    this.content = Arrays.deepCopy(String.class, content);
-  }
-
-  /**
-   * @return the headers
-   */
-  public List<String> getHeaders() {
-    return headers;
-  }
-
-  /**
-   * @return the content
-   */
-  public String[][] getContent() {
-    return Arrays.deepCopy(String.class, content);
+  public SimpleInput(String fileIdentifier) {
+    this.fileIdentifier = fileIdentifier;
   }
 
   @Override
   public String at(CellPosition position) {
-    return content[position.getRowIndex()][position.getColumnIndex()];
+    return rows.get(position.getRowIndex()).get(position.getColumnIndex());
   }
 
   @Override
@@ -71,8 +43,13 @@ public class SimpleInput implements Input, Serializable {
   }
 
   @Override
+  public List<String> rowAt(RowPosition position) {
+    return rows.get(position.getIndex());
+  }
+
+  @Override
   public int rowsCount() {
-    return content.length;
+    return rows.size();
   }
 
   @Override
@@ -86,27 +63,32 @@ public class SimpleInput implements Input, Serializable {
   }
 
   @Override
-  public List<String> rowAt(RowPosition position) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public List<String> columnAt(ColumnPosition position) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
   public List<List<String>> rows() {
-    // TODO Auto-generated method stub
-    return null;
+    return rows;
   }
 
   @Override
-  public List<List<String>> columns() {
-    // TODO Auto-generated method stub
-    return null;
+  public String fileIdentifier() {
+    return fileIdentifier;
   }
 
+  void insertCell(String value, int rowIndex, int columnIndex) {
+    while (rows.size() <= rowIndex) {
+      rows.add(new ArrayList<>());
+    }
+
+    insertToList(rows.get(rowIndex), value, columnIndex);
+  }
+
+  void insertHeader(String value, int position) {
+    insertToList(headers, value, position);
+  }
+
+  private void insertToList(List<String> list, String value, int position){
+    while (list.size() <= position) {
+      list.add(null);
+    }
+
+    list.set(position, value);
+  }
 }

@@ -56,6 +56,6 @@ public final class MemoryOnlyFeedbackService implements FeedbackService {
     final File file = configuration.getInput();
     final String data = fileService.getDataById(file.getId());
     
-    return inputParser.parse(data);
+    return inputParser.parse(data, file.getId());
   }
 }
