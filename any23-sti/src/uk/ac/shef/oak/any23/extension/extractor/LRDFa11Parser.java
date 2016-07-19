@@ -6,6 +6,7 @@ import org.apache.any23.extractor.LExtractionResultImpl;
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.extractor.rdfa.RDFa11ParserException;
 import org.apache.any23.rdf.RDFUtils;
+import org.apache.log4j.Logger;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
@@ -22,8 +23,6 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
-import java.util.logging.Logger;
-
 /**
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)
  * Date: 30/10/12
@@ -498,7 +497,7 @@ public class LRDFa11Parser {
         try {
             processNode(node, extractionResult);
         } catch (Exception e) {
-            logger.warning("Error while processing node.");
+            logger.debug("Error while processing node.");
             reportError(node, e.getMessage());
             // e.printStackTrace();
         }
@@ -587,7 +586,7 @@ public class LRDFa11Parser {
             assert currentEvaluationContext.newSubject != null : "newSubject must be not null.";
             */
             if (currentEvaluationContext.newSubject == null) return;
-            logger.warning("newSubject: " + currentEvaluationContext.newSubject);
+            logger.debug("newSubject: " + currentEvaluationContext.newSubject);
 
             // RDFa1.0[5.5.6] / RDFa1.1[7.5.8]
             final URI[] types = getTypes(currentElement);

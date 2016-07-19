@@ -31,7 +31,7 @@ import org.apache.any23.mime.TikaMIMETypeDetector;
 import org.apache.any23.mime.purifier.WhiteSpacesPurifier;
 import org.apache.any23.source.*;
 import org.apache.any23.writer.TripleHandler;
-import org.apache.log4j.spi.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +40,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.logging.Logger;
 
 
 /**
@@ -90,7 +89,7 @@ public class LAny23 {
     public LAny23(Configuration configuration, ExtractorGroup extractorGroup) {
         if (configuration == null) throw new NullPointerException("configuration must be not null.");
         this.configuration = configuration;
-        logger.info(configuration.getConfigurationDump());
+        logger.debug(configuration.getConfigurationDump());
 
         this.defaultUserAgent = configuration.getPropertyOrFail("any23.http.user.agent.default");
 

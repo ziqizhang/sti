@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
+    <title>TableMiner+</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>      
+        var socket=io();
+
+      
+      //window.onload=populateTableParserSelect;
+    </script> 
+<style type="text/css">
+div#input {
+  font-family: "Arial";
+  max-width: 800px;
+  margin-top: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-color: #555e60;
+  border-right-color: #555e60;
+  border-bottom-color: #555e60;
+  border-left-color: #555e60;
+  border-radius: 5px;
+  background-image: none;
+  background-repeat: repeat;
+  background-attachment: scroll;
+  background-position: 0% 0%;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+}
+
+div#input_banner {
+  background-color: #555e60;
+}
+
+div.form_div {
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+}
+
+#input_header_label {
+  font-size: small;
+  text-align: right;
+  vertical-align: bottom;
+  color: white;
+}
+
+#input_header {
+  vertical-align: bottom;
+  color: white;
+}
+
+img.icon {
+  float: left;
+  width: 27px;
+  height: 27px;
+}
+
+</style></head>
+  <body>
+    <div id="wrapper">
+      <div id="input">
+        <div id="input_banner">
+          <table style="width: 100%" border="0">
+            <tbody>
+              <tr>
+                <td id="input_header">Advanced Settings</td>
+                <td id="input_header_label"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <form accept-charset="utf-8" target="_self" enctype="multipart/form-data"
+          autocomplete="off"
+          method="POST"
+          action="process.jsp"
+          name="task">
+          <div class="form_div" id="form_config"><img class="icon" alt="" src="resources/icon_email.png">Please
+            follow the instructions as provided below. When finished, click
+            submit to save the changes.<br>
+            <textarea rows="30" cols="90" id="config"></textarea> </div>
+          <div class="form_div" id="form_submit" style="margin-top: 30px"> <button
+              style="margin-left: 20px"
+              type="reset">Reset</button>
+            <button id="startTaskButton" style="margin-left: 20px" type="button">Start</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+  </body>
+</html>

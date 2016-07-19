@@ -1,0 +1,22 @@
+{
+  "lib": "sti/lib/*",
+  "cache":"sti/cache",
+  "tablePrevClass":"uk.ac.shef.dcs.sti.ui.InputFilePreview",
+  "stiMainClass":"uk.ac.shef.dcs.sti.ui.TableMinerPlusSingle",
+  "tmp":"tmp",
+  "error":"error.html",
+  "output":"output",
+  "stipropfile":"sti.properties",
+  "stiwebpropfile":"websearch.properties",
+  "stikbpropfile":"kbsearch.properties",
+  "server":"http://localhost:3000/",
+  "emaillogin":"ziqizhang.public@gmail.com",
+  "emailpass":"vv55awba",
+  "emailhost":"smtp.googlemail.com",
+  "emailport":"465",
+  "emailfrom":"ziqizng.public@gmail.com",
+  "tableParsers":{
+	  "uk.ac.shef.dcs.sti.parser.table.TableParserIMDB": "IMDB cast table of movie webpages.",
+	  "uk.ac.shef.dcs.sti.parser.table.TableParserMusicBrainz": "MusicBrainz label table of producers."
+  }
+}

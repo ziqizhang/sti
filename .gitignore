@@ -63,3 +63,4 @@ cache/empty/similarity/data/*
 delete/*
 out/*
 classes/*
+/ui/nbproject/private/

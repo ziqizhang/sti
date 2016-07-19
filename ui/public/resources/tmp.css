@@ -1,0 +1,73 @@
+#wrapper div#input, iframe {
+    float: left;
+}
+div#log {
+    clear: left;
+    float: left;
+    overflow-y: scroll;
+    height: 400px;
+}
+iframe#preview { 
+    margin-left: 10px;  
+    width:100%;
+    height:800px;
+    max-width:800px;
+}
+div#input {
+    font-family: "Arial";
+    max-width: 400px;
+    margin-top: 5px;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: 5px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-top-color: #555e60;
+    border-right-color: #555e60;
+    border-bottom-color: #555e60;
+    border-left-color: #555e60;
+    border-radius: 5px;
+    background-image: none;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+}
+
+div#input_banner {
+    background-color: #555e60;
+}
+
+div.form_div {
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+}
+
+#input_header_label {
+    font-size: small;
+    text-align: right;
+    vertical-align: bottom;
+    color: white;
+}
+
+#input_header {
+    vertical-align: bottom;
+    color: white;
+}
+
+img.icon {
+    float: left;
+    width: 27px;
+    height: 27px;
+}
