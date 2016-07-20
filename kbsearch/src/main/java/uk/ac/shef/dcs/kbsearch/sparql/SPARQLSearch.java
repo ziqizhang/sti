@@ -55,30 +55,11 @@ public abstract class SPARQLSearch extends KBSearch {
         this.sparqlEndpoint=sparqlEndpoint;
     }
 
-
-    /**
-     * SELECT DISTINCT ?s ?o
-     WHERE
-     {
-     {
-     ?s  <http://www.w3.org/2000/01/rdf-schema#label>  ?o      .
-     ?o  bif:contains                                  "Ramji"
-     }
-     UNION
-     {
-     ?s  <http://www.w3.org/2000/01/rdf-schema#label>  ?o      .
-     ?o  bif:contains                                  "Manjhi"
-     }
-     }
-     ORDER BY ?s
-     * @param content
-     * @return
-     */
     protected String createRegexQuery(String content){
+        //the query is using word boundary. Is it supported on all SPARQL endpoints?
         String query = "SELECT DISTINCT ?s ?o WHERE {"+
-            "?s <"+RDFEnum.RELATION_HASLABEL.getString()+"> ?o . \n"+
-                //"?o bif:contains \""+content+"\"}";
-            "FILTER ( regex (str(?o), \"\\\\b"+content+"\\\\b\", \"i\") ) }";
+            "?s <"+RDFEnum.RELATION_HASLABEL.getString()+"> ?o ."+
+            "FILTER ( regex (str(?o), \"\\b"+content+"\\b\", \"i\") ) }";
         return query;
     }
 
@@ -123,7 +104,12 @@ public abstract class SPARQLSearch extends KBSearch {
     }
 
 
-
+    /**
+     *
+     * @param sparqlQuery
+     * @param string
+     * @return
+     */
     protected List<Pair<String, String>> queryByLabel(String sparqlQuery, String string){
         org.apache.jena.query.Query query = QueryFactory.create(sparqlQuery);
         QueryExecution qexec = QueryExecutionFactory.sparqlService(sparqlEndpoint, query);
@@ -131,16 +117,11 @@ public abstract class SPARQLSearch extends KBSearch {
         List<Pair<String, String>> out = new ArrayList<>();
         ResultSet rs = qexec.execSelect();
         while(rs.hasNext()){
+
             QuerySolution qs = rs.next();
-            RDFNode range = qs.get("?s");
-            String r = range.toString();
-            RDFNode domain = qs.get("?o");
-            String d=null;
-            if(domain!=null)
-                d=domain.toString();
-            if(d==null)
-                d=string;
-            out.add(new Pair<>(r,d));
+            RDFNode subject = qs.get("?s");
+            RDFNode object = qs.get("?o");
+            out.add(new Pair<>(subject.toString(), object!=null  ? object.toString() : string));
         }
         return out;
     }
@@ -148,6 +129,12 @@ public abstract class SPARQLSearch extends KBSearch {
     protected abstract List<String> queryForLabel(String sparqlQuery, String resourceURI) throws KBSearchException;
 
 
+    /**
+     * Compares the similarity of the object value of certain resource (entity) and the cell value text (original label).
+     * Then, it also sorts the list of candidates based on the scores.
+     * @param candidates
+     * @param originalQueryLabel
+     */
     protected void rank(List<Pair<String, String>> candidates, String originalQueryLabel){
         final Map<Pair<String, String>, Double> scores = new HashMap<>();
         for(Pair<String, String> p : candidates){

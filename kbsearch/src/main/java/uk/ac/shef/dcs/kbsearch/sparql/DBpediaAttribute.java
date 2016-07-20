@@ -4,6 +4,9 @@ import uk.ac.shef.dcs.kbsearch.model.Attribute;
 
 /**
  * Created by - on 10/06/2016.
+ *
+ * TODO no need for this class, alias predicates, description predicates can be stored in config.
+ *
  */
 public class DBpediaAttribute extends Attribute {
 

@@ -53,7 +53,6 @@ public class DBpediaSearch extends SPARQLSearch {
         String ontURL = properties.getProperty(DBP_ONTOLOGY_URL);
         if (ontURL != null)
             ontology = loadModel(ontURL);
-        otherCache = new HashMap<>();
         resultFilter = new DBpediaSearchResultFilter(properties.getProperty(KB_SEARCH_RESULT_STOPLIST));
     }
 
@@ -66,10 +65,7 @@ public class DBpediaSearch extends SPARQLSearch {
     @Override
     @SuppressWarnings("unchecked")
     public List<Entity> findEntityCandidates(String content) throws KBSearchException {
-        /*if(content.equals("Ramji Manjhi"))
-            System.out.println();*/
         String query = createSolrCacheQuery_findResources(content);
-        boolean forceQuery = false;
 
         content = StringEscapeUtils.unescapeXml(content);
         int bracket = content.indexOf("(");
@@ -78,17 +74,16 @@ public class DBpediaSearch extends SPARQLSearch {
         }
         if (StringUtils.toAlphaNumericWhitechar(content).trim().length() == 0)
             return new ArrayList<>();
-        if (ALWAYS_CALL_REMOTE_SEARCHAPI)
-            forceQuery = true;
 
 
         List<Entity> result = null;
-        if (!forceQuery) {
+        if (!ALWAYS_CALL_REMOTE_SEARCHAPI) {
             try {
                 result = (List<Entity>) cacheEntity.retrieve(query);
                 if (result != null)
                     LOG.debug("QUERY (entities, cache load)=" + query + "|" + query);
             } catch (Exception e) {
+                LOG.error(e.getLocalizedMessage(),e);
             }
         }
         if (result == null) {
@@ -107,10 +102,9 @@ public class DBpediaSearch extends SPARQLSearch {
                 //3. rank result by the degree of matches
                 rank(queryResult, content);
 
-                //firstly fetch candidate freebase topics. pass 'true' to only keep candidates whose name overlap with the query term
-                LOG.debug("(DBpedia QUERY =" + queryResult.size() + " results)");
+                //get attributes for each resource
+                LOG.debug("(QUERY =" + queryResult.size() + " results)");
                 for (Pair<String, String> candidate : queryResult) {
-                    //Next get attributes for each topic
                     String label = candidate.getValue();
                     if (label == null)
                         label = content;
@@ -118,7 +112,7 @@ public class DBpediaSearch extends SPARQLSearch {
                     List<Attribute> attributes = findAttributesOfEntities(ec);
                     ec.setAttributes(attributes);
                     for (Attribute attr : attributes) {
-                        resetResourceValue(attr);
+                        adjustValueOfURLResource(attr);
                         if (attr.getRelationURI().endsWith(RDFEnum.RELATION_HASTYPE_SUFFIX_PATTERN.getString()) &&
                                 !ec.hasType(attr.getValueURI())) {
                             ec.addType(new Clazz(attr.getValueURI(), attr.getValue()));
@@ -139,7 +133,7 @@ public class DBpediaSearch extends SPARQLSearch {
         for (Entity ec : result) {
             id = id + ec.getId() + ",";
             //ec.setTypes(FreebaseSearchResultFilter.filterClazz(ec.getTypes()));
-            List<Clazz> filteredTypes = getResultFilter().filterClazz(ec.getTypes());
+            List<Clazz> filteredTypes = resultFilter.filterClazz(ec.getTypes());
             ec.clearTypes();
             for (Clazz ft : filteredTypes)
                 ec.addType(ft);
@@ -152,7 +146,6 @@ public class DBpediaSearch extends SPARQLSearch {
     @SuppressWarnings("unchecked")
     public List<Entity> findEntityCandidatesOfTypes(String content, String... types) throws KBSearchException {
         String queryCache = createSolrCacheQuery_findResources(content);
-        boolean forceQuery = false;
 
         content = StringEscapeUtils.unescapeXml(content);
         int bracket = content.indexOf("(");
@@ -161,12 +154,10 @@ public class DBpediaSearch extends SPARQLSearch {
         }
         if (StringUtils.toAlphaNumericWhitechar(content).trim().length() == 0)
             return new ArrayList<>();
-        if (ALWAYS_CALL_REMOTE_SEARCHAPI)
-            forceQuery = true;
 
 
         List<Entity> result = null;
-        if (!forceQuery) {
+        if (!ALWAYS_CALL_REMOTE_SEARCHAPI) {
             try {
                 result = (List<Entity>) cacheEntity.retrieve(queryCache);
                 if (result != null) {
@@ -188,6 +179,7 @@ public class DBpediaSearch extends SPARQLSearch {
                     }
                 }
             } catch (Exception e) {
+                LOG.error(e.getLocalizedMessage(),e);
             }
         }
         if (result == null) {
@@ -228,7 +220,7 @@ public class DBpediaSearch extends SPARQLSearch {
                 rank(queryResult, content);
 
                 //firstly fetch candidate freebase topics. pass 'true' to only keep candidates whose name overlap with the query term
-                LOG.debug("(DBpedia QUERY =" + queryResult.size() + " results)");
+                LOG.debug("(DB QUERY =" + queryResult.size() + " results)");
                 for (Pair<String, String> candidate : queryResult) {
                     //Next get attributes for each topic
                     String label = candidate.getValue();
@@ -238,7 +230,7 @@ public class DBpediaSearch extends SPARQLSearch {
                     List<Attribute> attributes = findAttributesOfEntities(ec);
                     ec.setAttributes(attributes);
                     for (Attribute attr : attributes) {
-                        resetResourceValue(attr);
+                        adjustValueOfURLResource(attr);
                         if (attr.getRelationURI().endsWith(RDFEnum.RELATION_HASTYPE_SUFFIX_PATTERN.getString()) &&
                                 !ec.hasType(attr.getValueURI())) {
                             ec.addType(new Clazz(attr.getValueURI(), attr.getValue()));
@@ -259,7 +251,7 @@ public class DBpediaSearch extends SPARQLSearch {
         for (Entity ec : result) {
             id = id + ec.getId() + ",";
             //ec.setTypes(FreebaseSearchResultFilter.filterClazz(ec.getTypes()));
-            List<Clazz> filteredTypes = getResultFilter().filterClazz(ec.getTypes());
+            List<Clazz> filteredTypes = resultFilter.filterClazz(ec.getTypes());
             ec.clearTypes();
             for (Clazz ft : filteredTypes)
                 ec.addType(ft);
@@ -269,18 +261,14 @@ public class DBpediaSearch extends SPARQLSearch {
     }
 
     // if the attribute's value is an URL, fetch the label of that resource, and reset its attr value
-    @SuppressWarnings("unchecked")
-    private void resetResourceValue(Attribute attr) throws KBSearchException {
+    private void adjustValueOfURLResource(Attribute attr) throws KBSearchException {
         String value = attr.getValue();
         if (value.startsWith("http")) {
             String queryCache = createSolrCacheQuery_findLabelForResource(value);
-            boolean forceQuery = false;
 
-            if (ALWAYS_CALL_REMOTE_SEARCHAPI)
-                forceQuery = true;
 
             List<String> result = null;
-            if (!forceQuery) {
+            if (!ALWAYS_CALL_REMOTE_SEARCHAPI) {
                 try {
                     result = (List<String>) cacheEntity.retrieve(queryCache);
                     if (result != null) {
@@ -313,26 +301,26 @@ public class DBpediaSearch extends SPARQLSearch {
 
     @Override
     public List<Attribute> findAttributesOfEntities(Entity ec) throws KBSearchException {
-        return find_attributes(ec.getId(), cacheEntity);
+        return findAttributes(ec.getId(), cacheEntity);
     }
 
-    @SuppressWarnings("unchecked")
-    private List<Attribute> find_attributes(String id, SolrCache cache) throws KBSearchException {
+    private List<Attribute> findAttributes(String id, SolrCache cache) throws KBSearchException {
         if (id.length() == 0)
             return new ArrayList<>();
-        boolean forceQuery = false;
-        if (ALWAYS_CALL_REMOTE_SEARCHAPI)
-            forceQuery = true;
 
         String queryCache = createSolrCacheQuery_findAttributesOfResource(id);
         List<Attribute> result = null;
-        try {
-            result = (List<Attribute>) cache.retrieve(queryCache);
-            if (result != null)
-                LOG.debug("QUERY (attributes of id, cache load)=" + queryCache + "|" + queryCache);
-        } catch (Exception e) {
+        if (!ALWAYS_CALL_REMOTE_SEARCHAPI) {
+            try {
+                result = (List<Attribute>) cache.retrieve(queryCache);
+                if (result != null)
+                    LOG.debug("QUERY (attributes of id, cache load)=" + queryCache + "|" + queryCache);
+            } catch (Exception e) {
+                LOG.error(e.getLocalizedMessage(), e);
+            }
         }
-        if (result == null || forceQuery) {
+
+        if (result == null) {
             result = new ArrayList<>();
             String query = "SELECT DISTINCT ?p ?o WHERE {\n" +
                     "<" + id + "> ?p ?o .\n" +
@@ -344,12 +332,10 @@ public class DBpediaSearch extends SPARQLSearch {
             ResultSet rs = qexec.execSelect();
             while (rs.hasNext()) {
                 QuerySolution qs = rs.next();
-                RDFNode range = qs.get("?p");
-                String r = range.toString();
-                RDFNode domain = qs.get("?o");
-                if (domain != null) {
-                    String d = domain.toString();
-                    Attribute attr = new DBpediaAttribute(r, d);
+                RDFNode predicate = qs.get("?p");
+                RDFNode object = qs.get("?o");
+                if (object != null) {
+                    Attribute attr = new DBpediaAttribute(predicate.toString(), object.toString());
                     result.add(attr);
                 }
             }
@@ -358,81 +344,39 @@ public class DBpediaSearch extends SPARQLSearch {
                 cache.cache(queryCache, result, AUTO_COMMIT);
                 LOG.debug("QUERY (attributes of id, cache save)=" + query + "|" + query);
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.error(e.getLocalizedMessage(), e);
             }
         }
 
         //filtering
-        result = getResultFilter().filterAttribute(result);
+        result = resultFilter.filterAttribute(result);
         return result;
     }
 
     @Override
     public List<Attribute> findAttributesOfClazz(String clazzId) throws KBSearchException {
-        return find_attributes(clazzId, cacheEntity);
+        return findAttributes(clazzId, cacheEntity);
     }
 
     @Override
     public List<Attribute> findAttributesOfProperty(String propertyId) throws KBSearchException {
-        return find_attributes(propertyId, cacheEntity);
+        return findAttributes(propertyId, cacheEntity);
     }
 
-    @Override
-    public double findGranularityOfClazz(String clazz) throws KBSearchException {
-        if (ontology == null)
-            throw new KBSearchException("Not supported");
-        return 0;
-    }
+//    @Override
+//    public double findGranularityOfClazz(String clazz) throws KBSearchException {
+//        if (ontology == null)
+//            throw new KBSearchException("Not supported");
+//        return 0;
+//    }
 
-    @Override
-    public double findEntityClazzSimilarity(String entity_id, String clazz_url) throws KBSearchException {
-        if (ontology == null)
-            throw new KBSearchException("Not supported");
-        return 0;
-    }
+//    @Override
+//    public double findEntityClazzSimilarity(String entity_id, String clazz_url) throws KBSearchException {
+//        if (ontology == null)
+//            throw new KBSearchException("Not supported");
+//        return 0;
+//    }
 
-    @Override
-    public void cacheEntityClazzSimilarity(String entity_id, String clazz_url, double score, boolean biDirectional, boolean commit) throws KBSearchException {
-        String query = createSolrCacheQuery_findEntityClazzSimilarity(entity_id, clazz_url);
-        try {
-            cacheSimilarity.cache(query, score, commit);
-            LOG.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
-            if (biDirectional) {
-                query = clazz_url + "<>" + entity_id;
-                cacheSimilarity.cache(query, score, commit);
-                LOG.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void commitChanges() throws KBSearchException {
-        try {
-            cacheConcept.commit();
-            cacheEntity.commit();
-            cacheProperty.commit();
-            for (SolrCache cache : otherCache.values())
-                cache.commit();
-        } catch (Exception e) {
-            throw new KBSearchException(e);
-        }
-    }
-
-
-    @Override
-    public void closeConnection() throws KBSearchException {
-        try {
-            if (cacheEntity != null)
-                cacheEntity.shutdown();
-            if (cacheConcept != null)
-                cacheConcept.shutdown();
-            if (cacheProperty != null)
-                cacheProperty.shutdown();
-        } catch (Exception e) {
-            throw new KBSearchException(e);
-        }
-    }
 
     protected String createSolrCacheQuery_findLabelForResource(String url) {
         return "LABEL_" + url;

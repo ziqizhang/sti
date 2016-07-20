@@ -2,6 +2,8 @@ package uk.ac.shef.dcs.kbsearch.sparql;
 
 /**
  * Created by - on 10/06/2016.
+ *
+ *
  */
 public enum DBpediaEnum {
 

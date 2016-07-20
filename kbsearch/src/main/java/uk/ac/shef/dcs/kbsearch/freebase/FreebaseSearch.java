@@ -34,7 +34,6 @@ public class FreebaseSearch extends KBSearch {
                           EmbeddedSolrServer cacheProperty, EmbeddedSolrServer cacheSimilarity) throws IOException {
         super(fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty,cacheSimilarity);
         searcher = new FreebaseQueryProxy(properties);
-        otherCache = new HashMap<>();
         resultFilter = new FreebaseSearchResultFilter(properties.getProperty(KB_SEARCH_RESULT_STOPLIST));
     }
 
@@ -154,7 +153,7 @@ public class FreebaseSearch extends KBSearch {
         for (Entity ec : result) {
             id = id + ec.getId() + ",";
             //ec.setTypes(FreebaseSearchResultFilter.filterClazz(ec.getTypes()));
-            List<Clazz> filteredTypes = getResultFilter().filterClazz(ec.getTypes());
+            List<Clazz> filteredTypes = resultFilter.filterClazz(ec.getTypes());
             ec.clearTypes();
             for (Clazz ft : filteredTypes)
                 ec.addType(ft);
@@ -239,7 +238,7 @@ public class FreebaseSearch extends KBSearch {
         }
 
         //filtering
-        attributes=getResultFilter().filterAttribute(attributes);
+        attributes=resultFilter.filterAttribute(attributes);
         return attributes;
     }
 
@@ -279,6 +278,7 @@ public class FreebaseSearch extends KBSearch {
     }
 
 
+    @Override
     public double findEntityClazzSimilarity(String id1, String clazz_url) {
         String query = createSolrCacheQuery_findEntityClazzSimilarity(id1, clazz_url);
         Object result = null;
@@ -293,21 +293,6 @@ public class FreebaseSearch extends KBSearch {
         return (Double) result;
     }
 
-    public void cacheEntityClazzSimilarity(String id1, String clazz_url, double score, boolean biDirectional,
-                                           boolean commit) {
-        String query = createSolrCacheQuery_findEntityClazzSimilarity(id1, clazz_url);
-        try {
-            cacheSimilarity.cache(query, score, commit);
-            LOG.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
-            if (biDirectional) {
-                query = clazz_url + "<>" + id1;
-                cacheSimilarity.cache(query, score, commit);
-                LOG.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @SuppressWarnings("unchecked")
     private List<Attribute> find_attributes(String id, SolrCache cache) throws KBSearchException {
@@ -346,20 +331,8 @@ public class FreebaseSearch extends KBSearch {
         }
 
         //filtering
-        result = getResultFilter().filterAttribute(result);
+        result = resultFilter.filterAttribute(result);
         return result;
-    }
-
-    public void commitChanges() throws KBSearchException {
-        try {
-            cacheConcept.commit();
-            cacheEntity.commit();
-            cacheProperty.commit();
-            for (SolrCache cache : otherCache.values())
-                cache.commit();
-        } catch (Exception e) {
-            throw new KBSearchException(e);
-        }
     }
 
     private boolean donotRepeatQuery(HttpResponseException e) {
@@ -370,17 +343,5 @@ public class FreebaseSearch extends KBSearch {
     }
 
 
-    @Override
-    public void closeConnection() throws KBSearchException {
-        try {
-            if (cacheEntity != null)
-                cacheEntity.shutdown();
-            if (cacheConcept != null)
-                cacheConcept.shutdown();
-            if (cacheProperty != null)
-                cacheProperty.shutdown();
-        } catch (Exception e) {
-            throw new KBSearchException(e);
-        }
-    }
+
 }
