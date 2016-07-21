@@ -3,8 +3,6 @@ package cz.cuni.mff.xrg.odalic.feedbacks.input;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import sun.java2d.pipe.SpanShapeRenderer;
-
 import java.io.*;
 import java.util.Map;
 

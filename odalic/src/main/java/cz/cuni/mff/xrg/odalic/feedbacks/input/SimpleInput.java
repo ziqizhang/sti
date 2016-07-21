@@ -2,19 +2,14 @@ package cz.cuni.mff.xrg.odalic.feedbacks.input;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-
 import cz.cuni.mff.xrg.odalic.positions.CellPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 import cz.cuni.mff.xrg.odalic.positions.RowPosition;
-import cz.cuni.mff.xrg.odalic.util.Arrays;
 
 @XmlRootElement(name = "input")
 public class SimpleInput implements Input, Serializable {

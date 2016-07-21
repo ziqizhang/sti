@@ -1,6 +1,5 @@
 package cz.cuni.mff.xrg.odalic.feedbacks.input;
 
-import com.sun.syndication.feed.rss.Guid;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeader;
 import uk.ac.shef.dcs.sti.core.model.Table;

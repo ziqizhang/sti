@@ -4,8 +4,6 @@ import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeader;
 import uk.ac.shef.dcs.sti.core.model.Table;
 
-import java.util.List;
-
 public class DefaultTableToInputAdapter implements TableToInputAdapter {
 
   @Override
