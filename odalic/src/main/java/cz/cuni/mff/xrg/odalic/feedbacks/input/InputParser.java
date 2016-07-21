@@ -1,5 +1,7 @@
 package cz.cuni.mff.xrg.odalic.feedbacks.input;
 
+import java.io.IOException;
+
 /**
  * Input parser.
  * 
@@ -7,5 +9,5 @@ package cz.cuni.mff.xrg.odalic.feedbacks.input;
  *
  */
 public interface InputParser {
-  Input parse(String content);
+  Input parse(String content, String fileIdentifier) throws IOException;
 }
