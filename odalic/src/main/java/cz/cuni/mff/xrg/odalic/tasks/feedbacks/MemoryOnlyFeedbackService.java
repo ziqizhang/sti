@@ -8,7 +8,8 @@ import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
 import cz.cuni.mff.xrg.odalic.feedbacks.input.Input;
-import cz.cuni.mff.xrg.odalic.feedbacks.input.InputParser;
+import cz.cuni.mff.xrg.odalic.feedbacks.input.CsvConfiguration;
+import cz.cuni.mff.xrg.odalic.feedbacks.input.CsvInputParser;
 import cz.cuni.mff.xrg.odalic.files.File;
 import cz.cuni.mff.xrg.odalic.files.FileService;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
@@ -24,10 +25,10 @@ public final class MemoryOnlyFeedbackService implements FeedbackService {
 
   private final ConfigurationService configurationService;
   private final FileService fileService;
-  private final InputParser inputParser;
+  private final CsvInputParser inputParser;
   
   @Autowired
-  public MemoryOnlyFeedbackService(ConfigurationService configurationService, FileService fileService, InputParser inputParser) {
+  public MemoryOnlyFeedbackService(ConfigurationService configurationService, FileService fileService, CsvInputParser inputParser) {
     Preconditions.checkNotNull(configurationService);
     Preconditions.checkNotNull(fileService);
     Preconditions.checkNotNull(inputParser);
@@ -56,6 +57,7 @@ public final class MemoryOnlyFeedbackService implements FeedbackService {
     final File file = configuration.getInput();
     final String data = fileService.getDataById(file.getId());
     
-    return inputParser.parse(data, file.getId());
+    // TODO: Read configuration attributed to the file instead of the default one.
+    return inputParser.parse(data, file.getId(), new CsvConfiguration());
   }
 }

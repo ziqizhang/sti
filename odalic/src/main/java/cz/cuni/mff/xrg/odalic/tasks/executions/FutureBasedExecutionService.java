@@ -4,7 +4,6 @@
 package cz.cuni.mff.xrg.odalic.tasks.executions;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -13,13 +12,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnIgnore;
+import cz.cuni.mff.xrg.odalic.feedbacks.input.Input;
+import cz.cuni.mff.xrg.odalic.feedbacks.input.CsvConfiguration;
+import cz.cuni.mff.xrg.odalic.feedbacks.input.CsvInputParser;
+import cz.cuni.mff.xrg.odalic.feedbacks.input.InputToTableAdapter;
 import cz.cuni.mff.xrg.odalic.files.File;
 import cz.cuni.mff.xrg.odalic.files.FileService;
 import cz.cuni.mff.xrg.odalic.tasks.Task;
@@ -31,7 +33,6 @@ import cz.cuni.mff.xrg.odalic.tasks.results.Result;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.sti.xtractor.csv.TableXtractorCSV;
 
 /**
  * <p>Implementation of {@link ExecutionService} based on {@link Future} and {@link ExecutorServicee}
@@ -44,14 +45,12 @@ import uk.ac.shef.dcs.sti.xtractor.csv.TableXtractorCSV;
  */
 public final class FutureBasedExecutionService implements ExecutionService {
 
-  private static final String TEMP_FILE_PREFIX = "odalic";
-  private static final String TEMP_FILE_SUFFIX = "csv";
-  
   private final TaskService taskService;
   private final FileService fileService;
   private final AnnotationToResultAdapter annotationResultAdapter;
   private final SemanticTableInterpreterFactory semanticTableInterpreterFactory;
-  private final TableXtractorCSV tableExtractor;
+  private final CsvInputParser inputParser;
+  private final InputToTableAdapter inputToTableAdapter;
   private final ExecutorService executorService = Executors.newFixedThreadPool(1);
   private final Map<Task, Future<Result>> tasksToResults = new HashMap<>();
 
@@ -59,18 +58,20 @@ public final class FutureBasedExecutionService implements ExecutionService {
   public FutureBasedExecutionService(TaskService taskService, FileService fileService,
       AnnotationToResultAdapter annotationToResultAdapter,
       SemanticTableInterpreterFactory semanticTableInterpreterFactory,
-      TableXtractorCSV tableExtractor) {
+      CsvInputParser inputParser, InputToTableAdapter inputToTableAdapter) {
     Preconditions.checkNotNull(taskService);
     Preconditions.checkNotNull(fileService);
     Preconditions.checkNotNull(annotationToResultAdapter);
     Preconditions.checkNotNull(semanticTableInterpreterFactory);
-    Preconditions.checkNotNull(tableExtractor);
+    Preconditions.checkNotNull(inputParser);
+    Preconditions.checkNotNull(inputToTableAdapter);
 
     this.taskService = taskService;
     this.fileService = fileService;
     this.annotationResultAdapter = annotationToResultAdapter;
     this.semanticTableInterpreterFactory = semanticTableInterpreterFactory;
-    this.tableExtractor = tableExtractor;
+    this.inputParser = inputParser;
+    this.inputToTableAdapter = inputToTableAdapter;
   }
 
   /* (non-Javadoc)
@@ -91,22 +92,15 @@ public final class FutureBasedExecutionService implements ExecutionService {
     final Callable<Result> execution = () -> {
       final String data = fileService.getDataById(file.getId());
 
-      //TODO: Remove dependency on temporary file creation.
-      final java.io.File tempFile = java.io.File.createTempFile(TEMP_FILE_PREFIX, TEMP_FILE_SUFFIX);
-      tempFile.deleteOnExit();
-      FileUtils.writeStringToFile(tempFile, data);
-
-      //TODO: Substitute table extractor with something more robust as soon as possible.
-      final List<Table> tables = tableExtractor.extract(tempFile, tempFile.getName());
-      if (tables.isEmpty()) {
-        throw new IllegalArgumentException();
-      }
+      // TODO: Read configuration attributed to the file instead of the default one.
+      final Input input = inputParser.parse(data, file.getId(), new CsvConfiguration());
+      final Table table = inputToTableAdapter.toTable(input);
 
       final SemanticTableInterpreter interpreter = semanticTableInterpreterFactory.getInterpreter();
       semanticTableInterpreterFactory.setColumnIgnoresForInterpreter(columnIgnores);
 
-      final TAnnotation annotationResult = interpreter.start(tables.get(0), true);
-      //TODO: Add multiple KB support to configuration.
+      final TAnnotation annotationResult = interpreter.start(table, true);
+      // TODO: Add multiple KB support to configuration.
       final Result result = annotationResultAdapter
           .toResult(ImmutableMap.of(new KnowledgeBase("DBpedia"), annotationResult));
 

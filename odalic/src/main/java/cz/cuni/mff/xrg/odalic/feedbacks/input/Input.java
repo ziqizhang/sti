@@ -20,5 +20,5 @@ public interface Input {
   int columnsCount();
   List<String> headers();
   List<List<String>> rows();
-  String fileIdentifier();
+  String identifier();
 }

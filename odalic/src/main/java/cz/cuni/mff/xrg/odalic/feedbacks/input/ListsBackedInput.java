@@ -1,30 +1,54 @@
 package cz.cuni.mff.xrg.odalic.feedbacks.input;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.concurrent.Immutable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 
 import cz.cuni.mff.xrg.odalic.positions.CellPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 import cz.cuni.mff.xrg.odalic.positions.RowPosition;
 
+/**
+ * An {@link Input} implementation using a list of lists to store the cells.
+ * 
+ * @author Václav Brodec
+ * @author Jan Váňa
+ */
 @XmlRootElement(name = "input")
-public class SimpleInput implements Input, Serializable {
+@Immutable
+public final class ListsBackedInput implements Input, Serializable {
 
   private static final long serialVersionUID = 4101912998363935336L;
 
   @XmlElement
-  private final List<List<String>> rows = new ArrayList<>();
+  private final List<List<String>> rows;
+  
   @XmlElement
-  private final List<String> headers = new ArrayList<>();
+  private final List<String> headers;
+  
   @XmlElement
   private final String fileIdentifier;
 
-  public SimpleInput(String fileIdentifier) {
+  public ListsBackedInput(String fileIdentifier, List<String> headers, List<List<String>> rows) {
+    Preconditions.checkNotNull(fileIdentifier);
+    Preconditions.checkNotNull(headers);
+    Preconditions.checkNotNull(rows);
+    
     this.fileIdentifier = fileIdentifier;
+    
+    this.headers = ImmutableList.copyOf(headers);
+    
+    final ImmutableList.Builder<List<String>> rowsBuilder = ImmutableList.builder();
+    for (final List<String> row : rows) {
+      rowsBuilder.add(ImmutableList.copyOf(row));
+    }
+    this.rows = rowsBuilder.build();
   }
 
   @Override
@@ -63,27 +87,7 @@ public class SimpleInput implements Input, Serializable {
   }
 
   @Override
-  public String fileIdentifier() {
+  public String identifier() {
     return fileIdentifier;
-  }
-
-  void insertCell(String value, int rowIndex, int columnIndex) {
-    while (rows.size() <= rowIndex) {
-      rows.add(new ArrayList<>());
-    }
-
-    insertToList(rows.get(rowIndex), value, columnIndex);
-  }
-
-  void insertHeader(String value, int position) {
-    insertToList(headers, value, position);
-  }
-
-  private void insertToList(List<String> list, String value, int position){
-    while (list.size() <= position) {
-      list.add(null);
-    }
-
-    list.set(position, value);
   }
 }
