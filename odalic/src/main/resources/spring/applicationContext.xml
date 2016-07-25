@@ -13,18 +13,20 @@
 
 	<context:component-scan base-package="cz.cuni.mff.xrg.odalic.*" />
 
-	<bean id="tableExtractor" class="uk.ac.shef.dcs.sti.xtractor.csv.TableXtractorCSV"
+	<bean id="inputBuilder" class="cz.cuni.mff.xrg.odalic.feedbacks.input.ListsBackedInputBuilder"
 		scope="prototype" />
-
-	<bean id="semanticTableInterpreterFactory"
-		class="cz.cuni.mff.xrg.odalic.tasks.executions.TableMinerPlusFactory" />
-
-	<bean id="inputParser"
+	<bean id="inputToTableAdapter" class="cz.cuni.mff.xrg.odalic.feedbacks.input.DefaultInputToTableAdapter"
+		scope="prototype" />
+	
+	<bean id="csvInputParser"
 		class="cz.cuni.mff.xrg.odalic.feedbacks.input.DefaultCsvInputParser"
 		scope="prototype" />
 	<bean id="annotationToResultAdapter"
 		class="cz.cuni.mff.xrg.odalic.tasks.results.DefaultAnnotationToResultAdapter"
 		scope="prototype" />
+		
+	<bean id="semanticTableInterpreterFactory"
+		class="cz.cuni.mff.xrg.odalic.tasks.executions.TableMinerPlusFactory" />
 
 	<bean id="fileService" class="cz.cuni.mff.xrg.odalic.files.MemoryOnlyFileService" />
 	<bean id="configurationService"

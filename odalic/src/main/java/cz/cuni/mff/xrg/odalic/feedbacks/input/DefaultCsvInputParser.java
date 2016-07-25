@@ -3,6 +3,7 @@ package cz.cuni.mff.xrg.odalic.feedbacks.input;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
 
@@ -22,6 +23,7 @@ public final class DefaultCsvInputParser implements CsvInputParser {
 
   private final ListsBackedInputBuilder inputBuilder;
 
+  @Autowired
   public DefaultCsvInputParser(ListsBackedInputBuilder inputBuilder) {
     Preconditions.checkNotNull(inputBuilder);
     

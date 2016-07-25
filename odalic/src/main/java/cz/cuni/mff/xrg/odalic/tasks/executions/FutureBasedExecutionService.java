@@ -49,7 +49,7 @@ public final class FutureBasedExecutionService implements ExecutionService {
   private final FileService fileService;
   private final AnnotationToResultAdapter annotationResultAdapter;
   private final SemanticTableInterpreterFactory semanticTableInterpreterFactory;
-  private final CsvInputParser inputParser;
+  private final CsvInputParser csvInputParser;
   private final InputToTableAdapter inputToTableAdapter;
   private final ExecutorService executorService = Executors.newFixedThreadPool(1);
   private final Map<Task, Future<Result>> tasksToResults = new HashMap<>();
@@ -58,19 +58,19 @@ public final class FutureBasedExecutionService implements ExecutionService {
   public FutureBasedExecutionService(TaskService taskService, FileService fileService,
       AnnotationToResultAdapter annotationToResultAdapter,
       SemanticTableInterpreterFactory semanticTableInterpreterFactory,
-      CsvInputParser inputParser, InputToTableAdapter inputToTableAdapter) {
+      CsvInputParser csvInputParser, InputToTableAdapter inputToTableAdapter) {
     Preconditions.checkNotNull(taskService);
     Preconditions.checkNotNull(fileService);
     Preconditions.checkNotNull(annotationToResultAdapter);
     Preconditions.checkNotNull(semanticTableInterpreterFactory);
-    Preconditions.checkNotNull(inputParser);
+    Preconditions.checkNotNull(csvInputParser);
     Preconditions.checkNotNull(inputToTableAdapter);
 
     this.taskService = taskService;
     this.fileService = fileService;
     this.annotationResultAdapter = annotationToResultAdapter;
     this.semanticTableInterpreterFactory = semanticTableInterpreterFactory;
-    this.inputParser = inputParser;
+    this.csvInputParser = csvInputParser;
     this.inputToTableAdapter = inputToTableAdapter;
   }
 
@@ -93,7 +93,7 @@ public final class FutureBasedExecutionService implements ExecutionService {
       final String data = fileService.getDataById(file.getId());
 
       // TODO: Read configuration attributed to the file instead of the default one.
-      final Input input = inputParser.parse(data, file.getId(), new CsvConfiguration());
+      final Input input = csvInputParser.parse(data, file.getId(), new CsvConfiguration());
       final Table table = inputToTableAdapter.toTable(input);
 
       final SemanticTableInterpreter interpreter = semanticTableInterpreterFactory.getInterpreter();
