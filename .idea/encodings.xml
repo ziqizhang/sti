@@ -2,7 +2,10 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sti-any23" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sti-common-util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sti-kbsearch" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sti-main" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sti-websearch" charset="UTF-8" />
   </component>
 </project>

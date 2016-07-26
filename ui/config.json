@@ -1,6 +1,6 @@
 {
-  "lib": "sti/lib/*",
-  "cache":"sti/cache",
+  "lib": "../target/*",
+  "cache":"../resources/cache",
   "tablePrevClass":"uk.ac.shef.dcs.sti.ui.InputFilePreview",
   "stiMainClass":"uk.ac.shef.dcs.sti.ui.TableMinerPlusSingle",
   "tmp":"tmp",
@@ -11,7 +11,7 @@
   "stikbpropfile":"kbsearch.properties",
   "server":"http://localhost:3000/",
   "emaillogin":"ziqizhang.public@gmail.com",
-  "emailpass":"vv55awba",
+  "emailpass":"",
   "emailhost":"smtp.googlemail.com",
   "emailport":"465",
   "emailfrom":"ziqizng.public@gmail.com",

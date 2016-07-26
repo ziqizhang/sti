@@ -1,1 +1,0 @@
-This is only providing a skeleton of how the solr instances should be defined in the STI cache. The actual data are not included.

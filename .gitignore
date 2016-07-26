@@ -54,7 +54,7 @@ output/*
 *.log
 */target
 *.iml
-*/.idea
+.idea/*
 cache/empty/class/data/*
 cache/empty/entity/data/*
 cache/empty/relation/data/*
@@ -64,3 +64,5 @@ delete/*
 out/*
 classes/*
 /ui/nbproject/private/
+*/.idea/*
+target/*

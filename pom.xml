@@ -7,7 +7,7 @@
     <groupId>uk.ac.shef.dcs</groupId>
     <artifactId>sti</artifactId>
     <version>1.0alpha</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,13 +25,20 @@
         </license>
     </licenses>
 
-    <modules>
+    <!--modules>
         <module>sti-any23</module>
         <module>sti-common-util</module>
         <module>sti-kbsearch</module>
         <module>sti-websearch</module>
         <module>sti-main</module>
-    </modules>
+    </modules-->
+    <dependencies>
+    <dependency>
+        <groupId>uk.ac.shef.dcs</groupId>
+        <artifactId>sti-main</artifactId>
+        <version>1.0alpha</version>
+    </dependency>
+    </dependencies>
 
 
     <distributionManagement>
@@ -131,7 +138,7 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-            <!--plugin>
+            <plugin>
                 <artifactId>maven-shade-plugin</artifactId>
                 <groupId>org.apache.maven.plugins</groupId>
                 <version>${maven-shade-plugin.version}</version>
@@ -159,8 +166,8 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin-->
-            <plugin>
+            </plugin>
+            <!--plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.5.4</version>
@@ -183,7 +190,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
 
         </plugins>
     </build>
