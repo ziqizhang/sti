@@ -42,6 +42,7 @@ public class InputFilePreview {
             while ((line = br.readLine()) != null) {
                 p.println(line);
             }
+            p.close();
             return targetFile;
         } catch (Exception e) {
             throw new STIException(e);

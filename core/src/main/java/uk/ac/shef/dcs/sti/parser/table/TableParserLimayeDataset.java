@@ -269,9 +269,18 @@ public class TableParserLimayeDataset extends TableParser implements Browsable{
         int count=1;
         for(Table table: tables) {
             xpaths.add("/HTML/BODY/DIV["+count+"]/TABLE");
+            outStr.append("<input checked=\"true\" class=\"targetTables\" name=\"table")
+                    .append(count).append("\" type=\"checkbox\">")
+                    .append("<span style=\"background-color:red\">check this box to annotate table#")
+                    .append(count).append("</span>");
             outStr.append("<div>\n");
             outStr.append("<table border=\"1\">\n");
 
+            outStr.append("  <tr>\n");
+            for(int i=0;i < table.getNumHeaders(); i++){
+                outStr.append("    <th>").append(table.getColumnHeader(i).getHeaderText()).append("</th>\n");
+            }
+            outStr.append("  </tr>\n");
             for(int r = 0; r<table.getNumRows(); r++){
                 outStr.append("  <tr>\n");
                 for(int c=0; c<table.getNumCols(); c++){
