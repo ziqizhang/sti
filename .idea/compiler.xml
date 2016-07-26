@@ -63,13 +63,6 @@
         <processorPath useClasspath="true" />
         <module name="sti-main" />
       </profile>
-      <profile default="false" name="Annotation profile for sti" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="sti" />
-      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
       <module name="any23-sti" target="1.5" />
