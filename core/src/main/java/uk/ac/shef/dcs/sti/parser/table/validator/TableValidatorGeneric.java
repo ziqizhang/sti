@@ -20,7 +20,7 @@ public class TableValidatorGeneric extends ContentValidator implements TableVali
     protected static final double THRESHOLD_MAX_ALLOWED_LENGTHY_CELLS_IN_COLUMN = 0.1;
     protected static final double THRESHOLD_MAX_ALLOWED_NUMERIC_CELLS_IN_COLUMN = 0.1;
 
-    protected static final int THRESHOLD_MIN_PROPER_DATA_ROWS = 3;
+    protected static final int THRESHOLD_MIN_PROPER_DATA_ROWS = 1;
 
     protected static final double THRESHOLD_MAX_ALLOWED_LINK_CELLS_IN_COLUMN = 0.1;
 

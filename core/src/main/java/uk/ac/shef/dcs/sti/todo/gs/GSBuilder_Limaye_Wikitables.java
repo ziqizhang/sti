@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
 import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.core.subjectcol.TColumnFeatureGenerator;
+import uk.ac.shef.dcs.sti.parser.table.creator.TableObjCreatorWikipedia;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.sti.parser.table.TableParserLimayeDataset;
@@ -21,7 +22,6 @@ import uk.ac.shef.dcs.sti.parser.table.normalizer.TableNormalizerDiscardIrregula
 import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.sti.parser.table.validator.TableValidatorGeneric;
 import uk.ac.shef.dcs.sti.parser.table.hodetector.TableHODetectorByHTMLTag;
-import uk.ac.shef.dcs.sti.parser.table.creator.TableObjCreatorWikipediaGS;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.util.CollectionUtils;
 import uk.ac.shef.dcs.sti.util.FileUtils;
@@ -118,7 +118,7 @@ public class GSBuilder_Limaye_Wikitables {
 
         TableParserWikipedia xtractor = new TableParserWikipedia(new TableNormalizerDiscardIrregularRows(true),
                 new TableHODetectorByHTMLTag(),
-                new TableObjCreatorWikipediaGS(true),
+                new TableObjCreatorWikipedia(true, false),
                 new TableValidatorGeneric());
 
         GSBuilder_Limaye_Wikitables gsBuilder = new GSBuilder_Limaye_Wikitables(queryHelper,

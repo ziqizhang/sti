@@ -53,25 +53,25 @@ public class TableObjCreatorMusicBrainz implements TableObjCreator {
                 Node e = (Node) preTable.get(r, c);
                 String text = "";
                 String xPath = "";
-                String other_text=".";
+                String other_text = ".";
 
-                NodeList nl = e.getChildNodes();
-                for (int i = 0; i < nl.getLength(); i++) {
-                    Node an = nl.item(i);
-                    if (an.getNodeName().equalsIgnoreCase("A")) {
-                        String link = an.getAttributes().getNamedItem("href").getTextContent();
-                        other_text+=link;
-                        text = an.getTextContent().trim();
-                        xPath = DomUtils.getXPathForNode(an);
-                        break;
-                    }
-                    else{
-                        text=e.getTextContent().trim();
-                        xPath=DomUtils.getXPathForNode(e);
-                    }
+                if (e != null) {
+                    NodeList nl = e.getChildNodes();
+                    for (int i = 0; i < nl.getLength(); i++) {
+                        Node an = nl.item(i);
+                        if (an.getNodeName().equalsIgnoreCase("A")) {
+                            String link = an.getAttributes().getNamedItem("href").getTextContent();
+                            other_text += link;
+                            text = an.getTextContent().trim();
+                            xPath = DomUtils.getXPathForNode(an);
+                            break;
+                        } else {
+                            text = e.getTextContent().trim();
+                            xPath = DomUtils.getXPathForNode(e);
+                        }
 
+                    }
                 }
-
 
                 TCell cell = new TCell(text);
                 cell.setText(text);
@@ -91,8 +91,9 @@ public class TableObjCreatorMusicBrainz implements TableObjCreator {
             String rowXPath = table.getRowXPaths().get(0);
             if (rowXPath == null && table.getRowXPaths().size() > 1)
                 rowXPath = table.getRowXPaths().get(1);
-            if (rowXPath == null){}
-                //System.out.println();
+            if (rowXPath == null) {
+            }
+            //System.out.println();
             else {
                 String tableXPath = XPathUtils.trimXPathLastTag("TABLE", rowXPath);
                 table.setTableXPath(tableXPath);

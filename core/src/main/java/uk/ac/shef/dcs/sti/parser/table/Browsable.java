@@ -5,7 +5,7 @@ import uk.ac.shef.dcs.sti.STIException;
 import java.util.List;
 
 /**
- * Created by - on 08/07/2016.
+ *
  */
 public interface Browsable {
 

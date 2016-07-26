@@ -2,6 +2,8 @@ package uk.ac.shef.dcs.sti.parser.table;
 
 import cern.colt.matrix.ObjectMatrix2D;
 import org.apache.any23.extractor.html.TagSoupParser;
+import org.apache.commons.io.FileUtils;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.Table;
@@ -97,5 +99,22 @@ public abstract class TableParser {
         in.close();
         fileIn.close();
         return table;
+    }
+
+    protected Document createDocument(String inFile, String sourceId) throws STIException {
+        String input;
+        try {
+            input = FileUtils.readFileToString(new File(inFile));
+        } catch (IOException e) {
+            throw new STIException(e);
+        }
+        parser = new TagSoupParser(new ByteArrayInputStream(input.getBytes()), sourceId, "UTF-8");
+        Document doc = null;
+        try {
+            doc = parser.getDOM();
+        } catch (IOException e) {
+        }
+
+        return doc;
     }
 }

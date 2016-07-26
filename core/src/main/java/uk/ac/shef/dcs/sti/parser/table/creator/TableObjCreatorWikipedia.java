@@ -17,16 +17,17 @@ import java.util.List;
  * Author: Ziqi Zhang (z.zhang@dcs.shef.ac.uk)
  * Date: 05/10/12
  * Time: 15:41
- * <p/>
- * todo: xpaths for table cells not extracted by this class
- * todo: debug this class
+ * <p>
  */
-public class TableObjCreatorWikipediaGS implements TableObjCreator {
+public class TableObjCreatorWikipedia implements TableObjCreator {
 
-    private boolean only_take_first_link_in_list_like_cell = false;
+    private boolean firstLinkOnlyFromListInCell = false;
+    private boolean addAnnotations;
 
-    public TableObjCreatorWikipediaGS(boolean only_take_first_link_in_list_like_cell) {
-        this.only_take_first_link_in_list_like_cell = only_take_first_link_in_list_like_cell;
+    public TableObjCreatorWikipedia(boolean firstLinkOnlyFromListInCell,
+                                    boolean addAnnotations) {
+        this.firstLinkOnlyFromListInCell = firstLinkOnlyFromListInCell;
+        this.addAnnotations = addAnnotations;
     }
 
     @Override
@@ -40,7 +41,6 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
         for (int c = 0; c < preTable.columns(); c++) {
             Object o = preTable.get(0, c);
             if (o == null) { //a null value will be inserted by TableHODetector if no user defined header was found
-                //todo:header type
                 TColumnHeader header = new TColumnHeader(STIEnum.TABLE_HEADER_UNKNOWN.getValue());
                 table.setColumnHeader(c, header);
             } else {
@@ -55,28 +55,30 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
                 table.setColumnHeader(c, header);
 
                 //now check if for this header there are any annotations (i.e., links)
-                List<TColumnHeaderAnnotation> annotations = new ArrayList<TColumnHeaderAnnotation>();
-                List<Node> it = DomUtils.findAllByTag(e, "A");
-                if (it.size() > 0) {
-                    for (Node ahref : it) {
-                        if (ahref.getParentNode().getNodeName().equalsIgnoreCase("sub") || ahref.getParentNode().getNodeName().equalsIgnoreCase("sup"))
-                            continue;
-                        String uri = null;
-                        try {
-                            uri = ahref.getAttributes().getNamedItem("href").getNodeValue();
-                        } catch (NullPointerException n) {
+                if (addAnnotations) {
+                    List<TColumnHeaderAnnotation> annotations = new ArrayList<>();
+                    List<Node> it = DomUtils.findAllByTag(e, "A");
+                    if (it.size() > 0) {
+                        for (Node ahref : it) {
+                            if (ahref.getParentNode().getNodeName().equalsIgnoreCase("sub") || ahref.getParentNode().getNodeName().equalsIgnoreCase("sup"))
+                                continue;
+                            String uri = null;
+                            try {
+                                uri = ahref.getAttributes().getNamedItem("href").getNodeValue();
+                            } catch (NullPointerException n) {
+                            }
+                            ;
+
+                            String linkText = ahref.getTextContent();
+                            if (linkText.length() == 0)
+                                continue;
+
+                            annotations.add(new TColumnHeaderAnnotation(linkText, new Clazz(uri, uri), 1.0));
                         }
-                        ;
-
-                        String linkText = ahref.getTextContent();
-                        if (linkText.length() == 0)
-                            continue;
-
-                        annotations.add(new TColumnHeaderAnnotation(linkText, new Clazz(uri, uri), 1.0));
                     }
+                    //set header annotation
+                    table.getTableAnnotations().setHeaderAnnotation(c, annotations.toArray(new TColumnHeaderAnnotation[0]));
                 }
-                //set header annotation
-                table.getTableAnnotations().setHeaderAnnotation(c, annotations.toArray(new TColumnHeaderAnnotation[0]));
             }
 
         }
@@ -94,8 +96,7 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
 
 
     private void extract(Node tableCell, int r, int c, Table table) {
-        //todo: cell type
-        String cellText = getCellTextOfNode_by_links(tableCell);
+        String cellText = getCellTextByLinkAnchor(tableCell);
 
         String edited = "";
         for (int i = 0; i < cellText.length(); i++) {
@@ -112,32 +113,33 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
         r = r - 1;
         table.setContentCell(r, c, cell);
 
-        LinkedHashSet<TCellAnnotation> wikiAnnotations = new LinkedHashSet<TCellAnnotation>();
-        //firstly always add the entire text string in this cell
-        List<Node> it = DomUtils.findAllByTag(tableCell, "A");
-        if (it.size() > 0) {
-            for (Node ahref : it) {
-                if (ahref.getParentNode().getNodeName().equalsIgnoreCase("sub") || ahref.getParentNode().getNodeName().equalsIgnoreCase("sup"))
-                    continue;
-                String uri = null;
-                try {
-                    uri = ahref.getAttributes().getNamedItem("href").getNodeValue();
-                } catch (NullPointerException n) {
+        if (addAnnotations) {
+            LinkedHashSet<TCellAnnotation> wikiAnnotations = new LinkedHashSet<TCellAnnotation>();
+            //firstly always add the entire text string in this cell
+            List<Node> it = DomUtils.findAllByTag(tableCell, "A");
+            if (it.size() > 0) {
+                for (Node ahref : it) {
+                    if (ahref.getParentNode().getNodeName().equalsIgnoreCase("sub") || ahref.getParentNode().getNodeName().equalsIgnoreCase("sup"))
+                        continue;
+                    String uri = null;
+                    try {
+                        uri = ahref.getAttributes().getNamedItem("href").getNodeValue();
+                    } catch (NullPointerException n) {
+                    }
+                    ;
+
+                    String text = ahref.getTextContent();
+                    if (text.length() == 0)
+                        continue;
+
+                    wikiAnnotations.add(new TCellAnnotation
+                            (text, new Entity(uri, uri), 1.0, new HashMap<String, Double>()));
+                    if (firstLinkOnlyFromListInCell)
+                        break;
+
                 }
-                ;
-
-                String text = ahref.getTextContent();
-                if (text.length() == 0)
-                    continue;
-
-                wikiAnnotations.add(new TCellAnnotation
-                        (text, new Entity(uri, uri), 1.0, new HashMap<String, Double>()));
-                if (only_take_first_link_in_list_like_cell)
-                    break;
 
             }
-
-        }
 
         /*    it = DomUtils.findAllByTag(tableCell,"LI");
         if (it.size()>0) {
@@ -148,11 +150,11 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
             }
         }*/
 
-        table.getTableAnnotations().setContentCellAnnotations(r, c, wikiAnnotations.toArray(new TCellAnnotation[0]));
-
+            table.getTableAnnotations().setContentCellAnnotations(r, c, wikiAnnotations.toArray(new TCellAnnotation[0]));
+        }
     }
 
-    private String getCellTextOfNode_by_links(Node tableCell) {
+    private String getCellTextByLinkAnchor(Node tableCell) {
         NodeList nl = tableCell.getChildNodes();
         String concatenated_content = "";
         int multiLink = 0;
@@ -193,7 +195,7 @@ public class TableObjCreatorWikipediaGS implements TableObjCreator {
         if (concatenated_content.endsWith("|"))
             concatenated_content = concatenated_content.substring(0, concatenated_content.length() - 1).trim();
 
-        if (only_take_first_link_in_list_like_cell && multiLink > 1) {
+        if (firstLinkOnlyFromListInCell && multiLink > 1) {
             //test if link structure
             String cellText = tableCell.getTextContent().replaceAll("\\|", " ");
 //            String concatenated = concatenated_content;

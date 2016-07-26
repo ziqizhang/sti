@@ -3,7 +3,6 @@ package uk.ac.shef.dcs.sti.TODO.gs;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.simmetrics.StringMetric;
-import org.simmetrics.metrics.Levenshtein;
 import org.simmetrics.metrics.StringMetrics;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -19,7 +18,7 @@ import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.sti.parser.table.validator.TableValidatorGeneric;
 import uk.ac.shef.dcs.sti.parser.table.hodetector.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.parser.table.normalizer.TableNormalizerDiscardIrregularRows;
-import uk.ac.shef.dcs.sti.parser.table.creator.TableObjCreatorWikipediaGS;
+import uk.ac.shef.dcs.sti.parser.table.creator.TableObjCreatorWikipedia;
 import uk.ac.shef.dcs.sti.parser.table.TableParserWikipedia;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 import uk.ac.shef.dcs.websearch.WebSearchFactory;
@@ -88,7 +87,7 @@ public class GSBuilder_Limaye_Wikitables_with_Ref extends GSBuilder_Limaye_Wikit
 
         TableParserWikipedia xtractor = new TableParserWikipedia(new TableNormalizerDiscardIrregularRows(true),
                 new TableHODetectorByHTMLTag(),
-                new TableObjCreatorWikipediaGS(false),
+                new TableObjCreatorWikipedia(false, false),
                 new TableValidatorGeneric());
 
         GSBuilder_Limaye_Wikitables_with_Ref gsBuilder = new GSBuilder_Limaye_Wikitables_with_Ref(queryHelper,

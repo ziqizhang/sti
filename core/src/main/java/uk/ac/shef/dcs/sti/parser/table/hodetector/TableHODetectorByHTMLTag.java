@@ -85,6 +85,8 @@ public class TableHODetectorByHTMLTag implements TableHODetector {
 
             for (int r = startRow; r < elements.size(); r++) {
                 for (int c = startCol; c < elements.get(0).size(); c++) {
+                    if(c>=elements.get(r).size())
+                        continue;
                     if (horizontalHeader)
                         table.setQuick(r-startRow, c-startCol, elements.get(r).get(c));
                     else

@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by - on 04/04/2016.
  */
-public class TableParserLimayeDataset extends TableParser {
+public class TableParserLimayeDataset extends TableParser implements Browsable{
 
     private String htmlRepository;
     /**
@@ -258,5 +258,10 @@ public class TableParserLimayeDataset extends TableParser {
         p.println(content);
         p.println("</body></html>");
         p.close();
+    }
+
+    @Override
+    public List<String> extract(String input, String sourceId, String outputFolder) throws STIException {
+        return null;
     }
 }

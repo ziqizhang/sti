@@ -4,6 +4,7 @@ import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.extractor.html.TagSoupParser;
 import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.TContext;
@@ -18,11 +19,15 @@ import uk.ac.shef.dcs.sti.parser.table.normalizer.TableNormalizerSimple;
 import uk.ac.shef.dcs.sti.parser.table.validator.TableValidatorGeneric;
 import uk.ac.shef.dcs.sti.parser.table.validator.TableValidator;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.joox.JOOX.$;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,7 +36,7 @@ import java.util.List;
  * Time: 17:28
  * To change this template use File | Settings | File Templates.
  */
-public class TableParserMusicBrainz extends TableParser {
+public class TableParserMusicBrainz extends TableParser implements Browsable{
 
     public TableParserMusicBrainz(){
         super(new TableNormalizerSimple(),
@@ -84,4 +89,18 @@ public class TableParserMusicBrainz extends TableParser {
         }
         return rs;
     }
+
+    @Override
+    public List<String> extract(String inFile, String sourceId, String outputFolder) throws STIException {
+        Document doc = createDocument(inFile, sourceId);
+
+        List<Node> tables = DomUtils.findAll(doc, "//TABLE[@class='tbl']");
+        List<String> xpaths = BrowsableHelper.createBrowsableElements(tables, doc);
+
+        BrowsableHelper.output(inFile, outputFolder, doc);
+        return xpaths;
+
+    }
+
+
 }

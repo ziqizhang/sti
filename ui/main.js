@@ -148,14 +148,10 @@ function javaSTI(userid, email, targetUrl, parserclass, selectedTableIndex, sock
 
 
 app.use(express.static('public'));
-app.use(express.static('tmp'));
-app.use(bodyParser.urlencoded({extended : false}));
+app.use('/tmp',express.static('tmp'));
+app.use('/output',express.static('output'));
 
 app.get('/', function (req, res) {
-   res.sendFile("public/" + "index.html" );
-});
-
-app.get('/config.html', function (req, res) {
    res.sendFile("public/" + "index.html" );
 });
 
