@@ -69,6 +69,13 @@ public class TableMinerPlusSingle extends TableMinerPlusBatch {
                 }
             }
 
+            String visitPage = generateReturnWebpage(outFolder,
+                    host+outFolderStr+ File.separator+userId);
+
+            String emailMsg = "Here's your output file(s), finally I can take a break, phew...\n" +
+                    visitPage + "\n\n- TableMiner+";
+            EmailHandler.sendCompletionEmail(configJSONFile, email, emailMsg);
+
         } catch (Exception e) {
             e.printStackTrace();
             recordFailure(0, inFileURL, inFileURL);
@@ -77,17 +84,6 @@ public class TableMinerPlusSingle extends TableMinerPlusBatch {
 
         closeAll();
 
-        try {
-            //prepare webpage
-            String visitPage = generateReturnWebpage(outFolder,
-                    host+outFolderStr+ File.separator+userId);
-
-            String emailMsg = "Here's your output file(s), finally I can take a break, phew...\n" +
-                    visitPage + "\n\n- TableMiner+";
-            EmailHandler.sendCompletionEmail(configJSONFile, email, emailMsg);
-        }catch (Exception e){
-            throw new STIException(e);
-        }
         System.exit(0);
     }
 

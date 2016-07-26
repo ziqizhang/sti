@@ -94,7 +94,7 @@ public class DBpediaSearch extends SPARQLSearch {
             result = new ArrayList<>();
             try {
                 //1. try exact string
-                String sparqlQuery = createExactMatchQueries(content);
+                String sparqlQuery = createExactMatchQueries(escape(content));
                 List<Pair<String, String>> queryResult = queryByLabel(sparqlQuery, content);
 
                 //2. if result is empty, try regex

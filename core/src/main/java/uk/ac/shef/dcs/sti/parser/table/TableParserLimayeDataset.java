@@ -2,6 +2,7 @@ package uk.ac.shef.dcs.sti.parser.table;
 
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.jena.reasoner.rulesys.builtins.Print;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -261,7 +262,45 @@ public class TableParserLimayeDataset extends TableParser implements Browsable{
     }
 
     @Override
-    public List<String> extract(String input, String sourceId, String outputFolder) throws STIException {
-        return null;
+    public List<String> extract(String inFile, String sourceId, String outputFolder) throws STIException {
+        List<Table> tables = extract(inFile, null);
+        List<String> xpaths = new ArrayList<>();
+        StringBuilder outStr = new StringBuilder("<!DOCTYPE html>\n<HTML dir=\"ltr\" lang=\"en\">\n<head/>\n<body>\n");
+        int count=1;
+        for(Table table: tables) {
+            xpaths.add("/HTML/BODY/DIV["+count+"]/TABLE");
+            outStr.append("<div>\n");
+            outStr.append("<table border=\"1\">\n");
+
+            for(int r = 0; r<table.getNumRows(); r++){
+                outStr.append("  <tr>\n");
+                for(int c=0; c<table.getNumCols(); c++){
+                    outStr.append("    <td>").append(table.getContentCell(r,c).getText()).append("</td>\n");
+                }
+                outStr.append("  </tr>\n");
+            }
+            outStr.append("</table>\n</div>\n");
+
+            for(TContext tc: table.getContexts()){
+                outStr.append("<p>\n").append(tc.getText()).append("</p>\n");
+            }
+        }
+        outStr.append("</body></html>");
+
+        File in = new File(inFile);
+        File outFile = new File(outputFolder+ File.separator+in.getName());
+        if(in.toString().equals(outFile.toString())){
+            //rename input file
+            in.renameTo(new File(in.toString()+".original"));
+        }
+
+        try {
+            PrintWriter p = new PrintWriter(outFile);
+            p.println(outStr.toString());
+            p.close();
+        }catch (Exception e){
+            throw new STIException(e);
+        }
+        return xpaths;
     }
 }
