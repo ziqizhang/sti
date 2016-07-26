@@ -1,0 +1,31 @@
+<html><body>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Indian_National_Congress,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Indian National Congress,Party Name), [0,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Bharatiya_Janata_Party,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Bharatiya Janata Party,Party Name), [1,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Communist_Party_of_India,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Communist Party of India (Marxist),Party Name), [2,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Samajwadi_Party,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Samajwadi Party,Party Name), [3,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Rashtriya_Janata_Dal,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Rashtriya Janata Dal,Party Name), [4,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Bahujan_Samaj_Party,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Bahujan Samaj Party,Party Name), [5,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Shiv_Sena,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Shiv Sena,Party Name), [7,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Biju_Janata_Dal,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Biju Janata Dal,Party Name), [8,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Nationalist_Congress_Party,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Nationalist Congress Party,Party Name), [9,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Communist_Party_of_India,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Communist Party of India,Party Name), [10,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Shiromani_Akali_Dal,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Shiromani Akali Dal,Party Name), [11,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Pattali_Makkal_Katchi,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Pattali Makkal Katchi,Party Name), [13,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Jharkhand_Mukti_Morcha,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Jharkhand Mukti Morcha,Party Name), [14,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Telugu_Desam_Party,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Telugu Desam Party,Party Name), [15,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Telangana_Rashtra_Samithi,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Telangana Rashtra Samithi,Party Name), [16,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Marumalarchi_Dravida_Munnetra_Kazhagam,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Marumalarchi Dravida Munnetra Kazhagam,Party Name), [18,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/All_India_Forward_Bloc,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (All India Forward Bloc,Party Name), [19,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Janata_Dal,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Janata Dal (Secular),Party Name), [20,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Rashtriya_Lok_Dal,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Rashtriya Lok Dal,Party Name), [21,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Telangana_Rashtra_Samithi,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Telangana Rashtra Samithi,Party Name), [23,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Asom_Gana_Parishad,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Asom Gana Parishad,Party Name), [24,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Kerala_Congress,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Kerala Congress,Party Name), [26,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/All_India_Majlis-e-Ittehadul_Muslimeen,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (All India Majlis-e-Ittehadul Muslimeen,Party Name), [27,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/All_India_Trinamool_Congress,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (All India Trinamool Congress,Party Name), [28,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Bharatiya_Navshakti_Party,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Bharatiya Navshakti Party,Party Name), [29,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Mizo_National_Front,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Mizo National Front,Party Name), [31,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/National_Loktantrik_Party,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (National Loktantrik Party,Party Name), [34,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Republican_Party_of_India,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Republican Party of India,Party Name), [35,1][-1,-1]</br>
+<br>&lt;www.freebase.orghttp://dbpedia.org/resource/Sikkim_Democratic_Front,rdf:type,www.freebase.orghttp://dbpedia.org/ontology/PoliticalParty&gt;, (Sikkim Democratic Front,Party Name), [36,1][-1,-1]</br>
+</body></html>

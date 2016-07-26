@@ -1,0 +1,728 @@
+<html><body>
+source:_Users___work_data_sti_data_dataset_Limaye200_raw_14th_Lok_Sabha_994e_html_14_xml.download with 29<a href="output/user1/_Users___work_data_sti_data_dataset_Limaye200_raw_14th_Lok_Sabha_994e_html_14_xml.download.html.ann.triples"> new attributes</a>.<h1>Table column types and entity disambiguation</h1>
+<table border="1"><tr>
+	<th>S.No.</th>
+	<th bgcolor="#00FF00">	</th>
+	<th>Party Name</th>
+	<th bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/ontology/PoliticalParty">http://dbpedia.org/ontology/PoliticalParty(http://dbpedia.org/ontology/PoliticalParty)</a>=3.77[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</b></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/Party108256968">http://dbpedia.org/class/yago/Party108256968(http://dbpedia.org/class/yago/Party108256968)</a>=3.45[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/PoliticalPartiesInIndia">http://dbpedia.org/class/yago/PoliticalPartiesInIndia(http://dbpedia.org/class/yago/PoliticalPartiesInIndia)</a>=2.23[0, 1, 2, 3, 4, 5, 7, 9, 10, 15, 20, 21, 27, 29, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/ontology/Organisation">http://dbpedia.org/ontology/Organisation(http://dbpedia.org/ontology/Organisation)</a>=1.85[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity">http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity(http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/Organization108008335">http://dbpedia.org/class/yago/Organization108008335(http://dbpedia.org/class/yago/Organization108008335)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://schema.org/Organization">http://schema.org/Organization(http://schema.org/Organization)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/SocialGroup107950920">http://dbpedia.org/class/yago/SocialGroup107950920(http://dbpedia.org/class/yago/SocialGroup107950920)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/ontology/Agent">http://dbpedia.org/ontology/Agent(http://dbpedia.org/ontology/Agent)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/YagoLegalActor">http://dbpedia.org/class/yago/YagoLegalActor(http://dbpedia.org/class/yago/YagoLegalActor)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/YagoLegalActorGeo">http://dbpedia.org/class/yago/YagoLegalActorGeo(http://dbpedia.org/class/yago/YagoLegalActorGeo)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/Abstraction100002137">http://dbpedia.org/class/yago/Abstraction100002137(http://dbpedia.org/class/yago/Abstraction100002137)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson">http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson(http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/Group100031264">http://dbpedia.org/class/yago/Group100031264(http://dbpedia.org/class/yago/Group100031264)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/ConservativePartiesInIndia">http://dbpedia.org/class/yago/ConservativePartiesInIndia(http://dbpedia.org/class/yago/ConservativePartiesInIndia)</a>=1.01[1, 7]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1980">http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1980(http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1980)</a>=0.9[1]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1885">http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1885(http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1885)</a>=0.89[0]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/SocialistParties">http://dbpedia.org/class/yago/SocialistParties(http://dbpedia.org/class/yago/SocialistParties)</a>=0.7[0, 3, 5, 19, 20, 28]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/NationalistParties">http://dbpedia.org/class/yago/NationalistParties(http://dbpedia.org/class/yago/NationalistParties)</a>=0.48[1]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/LiberalParties">http://dbpedia.org/class/yago/LiberalParties(http://dbpedia.org/class/yago/LiberalParties)</a>=0.32[0]</font></br>	</th>
+	<th>Party flag</th>
+	<th bgcolor="#00FF00">	</th>
+	<th>Number of MPs</th>
+	<th bgcolor="#00FF00">	</th>
+</tr>
+<tr>
+	<td>1<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Indian National Congress<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Indian_National_Congress">Indian National Congress</a>=2.0[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialistParties, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/LiberalParties, http://dbpedia.org/class/yago/Abstraction100002137, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1885, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>141<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>2<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Bharatiya Janata Party<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Bharatiya_Janata_Party">Bharatiya Janata Party</a>=2.25[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/class/yago/NationalistParties, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1980, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/ConservativePartiesInIndia, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>137<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>3<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Communist Party of India (Marxist)<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Communist_Party_of_India">Communist Party of India</a>=1.82[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/CommunistPartiesInIndia, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1920, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>42<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>4<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Samajwadi Party<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Samajwadi_Party">Samajwadi Party</a>=2.62[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialistParties, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1992, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/class/yago/DemocraticSocialistParties, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>36<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>5<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Rashtriya Janata Dal<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Rashtriya_Janata_Dal">Rashtriya Janata Dal</a>=1.97[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1997, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>24<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>6<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Bahujan Samaj Party<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Bahujan_Samaj_Party">Bahujan Samaj Party</a>=2.17[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialistParties, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1984, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>17<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>7<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Dravida Munnetra Kazhagam<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>16<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>8<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Shiv Sena<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Shiv_Sena">Shiv Sena</a>=2.18[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/IndianNationalistPoliticalParties, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/PoliticalPartiesInMaharashtra, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/ConservativePartiesInIndia, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/class/yago/HinduPoliticalParties, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1966, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>12<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>9<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Biju Janata Dal<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Biju_Janata_Dal">Biju Janata Dal</a>=1.94[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/RegionalistPartiesInIndia, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/StatePoliticalPartiesInOrissa, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1997, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>11<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>10<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Nationalist Congress Party<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Nationalist_Congress_Party">Nationalist Congress Party</a>=2.16[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/IndianNationalistPoliticalParties, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1999, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>11<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>11<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Communist Party of India<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Communist_Party_of_India">Communist Party of India</a>=2.01[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/CommunistPartiesInIndia, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1920, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>10<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>12<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Shiromani Akali Dal<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Shiromani_Akali_Dal">Shiromani Akali Dal</a>=2.33[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/PoliticalPartiesInPunjab,India, http://dbpedia.org/class/yago/RegionalistPartiesInIndia, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1920, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/class/yago/OrganisationsBasedInChandigarh, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>8<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>13<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Independent (Ind.)<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>6<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>14<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Pattali Makkal Katchi<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Pattali_Makkal_Katchi">Pattali Makkal Katchi</a>=2.06[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://dbpedia.org/class/yago/PoliticalPartiesInTamilNadu, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1999, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>6<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>15<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Jharkhand Mukti Morcha<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Jharkhand_Mukti_Morcha">Jharkhand Mukti Morcha</a>=2.38[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/RegionalistPartiesInIndia, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/StatePoliticalPartiesInJharkhand, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>5<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>16<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Telugu Desam Party<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Telugu_Desam_Party">Telugu Desam Party</a>=2.29[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInAndhraPradesh, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/RegionalistPartiesInIndia, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1982, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>5<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>17<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Telangana Rashtra Samithi<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Telangana_Rashtra_Samithi">Telangana Rashtra Samithi</a>=2.06[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInAndhraPradesh, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/RegionalistPartiesInIndia, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn2001, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>5<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>18<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Lok Jan Shakti Party<font color="grey"> [date]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>4<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>19<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Marumalarchi Dravida Munnetra Kazhagam<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Marumalarchi_Dravida_Munnetra_Kazhagam">Marumalarchi Dravida Munnetra Kazhagam</a>=1.91[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1994, http://dbpedia.org/class/yago/Abstraction100002137, http://dbpedia.org/class/yago/PoliticalPartiesInTamilNadu, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/class/yago/DravidianPoliticalParties, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>4<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>20<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>All India Forward Bloc<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/All_India_Forward_Bloc">All India Forward Bloc</a>=1.97[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialistParties, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/StatePoliticalPartiesInWestBengal, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1939]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>3<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>21<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Janata Dal (Secular)<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Janata_Dal">Janata Dal</a>=1.91[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialistParties, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>3<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>22<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Rashtriya Lok Dal<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Rashtriya_Lok_Dal">Rashtriya Lok Dal</a>=2.08[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>3<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>23<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Revolutionary Socialist Party (India)<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>3<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>24<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Telangana Rashtra Samithi<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Telangana_Rashtra_Samithi">Telangana Rashtra Samithi</a>=2.06[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInAndhraPradesh, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/RegionalistPartiesInIndia, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn2001, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>3<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>25<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Asom Gana Parishad<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Asom_Gana_Parishad">Asom Gana Parishad</a>=2.06[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/RegionalistPartiesInIndia, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1985, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/StatePoliticalPartiesInAssam, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>2<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>26<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Jammu and Kashmir National Conference<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>2<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>27<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Kerala Congress<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Kerala_Congress">Kerala Congress</a>=2.36[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/StatePoliticalPartiesInKerala, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>2<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>28<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>All India Majlis-e-Ittehadul Muslimeen<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/All_India_Majlis-e-Ittehadul_Muslimeen">All India Majlis-e-Ittehadul Muslimeen</a>=1.91[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInAndhraPradesh, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/class/yago/IslamicPoliticalPartiesInIndia, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1927, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>1<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>29<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>All India Trinamool Congress<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/All_India_Trinamool_Congress">All India Trinamool Congress</a>=1.9[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/StatePoliticalPartiesInArunachalPradesh, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialistParties, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/StatePoliticalPartiesInMeghalaya, http://dbpedia.org/class/yago/StatePoliticalPartiesInWestBengal, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1998, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>1<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>30<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Bharatiya Navshakti Party<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Bharatiya_Navshakti_Party">Bharatiya Navshakti Party</a>=2.29[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>1<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>31<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Jammu & Kashmir Peoples Democratic Party<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>1<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>32<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Mizo National Front<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Mizo_National_Front">Mizo National Front</a>=2.04[http://dbpedia.org/class/yago/ChristianPoliticalParties, http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/PoliticalPartiesInMizoram, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1961, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>1<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>33<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Muslim League Kerala State Committee<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>1<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>34<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Nagaland Peoples Front<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>1<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>35<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>National Loktantrik Party<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/National_Loktantrik_Party">National Loktantrik Party</a>=2.25[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>1<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>36<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Republican Party of India<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Republican_Party_of_India">Republican Party of India</a>=2.31[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>1<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+<tr>
+	<td>37<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>Sikkim Democratic Front<font color="grey"> [ne]</font></td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Sikkim_Democratic_Front">Sikkim Democratic Front</a>=2.02[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://dbpedia.org/class/yago/PoliticalPartiesInSikkim, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td><font color="grey"> [empty]</font></td>
+	<td bgcolor="#00FF00">	</td>
+	<td>1<font color="grey"> [number]</font></td>
+	<td bgcolor="#00FF00">	</td>
+</tr>
+</table><h1>Table subject column and binary relations</h1><table border="1"><tr>
+	<th>S.No.</th>
+	<th>-	</th>
+	<th bgcolor="yellow">Party Name</th>
+	<th bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/ontology/PoliticalParty">http://dbpedia.org/ontology/PoliticalParty(http://dbpedia.org/ontology/PoliticalParty)</a>=3.77[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</b></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/Party108256968">http://dbpedia.org/class/yago/Party108256968(http://dbpedia.org/class/yago/Party108256968)</a>=3.45[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/PoliticalPartiesInIndia">http://dbpedia.org/class/yago/PoliticalPartiesInIndia(http://dbpedia.org/class/yago/PoliticalPartiesInIndia)</a>=2.23[0, 1, 2, 3, 4, 5, 7, 9, 10, 15, 20, 21, 27, 29, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/ontology/Organisation">http://dbpedia.org/ontology/Organisation(http://dbpedia.org/ontology/Organisation)</a>=1.85[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity">http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity(http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/Organization108008335">http://dbpedia.org/class/yago/Organization108008335(http://dbpedia.org/class/yago/Organization108008335)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://schema.org/Organization">http://schema.org/Organization(http://schema.org/Organization)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/SocialGroup107950920">http://dbpedia.org/class/yago/SocialGroup107950920(http://dbpedia.org/class/yago/SocialGroup107950920)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/ontology/Agent">http://dbpedia.org/ontology/Agent(http://dbpedia.org/ontology/Agent)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/YagoLegalActor">http://dbpedia.org/class/yago/YagoLegalActor(http://dbpedia.org/class/yago/YagoLegalActor)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/YagoLegalActorGeo">http://dbpedia.org/class/yago/YagoLegalActorGeo(http://dbpedia.org/class/yago/YagoLegalActorGeo)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/Abstraction100002137">http://dbpedia.org/class/yago/Abstraction100002137(http://dbpedia.org/class/yago/Abstraction100002137)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson">http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson(http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/Group100031264">http://dbpedia.org/class/yago/Group100031264(http://dbpedia.org/class/yago/Group100031264)</a>=1.66[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29, 31, 34, 35, 36]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/ConservativePartiesInIndia">http://dbpedia.org/class/yago/ConservativePartiesInIndia(http://dbpedia.org/class/yago/ConservativePartiesInIndia)</a>=1.01[1, 7]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1980">http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1980(http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1980)</a>=0.9[1]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1885">http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1885(http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1885)</a>=0.89[0]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/SocialistParties">http://dbpedia.org/class/yago/SocialistParties(http://dbpedia.org/class/yago/SocialistParties)</a>=0.7[0, 3, 5, 19, 20, 28]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/NationalistParties">http://dbpedia.org/class/yago/NationalistParties(http://dbpedia.org/class/yago/NationalistParties)</a>=0.48[1]</font></br><br><font color="grey" size="1"><a href="http://www.freebase.comhttp://dbpedia.org/class/yago/LiberalParties">http://dbpedia.org/class/yago/LiberalParties(http://dbpedia.org/class/yago/LiberalParties)</a>=0.32[0]</font></br>	</th>
+	<th>Party flag</th>
+	<th>-	</th>
+	<th>Number of MPs</th>
+	<th>-	</th>
+</tr>
+<tr>
+	<td>1</td>
+	<td>-</td>
+	<td bgcolor="yellow">Indian National Congress</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Indian_National_Congress">Indian National Congress</a>=2.0[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialistParties, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/LiberalParties, http://dbpedia.org/class/yago/Abstraction100002137, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1885, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>141</td>
+	<td>-</td>
+</tr>
+	<td>2</td>
+	<td>-</td>
+	<td bgcolor="yellow">Bharatiya Janata Party</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Bharatiya_Janata_Party">Bharatiya Janata Party</a>=2.25[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/class/yago/NationalistParties, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1980, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/ConservativePartiesInIndia, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>137</td>
+	<td>-</td>
+</tr>
+	<td>3</td>
+	<td>-</td>
+	<td bgcolor="yellow">Communist Party of India (Marxist)</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Communist_Party_of_India">Communist Party of India</a>=1.82[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/CommunistPartiesInIndia, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1920, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>42</td>
+	<td>-</td>
+</tr>
+	<td>4</td>
+	<td>-</td>
+	<td bgcolor="yellow">Samajwadi Party</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Samajwadi_Party">Samajwadi Party</a>=2.62[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialistParties, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1992, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/class/yago/DemocraticSocialistParties, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>36</td>
+	<td>-</td>
+</tr>
+	<td>5</td>
+	<td>-</td>
+	<td bgcolor="yellow">Rashtriya Janata Dal</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Rashtriya_Janata_Dal">Rashtriya Janata Dal</a>=1.97[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1997, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>24</td>
+	<td>-</td>
+</tr>
+	<td>6</td>
+	<td>-</td>
+	<td bgcolor="yellow">Bahujan Samaj Party</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Bahujan_Samaj_Party">Bahujan Samaj Party</a>=2.17[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialistParties, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1984, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>17</td>
+	<td>-</td>
+</tr>
+	<td>7</td>
+	<td>-</td>
+	<td bgcolor="yellow">Dravida Munnetra Kazhagam</td>
+	<td bgcolor="#00FF00">	</td>
+	<td></td>
+	<td>-</td>
+	<td>16</td>
+	<td>-</td>
+</tr>
+	<td>8</td>
+	<td>-</td>
+	<td bgcolor="yellow">Shiv Sena</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Shiv_Sena">Shiv Sena</a>=2.18[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/IndianNationalistPoliticalParties, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/PoliticalPartiesInMaharashtra, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/ConservativePartiesInIndia, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/class/yago/HinduPoliticalParties, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1966, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>12</td>
+	<td>-</td>
+</tr>
+	<td>9</td>
+	<td>-</td>
+	<td bgcolor="yellow">Biju Janata Dal</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Biju_Janata_Dal">Biju Janata Dal</a>=1.94[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/RegionalistPartiesInIndia, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/StatePoliticalPartiesInOrissa, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1997, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>11</td>
+	<td>-</td>
+</tr>
+	<td>10</td>
+	<td>-</td>
+	<td bgcolor="yellow">Nationalist Congress Party</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Nationalist_Congress_Party">Nationalist Congress Party</a>=2.16[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/IndianNationalistPoliticalParties, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1999, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>11</td>
+	<td>-</td>
+</tr>
+	<td>11</td>
+	<td>-</td>
+	<td bgcolor="yellow">Communist Party of India</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Communist_Party_of_India">Communist Party of India</a>=2.01[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/CommunistPartiesInIndia, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1920, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>10</td>
+	<td>-</td>
+</tr>
+	<td>12</td>
+	<td>-</td>
+	<td bgcolor="yellow">Shiromani Akali Dal</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Shiromani_Akali_Dal">Shiromani Akali Dal</a>=2.33[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/PoliticalPartiesInPunjab,India, http://dbpedia.org/class/yago/RegionalistPartiesInIndia, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1920, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/class/yago/OrganisationsBasedInChandigarh, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>8</td>
+	<td>-</td>
+</tr>
+	<td>13</td>
+	<td>-</td>
+	<td bgcolor="yellow">Independent (Ind.)</td>
+	<td bgcolor="#00FF00">	</td>
+	<td></td>
+	<td>-</td>
+	<td>6</td>
+	<td>-</td>
+</tr>
+	<td>14</td>
+	<td>-</td>
+	<td bgcolor="yellow">Pattali Makkal Katchi</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Pattali_Makkal_Katchi">Pattali Makkal Katchi</a>=2.06[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://dbpedia.org/class/yago/PoliticalPartiesInTamilNadu, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1999, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>6</td>
+	<td>-</td>
+</tr>
+	<td>15</td>
+	<td>-</td>
+	<td bgcolor="yellow">Jharkhand Mukti Morcha</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Jharkhand_Mukti_Morcha">Jharkhand Mukti Morcha</a>=2.38[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/RegionalistPartiesInIndia, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/StatePoliticalPartiesInJharkhand, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>5</td>
+	<td>-</td>
+</tr>
+	<td>16</td>
+	<td>-</td>
+	<td bgcolor="yellow">Telugu Desam Party</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Telugu_Desam_Party">Telugu Desam Party</a>=2.29[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInAndhraPradesh, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/RegionalistPartiesInIndia, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1982, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>5</td>
+	<td>-</td>
+</tr>
+	<td>17</td>
+	<td>-</td>
+	<td bgcolor="yellow">Telangana Rashtra Samithi</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Telangana_Rashtra_Samithi">Telangana Rashtra Samithi</a>=2.06[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInAndhraPradesh, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/RegionalistPartiesInIndia, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn2001, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>5</td>
+	<td>-</td>
+</tr>
+	<td>18</td>
+	<td>-</td>
+	<td bgcolor="yellow">Lok Jan Shakti Party</td>
+	<td bgcolor="#00FF00">	</td>
+	<td></td>
+	<td>-</td>
+	<td>4</td>
+	<td>-</td>
+</tr>
+	<td>19</td>
+	<td>-</td>
+	<td bgcolor="yellow">Marumalarchi Dravida Munnetra Kazhagam</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Marumalarchi_Dravida_Munnetra_Kazhagam">Marumalarchi Dravida Munnetra Kazhagam</a>=1.91[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1994, http://dbpedia.org/class/yago/Abstraction100002137, http://dbpedia.org/class/yago/PoliticalPartiesInTamilNadu, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/class/yago/DravidianPoliticalParties, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>4</td>
+	<td>-</td>
+</tr>
+	<td>20</td>
+	<td>-</td>
+	<td bgcolor="yellow">All India Forward Bloc</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/All_India_Forward_Bloc">All India Forward Bloc</a>=1.97[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialistParties, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/StatePoliticalPartiesInWestBengal, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1939]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>3</td>
+	<td>-</td>
+</tr>
+	<td>21</td>
+	<td>-</td>
+	<td bgcolor="yellow">Janata Dal (Secular)</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Janata_Dal">Janata Dal</a>=1.91[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialistParties, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>3</td>
+	<td>-</td>
+</tr>
+	<td>22</td>
+	<td>-</td>
+	<td bgcolor="yellow">Rashtriya Lok Dal</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Rashtriya_Lok_Dal">Rashtriya Lok Dal</a>=2.08[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>3</td>
+	<td>-</td>
+</tr>
+	<td>23</td>
+	<td>-</td>
+	<td bgcolor="yellow">Revolutionary Socialist Party (India)</td>
+	<td bgcolor="#00FF00">	</td>
+	<td></td>
+	<td>-</td>
+	<td>3</td>
+	<td>-</td>
+</tr>
+	<td>24</td>
+	<td>-</td>
+	<td bgcolor="yellow">Telangana Rashtra Samithi</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Telangana_Rashtra_Samithi">Telangana Rashtra Samithi</a>=2.06[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInAndhraPradesh, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/RegionalistPartiesInIndia, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn2001, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>3</td>
+	<td>-</td>
+</tr>
+	<td>25</td>
+	<td>-</td>
+	<td bgcolor="yellow">Asom Gana Parishad</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Asom_Gana_Parishad">Asom Gana Parishad</a>=2.06[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/RegionalistPartiesInIndia, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1985, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/StatePoliticalPartiesInAssam, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>2</td>
+	<td>-</td>
+</tr>
+	<td>26</td>
+	<td>-</td>
+	<td bgcolor="yellow">Jammu and Kashmir National Conference</td>
+	<td bgcolor="#00FF00">	</td>
+	<td></td>
+	<td>-</td>
+	<td>2</td>
+	<td>-</td>
+</tr>
+	<td>27</td>
+	<td>-</td>
+	<td bgcolor="yellow">Kerala Congress</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Kerala_Congress">Kerala Congress</a>=2.36[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/StatePoliticalPartiesInKerala, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>2</td>
+	<td>-</td>
+</tr>
+	<td>28</td>
+	<td>-</td>
+	<td bgcolor="yellow">All India Majlis-e-Ittehadul Muslimeen</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/All_India_Majlis-e-Ittehadul_Muslimeen">All India Majlis-e-Ittehadul Muslimeen</a>=1.91[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInAndhraPradesh, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/class/yago/IslamicPoliticalPartiesInIndia, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1927, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>1</td>
+	<td>-</td>
+</tr>
+	<td>29</td>
+	<td>-</td>
+	<td bgcolor="yellow">All India Trinamool Congress</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/All_India_Trinamool_Congress">All India Trinamool Congress</a>=1.9[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/StatePoliticalPartiesInArunachalPradesh, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialistParties, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/StatePoliticalPartiesInMeghalaya, http://dbpedia.org/class/yago/StatePoliticalPartiesInWestBengal, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1998, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>1</td>
+	<td>-</td>
+</tr>
+	<td>30</td>
+	<td>-</td>
+	<td bgcolor="yellow">Bharatiya Navshakti Party</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Bharatiya_Navshakti_Party">Bharatiya Navshakti Party</a>=2.29[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>1</td>
+	<td>-</td>
+</tr>
+	<td>31</td>
+	<td>-</td>
+	<td bgcolor="yellow">Jammu & Kashmir Peoples Democratic Party</td>
+	<td bgcolor="#00FF00">	</td>
+	<td></td>
+	<td>-</td>
+	<td>1</td>
+	<td>-</td>
+</tr>
+	<td>32</td>
+	<td>-</td>
+	<td bgcolor="yellow">Mizo National Front</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Mizo_National_Front">Mizo National Front</a>=2.04[http://dbpedia.org/class/yago/ChristianPoliticalParties, http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://dbpedia.org/class/yago/PoliticalPartiesInMizoram, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/PoliticalPartiesEstablishedIn1961, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>1</td>
+	<td>-</td>
+</tr>
+	<td>33</td>
+	<td>-</td>
+	<td bgcolor="yellow">Muslim League Kerala State Committee</td>
+	<td bgcolor="#00FF00">	</td>
+	<td></td>
+	<td>-</td>
+	<td>1</td>
+	<td>-</td>
+</tr>
+	<td>34</td>
+	<td>-</td>
+	<td bgcolor="yellow">Nagaland Peoples Front</td>
+	<td bgcolor="#00FF00">	</td>
+	<td></td>
+	<td>-</td>
+	<td>1</td>
+	<td>-</td>
+</tr>
+	<td>35</td>
+	<td>-</td>
+	<td bgcolor="yellow">National Loktantrik Party</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/National_Loktantrik_Party">National Loktantrik Party</a>=2.25[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>1</td>
+	<td>-</td>
+</tr>
+	<td>36</td>
+	<td>-</td>
+	<td bgcolor="yellow">Republican Party of India</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Republican_Party_of_India">Republican Party of India</a>=2.31[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>1</td>
+	<td>-</td>
+</tr>
+	<td>37</td>
+	<td>-</td>
+	<td bgcolor="yellow">Sikkim Democratic Front</td>
+	<td bgcolor="#00FF00"><br><b><a href="http://www.freebase.comhttp://dbpedia.org/resource/Sikkim_Democratic_Front">Sikkim Democratic Front</a>=2.02[http://dbpedia.org/class/yago/Organization108008335, http://dbpedia.org/class/yago/PoliticalPartiesInIndia, http://dbpedia.org/class/yago/Party108256968, http://dbpedia.org/ontology/Organisation, http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#SocialPerson, http://dbpedia.org/class/yago/SocialGroup107950920, http://dbpedia.org/ontology/Agent, http://dbpedia.org/class/yago/YagoLegalActorGeo, http://dbpedia.org/class/yago/Group100031264, http://dbpedia.org/class/yago/Abstraction100002137, http://dbpedia.org/class/yago/PoliticalPartiesInSikkim, http://schema.org/Organization, http://dbpedia.org/class/yago/YagoLegalActor, http://dbpedia.org/ontology/PoliticalParty, http://dbpedia.org/class/yago/YagoPermanentlyLocatedEntity]</b></br>	</td>
+	<td></td>
+	<td>-</td>
+	<td>1</td>
+	<td>-</td>
+</tr>
+</table>
+</body></html>
