@@ -48,7 +48,7 @@ public final class MemoryOnlyFeedbackService implements FeedbackService {
   @Override
   public void setForTaskId(String taskId, Feedback feedback) {
     final Configuration oldConfiguration = configurationService.getForTaskId(taskId);
-    configurationService.setForTaskId(taskId, new Configuration(oldConfiguration.getInput(), feedback));
+    configurationService.setForTaskId(taskId, new Configuration(oldConfiguration.getInput(), oldConfiguration.getPrimaryBase(), feedback));
   }
 
   @Override

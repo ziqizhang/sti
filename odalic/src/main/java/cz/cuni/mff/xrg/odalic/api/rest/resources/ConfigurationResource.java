@@ -45,9 +45,9 @@ public final class ConfigurationResource {
     
     final Configuration configuration;
     if (configurationValue.getFeedback() == null) {
-      configuration = new Configuration(input);
+        configuration = new Configuration(input, configurationValue.getPrimaryBase());
     } else {
-      configuration = new Configuration(input, configurationValue.getFeedback());
+      configuration = new Configuration(input, configurationValue.getPrimaryBase(), configurationValue.getFeedback());
     }
 
     configurationService.setForTaskId(id, configuration);
