@@ -29,7 +29,7 @@ public final class ConfigurationValue implements Serializable {
   @XmlElement(name = "feedback")
   private Feedback feedback;
   
-  @XmlElement(name = "primaryBase")
+  @XmlElement(name = "primary_base")
   private KnowledgeBase primaryBase;
 
   public ConfigurationValue() {}
