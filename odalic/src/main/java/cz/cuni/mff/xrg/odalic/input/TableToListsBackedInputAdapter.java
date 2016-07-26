@@ -1,4 +1,4 @@
-package cz.cuni.mff.xrg.odalic.feedbacks.input;
+package cz.cuni.mff.xrg.odalic.input;
 
 import com.google.common.base.Preconditions;
 
@@ -23,7 +23,7 @@ public final class TableToListsBackedInputAdapter implements TableToInputAdapter
   }
 
   /* (non-Javadoc)
-   * @see cz.cuni.mff.xrg.odalic.feedbacks.input.TableToInputAdapter#toInput(uk.ac.shef.dcs.sti.core.model.Table)
+   * @see cz.cuni.mff.xrg.odalic.input.TableToInputAdapter#toInput(uk.ac.shef.dcs.sti.core.model.Table)
    */
   @Override
   public Input toInput(Table table) {

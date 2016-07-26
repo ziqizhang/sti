@@ -1,4 +1,4 @@
-package cz.cuni.mff.xrg.odalic.feedbacks.input;
+package cz.cuni.mff.xrg.odalic.input;
 
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeader;
@@ -19,7 +19,7 @@ import javax.annotation.concurrent.Immutable;
 public class DefaultInputToTableAdapter implements InputToTableAdapter {
 
   /* (non-Javadoc)
-   * @see cz.cuni.mff.xrg.odalic.feedbacks.input.InputToTableAdapter#toTable(cz.cuni.mff.xrg.odalic.feedbacks.input.Input)
+   * @see cz.cuni.mff.xrg.odalic.input.InputToTableAdapter#toTable(cz.cuni.mff.xrg.odalic.input.Input)
    */
   @Override
   public Table toTable(Input input) {

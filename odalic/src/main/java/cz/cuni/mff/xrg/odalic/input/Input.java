@@ -1,4 +1,4 @@
-package cz.cuni.mff.xrg.odalic.feedbacks.input;
+package cz.cuni.mff.xrg.odalic.input;
 
 import java.util.List;
 

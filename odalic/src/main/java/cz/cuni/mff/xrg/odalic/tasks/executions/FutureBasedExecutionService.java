@@ -18,12 +18,12 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnIgnore;
-import cz.cuni.mff.xrg.odalic.feedbacks.input.Input;
-import cz.cuni.mff.xrg.odalic.feedbacks.input.CsvConfiguration;
-import cz.cuni.mff.xrg.odalic.feedbacks.input.CsvInputParser;
-import cz.cuni.mff.xrg.odalic.feedbacks.input.InputToTableAdapter;
 import cz.cuni.mff.xrg.odalic.files.File;
 import cz.cuni.mff.xrg.odalic.files.FileService;
+import cz.cuni.mff.xrg.odalic.input.CsvConfiguration;
+import cz.cuni.mff.xrg.odalic.input.CsvInputParser;
+import cz.cuni.mff.xrg.odalic.input.Input;
+import cz.cuni.mff.xrg.odalic.input.InputToTableAdapter;
 import cz.cuni.mff.xrg.odalic.tasks.Task;
 import cz.cuni.mff.xrg.odalic.tasks.TaskService;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;

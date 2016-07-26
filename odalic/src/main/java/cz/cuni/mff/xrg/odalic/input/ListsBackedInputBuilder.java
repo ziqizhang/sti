@@ -1,4 +1,4 @@
-package cz.cuni.mff.xrg.odalic.feedbacks.input;
+package cz.cuni.mff.xrg.odalic.input;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public final class ListsBackedInputBuilder implements InputBuilder {
   }
   
   /* (non-Javadoc)
-   * @see cz.cuni.mff.xrg.odalic.feedbacks.input.InputBuilder#insertCell(java.lang.String, int, int)
+   * @see cz.cuni.mff.xrg.odalic.input.InputBuilder#insertCell(java.lang.String, int, int)
    */
   @Override
   public void insertCell(String value, int rowIndex, int columnIndex) {
@@ -39,7 +39,7 @@ public final class ListsBackedInputBuilder implements InputBuilder {
   }
 
   /* (non-Javadoc)
-   * @see cz.cuni.mff.xrg.odalic.feedbacks.input.InputBuilder#insertHeader(java.lang.String, int)
+   * @see cz.cuni.mff.xrg.odalic.input.InputBuilder#insertHeader(java.lang.String, int)
    */
   @Override
   public void insertHeader(String value, int position) {
@@ -47,7 +47,7 @@ public final class ListsBackedInputBuilder implements InputBuilder {
   }
 
   /* (non-Javadoc)
-   * @see cz.cuni.mff.xrg.odalic.feedbacks.input.InputBuilder#insertToList(java.util.List, java.lang.String, int)
+   * @see cz.cuni.mff.xrg.odalic.input.InputBuilder#insertToList(java.util.List, java.lang.String, int)
    */
   @Override
   public void insertToList(List<String> list, String value, int position){
@@ -59,7 +59,7 @@ public final class ListsBackedInputBuilder implements InputBuilder {
   }
   
   /* (non-Javadoc)
-   * @see cz.cuni.mff.xrg.odalic.feedbacks.input.InputBuilder#build()
+   * @see cz.cuni.mff.xrg.odalic.input.InputBuilder#build()
    */
   @Override
   public Input build() {
@@ -67,7 +67,7 @@ public final class ListsBackedInputBuilder implements InputBuilder {
   }
 
   /* (non-Javadoc)
-   * @see cz.cuni.mff.xrg.odalic.feedbacks.input.InputBuilder#clear()
+   * @see cz.cuni.mff.xrg.odalic.input.InputBuilder#clear()
    */
   @Override
   public void clear() {

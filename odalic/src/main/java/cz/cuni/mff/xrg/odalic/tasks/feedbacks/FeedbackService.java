@@ -3,7 +3,7 @@ package cz.cuni.mff.xrg.odalic.tasks.feedbacks;
 import java.io.IOException;
 
 import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
-import cz.cuni.mff.xrg.odalic.feedbacks.input.Input;
+import cz.cuni.mff.xrg.odalic.input.Input;
 
 /**
  * Feedback service handles the CRUD operations for {@link Feedback} instances.
