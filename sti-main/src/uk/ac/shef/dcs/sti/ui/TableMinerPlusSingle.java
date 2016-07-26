@@ -1,6 +1,5 @@
 package uk.ac.shef.dcs.sti.ui;
 
-import org.apache.commons.mail.EmailException;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.Table;
@@ -16,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by - on 15/07/2016.
+ *
  */
 public class TableMinerPlusSingle extends TableMinerPlusBatch {
 
