@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="!?*.java" />
+      <entry name="!?*.form" />
+      <entry name="!?*.class" />
+      <entry name="!?*.groovy" />
+      <entry name="!?*.scala" />
+      <entry name="!?*.flex" />
+      <entry name="!?*.kt" />
+      <entry name="!?*.clj" />
+      <entry name="!?*.aj" />
+    </wildcardResourcePatterns>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="any23-sti" />
+        <module name="common-util" />
+        <module name="kbsearch" />
+        <module name="main" />
+        <module name="websearch" />
+      </profile>
+      <profile default="false" name="Annotation profile for sti-websearch" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="sti-websearch" />
+      </profile>
+      <profile default="false" name="Annotation profile for sti-common-util" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="sti-common-util" />
+      </profile>
+      <profile default="false" name="Annotation profile for sti-kbsearch" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="sti-kbsearch" />
+      </profile>
+      <profile default="false" name="Annotation profile for sti-any23" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="sti-any23" />
+      </profile>
+      <profile default="false" name="Annotation profile for sti-main" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="sti-main" />
+      </profile>
+      <profile default="false" name="Annotation profile for sti" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="sti" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="any23-sti" target="1.5" />
+      <module name="common-util" target="1.5" />
+      <module name="kbsearch" target="1.5" />
+      <module name="main" target="1.5" />
+      <module name="sti" target="1.8" />
+      <module name="sti-any23" target="1.8" />
+      <module name="sti-common-util" target="1.8" />
+      <module name="sti-kbsearch" target="1.8" />
+      <module name="sti-main" target="1.8" />
+      <module name="sti-websearch" target="1.8" />
+      <module name="websearch" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,1278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="24819d1c-2e34-4f63-a248-bb1827391b52" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__asm_asm_3_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__cc_mallet_mallet_2_0_7_RC2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__colt_colt_1_2_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_beust_jcommander_1_23.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_carrotsearch_hppc_0_7_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_drewnoakes_metadata_extractor_2_4_0_beta_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_3_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_5_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_3_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_smile_2_5_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_andrewoma_dexx_dexx_collections_0_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_jsonld_java_jsonld_java_0_7_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_mpkorstanje_simmetrics_4_1_0L.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_api_client_google_api_client_1_17_0_rc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_findbugs_jsr305_1_3_9.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_5.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_14_0_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_http_client_google_http_client_1_17_0_rc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_oauth_client_google_oauth_client_1_17_0_rc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_protobuf_protobuf_java_2_5_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_googlecode_concurrentlinkedhashmap_concurrentlinkedhashmap_lru_1_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_googlecode_json_simple_json_simple_1_1_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_googlecode_matrix_toolkits_java_mtj_0_9_14.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_googlecode_netlib_java_netlib_java_0_9_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_spatial4j_spatial4j_0_5.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_mail_javax_mail_1_5_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_tdunning_t_digest_3_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_cli_commons_cli_1_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_10.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_9.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_collections_commons_collections_3_2_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_configuration_commons_configuration_1_6.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_fileupload_commons_fileupload_1_2_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_httpclient_commons_httpclient_3_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_6.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_0_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__concurrent_concurrent_1_3_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_concurrent_2_7_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_io_2_10_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_iteration_2_10_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_lang_2_9_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_net_2_7_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_text_2_7_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_xml_2_7_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_bliki_wiki_bliki_core_3_0_19.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_activation_activation_1_1_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_json_javax_json_api_1_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_javax_servlet_api_3_1_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_servlet_api_2_5.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jgrapht_jgrapht_0_6_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__joda_time_joda_time_2_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_10.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_8_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__log4j_log4j_1_2_14.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__log4j_log4j_1_2_17.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_jwordnet_jwnl_1_4_rc3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_trove4j_trove4j_2_0_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_cssparser_cssparser_0_9_19.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_f2j_arpack_combined_all_0_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_htmlunit_htmlunit_2_22.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_htmlunit_htmlunit_core_js_2_22.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_htmlunit_neko_htmlunit_2_21.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_nekohtml_nekohtml_1_9_14.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_antlr_antlr4_runtime_4_5_1_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_any23_apache_any23_core_0_7_0_incubating.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_compress_1_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_compress_1_4_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_csv_1_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_csv_1_0_SNAPSHOT_rev1148315.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_email_1_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_exec_1_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_geronimo_specs_geronimo_stax_api_1_0_spec_1_0_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_hadoop_hadoop_annotations_2_6_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_hadoop_hadoop_auth_2_6_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_hadoop_hadoop_common_2_6_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_hadoop_hadoop_hdfs_2_6_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_2_6.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_4_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_cache_4_2_6.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpmime_4_4_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_jena_jena_arq_3_0_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_jena_jena_base_3_0_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_jena_jena_core_3_0_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_jena_jena_iri_3_0_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_jena_jena_shaded_guava_3_0_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_analyzers_common_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_analyzers_kuromoji_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_analyzers_phonetic_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_backward_codecs_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_codecs_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_core_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_expressions_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_grouping_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_highlighter_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_join_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_memory_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_misc_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_queries_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_queryparser_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_sandbox_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_spatial_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_suggest_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_opennlp_opennlp_tools_1_6_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_pdfbox_fontbox_0_8_0_incubator.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_pdfbox_jempbox_0_8_0_incubator.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_pdfbox_pdfbox_0_8_0_incubating.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_3_6.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_3_6.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_schemas_3_6.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_scratchpad_3_6.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_solr_solr_core_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_solr_solr_solrj_5_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_thrift_libthrift_0_9_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tika_tika_core_0_6.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tika_tika_parsers_0_6.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_xmlbeans_xmlbeans_2_3_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_zookeeper_zookeeper_3_4_6.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_beanshell_bsh_2_0b4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ccil_cowan_tagsoup_tagsoup_1_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_woodstox_stax2_api_3_1_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_woodstox_woodstox_core_asl_4_4_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_continuation_9_2_13_v20150730.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_deploy_9_2_13_v20150730.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_http_9_2_13_v20150730.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_io_9_2_13_v20150730.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_jmx_9_2_13_v20150730.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_rewrite_9_2_13_v20150730.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_security_9_2_13_v20150730.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_server_9_2_13_v20150730.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_servlet_9_2_13_v20150730.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_servlets_9_2_13_v20150730.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_util_9_2_13_v20150730.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_webapp_9_2_13_v20150730.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_xml_9_2_13_v20150730.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_websocket_websocket_api_9_2_17_v20160517.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_websocket_websocket_client_9_2_17_v20160517.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_websocket_websocket_common_9_2_17_v20160517.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_glassfish_javax_json_1_0_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_htrace_htrace_core_3_0_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jdom_jdom_1_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jooq_joox_1_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_json_json_20160212.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jsoup_jsoup_1_6_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_noggit_noggit_0_6.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_http_client_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_http_protocol_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_model_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_query_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryalgebra_evaluation_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryalgebra_model_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryparser_api_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryparser_serql_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryresultio_api_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryresultio_sparqlxml_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_repository_api_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_repository_sail_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_repository_sparql_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_api_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_ntriples_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_rdfxml_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_trix_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_turtle_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_sail_api_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_sail_inferencer_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_sail_memory_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_util_2_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_5_0_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_commons_5_0_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_restlet_jee_org_restlet_2_3_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_restlet_jee_org_restlet_ext_servlet_2_3_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jcl_over_slf4j_1_7_12.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jcl_over_slf4j_1_7_7.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_12.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_7.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_log4j12_1_7_12.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_tukaani_xz_1_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_w3c_css_sac_1_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xalan_serializer_2_7_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xalan_xalan_2_7_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xerces_xercesImpl_2_11_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xerces_xercesImpl_2_9_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_3_04.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_4_01.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sti-any23/pom.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sti-websearch/pom.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/any23-sti/pom.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/currency.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/elevate.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/contractions_ca.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/contractions_fr.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/contractions_ga.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/contractions_it.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/hyphenations_ga.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stemdict_nl.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stoptags_ja.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_ar.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_bg.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_ca.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_cz.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_da.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_de.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_el.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_en.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_es.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_eu.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_fa.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_fi.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_fr.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_ga.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_gl.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_hi.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_hu.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_hy.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_id.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_it.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_ja.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_lv.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_nl.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_no.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_pt.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_ro.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_ru.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_sv.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_th.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/stopwords_tr.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/lang/userdict_ja.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/params.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/protwords.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/schema.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/solrconfig.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/stopwords.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/conf/synonyms.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/class/core.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/currency.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/elevate.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/contractions_ca.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/contractions_fr.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/contractions_ga.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/contractions_it.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/hyphenations_ga.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stemdict_nl.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stoptags_ja.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_ar.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_bg.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_ca.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_cz.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_da.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_de.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_el.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_en.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_es.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_eu.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_fa.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_fi.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_fr.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_ga.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_gl.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_hi.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_hu.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_hy.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_id.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_it.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_ja.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_lv.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_nl.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_no.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_pt.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_ro.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_ru.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_sv.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_th.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/stopwords_tr.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/lang/userdict_ja.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/params.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/protwords.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/schema.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/solrconfig.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/stopwords.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/conf/synonyms.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/entity/core.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/currency.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/elevate.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/contractions_ca.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/contractions_fr.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/contractions_ga.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/contractions_it.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/hyphenations_ga.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stemdict_nl.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stoptags_ja.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_ar.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_bg.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_ca.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_cz.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_da.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_de.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_el.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_en.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_es.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_eu.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_fa.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_fi.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_fr.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_ga.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_gl.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_hi.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_hu.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_hy.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_id.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_it.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_ja.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_lv.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_nl.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_no.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_pt.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_ro.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_ru.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_sv.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_th.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/stopwords_tr.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/lang/userdict_ja.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/params.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/protwords.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/schema.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/solrconfig.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/stopwords.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/conf/synonyms.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/relation/core.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/currency.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/elevate.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/contractions_ca.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/contractions_fr.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/contractions_ga.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/contractions_it.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/hyphenations_ga.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stemdict_nl.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stoptags_ja.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_ar.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_bg.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_ca.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_cz.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_da.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_de.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_el.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_en.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_es.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_eu.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_fa.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_fi.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_fr.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_ga.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_gl.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_hi.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_hu.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_hy.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_id.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_it.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_ja.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_lv.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_nl.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_no.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_pt.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_ro.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_ru.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_sv.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_th.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/stopwords_tr.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/lang/userdict_ja.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/params.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/protwords.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/schema.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/solrconfig.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/stopwords.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/conf/synonyms.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/core.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/similarity/data/index/write.lock" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/solr.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/currency.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/elevate.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/contractions_ca.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/contractions_fr.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/contractions_ga.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/contractions_it.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/hyphenations_ga.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stemdict_nl.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stoptags_ja.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_ar.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_bg.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_ca.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_cz.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_da.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_de.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_el.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_en.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_es.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_eu.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_fa.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_fi.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_fr.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_ga.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_gl.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_hi.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_hu.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_hy.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_id.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_it.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_ja.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_lv.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_nl.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_no.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_pt.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_ro.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_ru.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_sv.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_th.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/stopwords_tr.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/lang/userdict_ja.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/params.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/protwords.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/schema.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/solrconfig.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/stopwords.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/conf/synonyms.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/empty/websearch/core.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache/readme.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache_dbpedia_oak.zip" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cache_freebase.zip" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/log4j.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/pom.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/log4j.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/STIConstantProperty.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/STIEnum.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/STIException.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/any23/Any23Xtractor.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/SemanticTableInterpreter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineInterpreter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineRelationScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineSimilarityClazzScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineSimilarityEntityScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorNameMatch.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorSimilarity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifier.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierNameMatch.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierSimilarity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateConceptGenerator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateEntityGenerator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateRelationGenerator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/DebuggingUtil.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/JIAdaptedAttributeMatcher.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/JIAdaptedEntityScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/JIClazzScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/JIInterpreter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/TAnnotationJI.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/VariableType.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/factorgraph/FactorBuilder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/factorgraph/FactorBuilderCell.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/factorgraph/FactorBuilderCellAndRelation.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/factorgraph/FactorBuilderHeader.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/factorgraph/FactorBuilderHeaderAndCell.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/factorgraph/FactorBuilderHeaderAndRelation.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/factorgraph/FactorGraphBuilder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/EntityAndClazzSimilarityScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerManager.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerThread.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/CellAnnotationUpdater.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/ChangeMessage.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/ChangeMessageComputer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/ChangeMessageFromRelation.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/ClazzSpecificityCalculator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/FreebaseClazzSpecificityCalculator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/SMPAdaptedEntityScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/SMPInterpreter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/SemanticMessagePassing.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/TAnnotationSMPFreebase.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/TAnnotationWriterSMP.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/TCellEntityRanker.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnClassifier.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnColumnRelationEnumerator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNING.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryColumnClassifier.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryDisamb.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/LiteralColumnTagger.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/LiteralColumnTaggerImpl.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/RELATIONENUMERATION.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/TCellDisambiguator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnClassifier.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnColumnRelationEnumerator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/TMPInterpreter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/UPDATE.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/OSPD_combined.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/OSPD_contextWords.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/OSPD_nameLength.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/OSPD_namelength_merge.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/OSPD_nonEmpty.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/OSPD_random.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/Random.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/TContentCellRanker.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/TContentRowRanker.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/TContentTContentRowRankerImpl.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/scorer/TMPClazzScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/scorer/TMPEntityScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/scorer/TMPRelationScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/stopping/FixedNumberOfRows.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/stopping/IInf.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/stopping/NoStop.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/stopping/StoppingCriteria.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/stopping/StoppingCriteriaInstantiator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/feature/FreebaseConceptBoWCreator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/feature/FreebaseRelationBoWCreator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/feature/OntologyBasedBoWCreator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/model/List.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/model/ListItem.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/model/RelationColumns.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/model/TAnnotation.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/model/TCell.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/model/TCellAnnotation.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/model/TCellCellRelationAnotation.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/model/TColumnColumnRelationAnnotation.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/model/TColumnHeader.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/model/TColumnHeaderAnnotation.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/model/TContext.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/model/Table.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/model/TableTriple.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/scorer/AttributeValueMatcher.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/scorer/ClazzScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/scorer/EntityScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/scorer/RelationScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/CMScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnDetector.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorerHeuristic.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/TColumnDataType.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/TColumnFeature.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/TColumnFeatureGenerator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/WSScorer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/experiment/BaselineBatch.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/experiment/JointInferenceBatch.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/experiment/STIBatch.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/experiment/SemanticMessagePassingBatch.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/experiment/TableMinerPlusBatch.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/io/JSONOutputCellAnnotation.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/io/JSONOutputColumnAnnotation.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/io/JSONOutputRelationAnnotation.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/io/JSONOutputRelationAnnotationPerRow.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/io/TAnnotationWriter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/io/TAnnotationWriterJSON.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/nlp/Lemmatizer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/nlp/NLPTools.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/nlp/TermFreqCounter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/ContentValidator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/list/ListXtractor.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/list/ListXtractorHTML.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/list/ListXtractorWikipedia.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/list/splitter/ListItemSplitter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/list/splitter/ListItemSplitterByURL.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/list/validator/ListVaildatorLanient.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/list/validator/ListValidator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/list/validator/ListValidatorStrict.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/Browsable.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/BrowsableHelper.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParser.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParserHTML.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParserIMDB.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParserLimayeDataset.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParserMusicBrainz.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParserReverbnation.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParserRottenTomato.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParserWikipedia.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/context/TableContextExtractor.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/context/TableContextExtractorGeneric.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/context/TableContextExtractorIMDB.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/context/TableContextExtractorMusicBrainz.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/creator/TableObjCreator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/creator/TableObjCreatorGoodreads.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/creator/TableObjCreatorHTML.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/creator/TableObjCreatorIMDB.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/creator/TableObjCreatorMusicBrainz.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/creator/TableObjCreatorReverbnationList.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/creator/TableObjCreatorWikipedia.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/hodetector/TableHODetector.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/hodetector/TableHODetectorByHTMLTag.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/normalizer/TableNormalizer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/normalizer/TableNormalizerDiscardIrregularRows.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/normalizer/TableNormalizerListTransformer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/normalizer/TableNormalizerSimple.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/validator/TableValidator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/validator/TableValidatorForWikipediaGSLanient.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/validator/TableValidatorForWikipediaGSStrict.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/parser/table/validator/TableValidatorGeneric.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/FreebaseTypeGranularityPopulator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/TAnnotationKeyFileReader.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/TestGRMM.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/TestSubjectColumnDetector.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/DataStats.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/DataStats_TableSize_NameLength_Analysis_LimayeNew.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/DataStats_TableSize_NameLength_Analysis_MB_IMDB.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/DataStats_TableSize_NameLength_Anaylsis_LimayeOld.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/Evaluator_AllInOne_IMDB.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/Evaluator_AllInOne_Limaye.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/Evaluator_AllInOne_MB.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/Evaluator_ClassOnly.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/Evaluator_ClassOnly_IMDB_MusicBrainz.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/Evaluator_EntityOnly.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/Evaluator_Generic_Classification_ignoreUpdateIterations.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/Evaluator_ISWC_Helper_ClassOnly.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/Evaluator_Limaye_Entity_Only.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/Evaluator_RelationOnly.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/Evaluator_RelationOnly_IMDB_MusicBrainz.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/KeyFileGenerator_from_HTMLOutput.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/LimayeDataset_Entity_Discrepancy_Analysis_Generic.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/evaluation/LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/gs/GSBuilder_IMDB.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/gs/GSBuilder_Limaye.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/gs/GSBuilder_Limaye_Wikitables.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/gs/GSBuilder_Limaye_Wikitables_consolidate.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/gs/GSBuilder_Limaye_Wikitables_with_Ref.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/gs/GSBuilder_MusicBrainz.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/gs/GSFile_Rewriter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/gs/GS_Class_Relation_Consolidation_Helper.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/gs/GS_Stats_Limaye.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/gs/WikipediaTL_GSCreator_Pass1.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/gs/WikipediaTL_GSCreator_Pass2.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/todo/gs/WikipediaTableListPageFilter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/ui/EmailHandler.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/ui/InputFilePreview.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/ui/TableMinerPlusSingle.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/util/CollectionUtils.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/util/DataTypeClassifier.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/util/FileUtils.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/util/SubsetGenerator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/util/TripleGenerator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/src/main/java/uk/ac/shef/dcs/sti/util/XPathUtils.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/kbsearch.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sti.imdb.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/sti.musicbrainz.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sti.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/websearch.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/websearch/pom.xml" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/any23-sti/src/org/apache/any23/extractor/LExtractionResultImpl.java" afterPath="$PROJECT_DIR$/sti-any23/src/org/apache/any23/extractor/LExtractionResultImpl.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/any23-sti/src/uk/ac/shef/oak/any23/extension/extractor/LAny23.java" afterPath="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LAny23.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/any23-sti/src/uk/ac/shef/oak/any23/extension/extractor/LAny23Util.java" afterPath="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LAny23Util.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/any23-sti/src/uk/ac/shef/oak/any23/extension/extractor/LExtractorRegistry.java" afterPath="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LExtractorRegistry.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/any23-sti/src/uk/ac/shef/oak/any23/extension/extractor/LMicrodataExtractor.java" afterPath="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LMicrodataExtractor.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/any23-sti/src/uk/ac/shef/oak/any23/extension/extractor/LMicrodataParser.java" afterPath="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LMicrodataParser.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/any23-sti/src/uk/ac/shef/oak/any23/extension/extractor/LNTripleWriter.java" afterPath="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LNTripleWriter.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/any23-sti/src/uk/ac/shef/oak/any23/extension/extractor/LRDFa11Extractor.java" afterPath="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LRDFa11Extractor.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/any23-sti/src/uk/ac/shef/oak/any23/extension/extractor/LRDFa11Parser.java" afterPath="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LRDFa11Parser.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/any23-sti/src/uk/ac/shef/oak/any23/extension/extractor/LSingleDocumentExtraction.java" afterPath="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LSingleDocumentExtraction.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/any23-sti/src/uk/ac/shef/oak/any23/extension/extractor/LTriple.java" afterPath="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LTriple.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/common-util/pom.xml" afterPath="$PROJECT_DIR$/sti-common-util/pom.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/common-util/src/main/java/uk/ac/shef/dcs/util/SerializationUtils.java" afterPath="$PROJECT_DIR$/sti-common-util/src/main/java/uk/ac/shef/dcs/util/SerializationUtils.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/common-util/src/main/java/uk/ac/shef/dcs/util/SolrCache.java" afterPath="$PROJECT_DIR$/sti-common-util/src/main/java/uk/ac/shef/dcs/util/SolrCache.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/common-util/src/main/java/uk/ac/shef/dcs/util/StringUtils.java" afterPath="$PROJECT_DIR$/sti-common-util/src/main/java/uk/ac/shef/dcs/util/StringUtils.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/pom.xml" afterPath="$PROJECT_DIR$/sti-kbsearch/pom.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/KBSearch.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/KBSearch.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/KBSearchException.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/KBSearchException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/KBSearchFactory.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/KBSearchFactory.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/KBSearchResultFilter.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/KBSearchResultFilter.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/freebase/FreebaseAttribute.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/freebase/FreebaseAttribute.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/freebase/FreebaseEnum.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/freebase/FreebaseEnum.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/freebase/FreebaseQueryInterrupter.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/freebase/FreebaseQueryInterrupter.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/freebase/FreebaseQueryProxy.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/freebase/FreebaseQueryProxy.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/freebase/FreebaseSearch.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/freebase/FreebaseSearch.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/freebase/FreebaseSearchResultFilter.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/freebase/FreebaseSearchResultFilter.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/freebase/FreebaseTopic.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/freebase/FreebaseTopic.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/model/Attribute.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/model/Attribute.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/model/Clazz.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/model/Clazz.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/model/Entity.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/model/Entity.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/model/Resource.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/model/Resource.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DBpediaAttribute.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DBpediaAttribute.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DBpediaEnum.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DBpediaEnum.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DBpediaSearch.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DBpediaSearch.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DBpediaSearchResultFilter.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DBpediaSearchResultFilter.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DCEnum.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DCEnum.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/FOAFEnum.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/FOAFEnum.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/RDFEnum.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/RDFEnum.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/SPARQLSearch.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/SPARQLSearch.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/websearch/src/uk/ac/shef/dcs/websearch/SearchResultParser.java" afterPath="$PROJECT_DIR$/sti-websearch/src/uk/ac/shef/dcs/websearch/SearchResultParser.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/websearch/src/uk/ac/shef/dcs/websearch/WebSearch.java" afterPath="$PROJECT_DIR$/sti-websearch/src/uk/ac/shef/dcs/websearch/WebSearch.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/websearch/src/uk/ac/shef/dcs/websearch/WebSearchException.java" afterPath="$PROJECT_DIR$/sti-websearch/src/uk/ac/shef/dcs/websearch/WebSearchException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/websearch/src/uk/ac/shef/dcs/websearch/WebSearchFactory.java" afterPath="$PROJECT_DIR$/sti-websearch/src/uk/ac/shef/dcs/websearch/WebSearchFactory.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/websearch/src/uk/ac/shef/dcs/websearch/WebSearchResultDoc.java" afterPath="$PROJECT_DIR$/sti-websearch/src/uk/ac/shef/dcs/websearch/WebSearchResultDoc.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/websearch/src/uk/ac/shef/dcs/websearch/bing/v2/APIKeysDepletedException.java" afterPath="$PROJECT_DIR$/sti-websearch/src/uk/ac/shef/dcs/websearch/bing/v2/APIKeysDepletedException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/websearch/src/uk/ac/shef/dcs/websearch/bing/v2/BingSearch.java" afterPath="$PROJECT_DIR$/sti-websearch/src/uk/ac/shef/dcs/websearch/bing/v2/BingSearch.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/websearch/src/uk/ac/shef/dcs/websearch/bing/v2/BingSearchResultParser.java" afterPath="$PROJECT_DIR$/sti-websearch/src/uk/ac/shef/dcs/websearch/bing/v2/BingSearchResultParser.java" />
+    </list>
+    <ignored path="sti.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path="$PROJECT_DIR$/kbsearch/target/" />
+    <ignored path="$PROJECT_DIR$/any23-sti/target/" />
+    <ignored path="$PROJECT_DIR$/common-util/target/" />
+    <ignored path="$PROJECT_DIR$/main/target/" />
+    <ignored path="$PROJECT_DIR$/websearch/target/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="$PROJECT_DIR$/sti-main/target/" />
+    <ignored path="$PROJECT_DIR$/sti-kbsearch/target/" />
+    <ignored path="$PROJECT_DIR$/sti-websearch/target/" />
+    <ignored path="$PROJECT_DIR$/sti-common-util/target/" />
+    <ignored path="$PROJECT_DIR$/sti-any23/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="sti" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-4.946352">
+              <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/common-util/pom.xml" />
+        <option value="$PROJECT_DIR$/any23-sti/pom.xml" />
+        <option value="$PROJECT_DIR$/websearch/pom.xml" />
+        <option value="$PROJECT_DIR$/kbsearch/pom.xml" />
+        <option value="$PROJECT_DIR$/main/pom.xml" />
+        <option value="$PROJECT_DIR$/sti-common-util/src/main/java/uk/ac/shef/dcs/util/StringUtils.java" />
+        <option value="$PROJECT_DIR$/sti-any23/pom.xml" />
+        <option value="$PROJECT_DIR$/sti-common-util/pom.xml" />
+        <option value="$PROJECT_DIR$/sti-kbsearch/pom.xml" />
+        <option value="$PROJECT_DIR$/sti-main/pom.xml" />
+        <option value="$PROJECT_DIR$/sti-websearch/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Bundled (Maven 3)" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="sti" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="sti" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Lifecycle" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$LifecycleNode" />
+        </PATH_ELEMENT>
+      </PATH>
+    </treeState>
+  </component>
+  <component name="NamedScopeManager">
+    <order />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1564" />
+    <option name="y" value="88" />
+    <option name="width" value="1440" />
+    <option name="height" value="869" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti-websearch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti-main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti-kbsearch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti-common-util" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti-any23" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="configurable.group.language" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/pom.xml" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="JarApplication" factoryName="JAR Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="24819d1c-2e34-4f63-a248-bb1827391b52" name="Default" comment="" />
+      <created>1469545899779</created>
+      <option name="number" value="Default" />
+      <updated>1469545899779</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1564" y="88" width="1440" height="869" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32947233" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21316166" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.083690986" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/sti-websearch/src/uk/ac/shef/dcs/websearch/bing/v2/BingSearchResultParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="56" selection-start-line="20" selection-start-column="56" selection-end-line="20" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-common-util/src/main/java/uk/ac/shef/dcs/util/StringUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.1034483">
+          <caret line="32" column="40" selection-start-line="32" selection-start-column="40" selection-end-line="32" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4695#4696#0" expanded="true" />
+            <element signature="e#4759#4760#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/model/Resource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="34" selection-start-line="36" selection-start-column="34" selection-end-line="36" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1604#1605#0" expanded="false" />
+            <element signature="e#1648#1649#0" expanded="false" />
+            <element signature="e#1677#1678#0" expanded="false" />
+            <element signature="e#1702#1703#0" expanded="false" />
+            <element signature="e#1738#1739#0" expanded="false" />
+            <element signature="e#1766#1767#0" expanded="false" />
+            <element signature="e#1798#1799#0" expanded="false" />
+            <element signature="e#1826#1827#0" expanded="false" />
+            <element signature="e#1868#1869#0" expanded="false" />
+            <element signature="e#1902#1903#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-any23/src/org/apache/any23/extractor/LExtractionResultImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="193" column="42" selection-start-line="193" selection-start-column="42" selection-end-line="193" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#806#824#0" expanded="false" />
+            <element signature="e#888#896#0" expanded="false" />
+            <element signature="e#2127#2128#0" expanded="false" />
+            <element signature="e#2167#2168#0" expanded="false" />
+            <element signature="e#2202#2203#0" expanded="false" />
+            <element signature="e#2238#2239#0" expanded="false" />
+            <element signature="e#2739#2746#0" expanded="false" />
+            <element signature="e#3363#3364#0" expanded="false" />
+            <element signature="e#3393#3394#0" expanded="false" />
+            <element signature="e#4175#4176#0" expanded="false" />
+            <element signature="e#4217#4218#0" expanded="false" />
+            <element signature="e#6496#6510#0" expanded="false" />
+            <element signature="e#7410#7424#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/DebuggingUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3326572">
+          <caret line="67" column="55" selection-start-line="67" selection-start-column="55" selection-end-line="67" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#499#507#0" expanded="false" />
+            <element signature="e#1820#1828#0" expanded="false" />
+            <element signature="e#2009#2017#0" expanded="false" />
+            <element signature="e#2088#2096#0" expanded="false" />
+            <element signature="e#3677#3701#0" expanded="false" />
+            <element signature="e#5556#5565#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-any23/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="31" column="46" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-common-util/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="56" column="46" selection-start-line="56" selection-start-column="46" selection-end-line="56" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-kbsearch/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="100" column="46" selection-start-line="100" selection-start-column="46" selection-end-line="100" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.9259257">
+          <caret line="214" column="46" selection-start-line="214" selection-start-column="46" selection-end-line="214" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-websearch/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="44" selection-start-line="32" selection-start-column="44" selection-end-line="32" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.946352">
+          <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

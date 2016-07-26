@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/sti.iml" filepath="$PROJECT_DIR$/sti.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sti-any23/sti-any23.iml" filepath="$PROJECT_DIR$/sti-any23/sti-any23.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sti-common-util/sti-common-util.iml" filepath="$PROJECT_DIR$/sti-common-util/sti-common-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sti-kbsearch/sti-kbsearch.iml" filepath="$PROJECT_DIR$/sti-kbsearch/sti-kbsearch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sti-main/sti-main.iml" filepath="$PROJECT_DIR$/sti-main/sti-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sti-websearch/sti-websearch.iml" filepath="$PROJECT_DIR$/sti-websearch/sti-websearch.iml" />
+    </modules>
+  </component>
+</project>
