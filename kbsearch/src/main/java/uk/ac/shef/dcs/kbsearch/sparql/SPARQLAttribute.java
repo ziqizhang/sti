@@ -8,9 +8,9 @@ import uk.ac.shef.dcs.kbsearch.model.Attribute;
  * TODO no need for this class, alias predicates, description predicates can be stored in config.
  *
  */
-public class DBpediaAttribute extends Attribute {
+public class SPARQLAttribute extends Attribute {
 
-    public DBpediaAttribute(String relationURI, String value) {
+    public SPARQLAttribute(String relationURI, String value) {
         super(relationURI, value);
     }
 

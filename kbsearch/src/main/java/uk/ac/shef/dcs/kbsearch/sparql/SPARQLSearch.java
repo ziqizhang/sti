@@ -63,14 +63,6 @@ public abstract class SPARQLSearch extends KBSearch {
         this.sparqlEndpoint=sparqlEndpoint;
     }
 
-    protected String createRegexQuery(String content){
-        //the query is using word boundary. Is it supported on all SPARQL endpoints?
-        String query = "SELECT DISTINCT ?s ?o WHERE {"+
-            "?s <"+RDFEnum.RELATION_HASLABEL.getString()+"> ?o ."+
-            "FILTER ( regex (str(?o), \"\\b"+content+"\\b\", \"i\") ) }";
-        return query;
-    }
-
     protected String createRegexQuery(String content, String... types){
         StringBuilder query = new StringBuilder("SELECT DISTINCT ?s ?o WHERE {").append(
                 "?s <").append(RDFEnum.RELATION_HASLABEL.getString()).append("> ?o .").append("\n");
@@ -101,7 +93,7 @@ public abstract class SPARQLSearch extends KBSearch {
 
         return query;
     }
-
+    
     protected String createGetLabelQuery(String content){
         content=content.replaceAll("\\s+","");
         String query = "SELECT DISTINCT ?o WHERE {<"+
@@ -159,201 +151,136 @@ public abstract class SPARQLSearch extends KBSearch {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<Entity> findEntityCandidates(String content) throws KBSearchException {
-        String query = createSolrCacheQuery_findResources(content);
-    
-        content = StringEscapeUtils.unescapeXml(content);
-        int bracket = content.indexOf("(");
-        if (bracket != -1) {
-            content = content.substring(0, bracket).trim();
-        }
-        if (StringUtils.toAlphaNumericWhitechar(content).trim().length() == 0)
-            return new ArrayList<>();
-    
-    
-        List<Entity> result = null;
-        if (!ALWAYS_CALL_REMOTE_SEARCHAPI) {
-            try {
-                result = (List<Entity>) cacheEntity.retrieve(query);
-                if (result != null)
-                    log.debug("QUERY (entities, cache load)=" + query + "|" + query);
-            } catch (Exception e) {
-                log.error(e.getLocalizedMessage(),e);
-            }
-        }
-        if (result == null) {
-            result = new ArrayList<>();
-            try {
-                //1. try exact string
-                String sparqlQuery = createExactMatchQueries(content);
-                List<Pair<String, String>> queryResult = queryByLabel(sparqlQuery, content);
-    
-                //2. if result is empty, try regex
-                if (queryResult.size() == 0 && fuzzyKeywords) {
-                    log.debug("(query by regex. This can take a long time)");
-                    sparqlQuery = createRegexQuery(content);
-                    queryResult = queryByLabel(sparqlQuery, content);
-                }
-                //3. rank result by the degree of matches
-                rank(queryResult, content);
-    
-                //get attributes for each resource
-                log.debug("(QUERY =" + queryResult.size() + " results)");
-                for (Pair<String, String> candidate : queryResult) {
-                    String label = candidate.getValue();
-                    if (label == null)
-                        label = content;
-                    Entity ec = new Entity(candidate.getKey(), label);
-                    List<Attribute> attributes = findAttributesOfEntities(ec);
-                    ec.setAttributes(attributes);
-                    for (Attribute attr : attributes) {
-                        adjustValueOfURLResource(attr);
-                        if (attr.getRelationURI().endsWith(RDFEnum.RELATION_HASTYPE_SUFFIX_PATTERN.getString()) &&
-                                !ec.hasType(attr.getValueURI())) {
-                            ec.addType(new Clazz(attr.getValueURI(), attr.getValue()));
-                        }
-                    }
-                    result.add(ec);
-                }
-    
-                cacheEntity.cache(query, result, AUTO_COMMIT);
-                log.debug("QUERY (entities, cache save)=" + query + "|" + query);
-            } catch (Exception e) {
-                throw new KBSearchException(e);
-            }
-        }
-    
-        //filter entity's clazz, and attributes
-        String id = "|";
-        for (Entity ec : result) {
-            id = id + ec.getId() + ",";
-            //ec.setTypes(FreebaseSearchResultFilter.filterClazz(ec.getTypes()));
-            List<Clazz> filteredTypes = resultFilter.filterClazz(ec.getTypes());
-            ec.clearTypes();
-            for (Clazz ft : filteredTypes)
-                ec.addType(ft);
-        }
-    
-        return result;
+      return findEntityCandidatesOfTypes(content);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<Entity> findEntityCandidatesOfTypes(String content, String... types) throws KBSearchException {
-        String queryCache = createSolrCacheQuery_findResources(content);
-    
-        content = StringEscapeUtils.unescapeXml(content);
-        int bracket = content.indexOf("(");
-        if (bracket != -1) {
-            content = content.substring(0, bracket).trim();
-        }
-        if (StringUtils.toAlphaNumericWhitechar(content).trim().length() == 0)
-            return new ArrayList<>();
-    
-    
-        List<Entity> result = null;
-        if (!ALWAYS_CALL_REMOTE_SEARCHAPI) {
-            try {
-                result = (List<Entity>) cacheEntity.retrieve(queryCache);
-                if (result != null) {
-                    log.debug("QUERY (entities, cache load)=" + queryCache + "|" + queryCache);
-                    if (types.length > 0) {
-                        Iterator<Entity> it = result.iterator();
-                        while (it.hasNext()) {
-                            Entity ec = it.next();
-                            boolean typeSatisfied = false;
-                            for (String t : types) {
-                                if (ec.hasType(t)) {
-                                    typeSatisfied = true;
-                                    break;
-                                }
-                            }
-                            if (!typeSatisfied)
-                                it.remove();
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                log.error(e.getLocalizedMessage(),e);
-            }
-        }
-        if (result == null) {
-            result = new ArrayList<>();
-            try {
-                //1. try exact string
-                String sparqlQuery = createExactMatchWithOptionalTypes(content);
-                List<Pair<String, String>> resourceAndType = queryByLabel(sparqlQuery, content);
-                boolean hasExactMatch = resourceAndType.size() > 0;
-                if (types.length > 0) {
-                    Iterator<Pair<String, String>> it = resourceAndType.iterator();
-                    while (it.hasNext()) {
-                        Pair<String, String> ec = it.next();
-                        boolean typeSatisfied = false;
-                        for (String t : types) {
-                            if (t.equals(ec.getValue())) {
-                                typeSatisfied = true;
-                                break;
-                            }
-                        }
-                        if (!typeSatisfied)
-                            it.remove();
-                    }
-                }//with this query the 'value' of the pair will be the type, now need to reset it to actual value
-                List<Pair<String, String>> queryResult = new ArrayList<>();
-                if (resourceAndType.size() > 0) {
-                    Pair<String, String> matchedResource = resourceAndType.get(0);
-                    queryResult.add(new Pair<>(matchedResource.getKey(), content));
-                }
-    
-                //2. if result is empty, try regex
-                if (!hasExactMatch && fuzzyKeywords) {
-                    log.debug("(query by regex. This can take a long time)");
-                    sparqlQuery = createRegexQuery(content, types);
-                    queryResult = queryByLabel(sparqlQuery, content);
-                }
-                //3. rank result by the degree of matches
-                rank(queryResult, content);
-    
-                //firstly fetch candidate freebase topics. pass 'true' to only keep candidates whose name overlap with the query term
-                log.debug("(DB QUERY =" + queryResult.size() + " results)");
-                for (Pair<String, String> candidate : queryResult) {
-                    //Next get attributes for each topic
-                    String label = candidate.getValue();
-                    if (label == null)
-                        label = content;
-                    Entity ec = new Entity(candidate.getKey(), label);
-                    List<Attribute> attributes = findAttributesOfEntities(ec);
-                    ec.setAttributes(attributes);
-                    for (Attribute attr : attributes) {
-                        adjustValueOfURLResource(attr);
-                        if (attr.getRelationURI().endsWith(RDFEnum.RELATION_HASTYPE_SUFFIX_PATTERN.getString()) &&
-                                !ec.hasType(attr.getValueURI())) {
-                            ec.addType(new Clazz(attr.getValueURI(), attr.getValue()));
-                        }
-                    }
-                    result.add(ec);
-                }
-    
-                cacheEntity.cache(queryCache, result, AUTO_COMMIT);
-                log.debug("QUERY (entities, cache save)=" + queryCache + "|" + queryCache);
-            } catch (Exception e) {
-                throw new KBSearchException(e);
-            }
-        }
-    
-        //filter entity's clazz, and attributes
-        String id = "|";
-        for (Entity ec : result) {
-            id = id + ec.getId() + ",";
-            //ec.setTypes(FreebaseSearchResultFilter.filterClazz(ec.getTypes()));
-            List<Clazz> filteredTypes = resultFilter.filterClazz(ec.getTypes());
-            ec.clearTypes();
-            for (Clazz ft : filteredTypes)
-                ec.addType(ft);
-        }
-    
-        return result;
+      final String sparqlQuery; 
+      if (types.length > 0) {
+        sparqlQuery =  createExactMatchQueries(content);
+      } else {
+        sparqlQuery =  createExactMatchWithOptionalTypes(content);
+      }
+      
+      return queryEntityCandidates(content, sparqlQuery, types);
+    }
+
+    private List<Entity> queryEntityCandidates(String content, String sparqlQuery, String... types)
+        throws KBSearchException {
+      String queryCache = createSolrCacheQuery_findResources(content);
+  
+      content = StringEscapeUtils.unescapeXml(content);
+      int bracket = content.indexOf("(");
+      if (bracket != -1) {
+          content = content.substring(0, bracket).trim();
+      }
+      if (StringUtils.toAlphaNumericWhitechar(content).trim().length() == 0)
+          return new ArrayList<>();
+  
+  
+      List<Entity> result = null;
+      if (!ALWAYS_CALL_REMOTE_SEARCHAPI) {
+          try {
+              result = (List<Entity>) cacheEntity.retrieve(queryCache);
+              if (result != null) {
+                  log.debug("QUERY (entities, cache load)=" + queryCache + "|" + queryCache);
+                  if (types.length > 0) {
+                      Iterator<Entity> it = result.iterator();
+                      while (it.hasNext()) {
+                          Entity ec = it.next();
+                          boolean typeSatisfied = false;
+                          for (String t : types) {
+                              if (ec.hasType(t)) {
+                                  typeSatisfied = true;
+                                  break;
+                              }
+                          }
+                          if (!typeSatisfied)
+                              it.remove();
+                      }
+                  }
+              }
+          } catch (Exception e) {
+              log.error(e.getLocalizedMessage(),e);
+          }
+      }
+      if (result == null) {
+          result = new ArrayList<>();
+          try {
+              //1. try exact string
+              List<Pair<String, String>> resourceAndType = queryByLabel(sparqlQuery, content);
+              boolean hasExactMatch = resourceAndType.size() > 0;
+              if (types.length > 0) {
+                  Iterator<Pair<String, String>> it = resourceAndType.iterator();
+                  while (it.hasNext()) {
+                      Pair<String, String> ec = it.next();
+                      boolean typeSatisfied = false;
+                      for (String t : types) {
+                          if (t.equals(ec.getValue())) {
+                              typeSatisfied = true;
+                              break;
+                          }
+                      }
+                      if (!typeSatisfied)
+                          it.remove();
+                  }
+              }//with this query the 'value' of the pair will be the type, now need to reset it to actual value
+              List<Pair<String, String>> queryResult = new ArrayList<>();
+              if (resourceAndType.size() > 0) {
+                  Pair<String, String> matchedResource = resourceAndType.get(0);
+                  queryResult.add(new Pair<>(matchedResource.getKey(), content));
+              }
+  
+              //2. if result is empty, try regex
+              if (!hasExactMatch && fuzzyKeywords) {
+                  log.debug("(query by regex. This can take a long time)");
+                  sparqlQuery = createRegexQuery(content, types);
+                  queryResult = queryByLabel(sparqlQuery, content);
+              }
+              //3. rank result by the degree of matches
+              rank(queryResult, content);
+  
+              //firstly fetch candidate freebase topics. pass 'true' to only keep candidates whose name overlap with the query term
+              log.debug("(DB QUERY =" + queryResult.size() + " results)");
+              for (Pair<String, String> candidate : queryResult) {
+                  //Next get attributes for each topic
+                  String label = candidate.getValue();
+                  if (label == null)
+                      label = content;
+                  Entity ec = new Entity(candidate.getKey(), label);
+                  List<Attribute> attributes = findAttributesOfEntities(ec);
+                  ec.setAttributes(attributes);
+                  for (Attribute attr : attributes) {
+                      adjustValueOfURLResource(attr);
+                      if (attr.getRelationURI().endsWith(RDFEnum.RELATION_HASTYPE_SUFFIX_PATTERN.getString()) &&
+                              !ec.hasType(attr.getValueURI())) {
+                          ec.addType(new Clazz(attr.getValueURI(), attr.getValue()));
+                      }
+                  }
+                  result.add(ec);
+              }
+  
+              cacheEntity.cache(queryCache, result, AUTO_COMMIT);
+              log.debug("QUERY (entities, cache save)=" + queryCache + "|" + queryCache);
+          } catch (Exception e) {
+              throw new KBSearchException(e);
+          }
+      }
+  
+      //filter entity's clazz, and attributes
+      String id = "|";
+      for (Entity ec : result) {
+          id = id + ec.getId() + ",";
+          //ec.setTypes(FreebaseSearchResultFilter.filterClazz(ec.getTypes()));
+          List<Clazz> filteredTypes = resultFilter.filterClazz(ec.getTypes());
+          ec.clearTypes();
+          for (Clazz ft : filteredTypes)
+              ec.addType(ft);
+      }
+  
+      return result;
     }
 
     private void adjustValueOfURLResource(Attribute attr) throws KBSearchException {
@@ -430,7 +357,7 @@ public abstract class SPARQLSearch extends KBSearch {
                 RDFNode predicate = qs.get("?p");
                 RDFNode object = qs.get("?o");
                 if (object != null) {
-                    Attribute attr = new DBpediaAttribute(predicate.toString(), object.toString());
+                    Attribute attr = new SPARQLAttribute(predicate.toString(), object.toString());
                     result.add(attr);
                 }
             }
