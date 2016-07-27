@@ -11,11 +11,11 @@
   "stiwebpropfile":"../config/websearch.properties",
   "stikbpropfile":"../config/kbsearch.properties",
   "server":"http://localhost:3000/",
-  "emaillogin":"ziqizhang.public@gmail.com",
+  "emaillogin":"",
   "emailpass":"",
   "emailhost":"smtp.googlemail.com",
   "emailport":"465",
-  "emailfrom":"ziqizng.public@gmail.com",
+  "emailfrom":"",
   "tableParsers":{
 	  "uk.ac.shef.dcs.sti.parser.table.TableParserIMDB": "IMDB cast table of movie webpages.",
 	  "uk.ac.shef.dcs.sti.parser.table.TableParserMusicBrainz": "MusicBrainz label table of producers.",
