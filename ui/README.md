@@ -1,4 +1,4 @@
-# STI GUI
+# STI GUI (Still under construction)
 This application provides a UI interface to interact with STI and visualize results. It is implemented based on Node.js.
 
 ### Installation
@@ -11,7 +11,7 @@ This application provides a UI interface to interact with STI and visualize resu
 - Open a browser and point your address to `http://localhost:3000/`
 
 ### Configuration `config.json`
-This file configures the UI application. It links to other files used to configure TableMiner+. The following fields are defined. If you do not need email notification when a task completes, you do not need to change anything upon downloading STI. Otherwise, as minimum, you must change **emaillogin, emailpass, emailhost, emailport, emailfrom** to configure your own email account. 
+This file configures the UI application. It links to other files used to configure TableMiner+. The following fields are defined. If you do not need email notification when a task completes, you do not need to change anything. Otherwise, as minimum, you must change **emaillogin, emailpass, emailhost, emailport, emailfrom** to configure your own email account. 
 
 - **lib**: should point to the jars required to run TableMiner+. By default, this is '../target/*', where your maven build will place a `sti-[version]-jar-with-dependencies.jar`
 - **cache**: should point to the folder containing the Solr index caches. By default this is '../resources/cache'
