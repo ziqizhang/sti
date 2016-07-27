@@ -1,6 +1,9 @@
 package cz.cuni.mff.xrg.odalic.util;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import javax.ws.rs.core.UriInfo;
 
@@ -32,6 +35,11 @@ public final class URL {
    */
   public static java.net.URL getSubResourceAbsolutePath(UriInfo requestUriInfo, String subResource)
       throws MalformedURLException, IllegalStateException {
-    return requestUriInfo.getAbsolutePath().resolve(subResource).toURL();
+    try {
+      return requestUriInfo.getAbsolutePath()
+          .resolve(URLEncoder.encode(subResource, StandardCharsets.UTF_8.displayName())).toURL();
+    } catch (UnsupportedEncodingException e) {
+      throw new AssertionError(e);
+    }
   }
 }
