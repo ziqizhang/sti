@@ -2,214 +2,67 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24819d1c-2e34-4f63-a248-bb1827391b52" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/log4j.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/STIConstantProperty.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/STIEnum.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/STIException.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/FreebaseTypeGranularityPopulator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/TAnnotationKeyFileReader.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/TestGRMM.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/TestSubjectColumnDetector.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/DataStats.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/DataStats_TableSize_NameLength_Analysis_LimayeNew.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/DataStats_TableSize_NameLength_Analysis_MB_IMDB.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/DataStats_TableSize_NameLength_Anaylsis_LimayeOld.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/Evaluator_AllInOne_IMDB.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/Evaluator_AllInOne_Limaye.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/Evaluator_AllInOne_MB.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/Evaluator_ClassOnly.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/Evaluator_ClassOnly_IMDB_MusicBrainz.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/Evaluator_EntityOnly.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/Evaluator_Generic_Classification_ignoreUpdateIterations.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/Evaluator_ISWC_Helper_ClassOnly.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/Evaluator_Limaye_Entity_Only.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/Evaluator_RelationOnly.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/Evaluator_RelationOnly_IMDB_MusicBrainz.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/KeyFileGenerator_from_HTMLOutput.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/LimayeDataset_Entity_Discrepancy_Analysis_Generic.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/evaluation/LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/gs/GSBuilder_IMDB.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/gs/GSBuilder_Limaye.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/gs/GSBuilder_Limaye_Wikitables.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/gs/GSBuilder_Limaye_Wikitables_consolidate.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/gs/GSBuilder_Limaye_Wikitables_with_Ref.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/gs/GSBuilder_MusicBrainz.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/gs/GSFile_Rewriter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/gs/GS_Class_Relation_Consolidation_Helper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/gs/GS_Stats_Limaye.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/gs/WikipediaTL_GSCreator_Pass1.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/gs/WikipediaTL_GSCreator_Pass2.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/TODO/gs/WikipediaTableListPageFilter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/any23/Any23Xtractor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/SemanticTableInterpreter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineInterpreter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineRelationScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineSimilarityClazzScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineSimilarityEntityScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorNameMatch.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorSimilarity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifier.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierNameMatch.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierSimilarity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateConceptGenerator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateEntityGenerator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateRelationGenerator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/DebuggingUtil.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/JIAdaptedAttributeMatcher.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/JIAdaptedEntityScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/JIClazzScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/JIInterpreter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/TAnnotationJI.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/VariableType.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/factorgraph/FactorBuilder.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/factorgraph/FactorBuilderCell.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/factorgraph/FactorBuilderCellAndRelation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/factorgraph/FactorBuilderHeader.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/factorgraph/FactorBuilderHeaderAndCell.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/factorgraph/FactorBuilderHeaderAndRelation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/factorgraph/FactorGraphBuilder.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/EntityAndClazzSimilarityScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerManager.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerThread.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/CellAnnotationUpdater.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/ChangeMessage.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/ChangeMessageComputer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/ChangeMessageFromRelation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/ClazzSpecificityCalculator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/FreebaseClazzSpecificityCalculator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/SMPAdaptedEntityScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/SMPInterpreter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/SemanticMessagePassing.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/TAnnotationSMPFreebase.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/TAnnotationWriterSMP.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/TCellEntityRanker.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnClassifier.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnColumnRelationEnumerator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNING.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryColumnClassifier.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryDisamb.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/LiteralColumnTagger.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/LiteralColumnTaggerImpl.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/RELATIONENUMERATION.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/TCellDisambiguator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnClassifier.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnColumnRelationEnumerator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/TMPInterpreter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/UPDATE.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/OSPD_combined.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/OSPD_contextWords.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/OSPD_nameLength.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/OSPD_namelength_merge.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/OSPD_nonEmpty.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/OSPD_random.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/Random.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/TContentCellRanker.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/TContentRowRanker.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/sampler/TContentTContentRowRankerImpl.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/scorer/TMPClazzScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/scorer/TMPEntityScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/scorer/TMPRelationScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/stopping/FixedNumberOfRows.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/stopping/IInf.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/stopping/NoStop.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/stopping/StoppingCriteria.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/algorithm/tmp/stopping/StoppingCriteriaInstantiator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/feature/FreebaseConceptBoWCreator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/feature/FreebaseRelationBoWCreator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/feature/OntologyBasedBoWCreator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/model/List.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/model/ListItem.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/model/RelationColumns.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/model/TAnnotation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/model/TCell.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/model/TCellAnnotation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/model/TCellCellRelationAnotation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/model/TColumnColumnRelationAnnotation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/model/TColumnHeader.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/model/TColumnHeaderAnnotation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/model/TContext.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/model/Table.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/model/TableTriple.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/scorer/AttributeValueMatcher.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/scorer/ClazzScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/scorer/EntityScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/scorer/RelationScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/CMScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnDetector.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorerHeuristic.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/TColumnDataType.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/TColumnFeature.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/TColumnFeatureGenerator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/core/subjectcol/WSScorer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/experiment/BaselineBatch.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/experiment/JointInferenceBatch.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/experiment/STIBatch.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/experiment/SemanticMessagePassingBatch.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/experiment/TableMinerPlusBatch.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/io/JSONOutputCellAnnotation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/io/JSONOutputColumnAnnotation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/io/JSONOutputRelationAnnotation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/io/JSONOutputRelationAnnotationPerRow.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/io/TAnnotationWriter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/io/TAnnotationWriterJSON.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/nlp/Lemmatizer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/nlp/NLPTools.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/nlp/TermFreqCounter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/ContentValidator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/list/ListXtractor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/list/ListXtractorHTML.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/list/ListXtractorWikipedia.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/list/splitter/ListItemSplitter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/list/splitter/ListItemSplitterByURL.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/list/validator/ListVaildatorLanient.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/list/validator/ListValidator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/list/validator/ListValidatorStrict.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/Browsable.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/BrowsableHelper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParserHTML.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParserIMDB.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParserLimayeDataset.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParserMusicBrainz.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParserReverbnation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParserRottenTomato.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/TableParserWikipedia.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/context/TableContextExtractor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/context/TableContextExtractorGeneric.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/context/TableContextExtractorIMDB.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/context/TableContextExtractorMusicBrainz.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/creator/TableObjCreator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/creator/TableObjCreatorGoodreads.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/creator/TableObjCreatorHTML.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/creator/TableObjCreatorIMDB.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/creator/TableObjCreatorMusicBrainz.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/creator/TableObjCreatorReverbnationList.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/creator/TableObjCreatorWikipedia.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/hodetector/TableHODetector.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/hodetector/TableHODetectorByHTMLTag.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/normalizer/TableNormalizer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/normalizer/TableNormalizerDiscardIrregularRows.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/normalizer/TableNormalizerListTransformer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/normalizer/TableNormalizerSimple.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/validator/TableValidator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/validator/TableValidatorForWikipediaGSLanient.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/validator/TableValidatorForWikipediaGSStrict.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/parser/table/validator/TableValidatorGeneric.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/ui/EmailHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/ui/InputFilePreview.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/ui/TableMinerPlusSingle.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/util/CollectionUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/util/DataTypeClassifier.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/util/FileUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/util/SubsetGenerator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/util/TripleGenerator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/util/XPathUtils.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sti-main/pom.xml" afterPath="$PROJECT_DIR$/sti-main/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370.fdt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370.fdx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370.fnm" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370.nvd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370.nvm" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370.si" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370_Lucene50_0.doc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370_Lucene50_0.pos" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370_Lucene50_0.tim" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370_Lucene50_0.tip" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371.fdt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371.fdx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371.fnm" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371.nvd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371.nvm" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371.si" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371_Lucene50_0.doc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371_Lucene50_0.pos" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371_Lucene50_0.tim" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371_Lucene50_0.tip" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372.fdt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372.fdx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372.fnm" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372.nvd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372.nvm" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372.si" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372_Lucene50_0.doc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372_Lucene50_0.pos" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372_Lucene50_0.tim" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372_Lucene50_0.tip" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373.fdt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373.fdx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373.fnm" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373.nvd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373.nvm" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373.si" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373_Lucene50_0.doc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373_Lucene50_0.pos" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373_Lucene50_0.tim" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373_Lucene50_0.tip" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/segments_2vn" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003720" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003721" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003722" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003723" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003724" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003725" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003726" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003727" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003728" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003729" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/segments_5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ui/kbsearch.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ui/sti.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ui/websearch.properties" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/EmailHandler.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/EmailHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/README.md" afterPath="$PROJECT_DIR$/ui/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/config.json" afterPath="$PROJECT_DIR$/ui/config.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/main.js" afterPath="$PROJECT_DIR$/ui/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/sti.properties" afterPath="$PROJECT_DIR$/config/sti.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/websearch.properties" afterPath="$PROJECT_DIR$/config/websearch.properties" />
     </list>
     <ignored path="sti.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -241,11 +94,41 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.70354">
+            <state vertical-scroll-proportion="0.0">
               <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="STIBatch.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/experiment/STIBatch.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="387" column="51" selection-start-line="387" selection-start-column="51" selection-end-line="387" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BaselineBatch.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/experiment/BaselineBatch.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="129" column="33" selection-start-line="129" selection-start-column="33" selection-end-line="129" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TableMinerPlusBatch.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/experiment/TableMinerPlusBatch.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -255,7 +138,17 @@
         <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/TableMinerPlusSingle.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+              <caret line="75" column="40" selection-start-line="75" selection-start-column="40" selection-end-line="75" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EmailHandler.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/EmailHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.4475">
+              <caret line="45" column="62" selection-start-line="45" selection-start-column="62" selection-end-line="45" selection-end-column="62" />
               <folding />
             </state>
           </provider>
@@ -298,6 +191,7 @@
         <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/TableMinerPlusSingle.java" />
         <option value="$PROJECT_DIR$/sti-main/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/EmailHandler.java" />
       </list>
     </option>
   </component>
@@ -354,6 +248,7 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="1440" />
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="807" />
@@ -480,6 +375,62 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti-main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="experiment" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti-main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -727,8 +678,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="807" extended-state="6" />
-    <editor active="false" />
+    <frame x="1440" y="23" width="1440" height="807" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -736,13 +687,13 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21316166" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.095135905" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32867134" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32867134" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22532189" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4013986" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2639485" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4013986" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -919,14 +870,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/TableMinerPlusSingle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sti-websearch/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -937,8 +880,48 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.70354">
+        <state vertical-scroll-proportion="0.0">
           <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/experiment/TableMinerPlusBatch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/experiment/BaselineBatch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="129" column="33" selection-start-line="129" selection-start-column="33" selection-end-line="129" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/experiment/STIBatch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="387" column="51" selection-start-line="387" selection-start-column="51" selection-end-line="387" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/TableMinerPlusSingle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="75" column="40" selection-start-line="75" selection-start-column="40" selection-end-line="75" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/EmailHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4475">
+          <caret line="45" column="62" selection-start-line="45" selection-start-column="62" selection-end-line="45" selection-end-column="62" />
           <folding />
         </state>
       </provider>

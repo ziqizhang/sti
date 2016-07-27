@@ -12,6 +12,7 @@ var userCounter=1;
 
 
 //$.getJSON( "/config.json", function( data ) {
+var STI_LOG4J=config.log4j
 var STI_LIB=config.lib;
 var STI_CACHE=config.cache;
 var STI_TABLE_FILE_PREVIEW_CLASS=config.tablePrevClass;
@@ -72,7 +73,7 @@ function writePreviewErrorPage(subfolder, errMsg){
 function javaPreview(userid, targetUrl, parserclass, fn){   
    var spawn = require('child_process').spawn;
    var subfolder=STI_TMP_FOLDER+'/'+userid;
-   var java = spawn('java', ['-cp', STI_LIB, STI_TABLE_FILE_PREVIEW_CLASS, targetUrl, subfolder, parserclass]);
+   var java = spawn('java', ['-Dlog4j.configuration=file:'+STI_LOG4J, '-cp', STI_LIB, STI_TABLE_FILE_PREVIEW_CLASS, targetUrl, subfolder, parserclass]);
 
    var error='';   
 

@@ -43,16 +43,18 @@ public class EmailHandler {
             }
         }
 
-        Email email = new SimpleEmail();
-        email.setHostName(host);
-        email.setSmtpPort(Integer.valueOf(port));
-        email.setAuthenticator(new DefaultAuthenticator(login, pass));
-        email.setSSLOnConnect(true);
-        email.setFrom(from);
-        email.setSubject("TableMiner+ Task");
-        email.setMsg(message);
-        email.addTo(toEmail);
-        email.send();
+        if(login!=null && pass!=null && !login.equals("") && !pass.equals("")) {
+            Email email = new SimpleEmail();
+            email.setHostName(host);
+            email.setSmtpPort(Integer.valueOf(port));
+            email.setAuthenticator(new DefaultAuthenticator(login, pass));
+            email.setSSLOnConnect(true);
+            email.setFrom(from);
+            email.setSubject("TableMiner+ Task");
+            email.setMsg(message);
+            email.addTo(toEmail);
+            email.send();
+        }
 
     }
 
