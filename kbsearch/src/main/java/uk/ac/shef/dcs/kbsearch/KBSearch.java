@@ -26,10 +26,13 @@ public abstract class KBSearch {
     protected static final String KB_SEARCH_RESULT_STOPLIST="kb.search.result.stoplistfile";
     protected static final String KB_SEARCH_CLASS = "kb.search.class";
     protected static final String KB_SEARCH_TRY_FUZZY_KEYWORD = "kb.search.tryfuzzykeyword";
+    
+    protected static final boolean AUTO_COMMIT = true;
+    protected static final boolean ALWAYS_CALL_REMOTE_SEARCHAPI = false;
 
     protected KBSearchResultFilter resultFilter;
 
-    private static final Logger LOG = Logger.getLogger(KBSearch.class.getName());
+    protected final Logger log = Logger.getLogger(getClass());
 
     /**
      *
@@ -134,14 +137,14 @@ public abstract class KBSearch {
         String query = createSolrCacheQuery_findEntityClazzSimilarity(entity_id, clazz_url);
         try {
             cacheSimilarity.cache(query, score, commit);
-            LOG.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
+            log.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
             if (biDirectional) {
                 query = clazz_url + "<>" + entity_id;
                 cacheSimilarity.cache(query, score, commit);
-                LOG.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
+                log.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
             }
         } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(), e);
+            log.error(e.getLocalizedMessage(), e);
         }
     }
 

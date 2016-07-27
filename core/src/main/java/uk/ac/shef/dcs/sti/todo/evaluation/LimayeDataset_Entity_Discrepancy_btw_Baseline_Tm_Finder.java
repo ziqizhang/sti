@@ -2,7 +2,8 @@ package uk.ac.shef.dcs.sti.todo.evaluation;
 
 import info.aduna.io.FileUtil;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
+
+import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.todo.TAnnotationKeyFileReader;
@@ -29,7 +30,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
         //object to fetch things from KB
         String freebaseProperties = "D:\\Work\\lodiecrawler\\src\\main\\java/freebase.properties";
         //todo: this will not work
-        FreebaseSearch freebaseMatcher = null;//new FreebaseSearch(freebaseProperties, true, server, null,null);
+        KBSearch freebaseMatcher = null;//new FreebaseSearch(freebaseProperties, true, server, null,null);
 
         find_discrepancies_between(
                 "E:\\Data\\table annotation\\corpus_analysis\\100_tables\\tableminer_aclshort_no_ref_ent",
@@ -166,7 +167,7 @@ public class LimayeDataset_Entity_Discrepancy_btw_Baseline_Tm_Finder {
             String inFolder_tableminer,
             String inFolder_baseline,
             String outFolder,
-            FreebaseSearch searcher) throws IOException {
+            KBSearch searcher) throws IOException {
         for (File tableminer_entity_file : new File(inFolder_tableminer).listFiles()) {
             Map<int[], List<List<String>>> tableminer_cells = null, baseline_cells = null;
 

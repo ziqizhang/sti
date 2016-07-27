@@ -50,7 +50,7 @@ public class TCellEntityRanker {
                                                          int row, int column
     ) throws KBSearchException {
         //do disambiguation scoring
-        //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
+        //log.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         TCell cell = table.getContentCell(row, column);
         List<Entity> candidates = kbSearch.findEntityCandidates(cell.getText());
         LOG.info("\t\t>> position at (" + row + "," + column + ") " +

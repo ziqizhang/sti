@@ -151,7 +151,7 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
           "Failed initialising KBSearch:" + getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE), e);
     }
 
-    // LOG.info("Initializing WebSearcher...");
+    // log.info("Initializing WebSearcher...");
 
 
     logger.info("Initializing SUBJECT COLUMN DETECTION components ...");

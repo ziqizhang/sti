@@ -30,7 +30,7 @@ public class LiteralColumnTaggerImpl implements LiteralColumnTagger {
         Map<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>>
                 relationAnnotations = annotations.getCellcellRelations();
 
-        //LOG.info("\t>> Annotating literal columns");
+        //log.info("\t>> Annotating literal columns");
         for (Map.Entry<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>>
                 e : relationAnnotations.entrySet()) {
             RelationColumns subcol_objcol = e.getKey();

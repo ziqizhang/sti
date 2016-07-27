@@ -20,13 +20,8 @@ import java.util.*;
  */
 public class FreebaseSearch extends KBSearch {
 
-    private static final Logger LOG = Logger.getLogger(FreebaseSearch.class.getName());
-    private static final boolean AUTO_COMMIT = true;
-
-    //two propperties for debugging purposes.In practice both should be false. set to true
-    //if you want to deliberately trigger calls to FB apis
-    private static final boolean ALWAYS_CALL_REMOTE_SEARCHAPI = false;
     private static final boolean ALWAYS_CALL_REMOTE_TOPICAPI = false;
+    
     private FreebaseQueryProxy searcher;
 
     public FreebaseSearch(Properties properties, Boolean fuzzyKeywords,
@@ -81,7 +76,7 @@ public class FreebaseSearch extends KBSearch {
             try {
                 result = (List<Entity>) cacheEntity.retrieve(query);
                 if (result != null)
-                    LOG.debug("QUERY (entities, cache load)=" + query + "|" + query);
+                    log.debug("QUERY (entities, cache load)=" + query + "|" + query);
             } catch (Exception e) {
             }
         }
@@ -90,7 +85,7 @@ public class FreebaseSearch extends KBSearch {
             try {
                 //firstly fetch candidate freebase topics. pass 'true' to only keep candidates whose name overlap with the query term
                 List<FreebaseTopic> topics = searcher.searchapi_getTopicsByNameAndType(text, "any", true, 20); //search api does not retrieve complete types, find types for them
-                LOG.debug("(FB QUERY =" +topics.size()+" results)");
+                log.debug("(FB QUERY =" +topics.size()+" results)");
                 for (FreebaseTopic ec : topics) {
                     //Next get attributes for each topic
                     List<Attribute> attributes = findAttributesOfEntities(ec);
@@ -126,7 +121,7 @@ public class FreebaseSearch extends KBSearch {
 
                 result.addAll(topics);
                 cacheEntity.cache(query, result, AUTO_COMMIT);
-                LOG.debug("QUERY (entities, cache save)=" + query + "|" + query);
+                log.debug("QUERY (entities, cache save)=" + query + "|" + query);
             } catch (Exception e) {
                 throw new KBSearchException(e);
             }
@@ -181,7 +176,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             attributes = (List<Attribute>) cacheConcept.retrieve(query);
             if (attributes != null)
-                LOG.debug("QUERY (attributes of clazz, cache load)=" + query + "|" + query);
+                log.debug("QUERY (attributes of clazz, cache load)=" + query + "|" + query);
         } catch (Exception e) {
         }
 
@@ -201,7 +196,7 @@ public class FreebaseSearch extends KBSearch {
                 if (!isConcept) {
                     try {
                         cacheConcept.cache(query, attributes, AUTO_COMMIT);
-                        LOG.debug("QUERY (attributes of clazz, cache save)=" + query + "|" + query);
+                        log.debug("QUERY (attributes of clazz, cache save)=" + query + "|" + query);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -231,7 +226,7 @@ public class FreebaseSearch extends KBSearch {
                 }
 
                 cacheConcept.cache(query, attributes, AUTO_COMMIT);
-                LOG.debug("QUERY (attributes of clazz, cache save)=" + query + "|" + query);
+                log.debug("QUERY (attributes of clazz, cache save)=" + query + "|" + query);
             } catch (Exception e) {
                 throw new KBSearchException(e);
             }
@@ -251,7 +246,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             Object o = cacheConcept.retrieve(query);
             if (o != null) {
-                LOG.debug("QUERY (granularity of clazz, cache load)=" + query + "|" + clazz);
+                log.debug("QUERY (granularity of clazz, cache load)=" + query + "|" + clazz);
                 return (Double) o;
             }
         } catch (Exception e) {
@@ -263,13 +258,13 @@ public class FreebaseSearch extends KBSearch {
                 result = granularity;
                 try {
                     cacheConcept.cache(query, result, AUTO_COMMIT);
-                    LOG.debug("QUERY (granularity of clazz, cache save)=" + query + "|" + clazz);
+                    log.debug("QUERY (granularity of clazz, cache save)=" + query + "|" + clazz);
                 } catch (Exception e) {
-                    LOG.error("FAILED:" + clazz);
+                    log.error("FAILED:" + clazz);
                     e.printStackTrace();
                 }
             } catch (IOException ioe) {
-                LOG.error("ERROR(Instances of Type): Unable to fetch freebase page of instances of type: " + clazz);
+                log.error("ERROR(Instances of Type): Unable to fetch freebase page of instances of type: " + clazz);
             }
         }
         if (result == null)
@@ -285,7 +280,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             result = cacheSimilarity.retrieve(query);
             if (result != null)
-                LOG.debug("QUERY (entity-clazz similarity, cache load)=" + query + "|" + query);
+                log.debug("QUERY (entity-clazz similarity, cache load)=" + query + "|" + query);
         } catch (Exception e) {
         }
         if (result == null)
@@ -307,7 +302,7 @@ public class FreebaseSearch extends KBSearch {
         try {
             result = (List<Attribute>) cache.retrieve(query);
             if (result != null)
-                LOG.debug("QUERY (attributes of id, cache load)=" + query + "|" + query);
+                log.debug("QUERY (attributes of id, cache load)=" + query + "|" + query);
         } catch (Exception e) {
         }
         if (result == null || forceQuery) {
@@ -324,7 +319,7 @@ public class FreebaseSearch extends KBSearch {
             result.addAll(attributes);
             try {
                 cache.cache(query, result, AUTO_COMMIT);
-                LOG.debug("QUERY (attributes of id, cache save)=" + query + "|" + query);
+                log.debug("QUERY (attributes of id, cache save)=" + query + "|" + query);
             } catch (Exception e) {
                 e.printStackTrace();
             }

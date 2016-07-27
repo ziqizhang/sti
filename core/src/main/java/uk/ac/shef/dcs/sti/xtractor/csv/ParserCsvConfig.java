@@ -53,11 +53,11 @@ public class ParserCsvConfig {
         }
         //        if (encoding == null) {
         //            this.encoding = "UTF-8";
-        //            LOG.warn("Property encoding is not set, '{}' is used as default.",
+        //            log.warn("Property encoding is not set, '{}' is used as default.",
         //                    this.encoding);
         //        } else {
         //            this.encoding = encoding;
-        //            LOG.info("Encoding is: " + encoding);
+        //            log.info("Encoding is: " + encoding);
         //        }
         if (numberOfStartLinesToIgnore == null) {
             this.numberOfStartLinesToIgnore = 0;

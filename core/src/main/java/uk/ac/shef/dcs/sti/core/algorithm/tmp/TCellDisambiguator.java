@@ -72,7 +72,7 @@ public class TCellDisambiguator {
                                                                          List<Integer> entity_rows, int entity_column
     ) throws KBSearchException {
         //do disambiguation scoring
-        //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
+        //log.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         TCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);
         List<Pair<Entity, Map<String, Double>>> disambiguationScores = new ArrayList<>();
         for (Entity c : candidates) {

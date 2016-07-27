@@ -1,6 +1,8 @@
 package uk.ac.shef.dcs.sti.todo;
 
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+
+import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.sti.util.FileUtils;
@@ -74,7 +76,7 @@ public class FreebaseTypeGranularityPopulator {
 
         Properties properties = new Properties();
         properties.load(new FileReader(new File(args[2])));
-        FreebaseSearch kbSeacher =
+        KBSearch kbSeacher =
                 new FreebaseSearch(properties, true, null, serverConcept, serverProperty,null);
 
         //kbSeacher.find_triplesForProperty("/award/award_category/nomination_announcement");
