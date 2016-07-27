@@ -1,69 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="24819d1c-2e34-4f63-a248-bb1827391b52" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370.fdt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370.fdx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370.fnm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370.nvd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370.nvm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370.si" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370_Lucene50_0.doc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370_Lucene50_0.pos" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370_Lucene50_0.tim" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_370_Lucene50_0.tip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371.fdt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371.fdx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371.fnm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371.nvd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371.nvm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371.si" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371_Lucene50_0.doc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371_Lucene50_0.pos" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371_Lucene50_0.tim" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_371_Lucene50_0.tip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372.fdt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372.fdx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372.fnm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372.nvd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372.nvm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372.si" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372_Lucene50_0.doc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372_Lucene50_0.pos" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372_Lucene50_0.tim" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_372_Lucene50_0.tip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373.fdt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373.fdx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373.fnm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373.nvd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373.nvm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373.si" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373_Lucene50_0.doc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373_Lucene50_0.pos" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373_Lucene50_0.tim" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/_373_Lucene50_0.tip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/segments_2vn" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003720" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003721" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003722" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003723" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003724" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003725" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003726" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003727" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003728" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/tlog/tlog.0000000000000003729" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/segments_5" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ui/kbsearch.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ui/sti.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ui/websearch.properties" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/EmailHandler.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/EmailHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/README.md" afterPath="$PROJECT_DIR$/ui/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/config.json" afterPath="$PROJECT_DIR$/ui/config.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/main.js" afterPath="$PROJECT_DIR$/ui/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/sti.properties" afterPath="$PROJECT_DIR$/config/sti.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/websearch.properties" afterPath="$PROJECT_DIR$/config/websearch.properties" />
-    </list>
+    <list default="true" id="24819d1c-2e34-4f63-a248-bb1827391b52" name="Default" comment="" />
     <ignored path="sti.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/kbsearch/target/" />
