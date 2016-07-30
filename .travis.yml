@@ -1,3 +1,4 @@
 ## Travis build file
 
 language: java
+jdk: oraclejdk8
