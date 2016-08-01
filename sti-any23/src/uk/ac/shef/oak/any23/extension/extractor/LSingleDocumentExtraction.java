@@ -32,11 +32,12 @@ import org.openrdf.model.BNode;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.impl.ValueFactoryImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URISyntaxException;
 import java.util.*;
-import java.util.logging.Logger;
 
 import static org.apache.any23.extractor.TagSoupExtractionResult.PropertyPath;
 import static org.apache.any23.extractor.TagSoupExtractionResult.ResourceRoot;
@@ -54,7 +55,7 @@ public class LSingleDocumentExtraction {
 
     private static final SINDICE vSINDICE = SINDICE.getInstance();
 
-    private final static Logger log = Logger.getLogger(LSingleDocumentExtraction.class.getName());
+    private final static Logger log = LoggerFactory.getLogger(LSingleDocumentExtraction.class);
 
     private final Configuration configuration;
 
@@ -208,14 +209,14 @@ public class LSingleDocumentExtraction {
             sb.append(' ');
         }
         sb.append("match ").append(documentURI);
-        log.warning(sb.toString());
+        log.debug(sb.toString());
 
 
         // Invoke all extractors.
         try {
             output.startDocument(documentURI);
         } catch (TripleHandlerException e) {
-            log.warning(String.format("Error starting document with URI %s", documentURI));
+            log.debug(String.format("Error starting document with URI %s", documentURI));
             throw new ExtractionException(String.format("Error starting document with URI %s", documentURI),
                     e
             );
@@ -270,7 +271,7 @@ public class LSingleDocumentExtraction {
         try {
             output.endDocument(documentURI);
         } catch (TripleHandlerException e) {
-            log.warning(String.format("Error ending document with URI %s", documentURI));
+            log.debug(String.format("Error ending document with URI %s", documentURI));
             throw new ExtractionException(String.format("Error ending document with URI %s", documentURI),
                     e
             );
@@ -377,7 +378,7 @@ public class LSingleDocumentExtraction {
         try {
             document = new HTMLDocument(getTagSoupDOM(extractionParameters).getDocument());
         } catch (IOException ioe) {
-            log.warning("Cannot extract language from document.");
+            log.debug("Cannot extract language from document.");
             return null;
         }
         return document.getDefaultLanguage();
@@ -402,7 +403,7 @@ public class LSingleDocumentExtraction {
                 localDocumentSource.openInputStream(),
                 MIMEType.parse(localDocumentSource.getContentType())
         );
-        log.warning("detected media type: " + detectedMIMEType);
+        log.debug("detected media type: " + detectedMIMEType);
         matchingExtractors = extractors.filterByMIMEType(detectedMIMEType);
     }
 
@@ -421,7 +422,7 @@ public class LSingleDocumentExtraction {
             final String documentLanguage,
             final Extractor<?> extractor
     ) throws ExtractionException, IOException, ValidatorException {
-        log.warning("Running " + extractor.getDescription().getExtractorName() + " on " + documentURI);
+        log.debug("Running " + extractor.getDescription().getExtractorName() + " on " + documentURI);
 
         long startTime = System.currentTimeMillis();
         final ExtractionContext extractionContext = new ExtractionContext(
@@ -463,7 +464,7 @@ public class LSingleDocumentExtraction {
                     );
         } catch (ExtractionException ex) {
 
-            log.warning(extractor.getDescription().getExtractorName() + ": " + ex.getMessage());
+            log.debug(extractor.getDescription().getExtractorName() + ": " + ex.getMessage());
 
             throw ex;
         } finally {
@@ -471,13 +472,13 @@ public class LSingleDocumentExtraction {
             if (extractionResult.hasIssues()) {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 extractionResult.printReport(new PrintStream(baos));
-                log.warning(baos.toString());
+                log.debug(baos.toString());
             }
             extractionResult.close();
 
             long elapsed = System.currentTimeMillis() - startTime;
 
-            log.warning("Completed " + extractor.getDescription().getExtractorName() + ", " + elapsed + "ms");
+            log.debug("Completed " + extractor.getDescription().getExtractorName() + ", " + elapsed + "ms");
 
         }
     }

@@ -2,8 +2,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>uk.ac.shef.dcs</groupId>
-    <artifactId>any23-sti</artifactId>
+    <artifactId>sti-any23</artifactId>
     <version>1.0</version>
+    
+    <properties>
+		<jcloverslf4j.version>1.7.21</jcloverslf4j.version>
+		<logback.version>1.1.7</logback.version>
+	</properties>
+    
     <build>
         <sourceDirectory>src</sourceDirectory>
         <plugins>
@@ -46,6 +52,18 @@
     </build>
 
     <dependencies>
+        <!-- Logging (uses slf4j API implemented by Logback) -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${jcloverslf4j.version}</version>
+		</dependency>
+        
         <dependency>
             <groupId>org.apache.any23</groupId>
             <artifactId>apache-any23-core</artifactId>

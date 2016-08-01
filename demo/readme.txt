@@ -1,1 +1,0 @@
-This video demonstrates the working UI of the tableminer+ system.

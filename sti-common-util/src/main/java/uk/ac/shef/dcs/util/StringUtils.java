@@ -1,7 +1,5 @@
 package uk.ac.shef.dcs.util;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
