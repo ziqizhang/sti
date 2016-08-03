@@ -1,5 +1,6 @@
 package uk.ac.shef.dcs.kbsearch;
 
+import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
@@ -20,15 +21,18 @@ public abstract class KBSearch {
     protected SolrCache cacheConcept;
     protected SolrCache cacheProperty;
     protected SolrCache cacheSimilarity;
-    protected Map<String, SolrCache> otherCache;
     protected boolean fuzzyKeywords;
 
     protected static final String KB_SEARCH_RESULT_STOPLIST="kb.search.result.stoplistfile";
     protected static final String KB_SEARCH_CLASS = "kb.search.class";
     protected static final String KB_SEARCH_TRY_FUZZY_KEYWORD = "kb.search.tryfuzzykeyword";
-
+    
+    protected static final boolean AUTO_COMMIT = true;
+    protected static final boolean ALWAYS_CALL_REMOTE_SEARCHAPI = false;
 
     protected KBSearchResultFilter resultFilter;
+
+    protected final Logger log = Logger.getLogger(getClass());
 
     /**
      *
@@ -57,21 +61,10 @@ public abstract class KBSearch {
 
     }
 
-    /**
-     * If any other cache is needed you may add them here
-     * @param name
-     * @param cacheServer
-     */
-    public void registerOtherCache(String name, EmbeddedSolrServer cacheServer) {
-        otherCache.put(name, new SolrCache(cacheServer));
-    }
 
-
-    public KBSearchResultFilter getResultFilter(){
-        return resultFilter;
-    }
     /**
-     * given a string, fetch candidate entities from a KB
+     * Given a string, fetch candidate entities (resources) from the KB
+     * Candidate entities are those resources for which label or part of the label matches the given content
      * @param content
      * @return
      * @throws IOException
@@ -79,7 +72,7 @@ public abstract class KBSearch {
     public abstract List<Entity> findEntityCandidates(String content) throws KBSearchException;
 
     /**
-     * given a string fetch candidate entities that only match certain types from a KB
+     * Given a string,  fetch candidate entities (resources) from the KB that only match certain types
      * @param content
      * @param types
      * @return
@@ -88,7 +81,10 @@ public abstract class KBSearch {
     public abstract List<Entity> findEntityCandidatesOfTypes(String content, String... types) throws KBSearchException;
 
     /**
-     * get attributes of the entity candidate
+     * Get attributes of the entity candidate
+     * (all predicates and object values of the triples where the candidate entity is the subject).
+     *
+     * Note: Certain predicates may be blacklisted.
      * @throws KBSearchException
      */
     public abstract List<Attribute> findAttributesOfEntities(Entity ec) throws KBSearchException;
@@ -112,7 +108,9 @@ public abstract class KBSearch {
      * @return the granularity of the class in the KB.
      * @throws KBSearchException if the method is not supported
      */
-    public abstract double findGranularityOfClazz(String clazz) throws KBSearchException;
+    public double findGranularityOfClazz(String clazz) throws KBSearchException {
+        return 0;
+    }
 
     /**
      * compute the seamntic similarity between an entity and a class
@@ -121,7 +119,9 @@ public abstract class KBSearch {
      * @return
      * @throws KBSearchException
      */
-    public abstract double findEntityClazzSimilarity(String entity_id, String clazz_url) throws KBSearchException;
+    public double findEntityClazzSimilarity(String entity_id, String clazz_url) throws KBSearchException {
+        return 0;
+    }
 
     /**
      * save the computed semantic similarity between the entity and class
@@ -132,14 +132,53 @@ public abstract class KBSearch {
      * @param commit
      * @throws KBSearchException
      */
-    public abstract void cacheEntityClazzSimilarity(String entity_id, String clazz_url, double score, boolean biDirectional,
-                                                    boolean commit) throws KBSearchException;
+    public void cacheEntityClazzSimilarity(String entity_id, String clazz_url, double score, boolean biDirectional,
+                                                    boolean commit) throws KBSearchException {
+        String query = createSolrCacheQuery_findEntityClazzSimilarity(entity_id, clazz_url);
+        try {
+            cacheSimilarity.cache(query, score, commit);
+            log.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
+            if (biDirectional) {
+                query = clazz_url + "<>" + entity_id;
+                cacheSimilarity.cache(query, score, commit);
+                log.debug("QUERY (entity-clazz similarity, cache saving)=" + query + "|" + query);
+            }
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage(), e);
+        }
+    }
 
-    public abstract void commitChanges() throws KBSearchException;
-    public abstract void closeConnection() throws KBSearchException;
+    public void commitChanges() throws KBSearchException {
+
+        try {
+            cacheConcept.commit();
+            cacheEntity.commit();
+            cacheProperty.commit();
+        } catch (Exception e) {
+            throw new KBSearchException(e);
+        }
+    }
+
+
+    public void closeConnection() throws KBSearchException {
+
+        try {
+            if (cacheEntity != null)
+                cacheEntity.shutdown();
+            if (cacheConcept != null)
+                cacheConcept.shutdown();
+            if (cacheProperty != null) {
+                cacheProperty.shutdown();
+            }
+        } catch (Exception e) {
+            throw new KBSearchException(e);
+        }
+
+    }
 
 
 
+    //TODO the properties below should be moved to a different class (SolrCacheHelper?) and renamed properly
     /*
     createSolrCacheQuery_XXX defines how a solr query should be constructed. If your implementing class
      want to benefit from solr cache, you should call these methods to generate a query string, which will

@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.todo;
 
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.sti.util.FileUtils;
@@ -16,61 +17,15 @@ import java.util.*;
  */
 public class FreebaseTypeGranularityPopulator {
     public static void main(String[] args) throws IOException, ClassNotFoundException, KBSearchException {
-        //read the index, save all "types" to a file
-        /*Directory dirIndex = FSDirectory.open(new File(args[0]));
-        IndexReader indexReader = DirectoryReader.open(dirIndex);
-        Document doc = null;
-        Set<String> types = new HashSet<String>();
-
-        System.out.println("total="+indexReader.numDocs());
-        for(int i = 0; i < indexReader.numDocs(); i++) {
-            System.out.println(i);
-            doc = indexReader.document(i);
-            BytesRef bytesRef = doc.getBinaryValue("value");
-            if(bytesRef==null)
-                continue;
-            Object object =  SerializationUtils.deserializeBase64(bytesRef.bytes);
-            try{
-                List<EntityCandidate> entities = (List<EntityCandidate>) object;
-                for(EntityCandidate ec: entities) {
-                    for(String t: ec.getTypeIds()){
-                        if(KB_InstanceFilter.ignoreType(t,t)||t.startsWith("/m/"))
-                            continue;
-                        types.add(t);
-                    }
-                }
-            }catch(ClassCastException cce){
-                //cce.printStackTrace();
-            }
-        }
-        indexReader.close();
-        dirIndex.close();
-
-        List<String> allTypes = new ArrayList<String>(types);
-        Collections.sort(allTypes);
-
-        PrintWriter p =new PrintWriter(args[1]+"/types.txt");
-        for(String t: allTypes)
-            p.println(t);
-        p.close();
-
-        System.exit(0)*/
-        ;
         //fetch freebase pages, parse them and get granularity scores
         List<String> all_types = new ArrayList<>(new HashSet<>(FileUtils.readList(args[1] + "/types_merge_all.txt", false)));
         Collections.sort(all_types);
-        /*PrintWriter p =new PrintWriter(args[1]+"/types.txt");
-        for(String t: all_types)
-            p.println(t);
-        p.close();
-        System.exit(0);*/
-
+        
         EmbeddedSolrServer serverConcept =
                 new EmbeddedSolrServer(Paths.get(args[3]), "collection1");
 
         EmbeddedSolrServer serverProperty =
                 new EmbeddedSolrServer(Paths.get(args[4]), "collection1");
-
 
         Properties properties = new Properties();
         properties.load(new FileReader(new File(args[2])));

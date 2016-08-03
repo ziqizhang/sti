@@ -63,7 +63,6 @@ public class TableMinerPlusBatch extends STIBatch {
 
         //LOG.info("Initializing WebSearcher...");
 
-
         LOG.info("Initializing SUBJECT COLUMN DETECTION components ...");
         SubjectColumnDetector subcolDetector;
         try {

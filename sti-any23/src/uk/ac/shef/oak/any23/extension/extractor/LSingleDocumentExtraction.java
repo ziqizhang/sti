@@ -479,7 +479,6 @@ public class LSingleDocumentExtraction {
             long elapsed = System.currentTimeMillis() - startTime;
 
             log.debug("Completed " + extractor.getDescription().getExtractorName() + ", " + elapsed + "ms");
-
         }
     }
 

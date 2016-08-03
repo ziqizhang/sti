@@ -26,8 +26,11 @@ public abstract class KBSearchResultFilter {
     }
 
     /**
-     * an external file defining class/relation/entities to be filtered. the file must correspond to certain format.
+     * An external file defining class/relation/entities to be filtered. the file must correspond to certain format.
      * See 'resources/kbstoplist.txt' for explanation
+     *
+     * It loads all given classes/relations/entities to a Map, which contains as the key for the set of stop wrods the label obtained from the file (from the line starting with !).
+     * So there are different stop words for attributes and classes, e.g.
      * @param stoplistsFile
      * @throws IOException
      */
@@ -55,16 +58,67 @@ public abstract class KBSearchResultFilter {
             stoplists.put(label, elements);
     }
 
-    public abstract List<Clazz> filterClazz(Collection<Clazz> types);
+    public List<Clazz> filterClazz(Collection<Clazz> types) {
+        List<Clazz> r = new ArrayList<>();
+        for (Clazz t : types) {
+            if (isValidClazz(t)) {
+                r.add(t);
+            }
+        }
+        return r;
+    }
 
-    public abstract boolean isValidClazz(Clazz c);
     /**
-     * remove any attributes that contain an invalid relation
+     * Checks whether the class is valid class. Class is valid if it is not blacklisted.
+     * @param c
+     * @return true if the class is valid
+     */
+    protected boolean isValidClazz(Clazz c) {
+
+        Set<String> stop = stoplists.get(LABEL_INVALID_CLAZZ);
+        if (stop == null)
+            return true;
+
+        for (String s : stop) {
+            if (c.getId().contains(s) || c.getLabel().equalsIgnoreCase(s))
+                return false;
+        }
+        return true;
+
+    }
+
+    /**
+     * Creates new list of attributes, which contains only attributes which are valid.
      * @param facts
      * @return
      */
-    public abstract List<Attribute> filterAttribute(Collection<Attribute> facts);
+    public List<Attribute> filterAttribute(Collection<Attribute> facts) {
+        List<Attribute> filteredList = new ArrayList<>();
+        for (Attribute t : facts) {
+            if(isValidAttribute(t)) {
+                filteredList.add(t);
+            }
+        }
+        return filteredList;
+    }
 
 
-    public abstract boolean isValidAttribute(Attribute attribute);
+    /**
+     * Checks whether the attribute is valid attribute. Attribute is valid if it is not blacklisted.
+     * @param attribute
+     * @return true if the attribute is valid
+     */
+    protected boolean isValidAttribute(Attribute attribute) {
+
+        Set<String> stop = stoplists.get(LABEL_INVALID_ATTRIBUTE);
+        String relation = attribute.getRelationURI();
+        if (stop != null) {
+            for (String s : stop) {
+                if (relation.startsWith(s))
+                    return false;
+            }
+        }
+        return true;
+    }
+
 }

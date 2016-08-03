@@ -191,7 +191,7 @@ public class LExtractionResultImpl implements TagSoupExtractionResult {
 
     public void addResourceRoot(String[] path, Resource root, Class<? extends MicroformatExtractor> extractor) {
         if (resourceRoots == null) {
-            resourceRoots = new ArrayList<>();
+            resourceRoots = new ArrayList<ResourceRoot>();
         }
         resourceRoots.add(new ResourceRoot(path, root, extractor));
     }
