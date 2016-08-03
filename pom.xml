@@ -9,11 +9,11 @@
 	<description>Odalic Semantic Table Interpreter</description>
 
 	<modules>
-        <module>common-util</module>
-        <module>any23-sti</module>
-        <module>kbsearch</module>
-        <module>websearch</module>
-        <module>core</module>
+        <module>sti-common-util</module>
+        <module>sti-any23</module>
+        <module>sti-kbsearch</module>
+        <module>sti-websearch</module>
+        <module>sti-main</module>
         <module>odalic</module>
     </modules>
 </project>

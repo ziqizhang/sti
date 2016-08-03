@@ -15,7 +15,7 @@ Apache 2.0
 
 ### Quick Start
  - Place a copy of STI on your computer
- - Run mvninstal.bat to add two libraries to your local maven repository
+ - Run maven to install two 3rd party libraries (in 'libs') to your local maven repository. See https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html and the maven plugin with id 'maven-install-plugin' for howto.
  - Download test data, from [here](http://staffwww.dcs.shef.ac.uk/people/Z.Zhang/resources/tableminerplus/data.tar.gz)
  - Unzip the test data, into e.g., [sti_data]
  - Navigate into [sti_data/dataset], unzip, depending on the test cases: imdb.tar.gz for the IMDB dataset; musicbrainz.tar.gz for the MusicBrainz dataset; Limaye200.tar.gz for the Limaye200 dataset; Limaye_complete.tar.gz for the LimayeAll dataset

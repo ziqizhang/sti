@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta content="text/html; charset=utf-8" http-equiv="content-type">
+        <title>TableMiner+</title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="resources/tmp.css">       
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script>           
+            var socket = io();                       
+            
+            socket.on('setting_tmp_content', function(data){
+                $('#settingsModal').modal('show');
+                $('#configContent').val(data.data);
+                $('#configType').val('tmp');
+            });
+            
+            socket.on('setting_web_content', function(data){
+                $('#settingsModal').modal('show');
+                $('#configContent').val(data.data);
+                $('#configType').val('web');
+            });
+            socket.on('setting_kb_content', function(data){
+                $('#settingsModal').modal('show');
+                $('#configContent').val(data.data);
+                $('#configType').val('kb');
+            });
+            
+            function doSave(){
+                var configType=$('#configType').val();
+                var content=$('#configContent').val();
+                socket.emit('configSave',{type:configType, data:content});
+                $('#settingsModal').modal('hide');
+            }                        
+
+            var items = [];
+            $(document).ready(function () {
+                var tableParserSelect = document.getElementById('tableparser');
+                socket.on('filltableparseroptions', function (data) {
+                    var tableParserOptions = data.options;
+                    $.each(tableParserOptions, function (key, val) {
+                        option = document.createElement('option');
+                        option.setAttribute('value', key);
+                        option.appendChild(document.createTextNode(val));
+                        tableParserSelect.appendChild(option);
+                        //            items.push( "<li id='" + key + "'>" + val + "</li>" );
+                    });
+                });
+            });
+
+            $(document).ready(function () {
+                $('#previewButton').click(function () {
+                    socket.emit('java_preview', {url: $('#inputUrl').val(), tableparserClass: $('#tableparser').val()});
+                    //var enterURL=$('inputUrl').val();
+                    //alert("Button Clicked:"+$('#inputUrl').val());        	
+                });
+                
+                $('#setting_tmp').click(function() {                   
+                    socket.emit('setting_tmp',{});
+                });                                
+                
+                $('#setting_kb').click(function() {                    
+                    socket.emit('setting_kb',{});
+                });
+                $('#setting_web').click(function() {                    
+                    socket.emit('setting_web',{});
+                });
+
+                socket.on('warn_existingProcess', function (data) {
+                    alert(data.msg);
+                });
+
+                socket.on('java_preview_complete', function (data) {
+                    var xpath_file = data.xpaths;
+                    var iframe = document.getElementById('preview');
+                    iframe.src = data.page;
+
+                    iframe.addEventListener('load', function () { //when iframe is loaded, process xpath
+                        if (xpath_file !== '') {
+                            $.getJSON(xpath_file, function (data) {
+                                $.each(data, function (key, val) {
+                                    //select the element and highlight
+                                    var theNode = iframe.contentDocument.evaluate(val, iframe.contentDocument,
+                                            null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+
+                                    theNode.style.borderWidth = '5px';
+                                    theNode.style.borderColor = 'red';
+                                    theNode.style.borderStyle = "solid";
+                                });
+                            });
+                        }
+                    });
+
+                });
+
+                $('#startTaskButton').click(function () {
+                    document.getElementById('log').innerHTML = "<br/>";
+                    var email = document.getElementById('inputEmail').value;
+                    if (email === null || email === '') {
+                        alert('Please provide a valid email address. TableMiner+ can take long to complete, you will be notified when it completes.');
+                        return false;
+                    }
+
+                    var iframe = document.getElementById('preview');
+                    var selectedNodes = iframe.contentDocument.evaluate("//INPUT[@class='targetTables']",
+                            iframe.contentDocument,
+                            null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
+
+                    var selectedTableIndexes = '';
+                    var index = 0;
+                    if (selectedNodes !== null) {
+                        var it = selectedNodes.iterateNext();
+
+                        while (it) {
+                            if (it.checked) {
+                                selectedTableIndexes += index + ",";
+                            }
+                            it = selectedNodes.iterateNext();
+                            index++;
+                        }
+                    }
+
+                    if (selectedTableIndexes === '') {
+                        alert('No table is selected, please double check your preview page.');
+                        return false;
+                    }
+
+                    socket.emit('java_sti',
+                            {url: $('#inputUrl').val(),
+                                tableparserClass: $('#tableparser').val(),
+                                email: $('#inputEmail').val(),
+                                tableIndexes: selectedTableIndexes});
+
+                    this.disabled = true;
+                    document.getElementById('previewButton').disabled = true;
+                    alert('TableMiner+ has started. Log will be shown in the bottom panel of this page. Please wait until the task is finished before submitting another job. Currently we do not support multi-tasking, which can corrupt the cache used to save remote query results.');
+                    //var enterURL=$('inputUrl').val();
+                    //alert("Button Clicked:"+$('#inputUrl').val());        	
+                });
+
+            });
+
+            socket.on('sti_info', function (data) {
+                var content = document.getElementById('log').innerHTML;
+                document.getElementById('log').innerHTML = content + data.msg;
+            });
+            socket.on('sti_err', function (data) {
+                var content = document.getElementById('log').innerHTML;
+                document.getElementById('log').innerHTML = content + data.msg;
+            });
+            socket.on('sti_complete', function (data) {
+                document.getElementById('previewButton').disabled = false;
+                document.getElementById('startTaskButton').disabled = false;
+                alert("Your task is complete. Visit " + data.msg + " for your output. Thanks for using TableMiner+");
+            });
+
+            //window.onload=populateTableParserSelect;
+        </script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="input">
+                <div id="input_banner">
+                    <table style="width: 100%" border="0">
+                        <tbody>
+                            <tr>
+                                <td id="input_header">TableMiner+</td>
+                                <td id="input_header_label">Define the extraction task</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <form accept-charset="utf-8" target="_self" enctype="multipart/form-data"
+                      autocomplete="off"
+                      method="POST"
+                      action="process.jsp"
+                      name="task">
+                    <div class="form_div" id="form_url"><img class="icon" alt="" src="resources/icon_url.png">Enter
+                        a URL containing relational tables<br>
+                        <input size="38" name="url" id="inputUrl" type="text"><button id="previewButton"
+                                                                                      style="margin-left: 10px"
+                                                                                      type="button">Preview</button>
+                    </div>
+                    <div class="form_div" id="form_tableparser"><img class="icon" alt="" src="resources/icon_parser.png">Select
+                        a table parser<br>
+                        (To identify relational tables from input files.)&nbsp;
+                        <select id="tableparser" style="margin-left:25px">
+                        </select>
+                    </div>
+                    <div class="form_div" id="form_email"><img class="icon" alt="" src="resources/icon_email.png">Enter
+                        an Email address for notification<br>
+                        <input size="45" name="email" id="inputEmail" required="" type="text">
+                    </div>
+                    <div style="margin-left:10px; margin-top:10px;"> <a
+                            href="#"  id="setting_tmp">TableMiner+
+                            settings</a><br>
+                        <div style="margin-left: 25px; margin-top: 10px; font-size:small;">Advanced
+                            users only. You may change settings such as feature weights,
+                            knowledge base query constraints, NLP resources used by the
+                            system, etc.</div>
+                    </div>
+                    <div style="margin-left:10px; margin-top:10px;">
+                        <a href="#" id="setting_kb">Knowledge base settings</a><br>
+                        <div style="margin-left: 25px; margin-top: 10px; font-size:small;">Advanced
+                            users only. You may change configure what knowledge to use, and
+                            its properties such as access URL, API key etc.</div>
+                    </div>
+                    <div style="margin-left:10px; margin-top:10px;">
+                        <a href="#" id="setting_web">Web search settings</a><br>
+                        <div style="margin-left: 25px; margin-top: 10px; font-size:small;">Advanced
+                            users only. You may configure a Web search instance to be used by
+                            TableMiner+ for detecting subject columns.</div>
+                    </div>
+                    <div class="form_div" id="form_submit" style="margin-top: 30px"> <button
+                            style="margin-left: 20px"
+                            type="reset">Reset</button>
+                        <button id="startTaskButton" style="margin-left: 20px" type="button">Start</button>
+                    </div>
+                </form>
+            </div>
+            <iframe id="preview"></iframe> </div>
+        <div id="log"></div>
+        <div class="modal fade" id="settingsModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Advanced Settings</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div id="configInput">                           
+                            <form accept-charset="utf-8" target="_self" enctype="multipart/form-data"
+                                  autocomplete="off"        
+                                  name="task">
+                                <div class="form_div" id="form_config"><img class="icon" alt="" src="resources/icon_email.png">Please
+                                    follow the instructions as provided below. When finished, click
+                                    submit to save the changes.<br>
+                                    <textarea rows="30" cols="75" id="configContent"></textarea>                                     
+                                </div>                                                                
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" id="configButton" class="btn btn-default" onclick="doSave()">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <input type="hidden" id="configType" value="">
+    </body>
+</html>

@@ -2,6 +2,9 @@
 # Operating System Files
 # =========================
 
+ui/tmp
+ui/output
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -54,6 +57,8 @@ failed.txt
 output/*
 *.log
 */target
+*.iml
+.idea/*
 cache/empty/class/data/*
 cache/empty/entity/data/*
 cache/empty/relation/data/*
@@ -123,3 +128,8 @@ local.properties
 *.iml
 */.idea
 .Idea/*
+out/*
+classes/*
+/ui/nbproject/private/
+*/.idea/*
+target/*

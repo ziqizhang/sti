@@ -35,8 +35,8 @@
 		<!-- Core -->
 		<dependency>
 			<groupId>uk.ac.shef.dcs</groupId>
-			<artifactId>sti</artifactId>
-			<version>1.0</version>
+			<artifactId>sti-main</artifactId>
+			<version>1.0alpha</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>guava-jdk5</artifactId>
