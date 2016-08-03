@@ -10,6 +10,7 @@ import com.google.common.base.Preconditions;
 import cz.cuni.mff.xrg.odalic.api.rest.adapters.ConfigurationAdapter;
 import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
 import cz.cuni.mff.xrg.odalic.files.File;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 
 /**
  * Task configuration.
@@ -26,30 +27,32 @@ public final class Configuration implements Serializable {
   private final File input; 
 
   private final Feedback feedback;
+  
+  private final KnowledgeBase primaryBase;
 
   /**
    * Creates configuration without any feedback, thus implying fully automatic processing.
    * 
    * @param input input specification
    */
-  public Configuration(File input) {
-    Preconditions.checkNotNull(input);
-    
-    this.input = input;
-    this.feedback = new Feedback();
+  public Configuration(File input, KnowledgeBase primaryBase) {
+    this(input, primaryBase, new Feedback());
   }
   
   /**
    * Creates configuration with provided feedback, which serves as hint for the processing algorithm.
    * 
    * @param input input specification
+   * @param primaryBase primary knowledge base
    * @param feedback constraints for the algorithm
    */
-  public Configuration(File input, Feedback feedback) {
+  public Configuration(File input, KnowledgeBase primaryBase, Feedback feedback) {
     Preconditions.checkNotNull(input);
+    Preconditions.checkNotNull(primaryBase);
     Preconditions.checkNotNull(feedback);
     
     this.input = input;
+    this.primaryBase = primaryBase;
     this.feedback = feedback;
   }
 
@@ -65,6 +68,13 @@ public final class Configuration implements Serializable {
    */
   public Feedback getFeedback() {
     return feedback;
+  }
+
+  /**
+   * @return the primary knowledge base
+   */
+  public KnowledgeBase getPrimaryBase() {
+    return primaryBase;
   }
 
   /* (non-Javadoc)

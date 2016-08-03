@@ -70,8 +70,8 @@ public final class TaskResource {
   public Response putTaskWithId(@Context UriInfo uriInfo, @PathParam("id") String id, TaskValue taskValue) throws MalformedURLException {
     final ConfigurationValue configurationValue = taskValue.getConfiguration();
     final File input = fileService.getById(configurationValue.getInput());
-    final Configuration configuration = new Configuration(input, configurationValue.getFeedback());
-    final Task task = new Task(taskValue.getId(), taskValue.getCreated(), new Configuration(input, configuration.getFeedback()));
+    final Configuration configuration = new Configuration(input, configurationValue.getPrimaryBase(), configurationValue.getFeedback());
+    final Task task = new Task(taskValue.getId(), taskValue.getCreated(), configuration);
     
     if (!taskService.hasId(task, id)) {
       return Response.status(Response.Status.NOT_ACCEPTABLE)
