@@ -14,6 +14,8 @@ public class TableColumn {
   
   private final String dataType;
   
+  private final boolean virtual;
+  
   private final boolean suppressOutput;
   
   private final String aboutUrl;
@@ -25,12 +27,13 @@ public class TableColumn {
   private final String valueUrl;
   
   public TableColumn(String name, List<String> titles, String description,
-      String dataType, boolean suppressOutput, String aboutUrl,
-      String separator, String propertyUrl, String valueUrl) {
+      String dataType, boolean virtual, boolean suppressOutput,
+      String aboutUrl, String separator, String propertyUrl, String valueUrl) {
     Preconditions.checkNotNull(name);
     Preconditions.checkNotNull(titles);
     Preconditions.checkNotNull(description);
     Preconditions.checkNotNull(dataType);
+    Preconditions.checkNotNull(virtual);
     Preconditions.checkNotNull(suppressOutput);
     Preconditions.checkNotNull(aboutUrl);
     Preconditions.checkNotNull(separator);
@@ -41,6 +44,7 @@ public class TableColumn {
     this.titles = titles;
     this.description = description;
     this.dataType = dataType;
+    this.virtual = virtual;
     this.suppressOutput = suppressOutput;
     this.aboutUrl = aboutUrl;
     this.separator = separator;
@@ -53,8 +57,8 @@ public class TableColumn {
    */
   @Override
   public String toString() {
-    return "TableColumn [name=" + name + ", titles=" + titles + ", description=" + description
-        + "dataType=" + dataType + ", suppressOutput=" + suppressOutput + ", aboutUrl=" + aboutUrl
-        + "separator=" + separator + ", propertyUrl=" + propertyUrl + ", valueUrl=" + valueUrl + "]";
+    return "TableColumn [name=" + name + ", titles=" + titles + ", description=" + description + ", dataType="
+        + dataType + ", virtual=" + virtual + ", suppressOutput=" + suppressOutput + ", aboutUrl=" + aboutUrl
+        + ", separator=" + separator + ", propertyUrl=" + propertyUrl + ", valueUrl=" + valueUrl + "]";
   }
 }
