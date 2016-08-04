@@ -1,17 +1,42 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Perform EOL normalization when needed
+*               text=auto
 
-# Custom for Visual Studio
-*.cs     diff=csharp
+Cakefile        text eol=lf
+LICENCE         text eol=lf
+LICENSE         text eol=lf
+LICENSE-MIT     text eol=lf
+Makefile        text eol=lf
+*.coffee        text eol=lf
+*.css           text eol=lf
+*.eslintignore  text eol=lf
+*.eslintrc      text eol=lf
+*.gitattributes text eol=lf
+*.gitignore     text eol=lf
+*.gitmodules    text eol=lf
+*.html          text eol=lf
+*.info          text eol=lf
+*.jamignore     text eol=lf
+*.java          text eol=lf
+*.js            text eol=lf
+*.jshintrc      text eol=lf
+*.json          text eol=lf
+*.js            text eol=lf
+*.md            text eol=lf
+*.md~           text eol=lf
+*.npmignore     text eol=lf
+*.properties    text eol=lf
+*.py            text eol=lf
+*.sh            text eol=lf
+*.txt           text eol=lf
+*.watchr        text eol=lf
+*.xml           text eol=lf
+*.yml           text eol=lf
 
-# Standard to msysgit
-*.doc	 diff=astextplain
-*.DOC	 diff=astextplain
-*.docx diff=astextplain
-*.DOCX diff=astextplain
-*.dot  diff=astextplain
-*.DOT  diff=astextplain
-*.pdf  diff=astextplain
-*.PDF	 diff=astextplain
-*.rtf	 diff=astextplain
-*.RTF	 diff=astextplain
+*.bat           text eol=crlf
+
+*.bin           binary
+*.gif           binary
+*.jar           binary
+*.jpg           binary
+*.png           binary
+*.zip           binary
