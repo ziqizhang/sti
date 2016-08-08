@@ -1,5 +1,6 @@
 package uk.ac.shef.dcs.kbsearch.sparql;
 
+import uk.ac.shef.dcs.kbsearch.KBDefinition;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 
 /**
@@ -15,19 +16,18 @@ public class SPARQLAttribute extends Attribute {
     }
 
     @Override
-    public boolean isAlias() {
-        return getRelationURI().endsWith(RDFEnum.RELATION_HASLABEL_SUFFIX_PATTERN.getString()) ||
-                getRelationURI().equals(FOAFEnum.RELATION_HASLABEL.getString()) ||
-                getRelationURI().equals(DBpediaEnum.RELATION_HASFULLNAME.getString()) ||
-                getRelationURI().equals(DBpediaEnum.RELATION_HASNAME.getString())||
-                getRelationURI().equals(DCEnum.RELATION_HASLABEL.getString());
+    public boolean isAlias(KBDefinition definition) {
+        return definition.getPredicateLabel().contains(getRelationURI()) ||
+                definition.getPredicateName().contains(getRelationURI()) ||
+                definition.getPredicateFullName().contains(getRelationURI()) ||
+                definition.getPredicateLabelSuffix().stream().anyMatch(item -> getRelationURI().endsWith(item));
     }
 
     @Override
-    public boolean isDescription() {
-        return getRelationURI().equals(DBpediaEnum.RELATION_HASABSTRACT.getString()) ||
-                getRelationURI().endsWith(RDFEnum.RELATION_HASCOMMENT_SUFFIX_PATTERN.getString()) ||
-                getRelationURI().equals(DCEnum.RELATION_HASDESCRIPTION.getString());
+    public boolean isDescription(KBDefinition definition) {
+        return definition.getPredicateDescription().contains(getRelationURI()) ||
+                definition.getPredicateAbstract().contains(getRelationURI()) ||
+                definition.getPredicateCommentSuffix().stream().anyMatch(item -> getRelationURI().endsWith(item));
     }
 
     @Override

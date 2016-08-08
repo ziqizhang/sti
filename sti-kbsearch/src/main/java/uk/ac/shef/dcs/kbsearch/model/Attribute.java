@@ -1,5 +1,7 @@
 package uk.ac.shef.dcs.kbsearch.model;
 
+import uk.ac.shef.dcs.kbsearch.KBDefinition;
+
 import java.io.Serializable;
 
 /**
@@ -21,17 +23,18 @@ public abstract class Attribute implements Serializable{
         this.value= fixValue(value);
     }
 
+    // TODO: Fix the dependency on KBDefinition
     /**
      *
      * @return true if the attribute is about alias
      */
-    public abstract boolean isAlias();
+    public abstract boolean isAlias(KBDefinition definition);
 
     /**
      *
      * @return true if the attribute is about description
      */
-    public abstract boolean isDescription();
+    public abstract boolean isDescription(KBDefinition definition);
 
     public void setRelationURI(String relationURI) {
         this.relationURI = relationURI;

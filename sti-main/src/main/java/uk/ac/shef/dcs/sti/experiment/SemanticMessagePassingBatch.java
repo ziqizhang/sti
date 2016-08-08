@@ -66,7 +66,7 @@ public class SemanticMessagePassingBatch extends STIBatch {
         try {
             kbSearch = fbf.createInstance(
                     getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE),
-                    kbEntityServer, kbClazzServer, null,null);
+                    kbEntityServer, kbClazzServer, null,null).iterator().next();
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));
@@ -106,7 +106,7 @@ public class SemanticMessagePassingBatch extends STIBatch {
                         STIConstantProperty.SCORER_ENTITY_CONTEXT_WEIGHT,
                         getNLPResourcesDir());
             } else if (neRanker != null && neRanker.equalsIgnoreCase("smpfreebase"))
-                entityScorer = new SMPAdaptedEntityScorer(getStopwords(), getNLPResourcesDir());
+                entityScorer = new SMPAdaptedEntityScorer(getStopwords(), getNLPResourcesDir(), kbSearch.getKbDefinition());
             else
                 throw new STIException(neRanker + " is not a supported option for NE Ranker");
 

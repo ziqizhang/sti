@@ -35,7 +35,7 @@ import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 
 /**
- * <p>Implementation of {@link ExecutionService} based on {@link Future} and {@link ExecutorServicee}
+ * <p>Implementation of {@link ExecutionService} based on {@link Future} and {@link ExecutorService}
  * implementations.</p>
  * 
  * <p>Provides no persistence whatsoever</p>
@@ -96,13 +96,16 @@ public final class FutureBasedExecutionService implements ExecutionService {
       final Input input = csvInputParser.parse(data, file.getId(), new CsvConfiguration());
       final Table table = inputToTableAdapter.toTable(input);
 
-      final SemanticTableInterpreter interpreter = semanticTableInterpreterFactory.getInterpreter();
+      final Map<String, SemanticTableInterpreter> interpreters = semanticTableInterpreterFactory.getInterpreters();
       semanticTableInterpreterFactory.setColumnIgnoresForInterpreter(columnIgnores);
 
-      final TAnnotation annotationResult = interpreter.start(table, true);
-      // TODO: Add multiple KB support to configuration.
+      Map<KnowledgeBase, TAnnotation> results = new HashMap<>();
+      for (Map.Entry<String, SemanticTableInterpreter> interpreterEntry : interpreters.entrySet()) {
+        final TAnnotation annotationResult = interpreterEntry.getValue().start(table, true);
+        results.put(new KnowledgeBase(interpreterEntry.getKey()), annotationResult);
+      }
       final Result result = annotationResultAdapter
-          .toResult(ImmutableMap.of(new KnowledgeBase("DBpedia"), annotationResult));
+          .toResult(results);
 
       return result;
     };

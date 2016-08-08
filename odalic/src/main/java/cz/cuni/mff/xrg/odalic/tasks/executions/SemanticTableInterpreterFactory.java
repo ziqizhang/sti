@@ -1,5 +1,6 @@
 package cz.cuni.mff.xrg.odalic.tasks.executions;
 
+import java.util.Map;
 import java.util.Set;
 
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnIgnore;
@@ -17,9 +18,9 @@ public interface SemanticTableInterpreterFactory {
   /**
    * Lazily initializes the interpreter.
    * 
-   * @return the interpreter implementation
+   * @return the interpreter implementations
    */
-  SemanticTableInterpreter getInterpreter();
+  Map<String, SemanticTableInterpreter> getInterpreters();
 
   /**
    * Sets the ignored columns for the created interpreter.

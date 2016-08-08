@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
@@ -40,8 +42,8 @@ public class InterpreterExecutionBatch {
     final String testFileDirectoryPath = args[1];
 
     final SemanticTableInterpreterFactory factory = new TableMinerPlusFactory(propertyFilePath);
-    final SemanticTableInterpreter semanticTableInterpreter = factory.getInterpreter();
-    Preconditions.checkNotNull(semanticTableInterpreter);
+    final Map<String, SemanticTableInterpreter> semanticTableInterpreters = factory.getInterpreters();
+    Preconditions.checkNotNull(semanticTableInterpreters);
 
     factory.setColumnIgnoresForInterpreter(ImmutableSet.of());
 
@@ -54,16 +56,19 @@ public class InterpreterExecutionBatch {
           .parse(inputFileStream, inputFile.getName(), new CsvConfiguration());
       final Table table = new DefaultInputToTableAdapter().toTable(input);
 
-      final TAnnotation annotationResult;
       try {
-        annotationResult = semanticTableInterpreter.start(table, true);
+        Map<KnowledgeBase, TAnnotation> results = new HashMap<>();
+        for(Map.Entry<String, SemanticTableInterpreter> interpreterEntry : semanticTableInterpreters.entrySet()) {
+          TAnnotation annotationResult = interpreterEntry.getValue().start(table, true);
 
-        System.out.println("Result - OK:");
-        System.out.println(annotationResult.toString());
+          System.out.println("Result - OK:");
+          System.out.println(annotationResult.toString());
+          results.put(new KnowledgeBase(interpreterEntry.getKey()), annotationResult);
+        }
 
         DefaultAnnotationToResultAdapter adapter = new DefaultAnnotationToResultAdapter();
         Result odalicResult =
-            adapter.toResult(ImmutableMap.of(new KnowledgeBase("DBpedia"), annotationResult));
+            adapter.toResult(results);
 
         System.out.println(odalicResult.toString());
       } catch (STIException e) {

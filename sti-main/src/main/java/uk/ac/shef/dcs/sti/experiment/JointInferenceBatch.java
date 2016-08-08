@@ -84,7 +84,7 @@ public class JointInferenceBatch extends STIBatch {
         try {
             kbSearch = fbf.createInstance(
                     getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE),
-                    kbEntityServer, kbClazzServer, kbPropertyServer,simServer);
+                    kbEntityServer, kbClazzServer, kbPropertyServer,simServer).iterator().next();
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));

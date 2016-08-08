@@ -1,5 +1,7 @@
 package uk.ac.shef.dcs.kbsearch.model;
 
+import uk.ac.shef.dcs.kbsearch.KBDefinition;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,10 +20,10 @@ public abstract class Resource implements Serializable {
     private String description; //a description, if available
     private Set<String> aliases; //aliases, if available
 
-    public String getDescription(){
+    public String getDescription(KBDefinition definition){
         if(description==null||description.equals("")){
             for(Attribute attr: getAttributes()){
-                if(attr.isDirect()&&attr.isDescription()) {
+                if(attr.isDirect()&&attr.isDescription(definition)) {
                     description = attr.getValue();
                     break;
                 }
@@ -32,14 +34,14 @@ public abstract class Resource implements Serializable {
         return description;
     }
 
-    public Set<String> getAliases(){
+    public Set<String> getAliases(KBDefinition definition){
         if(aliases==null) {
             aliases = new HashSet<>();
             return aliases;
         }
         if(aliases.size()==0){
             for(Attribute attr: getAttributes()){
-                if(attr.isDirect()&&attr.isAlias() && !attr.getValue().equals(getLabel())) {
+                if(attr.isDirect()&&attr.isAlias(definition) && !attr.getValue().equals(getLabel())) {
                     aliases.add(attr.getValue());
                 }
             }
