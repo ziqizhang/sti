@@ -13,8 +13,19 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.HeaderAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
 import cz.cuni.mff.xrg.odalic.tasks.results.Result;
 
+/**
+ * The default {@link ResultToAnnotatedTableAdapter} implementation.
+ * 
+ * @author Josef Janoušek
+ *
+ */
 public class DefaultResultToAnnotatedTableAdapter implements ResultToAnnotatedTableAdapter {
 
+  /**
+   * The default toAnnotatedTable implementation.
+   * 
+   * @see cz.cuni.mff.xrg.odalic.outputs.annotatedtable.ResultToAnnotatedTableAdapter#toAnnotatedTable(cz.cuni.mff.xrg.odalic.results.Result, cz.cuni.mff.xrg.odalic.input.Input, cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration)
+   */
   @Override
   public AnnotatedTable toAnnotatedTable(Result result, Input input, Configuration configuration) {
     
