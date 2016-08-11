@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import cz.cuni.mff.xrg.odalic.input.Input;
 import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
@@ -29,19 +30,22 @@ public class DefaultResultToAnnotatedTableAdapter implements ResultToAnnotatedTa
   @Override
   public AnnotatedTable toAnnotatedTable(Result result, Input input, Configuration configuration) {
     
-    int subjectColumnIndex = result.getSubjectColumnPosition().getIndex();
-    
     List<TableColumn> columns = new ArrayList<TableColumn>();
    
     List<String> headers = input.headers();
     int i = 0;
     for (HeaderAnnotation headerAnnotation : result.getHeaderAnnotations()) {
-      columns.add(createOriginalColumn(headers.get(i)));
+      Set<EntityCandidate> chosenCandidates = headerAnnotation.getChosen().get(configuration.getPrimaryBase());
+      boolean chosenIsEmpty = chosenCandidates.isEmpty();
       
-      columns.add(createDisambiguationColumn(headers.get(i), subjectColumnIndex == i));
+      columns.add(createOriginalColumn(headers.get(i), chosenIsEmpty));
       
-      for (EntityCandidate chosen : headerAnnotation.getChosen().get(configuration.getPrimaryBase())) {
-        columns.add(createClassificationColumn(headers.get(i), chosen.getEntity().getResource()));
+      if (!chosenIsEmpty) {
+        columns.add(createDisambiguationColumn(headers.get(i)));
+        
+        for (EntityCandidate chosen : chosenCandidates) {
+          columns.add(createClassificationColumn(headers.get(i), chosen.getEntity().getResource()));
+        }
       }
       
       i++;
@@ -57,24 +61,24 @@ public class DefaultResultToAnnotatedTableAdapter implements ResultToAnnotatedTa
     return new AnnotatedTable(input.identifier(), new TableSchema(columns));
   }
   
-  private TableColumn createOriginalColumn(String columnName) {
+  private TableColumn createOriginalColumn(String columnName, boolean chosenIsEmpty) {
     return new TableColumn(columnName, Arrays.asList(columnName),
-        "", "anyURI",
+        "", chosenIsEmpty ? "" : "anyURI",
         false, false,
-        bracketFormat(urlFormat(columnName)), "", "dcterms:title", "");
+        chosenIsEmpty ? "" : bracketFormat(urlFormat(columnName)), "", chosenIsEmpty ? "" : "dcterms:title", "");
   }
   
   private TableColumn createClassificationColumn(String columnName, String resource) {
     return new TableColumn(typeFormat(columnName), Arrays.asList(""),
         "", "",
         true, false,
-        bracketFormat(urlFormat(columnName)), "", "rdf:type", bracketFormat(resource));
+        bracketFormat(urlFormat(columnName)), "", "rdf:type", resource);
   }
   
-  private TableColumn createDisambiguationColumn(String columnName, boolean isSubjectColumn) {    
+  private TableColumn createDisambiguationColumn(String columnName) {
     return new TableColumn(urlFormat(columnName), Arrays.asList(""),
                            "", "",
-                           false, isSubjectColumn,
+                           false, true,
                            "", "", "", bracketFormat(urlFormat(columnName)));
   }
   
