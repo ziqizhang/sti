@@ -20,6 +20,17 @@ public final class ListsBackedInputBuilder implements InputBuilder {
   
   public ListsBackedInputBuilder() { }
   
+  public void setInitialInput(Input initialInput) {
+    clear();
+    setFileIdentifier(initialInput.identifier());
+    headers.addAll(initialInput.headers());
+    for (List<String> rowList : initialInput.rows()) {
+      List<String> newList = new ArrayList<>();
+      newList.addAll(rowList);
+      rows.add(newList);
+    }
+  }
+  
   void setFileIdentifier(String fileIdentifier) {
     Preconditions.checkNotNull(fileIdentifier);
     
