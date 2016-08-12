@@ -3,8 +3,6 @@ package cz.cuni.mff.xrg.odalic.outputs.csvexport;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.base.Preconditions;
-
 import cz.cuni.mff.xrg.odalic.input.Input;
 import cz.cuni.mff.xrg.odalic.input.ListsBackedInputBuilder;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
@@ -20,14 +18,6 @@ import cz.cuni.mff.xrg.odalic.tasks.results.Result;
  */
 public class DefaultResultToCSVExportAdapter implements ResultToCSVExportAdapter {
 
-  private final ListsBackedInputBuilder builder;
-
-  public DefaultResultToCSVExportAdapter(ListsBackedInputBuilder builder) {
-    Preconditions.checkNotNull(builder);
-
-    this.builder = builder;
-  }
-  
   /**
    * The default toCSVExport implementation.
    * 
@@ -36,7 +26,7 @@ public class DefaultResultToCSVExportAdapter implements ResultToCSVExportAdapter
   @Override
   public Input toCSVExport(Result result, Input input, Configuration configuration) {
     
-    builder.setInitialInput(input);
+    ListsBackedInputBuilder builder = new ListsBackedInputBuilder(input);
     
     List<String> headers = input.headers();
     int newPosition = input.columnsCount();

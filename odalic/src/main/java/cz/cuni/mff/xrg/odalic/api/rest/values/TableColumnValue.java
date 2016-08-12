@@ -32,10 +32,10 @@ public final class TableColumnValue implements Serializable {
   private String dataType;
   
   @XmlElement
-  private boolean virtual;
+  private Boolean virtual;
   
   @XmlElement
-  private boolean suppressOutput;
+  private Boolean suppressOutput;
   
   @XmlElement
   private String aboutUrl;
@@ -95,14 +95,14 @@ public final class TableColumnValue implements Serializable {
   /**
    * @return the virtual
    */
-  public boolean getVirtual() {
+  public Boolean getVirtual() {
     return virtual;
   }
   
   /**
    * @return the suppressOutput
    */
-  public boolean getSuppressOutput() {
+  public Boolean getSuppressOutput() {
     return suppressOutput;
   }
   

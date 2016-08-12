@@ -20,8 +20,7 @@ public final class ListsBackedInputBuilder implements InputBuilder {
   
   public ListsBackedInputBuilder() { }
   
-  public void setInitialInput(Input initialInput) {
-    clear();
+  public ListsBackedInputBuilder(Input initialInput) {
     setFileIdentifier(initialInput.identifier());
     headers.addAll(initialInput.headers());
     for (List<String> rowList : initialInput.rows()) {

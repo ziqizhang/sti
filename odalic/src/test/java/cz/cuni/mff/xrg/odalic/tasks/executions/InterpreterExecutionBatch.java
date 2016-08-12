@@ -87,7 +87,7 @@ public class InterpreterExecutionBatch {
         String json = gson.toJson(annotatedTable);
         System.out.println(json);
         
-        DefaultResultToCSVExportAdapter adapter3 = new DefaultResultToCSVExportAdapter(new ListsBackedInputBuilder());
+        DefaultResultToCSVExportAdapter adapter3 = new DefaultResultToCSVExportAdapter();
         Input extendedInput =
             adapter3.toCSVExport(odalicResult, input, new Configuration(new cz.cuni.mff.xrg.odalic.files.File(inputFile.getName(), "x", inputFile.toURI().toURL()), new KnowledgeBase("DBpedia")));
         

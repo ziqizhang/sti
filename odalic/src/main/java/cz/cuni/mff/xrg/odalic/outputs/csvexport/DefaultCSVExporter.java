@@ -35,7 +35,7 @@ public class DefaultCSVExporter implements CSVExporter {
     csvPrinter.flush();
     csvPrinter.close();
     
-    return stringWriter.toString();
+    return stringWriter.toString().trim();
   }
 
 }
