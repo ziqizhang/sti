@@ -17,7 +17,10 @@ import cz.cuni.mff.xrg.odalic.input.DefaultCsvInputParser;
 import cz.cuni.mff.xrg.odalic.input.DefaultInputToTableAdapter;
 import cz.cuni.mff.xrg.odalic.input.Input;
 import cz.cuni.mff.xrg.odalic.input.ListsBackedInputBuilder;
+import cz.cuni.mff.xrg.odalic.outputs.annotatedtable.AnnotatedTable;
+import cz.cuni.mff.xrg.odalic.outputs.annotatedtable.DefaultResultToAnnotatedTableAdapter;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
+import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
 import cz.cuni.mff.xrg.odalic.tasks.results.DefaultAnnotationToResultAdapter;
 import cz.cuni.mff.xrg.odalic.tasks.results.Result;
 import uk.ac.shef.dcs.sti.STIException;
@@ -71,6 +74,12 @@ public class InterpreterExecutionBatch {
             adapter.toResult(results);
 
         System.out.println(odalicResult.toString());
+        
+        DefaultResultToAnnotatedTableAdapter adapter2 = new DefaultResultToAnnotatedTableAdapter();
+        AnnotatedTable annotatedTable =
+            adapter2.toAnnotatedTable(odalicResult, input, new Configuration(new cz.cuni.mff.xrg.odalic.files.File(inputFile.getName(), "x", inputFile.toURI().toURL()), new KnowledgeBase("DBpedia")));
+        
+        System.out.println(annotatedTable.toString());
       } catch (STIException e) {
         System.out.println("Result - Error:");
         e.printStackTrace();
