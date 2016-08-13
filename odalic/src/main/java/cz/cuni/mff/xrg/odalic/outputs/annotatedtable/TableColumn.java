@@ -32,9 +32,9 @@ public class TableColumn implements Serializable {
   
   private final String dataType;
   
-  private final boolean virtual;
+  private final Boolean virtual;
   
-  private final boolean suppressOutput;
+  private final Boolean suppressOutput;
   
   private final String aboutUrl;
   
@@ -59,18 +59,9 @@ public class TableColumn implements Serializable {
    * @param valueUrl column value valueUrl
    */
   public TableColumn(String name, List<String> titles, String description,
-      String dataType, boolean virtual, boolean suppressOutput,
+      String dataType, Boolean virtual, Boolean suppressOutput,
       String aboutUrl, String separator, String propertyUrl, String valueUrl) {
     Preconditions.checkNotNull(name);
-    Preconditions.checkNotNull(titles);
-    Preconditions.checkNotNull(description);
-    Preconditions.checkNotNull(dataType);
-    Preconditions.checkNotNull(virtual);
-    Preconditions.checkNotNull(suppressOutput);
-    Preconditions.checkNotNull(aboutUrl);
-    Preconditions.checkNotNull(separator);
-    Preconditions.checkNotNull(propertyUrl);
-    Preconditions.checkNotNull(valueUrl);
     
     this.name = name;
     this.titles = titles;
@@ -115,14 +106,14 @@ public class TableColumn implements Serializable {
   /**
    * @return the virtual
    */
-  public boolean getVirtual() {
+  public Boolean getVirtual() {
     return virtual;
   }
   
   /**
    * @return the suppressOutput
    */
-  public boolean getSuppressOutput() {
+  public Boolean getSuppressOutput() {
     return suppressOutput;
   }
   
@@ -167,8 +158,8 @@ public class TableColumn implements Serializable {
     result = prime * result + ((titles == null) ? 0 : titles.hashCode());
     result = prime * result + ((description == null) ? 0 : description.hashCode());
     result = prime * result + ((dataType == null) ? 0 : dataType.hashCode());
-    result = prime * result + (Boolean.valueOf(virtual).hashCode());
-    result = prime * result + (Boolean.valueOf(suppressOutput).hashCode());
+    result = prime * result + ((virtual == null) ? 0 : virtual.hashCode());
+    result = prime * result + ((suppressOutput == null) ? 0 : suppressOutput.hashCode());
     result = prime * result + ((aboutUrl == null) ? 0 : aboutUrl.hashCode());
     result = prime * result + ((separator == null) ? 0 : separator.hashCode());
     result = prime * result + ((propertyUrl == null) ? 0 : propertyUrl.hashCode());
@@ -221,10 +212,18 @@ public class TableColumn implements Serializable {
     } else if (!dataType.equals(other.dataType)) {
       return false;
     }
-    if (!Boolean.valueOf(virtual).equals(Boolean.valueOf(other.virtual))) {
+    if (virtual == null) {
+      if (other.virtual != null) {
+        return false;
+      }
+    } else if (!virtual.equals(other.virtual)) {
       return false;
     }
-    if (!Boolean.valueOf(suppressOutput).equals(Boolean.valueOf(other.suppressOutput))) {
+    if (suppressOutput == null) {
+      if (other.suppressOutput != null) {
+        return false;
+      }
+    } else if (!suppressOutput.equals(other.suppressOutput)) {
       return false;
     }
     if (aboutUrl == null) {

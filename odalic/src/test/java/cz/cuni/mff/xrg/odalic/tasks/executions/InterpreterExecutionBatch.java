@@ -2,13 +2,18 @@ package cz.cuni.mff.xrg.odalic.tasks.executions;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import cz.cuni.mff.xrg.odalic.input.CsvConfiguration;
 import cz.cuni.mff.xrg.odalic.input.DefaultCsvInputParser;
@@ -17,6 +22,8 @@ import cz.cuni.mff.xrg.odalic.input.Input;
 import cz.cuni.mff.xrg.odalic.input.ListsBackedInputBuilder;
 import cz.cuni.mff.xrg.odalic.outputs.annotatedtable.AnnotatedTable;
 import cz.cuni.mff.xrg.odalic.outputs.annotatedtable.DefaultResultToAnnotatedTableAdapter;
+import cz.cuni.mff.xrg.odalic.outputs.csvexport.DefaultCSVExporter;
+import cz.cuni.mff.xrg.odalic.outputs.csvexport.DefaultResultToCSVExportAdapter;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
 import cz.cuni.mff.xrg.odalic.tasks.results.DefaultAnnotationToResultAdapter;
@@ -75,6 +82,29 @@ public class InterpreterExecutionBatch {
             adapter2.toAnnotatedTable(odalicResult, input, new Configuration(new cz.cuni.mff.xrg.odalic.files.File(inputFile.getName(), "x", inputFile.toURI().toURL()), new KnowledgeBase("DBpedia")));
         
         System.out.println(annotatedTable.toString());
+        
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(annotatedTable);
+        System.out.println(json);
+        
+        DefaultResultToCSVExportAdapter adapter3 = new DefaultResultToCSVExportAdapter();
+        Input extendedInput =
+            adapter3.toCSVExport(odalicResult, input, new Configuration(new cz.cuni.mff.xrg.odalic.files.File(inputFile.getName(), "x", inputFile.toURI().toURL()), new KnowledgeBase("DBpedia")));
+        
+        String csv = new DefaultCSVExporter().export(extendedInput, new CsvConfiguration());
+        System.out.println(csv);
+        
+        try (FileWriter writer = new FileWriter(testFileDirectoryPath + File.separator + FilenameUtils.getBaseName(inputFile.getName()) + ".json")) {
+          gson.toJson(annotatedTable, writer);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+        
+        try (FileWriter writer = new FileWriter(testFileDirectoryPath + File.separator + FilenameUtils.getBaseName(inputFile.getName()) + "-export.csv")) {
+          writer.write(csv);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
       } catch (STIException e) {
         System.out.println("Result - Error:");
         e.printStackTrace();
