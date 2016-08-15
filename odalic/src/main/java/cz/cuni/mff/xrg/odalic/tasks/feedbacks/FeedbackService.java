@@ -17,5 +17,12 @@ public interface FeedbackService {
 
   void setForTaskId(String taskId, Feedback feedback);
 
+  /**
+   * Get the task input to base the feedback on.
+   * 
+   * @param id task ID
+   * @return input used as the basis of feedback
+   * @throws IOException when I/O exception occurs when reading underlying data
+   */
   Input getInputForTaskId(String id) throws IOException;
 }
