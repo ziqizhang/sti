@@ -1,10 +1,13 @@
 package cz.cuni.mff.xrg.odalic.tasks.executions;
 
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
+
+import cz.cuni.mff.xrg.odalic.tasks.Task;
 import cz.cuni.mff.xrg.odalic.tasks.results.Result;
 
 /**
- * Manages the task execution.
+ * Manages the {@link Task} execution.
  * 
  * @author Václav Brodec
  *
@@ -49,8 +52,9 @@ public interface ExecutionService {
    * @return annotations for the task input
    * @throws InterruptedException if the execution was interrupted while waiting
    * @throws ExecutionException if the computation threw an exception
+   * @throws CancellationException  if the computation was cancelled
    */
-  Result getResultForTaskId(String id) throws InterruptedException, ExecutionException;
+  Result getResultForTaskId(String id) throws InterruptedException, ExecutionException, CancellationException;
 
   /**
    * Indicates the state of scheduling.

@@ -127,7 +127,7 @@ public final class CsvConfiguration implements Serializable {
   }
 
 
-  CSVFormat toApacheConfiguration() {
+  public CSVFormat toApacheConfiguration() {
     CSVFormat format = CSVFormat.newFormat(delimiter).withAllowMissingColumnNames()
         .withIgnoreEmptyLines(emptyLinesIgnored).withIgnoreHeaderCase(headerCaseIgnored);
 

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,10 +36,14 @@ import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 
 /**
- * <p>Implementation of {@link ExecutionService} based on {@link Future} and {@link ExecutorService}
- * implementations.</p>
+ * <p>
+ * Implementation of {@link ExecutionService} based on {@link Future} and {@link ExecutorServicee}
+ * implementations.
+ * </p>
  * 
- * <p>Provides no persistence whatsoever</p>
+ * <p>
+ * Provides no persistence whatsoever
+ * </p>
  * 
  * @author Václav Brodec
  *
@@ -74,7 +79,9 @@ public final class FutureBasedExecutionService implements ExecutionService {
     this.inputToTableAdapter = inputToTableAdapter;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   *
    * @see cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService#submitForTaskId(java.lang.String)
    */
   @Override
@@ -115,7 +122,8 @@ public final class FutureBasedExecutionService implements ExecutionService {
   }
 
   @Override
-  public Result getResultForTaskId(String id) throws InterruptedException, ExecutionException {
+  public Result getResultForTaskId(String id)
+      throws InterruptedException, ExecutionException, CancellationException, InterruptedException {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
 
