@@ -91,8 +91,6 @@ public class BaselineBatch extends STIBatch {
 
     @Override
     protected void initComponents() throws STIException {
-        LOG.info("Initializing entity cache...");
-        EmbeddedSolrServer kbEntityServer = this.getSolrServerCacheEntity();
         //object to fetch things from KB
 
         LOG.info("Initializing KBSearch...");
@@ -100,7 +98,8 @@ public class BaselineBatch extends STIBatch {
         try {
             kbSearch = fbf.createInstance(
                     getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE),
-                    kbEntityServer, null, null,null).iterator().next();
+                    getAbsolutePath(PROPERTY_CACHE_FOLDER)).iterator().next();
+            kbSearch.initializeCaches();
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));
@@ -120,7 +119,7 @@ public class BaselineBatch extends STIBatch {
                     StringUtils.split(properties.getProperty(PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS_CONSTR_PARAM),
                             ','),
                     //new String[]{"0.0", "1", "0.01"},
-                    getSolrServerCacheWebsearch(),
+                    kbSearch.getSolrServer(PROPERTY_WEBSEARCH_CACHE_CORENAME),
                     getNLPResourcesDir(),
                     Boolean.valueOf(properties.getProperty(PROPERTY_TMP_SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH)),
                     //"/BlhLSReljQ3Koh+vDSOaYMji9/Ccwe/7/b9mGJLwDQ=");  //zqz.work
@@ -208,7 +207,7 @@ public class BaselineBatch extends STIBatch {
                             Boolean.valueOf(baseline.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
 
                     if (STIConstantProperty.SOLR_COMMIT_PER_FILE)
-                        baseline.commitAll();
+                        baseline.kbSearch.commitChanges();
                     if (!complete) {
                         baseline.recordFailure(count, sourceTableFile, inFile);
                     }
@@ -221,7 +220,11 @@ public class BaselineBatch extends STIBatch {
             }
 
         }
-        baseline.closeAll();
+        try {
+            baseline.kbSearch.closeConnection();
+        }
+        catch (Exception e){
+        }
         LOG.info(new Date());
     }
 }

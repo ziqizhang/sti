@@ -1,17 +1,26 @@
 package uk.ac.shef.dcs.kbsearch;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.LogFactory;
+import org.apache.jena.atlas.io.IO;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggerFactory;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+import org.apache.solr.core.CoreContainer;
 
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.util.SolrCache;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -25,10 +34,17 @@ public abstract class KBSearch {
   protected SolrCache cacheProperty;
   protected SolrCache cacheSimilarity;
   protected boolean fuzzyKeywords;
+  private String cachesBasePath;
+  private static final Map<String, CoreContainer> cacheCores = new HashMap<>();
 
   protected static final String KB_SEARCH_RESULT_STOPLIST = "kb.search.result.stoplistfile";
   protected static final String KB_SEARCH_CLASS = "kb.search.class";
   protected static final String KB_SEARCH_TRY_FUZZY_KEYWORD = "kb.search.tryfuzzykeyword";
+
+  private static final String ENTITY_CACHE = "entity";
+  private static final String PROPERTY_CACHE = "property";
+  private static final String CONCEPT_CACHE = "concept";
+  private static final String SIMILARITY_CACHE = "similarity";
 
   protected static final boolean AUTO_COMMIT = true;
   protected static final boolean ALWAYS_CALL_REMOTE_SEARCHAPI = false;
@@ -46,32 +62,22 @@ public abstract class KBSearch {
    *                        fuzzyKeywords to true, to let kbsearch to break the query string based
    *                        on conjunective words. So if the query string is "tom and jerry", it
    *                        will try "tom" and "jerry"
-   * @param cacheEntity     the solr instance to cache retrieved entities from the kb. pass null if
-   *                        not needed
-   * @param cacheConcept    the solr instance to cache retrieved classes from the kb. pass null if
-   *                        not needed
-   * @param cacheProperty   the solr instance to cache retrieved properties from the kb. pass null
-   *                        if not needed
-   * @param cacheSimilarity the solr instance to cache computed semantic similarity between entity
-   *                        and class. pass null if not needed
+   * @param cachesBasePath  Base path for the initialized solr caches.
    */
   public KBSearch(KBDefinition kbDefinition,
                   Boolean fuzzyKeywords,
-                  EmbeddedSolrServer cacheEntity, EmbeddedSolrServer cacheConcept,
-                  EmbeddedSolrServer cacheProperty, EmbeddedSolrServer cacheSimilarity) throws IOException {
-
-    if (cacheEntity != null)
-      this.cacheEntity = new SolrCache(cacheEntity);
-    if (cacheConcept != null)
-      this.cacheConcept = new SolrCache(cacheConcept);
-    if (cacheProperty != null)
-      this.cacheProperty = new SolrCache(cacheProperty);
-    if (cacheSimilarity != null)
-      this.cacheSimilarity = new SolrCache(cacheSimilarity);
-    this.fuzzyKeywords = fuzzyKeywords;
+                  String cachesBasePath) throws IOException {
 
     this.kbDefinition = kbDefinition;
+    this.cachesBasePath = cachesBasePath;
+    this.fuzzyKeywords = fuzzyKeywords;
+  }
 
+  public void initializeCaches() throws KBSearchException {
+    cacheEntity = new SolrCache(getSolrServer(ENTITY_CACHE));
+    cacheProperty = new SolrCache(getSolrServer(ENTITY_CACHE));
+    cacheConcept = new SolrCache(getSolrServer(ENTITY_CACHE));
+    cacheSimilarity = new SolrCache(getSolrServer(ENTITY_CACHE));
   }
 
   public String getName() {
@@ -79,6 +85,21 @@ public abstract class KBSearch {
   }
 
   public KBDefinition getKbDefinition() { return kbDefinition; }
+
+  public EmbeddedSolrServer getSolrServer(String cacheIdentifier) throws KBSearchException {
+    Path cachePath = Paths.get(cachesBasePath, kbDefinition.getName());
+    EmbeddedSolrServer cacheServer;
+
+    if (!cacheCores.containsKey(cachePath.toString())) {
+      cacheServer = initializeSolrServer(cacheIdentifier, cachePath, kbDefinition.getCacheTemplatePath());
+      cacheCores.put(cachePath.toString(), cacheServer.getCoreContainer());
+    }
+    else {
+      cacheServer = new EmbeddedSolrServer(cacheCores.get(cachePath.toString()), cacheIdentifier);
+    }
+
+    return cacheServer;
+  }
 
   /**
    * Given a string, fetch candidate entities (resources) from the KB
@@ -149,9 +170,18 @@ public abstract class KBSearch {
   public void commitChanges() throws KBSearchException {
 
     try {
-      cacheConcept.commit();
-      cacheEntity.commit();
-      cacheProperty.commit();
+      if (cacheConcept != null) {
+        cacheConcept.commit();
+      }
+      if (cacheEntity != null) {
+        cacheEntity.commit();
+      }
+      if (cacheProperty != null) {
+        cacheProperty.commit();
+      }
+      if (cacheSimilarity != null) {
+        cacheSimilarity.commit();
+      }
     } catch (Exception e) {
       throw new KBSearchException(e);
     }
@@ -161,12 +191,17 @@ public abstract class KBSearch {
   public void closeConnection() throws KBSearchException {
 
     try {
-      if (cacheEntity != null)
+      if (cacheEntity != null) {
         cacheEntity.shutdown();
-      if (cacheConcept != null)
+      }
+      if (cacheConcept != null) {
         cacheConcept.shutdown();
+      }
       if (cacheProperty != null) {
         cacheProperty.shutdown();
+      }
+      if (cacheSimilarity != null) {
+        cacheSimilarity.shutdown();
       }
     } catch (Exception e) {
       throw new KBSearchException(e);
@@ -202,5 +237,30 @@ public abstract class KBSearch {
     return entity + "<>" + concept;
   }
 
+  private EmbeddedSolrServer initializeSolrServer(String cacheIdentifier, Path cachePath, String templatePathString) throws KBSearchException {
+    if (!Files.exists(cachePath)) {
+      Path templatePath = Paths.get(templatePathString);
+      if (!Files.exists(templatePath)) {
+        String error = "Cannot proceed: the cache dir is not set or does not exist: "
+                + templatePathString;
+        log.error(error);
+        throw new KBSearchException(error);
+      }
 
+      try {
+        FileUtils.copyDirectory(templatePath.toFile(), cachePath.toFile());
+      }
+      catch (IOException exception) {
+        String error = "Cannot proceed: the cache template cannot be copied. source: "
+                + templatePath
+                + "target: "
+                + cachePath;
+
+        log.error(error);
+        throw new KBSearchException(error, exception);
+      }
+    }
+
+    return new EmbeddedSolrServer(cachePath, cacheIdentifier);
+  }
 }

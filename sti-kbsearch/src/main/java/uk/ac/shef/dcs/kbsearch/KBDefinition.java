@@ -15,26 +15,23 @@ import java.util.*;
 public class KBDefinition {
   //region Consts
 
+  private static final String PATH_SEPARATOR = "\\|";
+  private static final String URL_SEPARATOR = " ";
+
   private static final String NAME_PROPERTY_NAME = "kb.name";
 
   private static final String SPARQL_ENDPOINT_PROPERTY_NAME = "kb.endpoint";
   private static final String ONTOLOGY_URI_PROPERTY_NAME = "kb.ontologyURI";
   private static final String STOP_LIST_FILE_PROPERTY_NAME = "kb.stopListFile";
 
+  private static final String CACHE_TEMPLATE_PATH_PROPERTY_NAME = "kb.cacheTemplatePath";
+
   private static final String PREDICATES_PROPERTY_NAME = "kb.predicates";
-  private static final String PREDICATES_PROPERTY_SEPARATOR = ";";
 
   private static final String PREDICATE_NAME_PROPERTY_NAME = "kb.predicate.name";
-  private static final String PREDICATE_FULL_NAME_PROPERTY_NAME = "kb.predicate.fullName";
-  private static final String PREDICATE_ABSTRACT_PROPERTY_NAME = "kb.predicate.abstract";
   private static final String PREDICATE_LABEL_PROPERTY_NAME = "kb.predicate.label";
   private static final String PREDICATE_DESCRIPTION_PROPERTY_NAME = "kb.predicate.description";
   private static final String PREDICATE_TYPE_PROPERTY_NAME = "kb.predicate.type";
-  private static final String PREDICATE_COMMENT_PROPERTY_NAME = "kb.predicate.comment";
-
-  private static final String PREDICATE_LABEL_SUFFIX_PROPERTY_NAME = "kb.predicate.suffix.label";
-  private static final String PREDICATE_TYPE_SUFFIX_PROPERTY_NAME = "kb.predicate.suffix.type";
-  private static final String PREDICATE_COMMENT_SUFFIX_PROPERTY_NAME = "kb.predicate.suffix.comment";
 
   //endregion
 
@@ -48,10 +45,16 @@ public class KBDefinition {
   private String ontologyUri;
   private String stopListFile;
 
+  private String cacheTemplatePath;
+
   //endregion
 
   //region Properties
 
+  /**
+   * Returns the name of the knowledge base
+   * @return
+   */
   public String getName() {
     return name;
   }
@@ -60,6 +63,10 @@ public class KBDefinition {
     this.name = name;
   }
 
+  /**
+   * Returns the SPARQL endpoint used for connecting to the knowledge base
+   * @return
+   */
   public String getSparqlEndpoint() {
     return sparqlEndpoint;
   }
@@ -84,16 +91,16 @@ public class KBDefinition {
     this.stopListFile = stopListFile;
   }
 
+  public String getCacheTemplatePath() {
+    return cacheTemplatePath;
+  }
+
+  private void setCacheTemplatePath(String cacheTemplatePath) {
+    this.cacheTemplatePath = cacheTemplatePath;
+  }
+
   public Set<String> getPredicateName() {
     return predicates.get(PREDICATE_NAME_PROPERTY_NAME);
-  }
-
-  public Set<String> getPredicateFullName() {
-    return predicates.get(PREDICATE_FULL_NAME_PROPERTY_NAME);
-  }
-
-  public Set<String> getPredicateAbstract() {
-    return predicates.get(PREDICATE_ABSTRACT_PROPERTY_NAME);
   }
 
   public Set<String> getPredicateLabel() {
@@ -108,38 +115,15 @@ public class KBDefinition {
     return predicates.get(PREDICATE_TYPE_PROPERTY_NAME);
   }
 
-  public Set<String> getPredicateComment() {
-    return predicates.get(PREDICATE_COMMENT_PROPERTY_NAME);
-  }
-
-  public Set<String> getPredicateLabelSuffix() {
-    return predicates.get(PREDICATE_LABEL_SUFFIX_PROPERTY_NAME);
-  }
-
-  public Set<String> getPredicateTypeSuffix() {
-    return predicates.get(PREDICATE_TYPE_SUFFIX_PROPERTY_NAME);
-  }
-
-  public Set<String> getPredicateCommentSuffix() {
-    return predicates.get(PREDICATE_COMMENT_SUFFIX_PROPERTY_NAME);
-  }
-
   //endregion
 
   //region constructor
 
   public KBDefinition() {
     predicates.put(PREDICATE_NAME_PROPERTY_NAME, new HashSet<>());
-    predicates.put(PREDICATE_FULL_NAME_PROPERTY_NAME, new HashSet<>());
-    predicates.put(PREDICATE_ABSTRACT_PROPERTY_NAME, new HashSet<>());
     predicates.put(PREDICATE_LABEL_PROPERTY_NAME, new HashSet<>());
     predicates.put(PREDICATE_DESCRIPTION_PROPERTY_NAME, new HashSet<>());
     predicates.put(PREDICATE_TYPE_PROPERTY_NAME, new HashSet<>());
-    predicates.put(PREDICATE_COMMENT_PROPERTY_NAME, new HashSet<>());
-
-    predicates.put(PREDICATE_LABEL_SUFFIX_PROPERTY_NAME, new HashSet<>());
-    predicates.put(PREDICATE_TYPE_SUFFIX_PROPERTY_NAME, new HashSet<>());
-    predicates.put(PREDICATE_COMMENT_SUFFIX_PROPERTY_NAME, new HashSet<>());
   }
 
   //endregion
@@ -160,10 +144,12 @@ public class KBDefinition {
     setOntologyUri(kbProperties.getProperty(ONTOLOGY_URI_PROPERTY_NAME));
     setStopListFile(kbProperties.getProperty(STOP_LIST_FILE_PROPERTY_NAME));
 
-    // Loading predicates
+    setCacheTemplatePath(kbProperties.getProperty(CACHE_TEMPLATE_PATH_PROPERTY_NAME));
+
+    // Loading predicate
     // Individual paths to definition files are separated by ";"
     String predicates = kbProperties.getProperty(PREDICATES_PROPERTY_NAME);
-    String[] predicatesArray = predicates.split(PREDICATES_PROPERTY_SEPARATOR);
+    String[] predicatesArray = predicates.split(PATH_SEPARATOR);
 
     for (String predicateFile : predicatesArray) {
       File file = new File(predicateFile);
@@ -190,11 +176,15 @@ public class KBDefinition {
         continue;
       }
 
-      String value = (String) entry.getValue();
-      boolean valueAdded = predicateValues.add(value);
+      String values = (String) entry.getValue();
+      String[] valuesArray = values.split(URL_SEPARATOR);
 
-      if (!valueAdded) {
-        log.warn(String.format("Predicate value %1$s for the key %2$s is already loaded.", value, key));
+      for (String value : valuesArray) {
+        boolean valueAdded = predicateValues.add(value);
+
+        if (!valueAdded) {
+          log.warn(String.format("Predicate value %1$s for the key %2$s is already loaded.", value, key));
+        }
       }
     }
   }

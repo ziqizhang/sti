@@ -18,16 +18,12 @@ public class SPARQLAttribute extends Attribute {
     @Override
     public boolean isAlias(KBDefinition definition) {
         return definition.getPredicateLabel().contains(getRelationURI()) ||
-                definition.getPredicateName().contains(getRelationURI()) ||
-                definition.getPredicateFullName().contains(getRelationURI()) ||
-                definition.getPredicateLabelSuffix().stream().anyMatch(item -> getRelationURI().endsWith(item));
+                definition.getPredicateName().contains(getRelationURI());
     }
 
     @Override
     public boolean isDescription(KBDefinition definition) {
-        return definition.getPredicateDescription().contains(getRelationURI()) ||
-                definition.getPredicateAbstract().contains(getRelationURI()) ||
-                definition.getPredicateCommentSuffix().stream().anyMatch(item -> getRelationURI().endsWith(item));
+        return definition.getPredicateDescription().contains(getRelationURI());
     }
 
     @Override

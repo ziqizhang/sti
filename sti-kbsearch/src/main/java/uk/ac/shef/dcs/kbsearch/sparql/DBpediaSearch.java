@@ -28,19 +28,13 @@ public class DBpediaSearch extends SPARQLSearch {
    * @param fuzzyKeywords   given a query string, kbsearch will firstly try to fetch results matching the exact query. when no match is
    *                        found, you can set fuzzyKeywords to true, to let kbsearch to break the query string based on conjunective words.
    *                        So if the query string is "tom and jerry", it will try "tom" and "jerry"
-   * @param cacheEntity     the solr instance to cache retrieved entities from the kb. pass null if not needed
-   * @param cacheConcept    the solr instance to cache retrieved classes from the kb. pass null if not needed
-   * @param cacheProperty   the solr instance to cache retrieved properties from the kb. pass null if not needed
-   * @param cacheSimilarity the solr instance to cache computed semantic similarity between entity and class. pass null if not needed
+   * @param cachesBasePath  Base path for the initialized solr caches.
    * @throws IOException
    */
   public DBpediaSearch(KBDefinition kbDefinition,
                        Boolean fuzzyKeywords,
-                       EmbeddedSolrServer cacheEntity,
-                       EmbeddedSolrServer cacheConcept,
-                       EmbeddedSolrServer cacheProperty,
-                       EmbeddedSolrServer cacheSimilarity) throws IOException {
-    super(kbDefinition, fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty, cacheSimilarity);
+                       String cachesBasePath) throws IOException {
+    super(kbDefinition, fuzzyKeywords, cachesBasePath);
     String ontologyURL = kbDefinition.getOntologyUri();
     if (ontologyURL != null) {
       ontology = loadModel(ontologyURL);

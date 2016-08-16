@@ -47,10 +47,7 @@ public abstract class STIBatch {
 
     protected static final String PROPERTY_CACHE_FOLDER = "sti.cache.main.dir";
 
-    private static final String PROPERTY_ENTITY_CACHE_CORENAME = "entity";
-    private static final String PROPERTY_CLAZZ_CACHE_CORENAME = "class";
-    private static final String PROPERTY_RELATION_CACHE_CORENAME = "relation";
-    private static final String PROPERTY_WEBSEARCH_CACHE_CORENAME = "websearch";
+    protected static final String PROPERTY_WEBSEARCH_CACHE_CORENAME = "websearch";
 
     protected static final String PROPERTY_START_INDEX = "sti.start";
     protected static final String PROPERTY_SELECT_LIST = "sti.list.select";
@@ -75,12 +72,6 @@ public abstract class STIBatch {
     protected Properties properties;
 
     protected TAnnotationWriter writer;
-
-    protected CoreContainer cores;
-    private EmbeddedSolrServer entityCache;
-    private EmbeddedSolrServer conceptCache;
-    private EmbeddedSolrServer relationCache;
-    private EmbeddedSolrServer websearchCache;
 
     public STIBatch(String propertyFile) throws IOException, STIException {
         properties = new Properties();
@@ -119,79 +110,6 @@ public abstract class STIBatch {
             tableParser = (TableParser) Class.forName(clazz).newInstance();
         }
         return tableParser;
-    }
-
-    protected EmbeddedSolrServer getSolrServerCacheEntity() throws STIException {
-        if (entityCache == null) {
-            String solrHomePath = properties.getProperty(PROPERTY_CACHE_FOLDER);
-            if (solrHomePath == null || !new File(solrHomePath).exists()) {
-                String error = "Cannot proceed: the cache dir is not set or does not exist. " +
-                        PROPERTY_CACHE_FOLDER + "=" + solrHomePath;
-                LOG.error(error);
-                throw new STIException(error);
-            }
-
-            if (cores == null) {
-                entityCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_ENTITY_CACHE_CORENAME);
-                cores = entityCache.getCoreContainer();
-            } else
-                entityCache = new EmbeddedSolrServer(cores.getCore(PROPERTY_ENTITY_CACHE_CORENAME));
-        }
-        return entityCache;
-    }
-
-    protected EmbeddedSolrServer getSolrServerCacheClazz() throws STIException {
-        if (conceptCache == null) {
-            String solrHomePath = properties.getProperty(PROPERTY_CACHE_FOLDER);
-            if (solrHomePath == null || !new File(solrHomePath).exists() || PROPERTY_CLAZZ_CACHE_CORENAME == null) {
-                String error = "Cannot proceed: the cache dir is not set or does not exist. " +
-                        PROPERTY_CACHE_FOLDER + "=" + solrHomePath;
-                LOG.error(error);
-                throw new STIException(error);
-            }
-            if (cores == null) {
-                conceptCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_CLAZZ_CACHE_CORENAME);
-                cores = conceptCache.getCoreContainer();
-            } else
-                conceptCache = new EmbeddedSolrServer(cores.getCore(PROPERTY_CLAZZ_CACHE_CORENAME));
-        }
-        return conceptCache;
-    }
-
-    protected EmbeddedSolrServer getSolrServerCacheRelation() throws STIException {
-        if (relationCache == null) {
-            String solrHomePath = properties.getProperty(PROPERTY_CACHE_FOLDER);
-            if (solrHomePath == null || !new File(solrHomePath).exists() || PROPERTY_RELATION_CACHE_CORENAME == null) {
-                String error = "Cannot proceed: the cache dir is not set or does not exist. " +
-                        PROPERTY_CACHE_FOLDER + "=" + solrHomePath;
-                LOG.error(error);
-                throw new STIException(error);
-            }
-            if (cores == null) {
-                relationCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_RELATION_CACHE_CORENAME);
-                cores = relationCache.getCoreContainer();
-            } else
-                relationCache = new EmbeddedSolrServer(cores.getCore(PROPERTY_RELATION_CACHE_CORENAME));
-        }
-        return relationCache;
-    }
-
-    protected EmbeddedSolrServer getSolrServerCacheWebsearch() throws STIException {
-        if (websearchCache == null) {
-            String solrHomePath = properties.getProperty(PROPERTY_CACHE_FOLDER);
-            if (solrHomePath == null || !new File(solrHomePath).exists() || PROPERTY_RELATION_CACHE_CORENAME == null) {
-                String error = "Cannot proceed: the cache dir is not set or does not exist. " +
-                        PROPERTY_CACHE_FOLDER + "=" + solrHomePath;
-                LOG.error(error);
-                throw new STIException(error);
-            }
-            if (cores == null) {
-                websearchCache = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_WEBSEARCH_CACHE_CORENAME);
-                cores = websearchCache.getCoreContainer();
-            } else
-                websearchCache = new EmbeddedSolrServer(cores.getCore(PROPERTY_WEBSEARCH_CACHE_CORENAME));
-        }
-        return websearchCache;
     }
 
     protected String getKBSearchPropFile() throws STIException {
@@ -252,61 +170,6 @@ public abstract class STIBatch {
         }
         return writer;
     }
-
-    protected void commitAll() {
-        if (entityCache != null)
-            try {
-                entityCache.commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        if (conceptCache != null)
-            try {
-                conceptCache.commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        if (relationCache != null)
-            try {
-                relationCache.commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        if (websearchCache != null)
-            try {
-                websearchCache.commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-    }
-
-    protected void closeAll() {
-        if (entityCache != null)
-            try {
-                entityCache.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        if (conceptCache != null)
-            try {
-                conceptCache.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        if (relationCache != null)
-            try {
-                relationCache.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        if (websearchCache != null)
-            try {
-                websearchCache.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-    }
-
 
     protected boolean process(Table table, String sourceTableFile, TAnnotationWriter writer,
                               String outFolder,

@@ -3,6 +3,7 @@ package cz.cuni.mff.xrg.odalic.tasks.executions;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnIgnore;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
@@ -56,8 +58,6 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
   private static final String PROPERTY_KBSEARCH_PROP_FILE = "sti.kbsearch.propertyfile";
   private static final String PROPERTY_CACHE_FOLDER = "sti.cache.main.dir";
 
-  private static final String PROPERTY_ENTITY_CACHE_CORENAME = "entity";
-  private static final String PROPERTY_RELATION_CACHE_CORENAME = "relation";
   private static final String PROPERTY_WEBSEARCH_CACHE_CORENAME = "websearch";
 
   private static final String PROPERTY_IGNORE_COLUMNS = "sti.columns.ignore";
@@ -85,8 +85,6 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
 
   private Properties properties;
 
-  private CoreContainer cores;
-  private EmbeddedSolrServer entityCache;
   private EmbeddedSolrServer websearchCache;
 
   public TableMinerPlusFactory(String propertyFilePath) {
@@ -139,16 +137,13 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
     properties = new Properties();
     properties.load(new FileInputStream(propertyFilePath));
 
-    logger.info("Initializing entity cache...");
-    EmbeddedSolrServer kbEntityServer = getSolrServerCacheEntity();
     // object to fetch things from KB
 
     logger.info("Initializing KBSearch...");
     KBSearchFactory fbf = new KBSearchFactory();
     Collection<KBSearch> kbSearchInstances;
     try {
-      kbSearchInstances = fbf.createInstance(getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE), kbEntityServer,
-          null, null, null);
+      kbSearchInstances = fbf.createInstance(properties.getProperty(PROPERTY_KBSEARCH_PROP_FILE), getAbsolutePath(PROPERTY_CACHE_FOLDER));
     } catch (Exception e) {
       e.printStackTrace();
       logger.error(ExceptionUtils.getFullStackTrace(e));
@@ -158,6 +153,15 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
 
     interpreters = new HashMap<>();
     for (KBSearch kbSearch : kbSearchInstances) {
+      logger.info("Initializing KB cache ...");
+      try {
+        kbSearch.initializeCaches();
+      }
+      catch (KBSearchException e) {
+        e.printStackTrace();
+        logger.error(ExceptionUtils.getFullStackTrace(e));
+        throw new STIException("Failed initialising KBSearch cache.", e);
+      }
 
       logger.info("Initializing SUBJECT COLUMN DETECTION components ...");
       SubjectColumnDetector subcolDetector;
@@ -167,7 +171,7 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
                 StringUtils.split(
                         properties.getProperty(PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS_CONSTR_PARAM), ','),
                 // new String[]{"0.0", "1", "0.01"},
-                getSolrServerCacheWebsearch(), getNLPResourcesDir(),
+                kbSearch.getSolrServer(PROPERTY_WEBSEARCH_CACHE_CORENAME), getNLPResourcesDir(),
                 Boolean
                         .valueOf(properties.getProperty(PROPERTY_TMP_SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH)),
                 // "/BlhLSReljQ3Koh+vDSOaYMji9/Ccwe/7/b9mGJLwDQ="); //zqz.work
@@ -262,46 +266,6 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
 
   }
 
-  private EmbeddedSolrServer getSolrServerCacheEntity() throws STIException {
-    if (entityCache == null) {
-      String solrHomePath = properties.getProperty(PROPERTY_CACHE_FOLDER);
-      if (solrHomePath == null || !new File(solrHomePath).exists()) {
-        String error = "Cannot proceed: the cache dir is not set or does not exist. "
-            + PROPERTY_CACHE_FOLDER + "=" + solrHomePath;
-        logger.error(error);
-        throw new STIException(error);
-      }
-
-      if (cores == null) {
-        entityCache =
-            new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_ENTITY_CACHE_CORENAME);
-        cores = entityCache.getCoreContainer();
-      } else
-        entityCache = new EmbeddedSolrServer(cores.getCore(PROPERTY_ENTITY_CACHE_CORENAME));
-    }
-    return entityCache;
-  }
-
-  private EmbeddedSolrServer getSolrServerCacheWebsearch() throws STIException {
-    if (websearchCache == null) {
-      String solrHomePath = properties.getProperty(PROPERTY_CACHE_FOLDER);
-      if (solrHomePath == null || !new File(solrHomePath).exists()
-          || PROPERTY_RELATION_CACHE_CORENAME == null) {
-        String error = "Cannot proceed: the cache dir is not set or does not exist. "
-            + PROPERTY_CACHE_FOLDER + "=" + solrHomePath;
-        logger.error(error);
-        throw new STIException(error);
-      }
-      if (cores == null) {
-        websearchCache =
-            new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_WEBSEARCH_CACHE_CORENAME);
-        cores = websearchCache.getCoreContainer();
-      } else
-        websearchCache = new EmbeddedSolrServer(cores.getCore(PROPERTY_WEBSEARCH_CACHE_CORENAME));
-    }
-    return websearchCache;
-  }
-
   private String getNLPResourcesDir() throws STIException {
     String prop = getAbsolutePath(PROPERTY_NLP_RESOURCES);
     if (prop == null || !new File(prop).exists()) {
@@ -318,8 +282,12 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
   }
 
   private String getAbsolutePath(String propertyName) {
-    return properties.getProperty(PROPERTY_HOME) + File.separator
-        + properties.getProperty(propertyName);
+    Path subPath = Paths.get(properties.getProperty(propertyName));
+    if (subPath.isAbsolute()) {
+      return  subPath.toString();
+    }
+
+    return Paths.get(properties.getProperty(PROPERTY_HOME), subPath.toString()).toString();
   }
 
   private int[] getIgnoreColumns() {

@@ -54,11 +54,6 @@ public class SemanticMessagePassingBatch extends STIBatch {
 
     @Override
     protected void initComponents() throws STIException {
-        LOG.info("Initializing entity cache...");
-        EmbeddedSolrServer kbEntityServer = this.getSolrServerCacheEntity();
-
-        LOG.info("Initializing clazz cache...");
-        EmbeddedSolrServer kbClazzServer = this.getSolrServerCacheClazz();
         //object to fetch things from KB
 
         LOG.info("Initializing KBSearch...");
@@ -66,7 +61,8 @@ public class SemanticMessagePassingBatch extends STIBatch {
         try {
             kbSearch = fbf.createInstance(
                     getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE),
-                    kbEntityServer, kbClazzServer, null,null).iterator().next();
+                    getAbsolutePath(PROPERTY_CACHE_FOLDER)).iterator().next();
+            kbSearch.initializeCaches();
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));
@@ -83,7 +79,7 @@ public class SemanticMessagePassingBatch extends STIBatch {
                     properties.getProperty(PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS),
                     StringUtils.split(properties.getProperty(PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS_CONSTR_PARAM),
                             ','),
-                    getSolrServerCacheWebsearch(),
+                    kbSearch.getSolrServer(PROPERTY_WEBSEARCH_CACHE_CORENAME),
                     getNLPResourcesDir(),
                     Boolean.valueOf(properties.getProperty(PROPERTY_TMP_SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH)),
                     getStopwords(),
@@ -183,7 +179,7 @@ public class SemanticMessagePassingBatch extends STIBatch {
                             Boolean.valueOf(smp.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
 
                     if (STIConstantProperty.SOLR_COMMIT_PER_FILE)
-                        smp.commitAll();
+                        smp.kbSearch.commitChanges();
                     if (!complete) {
                         smp.recordFailure(count, sourceTableFile, inFile);
                     }
@@ -196,7 +192,11 @@ public class SemanticMessagePassingBatch extends STIBatch {
             }
 
         }
-        smp.closeAll();
+        try {
+            smp.kbSearch.closeConnection();
+        }
+        catch (Exception ex){
+        }
         LOG.info(new Date());
     }
 }

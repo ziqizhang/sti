@@ -24,10 +24,8 @@ public class FreebaseSearch extends KBSearch {
     
     private FreebaseQueryProxy searcher;
 
-    public FreebaseSearch(Properties properties, Boolean fuzzyKeywords,
-                          EmbeddedSolrServer cacheEntity, EmbeddedSolrServer cacheConcept,
-                          EmbeddedSolrServer cacheProperty, EmbeddedSolrServer cacheSimilarity) throws IOException {
-        super(null, fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty,cacheSimilarity);
+    public FreebaseSearch(Properties properties, Boolean fuzzyKeywords, String cachesPath) throws IOException {
+        super(null, fuzzyKeywords, cachesPath);
         searcher = new FreebaseQueryProxy(properties);
         resultFilter = new FreebaseSearchResultFilter(properties.getProperty(KB_SEARCH_RESULT_STOPLIST));
     }

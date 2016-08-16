@@ -50,7 +50,7 @@ public abstract class SPARQLSearch extends KBSearch {
   static final String REGEX_WHERE = "?s <%1$s> ?o";
   static final String REGEX_TYPES = "?s a <%1$s>";
   static final String MATCH_WHERE = "?s <%1$s> \"%2$s\"@en";
-  static final String LABEL_WHERE = "<%2$s> %1$s ?o";
+  static final String LABEL_WHERE = "<%2$s> <%1$s> ?o";
 
   protected StringMetric stringMetric = new Levenshtein();
 
@@ -59,19 +59,13 @@ public abstract class SPARQLSearch extends KBSearch {
    * @param fuzzyKeywords   given a query string, kbsearch will firstly try to fetch results matching the exact query. when no match is
    *                        found, you can set fuzzyKeywords to true, to let kbsearch to break the query string based on conjunective words.
    *                        So if the query string is "tom and jerry", it will try "tom" and "jerry"
-   * @param cacheEntity     the solr instance to cache retrieved entities from the kb. pass null if not needed
-   * @param cacheConcept    the solr instance to cache retrieved classes from the kb. pass null if not needed
-   * @param cacheProperty   the solr instance to cache retrieved properties from the kb. pass null if not needed
-   * @param cacheSimilarity the solr instance to cache computed semantic similarity between entity and class. pass null if not needed
+   * @param cachesBasePath  Base path for the initialized solr caches.
    * @throws IOException
    */
   public SPARQLSearch(KBDefinition kbDefinition,
                       Boolean fuzzyKeywords,
-                      EmbeddedSolrServer cacheEntity,
-                      EmbeddedSolrServer cacheConcept,
-                      EmbeddedSolrServer cacheProperty,
-                      EmbeddedSolrServer cacheSimilarity) throws IOException {
-    super(kbDefinition, fuzzyKeywords, cacheEntity, cacheConcept, cacheProperty, cacheSimilarity);
+                      String cachesBasePath) throws IOException {
+    super(kbDefinition, fuzzyKeywords, cachesBasePath);
   }
 
   protected String createRegexQuery(String content, String... types) {
@@ -187,6 +181,7 @@ public abstract class SPARQLSearch extends KBSearch {
     return queryEntityCandidates(content, sparqlQuery, types);
   }
 
+  @SuppressWarnings("unchecked")
   private List<Entity> queryEntityCandidates(String content, String sparqlQuery, String... types)
       throws KBSearchException {
     String queryCache = createSolrCacheQuery_findResources(content);
@@ -274,7 +269,7 @@ public abstract class SPARQLSearch extends KBSearch {
           ec.setAttributes(attributes);
           for (Attribute attr : attributes) {
             adjustValueOfURLResource(attr);
-            if (kbDefinition.getPredicateTypeSuffix().stream().anyMatch(item -> attr.getRelationURI().endsWith(item)) &&
+            if (kbDefinition.getPredicateType().stream().anyMatch(item -> attr.getRelationURI().endsWith(item)) &&
                 !ec.hasType(attr.getValueURI())) {
               ec.addType(new Clazz(attr.getValueURI(), attr.getValue()));
             }
@@ -303,6 +298,7 @@ public abstract class SPARQLSearch extends KBSearch {
     return result;
   }
 
+  @SuppressWarnings("unchecked")
   private void adjustValueOfURLResource(Attribute attr) throws KBSearchException {
     String value = attr.getValue();
     if (value.startsWith("http")) {
@@ -346,6 +342,7 @@ public abstract class SPARQLSearch extends KBSearch {
     return findAttributes(ec.getId(), cacheEntity);
   }
 
+  @SuppressWarnings("unchecked")
   private List<Attribute> findAttributes(String id, SolrCache cache) throws KBSearchException {
     if (id.length() == 0)
       return new ArrayList<>();

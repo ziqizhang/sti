@@ -42,24 +42,6 @@ public class JointInferenceBatch extends STIBatch {
         super(propertyFile);
     }
 
-    private EmbeddedSolrServer getSolrServerCacheSimilarity() throws STIException {
-        if (simlarityServer == null) {
-            String solrHomePath = properties.getProperty(PROPERTY_CACHE_FOLDER);
-            if (solrHomePath == null || !new File(solrHomePath).exists() || PROPERTY_SIMILARITY_CACHE_CORENAME == null) {
-                String error = "Cannot proceed: the cache dir is not set or does not exist. " +
-                        PROPERTY_CACHE_FOLDER + "=" + solrHomePath;
-                LOG.error(error);
-                throw new STIException(error);
-            }
-            if (cores == null) {
-                simlarityServer = new EmbeddedSolrServer(Paths.get(solrHomePath), PROPERTY_SIMILARITY_CACHE_CORENAME);
-                cores = simlarityServer.getCoreContainer();
-            } else
-                simlarityServer = new EmbeddedSolrServer(cores.getCore(PROPERTY_SIMILARITY_CACHE_CORENAME));
-        }
-        return simlarityServer;
-    }
-
     private ClazzSpecificityCalculator getClazzSpecificityCalculator() throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         return (ClazzSpecificityCalculator)
                 Class.forName(properties.getProperty(PROPERTY_JI_CLAZZ_SPECIFICITY_CALCULATOR))
@@ -69,14 +51,6 @@ public class JointInferenceBatch extends STIBatch {
 
     @Override
     protected void initComponents() throws STIException {
-        LOG.info("Initializing entity cache...");
-        EmbeddedSolrServer kbEntityServer = this.getSolrServerCacheEntity();
-        LOG.info("Initializing clazz cache...");
-        EmbeddedSolrServer kbClazzServer = this.getSolrServerCacheClazz();
-        LOG.info("Initializing property cache...");
-        EmbeddedSolrServer kbPropertyServer = this.getSolrServerCacheRelation();
-        LOG.info("Initializing similarity cache...");
-        EmbeddedSolrServer simServer = this.getSolrServerCacheSimilarity();
         //object to fetch things from KB
 
         LOG.info("Initializing KBSearch...");
@@ -84,7 +58,8 @@ public class JointInferenceBatch extends STIBatch {
         try {
             kbSearch = fbf.createInstance(
                     getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE),
-                    kbEntityServer, kbClazzServer, kbPropertyServer,simServer).iterator().next();
+                    getAbsolutePath(PROPERTY_CACHE_FOLDER)).iterator().next();
+            kbSearch.initializeCaches();
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(ExceptionUtils.getFullStackTrace(e));
@@ -101,7 +76,7 @@ public class JointInferenceBatch extends STIBatch {
                     properties.getProperty(PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS),
                     StringUtils.split(properties.getProperty(PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS_CONSTR_PARAM),
                             ','),
-                    getSolrServerCacheWebsearch(),
+                    kbSearch.getSolrServer(PROPERTY_WEBSEARCH_CACHE_CORENAME),
                     getNLPResourcesDir(),
                     Boolean.valueOf(properties.getProperty(PROPERTY_TMP_SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH)),
                     getStopwords(),
@@ -188,7 +163,7 @@ public class JointInferenceBatch extends STIBatch {
                             Boolean.valueOf(ji.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
 
                     if (STIConstantProperty.SOLR_COMMIT_PER_FILE)
-                        ji.commitAll();
+                        ji.kbSearch.commitChanges();
                     if (!complete) {
                         ji.recordFailure(count, sourceTableFile, inFile);
                     }
@@ -201,7 +176,11 @@ public class JointInferenceBatch extends STIBatch {
             }
 
         }
-        ji.closeAll();
+        try {
+            ji.kbSearch.closeConnection();
+        }
+        catch(Exception ex) {
+        }
         LOG.info(new Date());
     }
 }

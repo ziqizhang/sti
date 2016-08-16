@@ -16,21 +16,19 @@ import java.util.*;
  * Created by zqz on 21/04/2015.
  */
 public class FreebaseTypeGranularityPopulator {
+    protected static final String PROPERTY_HOME = "sti.home";
+    protected static final String PROPERTY_CACHE_FOLDER = "sti.cache.main.dir";
+
     public static void main(String[] args) throws IOException, ClassNotFoundException, KBSearchException {
         //fetch freebase pages, parse them and get granularity scores
         List<String> all_types = new ArrayList<>(new HashSet<>(FileUtils.readList(args[1] + "/types_merge_all.txt", false)));
         Collections.sort(all_types);
         
-        EmbeddedSolrServer serverConcept =
-                new EmbeddedSolrServer(Paths.get(args[3]), "collection1");
-
-        EmbeddedSolrServer serverProperty =
-                new EmbeddedSolrServer(Paths.get(args[4]), "collection1");
-
         Properties properties = new Properties();
         properties.load(new FileReader(new File(args[2])));
         FreebaseSearch kbSeacher =
-                new FreebaseSearch(properties, true, null, serverConcept, serverProperty,null);
+                new FreebaseSearch(properties, true, getAbsolutePath(properties, PROPERTY_CACHE_FOLDER));
+        kbSeacher.initializeCaches();
 
         //kbSeacher.find_triplesForProperty("/award/award_category/nomination_announcement");
 
@@ -53,5 +51,10 @@ public class FreebaseTypeGranularityPopulator {
         }
         kbSeacher.closeConnection();
         System.exit(0);
+    }
+
+    static String getAbsolutePath(Properties properties, String propertyName) {
+        return properties.getProperty(PROPERTY_HOME)
+                + File.separator + properties.getProperty(propertyName);
     }
 }
