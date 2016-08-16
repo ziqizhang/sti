@@ -37,7 +37,7 @@ import uk.ac.shef.dcs.sti.core.model.Table;
 
 /**
  * <p>
- * Implementation of {@link ExecutionService} based on {@link Future} and {@link ExecutorServicee}
+ * Implementation of {@link ExecutionService} based on {@link Future} and {@link ExecutorService}
  * implementations.
  * </p>
  * 
