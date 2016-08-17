@@ -1,5 +1,5 @@
 # STI GUI (Still under construction)
-This application provides a UI interface to interact with STI and visualize results. It is implemented based on Node.js.
+This application provides a UI interface to interact with STI and visualize results. It is implemented based on Node.js. You can also see a video demonstration at http://staffwww.dcs.shef.ac.uk/people/S.Mazumdar/TableMinerUI/
 
 ### Installation
 - Download STI
