@@ -18,6 +18,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.resources.CsvExportResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.ExecutionResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.FeedbackResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.FileResource;
+import cz.cuni.mff.xrg.odalic.api.rest.resources.RdfExportResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.ResultResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.StateResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.TaskResource;
@@ -42,6 +43,7 @@ public final class Configuration extends ResourceConfig {
     register(StateResource.class);
     register(AnnotatedTableResource.class);
     register(CsvExportResource.class);
+    register(RdfExportResource.class);
     
     // Filters registration
     register(RequestContextFilter.class);
