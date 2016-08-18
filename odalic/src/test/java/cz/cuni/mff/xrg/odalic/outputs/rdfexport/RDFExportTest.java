@@ -53,7 +53,8 @@ public class RDFExportTest {
     testExportToRDFFile(annotatedTable, extendedInput,
             inputFile.getParent() + File.separator + FilenameUtils.getBaseName(inputFile.getName()) + ".rdf");
 
-    //TODO write some assert which e.g. checks that the resulting turtle file is in the expected format
+    //TODO write some assert which e.g. checks that the resulting turtle file contains some triples
+    //TODO use logger, do not log to console
 
 
   }
@@ -61,8 +62,7 @@ public class RDFExportTest {
   public static void testExportToRDFFile(AnnotatedTable annotatedTable, Input extendedInput, String filePath) {
     // Conversion from annotated table to RDF model
     Model rdfModel = new DefaultAnnotatedTableToRDFExportAdapter().toRDFExport(annotatedTable, extendedInput);
-    System.out.println(rdfModel);
-    
+
     // Export RDF Model to RDF String (in turtle format)
     String rdf = new DefaultRDFExporter().export(rdfModel, RDFFormat.TURTLE);
     System.out.println(rdf);

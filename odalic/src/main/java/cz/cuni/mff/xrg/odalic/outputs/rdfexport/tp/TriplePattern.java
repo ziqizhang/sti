@@ -1,4 +1,4 @@
-package cz.cuni.mff.xrg.odalic.outputs.rdfexport;
+package cz.cuni.mff.xrg.odalic.outputs.rdfexport.tp;
 
 import org.eclipse.rdf4j.model.IRI;
 
@@ -10,16 +10,12 @@ public class TriplePattern {
   
   private IRI predicate;
   
-  private String objectPattern;
-  
-  public TriplePattern(String subjectPattern, IRI predicate, String objectPattern) {
+  public TriplePattern(String subjectPattern, IRI predicate) {
     Preconditions.checkNotNull(subjectPattern);
     Preconditions.checkNotNull(predicate);
-    Preconditions.checkNotNull(objectPattern);
-    
+
     this.subjectPattern = subjectPattern;
     this.predicate = predicate;
-    this.objectPattern = objectPattern;
   }
   
   public String getSubjectPattern() {
@@ -30,7 +26,5 @@ public class TriplePattern {
     return predicate;
   }
   
-  public String getObjectPattern() {
-    return objectPattern;
-  }
+
 }
