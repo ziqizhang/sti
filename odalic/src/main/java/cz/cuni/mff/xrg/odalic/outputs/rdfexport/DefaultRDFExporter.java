@@ -1,5 +1,6 @@
 package cz.cuni.mff.xrg.odalic.outputs.rdfexport;
 
+import java.io.FileWriter;
 import java.io.StringWriter;
 
 import org.eclipse.rdf4j.model.Model;
@@ -27,6 +28,11 @@ public class DefaultRDFExporter implements RDFExporter {
     Rio.write(rdfModel, stringWriter, rdfFormat);
     
     return stringWriter.toString();
+  }
+  
+  public void exportToFile(Model rdfModel, RDFFormat rdfFormat, FileWriter fileWriter) {
+    
+    Rio.write(rdfModel, fileWriter, rdfFormat);
   }
 
 }

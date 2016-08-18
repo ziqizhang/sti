@@ -27,6 +27,7 @@ import java.util.Map;
  * The default {@link AnnotatedTableToRDFExportAdapter} implementation.
  * 
  * @author Josef Janoušek
+ * @author Tomáš Knap
  *
  */
 public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableToRDFExportAdapter {
@@ -35,7 +36,6 @@ public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableTo
 
   private static final String DCTERMS_TITLE = "dcterms:title";
   private static final String RDF_TYPE = "rdf:type";
-  private static final String ANY_URI = "anyURI";
   
   private ValueFactory factory = SimpleValueFactory.getInstance();
   

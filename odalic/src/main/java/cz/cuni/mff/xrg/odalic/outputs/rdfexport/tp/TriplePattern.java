@@ -4,6 +4,12 @@ import org.eclipse.rdf4j.model.IRI;
 
 import com.google.common.base.Preconditions;
 
+/**
+ * 
+ * @author Josef Janoušek
+ * @author Tomáš Knap
+ *
+ */
 public class TriplePattern {
   
   private String subjectPattern;

@@ -11,12 +11,23 @@ import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URISyntaxException;
 
+/**
+ * JUnit test for RDF export
+ * 
+ * @author Josef Janoušek
+ * @author Tomáš Knap
+ *
+ */
 public class RDFExportTest {
 
+  private static final Logger log = LoggerFactory.getLogger(RDFExportTest.class);
+  
   static File inputJsonFile;
   static File inputFile;
 
@@ -65,7 +76,7 @@ public class RDFExportTest {
 
     // Export RDF Model to RDF String (in turtle format)
     String rdf = new DefaultRDFExporter().export(rdfModel, RDFFormat.TURTLE);
-    System.out.println(rdf);
+    log.info("Resulting RDF is: " + rdf);
     
     // Write RDF String to file
     try (FileWriter writer = new FileWriter(filePath)) {

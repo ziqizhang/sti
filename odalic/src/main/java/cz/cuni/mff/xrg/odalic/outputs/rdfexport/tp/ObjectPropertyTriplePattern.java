@@ -5,6 +5,9 @@ import org.eclipse.rdf4j.model.IRI;
 
 /**
  * Created by tomasknap on 18/08/16.
+ * 
+ * @author Tomáš Knap
+ *
  */
 public class ObjectPropertyTriplePattern extends TriplePattern{
 
