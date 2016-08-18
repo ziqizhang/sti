@@ -22,7 +22,7 @@ import cz.cuni.mff.xrg.odalic.tasks.feedbacks.FeedbackService;
 import cz.cuni.mff.xrg.odalic.tasks.results.Result;
 
 /**
- * Implementation of {@link CsvExportService} that gets the extended CSV data by adapting present
+ * Implementation of {@link RdfExportService} that gets the extended CSV data by adapting present
  * {@link Result}, {@link Input} and {@link Configuration} instances.
  * 
  * @author Václav Brodec
@@ -68,15 +68,30 @@ public class ResultAdaptingCsvExportService implements CsvExportService {
   @Override
   public String getExtendedCsvForTaskId(String id)
       throws CancellationException, InterruptedException, ExecutionException, IOException {
-    final Result result = executionService.getResultForTaskId(id);
-    final Input input = feedbackService.getInputForTaskId(id);
-    final Configuration configuration = configurationService.getForTaskId(id);
-
-    final Input output = resultToCsvExportAdapter.toCSVExport(result, input, configuration);
+    final Input output = getExtendedInputForTaskId(id);
+    
     // TODO: Get the real used CSV configuration.
     final String data = csvExporter.export(output, new CsvConfiguration());
 
     return data;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * cz.cuni.mff.xrg.odalic.outputs.csvexport.CsvExportService#getExtendedInputForTaskId(java.lang.
+   * String)
+   */
+  @Override
+  public Input getExtendedInputForTaskId(String id)
+      throws CancellationException, InterruptedException, ExecutionException, IOException {
+    final Result result = executionService.getResultForTaskId(id);
+    final Input input = feedbackService.getInputForTaskId(id);
+    final Configuration configuration = configurationService.getForTaskId(id);
+
+    final Input output = resultToCsvExportAdapter.toCSVExport(result, input, configuration);
+
+    return output;
+  }
 }
