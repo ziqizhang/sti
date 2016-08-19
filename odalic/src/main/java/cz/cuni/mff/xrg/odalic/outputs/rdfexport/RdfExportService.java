@@ -1,42 +1,39 @@
-package cz.cuni.mff.xrg.odalic.outputs.csvexport;
+package cz.cuni.mff.xrg.odalic.outputs.rdfexport;
 
 import java.io.IOException;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 
-import cz.cuni.mff.xrg.odalic.input.Input;
-
 /**
- * Service providing the extended CSV (a part of the task result when using standard table
- * annotations).
+ * Service providing the serialization of task result in RDF formats.
  * 
  * @author Václav Brodec
  *
  */
-public interface CsvExportService {
+public interface RdfExportService {
   /**
-   * Gets a part of the task result in the form of extended CSV.
+   * Serializes the task result.
    * 
    * @param id task ID
-   * @return extended CSV output
+   * @return serialized RDF
    * @throws InterruptedException if the execution was interrupted while waiting
    * @throws ExecutionException if the computation threw an exception
    * @throws CancellationException if the computation was cancelled
    * @throws IOException if an I/O exception occurs when creating the output content
    */
-  String getExtendedCsvForTaskId(String id)
+  String exportToTurtle(String id)
       throws CancellationException, InterruptedException, ExecutionException, IOException;
-
+  
   /**
-   * Gets a part of the task result in the form of extended input.
+   * Serializes the task result.
    * 
    * @param id task ID
-   * @return extended input
+   * @return serialized RDF
    * @throws InterruptedException if the execution was interrupted while waiting
    * @throws ExecutionException if the computation threw an exception
    * @throws CancellationException if the computation was cancelled
    * @throws IOException if an I/O exception occurs when creating the output content
    */
-  Input getExtendedInputForTaskId(String id)
+  String exportToJsonLd(String id)
       throws CancellationException, InterruptedException, ExecutionException, IOException;
 }

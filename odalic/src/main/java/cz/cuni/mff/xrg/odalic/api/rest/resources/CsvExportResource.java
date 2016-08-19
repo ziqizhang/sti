@@ -8,7 +8,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,8 @@ import cz.cuni.mff.xrg.odalic.outputs.csvexport.CsvExportService;
 @Path("/tasks/{id}/result/csv-export")
 public final class CsvExportResource {
 
+  public static final String TEXT_CSV_MEDIA_TYPE = "text/csv";
+  
   private final CsvExportService csvExportService;
 
   @Autowired
@@ -40,7 +41,7 @@ public final class CsvExportResource {
   }
 
   @GET
-  @Produces(MediaType.APPLICATION_JSON)
+  @Produces(TEXT_CSV_MEDIA_TYPE)
   public Response getCsvExport(@PathParam("id") String taskId)
       throws CancellationException, InterruptedException, ExecutionException, IOException {
     final String csvContent = csvExportService.getExtendedCsvForTaskId(taskId);
