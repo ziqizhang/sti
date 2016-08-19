@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-import org.apache.solr.core.CoreContainer;
 import org.simmetrics.metrics.StringMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +41,8 @@ import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentTContentRowRankerImpl;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.FileUtils;
+
+import static uk.ac.shef.dcs.util.StringUtils.combinePaths;
 
 /**
  * Implementation of {@link SemanticTableInterpreterFactory} that provides {@link TMPInterpreter}
@@ -143,7 +144,11 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
     KBSearchFactory fbf = new KBSearchFactory();
     Collection<KBSearch> kbSearchInstances;
     try {
-      kbSearchInstances = fbf.createInstance(properties.getProperty(PROPERTY_KBSEARCH_PROP_FILE), getAbsolutePath(PROPERTY_CACHE_FOLDER));
+      kbSearchInstances = fbf.createInstances(
+          properties.getProperty(PROPERTY_KBSEARCH_PROP_FILE),
+          properties.getProperty(PROPERTY_CACHE_FOLDER),
+          properties.getProperty(PROPERTY_HOME));
+
     } catch (Exception e) {
       e.printStackTrace();
       logger.error(ExceptionUtils.getFullStackTrace(e));
@@ -282,12 +287,7 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
   }
 
   private String getAbsolutePath(String propertyName) {
-    Path subPath = Paths.get(properties.getProperty(propertyName));
-    if (subPath.isAbsolute()) {
-      return  subPath.toString();
-    }
-
-    return Paths.get(properties.getProperty(PROPERTY_HOME), subPath.toString()).toString();
+    return combinePaths(properties.getProperty(PROPERTY_HOME), properties.getProperty(propertyName));
   }
 
   private int[] getIgnoreColumns() {
