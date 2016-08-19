@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import static uk.ac.shef.dcs.util.StringUtils.combinePaths;
+
 /**
  */
 public abstract class KBSearch {

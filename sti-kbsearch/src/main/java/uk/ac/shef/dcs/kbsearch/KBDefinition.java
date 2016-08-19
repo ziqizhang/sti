@@ -7,6 +7,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Stream;
+
+import static uk.ac.shef.dcs.util.StringUtils.combinePaths;
 
 /**
  * Information about the knowledge base.
@@ -135,16 +138,16 @@ public class KBDefinition {
    * @param kbProperties Properties of the knowledge base.
    * @throws IOException
    */
-  public void load(Properties kbProperties) throws IOException {
+  public void load(Properties kbProperties, String workingDirectory) throws IOException {
     // Name
     setName(kbProperties.getProperty(NAME_PROPERTY_NAME));
 
     // Endpoint and ontology
     setSparqlEndpoint(kbProperties.getProperty(SPARQL_ENDPOINT_PROPERTY_NAME));
     setOntologyUri(kbProperties.getProperty(ONTOLOGY_URI_PROPERTY_NAME));
-    setStopListFile(kbProperties.getProperty(STOP_LIST_FILE_PROPERTY_NAME));
+    setStopListFile(combinePaths(workingDirectory, kbProperties.getProperty(STOP_LIST_FILE_PROPERTY_NAME)));
 
-    setCacheTemplatePath(kbProperties.getProperty(CACHE_TEMPLATE_PATH_PROPERTY_NAME));
+    setCacheTemplatePath(combinePaths(workingDirectory, kbProperties.getProperty(CACHE_TEMPLATE_PATH_PROPERTY_NAME)));
 
     // Loading predicate
     // Individual paths to definition files are separated by ";"
@@ -152,14 +155,16 @@ public class KBDefinition {
     String[] predicatesArray = predicates.split(PATH_SEPARATOR);
 
     for (String predicateFile : predicatesArray) {
-      File file = new File(predicateFile);
+      String predicateFileNormalized = combinePaths(workingDirectory, predicateFile);
+
+      File file = new File(predicateFileNormalized);
       if (!file.exists() || file.isDirectory()) {
-        log.error("The specified properties file does not exist: " + predicateFile);
+        log.error("The specified properties file does not exist: " + predicateFileNormalized);
         continue;
       }
 
       Properties properties = new Properties();
-      try (InputStream fileStream = new FileInputStream(predicateFile)) {
+      try (InputStream fileStream = new FileInputStream(predicateFileNormalized)) {
         properties.load(fileStream);
         loadPredicates(properties);
       }
