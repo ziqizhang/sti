@@ -3,14 +3,8 @@ package uk.ac.shef.dcs.sti.experiment;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-import org.simmetrics.Metric;
 import org.simmetrics.StringMetric;
-import org.simmetrics.builders.StringMetricBuilder;
-import org.simmetrics.metrics.CosineSimilarity;
-import org.simmetrics.metrics.Levenshtein;
 import org.simmetrics.metrics.StringMetrics;
-import org.simmetrics.tokenizers.Tokenizers;
 import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
@@ -94,19 +88,7 @@ public class BaselineBatch extends STIBatch {
         //object to fetch things from KB
 
         LOG.info("Initializing KBSearch...");
-        KBSearchFactory fbf = new KBSearchFactory();
-        try {
-            kbSearch = fbf.createInstance(
-                    getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE),
-                    getAbsolutePath(PROPERTY_CACHE_FOLDER)).iterator().next();
-            kbSearch.initializeCaches();
-        } catch (Exception e) {
-            e.printStackTrace();
-            LOG.error(ExceptionUtils.getFullStackTrace(e));
-            throw new STIException("Failed initialising KBSearch:" +
-                    getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE)
-                    , e);
-        }
+        initKB();
 
         //LOG.info("Initializing WebSearcher...");
 
