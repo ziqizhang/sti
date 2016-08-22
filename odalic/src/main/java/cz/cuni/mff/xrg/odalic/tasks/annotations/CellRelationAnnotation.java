@@ -82,9 +82,11 @@ public final class CellRelationAnnotation {
    */
   public CellRelationAnnotation merge(CellRelationAnnotation other) throws IllegalArgumentException {
     final ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder = ImmutableMap.builder();
+    candidatesBuilder.putAll(this.candidates);
     candidatesBuilder.putAll(other.candidates);
     
     final ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder = ImmutableMap.builder();
+    chosenBuilder.putAll(this.chosen);
     chosenBuilder.putAll(other.chosen);
     
     return new CellRelationAnnotation(candidatesBuilder.build(), chosenBuilder.build());

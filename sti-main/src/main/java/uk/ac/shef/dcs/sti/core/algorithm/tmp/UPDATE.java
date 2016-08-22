@@ -140,7 +140,7 @@ public class UPDATE {
 
     private Collection<? extends String> createEntityDomainRep(Entity ec) throws IOException {
         List<String> domain = new ArrayList<>();
-        String desc = ec.getDescription();
+        String desc = ec.getDescription(kbSearch.getKbDefinition());
         String[] sentences = NLPTools.getInstance(nlpResourcesDir).getSentenceSplitter().sentDetect(desc);
         String first = sentences.length > 0 ? sentences[0] : "";
         List<String> tokens = StringUtils.toBagOfWords(first, true, true, true);
