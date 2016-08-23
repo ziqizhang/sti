@@ -9,12 +9,12 @@ import org.eclipse.rdf4j.model.IRI;
  * @author Tomáš Knap
  *
  */
-public class ObjectPropertyTriplePattern extends TriplePattern{
+public class ObjectPropertyTriplePattern extends TriplePattern {
 
     private String objectPattern;
 
     public ObjectPropertyTriplePattern(String subjectPattern, IRI predicate, String objectPattern) {
-        super(subjectPattern,predicate);
+        super(subjectPattern, predicate);
         Preconditions.checkNotNull(objectPattern);
         this.objectPattern = objectPattern;
     }

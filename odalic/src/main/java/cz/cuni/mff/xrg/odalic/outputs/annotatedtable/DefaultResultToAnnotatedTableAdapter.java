@@ -11,6 +11,7 @@ import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.ColumnRelationAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.HeaderAnnotation;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
 import cz.cuni.mff.xrg.odalic.tasks.results.Result;
 
@@ -34,19 +35,36 @@ public class DefaultResultToAnnotatedTableAdapter implements ResultToAnnotatedTa
     List<TableColumn> columns = new ArrayList<TableColumn>();
    
     List<String> headers = input.headers();
+    boolean addAlternativeUrls = false;
     int i = 0;
     for (HeaderAnnotation headerAnnotation : result.getHeaderAnnotations()) {
-      Set<EntityCandidate> chosenCandidates = headerAnnotation.getChosen().get(configuration.getPrimaryBase());
+      addAlternativeUrls = false;
+      Set<EntityCandidate> chosenCandidatesPrimaryKB = headerAnnotation.getChosen().get(configuration.getPrimaryBase());
       
-      if (chosenCandidates == null || chosenCandidates.isEmpty()) {
+      if (chosenCandidatesPrimaryKB == null || chosenCandidatesPrimaryKB.isEmpty()) {
         columns.add(createOriginalNonClassifiedColumn(builder, headers.get(i)));
       } else {
         columns.add(createOriginalClassifiedColumn(builder, headers.get(i)));
         
         columns.add(createDisambiguationColumn(builder, headers.get(i)));
         
-        for (EntityCandidate chosen : chosenCandidates) {
+        for (EntityCandidate chosen : chosenCandidatesPrimaryKB) {
           columns.add(createClassificationColumn(builder, headers.get(i), chosen.getEntity().getResource()));
+        }
+        
+        for (Entry<KnowledgeBase, Set<EntityCandidate>> entry : headerAnnotation.getChosen().entrySet()) {
+          if (!entry.getKey().getName().equals(configuration.getPrimaryBase().getName()) &&
+              entry.getValue() != null && !entry.getValue().isEmpty()) {
+            addAlternativeUrls = true;
+            
+            for (EntityCandidate chosen : entry.getValue()) {
+              columns.add(createClassificationColumn(builder, headers.get(i), chosen.getEntity().getResource()));
+            }
+          }
+        }
+        
+        if (addAlternativeUrls) {
+          columns.add(createAlternativeDisambiguationColumn(builder, headers.get(i)));
         }
       }
       
@@ -69,6 +87,8 @@ public class DefaultResultToAnnotatedTableAdapter implements ResultToAnnotatedTa
   
   private static final String DCTERMS_TITLE = "dcterms:title";
   private static final String RDF_TYPE = "rdf:type";
+  private static final String OWL_SAMEAS = "owl:sameAs";
+  private static final String SEPARATOR = " ";
   private static final String STRING = "string";
   private static final String ANY_URI = "anyURI";
   
@@ -109,6 +129,16 @@ public class DefaultResultToAnnotatedTableAdapter implements ResultToAnnotatedTa
     return builder.build();
   }
   
+  private TableColumn createAlternativeDisambiguationColumn(TableColumnBuilder builder, String columnName) {
+    builder.clear();
+    builder.setName(alternativeUrlsFormat(columnName));
+    builder.setAboutUrl(bracketFormat(urlFormat(columnName)));
+    builder.setSeparator(SEPARATOR);
+    builder.setPropertyUrl(OWL_SAMEAS);
+    builder.setValueUrl(bracketFormat(alternativeUrlsFormat(columnName)));
+    return builder.build();
+  }
+  
   private TableColumn createRelationColumn(TableColumnBuilder builder, String predicateName, String subjectName, String objectName) {
     builder.clear();
     builder.setName(predicateName);
@@ -121,6 +151,10 @@ public class DefaultResultToAnnotatedTableAdapter implements ResultToAnnotatedTa
   
   private String urlFormat(String text) {
     return String.format("%s_url", text);
+  }
+  
+  private String alternativeUrlsFormat(String text) {
+    return String.format("%s_alternative_urls", text);
   }
   
   private String typeFormat(String text) {
