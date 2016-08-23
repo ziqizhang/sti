@@ -33,9 +33,8 @@ public class DefaultResultToCSVExportAdapter implements ResultToCSVExportAdapter
     int i = 0;
     for (HeaderAnnotation headerAnnotation : result.getHeaderAnnotations()) {
       Set<EntityCandidate> chosenCandidates = headerAnnotation.getChosen().get(configuration.getPrimaryBase());
-      boolean chosenIsEmpty = chosenCandidates.isEmpty();
       
-      if (!chosenIsEmpty) {
+      if (chosenCandidates != null && !chosenCandidates.isEmpty()) {
         builder.insertHeader(urlFormat(headers.get(i)), newPosition);
         
         for (int j = 0; j < input.rowsCount(); j++) {

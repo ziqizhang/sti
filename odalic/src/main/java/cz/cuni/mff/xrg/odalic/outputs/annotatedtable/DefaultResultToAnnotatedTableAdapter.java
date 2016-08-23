@@ -38,7 +38,7 @@ public class DefaultResultToAnnotatedTableAdapter implements ResultToAnnotatedTa
     for (HeaderAnnotation headerAnnotation : result.getHeaderAnnotations()) {
       Set<EntityCandidate> chosenCandidates = headerAnnotation.getChosen().get(configuration.getPrimaryBase());
       
-      if (chosenCandidates.isEmpty()) {
+      if (chosenCandidates == null || chosenCandidates.isEmpty()) {
         columns.add(createOriginalNonClassifiedColumn(builder, headers.get(i)));
       } else {
         columns.add(createOriginalClassifiedColumn(builder, headers.get(i)));
@@ -54,9 +54,13 @@ public class DefaultResultToAnnotatedTableAdapter implements ResultToAnnotatedTa
     }
     
     for (Entry<ColumnRelationPosition, ColumnRelationAnnotation> entry : result.getColumnRelationAnnotations().entrySet()) {
-      for (EntityCandidate chosen : entry.getValue().getChosen().get(configuration.getPrimaryBase())) {
-        columns.add(createRelationColumn(builder, chosen.getEntity().getResource(),
-            headers.get(entry.getKey().getFirstIndex()), headers.get(entry.getKey().getSecondIndex())));
+      Set<EntityCandidate> chosenRelations = entry.getValue().getChosen().get(configuration.getPrimaryBase());
+      
+      if (chosenRelations != null) {
+        for (EntityCandidate chosen : chosenRelations) {
+          columns.add(createRelationColumn(builder, chosen.getEntity().getResource(),
+              headers.get(entry.getKey().getFirstIndex()), headers.get(entry.getKey().getSecondIndex())));
+        }
       }
     }
     
@@ -107,7 +111,7 @@ public class DefaultResultToAnnotatedTableAdapter implements ResultToAnnotatedTa
   
   private TableColumn createRelationColumn(TableColumnBuilder builder, String predicateName, String subjectName, String objectName) {
     builder.clear();
-    builder.setName(typeFormat(predicateName));
+    builder.setName(predicateName);
     builder.setVirtual(true);
     builder.setAboutUrl(bracketFormat(urlFormat(subjectName)));
     builder.setPropertyUrl(predicateName);
