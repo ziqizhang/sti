@@ -3,8 +3,6 @@ package cz.cuni.mff.xrg.odalic.tasks.executions;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +13,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.simmetrics.metrics.StringMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +83,7 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
 
   private Properties properties;
 
-  private EmbeddedSolrServer websearchCache;
+  // private EmbeddedSolrServer websearchCache;
 
   public TableMinerPlusFactory(String propertyFilePath) {
     Preconditions.checkNotNull(propertyFilePath);
