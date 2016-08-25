@@ -4,6 +4,9 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import cz.cuni.mff.xrg.odalic.outputs.annotatedtable.AnnotatedTable;
 import cz.cuni.mff.xrg.odalic.outputs.annotatedtable.TableSchema;
 
@@ -14,6 +17,7 @@ import cz.cuni.mff.xrg.odalic.outputs.annotatedtable.TableSchema;
  *
  */
 @XmlRootElement(name = "annotatedTable")
+@JsonInclude(Include.NON_NULL)
 public final class AnnotatedTableValue implements Serializable {
   
   private static final long serialVersionUID = -7973901982616352L;
