@@ -6,6 +6,9 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import cz.cuni.mff.xrg.odalic.outputs.annotatedtable.TableColumn;
 import cz.cuni.mff.xrg.odalic.outputs.annotatedtable.TableSchema;
 
@@ -16,6 +19,7 @@ import cz.cuni.mff.xrg.odalic.outputs.annotatedtable.TableSchema;
  *
  */
 @XmlRootElement(name = "tableSchema")
+@JsonInclude(Include.NON_NULL)
 public final class TableSchemaValue implements Serializable {
   
   private static final long serialVersionUID = 6093586476544509692L;
