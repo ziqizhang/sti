@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.kbsearch.sparql;
 
 import uk.ac.shef.dcs.kbsearch.KBDefinition;
+import uk.ac.shef.dcs.kbsearch.KBSearchUtis;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 
 /**
@@ -17,13 +18,13 @@ public class SPARQLAttribute extends Attribute {
 
     @Override
     public boolean isAlias(KBDefinition definition) {
-        return definition.getPredicateLabel().contains(getRelationURI()) ||
-                definition.getPredicateName().contains(getRelationURI());
+        return KBSearchUtis.contains(definition.getPredicateLabel(), getRelationURI()) ||
+                KBSearchUtis.contains(definition.getPredicateName(), getRelationURI());
     }
 
     @Override
     public boolean isDescription(KBDefinition definition) {
-        return definition.getPredicateDescription().contains(getRelationURI());
+        return KBSearchUtis.contains(definition.getPredicateDescription(), getRelationURI());
     }
 
     @Override
