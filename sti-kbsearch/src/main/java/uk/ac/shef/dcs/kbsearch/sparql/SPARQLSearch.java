@@ -12,6 +12,7 @@ import org.simmetrics.metrics.Levenshtein;
 import uk.ac.shef.dcs.kbsearch.KBDefinition;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
+import uk.ac.shef.dcs.kbsearch.KBSearchUtis;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
@@ -269,7 +270,7 @@ public abstract class SPARQLSearch extends KBSearch {
           ec.setAttributes(attributes);
           for (Attribute attr : attributes) {
             adjustValueOfURLResource(attr);
-            if (kbDefinition.getPredicateType().stream().anyMatch(item -> attr.getRelationURI().endsWith(item)) &&
+            if (KBSearchUtis.contains(kbDefinition.getPredicateType(), attr.getRelationURI()) &&
                 !ec.hasType(attr.getValueURI())) {
               ec.addType(new Clazz(attr.getValueURI(), attr.getValue()));
             }
