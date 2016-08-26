@@ -131,8 +131,14 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
    */
   @Override
   public int compareTo(EntityCandidateValue other) {
-    return new EntityCandidate(entity, likelihood)
+    final int candidateComparison = new EntityCandidate(entity, likelihood)
         .compareTo(new EntityCandidate(other.entity, other.likelihood));
+    
+    if (candidateComparison == 0) {
+      return Boolean.compare(chosen, other.chosen);
+    } else {
+      return candidateComparison;
+    }
   }
 
   /*
