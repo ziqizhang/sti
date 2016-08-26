@@ -106,7 +106,7 @@ public final class EntityCandidate implements Comparable<EntityCandidate>, Seria
    */
   @Override
   public int compareTo(EntityCandidate o) {
-    final int likelihoodComparison = -1 * likelihood.compareTo(o.likelihood);
+    final int likelihoodComparison = likelihood.compareTo(o.likelihood);
     
     if (likelihoodComparison == 0) {
       return entity.compareTo(o.entity);

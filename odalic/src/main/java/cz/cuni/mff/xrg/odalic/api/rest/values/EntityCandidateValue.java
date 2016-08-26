@@ -18,8 +18,8 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.Likelihood;
  * </p>
  * 
  * <p>
- * In this version it supports a chosen flag instead of annotations classes providing the chosen
- * set separately.
+ * In this version it supports a chosen flag instead of annotations classes providing the chosen set
+ * separately.
  * </p>
  * 
  * @author Václav Brodec
@@ -94,10 +94,12 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
   public void setChosen(boolean chosen) {
     this.chosen = chosen;
   }
-  
-  
-  
-  /* (non-Javadoc)
+
+
+
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -108,7 +110,9 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
     return result;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -123,22 +127,33 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
       return false;
     }
     EntityCandidateValue other = (EntityCandidateValue) obj;
-    return new EntityCandidate(entity, likelihood).equals(new EntityCandidate(other.entity, other.likelihood));
+
+    if (!new EntityCandidate(entity, likelihood)
+        .equals(new EntityCandidate(other.entity, other.likelihood))) {
+      return false;
+    }
+
+    return chosen == other.chosen;
   }
-  
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Comparable#compareTo(java.lang.Object)
    */
   @Override
   public int compareTo(EntityCandidateValue other) {
-    final int candidateComparison = new EntityCandidate(entity, likelihood)
-        .compareTo(new EntityCandidate(other.entity, other.likelihood));
-    
-    if (candidateComparison == 0) {
-      return Boolean.compare(chosen, other.chosen);
-    } else {
-      return candidateComparison;
+    final int likelihoodComparison = -1 * likelihood.compareTo(other.likelihood);
+    if (likelihoodComparison != 0) {
+      return likelihoodComparison;
     }
+
+    final int chosenComparison = -1 * Boolean.compare(chosen, other.chosen);
+    if (chosenComparison != 0) {
+      return chosenComparison;
+    }
+
+    return entity.compareTo(other.entity);
   }
 
   /*
