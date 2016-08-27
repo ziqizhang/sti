@@ -98,7 +98,7 @@ public class InterpreterExecutionBatch {
     Configuration config;
     try {
       config = new Configuration(new cz.cuni.mff.xrg.odalic.files.File(inputFile.getName(), "x",
-                                               inputFile.toURI().toURL()), new KnowledgeBase("DBPedia"));
+                                 inputFile.toURI().toURL()), new KnowledgeBase("DBPedia"));
     } catch (MalformedURLException e) {
       log.error("Error - configuration settings for export:");
       e.printStackTrace();

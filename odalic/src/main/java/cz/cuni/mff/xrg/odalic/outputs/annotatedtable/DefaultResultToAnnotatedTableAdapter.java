@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
+
 import java.util.Set;
 
 import cz.cuni.mff.xrg.odalic.input.Input;
 import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.ColumnRelationAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
-import cz.cuni.mff.xrg.odalic.tasks.annotations.HeaderAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
 import cz.cuni.mff.xrg.odalic.tasks.results.Result;
@@ -33,42 +33,47 @@ public class DefaultResultToAnnotatedTableAdapter implements ResultToAnnotatedTa
     
     TableColumnBuilder builder = new TableColumnBuilder();
     List<TableColumn> columns = new ArrayList<TableColumn>();
-   
     List<String> headers = input.headers();
-    boolean addAlternativeUrls = false;
-    int i = 0;
-    for (HeaderAnnotation headerAnnotation : result.getHeaderAnnotations()) {
-      addAlternativeUrls = false;
-      Set<EntityCandidate> chosenCandidatesPrimaryKB = headerAnnotation.getChosen().get(configuration.getPrimaryBase());
+    
+    for (int i = 0; i < input.columnsCount(); i++) {
+      boolean addPrimary = false;
+      boolean addAlternatives = false;
       
-      if (chosenCandidatesPrimaryKB == null || chosenCandidatesPrimaryKB.isEmpty()) {
-        columns.add(createOriginalNonClassifiedColumn(builder, headers.get(i)));
-      } else {
-        columns.add(createOriginalClassifiedColumn(builder, headers.get(i)));
-        
-        columns.add(createDisambiguationColumn(builder, headers.get(i)));
-        
-        for (EntityCandidate chosen : chosenCandidatesPrimaryKB) {
-          columns.add(createClassificationColumn(builder, headers.get(i), chosen.getEntity().getResource()));
-        }
-        
-        for (Entry<KnowledgeBase, Set<EntityCandidate>> entry : headerAnnotation.getChosen().entrySet()) {
-          if (!entry.getKey().getName().equals(configuration.getPrimaryBase().getName()) &&
-              entry.getValue() != null && !entry.getValue().isEmpty()) {
-            addAlternativeUrls = true;
-            
-            for (EntityCandidate chosen : entry.getValue()) {
-              columns.add(createClassificationColumn(builder, headers.get(i), chosen.getEntity().getResource()));
+      for (int j = 0; j < input.rowsCount(); j++) {
+        for (Entry<KnowledgeBase, Set<EntityCandidate>> entry : result.getCellAnnotations()[j][i].getChosen().entrySet()) {
+          if (entry.getValue() != null && !entry.getValue().isEmpty()) {
+            if (entry.getKey().getName().equals(configuration.getPrimaryBase().getName())) {
+              addPrimary = true;
+            } else {
+              addAlternatives = true;
             }
           }
         }
         
-        if (addAlternativeUrls) {
-          columns.add(createAlternativeDisambiguationColumn(builder, headers.get(i)));
+        if (addPrimary && addAlternatives) {
+          break;
         }
       }
       
-      i++;
+      if (addPrimary) {
+        columns.add(createOriginalDisambiguatedColumn(builder, headers.get(i)));
+        
+        columns.add(createDisambiguationColumn(builder, headers.get(i)));
+      } else {
+        columns.add(createOriginalNonDisambiguatedColumn(builder, headers.get(i)));
+      }
+      
+      if (addAlternatives) {
+        columns.add(createAlternativeDisambiguationColumn(builder, headers.get(i)));
+      }
+      
+      for (Set<EntityCandidate> set : result.getHeaderAnnotations().get(i).getChosen().values()) {
+        if (set != null && !set.isEmpty()) {
+          for (EntityCandidate chosen : set) {
+            columns.add(createClassificationColumn(builder, headers.get(i), chosen.getEntity().getResource()));
+          }
+        }
+      }
     }
     
     for (Entry<ColumnRelationPosition, ColumnRelationAnnotation> entry : result.getColumnRelationAnnotations().entrySet()) {
@@ -92,7 +97,7 @@ public class DefaultResultToAnnotatedTableAdapter implements ResultToAnnotatedTa
   private static final String STRING = "string";
   private static final String ANY_URI = "anyURI";
   
-  private TableColumn createOriginalClassifiedColumn(TableColumnBuilder builder, String columnName) {
+  private TableColumn createOriginalDisambiguatedColumn(TableColumnBuilder builder, String columnName) {
     builder.clear();
     builder.setName(columnName);
     builder.setTitles(Arrays.asList(columnName));
@@ -102,7 +107,7 @@ public class DefaultResultToAnnotatedTableAdapter implements ResultToAnnotatedTa
     return builder.build();
   }
   
-  private TableColumn createOriginalNonClassifiedColumn(TableColumnBuilder builder, String columnName) {
+  private TableColumn createOriginalNonDisambiguatedColumn(TableColumnBuilder builder, String columnName) {
     builder.clear();
     builder.setName(columnName);
     builder.setTitles(Arrays.asList(columnName));
