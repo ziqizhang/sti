@@ -4,6 +4,7 @@ import cz.cuni.mff.xrg.odalic.input.Input;
 import cz.cuni.mff.xrg.odalic.outputs.annotatedtable.AnnotatedTable;
 import cz.cuni.mff.xrg.odalic.outputs.annotatedtable.TableColumn;
 import cz.cuni.mff.xrg.odalic.outputs.rdfexport.tp.DataPropertyTriplePattern;
+import cz.cuni.mff.xrg.odalic.outputs.rdfexport.tp.ObjectListPropertyTriplePattern;
 import cz.cuni.mff.xrg.odalic.outputs.rdfexport.tp.ObjectPropertyTriplePattern;
 import cz.cuni.mff.xrg.odalic.outputs.rdfexport.tp.TriplePattern;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,7 @@ import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.LinkedHashModel;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
+import org.eclipse.rdf4j.model.vocabulary.OWL;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,7 @@ public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableTo
 
   private static final String DCTERMS_TITLE = "dcterms:title";
   private static final String RDF_TYPE = "rdf:type";
+  private static final String OWL_SAMEAS = "owl:sameAs";
   
   private ValueFactory factory = SimpleValueFactory.getInstance();
   
@@ -60,7 +63,7 @@ public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableTo
     List<TriplePattern> triplePatterns = new ArrayList<>();
     for (TableColumn column : annotatedTable.getTableSchema().getColumns()) {
       if (column.getSuppressOutput() != null && column.getSuppressOutput()) {
-        //we do not create any triple for the suppressed column
+        // we do not create any triple for the suppressed column
         log.debug("Column has suppressed output, we do not create any triple for {}", column.getName());
         continue;
       }
@@ -70,23 +73,29 @@ public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableTo
       }
       if (StringUtils.isEmpty(column.getAboutUrl())) {
         log.warn("AboutUrl is not defined for the column {}, no triple is created for that column", column.getName());
-        //Currently we require aboutUrl to be defined for all columns. Nevertheless, based on the spec, this is not required and
+        // Currently we require aboutUrl to be defined for all columns. Nevertheless, based on the spec, this is not required and
         //  if aboutUrl is not defined on the column, it may be e.g. defined at the level of whole tableScheme.
-        //Also aboutUrl may contain more complex patterns, e.g.: "aboutUrl": "http://example.org/tree/{on_street}/{GID}", but so far we expect that
+        // Also aboutUrl may contain more complex patterns, e.g.: "aboutUrl": "http://example.org/tree/{on_street}/{GID}", but so far we expect that
         //  it contains only "{columnName}"
         continue;
       }
 
       TriplePattern tp;
       if (column.getValueUrl() == null) {
-        //if valueUrl is null, than we now that we should generate triple with data property (object is literal)
+        // if valueUrl is null, than we now that we should generate triple with data property (object is literal)
         tp = new DataPropertyTriplePattern(column.getAboutUrl(), createPredicateIRI(column.getPropertyUrl()), column.getName());
 
       }
       else {
-        //it is object property
-        //so far we supposse that valueUrl contains either the URL itself or pattern in the form {columnName}, meaning that URL is taken from that column.
-        tp = new ObjectPropertyTriplePattern(column.getAboutUrl(), createPredicateIRI(column.getPropertyUrl()), column.getValueUrl());
+        // it is object property
+        // so far we suppose that valueUrl contains either the URL itself or pattern in the form {columnName}, meaning that URL is taken from that column.
+        if (StringUtils.isEmpty(column.getSeparator())) {
+          tp = new ObjectPropertyTriplePattern(column.getAboutUrl(), createPredicateIRI(column.getPropertyUrl()), column.getValueUrl());
+        }
+        else {
+          // if separator is not empty, valueUrl contains list of values
+          tp = new ObjectListPropertyTriplePattern(column.getAboutUrl(), createPredicateIRI(column.getPropertyUrl()), column.getValueUrl(), column.getSeparator());
+        }
       }
       triplePatterns.add(tp);
 
@@ -98,34 +107,72 @@ public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableTo
     // process the rows from extended input
     log.debug("Iterating over set of row and creating triples for each row");
     IRI subject;
-    Value object = null;
+    List<Value> objects = new ArrayList<>();
     for (List<String> row : extendedInput.rows()) {
       for (TriplePattern tp : triplePatterns) {
         
         // create the subject
         // currently we expect only subject patterns of the form {columnName}
-        subject = factory.createIRI(row.get(
-              positionsForColumnNames.get(getColumnName(tp.getSubjectPattern()))));
-
-        
-        // create the object
-        if (tp instanceof DataPropertyTriplePattern) {
-          //it is data property
-          String columnName = ((DataPropertyTriplePattern)tp).getObjectColumnName();
-          int objectPosition = positionsForColumnNames.get(columnName);
-          object = factory.createLiteral(row.get(objectPosition));
+        String columnSubjectName = getColumnName(tp.getSubjectPattern());
+        if (positionsForColumnNames.get(columnSubjectName) == null) {
+          // column with that name does not exist, so we can not produce the triple
+          log.warn("Column named '{}' does not exist, no triple is produced", columnSubjectName);
+          continue;
         }
-        else if (tp instanceof ObjectPropertyTriplePattern){
-          //it is object property
+        int subjectPosition = positionsForColumnNames.get(columnSubjectName);
+        subject = factory.createIRI(row.get(subjectPosition));
+        
+        // create the object(s)
+        objects.clear();
+        if (tp instanceof DataPropertyTriplePattern) {
+          // it is data property
+          String columnName = ((DataPropertyTriplePattern)tp).getObjectColumnName();
+          if (positionsForColumnNames.get(columnName) == null) {
+            // column with that name does not exist, so we can not produce the triple
+            log.warn("Column named '{}' does not exist, no triple is produced", columnName);
+            continue;
+          }
+          int objectPosition = positionsForColumnNames.get(columnName);
+          objects.add(factory.createLiteral(row.get(objectPosition)));
+        }
+        else if (tp instanceof ObjectListPropertyTriplePattern) {
+          // it is object property containing list of values
+          ObjectListPropertyTriplePattern oltp = (ObjectListPropertyTriplePattern) tp;
+          if (isColumnLink(oltp.getObjectPattern())) {
+            String columnName = getColumnName(oltp.getObjectPattern());
+            if (positionsForColumnNames.get(columnName) == null) {
+              // column with that name does not exist, so we can not produce the triple
+              log.warn("Column named '{}' does not exist, no triple is produced", columnName);
+              continue;
+            }
+            int objectPosition = positionsForColumnNames.get(columnName);
+            for (String item : row.get(objectPosition).split(oltp.getSeparator())) {
+              objects.add(factory.createIRI(item));
+            }
+          }
+          else {
+            // object pattern contains URIs:
+            for (String item : oltp.getObjectPattern().split(oltp.getSeparator())) {
+              objects.add(factory.createIRI(item));
+            }
+          }
+        }
+        else if (tp instanceof ObjectPropertyTriplePattern) {
+          // it is object property
           ObjectPropertyTriplePattern otp = (ObjectPropertyTriplePattern) tp;
           if (isColumnLink(otp.getObjectPattern())) {
             String columnName = getColumnName(otp.getObjectPattern());
+            if (positionsForColumnNames.get(columnName) == null) {
+              // column with that name does not exist, so we can not produce the triple
+              log.warn("Column named '{}' does not exist, no triple is produced", columnName);
+              continue;
+            }
             int objectPosition = positionsForColumnNames.get(columnName);
-            object = factory.createIRI(row.get(objectPosition));
+            objects.add(factory.createIRI(row.get(objectPosition)));
           }
           else {
-            //object pattern contains URI:
-            object = factory.createIRI(otp.getObjectPattern());
+            // object pattern contains URI:
+            objects.add(factory.createIRI(otp.getObjectPattern()));
           }
         }
         else {
@@ -133,7 +180,9 @@ public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableTo
         }
         
         // add the RDF statement by providing subject, predicate and object
-        model.add(subject, tp.getPredicate(), object);
+        for (Value object : objects) {
+          model.add(subject, tp.getPredicate(), object);
+        }
       }
     }
     
@@ -155,6 +204,8 @@ public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableTo
         return DCTERMS.TITLE;
       case RDF_TYPE:
         return RDF.TYPE;
+      case OWL_SAMEAS:
+        return OWL.SAMEAS;
       default:
         return factory.createIRI(predicateString);
     }
