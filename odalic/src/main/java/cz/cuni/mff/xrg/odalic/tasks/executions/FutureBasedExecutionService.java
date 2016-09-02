@@ -93,6 +93,7 @@ public final class FutureBasedExecutionService implements ExecutionService {
     final File file = configuration.getInput();
 
     final Set<ColumnIgnore> columnIgnores = configuration.getFeedback().getColumnIgnores();
+    final KnowledgeBase primaryBase = configuration.getPrimaryBase();
 
     final Callable<Result> execution = () -> {
       final String data = fileService.getDataById(file.getId());
@@ -110,7 +111,7 @@ public final class FutureBasedExecutionService implements ExecutionService {
         results.put(new KnowledgeBase(interpreterEntry.getKey()), annotationResult);
       }
       final Result result = annotationResultAdapter
-          .toResult(results);
+          .toResult(results, primaryBase);
 
       return result;
     };

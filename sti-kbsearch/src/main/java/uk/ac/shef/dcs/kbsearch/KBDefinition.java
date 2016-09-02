@@ -30,6 +30,7 @@ public class KBDefinition {
   private static final String CACHE_TEMPLATE_PATH_PROPERTY_NAME = "kb.cacheTemplatePath";
 
   private static final String PREDICATES_PROPERTY_NAME = "kb.predicates";
+  private static final String LANGUAGE_SUFFIX = "kb.languageSuffix";
 
   private static final String PREDICATE_NAME_PROPERTY_NAME = "kb.predicate.name";
   private static final String PREDICATE_LABEL_PROPERTY_NAME = "kb.predicate.label";
@@ -47,6 +48,8 @@ public class KBDefinition {
   private String sparqlEndpoint;
   private String ontologyUri;
   private String stopListFile;
+
+  private String languageSuffix;
 
   private String cacheTemplatePath;
 
@@ -92,6 +95,14 @@ public class KBDefinition {
 
   private void setStopListFile(String stopListFile) {
     this.stopListFile = stopListFile;
+  }
+
+  public String getLanguageSuffix() {
+    return languageSuffix;
+  }
+
+  private void setLanguageSuffix(String languageSuffix) {
+    this.languageSuffix = languageSuffix;
   }
 
   public String getCacheTemplatePath() {
@@ -148,6 +159,11 @@ public class KBDefinition {
     setStopListFile(combinePaths(workingDirectory, kbProperties.getProperty(STOP_LIST_FILE_PROPERTY_NAME)));
 
     setCacheTemplatePath(combinePaths(workingDirectory, kbProperties.getProperty(CACHE_TEMPLATE_PATH_PROPERTY_NAME)));
+
+    // Language preferences
+    if(kbProperties.containsKey(LANGUAGE_SUFFIX)) {
+      setLanguageSuffix(kbProperties.getProperty(LANGUAGE_SUFFIX));
+    }
 
     // Loading predicate
     // Individual paths to definition files are separated by ";"
