@@ -50,7 +50,7 @@ public abstract class SPARQLSearch extends KBSearch {
 
   static final String REGEX_WHERE = "?s <%1$s> ?o";
   static final String REGEX_TYPES = "?s a <%1$s>";
-  static final String MATCH_WHERE = "?s <%1$s> \"%2$s\"@en";
+  static final String MATCH_WHERE = "?s <%1$s> \"%2$s\"%3$s";
   static final String LABEL_WHERE = "<%2$s> <%1$s> ?o";
 
   protected StringMetric stringMetric = new Levenshtein();
@@ -79,18 +79,18 @@ public abstract class SPARQLSearch extends KBSearch {
 
     String filter = createFilter(kbDefinition.getPredicateLabel(), REGEX_WHERE);
     String query = String.format(REGEX_QUERY, filter, typesUnion, content);
-    return query.toString();
+    return query;
   }
 
   protected String createExactMatchQueries(String content) {
-    String filter = createFilter(kbDefinition.getPredicateLabel(), MATCH_WHERE, content);
+    String filter = createFilter(kbDefinition.getPredicateLabel(), MATCH_WHERE, content, kbDefinition.getLanguageSuffix());
     String query = String.format(EXACT_MATCH_QUERY, filter);
 
     return query;
   }
 
   protected String createExactMatchWithOptionalTypes(String content) {
-    String filter = createFilter(kbDefinition.getPredicateLabel(), MATCH_WHERE, content);
+    String filter = createFilter(kbDefinition.getPredicateLabel(), MATCH_WHERE, content, kbDefinition.getLanguageSuffix());
     String query = String.format(EXACT_MATCH_WITH_OPTIONAL_TYPES_QUERY, filter);
 
     return query;
