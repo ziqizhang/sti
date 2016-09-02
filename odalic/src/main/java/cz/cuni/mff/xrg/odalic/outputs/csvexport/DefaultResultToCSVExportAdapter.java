@@ -69,6 +69,17 @@ public class DefaultResultToCSVExportAdapter implements ResultToCSVExportAdapter
         
         newPosition++;
       }
+      else if (addAlternatives) {
+        builder.insertHeader(urlFormat(headers.get(i)), newPosition);
+        
+        for (int j = 0; j < input.rowsCount(); j++) {
+          if (!alternatives.get(j).isEmpty()) {
+            builder.insertCell(alternatives.get(j).remove(0), j, newPosition);
+          }
+        }
+        
+        newPosition++;
+      }
       
       if (addAlternatives) {
         builder.insertHeader(alternativeUrlsFormat(headers.get(i)), newPosition);

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
-
 import java.util.Set;
 
 import cz.cuni.mff.xrg.odalic.input.Input;
@@ -55,7 +54,7 @@ public class DefaultResultToAnnotatedTableAdapter implements ResultToAnnotatedTa
         }
       }
       
-      if (addPrimary) {
+      if (addPrimary || addAlternatives) {
         columns.add(createOriginalDisambiguatedColumn(builder, headers.get(i)));
         
         columns.add(createDisambiguationColumn(builder, headers.get(i)));
