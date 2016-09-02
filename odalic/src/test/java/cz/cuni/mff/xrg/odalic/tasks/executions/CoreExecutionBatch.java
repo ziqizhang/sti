@@ -90,7 +90,7 @@ public class CoreExecutionBatch {
     }
 
     // Odalic Result creation
-    Result odalicResult = new DefaultAnnotationToResultAdapter().toResult(results);
+    Result odalicResult = new DefaultAnnotationToResultAdapter().toResult(results, new KnowledgeBase("DBpedia"));
     log.info("Odalic Result is: " + odalicResult);
   }
 }

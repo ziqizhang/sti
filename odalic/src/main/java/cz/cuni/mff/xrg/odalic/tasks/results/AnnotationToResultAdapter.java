@@ -14,11 +14,13 @@ import uk.ac.shef.dcs.sti.core.model.TAnnotation;
  */
 public interface AnnotationToResultAdapter {
   /**
-   * Converts the annotation formats.
+   * Converts the annotation formats. Uses the primary base to determine the subject column.
    * 
    * @param basesToTableAnnotations map to table annotations from the knowledge bases that were used
    *        to make them
+   * @param primaryBase primary knowledge base
    * @return Odalic result format
    */
-  Result toResult(Map<KnowledgeBase, TAnnotation> basesToTableAnnotations);
+  Result toResult(Map<KnowledgeBase, TAnnotation> basesToTableAnnotations,
+      KnowledgeBase primaryBase);
 }

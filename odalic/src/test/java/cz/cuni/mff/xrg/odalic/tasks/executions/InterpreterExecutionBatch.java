@@ -90,20 +90,21 @@ public class InterpreterExecutionBatch {
       return;
     }
     
-    // Odalic Result creation
-    Result odalicResult = new DefaultAnnotationToResultAdapter().toResult(results);
-    log.info("Odalic Result is: " + odalicResult);
-    
     // settings for export
     Configuration config;
     try {
       config = new Configuration(new cz.cuni.mff.xrg.odalic.files.File(inputFile.getName(), "x",
-                                 inputFile.toURI().toURL()), new KnowledgeBase("DBPedia"));
+          inputFile.toURI().toURL()), new KnowledgeBase("DBPedia"));
     } catch (MalformedURLException e) {
       log.error("Error - configuration settings for export:");
       e.printStackTrace();
       return;
     }
+    
+    // Odalic Result creation
+    Result odalicResult = new DefaultAnnotationToResultAdapter().toResult(results, config.getPrimaryBase());
+    log.info("Odalic Result is: " + odalicResult);
+    
     String baseExportPath = inputFile.getParent() + File.separator + FilenameUtils.getBaseName(inputFile.getName()) + "-export";
     
     // JSON export
