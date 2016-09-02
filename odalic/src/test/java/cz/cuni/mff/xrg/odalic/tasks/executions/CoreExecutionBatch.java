@@ -3,8 +3,6 @@ package cz.cuni.mff.xrg.odalic.tasks.executions;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 
-import org.apache.commons.io.FilenameUtils;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +14,6 @@ import uk.ac.shef.dcs.sti.core.model.Table;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,11 +22,7 @@ import cz.cuni.mff.xrg.odalic.input.DefaultCsvInputParser;
 import cz.cuni.mff.xrg.odalic.input.DefaultInputToTableAdapter;
 import cz.cuni.mff.xrg.odalic.input.Input;
 import cz.cuni.mff.xrg.odalic.input.ListsBackedInputBuilder;
-import cz.cuni.mff.xrg.odalic.outputs.annotatedtable.AnnotatedTable;
-import cz.cuni.mff.xrg.odalic.outputs.csvexport.CSVExportTest;
-import cz.cuni.mff.xrg.odalic.outputs.rdfexport.RDFExportTest;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
-import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
 import cz.cuni.mff.xrg.odalic.tasks.results.DefaultAnnotationToResultAdapter;
 import cz.cuni.mff.xrg.odalic.tasks.results.Result;
 
