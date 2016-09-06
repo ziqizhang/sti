@@ -20,7 +20,6 @@ public final class ExecutionValue implements Serializable {
   /**
    * Draft flag (reserved for future versions).
    */
-  @XmlElement
   private boolean draft;
 
   public ExecutionValue() {
@@ -39,6 +38,7 @@ public final class ExecutionValue implements Serializable {
   /**
    * @return indicates draft execution
    */
+  @XmlElement
   public boolean isDraft() {
     return draft;
   }

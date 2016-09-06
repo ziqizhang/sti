@@ -19,10 +19,8 @@ import cz.cuni.mff.xrg.odalic.positions.RowPosition;
 @XmlRootElement(name = "cellPosition")
 public class CellPositionValue {
 
-  @XmlElement
   private RowPosition rowPosition;
   
-  @XmlElement
   private ColumnPosition columnPosition;
   
   public CellPositionValue() {}
@@ -38,6 +36,7 @@ public class CellPositionValue {
   /**
    * @return the rowPosition
    */
+  @XmlElement
   @Nullable
   public RowPosition getRowPosition() {
     return rowPosition;
@@ -55,6 +54,7 @@ public class CellPositionValue {
   /**
    * @return the columnPosition
    */
+  @XmlElement
   @Nullable
   public ColumnPosition getColumnPosition() {
     return columnPosition;

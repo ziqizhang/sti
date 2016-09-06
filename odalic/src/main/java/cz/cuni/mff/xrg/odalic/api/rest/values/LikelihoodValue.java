@@ -20,7 +20,6 @@ public final class LikelihoodValue implements Serializable {
   
   private static final long serialVersionUID = -901650058091668104L;
   
-  @XmlElement
   private double value;
 
   public LikelihoodValue() {
@@ -34,6 +33,7 @@ public final class LikelihoodValue implements Serializable {
   /**
    * @return the value (when not set, may be out of range)
    */
+  @XmlElement
   public double getValue() {
     return value;
   }

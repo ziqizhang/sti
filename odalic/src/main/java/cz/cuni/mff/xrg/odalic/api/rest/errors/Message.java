@@ -16,16 +16,12 @@ import com.google.common.base.Preconditions;
 @XmlRootElement
 public final class Message {
 
-  @XmlElement
   private int status;
 
-  @XmlElement
   private String text;
 
-  @XmlElement
   private String link;
 
-  @XmlElement
   private String developerText;
 
   public Message() {
@@ -47,6 +43,7 @@ public final class Message {
   /**
    * @return the status
    */
+  @XmlElement
   public int getStatus() {
     return status;
   }
@@ -54,6 +51,7 @@ public final class Message {
   /**
    * @return the text
    */
+  @XmlElement
   @Nullable
   public String getText() {
     return text;
@@ -69,6 +67,7 @@ public final class Message {
   /**
    * @return the link
    */
+  @XmlElement
   @Nullable
   public String getLink() {
     return link;
@@ -84,6 +83,7 @@ public final class Message {
   /**
    * @return the developer text
    */
+  @XmlElement
   @Nullable
   public String getDeveloperText() {
     return developerText;

@@ -24,7 +24,6 @@ public final class TableSchemaValue implements Serializable {
   
   private static final long serialVersionUID = 6093586476544509692L;
   
-  @XmlElement
   private List<TableColumn> columns;
   
   public TableSchemaValue() {}
@@ -36,6 +35,7 @@ public final class TableSchemaValue implements Serializable {
   /**
    * @return the columns
    */
+  @XmlElement
   public List<TableColumn> getColumns() {
     return columns;
   }

@@ -36,9 +36,6 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 @XmlRootElement(name = "cellAnnotation")
 public final class CellAnnotationValue {
 
-  @XmlElement
-  @JsonDeserialize(keyUsing = KnowledgeBaseKeyJsonDeserializer.class)
-  @JsonSerialize(keyUsing = KnowledgeBaseKeyJsonSerializer.class)
   private Map<KnowledgeBase, NavigableSet<EntityCandidateValue>> candidates;
 
   public CellAnnotationValue() {
@@ -70,6 +67,9 @@ public final class CellAnnotationValue {
   /**
    * @return the candidates
    */
+  @XmlElement
+  @JsonDeserialize(keyUsing = KnowledgeBaseKeyJsonDeserializer.class)
+  @JsonSerialize(keyUsing = KnowledgeBaseKeyJsonSerializer.class)
   public Map<KnowledgeBase, NavigableSet<EntityCandidateValue>> getCandidates() {
     return candidates;
   }

@@ -30,13 +30,10 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
 
   private static final long serialVersionUID = 3072774254576336747L;
 
-  @XmlElement
   private Entity entity;
 
-  @XmlElement
   private Likelihood likelihood;
 
-  @XmlElement
   private boolean chosen;
 
   public EntityCandidateValue() {}
@@ -50,6 +47,7 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
   /**
    * @return the entity
    */
+  @XmlElement
   @Nullable
   public Entity getEntity() {
     return entity;
@@ -67,6 +65,7 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
   /**
    * @return the likelihood
    */
+  @XmlElement
   @Nullable
   public Likelihood getLikelihood() {
     return likelihood;
@@ -84,6 +83,7 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
   /**
    * @return the chosen
    */
+  @XmlElement
   public boolean isChosen() {
     return chosen;
   }

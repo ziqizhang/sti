@@ -47,27 +47,14 @@ public final class ResultValue implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
 
-  @XmlElement
   private ColumnPosition subjectColumnPosition;
 
-  @XmlElement
   private List<HeaderAnnotation> headerAnnotations;
 
-  @XmlElement
   private CellAnnotation[][] cellAnnotations;
 
-  @XmlElement
-  @JsonDeserialize(keyUsing = ColumnPositionKeyJsonDeserializer.class,
-      contentUsing = ColumnPositionToColumnRelationAnnotationMapDeserializer.class)
-  @JsonSerialize(keyUsing = ColumnPositionKeyJsonSerializer.class,
-      contentUsing = ColumnPositionToColumnRelationAnnotationMapSerializer.class)
   private Map<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> columnRelationAnnotations;
 
-  @XmlElement
-  @JsonDeserialize(keyUsing = RowPositionKeyJsonDeserializer.class,
-      contentUsing = ColumnPositionToColumnPositionToCellRelationAnnotationMapMapDeserializer.class)
-  @JsonSerialize(keyUsing = RowPositionKeyJsonSerializer.class,
-      contentUsing = ColumnPositionToColumnPositionToCellRelationAnnotationMapMapSerializer.class)
   private Map<RowPosition, Map<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>>> cellRelationAnnotations;
 
   public ResultValue() {
@@ -146,6 +133,7 @@ public final class ResultValue implements Serializable {
   /**
    * @return the subject column position
    */
+  @XmlElement
   @Nullable
   public ColumnPosition getSubjectColumnPosition() {
     return subjectColumnPosition;
@@ -163,6 +151,7 @@ public final class ResultValue implements Serializable {
   /**
    * @return the header annotations
    */
+  @XmlElement
   public List<HeaderAnnotation> getHeaderAnnotations() {
     return headerAnnotations;
   }
@@ -179,6 +168,7 @@ public final class ResultValue implements Serializable {
   /**
    * @return the cell annotations
    */
+  @XmlElement
   public CellAnnotation[][] getCellAnnotations() {
     return cz.cuni.mff.xrg.odalic.util.Arrays.deepCopy(CellAnnotation.class, cellAnnotations);
   }
@@ -196,6 +186,11 @@ public final class ResultValue implements Serializable {
   /**
    * @return the column relation Annotations
    */
+  @XmlElement
+  @JsonDeserialize(keyUsing = ColumnPositionKeyJsonDeserializer.class,
+      contentUsing = ColumnPositionToColumnRelationAnnotationMapDeserializer.class)
+  @JsonSerialize(keyUsing = ColumnPositionKeyJsonSerializer.class,
+      contentUsing = ColumnPositionToColumnRelationAnnotationMapSerializer.class)
   public Map<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> getColumnRelationAnnotations() {
     return columnRelationAnnotations;
   }
@@ -217,6 +212,11 @@ public final class ResultValue implements Serializable {
   /**
    * @return the cell relation annotations
    */
+  @XmlElement
+  @JsonDeserialize(keyUsing = RowPositionKeyJsonDeserializer.class,
+      contentUsing = ColumnPositionToColumnPositionToCellRelationAnnotationMapMapDeserializer.class)
+  @JsonSerialize(keyUsing = RowPositionKeyJsonSerializer.class,
+      contentUsing = ColumnPositionToColumnPositionToCellRelationAnnotationMapMapSerializer.class)
   public Map<RowPosition, Map<ColumnPosition, Map<ColumnPosition, CellRelationAnnotation>>> getCellRelationAnnotations() {
     return cellRelationAnnotations;
   }

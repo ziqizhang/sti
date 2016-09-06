@@ -16,7 +16,6 @@ import cz.cuni.mff.xrg.odalic.positions.RowPosition;
 @XmlRootElement(name = "rowPosition")
 public final class RowPositionValue {
 
-  @XmlElement
   private int index;
   
   public RowPositionValue() {}
@@ -31,6 +30,7 @@ public final class RowPositionValue {
   /**
    * @return the index
    */
+  @XmlElement
   public int getIndex() {
     return index;
   }
