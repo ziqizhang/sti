@@ -257,7 +257,7 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
         // disambiguate entities
         literalColumnTagger = new LiteralColumnTaggerImpl(getIgnoreColumns());
       } catch (Exception e) {
-
+          logger.error("Exception", e.getLocalizedMessage(), e.getStackTrace());
       }
 
       SemanticTableInterpreter interpreter = new TMPInterpreter(subcolDetector, learning, update, relationEnumerator,
