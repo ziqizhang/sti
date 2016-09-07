@@ -1,6 +1,7 @@
 package cz.cuni.mff.xrg.odalic.api.rest.values;
 
 import javax.annotation.Nullable;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.common.base.Preconditions;
@@ -27,6 +28,7 @@ public final class KnowledgeBaseValue {
   /**
    * @return the name
    */
+  @XmlElement
   @Nullable
   public String getName() {
     return name;

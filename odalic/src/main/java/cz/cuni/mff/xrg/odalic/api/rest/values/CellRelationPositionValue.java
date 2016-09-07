@@ -23,10 +23,8 @@ public class CellRelationPositionValue implements Serializable {
   
   private static final long serialVersionUID = 2155060933372152653L;
 
-  @XmlElement
   private RowPosition rowPosition;
   
-  @XmlElement
   private ColumnRelationPosition columnsPosition;
   
   public CellRelationPositionValue() {}
@@ -39,6 +37,7 @@ public class CellRelationPositionValue implements Serializable {
   /**
    * @return the rowPosition
    */
+  @XmlElement
   @Nullable
   public RowPosition getRowPosition() {
     return rowPosition;
@@ -56,6 +55,7 @@ public class CellRelationPositionValue implements Serializable {
   /**
    * @return the columnsPosition
    */
+  @XmlElement
   @Nullable
   public ColumnRelationPosition getColumnsPosition() {
     return columnsPosition;

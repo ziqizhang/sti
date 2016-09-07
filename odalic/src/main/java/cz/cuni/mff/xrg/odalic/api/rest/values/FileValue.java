@@ -28,18 +28,12 @@ public final class FileValue implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
 
-  @XmlElement
   private String id;
 
-  @JsonSerialize(using = CustomJsonDateSerializer.class)
-  @JsonDeserialize(using = CustomJsonDateDeserializer.class)
-  @XmlElement
   private Date uploaded;
 
-  @XmlElement
   private String owner;
   
-  @XmlElement
   private URL location;
 
   public FileValue() {}
@@ -54,6 +48,7 @@ public final class FileValue implements Serializable {
   /**
    * @return the id
    */
+  @XmlElement
   @Nullable
   public String getId() {
     return id;
@@ -71,6 +66,9 @@ public final class FileValue implements Serializable {
   /**
    * @return the uploaded
    */
+  @JsonSerialize(using = CustomJsonDateSerializer.class)
+  @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+  @XmlElement
   @Nullable
   public Date getUploaded() {
     return uploaded;
@@ -88,6 +86,7 @@ public final class FileValue implements Serializable {
   /**
    * @return the owner
    */
+  @XmlElement
   @Nullable
   public String getOwner() {
     return owner;
@@ -105,6 +104,7 @@ public final class FileValue implements Serializable {
   /**
    * @return the location
    */
+  @XmlElement
   @Nullable
   public URL getLocation() {
     return location;

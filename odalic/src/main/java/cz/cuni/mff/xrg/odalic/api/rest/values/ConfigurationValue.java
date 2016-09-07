@@ -23,13 +23,10 @@ public final class ConfigurationValue implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
   
-  @XmlElement(name = "input")
   private String input;
 
-  @XmlElement(name = "feedback")
   private Feedback feedback;
   
-  @XmlElement(name = "primary_base")
   private KnowledgeBase primaryBase;
 
   public ConfigurationValue() {}
@@ -43,6 +40,7 @@ public final class ConfigurationValue implements Serializable {
   /**
    * @return the input
    */
+  @XmlElement
   @Nullable
   public String getInput() {
     return input;
@@ -60,6 +58,7 @@ public final class ConfigurationValue implements Serializable {
   /**
    * @return the feedback
    */
+  @XmlElement
   @Nullable
   public Feedback getFeedback() {
     return feedback;
@@ -78,6 +77,7 @@ public final class ConfigurationValue implements Serializable {
   /**
    * @return the primary knowledge base
    */
+  @XmlElement(name = "primary_base")
   @Nullable
   public KnowledgeBase getPrimaryBase() {
     return primaryBase;

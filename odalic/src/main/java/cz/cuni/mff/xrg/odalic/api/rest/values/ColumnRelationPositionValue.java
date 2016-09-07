@@ -18,10 +18,8 @@ import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
 @XmlRootElement(name = "cellPosition")
 public final class ColumnRelationPositionValue {
 
-  @XmlElement
   private ColumnPosition first;
   
-  @XmlElement
   private ColumnPosition second;
   
   public ColumnRelationPositionValue() {}
@@ -34,6 +32,7 @@ public final class ColumnRelationPositionValue {
   /**
    * @return the first
    */
+  @XmlElement
   @Nullable
   public ColumnPosition getFirst() {
     return first;
@@ -51,6 +50,7 @@ public final class ColumnRelationPositionValue {
   /**
    * @return the second
    */
+  @XmlElement
   @Nullable
   public ColumnPosition getSecond() {
     return second;

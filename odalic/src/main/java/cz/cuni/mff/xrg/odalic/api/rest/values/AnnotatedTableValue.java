@@ -22,13 +22,10 @@ public final class AnnotatedTableValue implements Serializable {
   
   private static final long serialVersionUID = -7973901982616352L;
   
-  @XmlElement
   private String context = "http://www.w3.org/ns/csvw";
   
-  @XmlElement
   private String url;
   
-  @XmlElement
   private TableSchema tableSchema;
   
   public AnnotatedTableValue() {}
@@ -41,6 +38,7 @@ public final class AnnotatedTableValue implements Serializable {
   /**
    * @return the context
    */
+  @XmlElement
   public String getContext() {
     return context;
   }
@@ -48,6 +46,7 @@ public final class AnnotatedTableValue implements Serializable {
   /**
    * @return the url
    */
+  @XmlElement
   public String getUrl() {
     return url;
   }
@@ -55,6 +54,7 @@ public final class AnnotatedTableValue implements Serializable {
   /**
    * @return the table schema
    */
+  @XmlElement
   public TableSchema getTableSchema() {
     return tableSchema;
   }

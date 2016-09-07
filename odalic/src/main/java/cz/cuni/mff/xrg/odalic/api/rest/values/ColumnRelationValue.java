@@ -23,10 +23,8 @@ public final class ColumnRelationValue implements Serializable {
 
   private static final long serialVersionUID = -9087389821835847372L;
 
-  @XmlElement
   private ColumnRelationPosition position;
   
-  @XmlElement
   private ColumnRelationAnnotation annotation;
   
   public ColumnRelationValue() {}
@@ -39,6 +37,7 @@ public final class ColumnRelationValue implements Serializable {
   /**
    * @return the position
    */
+  @XmlElement
   @Nullable
   public ColumnRelationPosition getPosition() {
     return position;
@@ -56,6 +55,7 @@ public final class ColumnRelationValue implements Serializable {
   /**
    * @return the annotation
    */
+  @XmlElement
   @Nullable
   public ColumnRelationAnnotation getAnnotation() {
     return annotation;

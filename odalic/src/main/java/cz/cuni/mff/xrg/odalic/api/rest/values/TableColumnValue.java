@@ -23,34 +23,24 @@ public final class TableColumnValue implements Serializable {
   
   private static final long serialVersionUID = -4987474937531923887L;
   
-  @XmlElement
   private String name;
   
-  @XmlElement
   private List<String> titles;
   
-  @XmlElement
   private String description;
   
-  @XmlElement
   private String dataType;
   
-  @XmlElement
   private Boolean virtual;
   
-  @XmlElement
   private Boolean suppressOutput;
   
-  @XmlElement
   private String aboutUrl;
   
-  @XmlElement
   private String separator;
   
-  @XmlElement
   private String propertyUrl;
   
-  @XmlElement
   private String valueUrl;
   
   public TableColumnValue() {}
@@ -71,6 +61,7 @@ public final class TableColumnValue implements Serializable {
   /**
    * @return the name
    */
+  @XmlElement
   public String getName() {
     return name;
   }
@@ -78,6 +69,7 @@ public final class TableColumnValue implements Serializable {
   /**
    * @return the titles
    */
+  @XmlElement
   public List<String> getTitles() {
     return titles;
   }
@@ -85,6 +77,7 @@ public final class TableColumnValue implements Serializable {
   /**
    * @return the description
    */
+  @XmlElement
   public String getDescription() {
     return description;
   }
@@ -92,6 +85,7 @@ public final class TableColumnValue implements Serializable {
   /**
    * @return the dataType
    */
+  @XmlElement
   public String getDataType() {
     return dataType;
   }
@@ -99,6 +93,7 @@ public final class TableColumnValue implements Serializable {
   /**
    * @return the virtual
    */
+  @XmlElement
   public Boolean getVirtual() {
     return virtual;
   }
@@ -106,6 +101,7 @@ public final class TableColumnValue implements Serializable {
   /**
    * @return the suppressOutput
    */
+  @XmlElement
   public Boolean getSuppressOutput() {
     return suppressOutput;
   }
@@ -113,6 +109,7 @@ public final class TableColumnValue implements Serializable {
   /**
    * @return the aboutUrl
    */
+  @XmlElement
   public String getAboutUrl() {
     return aboutUrl;
   }
@@ -120,6 +117,7 @@ public final class TableColumnValue implements Serializable {
   /**
    * @return the separator
    */
+  @XmlElement
   public String getSeparator() {
     return separator;
   }
@@ -127,6 +125,7 @@ public final class TableColumnValue implements Serializable {
   /**
    * @return the propertyUrl
    */
+  @XmlElement
   public String getPropertyUrl() {
     return propertyUrl;
   }
@@ -134,6 +133,7 @@ public final class TableColumnValue implements Serializable {
   /**
    * @return the valueUrl
    */
+  @XmlElement
   public String getValueUrl() {
     return valueUrl;
   }
