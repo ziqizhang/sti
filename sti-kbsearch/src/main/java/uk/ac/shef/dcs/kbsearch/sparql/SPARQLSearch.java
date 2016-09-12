@@ -53,7 +53,7 @@ public abstract class SPARQLSearch extends KBSearch {
   static final String LABEL_QUERY = "SELECT DISTINCT ?o WHERE {%1$s .}";
 
   static final String REGEX_WHERE = "?s <%1$s> ?o";
-  static final String REGEX_WHERE_CONTAINS = "?s <%1$s> ?o . ?o <bif:contains> '\"%2%s\"'";
+  static final String REGEX_WHERE_CONTAINS = "?s <%1$s> ?o . ?o <bif:contains> '\"%2$s\"'";
   static final String REGEX_FILTER = "\\b%1$s\\b";
   static final String REGEX_TYPES = "?s a <%1$s>";
   static final String MATCH_WHERE = "?s <%1$s> \"%2$s\"%3$s";
