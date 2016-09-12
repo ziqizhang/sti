@@ -5,6 +5,7 @@ import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.sparql.engine.http.QueryEngineHTTP;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 
 import uk.ac.shef.dcs.kbsearch.KBDefinition;
