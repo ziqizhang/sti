@@ -2,9 +2,12 @@ package uk.ac.shef.dcs.kbsearch.sparql;
 
 import javafx.util.Pair;
 
+import org.apache.commons.collections.map.UnmodifiableMap;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.jena.ext.com.google.common.collect.ImmutableMap;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.sparql.engine.optimizer.Pattern;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.simmetrics.StringMetric;
 import org.simmetrics.metrics.Levenshtein;
@@ -43,15 +46,38 @@ import java.util.stream.Stream;
  */
 public abstract class SPARQLSearch extends KBSearch {
 
-  static final String REGEX_QUERY = "SELECT DISTINCT ?s ?o WHERE {%1$s .\n%2$sFILTER ( regex (str(?o), \"\\b%3$s\\b\", \"i\") )}";
+  static final String REGEX_QUERY = "SELECT DISTINCT ?s ?o WHERE {%1$s .\n%2$sFILTER ( regex (str(?o), \"%3$s\", \"i\") )}";
+  static final String REGEX_QUERY_CONTAINS = "SELECT DISTINCT ?s ?o WHERE {%1$s .\n%2$s}";
   static final String EXACT_MATCH_QUERY = "SELECT DISTINCT ?s WHERE {%1$s .}";
   static final String EXACT_MATCH_WITH_OPTIONAL_TYPES_QUERY = "SELECT DISTINCT ?s ?o WHERE {%1$s .\nOPTIONAL {?s a ?o}}";
   static final String LABEL_QUERY = "SELECT DISTINCT ?o WHERE {%1$s .}";
 
   static final String REGEX_WHERE = "?s <%1$s> ?o";
+  static final String REGEX_WHERE_CONTAINS = "?s <%1$s> ?o . ?o <bif:contains> '\"%2$s\"'";
+  static final String REGEX_FILTER = "\\b%1$s\\b";
   static final String REGEX_TYPES = "?s a <%1$s>";
   static final String MATCH_WHERE = "?s <%1$s> \"%2$s\"%3$s";
   static final String LABEL_WHERE = "<%2$s> <%1$s> ?o";
+
+  /**
+   * Escape patterns from http://www.w3.org/TR/rdf-sparql-query/#grammarEscapes
+   */
+  private static final Map<Character, String> SPARQL_ESCAPE_REPLACEMENTS;
+
+  static {
+    Map<Character, String> map = new HashMap<>();
+
+    map.put('\t', "\\t");
+    map.put('\n', "\\n");
+    map.put('\r', "\\r");
+    map.put('\b', "\\b");
+    map.put('\f', "\\f");
+    map.put('\"', "\\\"");
+    map.put('\'', "\\'");
+    map.put('\\', "\\\\");
+
+    SPARQL_ESCAPE_REPLACEMENTS = Collections.unmodifiableMap(map);
+  }
 
   protected StringMetric stringMetric = new Levenshtein();
 
@@ -77,20 +103,30 @@ public abstract class SPARQLSearch extends KBSearch {
       typesUnion.append(" .\n");
     }
 
-    String filter = createFilter(kbDefinition.getPredicateLabel(), REGEX_WHERE);
-    String query = String.format(REGEX_QUERY, filter, typesUnion, content);
-    return query;
+    if (kbDefinition.getUseBifContains()) {
+      String where = createFilter(kbDefinition.getPredicateLabel(), REGEX_WHERE_CONTAINS, escapeSPARQLLiteral(content));
+
+      String query = String.format(REGEX_QUERY_CONTAINS, where, typesUnion);
+      return query;
+    }
+    else {
+      String where = createFilter(kbDefinition.getPredicateLabel(), REGEX_WHERE);
+      String filter = escapeSPARQLLiteral(String.format(REGEX_FILTER, java.util.regex.Pattern.quote(content)));
+
+      String query = String.format(REGEX_QUERY, where, typesUnion, filter);
+      return query;
+    }
   }
 
   protected String createExactMatchQueries(String content) {
-    String filter = createFilter(kbDefinition.getPredicateLabel(), MATCH_WHERE, content, kbDefinition.getLanguageSuffix());
+    String filter = createFilter(kbDefinition.getPredicateLabel(), MATCH_WHERE, escapeSPARQLLiteral(content), kbDefinition.getLanguageSuffix());
     String query = String.format(EXACT_MATCH_QUERY, filter);
 
     return query;
   }
 
   protected String createExactMatchWithOptionalTypes(String content) {
-    String filter = createFilter(kbDefinition.getPredicateLabel(), MATCH_WHERE, content, kbDefinition.getLanguageSuffix());
+    String filter = createFilter(kbDefinition.getPredicateLabel(), MATCH_WHERE, escapeSPARQLLiteral(content), kbDefinition.getLanguageSuffix());
     String query = String.format(EXACT_MATCH_WITH_OPTIONAL_TYPES_QUERY, filter);
 
     return query;
@@ -405,5 +441,20 @@ public abstract class SPARQLSearch extends KBSearch {
 
   protected String createSolrCacheQuery_findLabelForResource(String url) {
     return "LABEL_" + url;
+  }
+
+  private String escapeSPARQLLiteral(String value){
+    StringBuilder builder = new StringBuilder(value);
+
+    for(int index = builder.length() - 1; index >= 0; index--) {
+      String replacement = SPARQL_ESCAPE_REPLACEMENTS.get(value.charAt(index));
+
+      if (replacement != null) {
+        builder.deleteCharAt(index);
+        builder.insert(index, replacement);
+      }
+    }
+
+    return builder.toString();
   }
 }
