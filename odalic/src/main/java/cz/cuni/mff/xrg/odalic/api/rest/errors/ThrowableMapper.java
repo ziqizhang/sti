@@ -4,8 +4,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.StatusType;
 import javax.ws.rs.ext.ExceptionMapper;
 
 /**
@@ -21,30 +21,28 @@ public final class ThrowableMapper implements ExceptionMapper<Throwable> {
    */
   @Override
   public Response toResponse(Throwable throwable) {
-    //TODO: Add specialized mappers.
+    final StatusType statusType = getHttpStatus(throwable);
     
-    final Message errorMessage = new Message(getHttpStatus(throwable));
-    errorMessage.setText(throwable.getMessage());
+    final String text = throwable.getMessage();
     
     final StringWriter trace = new StringWriter();
     throwable.printStackTrace(new PrintWriter(trace));
-    errorMessage.setDeveloperText(trace.toString());
-
-    return Response.status(errorMessage.getStatus()).entity(errorMessage)
-        .type(MediaType.APPLICATION_JSON).build();
+    final String debugContent = trace.toString();
+    
+    return Message.of(text, debugContent).toResponse(statusType);
   }
 
   /**
    * Defaults to internal server error in case the exception is not instance of {@link WebApplicationException}.
    * 
    * @param throwable throwable instance
-   * @return HTTP status code
+   * @return HTTP status
    */
-  private int getHttpStatus(Throwable throwable) {
+  private StatusType getHttpStatus(Throwable throwable) {
     if (throwable instanceof WebApplicationException) {
-      return ((WebApplicationException) throwable).getResponse().getStatus();
+      return ((WebApplicationException) throwable).getResponse().getStatusInfo();
     } else {
-      return Response.Status.INTERNAL_SERVER_ERROR.getStatusCode();
+      return Response.Status.INTERNAL_SERVER_ERROR;
     }
   }
 }

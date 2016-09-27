@@ -1,10 +1,19 @@
 package cz.cuni.mff.xrg.odalic.api.rest.errors;
 
+import java.net.URI;
+import java.util.List;
+
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.StatusType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 
 
 /**
@@ -17,38 +26,32 @@ import com.google.common.base.Preconditions;
 public final class Message {
 
   @XmlElement
-  private int status;
+  private final String text;
 
   @XmlElement
-  private String text;
+  private final List<URI> additionalResources;
 
   @XmlElement
-  private String link;
+  private final String debugContent;
 
-  @XmlElement
-  private String developerText;
 
-  public Message() {
-    status = Integer.MIN_VALUE;
+  @XmlTransient
+  public static Message of(@Nullable String text, @Nullable String debugContent) {
+    return new MessageBuilder().text(text).debugContent(debugContent).build();
   }
 
-  /**
-   * Creates new message.
-   * 
-   * @param status HTTP status code
-   */
-  public Message(int status) {
-    Preconditions.checkArgument(status >= 100);
-    Preconditions.checkArgument(status <= 599);
-    
-    this.status = status;
+  @XmlTransient
+  public static Message of(@Nullable String text) {
+    return new MessageBuilder().text(text).build();
   }
 
-  /**
-   * @return the status
-   */
-  public int getStatus() {
-    return status;
+  public Message(@Nullable String text, List<URI> additionalResources,
+      @Nullable String debugContent) {
+    Preconditions.checkNotNull(additionalResources);
+
+    this.text = text;
+    this.additionalResources = ImmutableList.copyOf(additionalResources);
+    this.debugContent = debugContent;
   }
 
   /**
@@ -60,39 +63,29 @@ public final class Message {
   }
 
   /**
-   * @param text the text to set
+   * @return the additional resources
    */
-  public void setText(String text) {
-    this.text = text;
+  public List<URI> getAdditionalResources() {
+    return additionalResources;
   }
 
   /**
-   * @return the link
+   * @return the debug content
    */
   @Nullable
-  public String getLink() {
-    return link;
+  public String getDebugContent() {
+    return debugContent;
   }
 
   /**
-   * @param link the link to set
+   * Utility method that wraps the message into a JSON response and assigns it the provided
+   * {@link StatusType}.
+   * 
+   * @param statusType status type
+   * @return a {@link Response}
    */
-  public void setLink(String link) {
-    this.link = link;
-  }
-
-  /**
-   * @return the developer text
-   */
-  @Nullable
-  public String getDeveloperText() {
-    return developerText;
-  }
-
-  /**
-   * @param developerText the developer text to set
-   */
-  public void setDeveloperText(String developerText) {
-    this.developerText = developerText;
+  @XmlTransient
+  public Response toResponse(@Nonnull StatusType statusType) {
+    return Response.status(statusType).entity(this).type(MediaType.APPLICATION_JSON).build();
   }
 }

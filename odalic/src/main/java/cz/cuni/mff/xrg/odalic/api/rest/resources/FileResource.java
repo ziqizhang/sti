@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.errors.Message;
 import cz.cuni.mff.xrg.odalic.files.File;
 import cz.cuni.mff.xrg.odalic.files.FileService;
 
@@ -72,15 +73,15 @@ public final class FileResource {
       throws IOException {
 
     if (!fileService.hasId(file, id)) {
-      return Response.status(Response.Status.NOT_ACCEPTABLE)
-          .entity("The ID in the payload is not the same as the ID of resource.").build();
+      return Message.of("The ID in the payload is not the same as the ID of resource.")
+          .toResponse(Response.Status.NOT_ACCEPTABLE);
     }
 
-    if (!file.getLocation().equals(cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id))) {
-      return Response.status(Response.Status.NOT_ACCEPTABLE)
-          .entity(
-              "The location you provided for the file is not equal to the default location for uploaded file.")
-          .build();
+    if (!file.getLocation()
+        .equals(cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id))) {
+      return Message
+          .of("The location you provided for the file is not equal to the default location for uploaded file.")
+          .toResponse(Response.Status.NOT_ACCEPTABLE);
     }
 
     final URL location = file.getLocation();
@@ -134,7 +135,8 @@ public final class FileResource {
       @FormDataParam("file") FormDataContentDisposition fileDetail) throws IOException {
 
     final String id = fileDetail.getFileName();
-    final File file = new File(id, "", cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id));
+    final File file =
+        new File(id, "", cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id));
 
     if (fileService.existsFileWithId(id)) {
       return Response.status(Response.Status.NOT_ACCEPTABLE)
@@ -143,7 +145,8 @@ public final class FileResource {
 
     fileService.create(file, fileInputStream);
     return Response.status(Response.Status.CREATED)
-        .entity("A new file has been registered AT THE LOCATION DERIVED from the name of the one uploaded.")
+        .entity(
+            "A new file has been registered AT THE LOCATION DERIVED from the name of the one uploaded.")
         .header("Location", file.getLocation()).build();
   }
 
