@@ -7,6 +7,11 @@
     <groupId>uk.ac.shef.dcs</groupId>
     <artifactId>sti-main</artifactId>
     <version>1.0alpha</version>
+    <parent>
+        <artifactId>sti</artifactId>
+        <groupId>uk.ac.shef.dcs</groupId>
+        <version>1.0alpha</version>
+    </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

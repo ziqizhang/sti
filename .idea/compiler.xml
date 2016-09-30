@@ -28,19 +28,12 @@
         <module name="main" />
         <module name="websearch" />
       </profile>
-      <profile default="false" name="Annotation profile for sti-websearch" enabled="true">
+      <profile default="false" name="Annotation profile for sti-main" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="sti-websearch" />
-      </profile>
-      <profile default="false" name="Annotation profile for sti-common-util" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="sti-common-util" />
+        <module name="sti-main" />
       </profile>
       <profile default="false" name="Annotation profile for sti-kbsearch" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -49,6 +42,13 @@
         <processorPath useClasspath="true" />
         <module name="sti-kbsearch" />
       </profile>
+      <profile default="false" name="Annotation profile for sti-websearch" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="sti-websearch" />
+      </profile>
       <profile default="false" name="Annotation profile for sti-any23" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -56,19 +56,19 @@
         <processorPath useClasspath="true" />
         <module name="sti-any23" />
       </profile>
-      <profile default="false" name="Annotation profile for sti-main" enabled="true">
+      <profile default="false" name="Annotation profile for sti-common-util" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="sti-main" />
+        <module name="sti-common-util" />
       </profile>
-      <profile default="false" name="Annotation profile for sti" enabled="true">
+      <profile default="false" name="Annotation profile for sti-jar-builder" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="sti" />
+        <module name="sti-jar-builder" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
@@ -76,9 +76,10 @@
       <module name="common-util" target="1.5" />
       <module name="kbsearch" target="1.5" />
       <module name="main" target="1.5" />
-      <module name="sti" target="1.8" />
+      <module name="sti" target="1.5" />
       <module name="sti-any23" target="1.8" />
       <module name="sti-common-util" target="1.8" />
+      <module name="sti-jar-builder" target="1.8" />
       <module name="sti-kbsearch" target="1.8" />
       <module name="sti-main" target="1.8" />
       <module name="sti-websearch" target="1.8" />
