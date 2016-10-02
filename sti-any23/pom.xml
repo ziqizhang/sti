@@ -4,7 +4,7 @@
     <artifactId>sti-any23</artifactId>
     <version>1.0</version>
     <parent>
-        <artifactId>sti</artifactId>
+        <artifactId>sti-package</artifactId>
         <groupId>uk.ac.shef.dcs</groupId>
         <version>1.0alpha</version>
     </parent>

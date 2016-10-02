@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>sti</artifactId>
+        <artifactId>sti-package</artifactId>
         <groupId>uk.ac.shef.dcs</groupId>
         <version>1.0alpha</version>
     </parent>
-    <artifactId>sti-jar-builder</artifactId>
+    <artifactId>sti</artifactId>
     <dependencies>
         <dependency>
             <groupId>uk.ac.shef.dcs</groupId>

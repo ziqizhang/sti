@@ -8,7 +8,7 @@
     <version>1.0</version>
     <packaging>jar</packaging>
     <parent>
-        <artifactId>sti</artifactId>
+        <artifactId>sti-package</artifactId>
         <groupId>uk.ac.shef.dcs</groupId>
         <version>1.0alpha</version>
     </parent>
