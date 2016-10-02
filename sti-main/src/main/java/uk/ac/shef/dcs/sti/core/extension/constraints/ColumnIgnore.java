@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.core.extension.feedbacks;
+package uk.ac.shef.dcs.sti.core.extension.constraints;
 
 import java.io.Serializable;
 
@@ -6,30 +6,36 @@ import javax.annotation.concurrent.Immutable;
 
 import com.google.common.base.Preconditions;
 
-import uk.ac.shef.dcs.sti.core.extension.positions.CellPosition;
+import uk.ac.shef.dcs.sti.core.extension.positions.ColumnPosition;
 
+/**
+ * Hint to ignore column.
+ * 
+ * @author Václav Brodec
+ *
+ */
 @Immutable
-public final class Ambiguity implements Serializable {
+public final class ColumnIgnore implements Serializable {
 
-  private static final long serialVersionUID = -9087389821835847372L;
-
-  private final CellPosition position;
+  private static final long serialVersionUID = -4305681863714969261L;
+  
+  private final ColumnPosition position;
 
   /**
-   * Creates a new hint to keep a cell ambiguous.
+   * Creates new hint to ignore column at given position.
    * 
-   * @param position position of the cell
+   * @param position position of the ignored column
    */
-  public Ambiguity(CellPosition position) {
+  public ColumnIgnore(ColumnPosition position) {
     Preconditions.checkNotNull(position);
-    
+        
     this.position = position;
   }
 
   /**
    * @return the position
    */
-  public CellPosition getPosition() {
+  public ColumnPosition getPosition() {
     return position;
   }
 
@@ -58,7 +64,7 @@ public final class Ambiguity implements Serializable {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    Ambiguity other = (Ambiguity) obj;
+    ColumnIgnore other = (ColumnIgnore) obj;
     if (position == null) {
       if (other.position != null) {
         return false;
@@ -74,6 +80,6 @@ public final class Ambiguity implements Serializable {
    */
   @Override
   public String toString() {
-    return "Ambiguity [position=" + position + "]";
+    return "ColumnIgnore [position=" + position + "]";
   }
 }

@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.core.extension.feedbacks;
+package uk.ac.shef.dcs.sti.core.extension.constraints;
 
 import java.io.Serializable;
 
@@ -6,27 +6,21 @@ import javax.annotation.concurrent.Immutable;
 
 import com.google.common.base.Preconditions;
 
-import uk.ac.shef.dcs.sti.core.extension.positions.ColumnPosition;
+import uk.ac.shef.dcs.sti.core.extension.positions.CellPosition;
 
-/**
- * Hint to leave the cells in column ambiguous.
- * 
- * @author Václav Brodec
- *
- */
 @Immutable
-public final class ColumnAmbiguity implements Serializable {
+public final class Ambiguity implements Serializable {
 
-  private static final long serialVersionUID = -6608929731300596230L;
-  
-  private final ColumnPosition position;
+  private static final long serialVersionUID = -9087389821835847372L;
+
+  private final CellPosition position;
 
   /**
-   * Creates a new hint to leave the cells in column ambiguous.
+   * Creates a new hint to keep a cell ambiguous.
    * 
-   * @param position column position
+   * @param position position of the cell
    */
-  public ColumnAmbiguity(ColumnPosition position) {
+  public Ambiguity(CellPosition position) {
     Preconditions.checkNotNull(position);
     
     this.position = position;
@@ -35,7 +29,7 @@ public final class ColumnAmbiguity implements Serializable {
   /**
    * @return the position
    */
-  public ColumnPosition getPosition() {
+  public CellPosition getPosition() {
     return position;
   }
 
@@ -64,7 +58,7 @@ public final class ColumnAmbiguity implements Serializable {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    ColumnAmbiguity other = (ColumnAmbiguity) obj;
+    Ambiguity other = (Ambiguity) obj;
     if (position == null) {
       if (other.position != null) {
         return false;
@@ -80,6 +74,6 @@ public final class ColumnAmbiguity implements Serializable {
    */
   @Override
   public String toString() {
-    return "ColumnAmbiguity [position=" + position + "]";
+    return "Ambiguity [position=" + position + "]";
   }
 }

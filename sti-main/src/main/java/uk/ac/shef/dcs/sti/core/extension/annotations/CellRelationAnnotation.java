@@ -1,13 +1,11 @@
 package uk.ac.shef.dcs.sti.core.extension.annotations;
 
-import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Set;
 
 import javax.annotation.concurrent.Immutable;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 
@@ -20,9 +18,9 @@ import com.google.common.collect.ImmutableSortedSet;
 @Immutable
 public final class CellRelationAnnotation {
 
-  private final Map<KnowledgeBase, NavigableSet<EntityCandidate>> candidates;
+  private final NavigableSet<EntityCandidate> candidates;
   
-  private final Map<KnowledgeBase, Set<EntityCandidate>> chosen;
+  private final Set<EntityCandidate> chosen;
 
   /**
    * Creates new annotation.
@@ -31,63 +29,30 @@ public final class CellRelationAnnotation {
    *        likelihood
    * @param chosen subset of candidates chosen to annotate the element
    */
-  public CellRelationAnnotation(Map<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> candidates,
-      Map<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> chosen) {
+  public CellRelationAnnotation(Set<? extends EntityCandidate> candidates,
+      Set<? extends EntityCandidate> chosen) {
     Preconditions.checkNotNull(candidates);
     Preconditions.checkNotNull(chosen);
+    Preconditions.checkArgument(candidates.containsAll(chosen));
     
-    final ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder = ImmutableMap.builder();
-    for (final Map.Entry<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> candidateEntry : candidates.entrySet()) {
-      candidatesBuilder.put(candidateEntry.getKey(), ImmutableSortedSet.copyOf(candidateEntry.getValue()));
-    }
-    this.candidates = candidatesBuilder.build();
-    
-    final ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder = ImmutableMap.builder();
-    for (final Map.Entry<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> chosenEntry : chosen.entrySet()) {
-      final KnowledgeBase chosenBase = chosenEntry.getKey();
-      
-      final Set<EntityCandidate> baseCandidates = this.candidates.get(chosenBase);
-      Preconditions.checkArgument(baseCandidates != null);
-      Preconditions.checkArgument(baseCandidates.containsAll(chosenEntry.getValue()));
-      
-      chosenBuilder.put(chosenEntry.getKey(), ImmutableSet.copyOf(chosenEntry.getValue()));
-    }
-    this.chosen = chosenBuilder.build();
+    this.candidates = ImmutableSortedSet.copyOf(candidates);
+    this.chosen = ImmutableSet.copyOf(chosen);
   }
 
   /**
    * @return the candidates
    */
-  public Map<KnowledgeBase, NavigableSet<EntityCandidate>> getCandidates() {
+  public NavigableSet<EntityCandidate> getCandidates() {
     return candidates;
   }
 
   /**
    * @return the chosen
    */
-  public Map<KnowledgeBase, Set<EntityCandidate>> getChosen() {
+  public Set<EntityCandidate> getChosen() {
     return chosen;
   }
   
-  /**
-   * Merges with the other annotation.
-   * 
-   * @param other annotation based on different set of knowledge bases
-   * @return merged annotation
-   * @throws IllegalArgumentException If both this and the other annotation have some candidates from the same knowledge base
-   */
-  public CellRelationAnnotation merge(CellRelationAnnotation other) throws IllegalArgumentException {
-    final ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder = ImmutableMap.builder();
-    candidatesBuilder.putAll(this.candidates);
-    candidatesBuilder.putAll(other.candidates);
-    
-    final ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder = ImmutableMap.builder();
-    chosenBuilder.putAll(this.chosen);
-    chosenBuilder.putAll(other.chosen);
-    
-    return new CellRelationAnnotation(candidatesBuilder.build(), chosenBuilder.build());
-  }
-
   /**
    * Computes hash code based on the candidates and the chosen.
    * 

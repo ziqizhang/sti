@@ -1,33 +1,30 @@
-package uk.ac.shef.dcs.sti.core.extension.feedbacks;
+package uk.ac.shef.dcs.sti.core.extension.constraints;
 
 import java.io.Serializable;
 
+import javax.annotation.concurrent.Immutable;
+
 import com.google.common.base.Preconditions;
 
-import uk.ac.shef.dcs.sti.core.extension.annotations.HeaderAnnotation;
-import uk.ac.shef.dcs.sti.core.extension.positions.ColumnPosition;
+import uk.ac.shef.dcs.sti.core.extension.annotations.ColumnRelationAnnotation;
+import uk.ac.shef.dcs.sti.core.extension.positions.ColumnRelationPosition;
 
-/**
- * Classification hint.
- * 
- * @author Václav Brodec
- *
- */
-public final class Classification implements Serializable {
+@Immutable
+public final class ColumnRelation implements Serializable {
 
-  private static final long serialVersionUID = 6053349406668481968L;
+  private static final long serialVersionUID = -9087389821835847372L;
 
-  private final ColumnPosition position;
+  private final ColumnRelationPosition position;
 
-  private final HeaderAnnotation annotation;
+  private final ColumnRelationAnnotation annotation;
 
   /**
-   * Creates custom classification hint of a column.
+   * Creates column relation hint.
    * 
-   * @param position column position
-   * @param annotation custom annotation
+   * @param position position of columns
+   * @param annotation relation annotation hint
    */
-  public Classification(ColumnPosition position, HeaderAnnotation annotation) {
+  public ColumnRelation(ColumnRelationPosition position, ColumnRelationAnnotation annotation) {
     Preconditions.checkNotNull(position);
     Preconditions.checkNotNull(annotation);
 
@@ -38,14 +35,14 @@ public final class Classification implements Serializable {
   /**
    * @return the position
    */
-  public ColumnPosition getPosition() {
+  public ColumnRelationPosition getPosition() {
     return position;
   }
 
   /**
    * @return the annotation
    */
-  public HeaderAnnotation getAnnotation() {
+  public ColumnRelationAnnotation getAnnotation() {
     return annotation;
   }
 
@@ -75,7 +72,7 @@ public final class Classification implements Serializable {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    Classification other = (Classification) obj;
+    ColumnRelation other = (ColumnRelation) obj;
     if (annotation == null) {
       if (other.annotation != null) {
         return false;
@@ -98,6 +95,6 @@ public final class Classification implements Serializable {
    */
   @Override
   public String toString() {
-    return "Classification [position=" + position + ", annotation=" + annotation + "]";
+    return "ColumnRelation [position=" + position + ", annotation=" + annotation + "]";
   }
 }

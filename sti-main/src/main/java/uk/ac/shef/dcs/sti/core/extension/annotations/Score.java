@@ -13,13 +13,13 @@ import com.google.common.base.Preconditions;
  *
  */
 @Immutable
-public final class Likelihood implements Comparable<Likelihood>, Serializable {
+public final class Score implements Comparable<Score>, Serializable {
 
   private static final long serialVersionUID = -901650058091668104L;
 
   private final double value;
 
-  public Likelihood(double value) {
+  public Score(double value) {
     Preconditions.checkArgument(value >= 0);
 
     this.value = value;
@@ -48,7 +48,7 @@ public final class Likelihood implements Comparable<Likelihood>, Serializable {
   }
 
   /**
-   * Compares for equality (only other Likelihood with the same values passes).
+   * Compares for equality (only other Score with the same values passes).
    * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
@@ -63,7 +63,7 @@ public final class Likelihood implements Comparable<Likelihood>, Serializable {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    Likelihood other = (Likelihood) obj;
+    Score other = (Score) obj;
     if (Double.doubleToLongBits(value) != Double.doubleToLongBits(other.value)) {
       return false;
     }
@@ -74,7 +74,7 @@ public final class Likelihood implements Comparable<Likelihood>, Serializable {
    * @see java.lang.Comparable#compareTo(java.lang.Object)
    */
   @Override
-  public int compareTo(Likelihood o) {
+  public int compareTo(Score o) {
     return Double.compare(value, o.value);
   }
   
@@ -85,7 +85,7 @@ public final class Likelihood implements Comparable<Likelihood>, Serializable {
    */
   @Override
   public String toString() {
-    return "Likelihood [value=" + value + "]";
+    return "Score [value=" + value + "]";
   }
 
 }

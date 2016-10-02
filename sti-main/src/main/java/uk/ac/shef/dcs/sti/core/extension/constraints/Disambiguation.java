@@ -1,4 +1,4 @@
-package uk.ac.shef.dcs.sti.core.extension.feedbacks;
+package uk.ac.shef.dcs.sti.core.extension.constraints;
 
 import java.io.Serializable;
 
@@ -6,34 +6,28 @@ import javax.annotation.concurrent.Immutable;
 
 import com.google.common.base.Preconditions;
 
-import uk.ac.shef.dcs.sti.core.extension.annotations.CellRelationAnnotation;
-import uk.ac.shef.dcs.sti.core.extension.positions.CellRelationPosition;
+import uk.ac.shef.dcs.sti.core.extension.annotations.CellAnnotation;
+import uk.ac.shef.dcs.sti.core.extension.positions.CellPosition;
 
-/**
- * Cell relation hint.
- * 
- * @author Václav Brodec
- *
- */
 @Immutable
-public final class CellRelation implements Serializable {
+public final class Disambiguation implements Serializable {
 
-  private static final long serialVersionUID = -9087389821835847372L;
+  private static final long serialVersionUID = -5229197850609921790L;
 
-  private final CellRelationPosition position;
+  private final CellPosition position;
   
-  private final CellRelationAnnotation annotation;
+  private final CellAnnotation annotation;
 
   /**
-   * Creates new hint for discovered cell relations.
+   * Creates new cell disambiguation hint.
    * 
    * @param position cell position
-   * @param annotation custom annotation
+   * @param annotation hinted cell annotation
    */
-  public CellRelation(CellRelationPosition position, CellRelationAnnotation annotation) {
+  public Disambiguation(CellPosition position, CellAnnotation annotation) {
     Preconditions.checkNotNull(position);
     Preconditions.checkNotNull(annotation);
-    
+        
     this.position = position;
     this.annotation = annotation;
   }
@@ -41,14 +35,14 @@ public final class CellRelation implements Serializable {
   /**
    * @return the position
    */
-  public CellRelationPosition getPosition() {
+  public CellPosition getPosition() {
     return position;
   }
 
   /**
    * @return the annotation
    */
-  public CellRelationAnnotation getAnnotation() {
+  public CellAnnotation getAnnotation() {
     return annotation;
   }
 
@@ -78,7 +72,7 @@ public final class CellRelation implements Serializable {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    CellRelation other = (CellRelation) obj;
+    Disambiguation other = (Disambiguation) obj;
     if (annotation == null) {
       if (other.annotation != null) {
         return false;
@@ -101,6 +95,6 @@ public final class CellRelation implements Serializable {
    */
   @Override
   public String toString() {
-    return "CellRelation [position=" + position + ", annotation=" + annotation + "]";
+    return "Disambiguation [position=" + position + ", annotation=" + annotation + "]";
   }
 }

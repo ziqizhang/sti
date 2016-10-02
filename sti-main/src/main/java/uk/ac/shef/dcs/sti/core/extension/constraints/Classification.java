@@ -1,35 +1,38 @@
-package uk.ac.shef.dcs.sti.core.extension.feedbacks;
+package uk.ac.shef.dcs.sti.core.extension.constraints;
 
 import java.io.Serializable;
 
-import javax.annotation.concurrent.Immutable;
-
 import com.google.common.base.Preconditions;
 
+import uk.ac.shef.dcs.sti.core.extension.annotations.HeaderAnnotation;
 import uk.ac.shef.dcs.sti.core.extension.positions.ColumnPosition;
 
 /**
- * Hint to ignore column.
+ * Classification hint.
  * 
  * @author Václav Brodec
  *
  */
-@Immutable
-public final class ColumnIgnore implements Serializable {
+public final class Classification implements Serializable {
 
-  private static final long serialVersionUID = -4305681863714969261L;
-  
+  private static final long serialVersionUID = 6053349406668481968L;
+
   private final ColumnPosition position;
 
+  private final HeaderAnnotation annotation;
+
   /**
-   * Creates new hint to ignore column at given position.
+   * Creates custom classification hint of a column.
    * 
-   * @param position position of the ignored column
+   * @param position column position
+   * @param annotation custom annotation
    */
-  public ColumnIgnore(ColumnPosition position) {
+  public Classification(ColumnPosition position, HeaderAnnotation annotation) {
     Preconditions.checkNotNull(position);
-        
+    Preconditions.checkNotNull(annotation);
+
     this.position = position;
+    this.annotation = annotation;
   }
 
   /**
@@ -39,6 +42,13 @@ public final class ColumnIgnore implements Serializable {
     return position;
   }
 
+  /**
+   * @return the annotation
+   */
+  public HeaderAnnotation getAnnotation() {
+    return annotation;
+  }
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -46,6 +56,7 @@ public final class ColumnIgnore implements Serializable {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
+    result = prime * result + ((annotation == null) ? 0 : annotation.hashCode());
     result = prime * result + ((position == null) ? 0 : position.hashCode());
     return result;
   }
@@ -64,7 +75,14 @@ public final class ColumnIgnore implements Serializable {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    ColumnIgnore other = (ColumnIgnore) obj;
+    Classification other = (Classification) obj;
+    if (annotation == null) {
+      if (other.annotation != null) {
+        return false;
+      }
+    } else if (!annotation.equals(other.annotation)) {
+      return false;
+    }
     if (position == null) {
       if (other.position != null) {
         return false;
@@ -80,6 +98,6 @@ public final class ColumnIgnore implements Serializable {
    */
   @Override
   public String toString() {
-    return "ColumnIgnore [position=" + position + "]";
+    return "Classification [position=" + position + ", annotation=" + annotation + "]";
   }
 }
