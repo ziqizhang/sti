@@ -46,26 +46,20 @@ public class TMPOdalicInterpreter extends SemanticTableInterpreter {
     Preconditions.checkNotNull(constraints);
     
     boolean relationLearning = true;
-    Set<Integer> indexSet = constraints.getColumnIgnores().stream().map(e -> e.getPosition().getIndex()).collect(Collectors.toSet());
-    setIgnoreColumns(indexSet);
-    literalColumnTagger.setIgnoreColumns(indexSet.stream().mapToInt(e -> e.intValue()).sorted().toArray());
+    setIgnoreColumns(constraints.getColumnIgnores().stream().map(e -> e.getPosition().getIndex()).collect(Collectors.toSet()));
     
-        //1. find the main subject column of this table
-        LOG.info(">\t PHASE: Detecting subject column...");
-        int[] ignoreColumnsArray = new int[getIgnoreColumns().size()];
-
-        int index = 0;
-        for (Integer i : getIgnoreColumns()) {
-            ignoreColumnsArray[index] = i;
-            index++;
-        }
-        try {
-            List<Pair<Integer, Pair<Double, Boolean>>> subjectColumnScores =
-                    subjectColumnDetector.compute(table, ignoreColumnsArray);
-
-            TAnnotation tableAnnotations = new TAnnotation(table.getNumRows(), table.getNumCols());
-            tableAnnotations.setSubjectColumn(subjectColumnScores.get(0).getKey());
-
+    int[] ignoreColumnsArray = getIgnoreColumns().stream().mapToInt(e -> e.intValue()).sorted().toArray();
+    literalColumnTagger.setIgnoreColumns(ignoreColumnsArray);
+    
+    try {
+      TAnnotation tableAnnotations = new TAnnotation(table.getNumRows(), table.getNumCols());
+      
+      // 1. find the main subject column of this table
+      LOG.info(">\t PHASE: Detecting subject column...");
+      List<Pair<Integer, Pair<Double, Boolean>>> subjectColumnScores = subjectColumnDetector
+          .compute(table, constraints.getSubjectColumnPosition(), ignoreColumnsArray);
+      tableAnnotations.setSubjectColumn(subjectColumnScores.get(0).getKey());
+      
             List<Integer> annotatedColumns = new ArrayList<>();
             LOG.info(">\t PHASE: LEARNING ...");
             for (int col = 0; col < table.getNumCols(); col++) {
@@ -105,9 +99,10 @@ public class TMPOdalicInterpreter extends SemanticTableInterpreter {
                 LOG.info("\t\t>> Annotate literal-columns in relation with main column");
                 literalColumnTagger.annotate(table, tableAnnotations, annotatedColumns.toArray(new Integer[0]));
             }
-            return tableAnnotations;
-        } catch (Exception e) {
-            throw new STIException(e);
-        }
+      
+      return tableAnnotations;
+    } catch (Exception e) {
+      throw new STIException(e);
+    }
   }
 }

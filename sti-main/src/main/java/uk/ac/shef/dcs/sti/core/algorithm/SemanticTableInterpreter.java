@@ -4,6 +4,7 @@ import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
+
 import java.util.HashSet;
 import java.util.Set;
 
