@@ -49,6 +49,12 @@
             <groupId>uk.ac.shef.dcs</groupId>
             <artifactId>sti-kbsearch</artifactId>
             <version>1.0</version>
+            <exclusions>
+				<exclusion>
+					<artifactId>guava-jdk5</artifactId>
+					<groupId>com.google.guava</groupId>
+				</exclusion>
+			</exclusions>
         </dependency>
         <dependency>
             <groupId>uk.ac.shef.dcs</groupId>
@@ -106,6 +112,12 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
+        
+        <dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency>
 
         <dependency>
             <groupId>org.apache.solr</groupId>
