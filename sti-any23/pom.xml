@@ -15,10 +15,17 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.any23</groupId>
             <artifactId>apache-any23-core</artifactId>
-            <version>0.7.0-incubating</version>
+            <version>0.9.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>

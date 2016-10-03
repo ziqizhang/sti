@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.print.attribute.standard.DateTimeAtCreation;
-
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
@@ -21,18 +19,15 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.LExtractionResultImpl;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.extractor.microdata.ItemProp;
 import org.apache.any23.extractor.microdata.ItemPropValue;
 import org.apache.any23.extractor.microdata.ItemScope;
 import org.apache.any23.extractor.microdata.MicrodataExtractor;
-import org.apache.any23.extractor.microdata.MicrodataParser;
 import org.apache.any23.extractor.microdata.MicrodataParserException;
 import org.apache.any23.extractor.microdata.MicrodataParserReport;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.rdf.RDFUtils;
-import org.apache.any23.vocab.DCTERMS;
+import org.apache.any23.vocab.DCTerms;
 import org.apache.any23.vocab.XHTML;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -54,13 +49,8 @@ public class LMicrodataExtractor extends MicrodataExtractor{
             = RDFUtils.uri("http://www.w3.org/1999/xhtml/microdata#item");
 
     public final static ExtractorFactory<LMicrodataExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "lodie-html-microdata",
-                    PopularPrefixes.createSubset("rdf", "doac", "foaf"),
-                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    "example-microdata.html",
-                    LMicrodataExtractor.class
-            );
+            (ExtractorFactory<LMicrodataExtractor>)
+                    LMicrodataExtractorFactory.getDescriptionInstance();
 
     private String documentLanguage;
 
@@ -200,7 +190,7 @@ public class LMicrodataExtractor extends MicrodataExtractor{
             }
             out.writeTriple(
                     documentURI,
-                    DCTERMS.getInstance().title,
+                    DCTerms.getInstance().title,
                     object
             );
         }
@@ -418,7 +408,7 @@ public class LMicrodataExtractor extends MicrodataExtractor{
         if (item.getAttributes().getNamedItem("cite") != null) {
             out.writeTriple(
                     documentURI,
-                    DCTERMS.getInstance().source,
+                    DCTerms.getInstance().source,
                     RDFUtils.uri(item.getAttributes().getNamedItem("cite").getTextContent())
             );
         }

@@ -4,7 +4,6 @@ import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.writer.NTriplesWriter;
 import org.apache.any23.writer.TripleHandlerException;
-import org.apache.any23.writer.Writer;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
@@ -19,14 +18,13 @@ import java.util.List;
  * Date: 29/10/12
  * Time: 20:39
  */
-@Writer(identifier = "lodie-ntriples", mimeType = "text/plain")
 public class LNTripleWriter extends NTriplesWriter {
 
     private List<LTriple> triples;
 
     public LNTripleWriter(OutputStream out) {
         super(out);
-        triples = new ArrayList<LTriple>();
+        triples = new ArrayList<>();
     }
 
     public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context, String sCtx, String pCtx, String oCtx) throws TripleHandlerException {

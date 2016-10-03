@@ -25,9 +25,9 @@ public class LExtractionResultImpl implements TagSoupExtractionResult {
 
     private final LNTripleWriter tripleHandler;
 
-    private final Collection<ExtractionResult> subResults = new ArrayList<ExtractionResult>();
+    private final Collection<ExtractionResult> subResults = new ArrayList<>();
 
-    private final Set<Object> knownContextIDs = new HashSet<Object>();
+    private final Set<Object> knownContextIDs = new HashSet<>();
 
     private boolean isClosed = false;
 
