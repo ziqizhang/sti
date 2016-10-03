@@ -45,6 +45,8 @@
 		
 	<bean id="semanticTableInterpreterFactory"
 		class="cz.cuni.mff.xrg.odalic.tasks.executions.TableMinerPlusFactory" />
+	<bean id="feedbackToConstraintsAdapter"
+		class="cz.cuni.mff.xrg.odalic.feedbacks.DefaultFeedbackToConstraintsAdapter" />
 
 	<!-- Services -->
 	<bean id="fileService" class="cz.cuni.mff.xrg.odalic.files.MemoryOnlyFileService" />
