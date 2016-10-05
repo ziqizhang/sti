@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.errors.Message;
 import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
 import cz.cuni.mff.xrg.odalic.input.Input;
 import cz.cuni.mff.xrg.odalic.tasks.feedbacks.FeedbackService;
@@ -38,7 +39,7 @@ public final class FeedbackResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response putFeedbackForTaskId(@PathParam("id") String id, Feedback feedback) {
     feedbackService.setForTaskId(id, feedback);
-    return Response.status(Response.Status.OK).entity("Feedback set.").build();
+    return Message.of("Feedback set.").toResponse(Response.Status.OK);
   }
   
   @GET
@@ -46,7 +47,7 @@ public final class FeedbackResource {
   public Response getFeedbackForTaskId(@PathParam("id") String taskId) {
     Feedback feedbackForTaskId = feedbackService.getForTaskId(taskId);
     
-    return Response.status(Response.Status.OK).entity(feedbackForTaskId).build();
+    return Response.ok(feedbackForTaskId).build();
   }
   
   @GET

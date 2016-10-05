@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.errors.Message;
 import cz.cuni.mff.xrg.odalic.api.rest.values.ExecutionValue;
 import cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService;
 
@@ -35,14 +36,13 @@ public final class ExecutionResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response putExecutionForTaskId(@PathParam("id") String id, ExecutionValue execution) {
     executionService.submitForTaskId(id);
-    return Response.status(Response.Status.OK).entity("Execution submitted.").build();
+    return Message.of("Execution submitted.").toResponse(Response.Status.OK);
   }
   
   @DELETE
   @Produces({MediaType.APPLICATION_JSON})
   public Response deleteExecutionForTaskId(@PathParam("id") String id) {
     executionService.cancelForTaskId(id);
-    return Response.status(Response.Status.OK)
-        .entity("Execution canceled.").build();
+    return Message.of("Execution canceled.").toResponse(Response.Status.OK);
   }
 }

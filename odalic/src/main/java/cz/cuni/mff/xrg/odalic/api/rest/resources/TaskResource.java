@@ -1,6 +1,7 @@
 package cz.cuni.mff.xrg.odalic.api.rest.resources;
 
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.errors.Message;
 import cz.cuni.mff.xrg.odalic.api.rest.values.ConfigurationValue;
 import cz.cuni.mff.xrg.odalic.api.rest.values.TaskValue;
 import cz.cuni.mff.xrg.odalic.files.File;
@@ -39,12 +41,12 @@ public final class TaskResource {
 
   private final TaskService taskService;
   private final FileService fileService;
-  
+
   @Autowired
   public TaskResource(TaskService taskService, FileService fileService) {
     Preconditions.checkNotNull(taskService);
     Preconditions.checkNotNull(fileService);
-    
+
     this.taskService = taskService;
     this.fileService = fileService;
   }
@@ -67,30 +69,32 @@ public final class TaskResource {
   @Path("{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response putTaskWithId(@Context UriInfo uriInfo, @PathParam("id") String id, TaskValue taskValue) throws MalformedURLException {
+  public Response putTaskWithId(@Context UriInfo uriInfo, @PathParam("id") String id,
+      TaskValue taskValue) throws MalformedURLException {
     final ConfigurationValue configurationValue = taskValue.getConfiguration();
     final File input = fileService.getById(configurationValue.getInput());
-    final Configuration configuration = new Configuration(input, configurationValue.getPrimaryBase(), configurationValue.getFeedback());
+    final Configuration configuration = new Configuration(input,
+        configurationValue.getPrimaryBase(), configurationValue.getFeedback());
     final Task task = new Task(taskValue.getId(), taskValue.getCreated(), configuration);
-    
+
     if (!taskService.hasId(task, id)) {
-      return Response.status(Response.Status.NOT_ACCEPTABLE)
-          .entity("The ID in the payload is not the same as the ID of resource.").build();
+      return Message.of("The ID in the payload is not the same as the ID of resource.")
+          .toResponse(Response.Status.NOT_ACCEPTABLE);
     }
 
     Task taskById = taskService.verifyTaskExistenceById(id);
 
+    final URL location = cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id);
+
     if (taskById == null) {
       taskService.create(task);
-      return Response.status(Response.Status.CREATED)
-          .entity("A new task has been created AT THE LOCATION you specified")
-          .header("Location", cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id)).build();
+      return Message.of("A new task has been created AT THE LOCATION you specified")
+          .toResponse(Response.Status.CREATED, location);
     } else {
       taskService.replace(task);
-      return Response.status(Response.Status.OK)
-          .entity(
-              "The task you specified has been fully updated AT THE LOCATION you specified.")
-          .header("Location", cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id)).build();
+      return Message
+          .of("The task you specified has been fully updated AT THE LOCATION you specified.")
+          .toResponse(Response.Status.OK, location);
     }
   }
 
