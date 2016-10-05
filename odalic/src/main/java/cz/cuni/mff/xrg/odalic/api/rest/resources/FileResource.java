@@ -89,14 +89,12 @@ public final class FileResource {
     if (!fileService.existsFileWithId(id)) {
       fileService.create(file, fileInputStream);
 
-      return Response.status(Response.Status.CREATED)
-          .entity("A new file has been created AT THE STANDARD LOCATION.")
-          .header("Location", location).build();
+      return Message.of("A new file has been created AT THE STANDARD LOCATION.")
+          .toResponse(Response.Status.CREATED, location);
     } else {
       fileService.replace(file);
-      return Response.status(Response.Status.OK)
-          .entity("The file you specified has been fully updated AT THE STANDARD LOCATION.")
-          .header("Location", location).build();
+      return Message.of("The file you specified has been fully updated AT THE STANDARD LOCATION.")
+          .toResponse(Response.Status.OK, location);
     }
   }
 
@@ -107,23 +105,21 @@ public final class FileResource {
   public Response putFileById(@PathParam("id") String id, File file) throws MalformedURLException {
 
     if (!fileService.hasId(file, id)) {
-      return Response.status(Response.Status.NOT_ACCEPTABLE)
-          .entity("The ID in the payload is not the same as the ID of resource.").build();
+      return Message.of("The ID in the payload is not the same as the ID of resource.")
+          .toResponse(Response.Status.NOT_ACCEPTABLE);
     }
 
     final URL location = file.getLocation();
 
     if (!fileService.existsFileWithId(id)) {
       fileService.create(file);
-      return Response.status(Response.Status.CREATED)
-          .entity("A new file has been registered FOR THE LOCATION you specified")
-          .header("Location", location).build();
+      return Message.of("A new file has been registered FOR THE LOCATION you specified")
+          .toResponse(Response.Status.CREATED, location);
     } else {
       fileService.replace(file);
-      return Response.status(Response.Status.OK)
-          .entity(
-              "The file description you specified has been fully updated FOR THE LOCATION you specified.")
-          .header("Location", location).build();
+      return Message
+          .of("The file description you specified has been fully updated FOR THE LOCATION you specified.")
+          .toResponse(Response.Status.OK, location);
     }
   }
 
@@ -139,15 +135,14 @@ public final class FileResource {
         new File(id, "", cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id));
 
     if (fileService.existsFileWithId(id)) {
-      return Response.status(Response.Status.NOT_ACCEPTABLE)
-          .entity("There already exists a file with the same name as you provided.").build();
+      return Message.of("There already exists a file with the same name as you provided.")
+          .toResponse(Response.Status.NOT_ACCEPTABLE);
     }
 
     fileService.create(file, fileInputStream);
-    return Response.status(Response.Status.CREATED)
-        .entity(
-            "A new file has been registered AT THE LOCATION DERIVED from the name of the one uploaded.")
-        .header("Location", file.getLocation()).build();
+    return Message
+        .of("A new file has been registered AT THE LOCATION DERIVED from the name of the one uploaded.")
+        .toResponse(Response.Status.CREATED, file.getLocation());
   }
 
   @DELETE

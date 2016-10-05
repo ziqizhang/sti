@@ -1,12 +1,13 @@
 package cz.cuni.mff.xrg.odalic.api.rest.errors;
 
 import java.net.URI;
+import java.net.URL;
 import java.util.List;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.StatusType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,6 +25,8 @@ import com.google.common.collect.ImmutableList;
  */
 @XmlRootElement
 public final class Message {
+
+  private static final String LOCATION_HEADER_NAME = "Location";
 
   @XmlElement
   private final String text;
@@ -78,6 +81,20 @@ public final class Message {
   }
 
   /**
+   * Utility method that wraps the message into a JSON response builder and assigns it the provided
+   * {@link StatusType}.
+   * 
+   * @param statusType status type
+   * @return a {@link ResponseBuilder}
+   */
+  @XmlTransient
+  public ResponseBuilder toResponseBuilder(StatusType statusType) {
+    Preconditions.checkNotNull(statusType);
+
+    return Response.status(statusType).entity(this).type(MediaType.APPLICATION_JSON);
+  }
+
+  /**
    * Utility method that wraps the message into a JSON response and assigns it the provided
    * {@link StatusType}.
    * 
@@ -85,7 +102,20 @@ public final class Message {
    * @return a {@link Response}
    */
   @XmlTransient
-  public Response toResponse(@Nonnull StatusType statusType) {
-    return Response.status(statusType).entity(this).type(MediaType.APPLICATION_JSON).build();
+  public Response toResponse(StatusType statusType) {
+    return toResponseBuilder(statusType).build();
+  }
+
+  /**
+   * Utility method that wraps the message into a JSON response and assigns it the provided
+   * {@link StatusType} and location header content.
+   * 
+   * @param statusType status type
+   * @param location location header content
+   * @return a {@link Response}
+   */
+  @XmlTransient
+  public Response toResponse(StatusType statusType, URL location) {
+    return toResponseBuilder(statusType).header(LOCATION_HEADER_NAME, location).build();
   }
 }
