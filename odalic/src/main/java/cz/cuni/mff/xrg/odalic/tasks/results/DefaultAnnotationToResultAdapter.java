@@ -1,11 +1,8 @@
 package cz.cuni.mff.xrg.odalic.tasks.results;
 
-import cz.cuni.mff.xrg.odalic.positions.CellRelationPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
-import cz.cuni.mff.xrg.odalic.positions.RowPosition;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.CellAnnotation;
-import cz.cuni.mff.xrg.odalic.tasks.annotations.CellRelationAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.ColumnRelationAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
@@ -19,7 +16,6 @@ import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.sti.core.model.RelationColumns;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
-import uk.ac.shef.dcs.sti.core.model.TCellCellRelationAnotation;
 import uk.ac.shef.dcs.sti.core.model.TColumnColumnRelationAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
 
@@ -47,7 +43,8 @@ import com.google.common.base.Preconditions;
 public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapter {
 
   /**
-   * This implementation demands that the subject columns recognized in the annotations are the same.
+   * This implementation demands that the subject columns recognized in the annotations are the
+   * same.
    * 
    * @see cz.cuni.mff.xrg.odalic.tasks.results.AnnotationToResultAdapter#toResult(java.util.Map)
    */
@@ -70,14 +67,13 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
         convertCellAnnotations(firstKnowledgeBase, firstTableAnnotation);
     final Map<ColumnRelationPosition, ColumnRelationAnnotation> mergedColumnRelations =
         convertColumnRelations(firstKnowledgeBase, firstTableAnnotation);
-    final Map<CellRelationPosition, CellRelationAnnotation> mergedCellCellRelations =
-        convertCellRelations(firstKnowledgeBase, firstTableAnnotation);
 
     // Process the rest.
     processTheRest(entrySetIterator, firstSubjectColumn, mergedHeaderAnnotations,
-        mergedCellAnnotations, mergedColumnRelations, mergedCellCellRelations);
+        mergedCellAnnotations, mergedColumnRelations);
 
-    return new Result(firstSubjectColumn, mergedHeaderAnnotations, mergedCellAnnotations, mergedColumnRelations, mergedCellCellRelations);
+    return new Result(firstSubjectColumn, mergedHeaderAnnotations, mergedCellAnnotations,
+        mergedColumnRelations);
   }
 
   private static Iterator<Map.Entry<KnowledgeBase, TAnnotation>> initializeEntrySetIterator(
@@ -91,20 +87,19 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
       final Iterator<Map.Entry<KnowledgeBase, TAnnotation>> entrySetIterator,
       final ColumnPosition firstSubjectColumn, final List<HeaderAnnotation> mergedHeaderAnnotations,
       final CellAnnotation[][] mergedCellAnnotations,
-      final Map<ColumnRelationPosition, ColumnRelationAnnotation> mergedColumnRelations,
-      final Map<CellRelationPosition, CellRelationAnnotation> mergedCellCellRelations) {
+      final Map<ColumnRelationPosition, ColumnRelationAnnotation> mergedColumnRelations) {
     while (entrySetIterator.hasNext()) {
       final Map.Entry<KnowledgeBase, TAnnotation> entry = entrySetIterator.next();
 
       final KnowledgeBase knowledgeBase = entry.getKey();
       final TAnnotation tableAnnotation = entry.getValue();
 
-      checkSubjectColumnEquality(firstSubjectColumn, tableAnnotation); // The annotations must agree on the subject column!!!
-      
+      checkSubjectColumnEquality(firstSubjectColumn, tableAnnotation); // The annotations must agree
+                                                                       // on the subject column!!!
+
       mergeHeaders(mergedHeaderAnnotations, knowledgeBase, tableAnnotation);
       mergeCells(mergedCellAnnotations, knowledgeBase, tableAnnotation);
       mergeColumnRelations(mergedColumnRelations, knowledgeBase, tableAnnotation);
-      mergeCellRelations(mergedCellCellRelations, knowledgeBase, tableAnnotation);
     }
   }
 
@@ -119,27 +114,18 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
     return subjectColumn;
   }
 
-  private static void mergeCellRelations(
-      final Map<CellRelationPosition, CellRelationAnnotation> mergedCellCellRelations,
-      final KnowledgeBase knowledgeBase, final TAnnotation tableAnnotation) {
-    final Map<CellRelationPosition, CellRelationAnnotation> cellCellRelations =
-        convertCellRelations(knowledgeBase, tableAnnotation);
-    Maps.mergeWith(mergedCellCellRelations, cellCellRelations,
-        (first, second) -> first.merge(second));
-  }
-
   private static void mergeColumnRelations(
       final Map<ColumnRelationPosition, ColumnRelationAnnotation> mergedColumnRelations,
       final KnowledgeBase knowledgeBase, final TAnnotation tableAnnotation) {
     final Map<ColumnRelationPosition, ColumnRelationAnnotation> columnRelations =
         convertColumnRelations(knowledgeBase, tableAnnotation);
-    Maps.mergeWith(mergedColumnRelations, columnRelations,
-        (first, second) -> first.merge(second));
+    Maps.mergeWith(mergedColumnRelations, columnRelations, (first, second) -> first.merge(second));
   }
 
   private static void mergeCells(final CellAnnotation[][] mergedCellAnnotations,
       final KnowledgeBase knowledgeBase, final TAnnotation tableAnnotation) {
-    final CellAnnotation[][] cellAnnotations = convertCellAnnotations(knowledgeBase, tableAnnotation);
+    final CellAnnotation[][] cellAnnotations =
+        convertCellAnnotations(knowledgeBase, tableAnnotation);
     Arrays.zipMatrixWith(mergedCellAnnotations, cellAnnotations,
         (first, second) -> first.merge(second));
   }
@@ -152,176 +138,144 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
         (first, second) -> first.merge(second));
   }
 
-  private static Map<CellRelationPosition, CellRelationAnnotation> convertCellRelations(KnowledgeBase knowledgeBase, TAnnotation original) {
-        Map<CellRelationPosition, CellRelationAnnotation> cellCellRelations = new HashMap<>();
-        for (Map.Entry<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>> columnAnnotations : original.getCellcellRelations().entrySet() ){
-            for(Map.Entry<Integer, List<TCellCellRelationAnotation>> annotations : columnAnnotations.getValue().entrySet()){
-                HashMap<KnowledgeBase, Set<EntityCandidate>> candidates = new HashMap<>();
-                HashMap<KnowledgeBase, Set<EntityCandidate>> chosen = new HashMap<>();
+  private static Map<ColumnRelationPosition, ColumnRelationAnnotation> convertColumnRelations(
+      KnowledgeBase knowledgeBase, TAnnotation original) {
+    Map<ColumnRelationPosition, ColumnRelationAnnotation> columnRelations = new HashMap<>();
+    for (Map.Entry<RelationColumns, List<TColumnColumnRelationAnnotation>> annotations : original
+        .getColumncolumnRelations().entrySet()) {
+      HashMap<KnowledgeBase, Set<EntityCandidate>> candidates = new HashMap<>();
+      HashMap<KnowledgeBase, Set<EntityCandidate>> chosen = new HashMap<>();
 
-                Set<EntityCandidate> candidatesSet = new HashSet<>();
-                Set<EntityCandidate> chosenSet = new HashSet<>();
+      Set<EntityCandidate> candidatesSet = new HashSet<>();
+      Set<EntityCandidate> chosenSet = new HashSet<>();
 
-                candidates.put(knowledgeBase, candidatesSet);
-                chosen.put(knowledgeBase, chosenSet);
+      candidates.put(knowledgeBase, candidatesSet);
+      chosen.put(knowledgeBase, chosenSet);
 
-                EntityCandidate bestCandidate = null;
-                for (TCellCellRelationAnotation annotation : annotations.getValue()) {
-                    Entity entity = new Entity(annotation.getRelationURI(), annotation.getRelationLabel());
-                    Likelihood likelihood = new Likelihood(annotation.getWinningAttributeMatchScore());
+      EntityCandidate bestCandidate = null;
+      for (TColumnColumnRelationAnnotation annotation : annotations.getValue()) {
+        Entity entity = new Entity(annotation.getRelationURI(), annotation.getRelationLabel());
+        Likelihood likelihood = new Likelihood(annotation.getFinalScore());
 
-                    EntityCandidate candidate = new EntityCandidate(entity, likelihood);
+        EntityCandidate candidate = new EntityCandidate(entity, likelihood);
 
-                    candidatesSet.add(candidate);
+        candidatesSet.add(candidate);
 
-                    if (bestCandidate == null || bestCandidate.getLikelihood().getValue() < candidate.getLikelihood().getValue()) {
-                        bestCandidate = candidate;
-                    }
-                }
-
-                if (bestCandidate != null){
-                    chosenSet.add(bestCandidate);
-                }
-
-                RelationColumns relationColumns = columnAnnotations.getKey();
-                ColumnRelationPosition columnPosition = new ColumnRelationPosition(new ColumnPosition(relationColumns.getSubjectCol()), new ColumnPosition(relationColumns.getObjectCol()));
-                RowPosition rowPosition = new RowPosition(annotations.getKey());
-                CellRelationPosition position = new CellRelationPosition(columnPosition, rowPosition);
-                CellRelationAnnotation relationAnnotation = new CellRelationAnnotation(candidates, chosen);
-                cellCellRelations.put(position, relationAnnotation);
-            }
+        if (bestCandidate == null
+            || bestCandidate.getLikelihood().getValue() < candidate.getLikelihood().getValue()) {
+          bestCandidate = candidate;
         }
-        return cellCellRelations;
+      }
+
+      if (bestCandidate != null) {
+        chosenSet.add(bestCandidate);
+      }
+
+      RelationColumns relationColumns = annotations.getKey();
+      ColumnRelationPosition position =
+          new ColumnRelationPosition(new ColumnPosition(relationColumns.getSubjectCol()),
+              new ColumnPosition(relationColumns.getObjectCol()));
+      ColumnRelationAnnotation relationAnnotation =
+          new ColumnRelationAnnotation(candidates, chosen);
+      columnRelations.put(position, relationAnnotation);
     }
+    return columnRelations;
+  }
 
-    private static Map<ColumnRelationPosition, ColumnRelationAnnotation> convertColumnRelations(KnowledgeBase knowledgeBase, TAnnotation original) {
-        Map<ColumnRelationPosition, ColumnRelationAnnotation> columnRelations = new HashMap<>();
-        for (Map.Entry<RelationColumns, List<TColumnColumnRelationAnnotation>> annotations : original.getColumncolumnRelations().entrySet() ){
-            HashMap<KnowledgeBase, Set<EntityCandidate>> candidates = new HashMap<>();
-            HashMap<KnowledgeBase, Set<EntityCandidate>> chosen = new HashMap<>();
+  private static CellAnnotation[][] convertCellAnnotations(KnowledgeBase knowledgeBase,
+      TAnnotation original) {
+    int columnCount = original.getCols();
+    int rowCount = original.getRows();
+    CellAnnotation[][] cellAnnotations = new CellAnnotation[rowCount][columnCount];
 
-            Set<EntityCandidate> candidatesSet = new HashSet<>();
-            Set<EntityCandidate> chosenSet = new HashSet<>();
+    for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+      for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+        TCellAnnotation[] annotations = original.getContentCellAnnotations(rowIndex, columnIndex);
 
-            candidates.put(knowledgeBase, candidatesSet);
-            chosen.put(knowledgeBase, chosenSet);
+        HashMap<KnowledgeBase, Set<EntityCandidate>> candidates = new HashMap<>();
+        HashMap<KnowledgeBase, Set<EntityCandidate>> chosen = new HashMap<>();
 
-            EntityCandidate bestCandidate = null;
-            for (TColumnColumnRelationAnnotation annotation : annotations.getValue()) {
-                Entity entity = new Entity(annotation.getRelationURI(), annotation.getRelationLabel());
-                Likelihood likelihood = new Likelihood(annotation.getFinalScore());
+        if (annotations != null) {
+          Set<EntityCandidate> candidatesSet = new HashSet<>();
+          Set<EntityCandidate> chosenSet = new HashSet<>();
 
-                EntityCandidate candidate = new EntityCandidate(entity, likelihood);
+          candidates.put(knowledgeBase, candidatesSet);
+          chosen.put(knowledgeBase, chosenSet);
 
-                candidatesSet.add(candidate);
+          EntityCandidate bestCandidate = null;
+          for (TCellAnnotation annotation : annotations) {
+            uk.ac.shef.dcs.kbsearch.model.Entity clazz = annotation.getAnnotation();
 
-                if (bestCandidate == null || bestCandidate.getLikelihood().getValue() < candidate.getLikelihood().getValue()) {
-                    bestCandidate = candidate;
-                }
+            Entity entity = new Entity(clazz.getId(), clazz.getLabel());
+            Likelihood likelihood = new Likelihood(annotation.getFinalScore());
+
+            EntityCandidate candidate = new EntityCandidate(entity, likelihood);
+
+            candidatesSet.add(candidate);
+
+            if (bestCandidate == null || bestCandidate.getLikelihood().getValue() < candidate
+                .getLikelihood().getValue()) {
+              bestCandidate = candidate;
             }
+          }
 
-            if (bestCandidate != null){
-                chosenSet.add(bestCandidate);
-            }
-
-            RelationColumns relationColumns = annotations.getKey();
-            ColumnRelationPosition position = new ColumnRelationPosition(new ColumnPosition(relationColumns.getSubjectCol()), new ColumnPosition(relationColumns.getObjectCol()));
-            ColumnRelationAnnotation relationAnnotation = new ColumnRelationAnnotation(candidates, chosen);
-            columnRelations.put(position, relationAnnotation);
-        }
-        return columnRelations;
-    }
-
-    private static CellAnnotation[][] convertCellAnnotations(KnowledgeBase knowledgeBase, TAnnotation original) {
-        int columnCount = original.getCols();
-        int rowCount = original.getRows();
-        CellAnnotation[][] cellAnnotations = new CellAnnotation[rowCount][columnCount];
-
-        for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-            for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-                TCellAnnotation[] annotations = original.getContentCellAnnotations(rowIndex, columnIndex);
-
-                HashMap<KnowledgeBase, Set<EntityCandidate>> candidates = new HashMap<>();
-                HashMap<KnowledgeBase, Set<EntityCandidate>> chosen = new HashMap<>();
-
-                if (annotations != null) {
-                    Set<EntityCandidate> candidatesSet = new HashSet<>();
-                    Set<EntityCandidate> chosenSet = new HashSet<>();
-
-                    candidates.put(knowledgeBase, candidatesSet);
-                    chosen.put(knowledgeBase, chosenSet);
-
-                    EntityCandidate bestCandidate = null;
-                    for (TCellAnnotation annotation : annotations) {
-                        uk.ac.shef.dcs.kbsearch.model.Entity clazz = annotation.getAnnotation();
-
-                        Entity entity = new Entity(clazz.getId(), clazz.getLabel());
-                        Likelihood likelihood = new Likelihood(annotation.getFinalScore());
-
-                        EntityCandidate candidate = new EntityCandidate(entity, likelihood);
-
-                        candidatesSet.add(candidate);
-
-                        if (bestCandidate == null || bestCandidate.getLikelihood().getValue() < candidate.getLikelihood().getValue()) {
-                            bestCandidate = candidate;
-                        }
-                    }
-
-                    if (bestCandidate != null){
-                        chosenSet.add(bestCandidate);
-                    }
-                }
-
-                CellAnnotation cellAnnotation = new CellAnnotation(candidates, chosen);
-                cellAnnotations[rowIndex][columnIndex] = cellAnnotation;
-            }
+          if (bestCandidate != null) {
+            chosenSet.add(bestCandidate);
+          }
         }
 
-        return cellAnnotations;
+        CellAnnotation cellAnnotation = new CellAnnotation(candidates, chosen);
+        cellAnnotations[rowIndex][columnIndex] = cellAnnotation;
+      }
     }
 
-    private static List<HeaderAnnotation> convertColumnAnnotations(KnowledgeBase knowledgeBase, TAnnotation original) {
-        int columnCount = original.getCols();
-        List<HeaderAnnotation> headerAnnotations = new ArrayList<>(columnCount);
+    return cellAnnotations;
+  }
 
-        for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-            TColumnHeaderAnnotation[] annotations = original.getHeaderAnnotation(columnIndex);
+  private static List<HeaderAnnotation> convertColumnAnnotations(KnowledgeBase knowledgeBase,
+      TAnnotation original) {
+    int columnCount = original.getCols();
+    List<HeaderAnnotation> headerAnnotations = new ArrayList<>(columnCount);
 
-            HashMap<KnowledgeBase, Set<EntityCandidate>> candidates = new HashMap<>();
-            HashMap<KnowledgeBase, Set<EntityCandidate>> chosen = new HashMap<>();
+    for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+      TColumnHeaderAnnotation[] annotations = original.getHeaderAnnotation(columnIndex);
 
-            if (annotations != null) {
-                Set<EntityCandidate> candidatesSet = new HashSet<>();
-                Set<EntityCandidate> chosenSet = new HashSet<>();
+      HashMap<KnowledgeBase, Set<EntityCandidate>> candidates = new HashMap<>();
+      HashMap<KnowledgeBase, Set<EntityCandidate>> chosen = new HashMap<>();
 
-                candidates.put(knowledgeBase, candidatesSet);
-                chosen.put(knowledgeBase, chosenSet);
+      if (annotations != null) {
+        Set<EntityCandidate> candidatesSet = new HashSet<>();
+        Set<EntityCandidate> chosenSet = new HashSet<>();
 
-                EntityCandidate bestCandidate = null;
-                for (TColumnHeaderAnnotation annotation : annotations) {
-                    Clazz clazz = annotation.getAnnotation();
+        candidates.put(knowledgeBase, candidatesSet);
+        chosen.put(knowledgeBase, chosenSet);
 
-                    Entity entity = new Entity(clazz.getId(), clazz.getLabel());
-                    Likelihood likelihood = new Likelihood(annotation.getFinalScore());
+        EntityCandidate bestCandidate = null;
+        for (TColumnHeaderAnnotation annotation : annotations) {
+          Clazz clazz = annotation.getAnnotation();
 
-                    EntityCandidate candidate = new EntityCandidate(entity, likelihood);
+          Entity entity = new Entity(clazz.getId(), clazz.getLabel());
+          Likelihood likelihood = new Likelihood(annotation.getFinalScore());
 
-                    candidatesSet.add(candidate);
+          EntityCandidate candidate = new EntityCandidate(entity, likelihood);
 
-                    if (bestCandidate == null || bestCandidate.getLikelihood().getValue() < candidate.getLikelihood().getValue()) {
-                        bestCandidate = candidate;
-                    }
-                }
+          candidatesSet.add(candidate);
 
-                if (bestCandidate != null){
-                    chosenSet.add(bestCandidate);
-                }
-            }
-
-            HeaderAnnotation headerAnnotation = new HeaderAnnotation(candidates, chosen);
-            headerAnnotations.add(headerAnnotation);
+          if (bestCandidate == null
+              || bestCandidate.getLikelihood().getValue() < candidate.getLikelihood().getValue()) {
+            bestCandidate = candidate;
+          }
         }
 
-        return  headerAnnotations;
+        if (bestCandidate != null) {
+          chosenSet.add(bestCandidate);
+        }
+      }
+
+      HeaderAnnotation headerAnnotation = new HeaderAnnotation(candidates, chosen);
+      headerAnnotations.add(headerAnnotation);
     }
+
+    return headerAnnotations;
+  }
 }
