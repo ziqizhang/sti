@@ -17,11 +17,6 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.Score;
  * Domain class {@link EntityCandidate} adapted for REST API.
  * </p>
  * 
- * <p>
- * In this version it supports a chosen flag instead of annotations classes providing the chosen
- * set separately.
- * </p>
- * 
  * @author Václav Brodec
  *
  */
@@ -36,15 +31,11 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
   @XmlElement
   private Score score;
 
-  @XmlElement
-  private boolean chosen;
-
   public EntityCandidateValue() {}
 
-  public EntityCandidateValue(EntityCandidate adaptee, boolean chosen) {
+  public EntityCandidateValue(EntityCandidate adaptee) {
     entity = adaptee.getEntity();
     score = adaptee.getScore();
-    this.chosen = chosen;
   }
 
   /**
@@ -79,23 +70,7 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
     Preconditions.checkNotNull(score);
 
     this.score = score;
-  }
-
-  /**
-   * @return the chosen
-   */
-  public boolean isChosen() {
-    return chosen;
-  }
-
-  /**
-   * @param chosen the chosen to set
-   */
-  public void setChosen(boolean chosen) {
-    this.chosen = chosen;
-  }
-  
-  
+  } 
   
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
@@ -142,7 +117,6 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
    */
   @Override
   public String toString() {
-    return "EntityCandidateValue [entity=" + entity + ", score=" + score + ", chosen="
-        + chosen + "]";
+    return "EntityCandidateValue [entity=" + entity + ", score=" + score + "]";
   }
 }
