@@ -20,11 +20,14 @@ import cz.cuni.mff.xrg.odalic.api.rest.conversions.ColumnPositionKeyJsonDeserial
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.ColumnPositionKeyJsonSerializer;
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.ColumnPositionToColumnRelationAnnotationMapDeserializer;
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.ColumnPositionToColumnRelationAnnotationMapSerializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.KnowledgeBaseKeyJsonDeserializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.KnowledgeBaseKeyJsonSerializer;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.CellAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.ColumnRelationAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.HeaderAnnotation;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 import cz.cuni.mff.xrg.odalic.tasks.results.Result;
 
 /**
@@ -39,7 +42,9 @@ public final class ResultValue implements Serializable {
   private static final long serialVersionUID = -6359038623760039155L;
 
   @XmlElement
-  private ColumnPosition subjectColumnPosition;
+  @JsonDeserialize(keyUsing = KnowledgeBaseKeyJsonDeserializer.class)
+  @JsonSerialize(keyUsing = KnowledgeBaseKeyJsonSerializer.class)
+  private Map<KnowledgeBase, ColumnPosition> subjectColumnPositions;
 
   @XmlElement
   private List<HeaderAnnotation> headerAnnotations;
@@ -55,14 +60,14 @@ public final class ResultValue implements Serializable {
   private Map<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> columnRelationAnnotations;
 
   public ResultValue() {
-    subjectColumnPosition = null;
+    subjectColumnPositions = ImmutableMap.of();
     headerAnnotations = ImmutableList.of();
     cellAnnotations = new CellAnnotation[0][0];;
     columnRelationAnnotations = ImmutableMap.of();
   }
 
   public ResultValue(Result adaptee) {
-    subjectColumnPosition = adaptee.getSubjectColumnPosition();
+    subjectColumnPositions = adaptee.getSubjectColumnPositions();
     headerAnnotations = adaptee.getHeaderAnnotations();
     cellAnnotations = adaptee.getCellAnnotations();
 
@@ -93,17 +98,17 @@ public final class ResultValue implements Serializable {
    * @return the subject column position
    */
   @Nullable
-  public ColumnPosition getSubjectColumnPosition() {
-    return subjectColumnPosition;
+  public Map<KnowledgeBase, ColumnPosition> getSubjectColumnPositions() {
+    return subjectColumnPositions;
   }
 
   /**
-   * @param subjectColumnPosition the subject column position to set
+   * @param subjectColumnPositions the subject column position to set
    */
-  public void setSubjectColumnPosition(ColumnPosition subjectColumnPosition) {
-    Preconditions.checkNotNull(subjectColumnPosition);
+  public void setSubjectColumnPosition(Map<? extends KnowledgeBase, ? extends ColumnPosition> subjectColumnPositions) {
+    Preconditions.checkNotNull(subjectColumnPositions);
 
-    this.subjectColumnPosition = subjectColumnPosition;
+    this.subjectColumnPositions = ImmutableMap.copyOf(subjectColumnPositions);
   }
 
   /**
@@ -150,10 +155,10 @@ public final class ResultValue implements Serializable {
    * @param columnRelationAnnotations the column relation annotations to set
    */
   public void setColumnRelationAnnotations(
-      Map<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> columnRelationAnnotations) {
+      Map<? extends ColumnPosition, Map<? extends ColumnPosition, ? extends ColumnRelationAnnotation>> columnRelationAnnotations) {
     final ImmutableMap.Builder<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> columnRelationAnnotationsBuilder =
         ImmutableMap.builder();
-    for (final Map.Entry<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> entry : columnRelationAnnotations
+    for (final Map.Entry<? extends ColumnPosition, Map<? extends ColumnPosition, ? extends ColumnRelationAnnotation>> entry : columnRelationAnnotations
         .entrySet()) {
       columnRelationAnnotationsBuilder.put(entry.getKey(), ImmutableMap.copyOf(entry.getValue()));
     }
@@ -167,7 +172,7 @@ public final class ResultValue implements Serializable {
    */
   @Override
   public String toString() {
-    return "ResultValue [subjectColumnPosition=" + subjectColumnPosition + ", headerAnnotations="
+    return "ResultValue [subjectColumnPositions=" + subjectColumnPositions + ", headerAnnotations="
         + headerAnnotations + ", cellAnnotations=" + Arrays.toString(cellAnnotations)
         + ", columnRelationAnnotations=" + columnRelationAnnotations + "]";
   }

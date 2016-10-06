@@ -20,5 +20,5 @@ public interface AnnotationToResultAdapter {
    *        to make them
    * @return Odalic result format
    */
-  Result toResult(Map<KnowledgeBase, TAnnotation> basesToTableAnnotations);
+  Result toResult(Map<? extends KnowledgeBase, ? extends TAnnotation> basesToTableAnnotations);
 }

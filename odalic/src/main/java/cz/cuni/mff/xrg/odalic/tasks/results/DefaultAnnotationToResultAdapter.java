@@ -30,6 +30,7 @@ import java.util.Set;
 import javax.annotation.concurrent.Immutable;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * This implementation of {@link AnnotationToResultAdapter} simply merges the annotations done with
@@ -49,18 +50,24 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
    * @see cz.cuni.mff.xrg.odalic.tasks.results.AnnotationToResultAdapter#toResult(java.util.Map)
    */
   @Override
-  public Result toResult(Map<KnowledgeBase, TAnnotation> basesToTableAnnotations) {
+  public Result toResult(
+      Map<? extends KnowledgeBase, ? extends TAnnotation> basesToTableAnnotations) {
     Preconditions.checkArgument(!basesToTableAnnotations.isEmpty());
 
-    final Iterator<Map.Entry<KnowledgeBase, TAnnotation>> entrySetIterator =
+    // Extract subject column positions.
+    final Map<KnowledgeBase, ColumnPosition> subjectColumnPositions =
+        extractSubjectColumnPositions(basesToTableAnnotations);
+
+    // Merge annotations.
+    final Iterator<? extends Map.Entry<? extends KnowledgeBase, ? extends TAnnotation>> entrySetIterator =
         initializeEntrySetIterator(basesToTableAnnotations);
 
     // Process the first entry to initialize working structures for the merges.
-    final Map.Entry<KnowledgeBase, TAnnotation> firstEntry = entrySetIterator.next();
+    final Map.Entry<? extends KnowledgeBase, ? extends TAnnotation> firstEntry =
+        entrySetIterator.next();
     final KnowledgeBase firstKnowledgeBase = firstEntry.getKey();
     final TAnnotation firstTableAnnotation = firstEntry.getValue();
 
-    final ColumnPosition firstSubjectColumn = convertSubjectColumn(firstTableAnnotation);
     final List<HeaderAnnotation> mergedHeaderAnnotations =
         convertColumnAnnotations(firstKnowledgeBase, firstTableAnnotation);
     final CellAnnotation[][] mergedCellAnnotations =
@@ -69,33 +76,48 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
         convertColumnRelations(firstKnowledgeBase, firstTableAnnotation);
 
     // Process the rest.
-    processTheRest(entrySetIterator, firstSubjectColumn, mergedHeaderAnnotations,
-        mergedCellAnnotations, mergedColumnRelations);
+    processTheRest(entrySetIterator, mergedHeaderAnnotations, mergedCellAnnotations,
+        mergedColumnRelations);
 
-    return new Result(firstSubjectColumn, mergedHeaderAnnotations, mergedCellAnnotations,
+    return new Result(subjectColumnPositions, mergedHeaderAnnotations, mergedCellAnnotations,
         mergedColumnRelations);
   }
 
-  private static Iterator<Map.Entry<KnowledgeBase, TAnnotation>> initializeEntrySetIterator(
-      Map<KnowledgeBase, TAnnotation> basesToTableAnnotations) {
-    final Set<Map.Entry<KnowledgeBase, TAnnotation>> entrySet = basesToTableAnnotations.entrySet();
-    final Iterator<Map.Entry<KnowledgeBase, TAnnotation>> entrySetIterator = entrySet.iterator();
+  private static Map<KnowledgeBase, ColumnPosition> extractSubjectColumnPositions(
+      Map<? extends KnowledgeBase, ? extends TAnnotation> basesToTableAnnotations) {
+    final ImmutableMap.Builder<KnowledgeBase, ColumnPosition> subjectColumnPositionsBuilder =
+        ImmutableMap.builder();
+    for (final Map.Entry<? extends KnowledgeBase, ? extends TAnnotation> annotationEntry : basesToTableAnnotations
+        .entrySet()) {
+      final KnowledgeBase base = annotationEntry.getKey();
+      final ColumnPosition subjectColumnPosition =
+          extractSubjectColumnPosition(annotationEntry.getValue());
+
+      subjectColumnPositionsBuilder.put(base, subjectColumnPosition);
+    }
+    return subjectColumnPositionsBuilder.build();
+  }
+
+  private static Iterator<? extends Map.Entry<? extends KnowledgeBase, ? extends TAnnotation>> initializeEntrySetIterator(
+      Map<? extends KnowledgeBase, ? extends TAnnotation> basesToTableAnnotations) {
+    final Set<? extends Map.Entry<? extends KnowledgeBase, ? extends TAnnotation>> entrySet =
+        basesToTableAnnotations.entrySet();
+    final Iterator<? extends Map.Entry<? extends KnowledgeBase, ? extends TAnnotation>> entrySetIterator =
+        entrySet.iterator();
     return entrySetIterator;
   }
 
   private static void processTheRest(
-      final Iterator<Map.Entry<KnowledgeBase, TAnnotation>> entrySetIterator,
-      final ColumnPosition firstSubjectColumn, final List<HeaderAnnotation> mergedHeaderAnnotations,
+      final Iterator<? extends Map.Entry<? extends KnowledgeBase, ? extends TAnnotation>> entrySetIterator,
+      final List<HeaderAnnotation> mergedHeaderAnnotations,
       final CellAnnotation[][] mergedCellAnnotations,
       final Map<ColumnRelationPosition, ColumnRelationAnnotation> mergedColumnRelations) {
     while (entrySetIterator.hasNext()) {
-      final Map.Entry<KnowledgeBase, TAnnotation> entry = entrySetIterator.next();
+      final Map.Entry<? extends KnowledgeBase, ? extends TAnnotation> entry =
+          entrySetIterator.next();
 
       final KnowledgeBase knowledgeBase = entry.getKey();
       final TAnnotation tableAnnotation = entry.getValue();
-
-      checkSubjectColumnEquality(firstSubjectColumn, tableAnnotation); // The annotations must agree
-                                                                       // on the subject column!!!
 
       mergeHeaders(mergedHeaderAnnotations, knowledgeBase, tableAnnotation);
       mergeCells(mergedCellAnnotations, knowledgeBase, tableAnnotation);
@@ -103,13 +125,7 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
     }
   }
 
-  private static void checkSubjectColumnEquality(final ColumnPosition firstSubjectColumn,
-      final TAnnotation tableAnnotation) {
-    final ColumnPosition subjectColumn = convertSubjectColumn(tableAnnotation);
-    Preconditions.checkArgument(subjectColumn.equals(firstSubjectColumn));
-  }
-
-  private static ColumnPosition convertSubjectColumn(final TAnnotation tableAnnotation) {
+  private static ColumnPosition extractSubjectColumnPosition(final TAnnotation tableAnnotation) {
     final ColumnPosition subjectColumn = new ColumnPosition(tableAnnotation.getSubjectColumn());
     return subjectColumn;
   }
