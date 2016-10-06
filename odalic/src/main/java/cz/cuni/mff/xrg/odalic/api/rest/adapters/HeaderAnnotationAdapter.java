@@ -37,9 +37,9 @@ public final class HeaderAnnotationAdapter extends XmlAdapter<HeaderAnnotationVa
       final Set<EntityCandidateValue> values = entry.getValue();
 
       candidatesBuilder.put(base, ImmutableSortedSet.copyOf(values.stream()
-          .map(e -> new EntityCandidate(e.getEntity(), e.getLikelihood())).iterator()));
+          .map(e -> new EntityCandidate(e.getEntity(), e.getScore())).iterator()));
       chosenBuilder.put(base, ImmutableSet.copyOf(values.stream().filter(e -> e.isChosen())
-          .map(e -> new EntityCandidate(e.getEntity(), e.getLikelihood())).iterator()));
+          .map(e -> new EntityCandidate(e.getEntity(), e.getScore())).iterator()));
     }
 
     return new HeaderAnnotation(candidatesBuilder.build(), chosenBuilder.build());

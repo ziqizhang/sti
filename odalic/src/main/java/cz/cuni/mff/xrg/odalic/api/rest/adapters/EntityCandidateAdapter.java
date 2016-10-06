@@ -19,6 +19,6 @@ public final class EntityCandidateAdapter
   public EntityCandidate unmarshal(EntityCandidateValue value)
       throws Exception {
     return new EntityCandidate(value.getEntity(),
-        value.getLikelihood());
+        value.getScore());
   }
 }

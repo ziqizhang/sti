@@ -31,8 +31,7 @@ public final class HeaderAnnotation {
   /**
    * Creates new annotation.
    * 
-   * @param candidates all possible candidates for the assigned entity sorted by with their
-   *        likelihood
+   * @param candidates all possible candidates for the assigned entity sorted by with their score
    * @param chosen subset of candidates chosen to annotate the element
    */
   public HeaderAnnotation(

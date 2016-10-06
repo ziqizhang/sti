@@ -32,8 +32,7 @@ public final class CellAnnotation {
   /**
    * Creates new annotation.
    * 
-   * @param candidates all possible candidates for the assigned entity sorted by with their
-   *        likelihood
+   * @param candidates all possible candidates for the assigned entity sorted by with their score
    * @param chosen subset of candidates chosen to annotate the element
    */
   public CellAnnotation(Map<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> candidates,

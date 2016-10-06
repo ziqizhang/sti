@@ -8,7 +8,7 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.HeaderAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
-import cz.cuni.mff.xrg.odalic.tasks.annotations.Likelihood;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.Score;
 import cz.cuni.mff.xrg.odalic.util.Arrays;
 import cz.cuni.mff.xrg.odalic.util.Lists;
 import cz.cuni.mff.xrg.odalic.util.Maps;
@@ -155,14 +155,14 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
       EntityCandidate bestCandidate = null;
       for (TColumnColumnRelationAnnotation annotation : annotations.getValue()) {
         Entity entity = new Entity(annotation.getRelationURI(), annotation.getRelationLabel());
-        Likelihood likelihood = new Likelihood(annotation.getFinalScore());
+        Score score = new Score(annotation.getFinalScore());
 
-        EntityCandidate candidate = new EntityCandidate(entity, likelihood);
+        EntityCandidate candidate = new EntityCandidate(entity, score);
 
         candidatesSet.add(candidate);
 
         if (bestCandidate == null
-            || bestCandidate.getLikelihood().getValue() < candidate.getLikelihood().getValue()) {
+            || bestCandidate.getScore().getValue() < candidate.getScore().getValue()) {
           bestCandidate = candidate;
         }
       }
@@ -207,14 +207,14 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
             uk.ac.shef.dcs.kbsearch.model.Entity clazz = annotation.getAnnotation();
 
             Entity entity = new Entity(clazz.getId(), clazz.getLabel());
-            Likelihood likelihood = new Likelihood(annotation.getFinalScore());
+            Score score = new Score(annotation.getFinalScore());
 
-            EntityCandidate candidate = new EntityCandidate(entity, likelihood);
+            EntityCandidate candidate = new EntityCandidate(entity, score);
 
             candidatesSet.add(candidate);
 
-            if (bestCandidate == null || bestCandidate.getLikelihood().getValue() < candidate
-                .getLikelihood().getValue()) {
+            if (bestCandidate == null
+                || bestCandidate.getScore().getValue() < candidate.getScore().getValue()) {
               bestCandidate = candidate;
             }
           }
@@ -255,14 +255,14 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
           Clazz clazz = annotation.getAnnotation();
 
           Entity entity = new Entity(clazz.getId(), clazz.getLabel());
-          Likelihood likelihood = new Likelihood(annotation.getFinalScore());
+          Score score = new Score(annotation.getFinalScore());
 
-          EntityCandidate candidate = new EntityCandidate(entity, likelihood);
+          EntityCandidate candidate = new EntityCandidate(entity, score);
 
           candidatesSet.add(candidate);
 
           if (bestCandidate == null
-              || bestCandidate.getLikelihood().getValue() < candidate.getLikelihood().getValue()) {
+              || bestCandidate.getScore().getValue() < candidate.getScore().getValue()) {
             bestCandidate = candidate;
           }
         }

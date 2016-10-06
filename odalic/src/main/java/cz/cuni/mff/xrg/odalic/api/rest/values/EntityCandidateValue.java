@@ -10,7 +10,7 @@ import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
-import cz.cuni.mff.xrg.odalic.tasks.annotations.Likelihood;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.Score;
 
 /**
  * <p>
@@ -34,7 +34,7 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
   private Entity entity;
 
   @XmlElement
-  private Likelihood likelihood;
+  private Score score;
 
   @XmlElement
   private boolean chosen;
@@ -43,7 +43,7 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
 
   public EntityCandidateValue(EntityCandidate adaptee, boolean chosen) {
     entity = adaptee.getEntity();
-    likelihood = adaptee.getLikelihood();
+    score = adaptee.getScore();
     this.chosen = chosen;
   }
 
@@ -65,20 +65,20 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
   }
 
   /**
-   * @return the likelihood
+   * @return the score
    */
   @Nullable
-  public Likelihood getLikelihood() {
-    return likelihood;
+  public Score getScore() {
+    return score;
   }
 
   /**
-   * @param likelihood the likelihood to set
+   * @param score the score to set
    */
-  public void setLikelihood(Likelihood likelihood) {
-    Preconditions.checkNotNull(likelihood);
+  public void setScore(Score score) {
+    Preconditions.checkNotNull(score);
 
-    this.likelihood = likelihood;
+    this.score = score;
   }
 
   /**
@@ -104,7 +104,7 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + new EntityCandidate(entity, likelihood).hashCode();
+    result = prime * result + new EntityCandidate(entity, score).hashCode();
     return result;
   }
 
@@ -123,7 +123,7 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
       return false;
     }
     EntityCandidateValue other = (EntityCandidateValue) obj;
-    return new EntityCandidate(entity, likelihood).equals(new EntityCandidate(other.entity, other.likelihood));
+    return new EntityCandidate(entity, score).equals(new EntityCandidate(other.entity, other.score));
   }
   
   /* (non-Javadoc)
@@ -131,8 +131,8 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
    */
   @Override
   public int compareTo(EntityCandidateValue other) {
-    return new EntityCandidate(entity, likelihood)
-        .compareTo(new EntityCandidate(other.entity, other.likelihood));
+    return new EntityCandidate(entity, score)
+        .compareTo(new EntityCandidate(other.entity, other.score));
   }
 
   /*
@@ -142,7 +142,7 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
    */
   @Override
   public String toString() {
-    return "EntityCandidateValue [entity=" + entity + ", likelihood=" + likelihood + ", chosen="
+    return "EntityCandidateValue [entity=" + entity + ", score=" + score + ", chosen="
         + chosen + "]";
   }
 }
