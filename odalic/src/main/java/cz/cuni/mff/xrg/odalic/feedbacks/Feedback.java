@@ -38,8 +38,6 @@ public final class Feedback implements Serializable {
 
   private final Set<Disambiguation> disambiguations;
 
-  private final Set<CellRelation> cellRelations;
-
   private final Set<ColumnRelation> columnRelations;
 
 
@@ -51,7 +49,6 @@ public final class Feedback implements Serializable {
     this.columnIgnores = ImmutableSet.of();
     this.columnAmbiguities = ImmutableSet.of();
     this.classifications = ImmutableSet.of();
-    this.cellRelations = ImmutableSet.of();
     this.columnRelations = ImmutableSet.of();
     this.disambiguations = ImmutableSet.of();
     this.ambiguities = ImmutableSet.of();
@@ -64,20 +61,17 @@ public final class Feedback implements Serializable {
    * @param columnIgnores ignored columns
    * @param columnAmbiguities columns whose cells will not be disambiguated
    * @param classifications classification hints for columns
-   * @param cellRelations hints with relations between cells on the same rows
    * @param columnRelations hints with relation between columns
    * @param disambiguations custom disambiguations
    * @param ambiguities hints for cells to be left ambiguous
    */
   public Feedback(@Nullable ColumnPosition subjectColumnPosition,
       Set<? extends ColumnIgnore> columnIgnores, Set<? extends ColumnAmbiguity> columnAmbiguities,
-      Set<? extends Classification> classifications, Set<? extends CellRelation> cellRelations,
-      Set<? extends ColumnRelation> columnRelations, Set<? extends Disambiguation> disambiguations,
-      Set<? extends Ambiguity> ambiguities) {
+      Set<? extends Classification> classifications, Set<? extends ColumnRelation> columnRelations,
+      Set<? extends Disambiguation> disambiguations, Set<? extends Ambiguity> ambiguities) {
     Preconditions.checkNotNull(columnIgnores);
     Preconditions.checkNotNull(columnAmbiguities);
     Preconditions.checkNotNull(classifications);
-    Preconditions.checkNotNull(cellRelations);
     Preconditions.checkNotNull(columnRelations);
     Preconditions.checkNotNull(disambiguations);
     Preconditions.checkNotNull(ambiguities);
@@ -86,7 +80,6 @@ public final class Feedback implements Serializable {
     this.columnIgnores = ImmutableSet.copyOf(columnIgnores);
     this.columnAmbiguities = ImmutableSet.copyOf(columnAmbiguities);
     this.classifications = ImmutableSet.copyOf(classifications);
-    this.cellRelations = ImmutableSet.copyOf(cellRelations);
     this.columnRelations = ImmutableSet.copyOf(columnRelations);
     this.disambiguations = ImmutableSet.copyOf(disambiguations);
     this.ambiguities = ImmutableSet.copyOf(ambiguities);
@@ -122,13 +115,6 @@ public final class Feedback implements Serializable {
   }
 
   /**
-   * @return the cell relations
-   */
-  public Set<CellRelation> getCellRelations() {
-    return cellRelations;
-  }
-
-  /**
    * @return the column relations
    */
   public Set<ColumnRelation> getColumnRelations() {
@@ -159,7 +145,6 @@ public final class Feedback implements Serializable {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((ambiguities == null) ? 0 : ambiguities.hashCode());
-    result = prime * result + ((cellRelations == null) ? 0 : cellRelations.hashCode());
     result = prime * result + ((classifications == null) ? 0 : classifications.hashCode());
     result = prime * result + ((columnAmbiguities == null) ? 0 : columnAmbiguities.hashCode());
     result = prime * result + ((columnIgnores == null) ? 0 : columnIgnores.hashCode());
@@ -192,13 +177,6 @@ public final class Feedback implements Serializable {
         return false;
       }
     } else if (!ambiguities.equals(other.ambiguities)) {
-      return false;
-    }
-    if (cellRelations == null) {
-      if (other.cellRelations != null) {
-        return false;
-      }
-    } else if (!cellRelations.equals(other.cellRelations)) {
       return false;
     }
     if (classifications == null) {
@@ -255,8 +233,7 @@ public final class Feedback implements Serializable {
   public String toString() {
     return "Feedback [subjectColumnPosition=" + subjectColumnPosition + ", columnIgnores="
         + columnIgnores + ", columnAmbiguities=" + columnAmbiguities + ", classifications="
-        + classifications + ", cellRelations=" + cellRelations + ", columnRelations="
-        + columnRelations + ", disambiguations=" + disambiguations + ", ambiguities=" + ambiguities
-        + "]";
+        + classifications + ", columnRelations=" + columnRelations + ", disambiguations="
+        + disambiguations + ", ambiguities=" + ambiguities + "]";
   }
 }

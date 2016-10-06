@@ -10,7 +10,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 
 import cz.cuni.mff.xrg.odalic.feedbacks.Ambiguity;
-import cz.cuni.mff.xrg.odalic.feedbacks.CellRelation;
 import cz.cuni.mff.xrg.odalic.feedbacks.Classification;
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnAmbiguity;
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnIgnore;
@@ -35,22 +34,19 @@ public final class FeedbackValue implements Serializable {
 
   @XmlElement
   private Set<ColumnIgnore> columnIgnores;
-  
+
   @XmlElement
   private Set<ColumnAmbiguity> columnAmbiguities;
-  
+
   @XmlElement
   private Set<Classification> classifications;
-  
-  @XmlElement
-  private Set<CellRelation> cellRelations;
-  
+
   @XmlElement
   private Set<ColumnRelation> columnRelations;
-  
+
   @XmlElement
   private Set<Disambiguation> disambiguations;
-  
+
   @XmlElement
   private Set<Ambiguity> ambiguities;
 
@@ -59,18 +55,16 @@ public final class FeedbackValue implements Serializable {
     columnIgnores = ImmutableSet.of();
     columnAmbiguities = ImmutableSet.of();
     classifications = ImmutableSet.of();
-    cellRelations = ImmutableSet.of();
     columnRelations = ImmutableSet.of();
     disambiguations = ImmutableSet.of();
     ambiguities = ImmutableSet.of();
   }
-  
+
   public FeedbackValue(Feedback adaptee) {
     subjectColumnPosition = adaptee.getSubjectColumnPosition();
     columnIgnores = adaptee.getColumnIgnores();
     columnAmbiguities = adaptee.getColumnAmbiguities();
     classifications = adaptee.getClassifications();
-    cellRelations = adaptee.getCellRelations();
     columnRelations = adaptee.getColumnRelations();
     disambiguations = adaptee.getDisambiguations();
     ambiguities = adaptee.getAmbiguities();
@@ -103,7 +97,7 @@ public final class FeedbackValue implements Serializable {
    */
   public void setColumnIgnores(Set<? extends ColumnIgnore> columnIgnores) {
     Preconditions.checkNotNull(columnIgnores);
-    
+
     this.columnIgnores = ImmutableSet.copyOf(columnIgnores);
   }
 
@@ -119,7 +113,7 @@ public final class FeedbackValue implements Serializable {
    */
   public void setColumnAmbiguities(Set<? extends ColumnAmbiguity> columnAmbiguities) {
     Preconditions.checkNotNull(columnAmbiguities);
-    
+
     this.columnAmbiguities = ImmutableSet.copyOf(columnAmbiguities);
   }
 
@@ -135,24 +129,8 @@ public final class FeedbackValue implements Serializable {
    */
   public void setClassifications(Set<? extends Classification> classifications) {
     Preconditions.checkNotNull(classifications);
-    
+
     this.classifications = ImmutableSet.copyOf(classifications);
-  }
-
-  /**
-   * @return the cell relations
-   */
-  public Set<CellRelation> getCellRelations() {
-    return cellRelations;
-  }
-
-  /**
-   * @param cellRelations the cellRelations to set
-   */
-  public void setCellRelations(Set<? extends CellRelation> cellRelations) {
-    Preconditions.checkNotNull(cellRelations);
-    
-    this.cellRelations = ImmutableSet.copyOf(cellRelations);
   }
 
   /**
@@ -167,7 +145,7 @@ public final class FeedbackValue implements Serializable {
    */
   public void setColumnRelations(Set<? extends ColumnRelation> columnRelations) {
     Preconditions.checkNotNull(columnRelations);
-    
+
     this.columnRelations = ImmutableSet.copyOf(columnRelations);
   }
 
@@ -183,7 +161,7 @@ public final class FeedbackValue implements Serializable {
    */
   public void setDisambiguations(Set<? extends Disambiguation> disambiguations) {
     Preconditions.checkNotNull(disambiguations);
-    
+
     this.disambiguations = ImmutableSet.copyOf(disambiguations);
   }
 
@@ -199,9 +177,9 @@ public final class FeedbackValue implements Serializable {
    */
   public void setAmbiguities(Set<? extends Ambiguity> ambiguities) {
     Preconditions.checkNotNull(ambiguities);
-    
+
     this.ambiguities = ImmutableSet.copyOf(ambiguities);
   }
 
-    
+
 }
