@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
 
@@ -22,7 +23,11 @@ public final class MessageBuilder {
 
   private String debugContent;
 
-  public MessageBuilder() {}
+  public MessageBuilder() {
+    text = null;
+    additionalResources = ImmutableList.of();
+    debugContent = null;
+  }
     
   /**
    * @return the text
@@ -53,6 +58,8 @@ public final class MessageBuilder {
    * @param additionalResources the additional resources to set
    */
   public MessageBuilder additionalResources(List<? extends URI> additionalResources) {
+    Preconditions.checkNotNull(additionalResources);
+    
     this.additionalResources = ImmutableList.copyOf(additionalResources);
     
     return this;

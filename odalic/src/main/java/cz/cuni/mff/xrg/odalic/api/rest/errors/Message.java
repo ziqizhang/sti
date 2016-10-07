@@ -38,12 +38,12 @@ public final class Message {
   private final String debugContent;
 
   @XmlTransient
-  public static Message of(@Nullable String text, @Nullable String debugContent) {
+  public static Message of(String text, String debugContent) {
     return new MessageBuilder().text(text).debugContent(debugContent).build();
   }
 
   @XmlTransient
-  public static Message of(@Nullable String text) {
+  public static Message of(String text) {
     return new MessageBuilder().text(text).build();
   }
 
