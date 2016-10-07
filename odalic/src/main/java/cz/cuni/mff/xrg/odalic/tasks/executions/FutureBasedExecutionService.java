@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -15,8 +16,6 @@ import java.util.concurrent.Future;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
-
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnIgnore;
 import cz.cuni.mff.xrg.odalic.files.File;
 import cz.cuni.mff.xrg.odalic.files.FileService;
@@ -35,10 +34,14 @@ import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 
 /**
- * <p>Implementation of {@link ExecutionService} based on {@link Future} and {@link ExecutorServicee}
- * implementations.</p>
+ * <p>
+ * Implementation of {@link ExecutionService} based on {@link Future} and {@link ExecutorService}
+ * implementations.
+ * </p>
  * 
- * <p>Provides no persistence whatsoever</p>
+ * <p>
+ * Provides no persistence whatsoever
+ * </p>
  * 
  * @author Václav Brodec
  *
@@ -74,7 +77,9 @@ public final class FutureBasedExecutionService implements ExecutionService {
     this.inputToTableAdapter = inputToTableAdapter;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   *
    * @see cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService#submitForTaskId(java.lang.String)
    */
   @Override
@@ -96,13 +101,16 @@ public final class FutureBasedExecutionService implements ExecutionService {
       final Input input = csvInputParser.parse(data, file.getId(), new CsvConfiguration());
       final Table table = inputToTableAdapter.toTable(input);
 
-      final SemanticTableInterpreter interpreter = semanticTableInterpreterFactory.getInterpreter();
+      final Map<String, SemanticTableInterpreter> interpreters = semanticTableInterpreterFactory.getInterpreters();
       semanticTableInterpreterFactory.setColumnIgnoresForInterpreter(columnIgnores);
 
-      final TAnnotation annotationResult = interpreter.start(table, true);
-      // TODO: Add multiple KB support to configuration.
+      Map<KnowledgeBase, TAnnotation> results = new HashMap<>();
+      for (Map.Entry<String, SemanticTableInterpreter> interpreterEntry : interpreters.entrySet()) {
+        final TAnnotation annotationResult = interpreterEntry.getValue().start(table, true);
+        results.put(new KnowledgeBase(interpreterEntry.getKey()), annotationResult);
+      }
       final Result result = annotationResultAdapter
-          .toResult(ImmutableMap.of(new KnowledgeBase("DBpedia"), annotationResult));
+          .toResult(results);
 
       return result;
     };
@@ -112,7 +120,8 @@ public final class FutureBasedExecutionService implements ExecutionService {
   }
 
   @Override
-  public Result getResultForTaskId(String id) throws InterruptedException, ExecutionException {
+  public Result getResultForTaskId(String id)
+      throws InterruptedException, ExecutionException, CancellationException, InterruptedException {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
 

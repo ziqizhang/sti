@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -41,22 +40,12 @@ public final class ResultValue implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
 
-  @XmlElement
-  @JsonDeserialize(keyUsing = KnowledgeBaseKeyJsonDeserializer.class)
-  @JsonSerialize(keyUsing = KnowledgeBaseKeyJsonSerializer.class)
   private Map<KnowledgeBase, ColumnPosition> subjectColumnPositions;
 
-  @XmlElement
   private List<HeaderAnnotation> headerAnnotations;
 
-  @XmlElement
   private CellAnnotation[][] cellAnnotations;
 
-  @XmlElement
-  @JsonDeserialize(keyUsing = ColumnPositionKeyJsonDeserializer.class,
-      contentUsing = ColumnPositionToColumnRelationAnnotationMapDeserializer.class)
-  @JsonSerialize(keyUsing = ColumnPositionKeyJsonSerializer.class,
-      contentUsing = ColumnPositionToColumnRelationAnnotationMapSerializer.class)
   private Map<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> columnRelationAnnotations;
 
   public ResultValue() {
@@ -97,7 +86,9 @@ public final class ResultValue implements Serializable {
   /**
    * @return the subject column position
    */
-  @Nullable
+  @XmlElement
+  @JsonDeserialize(keyUsing = KnowledgeBaseKeyJsonDeserializer.class)
+  @JsonSerialize(keyUsing = KnowledgeBaseKeyJsonSerializer.class)
   public Map<KnowledgeBase, ColumnPosition> getSubjectColumnPositions() {
     return subjectColumnPositions;
   }
@@ -114,6 +105,7 @@ public final class ResultValue implements Serializable {
   /**
    * @return the header annotations
    */
+  @XmlElement
   public List<HeaderAnnotation> getHeaderAnnotations() {
     return headerAnnotations;
   }
@@ -130,6 +122,7 @@ public final class ResultValue implements Serializable {
   /**
    * @return the cell annotations
    */
+  @XmlElement
   public CellAnnotation[][] getCellAnnotations() {
     return cz.cuni.mff.xrg.odalic.util.Arrays.deepCopy(CellAnnotation.class, cellAnnotations);
   }
@@ -147,6 +140,11 @@ public final class ResultValue implements Serializable {
   /**
    * @return the column relation Annotations
    */
+  @XmlElement
+  @JsonDeserialize(keyUsing = ColumnPositionKeyJsonDeserializer.class,
+      contentUsing = ColumnPositionToColumnRelationAnnotationMapDeserializer.class)
+  @JsonSerialize(keyUsing = ColumnPositionKeyJsonSerializer.class,
+      contentUsing = ColumnPositionToColumnRelationAnnotationMapSerializer.class)
   public Map<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> getColumnRelationAnnotations() {
     return columnRelationAnnotations;
   }

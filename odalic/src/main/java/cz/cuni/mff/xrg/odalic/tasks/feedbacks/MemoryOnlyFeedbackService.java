@@ -51,6 +51,9 @@ public final class MemoryOnlyFeedbackService implements FeedbackService {
     configurationService.setForTaskId(taskId, new Configuration(oldConfiguration.getInput(), oldConfiguration.getPrimaryBase(), feedback));
   }
 
+  /* (non-Javadoc)
+   * @see cz.cuni.mff.xrg.odalic.tasks.feedbacks.FeedbackService#getInputForTaskId(java.lang.String)
+   */
   @Override
   public Input getInputForTaskId(String taskId) throws IOException {
     final Configuration configuration = configurationService.getForTaskId(taskId);

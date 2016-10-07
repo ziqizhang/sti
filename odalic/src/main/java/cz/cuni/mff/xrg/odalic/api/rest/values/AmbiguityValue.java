@@ -22,7 +22,6 @@ public final class AmbiguityValue implements Serializable {
 
   private static final long serialVersionUID = -9087389821835847372L;
 
-  @XmlElement
   private CellPosition position;
   
   public AmbiguityValue() {}
@@ -34,6 +33,7 @@ public final class AmbiguityValue implements Serializable {
   /**
    * @return the position
    */
+  @XmlElement
   @Nullable
   public CellPosition getPosition() {
     return position;

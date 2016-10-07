@@ -27,15 +27,10 @@ public final class TaskValue implements Serializable {
 
   private static final long serialVersionUID = 1610346823333685091L;
 
-  @XmlElement
   private String id;
   
-  @JsonSerialize(using = CustomJsonDateSerializer.class)
-  @JsonDeserialize(using = CustomJsonDateDeserializer.class)
-  @XmlElement
   private Date created;
 
-  @XmlElement
   private ConfigurationValue configuration;
   
   public TaskValue() {}
@@ -49,6 +44,7 @@ public final class TaskValue implements Serializable {
   /**
    * @return the id
    */
+  @XmlElement
   @Nullable
   public String getId() {
     return id;
@@ -66,6 +62,9 @@ public final class TaskValue implements Serializable {
   /**
    * @return the created
    */
+  @XmlElement
+  @JsonSerialize(using = CustomJsonDateSerializer.class)
+  @JsonDeserialize(using = CustomJsonDateDeserializer.class)
   @Nullable
   public Date getCreated() {
     return created;
@@ -83,6 +82,7 @@ public final class TaskValue implements Serializable {
   /**
    * @return the configuration
    */
+  @XmlElement
   @Nullable
   public ConfigurationValue getConfiguration() {
     return configuration;

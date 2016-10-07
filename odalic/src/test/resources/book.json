@@ -1,0 +1,88 @@
+{
+  "context": "http://www.w3.org/ns/csvw",
+  "url": "Books.csv",
+  "tableSchema": {
+    "columns": [
+      {
+        "name": "Book",
+        "titles": [
+          "Book"
+        ],
+        "dataType": "string",
+        "aboutUrl": "{Book_url}",
+        "propertyUrl": "dcterms:title"
+      },
+      {
+        "name": "Book_url",
+        "dataType": "anyURI",
+        "suppressOutput": true,
+        "valueUrl": "{Book_url}"
+      },
+      {
+        "name": "Book_type",
+        "virtual": true,
+        "aboutUrl": "{Book_url}",
+        "propertyUrl": "rdf:type",
+        "valueUrl": "http://schema.org/Book"
+      },
+      {
+        "name": "Author",
+        "titles": [
+          "Author"
+        ],
+        "dataType": "string",
+        "aboutUrl": "{Author_url}",
+        "propertyUrl": "dcterms:title"
+      },
+      {
+        "name": "Author_url",
+        "dataType": "anyURI",
+        "suppressOutput": true,
+        "valueUrl": "{Author_url}"
+      },
+      {
+        "name": "Author_type",
+        "virtual": true,
+        "aboutUrl": "{Author_url}",
+        "propertyUrl": "rdf:type",
+        "valueUrl": "http://dbpedia.org/class/yago/CanadianFantasyWriters"
+      },
+      {
+        "name": "Series",
+        "titles": [
+          "Series"
+        ],
+        "dataType": "string",
+        "aboutUrl": "{Series_url}",
+        "propertyUrl": "dcterms:title"
+      },
+      {
+        "name": "Series_url",
+        "dataType": "anyURI",
+        "suppressOutput": true,
+        "valueUrl": "{Series_url}"
+      },
+      {
+        "name": "Series_type",
+        "virtual": true,
+        "aboutUrl": "{Series_url}",
+        "propertyUrl": "rdf:type",
+        "valueUrl": "http://www.wikidata.org/entity/Q277759"
+      },
+      {
+        "name": "http://dbpedia.org/property/author_type",
+        "virtual": true,
+        "aboutUrl": "{Book_url}",
+        "propertyUrl": "http://dbpedia.org/property/author",
+        "valueUrl": "{Author_url}"
+      },
+      {
+        "name": "http://dbpedia.org/property/series_type",
+        "virtual": true,
+        "aboutUrl": "{Book_url}",
+        "propertyUrl": "http://dbpedia.org/property/series",
+        "valueUrl": "{Series_url}"
+      }
+    ]
+  }
+}

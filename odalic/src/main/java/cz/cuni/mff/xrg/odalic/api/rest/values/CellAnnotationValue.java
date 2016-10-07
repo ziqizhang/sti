@@ -3,7 +3,7 @@ package cz.cuni.mff.xrg.odalic.api.rest.values;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Set;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -13,6 +13,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.EntityCandidateValueNavigableSetDeserializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.EntityCandidateValueSetSerializer;
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.KnowledgeBaseKeyJsonDeserializer;
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.KnowledgeBaseKeyJsonSerializer;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.CellAnnotation;
@@ -30,14 +32,8 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 @XmlRootElement(name = "cellAnnotation")
 public final class CellAnnotationValue {
 
-  @XmlElement
-  @JsonDeserialize(keyUsing = KnowledgeBaseKeyJsonDeserializer.class)
-  @JsonSerialize(keyUsing = KnowledgeBaseKeyJsonSerializer.class)
   private Map<KnowledgeBase, NavigableSet<EntityCandidate>> candidates;
   
-  @XmlElement
-  @JsonDeserialize(keyUsing = KnowledgeBaseKeyJsonDeserializer.class)
-  @JsonSerialize(keyUsing = KnowledgeBaseKeyJsonSerializer.class)
   private Map<KnowledgeBase, Set<EntityCandidate>> chosen;
 
   public CellAnnotationValue() {
@@ -45,9 +41,6 @@ public final class CellAnnotationValue {
     chosen = ImmutableMap.of();
   }
 
-  /**
-   * @param entities
-   */
   public CellAnnotationValue(CellAnnotation adaptee) {
     this.candidates = adaptee.getCandidates();
     this.chosen = adaptee.getChosen();
@@ -56,6 +49,11 @@ public final class CellAnnotationValue {
   /**
    * @return the candidates
    */
+  @XmlAnyElement
+  @JsonDeserialize(keyUsing = KnowledgeBaseKeyJsonDeserializer.class,
+      contentUsing = EntityCandidateValueNavigableSetDeserializer.class)
+  @JsonSerialize(keyUsing = KnowledgeBaseKeyJsonSerializer.class,
+      contentUsing = EntityCandidateValueSetSerializer.class)
   public Map<KnowledgeBase, NavigableSet<EntityCandidate>> getCandidates() {
     return candidates;
   }
@@ -79,6 +77,11 @@ public final class CellAnnotationValue {
   /**
    * @return the chosen
    */
+  @XmlAnyElement
+  @JsonDeserialize(keyUsing = KnowledgeBaseKeyJsonDeserializer.class,
+      contentUsing = EntityCandidateValueNavigableSetDeserializer.class)
+  @JsonSerialize(keyUsing = KnowledgeBaseKeyJsonSerializer.class,
+      contentUsing = EntityCandidateValueSetSerializer.class)
   public Map<KnowledgeBase, Set<EntityCandidate>> getChosen() {
     return chosen;
   }

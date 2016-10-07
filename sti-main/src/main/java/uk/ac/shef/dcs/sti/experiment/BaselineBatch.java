@@ -3,14 +3,8 @@ package uk.ac.shef.dcs.sti.experiment;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-import org.simmetrics.Metric;
 import org.simmetrics.StringMetric;
-import org.simmetrics.builders.StringMetricBuilder;
-import org.simmetrics.metrics.CosineSimilarity;
-import org.simmetrics.metrics.Levenshtein;
 import org.simmetrics.metrics.StringMetrics;
-import org.simmetrics.tokenizers.Tokenizers;
 import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
@@ -91,23 +85,10 @@ public class BaselineBatch extends STIBatch {
 
     @Override
     protected void initComponents() throws STIException {
-        LOG.info("Initializing entity cache...");
-        EmbeddedSolrServer kbEntityServer = this.getSolrServerCacheEntity();
         //object to fetch things from KB
 
         LOG.info("Initializing KBSearch...");
-        KBSearchFactory fbf = new KBSearchFactory();
-        try {
-            kbSearch = fbf.createInstance(
-                    getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE),
-                    kbEntityServer, null, null,null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            LOG.error(ExceptionUtils.getFullStackTrace(e));
-            throw new STIException("Failed initialising KBSearch:" +
-                    getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE)
-                    , e);
-        }
+        initKB();
 
         //LOG.info("Initializing WebSearcher...");
 
@@ -120,7 +101,7 @@ public class BaselineBatch extends STIBatch {
                     StringUtils.split(properties.getProperty(PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS_CONSTR_PARAM),
                             ','),
                     //new String[]{"0.0", "1", "0.01"},
-                    getSolrServerCacheWebsearch(),
+                    kbSearch.getSolrServer(PROPERTY_WEBSEARCH_CACHE_CORENAME),
                     getNLPResourcesDir(),
                     Boolean.valueOf(properties.getProperty(PROPERTY_TMP_SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH)),
                     //"/BlhLSReljQ3Koh+vDSOaYMji9/Ccwe/7/b9mGJLwDQ=");  //zqz.work
@@ -208,7 +189,7 @@ public class BaselineBatch extends STIBatch {
                             Boolean.valueOf(baseline.properties.getProperty(PROPERTY_PERFORM_RELATION_LEARNING)));
 
                     if (STIConstantProperty.SOLR_COMMIT_PER_FILE)
-                        baseline.commitAll();
+                        baseline.kbSearch.commitChanges();
                     if (!complete) {
                         baseline.recordFailure(count, sourceTableFile, inFile);
                     }
@@ -221,7 +202,11 @@ public class BaselineBatch extends STIBatch {
             }
 
         }
-        baseline.closeAll();
+        try {
+            baseline.kbSearch.closeConnection();
+        }
+        catch (Exception e){
+        }
         LOG.info(new Date());
     }
 }

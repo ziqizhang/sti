@@ -23,10 +23,8 @@ public final class DisambiguationValue implements Serializable {
 
   private static final long serialVersionUID = -9087389821835847372L;
 
-  @XmlElement
   private CellPosition position;
   
-  @XmlElement
   private CellAnnotation annotation;
   
   public DisambiguationValue() {}
@@ -39,6 +37,7 @@ public final class DisambiguationValue implements Serializable {
   /**
    * @return the position
    */
+  @XmlElement
   @Nullable
   public CellPosition getPosition() {
     return position;
@@ -56,6 +55,7 @@ public final class DisambiguationValue implements Serializable {
   /**
    * @return the annotation
    */
+  @XmlElement
   @Nullable
   public CellAnnotation getAnnotation() {
     return annotation;

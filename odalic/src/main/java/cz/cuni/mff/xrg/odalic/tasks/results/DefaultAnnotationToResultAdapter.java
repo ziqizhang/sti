@@ -47,7 +47,8 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
    * This implementation demands that the subject columns recognized in the annotations are the
    * same.
    * 
-   * @see cz.cuni.mff.xrg.odalic.tasks.results.AnnotationToResultAdapter#toResult(java.util.Map)
+   * @see cz.cuni.mff.xrg.odalic.tasks.results.AnnotationToResultAdapter#toResult(Map,
+   *      KnowledgeBase)
    */
   @Override
   public Result toResult(
@@ -171,9 +172,9 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
       EntityCandidate bestCandidate = null;
       for (TColumnColumnRelationAnnotation annotation : annotations.getValue()) {
         Entity entity = new Entity(annotation.getRelationURI(), annotation.getRelationLabel());
-        Score score = new Score(annotation.getFinalScore());
+        Score likelihood = new Score(annotation.getFinalScore());
 
-        EntityCandidate candidate = new EntityCandidate(entity, score);
+        EntityCandidate candidate = new EntityCandidate(entity, likelihood);
 
         candidatesSet.add(candidate);
 
@@ -223,14 +224,14 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
             uk.ac.shef.dcs.kbsearch.model.Entity clazz = annotation.getAnnotation();
 
             Entity entity = new Entity(clazz.getId(), clazz.getLabel());
-            Score score = new Score(annotation.getFinalScore());
+            Score likelihood = new Score(annotation.getFinalScore());
 
-            EntityCandidate candidate = new EntityCandidate(entity, score);
+            EntityCandidate candidate = new EntityCandidate(entity, likelihood);
 
             candidatesSet.add(candidate);
 
-            if (bestCandidate == null
-                || bestCandidate.getScore().getValue() < candidate.getScore().getValue()) {
+            if (bestCandidate == null || bestCandidate.getScore().getValue() < candidate
+                .getScore().getValue()) {
               bestCandidate = candidate;
             }
           }
@@ -271,9 +272,9 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
           Clazz clazz = annotation.getAnnotation();
 
           Entity entity = new Entity(clazz.getId(), clazz.getLabel());
-          Score score = new Score(annotation.getFinalScore());
+          Score likelihood = new Score(annotation.getFinalScore());
 
-          EntityCandidate candidate = new EntityCandidate(entity, score);
+          EntityCandidate candidate = new EntityCandidate(entity, likelihood);
 
           candidatesSet.add(candidate);
 

@@ -25,7 +25,6 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
 
   private static final long serialVersionUID = 3072774254576336747L;
 
-  @XmlElement
   private Entity entity;
 
   @XmlElement
@@ -41,6 +40,7 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
   /**
    * @return the entity
    */
+  @XmlElement
   @Nullable
   public Entity getEntity() {
     return entity;
@@ -58,6 +58,7 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
   /**
    * @return the score
    */
+  @XmlElement
   @Nullable
   public Score getScore() {
     return score;
@@ -83,7 +84,9 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
     return result;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -100,14 +103,20 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
     EntityCandidateValue other = (EntityCandidateValue) obj;
     return new EntityCandidate(entity, score).equals(new EntityCandidate(other.entity, other.score));
   }
-  
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Comparable#compareTo(java.lang.Object)
    */
   @Override
   public int compareTo(EntityCandidateValue other) {
-    return new EntityCandidate(entity, score)
-        .compareTo(new EntityCandidate(other.entity, other.score));
+    final int likelihoodComparison = -1 * score.compareTo(other.score);
+    if (likelihoodComparison != 0) {
+      return likelihoodComparison;
+    }
+
+    return entity.compareTo(other.entity);
   }
 
   /*

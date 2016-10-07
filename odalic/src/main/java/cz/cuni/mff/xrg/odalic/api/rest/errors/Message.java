@@ -37,7 +37,6 @@ public final class Message {
   @XmlElement
   private final String debugContent;
 
-
   @XmlTransient
   public static Message of(@Nullable String text, @Nullable String debugContent) {
     return new MessageBuilder().text(text).debugContent(debugContent).build();
@@ -60,6 +59,7 @@ public final class Message {
   /**
    * @return the text
    */
+  @XmlElement
   @Nullable
   public String getText() {
     return text;
@@ -75,6 +75,7 @@ public final class Message {
   /**
    * @return the debug content
    */
+  @XmlElement
   @Nullable
   public String getDebugContent() {
     return debugContent;

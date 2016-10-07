@@ -20,10 +20,8 @@ public final class EntityValue implements Serializable {
 
   private static final long serialVersionUID = 5750987769573292984L;
 
-  @XmlElement
   private String resource;
 
-  @XmlElement
   private String label;
 
   public EntityValue() {}
@@ -36,6 +34,7 @@ public final class EntityValue implements Serializable {
   /**
    * @return the resource ID
    */
+  @XmlElement
   @Nullable
   public String getResource() {
     return resource;
@@ -53,6 +52,7 @@ public final class EntityValue implements Serializable {
   /**
    * @return the label
    */
+  @XmlElement
   @Nullable
   public String getLabel() {
     return label;

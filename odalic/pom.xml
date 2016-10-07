@@ -133,6 +133,12 @@
 			<version>${jcloverslf4j.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>javax.json</groupId>
+			<artifactId>javax.json-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		<!-- JAX-RS API -->
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
@@ -145,6 +151,13 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-csv</artifactId>
 			<version>1.4</version>
+		</dependency>
+		
+		<!-- RDF4J -->
+		<dependency>
+			<groupId>org.eclipse.rdf4j</groupId>
+			<artifactId>rdf4j-runtime</artifactId>
+			<version>2.0</version>
 		</dependency>
 	</dependencies>
 

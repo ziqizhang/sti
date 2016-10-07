@@ -23,10 +23,8 @@ public class ClassificationValue implements Serializable {
 
   private static final long serialVersionUID = 6470286409364911894L;
 
-  @XmlElement
   private ColumnPosition position;
 
-  @XmlElement
   private HeaderAnnotation annotation;
 
   public ClassificationValue() {}
@@ -39,6 +37,7 @@ public class ClassificationValue implements Serializable {
   /**
    * @return the position
    */
+  @XmlElement
   @Nullable
   public ColumnPosition getPosition() {
     return position;
@@ -56,6 +55,7 @@ public class ClassificationValue implements Serializable {
   /**
    * @return the annotation
    */
+  @XmlElement
   @Nullable
   public HeaderAnnotation getAnnotation() {
     return annotation;

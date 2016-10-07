@@ -22,7 +22,6 @@ public final class ColumnIgnoreValue implements Serializable {
 
   private static final long serialVersionUID = -9087389821835847372L;
 
-  @XmlElement
   private ColumnPosition position;
   
   public ColumnIgnoreValue() {}
@@ -34,6 +33,7 @@ public final class ColumnIgnoreValue implements Serializable {
   /**
    * @return the position
    */
+  @XmlElement
   @Nullable
   public ColumnPosition getPosition() {
     return position;

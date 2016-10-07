@@ -29,25 +29,18 @@ public final class FeedbackValue implements Serializable {
 
   private static final long serialVersionUID = -7968455903789693405L;
 
-  @XmlElement
   private ColumnPosition subjectColumnPosition;
 
-  @XmlElement
   private Set<ColumnIgnore> columnIgnores;
 
-  @XmlElement
   private Set<ColumnAmbiguity> columnAmbiguities;
 
-  @XmlElement
   private Set<Classification> classifications;
 
-  @XmlElement
   private Set<ColumnRelation> columnRelations;
 
-  @XmlElement
   private Set<Disambiguation> disambiguations;
 
-  @XmlElement
   private Set<Ambiguity> ambiguities;
 
   public FeedbackValue() {
@@ -73,6 +66,7 @@ public final class FeedbackValue implements Serializable {
   /**
    * @return the subject column position
    */
+  @XmlElement
   @Nullable
   public ColumnPosition getSubjectColumnPosition() {
     return subjectColumnPosition;
@@ -88,6 +82,7 @@ public final class FeedbackValue implements Serializable {
   /**
    * @return the column ignores
    */
+  @XmlElement
   public Set<ColumnIgnore> getColumnIgnores() {
     return columnIgnores;
   }
@@ -104,6 +99,7 @@ public final class FeedbackValue implements Serializable {
   /**
    * @return the column ambiguities
    */
+  @XmlElement
   public Set<ColumnAmbiguity> getColumnAmbiguities() {
     return columnAmbiguities;
   }
@@ -120,6 +116,7 @@ public final class FeedbackValue implements Serializable {
   /**
    * @return the classifications
    */
+  @XmlElement
   public Set<Classification> getClassifications() {
     return classifications;
   }
@@ -136,6 +133,7 @@ public final class FeedbackValue implements Serializable {
   /**
    * @return the column relations
    */
+  @XmlElement
   public Set<ColumnRelation> getColumnRelations() {
     return columnRelations;
   }
@@ -152,6 +150,7 @@ public final class FeedbackValue implements Serializable {
   /**
    * @return the disambiguations
    */
+  @XmlElement
   public Set<Disambiguation> getDisambiguations() {
     return disambiguations;
   }
@@ -168,6 +167,7 @@ public final class FeedbackValue implements Serializable {
   /**
    * @return the ambiguities
    */
+  @XmlElement
   public Set<Ambiguity> getAmbiguities() {
     return ambiguities;
   }
@@ -180,6 +180,4 @@ public final class FeedbackValue implements Serializable {
 
     this.ambiguities = ImmutableSet.copyOf(ambiguities);
   }
-
-
 }
