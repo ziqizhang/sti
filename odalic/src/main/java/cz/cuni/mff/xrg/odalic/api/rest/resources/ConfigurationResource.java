@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.api.rest.responses.Message;
+import cz.cuni.mff.xrg.odalic.api.rest.responses.Reply;
 import cz.cuni.mff.xrg.odalic.api.rest.values.ConfigurationValue;
 import cz.cuni.mff.xrg.odalic.files.File;
 import cz.cuni.mff.xrg.odalic.files.FileService;
@@ -61,6 +62,6 @@ public final class ConfigurationResource {
   public Response getConfigurationForTaskId(@PathParam("id") String taskId) {
     Configuration configurationForTaskId = configurationService.getForTaskId(taskId);
 
-    return Response.ok(configurationForTaskId).build();
+    return Reply.data(Response.Status.OK, configurationForTaskId).toResponse();
   }
 }

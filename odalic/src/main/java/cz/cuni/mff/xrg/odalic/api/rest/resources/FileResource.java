@@ -27,6 +27,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.api.rest.responses.Message;
+import cz.cuni.mff.xrg.odalic.api.rest.responses.Reply;
 import cz.cuni.mff.xrg.odalic.files.File;
 import cz.cuni.mff.xrg.odalic.files.FileService;
 
@@ -52,16 +53,19 @@ public final class FileResource {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public List<File> getFiles() {
-    return fileService.getFiles();
+  public Response getFiles() {
+    final List<File> files = fileService.getFiles();
+    
+    return Reply.data(Response.Status.OK, files).toResponse();
   }
 
   @GET
   @Path("{id}")
   @Produces(MediaType.APPLICATION_JSON)
   public Response getFileById(@PathParam("id") String id) {
-    File file = fileService.getById(id);
-    return Response.status(Response.Status.OK).entity(file).build();
+    final File file = fileService.getById(id);
+    
+    return Reply.data(Response.Status.OK, file).toResponse();
   }
 
   @PUT
@@ -113,10 +117,12 @@ public final class FileResource {
 
     if (!fileService.existsFileWithId(id)) {
       fileService.create(file);
+      
       return Message.of("A new file has been registered FOR THE LOCATION you specified")
           .toResponse(Response.Status.CREATED, location);
     } else {
       fileService.replace(file);
+      
       return Message
           .of("The file description you specified has been fully updated FOR THE LOCATION you specified.")
           .toResponse(Response.Status.OK, location);
@@ -147,16 +153,18 @@ public final class FileResource {
 
   @DELETE
   @Path("{id}")
+  @Produces(MediaType.APPLICATION_JSON)
   public Response deleteFileById(@PathParam("id") String id) {
     fileService.deleteById(id);
-    return Response.status(Response.Status.NO_CONTENT).build();
+    
+    return Message.of("File definition deleted.").toResponse(Response.Status.OK);
   }
 
   @GET
   @Path("{id}")
   @Produces(TEXT_CSV_MEDIA_TYPE)
   public Response getCsvDataById(@PathParam("id") String id) throws IOException {
-    String data = fileService.getDataById(id);
+    final String data = fileService.getDataById(id);
 
     return Response.ok(data).build();
   }

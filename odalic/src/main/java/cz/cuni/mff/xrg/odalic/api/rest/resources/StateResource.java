@@ -5,11 +5,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.responses.Reply;
 import cz.cuni.mff.xrg.odalic.api.rest.values.StateValue;
 import cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService;
 
@@ -34,10 +37,10 @@ public final class StateResource {
 
   @GET
   @Produces({MediaType.APPLICATION_JSON})
-  public StateValue getStateForTaskId(@PathParam("id") String id) {
+  public Response getStateForTaskId(@PathParam("id") String id) {
     final boolean scheduled = executionService.hasBeenScheduledForTaskId(id);
     if (!scheduled) {
-      return StateValue.READY;
+      return Reply.data(Response.Status.OK, StateValue.READY).toResponse();
     }
     
     final boolean done = executionService.isDoneForTaskId(id);
@@ -45,12 +48,12 @@ public final class StateResource {
     
     if (done) {
       if (canceled) {
-        return StateValue.CANCELLED;
+        return Reply.data(Response.Status.OK, StateValue.CANCELLED).toResponse();
       } else {
-        return StateValue.FINISHED;
+        return Reply.data(Response.Status.OK, StateValue.FINISHED).toResponse();
       }
     } else {
-      return StateValue.SCHEDULED;
+      return Reply.data(Response.Status.OK, StateValue.SCHEDULED).toResponse();
     }
   }
 }

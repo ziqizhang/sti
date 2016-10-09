@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import cz.cuni.mff.xrg.odalic.tasks.Task;
 import cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService;
 
@@ -18,6 +20,7 @@ import cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService;
 @XmlType
 @XmlEnum(String.class)
 @XmlRootElement(name = "state")
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum StateValue {
   /**
    * Task is specified, but not yet submitted for execution.

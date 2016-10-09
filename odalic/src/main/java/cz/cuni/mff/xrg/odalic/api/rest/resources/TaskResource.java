@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.api.rest.responses.Message;
+import cz.cuni.mff.xrg.odalic.api.rest.responses.Reply;
 import cz.cuni.mff.xrg.odalic.api.rest.values.ConfigurationValue;
 import cz.cuni.mff.xrg.odalic.api.rest.values.TaskValue;
 import cz.cuni.mff.xrg.odalic.files.File;
@@ -53,16 +54,19 @@ public final class TaskResource {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Set<Task> getTasks() {
-    return taskService.getTasks();
+  public Response getTasks() {
+    final Set<Task> tasks = taskService.getTasks();
+    
+    return Reply.data(Response.Status.OK, tasks).toResponse();
   }
 
   @GET
   @Path("{id}")
   @Produces(MediaType.APPLICATION_JSON)
   public Response getTaskById(@PathParam("id") String id) {
-    Task task = taskService.getById(id);
-    return Response.status(Response.Status.OK).entity(task).build();
+    final Task task = taskService.getById(id);
+    
+    return Reply.data(Response.Status.OK, task).toResponse();
   }
 
   @PUT
@@ -100,8 +104,10 @@ public final class TaskResource {
 
   @DELETE
   @Path("{id}")
+  @Produces(MediaType.APPLICATION_JSON)
   public Response deleteTaskById(@PathParam("id") String id) {
     taskService.deleteById(id);
-    return Response.status(Response.Status.NO_CONTENT).build();
+    
+    return Message.of("Task deleted.").toResponse(Response.Status.OK);
   }
 }

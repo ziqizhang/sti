@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.api.rest.responses.Message;
+import cz.cuni.mff.xrg.odalic.api.rest.responses.Reply;
 import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
 import cz.cuni.mff.xrg.odalic.input.Input;
 import cz.cuni.mff.xrg.odalic.tasks.feedbacks.FeedbackService;
@@ -45,15 +46,17 @@ public final class FeedbackResource {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getFeedbackForTaskId(@PathParam("id") String taskId) {
-    Feedback feedbackForTaskId = feedbackService.getForTaskId(taskId);
+    final Feedback feedbackForTaskId = feedbackService.getForTaskId(taskId);
     
-    return Response.ok(feedbackForTaskId).build();
+    return Reply.data(Response.Status.OK, feedbackForTaskId).toResponse();
   }
   
   @GET
   @Path("/input")
   @Produces(MediaType.APPLICATION_JSON)
-  public Input getJsonDataById(@PathParam("id") String id) throws IOException {
-    return feedbackService.getInputForTaskId(id);
+  public Response getJsonDataById(@PathParam("id") String id) throws IOException {
+    final Input inputForTaskId = feedbackService.getInputForTaskId(id);
+    
+    return Reply.data(Response.Status.OK, inputForTaskId).toResponse();
   }
 }
