@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.responses.Reply;
 import cz.cuni.mff.xrg.odalic.outputs.annotatedtable.AnnotatedTable;
 import cz.cuni.mff.xrg.odalic.outputs.annotatedtable.AnnotatedTableService;
 
@@ -45,6 +46,6 @@ public final class AnnotatedTableResource {
       throws InterruptedException, ExecutionException, CancellationException, IOException {
     final AnnotatedTable table = annotatedTableService.getAnnotatedTableForTaskId(taskId);
 
-    return Response.ok(table).build();
+    return Reply.data(Response.Status.OK, table).toResponse();
   }
 }

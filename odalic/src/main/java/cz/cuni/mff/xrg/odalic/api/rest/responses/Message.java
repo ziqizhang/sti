@@ -1,11 +1,10 @@
-package cz.cuni.mff.xrg.odalic.api.rest.errors;
+package cz.cuni.mff.xrg.odalic.api.rest.responses;
 
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
 
 import javax.annotation.Nullable;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.StatusType;
@@ -86,13 +85,13 @@ public final class Message {
    * {@link StatusType}.
    * 
    * @param statusType status type
-   * @return a {@link ResponseBuilder}
+   * @return a {@link ReplyBuilder}
    */
   @XmlTransient
   public ResponseBuilder toResponseBuilder(StatusType statusType) {
     Preconditions.checkNotNull(statusType);
 
-    return Response.status(statusType).entity(this).type(MediaType.APPLICATION_JSON);
+    return Reply.message(statusType, this).toResponseBuilder();
   }
 
   /**
@@ -100,11 +99,13 @@ public final class Message {
    * {@link StatusType}.
    * 
    * @param statusType status type
-   * @return a {@link Response}
+   * @return a {@link Reply}
    */
   @XmlTransient
   public Response toResponse(StatusType statusType) {
-    return toResponseBuilder(statusType).build();
+    Preconditions.checkNotNull(statusType);
+
+    return Reply.message(statusType, this).toResponse();
   }
 
   /**
@@ -113,10 +114,13 @@ public final class Message {
    * 
    * @param statusType status type
    * @param location location header content
-   * @return a {@link Response}
+   * @return a {@link Reply}
    */
   @XmlTransient
   public Response toResponse(StatusType statusType, URL location) {
+    Preconditions.checkNotNull(statusType);
+    Preconditions.checkNotNull(location);
+
     return toResponseBuilder(statusType).header(LOCATION_HEADER_NAME, location).build();
   }
 }

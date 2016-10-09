@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
 
-import cz.cuni.mff.xrg.odalic.api.rest.errors.Message;
+import cz.cuni.mff.xrg.odalic.api.rest.responses.Message;
 import cz.cuni.mff.xrg.odalic.api.rest.values.ConfigurationValue;
 import cz.cuni.mff.xrg.odalic.api.rest.values.TaskValue;
 import cz.cuni.mff.xrg.odalic.files.File;

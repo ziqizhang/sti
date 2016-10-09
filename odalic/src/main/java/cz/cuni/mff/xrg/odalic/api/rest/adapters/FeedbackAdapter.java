@@ -15,7 +15,7 @@ public final class FeedbackAdapter extends XmlAdapter<FeedbackValue, Feedback> {
 
   @Override
   public Feedback unmarshal(FeedbackValue value) throws Exception {
-    return new Feedback(value.getSubjectColumnPosition(), value.getColumnIgnores(),
+    return new Feedback(value.getSubjectColumnPositions(), value.getColumnIgnores(),
         value.getColumnAmbiguities(), value.getClassifications(), value.getColumnRelations(),
         value.getDisambiguations(), value.getAmbiguities());
   }

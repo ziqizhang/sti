@@ -9,7 +9,7 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
-import cz.cuni.mff.xrg.odalic.api.rest.errors.ThrowableMapper;
+
 import cz.cuni.mff.xrg.odalic.api.rest.filters.CorsResponseFilter;
 import cz.cuni.mff.xrg.odalic.api.rest.filters.LoggingResponseFilter;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.AnnotatedTableResource;
@@ -22,6 +22,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.resources.RdfExportResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.ResultResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.StateResource;
 import cz.cuni.mff.xrg.odalic.api.rest.resources.TaskResource;
+import cz.cuni.mff.xrg.odalic.api.rest.responses.ThrowableMapper;
 
 /**
  * Configures the provided resources, filters, mappers and features.

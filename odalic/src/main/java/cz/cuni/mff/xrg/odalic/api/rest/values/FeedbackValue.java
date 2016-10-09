@@ -76,7 +76,7 @@ public final class FeedbackValue implements Serializable {
   @XmlElement
   @JsonDeserialize(keyUsing = KnowledgeBaseKeyJsonDeserializer.class)
   @JsonSerialize(keyUsing = KnowledgeBaseKeyJsonSerializer.class)
-  public Map<KnowledgeBase, ColumnPosition> getSubjectColumnPosition() {
+  public Map<KnowledgeBase, ColumnPosition> getSubjectColumnPositions() {
     return subjectColumnPositions;
   }
 

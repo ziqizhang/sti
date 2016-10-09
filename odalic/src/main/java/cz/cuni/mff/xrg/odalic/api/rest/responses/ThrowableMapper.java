@@ -1,4 +1,4 @@
-package cz.cuni.mff.xrg.odalic.api.rest.errors;
+package cz.cuni.mff.xrg.odalic.api.rest.responses;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
