@@ -77,7 +77,7 @@ public final class ConfigurationValue implements Serializable {
   /**
    * @return the primary knowledge base
    */
-  @XmlElement(name = "primary_base")
+  @XmlElement
   @Nullable
   public KnowledgeBase getPrimaryBase() {
     return primaryBase;
