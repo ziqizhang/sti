@@ -3,6 +3,7 @@ package cz.cuni.mff.xrg.odalic.api.rest.values;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Set;
+
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -10,15 +11,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSortedSet;
 
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.EntityCandidateValueNavigableSetDeserializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.EntityCandidateValueSetDeserializer;
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.EntityCandidateValueSetSerializer;
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.KnowledgeBaseKeyJsonDeserializer;
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.KnowledgeBaseKeyJsonSerializer;
+import cz.cuni.mff.xrg.odalic.api.rest.values.util.Annotations;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.CellAnnotation;
-import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 
 /**
@@ -32,18 +32,21 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 @XmlRootElement(name = "cellAnnotation")
 public final class CellAnnotationValue {
 
-  private Map<KnowledgeBase, NavigableSet<EntityCandidate>> candidates;
-  
-  private Map<KnowledgeBase, Set<EntityCandidate>> chosen;
+  private Map<KnowledgeBase, NavigableSet<EntityCandidateValue>> candidates;
+
+  private Map<KnowledgeBase, Set<EntityCandidateValue>> chosen;
 
   public CellAnnotationValue() {
     candidates = ImmutableMap.of();
     chosen = ImmutableMap.of();
   }
 
+  /**
+   * @param entities
+   */
   public CellAnnotationValue(CellAnnotation adaptee) {
-    this.candidates = adaptee.getCandidates();
-    this.chosen = adaptee.getChosen();
+    this.candidates = Annotations.toNavigableValues(adaptee.getCandidates());
+    this.chosen = Annotations.toValues(adaptee.getChosen());
   }
 
   /**
@@ -54,7 +57,7 @@ public final class CellAnnotationValue {
       contentUsing = EntityCandidateValueNavigableSetDeserializer.class)
   @JsonSerialize(keyUsing = KnowledgeBaseKeyJsonSerializer.class,
       contentUsing = EntityCandidateValueSetSerializer.class)
-  public Map<KnowledgeBase, NavigableSet<EntityCandidate>> getCandidates() {
+  public Map<KnowledgeBase, NavigableSet<EntityCandidateValue>> getCandidates() {
     return candidates;
   }
 
@@ -62,27 +65,19 @@ public final class CellAnnotationValue {
    * @param candidates the candidates to set
    */
   public void setCandidates(
-      Map<? extends KnowledgeBase, ? extends NavigableSet<? extends EntityCandidate>> candidates) {
-    ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder =
-        ImmutableMap.builder();
-    for (final Map.Entry<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> candidateEntry : candidates
-        .entrySet()) {
-      candidatesBuilder.put(candidateEntry.getKey(),
-          ImmutableSortedSet.copyOf(candidateEntry.getValue()));
-    }
-
-    this.candidates = candidatesBuilder.build();
+      Map<? extends KnowledgeBase, ? extends NavigableSet<? extends EntityCandidateValue>> candidates) {
+    this.candidates = Annotations.copyNavigableValues(candidates);
   }
-  
+
   /**
    * @return the chosen
    */
   @XmlAnyElement
   @JsonDeserialize(keyUsing = KnowledgeBaseKeyJsonDeserializer.class,
-      contentUsing = EntityCandidateValueNavigableSetDeserializer.class)
+      contentUsing = EntityCandidateValueSetDeserializer.class)
   @JsonSerialize(keyUsing = KnowledgeBaseKeyJsonSerializer.class,
       contentUsing = EntityCandidateValueSetSerializer.class)
-  public Map<KnowledgeBase, Set<EntityCandidate>> getChosen() {
+  public Map<KnowledgeBase, Set<EntityCandidateValue>> getChosen() {
     return chosen;
   }
 
@@ -90,19 +85,13 @@ public final class CellAnnotationValue {
    * @param chosen the chosen to set
    */
   public void setChosen(
-      Map<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> chosen) {
-    ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder =
-        ImmutableMap.builder();
-    for (final Map.Entry<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> chosenEntry : chosen
-        .entrySet()) {
-      chosenBuilder.put(chosenEntry.getKey(),
-          ImmutableSet.copyOf(chosenEntry.getValue()));
-    }
-
-    this.chosen = chosenBuilder.build();
+      Map<? extends KnowledgeBase, ? extends Set<? extends EntityCandidateValue>> chosen) {
+    this.chosen = Annotations.copyValues(chosen);
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override

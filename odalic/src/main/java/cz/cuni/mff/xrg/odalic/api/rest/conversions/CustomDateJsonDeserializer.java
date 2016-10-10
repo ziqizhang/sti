@@ -25,7 +25,6 @@ public final class CustomDateJsonDeserializer extends JsonDeserializer<Date> {
     @Override
     public Date deserialize(JsonParser jsonparser, DeserializationContext context)
             throws IOException, JsonProcessingException {
-        
         final SimpleDateFormat format = new SimpleDateFormat(CustomDateJsonSerializer.DATE_FORMAT);
         final String date = jsonparser.getText();
         try {

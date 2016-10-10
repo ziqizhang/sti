@@ -23,7 +23,6 @@ public final class CustomDateJsonSerializer extends JsonSerializer<Date> {
     public void serialize(Date value, JsonGenerator jgen,
             SerializerProvider provider) throws IOException,
             JsonProcessingException {
-        
         final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         final String dateString = dateFormat.format(value);
         jgen.writeString(dateString);       

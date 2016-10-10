@@ -27,7 +27,6 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
 
   private Entity entity;
 
-  @XmlElement
   private Score score;
 
   public EntityCandidateValue() {}
