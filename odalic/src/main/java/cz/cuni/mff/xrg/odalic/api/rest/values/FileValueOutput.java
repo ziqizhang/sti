@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import com.google.common.base.Preconditions;
 
-import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateSerializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomDateJsonSerializer;
 import cz.cuni.mff.xrg.odalic.files.File;
 
 /**
@@ -28,7 +28,7 @@ public final class FileValueOutput implements Serializable {
   @XmlElement
   private String id;
 
-  @JsonSerialize(using = CustomJsonDateSerializer.class)
+  @JsonSerialize(using = CustomDateJsonSerializer.class)
   @XmlElement
   private Date uploaded;
 

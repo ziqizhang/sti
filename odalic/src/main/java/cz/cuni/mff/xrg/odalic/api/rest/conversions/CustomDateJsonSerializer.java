@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  * @author Václav Brodec
  *
  */
-public final class CustomJsonDateSerializer extends JsonSerializer<Date> {
+public final class CustomDateJsonSerializer extends JsonSerializer<Date> {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
 

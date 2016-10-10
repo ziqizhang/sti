@@ -13,9 +13,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import com.google.common.base.Preconditions;
 
-import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateSerializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomDateJsonSerializer;
 import cz.cuni.mff.xrg.odalic.files.File;
-import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateDeserializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomDateJsonDeserializer;
 
 /**
  * Domain class {@link File} adapted for REST API.
@@ -66,8 +66,8 @@ public final class FileValue implements Serializable {
   /**
    * @return the uploaded
    */
-  @JsonSerialize(using = CustomJsonDateSerializer.class)
-  @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+  @JsonSerialize(using = CustomDateJsonSerializer.class)
+  @JsonDeserialize(using = CustomDateJsonDeserializer.class)
   @XmlElement
   @Nullable
   public Date getUploaded() {

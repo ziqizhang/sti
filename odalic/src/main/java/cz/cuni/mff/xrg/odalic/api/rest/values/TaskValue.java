@@ -12,8 +12,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import com.google.common.base.Preconditions;
 
-import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateDeserializer;
-import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateSerializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomDateJsonDeserializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomDateJsonSerializer;
 import cz.cuni.mff.xrg.odalic.tasks.Task;
 
 /**
@@ -63,8 +63,8 @@ public final class TaskValue implements Serializable {
    * @return the created
    */
   @XmlElement
-  @JsonSerialize(using = CustomJsonDateSerializer.class)
-  @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+  @JsonSerialize(using = CustomDateJsonSerializer.class)
+  @JsonDeserialize(using = CustomDateJsonDeserializer.class)
   @Nullable
   public Date getCreated() {
     return created;

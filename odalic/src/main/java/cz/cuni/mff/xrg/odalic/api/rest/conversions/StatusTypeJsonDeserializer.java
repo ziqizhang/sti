@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
  * 
  * @author Václav Brodec
  *
- * @see CustomJsonDateSerializer
+ * @see CustomDateJsonSerializer
  */
 public final class StatusTypeJsonDeserializer extends JsonDeserializer<StatusType> {
 
