@@ -34,6 +34,7 @@ public final class FileValueInput implements Serializable {
    * @return the location
    */
   @Nullable
+  @XmlElement
   public URL getLocation() {
     return location;
   }

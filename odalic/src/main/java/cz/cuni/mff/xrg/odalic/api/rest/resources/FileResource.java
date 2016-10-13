@@ -28,6 +28,7 @@ import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.api.rest.responses.Message;
 import cz.cuni.mff.xrg.odalic.api.rest.responses.Reply;
+import cz.cuni.mff.xrg.odalic.api.rest.values.FileValueInput;
 import cz.cuni.mff.xrg.odalic.files.File;
 import cz.cuni.mff.xrg.odalic.files.FileService;
 
@@ -55,7 +56,7 @@ public final class FileResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response getFiles() {
     final List<File> files = fileService.getFiles();
-    
+
     return Reply.data(Response.Status.OK, files).toResponse();
   }
 
@@ -64,7 +65,7 @@ public final class FileResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response getFileById(@PathParam("id") String id) {
     final File file = fileService.getById(id);
-    
+
     return Reply.data(Response.Status.OK, file).toResponse();
   }
 
@@ -73,23 +74,10 @@ public final class FileResource {
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
   public Response putFileById(@Context UriInfo uriInfo, @PathParam("id") String id,
-      @FormDataParam("input") InputStream fileInputStream, @FormDataParam("file") File file)
-      throws IOException {
-
-    if (!fileService.hasId(file, id)) {
-      return Message.of("The ID in the payload is not the same as the ID of resource.")
-          .toResponse(Response.Status.NOT_ACCEPTABLE);
-    }
-
-    if (!file.getLocation()
-        .equals(cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id))) {
-      return Message
-          .of("The location you provided for the file is not equal to the default location for uploaded file.")
-          .toResponse(Response.Status.NOT_ACCEPTABLE);
-    }
-
-    final URL location = file.getLocation();
-
+      @FormDataParam("input") InputStream fileInputStream) throws IOException {
+    final URL location = cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id);
+    final File file = new File(id, "", location, true);
+    
     if (!fileService.existsFileWithId(id)) {
       fileService.create(file, fileInputStream);
 
@@ -106,26 +94,22 @@ public final class FileResource {
   @Path("{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response putFileById(@PathParam("id") String id, File file) throws MalformedURLException {
-
-    if (!fileService.hasId(file, id)) {
-      return Message.of("The ID in the payload is not the same as the ID of resource.")
-          .toResponse(Response.Status.NOT_ACCEPTABLE);
-    }
-
-    final URL location = file.getLocation();
-
+  public Response putFileById(@Context UriInfo uriInfo, @PathParam("id") String id,
+      FileValueInput fileInput) throws MalformedURLException {
+    final File file = new File(id, "", fileInput.getLocation(), false);
+    
     if (!fileService.existsFileWithId(id)) {
       fileService.create(file);
-      
-      return Message.of("A new file has been registered FOR THE LOCATION you specified")
-          .toResponse(Response.Status.CREATED, location);
+
+      return Message.of("A new remote file has been registered.").toResponse(
+          Response.Status.CREATED,
+          cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id));
     } else {
       fileService.replace(file);
-      
-      return Message
-          .of("The file description you specified has been fully updated FOR THE LOCATION you specified.")
-          .toResponse(Response.Status.OK, location);
+
+      return Message.of("The file description has been updated.").toResponse(
+          Response.Status.OK,
+          cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id));
     }
   }
 
@@ -135,14 +119,13 @@ public final class FileResource {
   public Response postFile(@Context UriInfo uriInfo,
       @FormDataParam("file") InputStream fileInputStream,
       @FormDataParam("file") FormDataContentDisposition fileDetail) throws IOException {
-
     final String id = fileDetail.getFileName();
     final File file =
-        new File(id, "", cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id));
+        new File(id, "", cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id), true);
 
     if (fileService.existsFileWithId(id)) {
       return Message.of("There already exists a file with the same name as you provided.")
-          .toResponse(Response.Status.NOT_ACCEPTABLE);
+          .toResponse(Response.Status.BAD_REQUEST);
     }
 
     fileService.create(file, fileInputStream);
@@ -156,7 +139,7 @@ public final class FileResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response deleteFileById(@PathParam("id") String id) {
     fileService.deleteById(id);
-    
+
     return Message.of("File definition deleted.").toResponse(Response.Status.OK);
   }
 

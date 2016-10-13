@@ -4,18 +4,21 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.Date;
 
+import javax.annotation.Nullable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomDateJsonSerializer;
 import cz.cuni.mff.xrg.odalic.files.File;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomDateJsonDeserializer;
 
 /**
- * Domain class {@link File} adapted for REST API.
+ * Domain class {@link File} adapted for REST API output.
  * 
  * @author Václav Brodec
  *
@@ -25,18 +28,15 @@ public final class FileValueOutput implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
 
-  @XmlElement
   private String id;
 
-  @JsonSerialize(using = CustomDateJsonSerializer.class)
-  @XmlElement
   private Date uploaded;
 
-  @XmlElement
   private String owner;
   
-  @XmlElement
   private URL location;
+  
+  private boolean cached;
 
   public FileValueOutput() {}
   
@@ -45,25 +45,52 @@ public final class FileValueOutput implements Serializable {
     uploaded = adaptee.getUploaded();
     owner = adaptee.getOwner();
     location = adaptee.getLocation();
+    cached = adaptee.isCached();
   }
 
   /**
    * @return the id
    */
+  @XmlElement
+  @Nullable
   public String getId() {
     return id;
   }
 
   /**
+   * @param id the id to set
+   */
+  public void setId(String id) {
+    Preconditions.checkNotNull(id);
+    
+    this.id = id;
+  }
+
+  /**
    * @return the uploaded
    */
+  @JsonSerialize(using = CustomDateJsonSerializer.class)
+  @JsonDeserialize(using = CustomDateJsonDeserializer.class)
+  @XmlElement
+  @Nullable
   public Date getUploaded() {
     return uploaded;
   }
 
   /**
+   * @param uploaded the uploaded to set
+   */
+  public void setUploaded(Date uploaded) {
+    Preconditions.checkNotNull(uploaded);
+    
+    this.uploaded = uploaded;
+  }
+
+  /**
    * @return the owner
    */
+  @XmlElement
+  @Nullable
   public String getOwner() {
     return owner;
   }
@@ -80,8 +107,34 @@ public final class FileValueOutput implements Serializable {
   /**
    * @return the location
    */
+  @XmlElement
+  @Nullable
   public URL getLocation() {
     return location;
+  }
+
+  /**
+   * @param location the location to set
+   */
+  public void setLocation(URL location) {
+    Preconditions.checkNotNull(location);
+    
+    this.location = location;
+  }
+  
+  /**
+   * @return cached
+   */
+  @XmlElement
+  public boolean isCached() {
+    return cached;
+  }
+
+  /**
+   * @param cached cached
+   */
+  public void setCached(boolean cached) {    
+    this.cached = cached;
   }
 
   /* (non-Javadoc)
@@ -90,6 +143,6 @@ public final class FileValueOutput implements Serializable {
   @Override
   public String toString() {
     return "FileValueOutput [id=" + id + ", uploaded=" + uploaded + ", owner=" + owner + ", location="
-        + location + "]";
+        + location + ", cached=" + cached + "]";
   }
 }

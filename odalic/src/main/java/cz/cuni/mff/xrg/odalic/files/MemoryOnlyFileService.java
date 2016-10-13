@@ -47,9 +47,7 @@ public final class MemoryOnlyFileService implements FileService {
    */
   @Override
   public void create(File file) {
-    if (existsFileWithId(file.getId())) {
-      throw new IllegalArgumentException();
-    }
+    Preconditions.checkArgument(!existsFileWithId(file.getId()));
     
     replace(file);
   }
@@ -59,9 +57,7 @@ public final class MemoryOnlyFileService implements FileService {
    */
   @Override
   public void create(File file, InputStream fileInputStream) throws IOException {
-    if (existsFileWithId(file.getId())) {
-      throw new IllegalArgumentException();
-    }
+    Preconditions.checkArgument(!existsFileWithId(file.getId()));
     
     replace(file, fileInputStream);
   }
@@ -73,10 +69,8 @@ public final class MemoryOnlyFileService implements FileService {
   public void deleteById(String id) {
     Preconditions.checkNotNull(id);
     
-    File file = this.files.remove(id);
-    if (file == null) {
-      throw new IllegalArgumentException();
-    }
+    final File file = this.files.remove(id);
+    Preconditions.checkArgument(file != null);
     
     this.data.remove(file.getLocation());
   }
@@ -88,7 +82,7 @@ public final class MemoryOnlyFileService implements FileService {
   public File getById(String id) {
     Preconditions.checkNotNull(id);
     
-    File file = this.files.get(id);
+    final File file = this.files.get(id);
     if (file == null) {
       throw new IllegalArgumentException();
     }
@@ -109,7 +103,12 @@ public final class MemoryOnlyFileService implements FileService {
    */
   @Override
   public void replace(File file) {
-    this.files.put(file.getId(), file);    
+    final File previous = this.files.get(file.getId());
+    if (!previous.getLocation().equals(file.getLocation())) {
+      this.data.remove(previous.getLocation());
+    }
+    
+    this.files.put(file.getId(), file);
   }
   
 
@@ -118,6 +117,8 @@ public final class MemoryOnlyFileService implements FileService {
    */
   @Override
   public void replace(File file, InputStream fileInputStream) throws IOException {
+    Preconditions.checkArgument(file.isCached());
+    
     this.files.put(file.getId(), file);
     this.data.put(file.getLocation(), IOUtils.toString(fileInputStream, StandardCharsets.UTF_8));
   }
@@ -139,10 +140,6 @@ public final class MemoryOnlyFileService implements FileService {
   public boolean hasId(File file, String id) {
     Preconditions.checkNotNull(id);
     
-    if (file.getId() == null) {
-      return false;
-    }
-    
     return file.getId().equals(id);
   }
 
@@ -151,9 +148,9 @@ public final class MemoryOnlyFileService implements FileService {
    */
   @Override
   public String getDataById(String id) throws IOException {
-    File file = getById(id);
+    final File file = getById(id);
     
-    String data = this.data.get(file.getLocation());
+    final String data = this.data.get(file.getLocation());
     if (data == null) {
       return IOUtils.toString(file.getLocation(), StandardCharsets.UTF_8);
     } else {
