@@ -159,4 +159,61 @@ public final class FutureBasedExecutionService implements ExecutionService {
 
     return resultFuture != null;
   }
+
+  @Override
+  public boolean isSuccessForTasksId(String id) {
+    if (!isDoneForTaskId(id)) {
+      return false;
+    }
+    
+    if (isCanceledForTaskId(id)) {
+      return false;
+    }
+    
+    try {
+      final Result result = getResultForTaskId(id);
+      
+      return result.getWarnings().isEmpty();
+    } catch (final InterruptedException | ExecutionException e) {
+      return false;
+    }
+  }
+
+  @Override
+  public boolean isWarnedForTasksId(String id) {
+    if (!isDoneForTaskId(id)) {
+      return false;
+    }
+    
+    if (isCanceledForTaskId(id)) {
+      return false;
+    }
+    
+    try {
+      final Result result = getResultForTaskId(id);
+      
+      return !result.getWarnings().isEmpty();
+    } catch (final InterruptedException | ExecutionException e) {
+      return false;
+    }
+  }
+
+  @Override
+  public boolean hasFailedForTasksId(String id) {
+    if (!isDoneForTaskId(id)) {
+      return false;
+    }
+    
+    if (isCanceledForTaskId(id)) {
+      return false;
+    }
+    
+    try {
+      getResultForTaskId(id);
+      
+      return false;
+    } catch (final InterruptedException | ExecutionException e) {
+      return true;
+    }
+  }
 }

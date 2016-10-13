@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -51,21 +50,18 @@ public class Result implements Serializable {
   private final CellAnnotation[][] cellAnnotations;
 
   private final Map<ColumnRelationPosition, ColumnRelationAnnotation> columnRelationAnnotations;
+  
+  private final List<String> warnings;
 
-  /**
-   * @param subjectColumnPositions
-   * @param headerAnnotations
-   * @param cellAnnotations
-   * @param columnRelationAnnotations
-   * @param cellRelationAnnotations
-   */
   public Result(Map<? extends KnowledgeBase, ? extends ColumnPosition> subjectColumnPositions,
       List<? extends HeaderAnnotation> headerAnnotations, CellAnnotation[][] cellAnnotations,
-      Map<? extends ColumnRelationPosition, ? extends ColumnRelationAnnotation> columnRelationAnnotations) {
+      Map<? extends ColumnRelationPosition, ? extends ColumnRelationAnnotation> columnRelationAnnotations,
+      List<? extends String> warnings) {
     Preconditions.checkNotNull(subjectColumnPositions);
     Preconditions.checkNotNull(headerAnnotations);
     Preconditions.checkNotNull(cellAnnotations);
     Preconditions.checkNotNull(columnRelationAnnotations);
+    Preconditions.checkNotNull(warnings);
     Preconditions.checkArgument(!cz.cuni.mff.xrg.odalic.util.Arrays.containsNull(cellAnnotations));
     Preconditions.checkArgument(cz.cuni.mff.xrg.odalic.util.Arrays.isMatrix(cellAnnotations));
 
@@ -74,6 +70,7 @@ public class Result implements Serializable {
     this.cellAnnotations =
         cz.cuni.mff.xrg.odalic.util.Arrays.deepCopy(CellAnnotation.class, cellAnnotations);
     this.columnRelationAnnotations = ImmutableMap.copyOf(columnRelationAnnotations);
+    this.warnings = ImmutableList.copyOf(warnings);
   }
 
   /**
@@ -105,6 +102,13 @@ public class Result implements Serializable {
     return columnRelationAnnotations;
   }
 
+  /**
+   * @return the warnings in order of appearance
+   */
+  public List<String> getWarnings() {
+    return this.warnings;
+  }
+  
   /**
    * Computes hash code based on all its parts.
    * 
@@ -164,6 +168,13 @@ public class Result implements Serializable {
     } else if (!subjectColumnPositions.equals(other.subjectColumnPositions)) {
       return false;
     }
+    if (warnings == null) {
+      if (other.warnings != null) {
+        return false;
+      }
+    } else if (!warnings.equals(other.warnings)) {
+      return false;
+    }
     return true;
   }
 
@@ -176,6 +187,6 @@ public class Result implements Serializable {
   public String toString() {
     return "Result [subjectColumnPositions=" + subjectColumnPositions + ", headerAnnotations="
         + headerAnnotations + ", cellAnnotations=" + Arrays.deepToString(cellAnnotations)
-        + ", columnRelationAnnotations=" + columnRelationAnnotations + "]";
+        + ", columnRelationAnnotations=" + columnRelationAnnotations + ", warnings=" + warnings + "]";
   }
 }

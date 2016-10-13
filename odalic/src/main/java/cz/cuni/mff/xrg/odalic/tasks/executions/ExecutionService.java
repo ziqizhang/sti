@@ -63,4 +63,28 @@ public interface ExecutionService {
    * @return true, if the execution has been scheduled for the task, false otherwise
    */
   boolean hasBeenScheduledForTaskId(String id);
+  
+  /**
+   * Indicates whether the task has finished without a problem.
+   * 
+   * @param id task ID
+   * @return true if successful, false otherwise
+   */
+  boolean isSuccessForTasksId(String id);
+  
+  /**
+   * Indicates whether the task has finished with a non-fatal problem.
+   * 
+   * @param id task ID
+   * @return true if warned, false otherwise
+   */
+  boolean isWarnedForTasksId(String id);
+  
+  /**
+   * Indicates whether the task has failed.
+   * 
+   * @param id task ID
+   * @return true if failed, false otherwise
+   */
+  boolean hasFailedForTasksId(String id);
 }

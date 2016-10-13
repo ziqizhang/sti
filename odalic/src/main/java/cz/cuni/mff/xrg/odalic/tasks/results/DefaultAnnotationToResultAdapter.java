@@ -29,6 +29,8 @@ import java.util.Set;
 
 import javax.annotation.concurrent.Immutable;
 
+import org.apache.jena.ext.com.google.common.collect.ImmutableList;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 
@@ -81,7 +83,7 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
         mergedColumnRelations);
 
     return new Result(subjectColumnPositions, mergedHeaderAnnotations, mergedCellAnnotations,
-        mergedColumnRelations);
+        mergedColumnRelations, ImmutableList.of()); // TODO: Implement warnings.
   }
 
   private static Map<KnowledgeBase, ColumnPosition> extractSubjectColumnPositions(

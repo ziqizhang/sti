@@ -48,12 +48,20 @@ public final class StateResource {
     
     if (done) {
       if (canceled) {
-        return Reply.data(Response.Status.OK, StateValue.CANCELLED).toResponse();
+        return Reply.data(Response.Status.OK, StateValue.READY).toResponse();
       } else {
-        return Reply.data(Response.Status.OK, StateValue.FINISHED).toResponse();
+        if (executionService.hasFailedForTasksId(id)) {
+          return Reply.data(Response.Status.OK, StateValue.ERROR).toResponse();
+        }
+        
+        if (executionService.isWarnedForTasksId(id)) {
+          return Reply.data(Response.Status.OK, StateValue.WARNING).toResponse();
+        }
+        
+        return Reply.data(Response.Status.OK, StateValue.SUCCESS).toResponse();
       }
     } else {
-      return Reply.data(Response.Status.OK, StateValue.SCHEDULED).toResponse();
+      return Reply.data(Response.Status.OK, StateValue.RUNNING).toResponse();
     }
   }
 }

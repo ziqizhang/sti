@@ -47,18 +47,22 @@ public final class ResultValue implements Serializable {
   private CellAnnotation[][] cellAnnotations;
 
   private Map<ColumnPosition, Map<ColumnPosition, ColumnRelationAnnotation>> columnRelationAnnotations;
+  
+  private List<String> warnings;
 
   public ResultValue() {
     subjectColumnPositions = ImmutableMap.of();
     headerAnnotations = ImmutableList.of();
     cellAnnotations = new CellAnnotation[0][0];;
     columnRelationAnnotations = ImmutableMap.of();
+    warnings = ImmutableList.of();
   }
 
   public ResultValue(Result adaptee) {
     subjectColumnPositions = adaptee.getSubjectColumnPositions();
     headerAnnotations = adaptee.getHeaderAnnotations();
     cellAnnotations = adaptee.getCellAnnotations();
+    warnings = adaptee.getWarnings();
 
     initializeColumnRelationAnnotations(adaptee);
   }
@@ -162,6 +166,23 @@ public final class ResultValue implements Serializable {
     }
     this.columnRelationAnnotations = columnRelationAnnotationsBuilder.build();
   }
+  
+  /**
+   * @return the warnings
+   */
+  @XmlElement
+  public List<String> getWarnings() {
+    return warnings;
+  }
+
+  /**
+   * @param warnings the warnings to set
+   */
+  public void setWarnings(List<String> warnings) {
+    Preconditions.checkNotNull(warnings);
+
+    this.warnings = ImmutableList.copyOf(warnings);
+  }
 
   /*
    * (non-Javadoc)
@@ -172,6 +193,6 @@ public final class ResultValue implements Serializable {
   public String toString() {
     return "ResultValue [subjectColumnPositions=" + subjectColumnPositions + ", headerAnnotations="
         + headerAnnotations + ", cellAnnotations=" + Arrays.toString(cellAnnotations)
-        + ", columnRelationAnnotations=" + columnRelationAnnotations + "]";
+        + ", columnRelationAnnotations=" + columnRelationAnnotations + ", warnings=" +  warnings + "]";
   }
 }

@@ -27,15 +27,20 @@ public enum StateValue {
   /**
    * Task is submitted for execution, but not done or canceled yet.
    */
-  @XmlEnumValue("SCHEDULED") SCHEDULED,
+  @XmlEnumValue("RUNNING") RUNNING,
   
   /**
-   * Task execution has been voluntarily canceled and no new is submitted.
+   * Task execution has ended with success.
    */
-  @XmlEnumValue("CANCELLED") CANCELLED,
+  @XmlEnumValue("SUCCESS") SUCCESS,
   
   /**
-   * Task execution has ended (either with result or error).
+   * Task execution has ended with warnings.
    */
-  @XmlEnumValue("FINISHED") FINISHED
+  @XmlEnumValue("WARNING") WARNING,
+  
+  /**
+   * Task execution has ended with an error.
+   */
+  @XmlEnumValue("ERROR") ERROR
 }
