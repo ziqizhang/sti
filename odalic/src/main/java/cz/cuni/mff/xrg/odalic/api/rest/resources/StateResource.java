@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.api.rest.responses.Reply;
-import cz.cuni.mff.xrg.odalic.api.rest.values.StateValue;
+import cz.cuni.mff.xrg.odalic.api.rest.values.util.States;
 import cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService;
 
 /**
@@ -27,41 +27,18 @@ import cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService;
 public final class StateResource {
 
   private final ExecutionService executionService;
-  
+
   @Autowired
   public StateResource(ExecutionService executionService) {
     Preconditions.checkNotNull(executionService);
-    
+
     this.executionService = executionService;
   }
 
   @GET
   @Produces({MediaType.APPLICATION_JSON})
   public Response getStateForTaskId(@PathParam("id") String id) {
-    final boolean scheduled = executionService.hasBeenScheduledForTaskId(id);
-    if (!scheduled) {
-      return Reply.data(Response.Status.OK, StateValue.READY).toResponse();
-    }
-    
-    final boolean done = executionService.isDoneForTaskId(id);
-    final boolean canceled = executionService.isCanceledForTaskId(id);
-    
-    if (done) {
-      if (canceled) {
-        return Reply.data(Response.Status.OK, StateValue.READY).toResponse();
-      } else {
-        if (executionService.hasFailedForTasksId(id)) {
-          return Reply.data(Response.Status.OK, StateValue.ERROR).toResponse();
-        }
-        
-        if (executionService.isWarnedForTasksId(id)) {
-          return Reply.data(Response.Status.OK, StateValue.WARNING).toResponse();
-        }
-        
-        return Reply.data(Response.Status.OK, StateValue.SUCCESS).toResponse();
-      }
-    } else {
-      return Reply.data(Response.Status.OK, StateValue.RUNNING).toResponse();
-    }
+    return Reply.data(Response.Status.OK, States.queryStateValue(executionService, id))
+        .toResponse();
   }
 }

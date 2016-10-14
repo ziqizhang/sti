@@ -17,13 +17,13 @@ import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomDateJsonSerializer;
 import cz.cuni.mff.xrg.odalic.tasks.Task;
 
 /**
- * Domain class {@link Task} adapted for REST API.
+ * Aggregation of {@link TaskValue} with {@link StateValue}.
  * 
  * @author Václav Brodec
  *
  */
-@XmlRootElement(name = "task")
-public final class TaskValue implements Serializable {
+@XmlRootElement(name = "stateful_task")
+public final class StatefulTaskValue implements Serializable {
 
   private static final long serialVersionUID = 1610346823333685091L;
 
@@ -32,12 +32,18 @@ public final class TaskValue implements Serializable {
   private String description;
 
   private Date created;
-
+  
   private ConfigurationValue configuration;
 
-  public TaskValue() {}
+  private StateValue state;
 
-  public TaskValue(Task adaptee) {
+  public StatefulTaskValue() {}
+
+  public StatefulTaskValue(Task adaptee, StateValue state) {
+    Preconditions.checkNotNull(state);
+    
+    this.state = state;
+    
     id = adaptee.getId();
     description = adaptee.getDescription();
     created = adaptee.getCreated();
@@ -117,6 +123,24 @@ public final class TaskValue implements Serializable {
 
     this.configuration = configuration;
   }
+  
+  /**
+   * @return the state
+   */
+  @XmlElement
+  @Nullable
+  public StateValue getState() {
+    return state;
+  }
+
+  /**
+   * @param state the state to set
+   */
+  public void setState(StateValue state) {
+    Preconditions.checkNotNull(state);
+
+    this.state = state;
+  }
 
   /*
    * (non-Javadoc)
@@ -125,7 +149,7 @@ public final class TaskValue implements Serializable {
    */
   @Override
   public String toString() {
-    return "TaskValue [id=" + id + ", description=" + description + ", created=" + created
-        + ", configuration=" + configuration + "]";
+    return "StatefulTaskValue [id=" + id + ", description=" + description + ", created=" + created
+        + ", configuration=" + configuration + ", state=" + state + "]";
   }
 }

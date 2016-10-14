@@ -3,6 +3,7 @@ package cz.cuni.mff.xrg.odalic.api.rest.resources;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -11,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,12 +26,15 @@ import com.google.common.base.Preconditions;
 import cz.cuni.mff.xrg.odalic.api.rest.responses.Message;
 import cz.cuni.mff.xrg.odalic.api.rest.responses.Reply;
 import cz.cuni.mff.xrg.odalic.api.rest.values.ConfigurationValue;
+import cz.cuni.mff.xrg.odalic.api.rest.values.StatefulTaskValue;
 import cz.cuni.mff.xrg.odalic.api.rest.values.TaskValue;
+import cz.cuni.mff.xrg.odalic.api.rest.values.util.States;
 import cz.cuni.mff.xrg.odalic.files.File;
 import cz.cuni.mff.xrg.odalic.files.FileService;
 import cz.cuni.mff.xrg.odalic.tasks.Task;
 import cz.cuni.mff.xrg.odalic.tasks.TaskService;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
+import cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService;
 
 /**
  * Task resource definition.
@@ -42,22 +47,34 @@ public final class TaskResource {
 
   private final TaskService taskService;
   private final FileService fileService;
+  private final ExecutionService executionService;
 
   @Autowired
-  public TaskResource(TaskService taskService, FileService fileService) {
+  public TaskResource(TaskService taskService, FileService fileService,
+      ExecutionService executionService) {
     Preconditions.checkNotNull(taskService);
     Preconditions.checkNotNull(fileService);
+    Preconditions.checkNotNull(executionService);
 
     this.taskService = taskService;
     this.fileService = fileService;
+    this.executionService = executionService;
   }
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getTasks() {
+  public Response getTasks(@QueryParam("states") Boolean states) {
     final Set<Task> tasks = taskService.getTasks();
-    
-    return Reply.data(Response.Status.OK, tasks).toResponse();
+
+    if (states == null || (!states)) {
+      return Reply.data(Response.Status.OK, tasks).toResponse();
+    } else {
+      final Set<StatefulTaskValue> statefulStasks = tasks.stream()
+          .map(e -> new StatefulTaskValue(e, States.queryStateValue(executionService, e.getId())))
+          .collect(Collectors.toSet());
+
+      return Reply.data(Response.Status.OK, statefulStasks).toResponse();
+    }
   }
 
   @GET
@@ -65,7 +82,7 @@ public final class TaskResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response getTaskById(@PathParam("id") String id) {
     final Task task = taskService.getById(id);
-    
+
     return Reply.data(Response.Status.OK, task).toResponse();
   }
 
@@ -79,7 +96,8 @@ public final class TaskResource {
     final File input = fileService.getById(configurationValue.getInput());
     final Configuration configuration = new Configuration(input,
         configurationValue.getPrimaryBase(), configurationValue.getFeedback());
-    final Task task = new Task(taskValue.getId(), taskValue.getCreated(), configuration);
+    final Task task = new Task(taskValue.getId(), taskValue.getDescription(),
+        taskValue.getCreated(), configuration);
 
     if (!taskService.hasId(task, id)) {
       return Message.of("The ID in the payload is not the same as the ID of resource.")
@@ -107,7 +125,7 @@ public final class TaskResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response deleteTaskById(@PathParam("id") String id) {
     taskService.deleteById(id);
-    
+
     return Message.of("Task deleted.").toResponse(Response.Status.OK);
   }
 }

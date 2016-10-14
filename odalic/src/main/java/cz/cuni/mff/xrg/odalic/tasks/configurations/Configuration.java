@@ -24,7 +24,7 @@ public final class Configuration implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
   
-  private final File input; 
+  private final File input;
 
   private final Feedback feedback;
   
