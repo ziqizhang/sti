@@ -14,8 +14,6 @@ public interface TaskService {
 
   Task getById(String id);
 
-  boolean hasId(Task task, String id);
-
   void deleteById(String id);
 
   Task verifyTaskExistenceById(String id);

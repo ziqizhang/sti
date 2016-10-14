@@ -5,6 +5,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -30,7 +31,7 @@ import cz.cuni.mff.xrg.odalic.outputs.csvexport.CsvExportService;
 public final class CsvExportResource {
 
   public static final String TEXT_CSV_MEDIA_TYPE = "text/csv";
-  
+
   private final CsvExportService csvExportService;
 
   @Autowired
@@ -44,7 +45,15 @@ public final class CsvExportResource {
   @Produces(TEXT_CSV_MEDIA_TYPE)
   public Response getCsvExport(@PathParam("id") String taskId)
       throws CancellationException, InterruptedException, ExecutionException, IOException {
-    final String csvContent = csvExportService.getExtendedCsvForTaskId(taskId);
+    final String csvContent;
+    try {
+      csvContent = csvExportService.getExtendedCsvForTaskId(taskId);
+    } catch (final CancellationException | ExecutionException e) {
+      throw new NotFoundException(
+          "The underlying CSV is not available, because the processing did not finish. Check the result first!");
+    } catch (final IllegalArgumentException e) {
+      throw new NotFoundException("No such underlying CSV found!");
+    }
 
     return Response.ok(csvContent).build();
   }

@@ -119,11 +119,16 @@ public final class FutureBasedExecutionService implements ExecutionService {
     tasksToResults.put(task, future);
   }
 
+  /* (non-Javadoc)
+   * @see cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService#getResultForTaskId(java.lang.String)
+   */
   @Override
   public Result getResultForTaskId(String id)
-      throws InterruptedException, ExecutionException, CancellationException, InterruptedException {
+      throws InterruptedException, ExecutionException, CancellationException {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
+    
+    Preconditions.checkArgument(resultFuture != null);
 
     return resultFuture.get();
   }
@@ -132,8 +137,10 @@ public final class FutureBasedExecutionService implements ExecutionService {
   public void cancelForTaskId(String id) {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
+    
+    Preconditions.checkArgument(resultFuture != null);
 
-    resultFuture.cancel(true);
+    Preconditions.checkState(resultFuture.cancel(true));
   }
 
   @Override
@@ -141,6 +148,8 @@ public final class FutureBasedExecutionService implements ExecutionService {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
 
+    Preconditions.checkArgument(resultFuture != null);
+    
     return resultFuture.isDone();
   }
 
@@ -149,6 +158,8 @@ public final class FutureBasedExecutionService implements ExecutionService {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
 
+    Preconditions.checkArgument(resultFuture != null);
+    
     return resultFuture.isCancelled();
   }
 

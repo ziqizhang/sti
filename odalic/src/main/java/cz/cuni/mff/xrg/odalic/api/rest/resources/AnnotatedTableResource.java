@@ -5,6 +5,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -44,7 +45,15 @@ public final class AnnotatedTableResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response getAnnotatedTable(@PathParam("id") String taskId)
       throws InterruptedException, ExecutionException, CancellationException, IOException {
-    final AnnotatedTable table = annotatedTableService.getAnnotatedTableForTaskId(taskId);
+    final AnnotatedTable table;
+    try {
+      table = annotatedTableService.getAnnotatedTableForTaskId(taskId);
+    } catch (final CancellationException | ExecutionException e) {
+      throw new NotFoundException(
+          "Annotated table is not available, because the processing did not finish. Check the result first!");
+    } catch (final IllegalArgumentException e) {
+      throw new NotFoundException("The task has not been scheduled or does not exist!");
+    }
 
     return Reply.data(Response.Status.OK, table).toResponse();
   }

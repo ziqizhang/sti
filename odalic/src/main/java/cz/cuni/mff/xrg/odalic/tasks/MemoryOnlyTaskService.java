@@ -33,10 +33,18 @@ public final class MemoryOnlyTaskService implements TaskService {
     this(new HashMap<>());
   }
   
+  /* (non-Javadoc)
+   * @see cz.cuni.mff.xrg.odalic.tasks.TaskService#getTasks()
+   */
+  @Override
   public Set<Task> getTasks() {
     return ImmutableSet.copyOf(this.tasks.values());
   }
 
+  /* (non-Javadoc)
+   * @see cz.cuni.mff.xrg.odalic.tasks.TaskService#getById(java.lang.String)
+   */
+  @Override
   public Task getById(String id) {
     Preconditions.checkNotNull(id);
     
@@ -46,16 +54,10 @@ public final class MemoryOnlyTaskService implements TaskService {
     return task;
   }
 
-  public boolean hasId(Task task, String id) {
-    Preconditions.checkNotNull(id);
-    
-    if (task.getId() == null) {
-      return false;
-    }
-    
-    return task.getId().equals(id);
-  }
-
+  /* (non-Javadoc)
+   * @see cz.cuni.mff.xrg.odalic.tasks.TaskService#deleteById(java.lang.String)
+   */
+  @Override
   public void deleteById(String id) {
     Preconditions.checkNotNull(id);
     
@@ -63,6 +65,10 @@ public final class MemoryOnlyTaskService implements TaskService {
     Preconditions.checkArgument(task != null);
   }
 
+  /* (non-Javadoc)
+   * @see cz.cuni.mff.xrg.odalic.tasks.TaskService#verifyTaskExistenceById(java.lang.String)
+   */
+  @Override
   @Nullable
   public Task verifyTaskExistenceById(String id) {
     Preconditions.checkNotNull(id);
@@ -75,12 +81,20 @@ public final class MemoryOnlyTaskService implements TaskService {
     }
   }
 
+  /* (non-Javadoc)
+   * @see cz.cuni.mff.xrg.odalic.tasks.TaskService#create(cz.cuni.mff.xrg.odalic.tasks.Task)
+   */
+  @Override
   public void create(Task task) {
     Preconditions.checkArgument(verifyTaskExistenceById(task.getId()) == null);
     
     replace(task);
   }
 
+  /* (non-Javadoc)
+   * @see cz.cuni.mff.xrg.odalic.tasks.TaskService#replace(cz.cuni.mff.xrg.odalic.tasks.Task)
+   */
+  @Override
   public void replace(Task task) {
     this.tasks.put(task.getId(), task);
   }

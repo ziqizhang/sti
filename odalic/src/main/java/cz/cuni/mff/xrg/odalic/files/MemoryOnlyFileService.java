@@ -83,9 +83,7 @@ public final class MemoryOnlyFileService implements FileService {
     Preconditions.checkNotNull(id);
     
     final File file = this.files.get(id);
-    if (file == null) {
-      throw new IllegalArgumentException();
-    }
+    Preconditions.checkArgument(file != null, "File does not exists!");
     
     return file;
   }

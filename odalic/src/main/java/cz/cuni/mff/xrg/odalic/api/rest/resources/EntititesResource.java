@@ -2,13 +2,14 @@ package cz.cuni.mff.xrg.odalic.api.rest.resources;
 
 import java.util.NavigableSet;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -46,13 +47,19 @@ public final class EntititesResource {
   public Response search(@PathParam("base") String base, @QueryParam("query") String query,
       @DefaultValue("20") @QueryParam("limit") Integer limit) {
     if (base == null) {
-      throw new WebApplicationException("Base not provided!", Response.Status.BAD_REQUEST);
+      throw new BadRequestException("Base not provided!");
     }
     if (query == null) {
-      throw new WebApplicationException("Query not provided!", Response.Status.BAD_REQUEST);
+      throw new BadRequestException("Query not provided!");
     }
 
-    final NavigableSet<Entity> result = entitiesService.search(new KnowledgeBase(base), query, limit);
+    final NavigableSet<Entity> result;
+    try {
+      result = entitiesService.search(new KnowledgeBase(base), query, limit);
+    } catch (final IllegalArgumentException e) {
+      throw new NotFoundException("No such knowledge base exists!");
+    }
+    
     return Reply.data(Response.Status.OK, result)
         .toResponse();
   }

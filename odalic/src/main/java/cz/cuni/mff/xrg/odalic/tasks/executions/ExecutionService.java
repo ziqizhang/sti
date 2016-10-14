@@ -25,8 +25,9 @@ public interface ExecutionService {
    * Attempts to cancel execution of the task.
    * 
    * @param id task ID
+   * @param IllegalStateException if the task has already finished
    */
-  void cancelForTaskId(String id);
+  void cancelForTaskId(String id) throws IllegalStateException;
   
   /**
    * Indicates whether the task is done.
@@ -50,11 +51,12 @@ public interface ExecutionService {
    * 
    * @param id task ID
    * @return annotations for the task input
+   * @throws IllegalArgumentException when the task has not been scheduled
    * @throws InterruptedException if the execution was interrupted while waiting
    * @throws ExecutionException if the computation threw an exception
    * @throws CancellationException  if the computation was cancelled
    */
-  Result getResultForTaskId(String id) throws InterruptedException, ExecutionException, CancellationException;
+  Result getResultForTaskId(String id) throws IllegalArgumentException, InterruptedException, ExecutionException, CancellationException;
 
   /**
    * Indicates the state of scheduling.

@@ -5,6 +5,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -29,7 +30,7 @@ public final class RdfExportResource {
 
   public static final String TURTLE_MIME_TYPE = "text/turtle";
   public static final String JSON_LD_MIME_TYPE = "application/ld+json";
-  
+
   private final RdfExportService rdfExportService;
 
   @Autowired
@@ -43,16 +44,32 @@ public final class RdfExportResource {
   @Produces(TURTLE_MIME_TYPE)
   public Response getTurtleExport(@PathParam("id") String taskId)
       throws CancellationException, InterruptedException, ExecutionException, IOException {
-    final String rdfContent = rdfExportService.exportToTurtle(taskId);
+    final String rdfContent;
+    try {
+      rdfContent = rdfExportService.exportToTurtle(taskId);
+    } catch (final CancellationException | ExecutionException e) {
+      throw new NotFoundException(
+          "RDF export is not available, because the processing did not finish. Check the result first!");
+    } catch (final IllegalArgumentException e) {
+      throw new NotFoundException("The task has not been scheduled or does not exist!");
+    }
 
     return Response.ok(rdfContent).build();
   }
-  
+
   @GET
   @Produces(JSON_LD_MIME_TYPE)
   public Response getJsonLdExport(@PathParam("id") String taskId)
       throws CancellationException, InterruptedException, ExecutionException, IOException {
-    final String rdfContent = rdfExportService.exportToJsonLd(taskId);
+    final String rdfContent;
+    try {
+      rdfContent = rdfExportService.exportToJsonLd(taskId);
+    } catch (final CancellationException | ExecutionException e) {
+      throw new NotFoundException(
+          "RDF export is not available, because the processing did not finish. Check the result first!");
+    } catch (final IllegalArgumentException e) {
+      throw new NotFoundException("The task has not been scheduled or does not exist!");
+    }
 
     return Response.ok(rdfContent).build();
   }

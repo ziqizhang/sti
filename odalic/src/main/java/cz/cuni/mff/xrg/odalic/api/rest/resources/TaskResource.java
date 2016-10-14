@@ -5,9 +5,11 @@ import java.net.URL;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -81,7 +83,12 @@ public final class TaskResource {
   @Path("{id}")
   @Produces(MediaType.APPLICATION_JSON)
   public Response getTaskById(@PathParam("id") String id) {
-    final Task task = taskService.getById(id);
+    final Task task;
+    try {
+      task = taskService.getById(id);
+    } catch (final IllegalArgumentException e) {
+      throw new NotFoundException("The task does not exist!");
+    }
 
     return Reply.data(Response.Status.OK, task).toResponse();
   }
@@ -93,18 +100,24 @@ public final class TaskResource {
   public Response putTaskWithId(@Context UriInfo uriInfo, @PathParam("id") String id,
       TaskValue taskValue) throws MalformedURLException {
     final ConfigurationValue configurationValue = taskValue.getConfiguration();
-    final File input = fileService.getById(configurationValue.getInput());
+    
+    if (taskValue.getId() != null && !taskValue.getId().equals(id)) {
+      throw new BadRequestException("The ID in the payload is not the same as the ID of resource.");
+    }
+    
+    final File input;
+    try {
+      input = fileService.getById(configurationValue.getInput());
+    } catch (final IllegalArgumentException e) {
+      throw new BadRequestException("The input file does not exist!");
+    }
+    
     final Configuration configuration = new Configuration(input,
         configurationValue.getPrimaryBase(), configurationValue.getFeedback());
-    final Task task = new Task(taskValue.getId(), taskValue.getDescription(),
+    final Task task = new Task(id, taskValue.getDescription(),
         taskValue.getCreated(), configuration);
-
-    if (!taskService.hasId(task, id)) {
-      return Message.of("The ID in the payload is not the same as the ID of resource.")
-          .toResponse(Response.Status.NOT_ACCEPTABLE);
-    }
-
-    Task taskById = taskService.verifyTaskExistenceById(id);
+        
+    final Task taskById = taskService.verifyTaskExistenceById(id);
 
     final URL location = cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id);
 
@@ -124,7 +137,11 @@ public final class TaskResource {
   @Path("{id}")
   @Produces(MediaType.APPLICATION_JSON)
   public Response deleteTaskById(@PathParam("id") String id) {
-    taskService.deleteById(id);
+    try {
+      taskService.deleteById(id);
+    } catch (final IllegalArgumentException e) {
+      throw new NotFoundException("The task does not exist!");
+    }
 
     return Message.of("Task deleted.").toResponse(Response.Status.OK);
   }

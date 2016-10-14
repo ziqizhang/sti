@@ -1,11 +1,14 @@
 package cz.cuni.mff.xrg.odalic.api.rest.resources;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -35,14 +38,28 @@ public final class ExecutionResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response putExecutionForTaskId(@PathParam("id") String id, ExecutionValue execution) {
-    executionService.submitForTaskId(id);
+    try {
+      executionService.submitForTaskId(id);
+    } catch (final IllegalStateException e) {
+      throw new WebApplicationException("The task has already been scheduled!", Response.Status.CONFLICT);
+    } catch (final IllegalArgumentException e) {
+      throw new BadRequestException("The task does not exist!");
+    }
+    
     return Message.of("Execution submitted.").toResponse(Response.Status.OK);
   }
   
   @DELETE
   @Produces({MediaType.APPLICATION_JSON})
   public Response deleteExecutionForTaskId(@PathParam("id") String id) {
-    executionService.cancelForTaskId(id);
+    try {
+      executionService.cancelForTaskId(id);
+    } catch (final IllegalStateException e) {
+      throw new WebApplicationException("The task has already finished!", Response.Status.CONFLICT);
+    } catch (final IllegalArgumentException e) {
+      throw new NotFoundException("The task has not been scheduled or does not exist!");
+    }
+    
     return Message.of("Execution canceled.").toResponse(Response.Status.OK);
   }
 }
