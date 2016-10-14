@@ -31,12 +31,12 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
  */
 @Component
 @Path("/entities/{base}/")
-public final class EntititesResource {
+public final class EntitiesResource {
 
   private final EntitiesService entitiesService;
 
   @Autowired
-  public EntititesResource(EntitiesService entitiesService) {
+  public EntitiesResource(EntitiesService entitiesService) {
     Preconditions.checkNotNull(entitiesService);
 
     this.entitiesService = entitiesService;
