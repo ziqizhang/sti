@@ -38,6 +38,10 @@ public final class ExecutionResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response putExecutionForTaskId(@PathParam("id") String id, ExecutionValue execution) {
+    if (execution == null) {
+      throw new BadRequestException("The execution must be provided!");
+    }
+    
     try {
       executionService.submitForTaskId(id);
     } catch (final IllegalStateException e) {

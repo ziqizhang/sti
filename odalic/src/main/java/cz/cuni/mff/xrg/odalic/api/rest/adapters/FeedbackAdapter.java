@@ -2,6 +2,10 @@ package cz.cuni.mff.xrg.odalic.api.rest.adapters;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import org.apache.jena.ext.com.google.common.collect.ImmutableMap;
+
+import com.google.common.collect.ImmutableSet;
+
 import cz.cuni.mff.xrg.odalic.api.rest.values.FeedbackValue;
 import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
 
@@ -15,8 +19,18 @@ public final class FeedbackAdapter extends XmlAdapter<FeedbackValue, Feedback> {
 
   @Override
   public Feedback unmarshal(FeedbackValue value) throws Exception {
-    return new Feedback(value.getSubjectColumnPositions(), value.getColumnIgnores(),
-        value.getColumnAmbiguities(), value.getClassifications(), value.getColumnRelations(),
-        value.getDisambiguations(), value.getAmbiguities());
+    if (value == null) {
+      return new Feedback();
+    }
+
+    return new Feedback(
+        value.getSubjectColumnPositions() == null ? ImmutableMap.of()
+            : value.getSubjectColumnPositions(),
+        value.getColumnIgnores() == null ? ImmutableSet.of() : value.getColumnIgnores(),
+        value.getColumnAmbiguities() == null ? ImmutableSet.of() : value.getColumnAmbiguities(),
+        value.getClassifications() == null ? ImmutableSet.of() : value.getClassifications(),
+        value.getColumnRelations() == null ? ImmutableSet.of() : value.getColumnRelations(),
+        value.getDisambiguations() == null ? ImmutableSet.of() : value.getDisambiguations(),
+        value.getAmbiguities() == null ? ImmutableSet.of() : value.getAmbiguities());
   }
 }

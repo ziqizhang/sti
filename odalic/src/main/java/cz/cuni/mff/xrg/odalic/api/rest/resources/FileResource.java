@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -82,6 +83,10 @@ public final class FileResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response putFileById(@Context UriInfo uriInfo, @PathParam("id") String id,
       @FormDataParam("input") InputStream fileInputStream) throws IOException {
+    if (fileInputStream == null) {
+      throw new BadRequestException("No input provided!");
+    }
+    
     final URL location = cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id);
     final File file = new File(id, "", location, true);
 
@@ -103,6 +108,14 @@ public final class FileResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response putFileById(@Context UriInfo uriInfo, @PathParam("id") String id,
       FileValueInput fileInput) throws MalformedURLException {
+    if (fileInput == null) {
+      throw new BadRequestException("No file description provided!");
+    }
+    
+    if (fileInput.getLocation() == null) {
+      throw new BadRequestException("No location provided!");
+    }
+    
     final File file = new File(id, "", fileInput.getLocation(), false);
 
     if (!fileService.existsFileWithId(id)) {
@@ -123,9 +136,21 @@ public final class FileResource {
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
   public Response postFile(@Context UriInfo uriInfo,
-      @FormDataParam("file") InputStream fileInputStream,
-      @FormDataParam("file") FormDataContentDisposition fileDetail) throws IOException {
+      @FormDataParam("input") InputStream fileInputStream,
+      @FormDataParam("input") FormDataContentDisposition fileDetail) throws IOException {
+    if (fileInputStream == null) {
+      throw new BadRequestException("No input provided!");
+    }
+    
+    if (fileDetail == null) {
+      throw new BadRequestException("No input detail provided!");
+    }
+    
     final String id = fileDetail.getFileName();
+    if (id == null) {
+      throw new BadRequestException("No file name provided!");
+    }
+    
     final File file = new File(id, "",
         cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id), true);
 

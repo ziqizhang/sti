@@ -45,6 +45,18 @@ public final class ConfigurationResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response putConfigurationForTaskId(@PathParam("id") String id,
       ConfigurationValue configurationValue) {
+    if (configurationValue == null) {
+      throw new BadRequestException("Configuration must be provided!");
+    }
+    
+    if (configurationValue.getInput() == null) {
+      throw new BadRequestException("Input must be specified!");
+    }
+    
+    if (configurationValue.getPrimaryBase() == null) {
+      throw new BadRequestException("The primary base must be specified!");
+    }
+    
     final File input;
     try {
       input = fileService.getById(configurationValue.getInput());

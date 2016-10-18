@@ -46,9 +46,6 @@ public final class EntitiesResource {
   @Produces({MediaType.APPLICATION_JSON})
   public Response search(@PathParam("base") String base, @QueryParam("query") String query,
       @DefaultValue("20") @QueryParam("limit") Integer limit) {
-    if (base == null) {
-      throw new BadRequestException("Base not provided!");
-    }
     if (query == null) {
       throw new BadRequestException("Query not provided!");
     }

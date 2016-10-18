@@ -99,24 +99,32 @@ public final class TaskResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response putTaskWithId(@Context UriInfo uriInfo, @PathParam("id") String id,
       TaskValue taskValue) throws MalformedURLException {
+    if (taskValue == null) {
+      throw new BadRequestException("No task definition provided!");
+    }
+
+    if (taskValue.getConfiguration() == null) {
+      throw new BadRequestException("Configuration must be included!");
+    }
+
     final ConfigurationValue configurationValue = taskValue.getConfiguration();
-    
+
     if (taskValue.getId() != null && !taskValue.getId().equals(id)) {
       throw new BadRequestException("The ID in the payload is not the same as the ID of resource.");
     }
-    
+
     final File input;
     try {
       input = fileService.getById(configurationValue.getInput());
     } catch (final IllegalArgumentException e) {
       throw new BadRequestException("The input file does not exist!");
     }
-    
+
     final Configuration configuration = new Configuration(input,
         configurationValue.getPrimaryBase(), configurationValue.getFeedback());
-    final Task task = new Task(id, taskValue.getDescription(),
-        taskValue.getCreated(), configuration);
-        
+    final Task task = new Task(id,
+        taskValue.getDescription() == null ? "" : taskValue.getDescription(), configuration);
+
     final Task taskById = taskService.verifyTaskExistenceById(id);
 
     final URL location = cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id);

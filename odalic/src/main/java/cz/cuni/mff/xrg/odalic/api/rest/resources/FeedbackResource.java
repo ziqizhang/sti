@@ -41,6 +41,10 @@ public final class FeedbackResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response putFeedbackForTaskId(@PathParam("id") String id, Feedback feedback) {
+    if (feedback == null) {
+      throw new BadRequestException("The feedback must be specified!");
+    }
+    
     try {
       feedbackService.setForTaskId(id, feedback);
     } catch (final IllegalArgumentException e) {
