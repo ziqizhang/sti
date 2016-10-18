@@ -15,6 +15,10 @@ public class LiteralColumnTaggerImpl implements LiteralColumnTagger {
     private static final Logger LOG = Logger.getLogger(LiteralColumnTaggerImpl.class.getName());
     private int[] ignoreColumns;
 
+    public LiteralColumnTaggerImpl() {
+
+    }
+
     public LiteralColumnTaggerImpl(
             int... ignoreColumns) {
         this.ignoreColumns = ignoreColumns;

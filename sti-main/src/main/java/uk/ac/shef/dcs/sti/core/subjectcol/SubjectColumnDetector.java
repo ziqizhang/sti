@@ -7,6 +7,7 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentRowRanker;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.StoppingCriteriaInstantiator;
+import uk.ac.shef.dcs.sti.core.extension.positions.ColumnPosition;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.websearch.WebSearchException;
 import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
@@ -46,6 +47,10 @@ public class SubjectColumnDetector {
         this.useWS = useWS;
     }
 
+    public List<Pair<Integer, Pair<Double, Boolean>>> compute(Table table, int... skipColumns) throws APIKeysDepletedException, IOException, ClassNotFoundException {
+      return compute(table, null, skipColumns);
+    }
+
     /**
      * The decision tree logic is:
      * 1. If col is the only NE likely col in the table, choose the column
@@ -58,7 +63,7 @@ public class SubjectColumnDetector {
      * part is a boolean indicating whether the column is acronym column. (only NE likely columns can be
      * considered main column)
      */
-    public List<Pair<Integer, Pair<Double, Boolean>>> compute(Table table, int... skipColumns) throws APIKeysDepletedException, IOException, ClassNotFoundException {
+    public List<Pair<Integer, Pair<Double, Boolean>>> compute(Table table, ColumnPosition suggestedSubject, int... skipColumns) throws APIKeysDepletedException, IOException, ClassNotFoundException {
         List<Pair<Integer, Pair<Double, Boolean>>> rs = new ArrayList<>();
 
         //1. initiate all columns' feature objects
@@ -80,6 +85,14 @@ public class SubjectColumnDetector {
 
         //3. infer the most frequent datatype,
         featureGenerator.setMostFrequentDataTypes(featuresOfAllColumns, table);
+
+        // 3.5. (added): is the subject column position suggested by the user?
+        if (suggestedSubject != null && suggestedSubject.getIndex() < table.getNumCols()) {
+          Pair<Integer, Pair<Double, Boolean>> oo = new Pair<>(suggestedSubject.getIndex(), new Pair<>(1.0, false));
+          rs.add(oo);
+          attachColumnFeature(table, featuresOfAllColumns);
+          return rs;
+        }
 
         //4. select only NE columns to further learn
         List<TColumnFeature> featuresOfNEColumns = selectOnlyNEColumnFeatures(featuresOfAllColumns);

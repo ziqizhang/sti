@@ -7,6 +7,7 @@ import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.LiteralColumnTagger;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.RELATIONENUMERATION;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.TColumnColumnRelationEnumerator;
+import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
 import uk.ac.shef.dcs.sti.core.subjectcol.TColumnFeature;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
@@ -45,6 +46,10 @@ public class BaselineInterpreter extends SemanticTableInterpreter {
         this.columnClassifier = columnClassifier;
         this.relationEnumerator = relationEnumerator;
         this.literalColumnTagger = literalColumnTagger;
+    }
+
+    public TAnnotation start(Table table, Constraints constraints) throws STIException {
+      return start(table, true);
     }
 
     public TAnnotation start(Table table, boolean relationLearning) throws STIException {

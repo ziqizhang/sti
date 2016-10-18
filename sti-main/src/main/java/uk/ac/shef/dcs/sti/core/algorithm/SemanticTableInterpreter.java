@@ -1,12 +1,10 @@
 package uk.ac.shef.dcs.sti.core.algorithm;
 
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
+import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
-import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,6 +14,10 @@ public abstract class SemanticTableInterpreter {
 
     private Set<Integer> ignoreCols;
     private Set<Integer> mustdoColumns;
+
+    public SemanticTableInterpreter() {
+
+    }
 
     public SemanticTableInterpreter(
             int[] ignoreColumns,
@@ -28,6 +30,9 @@ public abstract class SemanticTableInterpreter {
         for(int i: mustdoColumns)
             this.mustdoColumns.add(i);
     }
+
+    public abstract TAnnotation start(Table table, Constraints constraints)
+            throws STIException;
 
     public abstract TAnnotation start(Table table, boolean relationLearning)
             throws STIException;

@@ -2,71 +2,64 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
+
+import com.google.common.base.Preconditions;
+
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
 import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
-import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
-import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
-/**
-
- */
-public class TMPInterpreter extends SemanticTableInterpreter {
-
-    private SubjectColumnDetector subjectColumnDetector;
-    private LEARNING learning;
-    private LiteralColumnTagger literalColumnTagger;
-    private TColumnColumnRelationEnumerator relationEnumerator;
-    private UPDATE update;
-
-    private static final Logger LOG = Logger.getLogger(TMPInterpreter.class.getName());
-
-    public TMPInterpreter(SubjectColumnDetector subjectColumnDetector,
-                          LEARNING learning,
-                          UPDATE update,
-                          TColumnColumnRelationEnumerator relationEnumerator,
-                          LiteralColumnTagger literalColumnTagger,
-                          int[] ignoreColumns,
-                          int[] mustdoColumns
-    ) {
-        super(ignoreColumns,mustdoColumns);
-        this.subjectColumnDetector = subjectColumnDetector;
-        this.learning = learning;
-        this.literalColumnTagger = literalColumnTagger;
-        this.relationEnumerator = relationEnumerator;
-
-        this.update = update;
-    }
-
-    public TAnnotation start(Table table, Constraints constraints) throws STIException {
-      return start(table, true);
-    }
-
-    public TAnnotation start(Table table, boolean relationLearning) throws STIException {
-        //1. find the main subject column of this table
-        LOG.info(">\t PHASE: Detecting subject column...");
-        int[] ignoreColumnsArray = new int[getIgnoreColumns().size()];
-
-        int index = 0;
-        for (Integer i : getIgnoreColumns()) {
-            ignoreColumnsArray[index] = i;
-            index++;
-        }
-        try {
-            List<Pair<Integer, Pair<Double, Boolean>>> subjectColumnScores =
-                    subjectColumnDetector.compute(table, ignoreColumnsArray);
-
-            TAnnotation tableAnnotations = new TAnnotation(table.getNumRows(), table.getNumCols());
-            tableAnnotations.setSubjectColumn(subjectColumnScores.get(0).getKey());
-
+public class TMPOdalicInterpreter extends SemanticTableInterpreter {
+  
+  private SubjectColumnDetector subjectColumnDetector;
+  private LEARNING learning;
+  private LiteralColumnTagger literalColumnTagger;
+  private TColumnColumnRelationEnumerator relationEnumerator;
+  private UPDATE update;
+  
+  private static final Logger LOG = Logger.getLogger(TMPOdalicInterpreter.class.getName());
+  
+  public TMPOdalicInterpreter(SubjectColumnDetector subjectColumnDetector,
+      LEARNING learning, UPDATE update,
+      TColumnColumnRelationEnumerator relationEnumerator,
+      LiteralColumnTagger literalColumnTagger) {
+    super(new int[0], new int[0]);
+    this.subjectColumnDetector = subjectColumnDetector;
+    this.learning = learning;
+    this.literalColumnTagger = literalColumnTagger;
+    this.relationEnumerator = relationEnumerator;
+    this.update = update;
+  }
+  
+  public TAnnotation start(Table table, boolean relationLearning) throws STIException {
+    return start(table, new Constraints());
+  }
+  
+  public TAnnotation start(Table table, Constraints constraints) throws STIException {
+    Preconditions.checkNotNull(constraints);
+    
+    boolean relationLearning = true;
+    setIgnoreColumns(constraints.getColumnIgnores().stream().map(e -> e.getPosition().getIndex()).collect(Collectors.toSet()));
+    
+    int[] ignoreColumnsArray = getIgnoreColumns().stream().mapToInt(e -> e.intValue()).sorted().toArray();
+    literalColumnTagger.setIgnoreColumns(ignoreColumnsArray);
+    
+    try {
+      TAnnotation tableAnnotations = new TAnnotation(table.getNumRows(), table.getNumCols());
+      
+      // 1. find the main subject column of this table
+      LOG.info(">\t PHASE: Detecting subject column...");
+      List<Pair<Integer, Pair<Double, Boolean>>> subjectColumnScores = subjectColumnDetector
+          .compute(table, constraints.getSubjectColumnPosition(), ignoreColumnsArray);
+      tableAnnotations.setSubjectColumn(subjectColumnScores.get(0).getKey());
+      
             List<Integer> annotatedColumns = new ArrayList<>();
             LOG.info(">\t PHASE: LEARNING ...");
             for (int col = 0; col < table.getNumCols(); col++) {
@@ -106,10 +99,10 @@ public class TMPInterpreter extends SemanticTableInterpreter {
                 LOG.info("\t\t>> Annotate literal-columns in relation with main column");
                 literalColumnTagger.annotate(table, tableAnnotations, annotatedColumns.toArray(new Integer[0]));
             }
-            return tableAnnotations;
-        }catch (Exception e){
-            throw new STIException(e);
-        }
+      
+      return tableAnnotations;
+    } catch (Exception e) {
+      throw new STIException(e);
     }
-
+  }
 }

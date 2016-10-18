@@ -28,7 +28,12 @@ public class DefaultFeedbackToConstraintsAdapter implements FeedbackToConstraint
 
   @Override
   public Constraints toConstraints(Feedback feedback, KnowledgeBase base) {
-    return new Constraints(convert(feedback.getSubjectColumnPosition()),
+    uk.ac.shef.dcs.sti.core.extension.positions.ColumnPosition subjectColumnPosition = null;
+    if (feedback.getSubjectColumnPosition() != null) {
+      subjectColumnPosition = convert(feedback.getSubjectColumnPosition());
+    }
+
+    return new Constraints(subjectColumnPosition,
         convertIgnores(feedback.getColumnIgnores()), convertColumnAmbiguities(feedback.getColumnAmbiguities()),
         convertClassifications(feedback.getClassifications(), base), convertRelations(feedback.getColumnRelations(), base),
         convertDisambiguations(feedback.getDisambiguations(), base), convertAmbiguitites(feedback.getAmbiguities())

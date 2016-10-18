@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
+import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
@@ -46,6 +47,10 @@ public class SMPInterpreter extends SemanticTableInterpreter {
         this.columnClassifier = columnClassifier;
         this.neRanker = neRanker;
         this.messagePassingCalculator = messagePassingCalculator;
+    }
+
+    public TAnnotation start(Table table, Constraints constraints) throws STIException {
+      return start(table, true);
     }
 
     public TAnnotation start(Table table, boolean relationLearning) throws STIException {
