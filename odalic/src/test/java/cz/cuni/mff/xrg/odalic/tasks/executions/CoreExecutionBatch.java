@@ -1,8 +1,6 @@
 package cz.cuni.mff.xrg.odalic.tasks.executions;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,14 +76,12 @@ public class CoreExecutionBatch {
     }
 
     // Feedback settings
-    Feedback feedback = new Feedback(null,
-        ImmutableSet.of(), ImmutableSet.of(), ImmutableSet.of(), ImmutableSet.of(),
-        ImmutableSet.of(), ImmutableSet.of(), ImmutableSet.of());
+    Feedback feedback = new Feedback();
 
     // Configuration settings
     try {
       config = new Configuration(new cz.cuni.mff.xrg.odalic.files.File(inputFile.getName(), "x",
-          inputFile.toURI().toURL()), new KnowledgeBase("DBpedia"), feedback);
+          inputFile.toURI().toURL(), true), new KnowledgeBase("DBpedia"), feedback);
     } catch (MalformedURLException e) {
       log.error("Error - Configuration settings:");
       e.printStackTrace();
@@ -113,7 +109,7 @@ public class CoreExecutionBatch {
     }
 
     // Odalic Result creation
-    Result odalicResult = new DefaultAnnotationToResultAdapter().toResult(results, config.getPrimaryBase());
+    Result odalicResult = new DefaultAnnotationToResultAdapter().toResult(results);
     log.info("Odalic Result is: " + odalicResult);
 
     return odalicResult;

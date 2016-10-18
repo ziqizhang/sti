@@ -10,16 +10,11 @@ import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
-import cz.cuni.mff.xrg.odalic.tasks.annotations.Likelihood;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.Score;
 
 /**
  * <p>
  * Domain class {@link EntityCandidate} adapted for REST API.
- * </p>
- * 
- * <p>
- * In this version it supports a chosen flag instead of annotations classes providing the chosen set
- * separately.
  * </p>
  * 
  * @author Václav Brodec
@@ -32,16 +27,13 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
 
   private Entity entity;
 
-  private Likelihood likelihood;
-
-  private boolean chosen;
+  private Score score;
 
   public EntityCandidateValue() {}
 
-  public EntityCandidateValue(EntityCandidate adaptee, boolean chosen) {
+  public EntityCandidateValue(EntityCandidate adaptee) {
     entity = adaptee.getEntity();
-    likelihood = adaptee.getLikelihood();
-    this.chosen = chosen;
+    score = adaptee.getScore();
   }
 
   /**
@@ -63,50 +55,31 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
   }
 
   /**
-   * @return the likelihood
+   * @return the score
    */
   @XmlElement
   @Nullable
-  public Likelihood getLikelihood() {
-    return likelihood;
+  public Score getScore() {
+    return score;
   }
 
   /**
-   * @param likelihood the likelihood to set
+   * @param score the score to set
    */
-  public void setLikelihood(Likelihood likelihood) {
-    Preconditions.checkNotNull(likelihood);
+  public void setScore(Score score) {
+    Preconditions.checkNotNull(score);
 
-    this.likelihood = likelihood;
-  }
-
-  /**
-   * @return the chosen
-   */
-  @XmlElement
-  public boolean isChosen() {
-    return chosen;
-  }
-
-  /**
-   * @param chosen the chosen to set
-   */
-  public void setChosen(boolean chosen) {
-    this.chosen = chosen;
-  }
-
-
-
-  /*
-   * (non-Javadoc)
-   * 
+    this.score = score;
+  } 
+  
+  /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + new EntityCandidate(entity, likelihood).hashCode();
+    result = prime * result + new EntityCandidate(entity, score).hashCode();
     return result;
   }
 
@@ -127,13 +100,7 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
       return false;
     }
     EntityCandidateValue other = (EntityCandidateValue) obj;
-
-    if (!new EntityCandidate(entity, likelihood)
-        .equals(new EntityCandidate(other.entity, other.likelihood))) {
-      return false;
-    }
-
-    return chosen == other.chosen;
+    return new EntityCandidate(entity, score).equals(new EntityCandidate(other.entity, other.score));
   }
 
   /*
@@ -143,14 +110,9 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
    */
   @Override
   public int compareTo(EntityCandidateValue other) {
-    final int likelihoodComparison = -1 * likelihood.compareTo(other.likelihood);
+    final int likelihoodComparison = -1 * score.compareTo(other.score);
     if (likelihoodComparison != 0) {
       return likelihoodComparison;
-    }
-
-    final int chosenComparison = -1 * Boolean.compare(chosen, other.chosen);
-    if (chosenComparison != 0) {
-      return chosenComparison;
     }
 
     return entity.compareTo(other.entity);
@@ -163,7 +125,6 @@ public final class EntityCandidateValue implements Serializable, Comparable<Enti
    */
   @Override
   public String toString() {
-    return "EntityCandidateValue [entity=" + entity + ", likelihood=" + likelihood + ", chosen="
-        + chosen + "]";
+    return "EntityCandidateValue [entity=" + entity + ", score=" + score + "]";
   }
 }

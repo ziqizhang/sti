@@ -32,7 +32,7 @@ public final class LoggingResponseFilter
         logger.debug("Requesting " + method + " for path " + requestContext.getUriInfo().getPath());
         final Object entity = responseContext.getEntity();
         if (entity != null) {
-            logger.debug("Response " + new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(entity));
+            logger.debug("Reply " + new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(entity));
         }
     }
 

@@ -25,35 +25,40 @@ import cz.cuni.mff.xrg.odalic.api.rest.adapters.ColumnRelationAnnotationAdapter;
 public final class ColumnRelationAnnotation {
 
   private final Map<KnowledgeBase, NavigableSet<EntityCandidate>> candidates;
-  
+
   private final Map<KnowledgeBase, Set<EntityCandidate>> chosen;
 
   /**
    * Creates new annotation.
    * 
-   * @param candidates all possible candidates for the assigned entity sorted by with their
-   *        likelihood
+   * @param candidates all possible candidates for the assigned entity sorted by with their score
    * @param chosen subset of candidates chosen to annotate the element
    */
-  public ColumnRelationAnnotation(Map<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> candidates,
+  public ColumnRelationAnnotation(
+      Map<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> candidates,
       Map<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> chosen) {
     Preconditions.checkNotNull(candidates);
     Preconditions.checkNotNull(chosen);
-    
-    final ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder = ImmutableMap.builder();
-    for (final Map.Entry<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> candidateEntry : candidates.entrySet()) {
-      candidatesBuilder.put(candidateEntry.getKey(), ImmutableSortedSet.copyOf(candidateEntry.getValue()));
+
+    final ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder =
+        ImmutableMap.builder();
+    for (final Map.Entry<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> candidateEntry : candidates
+        .entrySet()) {
+      candidatesBuilder.put(candidateEntry.getKey(),
+          ImmutableSortedSet.copyOf(candidateEntry.getValue()));
     }
     this.candidates = candidatesBuilder.build();
-    
-    final ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder = ImmutableMap.builder();
-    for (final Map.Entry<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> chosenEntry : chosen.entrySet()) {
+
+    final ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder =
+        ImmutableMap.builder();
+    for (final Map.Entry<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> chosenEntry : chosen
+        .entrySet()) {
       final KnowledgeBase chosenBase = chosenEntry.getKey();
-      
+
       final Set<EntityCandidate> baseCandidates = this.candidates.get(chosenBase);
       Preconditions.checkArgument(baseCandidates != null);
       Preconditions.checkArgument(baseCandidates.containsAll(chosenEntry.getValue()));
-      
+
       chosenBuilder.put(chosenEntry.getKey(), ImmutableSet.copyOf(chosenEntry.getValue()));
     }
     this.chosen = chosenBuilder.build();
@@ -65,30 +70,34 @@ public final class ColumnRelationAnnotation {
   public Map<KnowledgeBase, NavigableSet<EntityCandidate>> getCandidates() {
     return candidates;
   }
-  
+
   /**
    * @return the chosen
    */
   public Map<KnowledgeBase, Set<EntityCandidate>> getChosen() {
     return chosen;
   }
-  
+
   /**
    * Merges with the other annotation.
    * 
    * @param other annotation based on different set of knowledge bases
    * @return merged annotation
-   * @throws IllegalArgumentException If both this and the other annotation have some candidates from the same knowledge base
+   * @throws IllegalArgumentException If both this and the other annotation have some candidates
+   *         from the same knowledge base
    */
-  public ColumnRelationAnnotation merge(ColumnRelationAnnotation other) throws IllegalArgumentException {
-    final ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder = ImmutableMap.builder();
+  public ColumnRelationAnnotation merge(ColumnRelationAnnotation other)
+      throws IllegalArgumentException {
+    final ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder =
+        ImmutableMap.builder();
     candidatesBuilder.putAll(this.candidates);
     candidatesBuilder.putAll(other.candidates);
-    
-    final ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder = ImmutableMap.builder();
+
+    final ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder =
+        ImmutableMap.builder();
     chosenBuilder.putAll(this.chosen);
     chosenBuilder.putAll(other.chosen);
-    
+
     return new ColumnRelationAnnotation(candidatesBuilder.build(), chosenBuilder.build());
   }
 
@@ -141,7 +150,9 @@ public final class ColumnRelationAnnotation {
     return true;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override

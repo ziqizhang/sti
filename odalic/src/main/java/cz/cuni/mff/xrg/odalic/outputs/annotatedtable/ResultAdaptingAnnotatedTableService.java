@@ -62,7 +62,7 @@ public final class ResultAdaptingAnnotatedTableService implements AnnotatedTable
    */
   @Override
   public AnnotatedTable getAnnotatedTableForTaskId(String id)
-      throws CancellationException, InterruptedException, ExecutionException, IOException {
+      throws IllegalArgumentException, CancellationException, InterruptedException, ExecutionException, IOException {
     final Result result = executionService.getResultForTaskId(id);
     final Input input = feedbackService.getInputForTaskId(id);
     final Configuration configuration = configurationService.getForTaskId(id);

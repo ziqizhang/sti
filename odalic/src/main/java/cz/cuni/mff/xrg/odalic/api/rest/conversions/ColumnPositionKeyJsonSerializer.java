@@ -16,14 +16,16 @@ import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
  */
 public final class ColumnPositionKeyJsonSerializer extends JsonSerializer<ColumnPosition> {
 
-    /* (non-Javadoc)
-     * @see com.fasterxml.jackson.databind.JsonSerializer#serialize(java.lang.Object, com.fasterxml.jackson.core.JsonGenerator, com.fasterxml.jackson.databind.SerializerProvider)
-     */
-    @Override
-    public void serialize(ColumnPosition value, JsonGenerator jgen,
-            SerializerProvider provider) throws IOException,
-            JsonProcessingException {
-        jgen.writeFieldName(Integer.toString(value.getIndex()));       
-    }
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.fasterxml.jackson.databind.JsonSerializer#serialize(java.lang.Object,
+   * com.fasterxml.jackson.core.JsonGenerator, com.fasterxml.jackson.databind.SerializerProvider)
+   */
+  @Override
+  public void serialize(ColumnPosition value, JsonGenerator jgen, SerializerProvider provider)
+      throws IOException, JsonProcessingException {
+    jgen.writeFieldName(Integer.toString(value.getIndex()));
+  }
 
 }

@@ -23,6 +23,8 @@ public final class Task implements Serializable {
   private static final long serialVersionUID = 1610346823333685091L;
 
   private final String id;
+  
+  private final String description;
 
   private final Date created;
 
@@ -32,15 +34,18 @@ public final class Task implements Serializable {
    * Creates the task instance.
    * 
    * @param id ID of the task
+   * @param description the task description
    * @param created provided time of creation
    * @param configuration configuration of the task
    */
-  public Task(String id, Date created, Configuration configuration) {
+  public Task(String id, String description, Date created, Configuration configuration) {
     Preconditions.checkNotNull(id);
+    Preconditions.checkNotNull(description);
     Preconditions.checkNotNull(created);
     Preconditions.checkNotNull(configuration);
 
     this.id = id;
+    this.description = description;
     this.created = created;
     this.configuration = configuration;
   }
@@ -49,10 +54,11 @@ public final class Task implements Serializable {
    * Creates the task instance and sets it creation date to now.
    * 
    * @param id ID of the task
+   * @param description the task description
    * @param configuration configuration of the task
    */
-  public Task(String id, Configuration configuration) {
-    this(id, new Date(), configuration);
+  public Task(String id, String description, Configuration configuration) {
+    this(id, description, new Date(), configuration);
   }
 
   /**
@@ -76,6 +82,13 @@ public final class Task implements Serializable {
    */
   public String getId() {
     return id;
+  }
+  
+  /**
+   * @return the description
+   */
+  public String getDescription() {
+    return description;
   }
 
   /**
@@ -133,6 +146,6 @@ public final class Task implements Serializable {
    */
   @Override
   public String toString() {
-    return "Task [id=" + id + ", created=" + created + ", configuration=" + configuration + "]";
+    return "Task [id=" + id + ", description=" + description + ", created=" + created + ", configuration=" + configuration + "]";
   }
 }

@@ -31,8 +31,7 @@ public final class HeaderAnnotation {
   /**
    * Creates new annotation.
    * 
-   * @param candidates all possible candidates for the assigned entity sorted by with their
-   *        likelihood
+   * @param candidates all possible candidates for the assigned entity sorted by with their score
    * @param chosen subset of candidates chosen to annotate the element
    */
   public HeaderAnnotation(
@@ -88,11 +87,13 @@ public final class HeaderAnnotation {
    *         from the same knowledge base
    */
   public HeaderAnnotation merge(HeaderAnnotation other) throws IllegalArgumentException {
-    final ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder = ImmutableMap.builder();
+    final ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder =
+        ImmutableMap.builder();
     candidatesBuilder.putAll(this.candidates);
     candidatesBuilder.putAll(other.candidates);
-    
-    final ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder = ImmutableMap.builder();
+
+    final ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder =
+        ImmutableMap.builder();
     chosenBuilder.putAll(this.chosen);
     chosenBuilder.putAll(other.chosen);
 

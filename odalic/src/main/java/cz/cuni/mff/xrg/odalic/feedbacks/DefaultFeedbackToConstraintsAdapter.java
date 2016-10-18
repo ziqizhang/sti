@@ -6,6 +6,8 @@ package cz.cuni.mff.xrg.odalic.feedbacks;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.google.common.base.Preconditions;
+
 import cz.cuni.mff.xrg.odalic.positions.CellPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
@@ -15,7 +17,7 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.HeaderAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
-import cz.cuni.mff.xrg.odalic.tasks.annotations.Likelihood;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.Score;
 import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
 
 /**
@@ -28,16 +30,27 @@ public class DefaultFeedbackToConstraintsAdapter implements FeedbackToConstraint
 
   @Override
   public Constraints toConstraints(Feedback feedback, KnowledgeBase base) {
-    uk.ac.shef.dcs.sti.core.extension.positions.ColumnPosition subjectColumnPosition = null;
-    if (feedback.getSubjectColumnPosition() != null) {
-      subjectColumnPosition = convert(feedback.getSubjectColumnPosition());
-    }
+    Preconditions.checkNotNull(feedback);
+    Preconditions.checkNotNull(base);
 
-    return new Constraints(subjectColumnPosition,
-        convertIgnores(feedback.getColumnIgnores()), convertColumnAmbiguities(feedback.getColumnAmbiguities()),
-        convertClassifications(feedback.getClassifications(), base), convertRelations(feedback.getColumnRelations(), base),
-        convertDisambiguations(feedback.getDisambiguations(), base), convertAmbiguitites(feedback.getAmbiguities())
-        );
+    return new Constraints(convertSubjectColumn(feedback, base),
+        convertIgnores(feedback.getColumnIgnores()),
+        convertColumnAmbiguities(feedback.getColumnAmbiguities()),
+        convertClassifications(feedback.getClassifications(), base),
+        convertRelations(feedback.getColumnRelations(), base),
+        convertDisambiguations(feedback.getDisambiguations(), base),
+        convertAmbiguitites(feedback.getAmbiguities()));
+  }
+
+  private uk.ac.shef.dcs.sti.core.extension.positions.ColumnPosition convertSubjectColumn(
+      Feedback feedback, KnowledgeBase base) {
+    final ColumnPosition subjectColumnPosition = feedback.getSubjectColumnPositions().get(base);
+
+    if (subjectColumnPosition != null) {
+      return convert(subjectColumnPosition);
+    } else {
+      return null;
+    }
   }
 
   private static Set<uk.ac.shef.dcs.sti.core.extension.constraints.Ambiguity> convertAmbiguitites(
@@ -150,7 +163,7 @@ public class DefaultFeedbackToConstraintsAdapter implements FeedbackToConstraint
   private static uk.ac.shef.dcs.sti.core.extension.annotations.EntityCandidate convert(
       final EntityCandidate candidate) {
     return new uk.ac.shef.dcs.sti.core.extension.annotations.EntityCandidate(
-        convert(candidate.getEntity()), convert(candidate.getLikelihood()));
+        convert(candidate.getEntity()), convert(candidate.getScore()));
   }
 
   private static uk.ac.shef.dcs.sti.core.extension.annotations.Entity convert(final Entity entity) {
@@ -158,8 +171,7 @@ public class DefaultFeedbackToConstraintsAdapter implements FeedbackToConstraint
         entity.getResource());
   }
 
-  private static uk.ac.shef.dcs.sti.core.extension.annotations.Score convert(
-      final Likelihood score) {
+  private static uk.ac.shef.dcs.sti.core.extension.annotations.Score convert(final Score score) {
     return new uk.ac.shef.dcs.sti.core.extension.annotations.Score(score.getValue());
   }
 }

@@ -16,7 +16,7 @@ import cz.cuni.mff.xrg.odalic.tasks.results.Result;
 public class InterpreterExecutionBatch {
 
   private static final Logger log = LoggerFactory.getLogger(InterpreterExecutionBatch.class);
-  
+
   /**
    * Expects sti.properties file path as the first and test input CSV file path as the second
    * command line argument
@@ -27,7 +27,7 @@ public class InterpreterExecutionBatch {
    * 
    */
   public static void main(String[] args) {
-    
+
     final String propertyFilePath = args[0];
     final String testInputFilePath = args[1];
     
@@ -38,7 +38,7 @@ public class InterpreterExecutionBatch {
       log.warn("Result of core algorithm is null, so exports cannot be launched.");
       return;
     }
-    
+
     // settings for export
     File inputFile = CoreExecutionBatch.getInputFile();
     Input input = CoreExecutionBatch.getInput();
@@ -46,11 +46,13 @@ public class InterpreterExecutionBatch {
     String baseExportPath = inputFile.getParent() + File.separator + FilenameUtils.getBaseName(inputFile.getName()) + "-export";
     
     // JSON export
-    AnnotatedTable annotatedTable = CSVExportTest.testExportToAnnotatedTable(odalicResult, input, config, baseExportPath + ".json");
-    
+    AnnotatedTable annotatedTable = CSVExportTest.testExportToAnnotatedTable(odalicResult, input,
+        config, baseExportPath + ".json");
+
     // CSV export
-    Input extendedInput = CSVExportTest.testExportToCSVFile(odalicResult, input, config, baseExportPath + ".csv");
-    
+    Input extendedInput =
+        CSVExportTest.testExportToCSVFile(odalicResult, input, config, baseExportPath + ".csv");
+
     // RDF export
     if (annotatedTable == null || extendedInput == null) {
       log.warn("Annotated table or extended input is null, so RDF export cannot be launched.");

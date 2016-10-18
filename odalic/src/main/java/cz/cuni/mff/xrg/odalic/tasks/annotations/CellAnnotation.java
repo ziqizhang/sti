@@ -26,35 +26,40 @@ import cz.cuni.mff.xrg.odalic.api.rest.adapters.CellAnnotationAdapter;
 public final class CellAnnotation {
 
   private final Map<KnowledgeBase, NavigableSet<EntityCandidate>> candidates;
-  
+
   private final Map<KnowledgeBase, Set<EntityCandidate>> chosen;
 
   /**
    * Creates new annotation.
    * 
-   * @param candidates all possible candidates for the assigned entity sorted by with their
-   *        likelihood
+   * @param candidates all possible candidates for the assigned entity sorted by with their score
    * @param chosen subset of candidates chosen to annotate the element
    */
-  public CellAnnotation(Map<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> candidates,
+  public CellAnnotation(
+      Map<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> candidates,
       Map<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> chosen) {
     Preconditions.checkNotNull(candidates);
     Preconditions.checkNotNull(chosen);
-    
-    ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder = ImmutableMap.builder();
-    for (final Map.Entry<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> candidateEntry : candidates.entrySet()) {
-      candidatesBuilder.put(candidateEntry.getKey(), ImmutableSortedSet.copyOf(candidateEntry.getValue()));
+
+    ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder =
+        ImmutableMap.builder();
+    for (final Map.Entry<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> candidateEntry : candidates
+        .entrySet()) {
+      candidatesBuilder.put(candidateEntry.getKey(),
+          ImmutableSortedSet.copyOf(candidateEntry.getValue()));
     }
     this.candidates = candidatesBuilder.build();
-    
-    ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder = ImmutableMap.builder();
-    for (final Map.Entry<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> chosenEntry : chosen.entrySet()) {
+
+    ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder =
+        ImmutableMap.builder();
+    for (final Map.Entry<? extends KnowledgeBase, ? extends Set<? extends EntityCandidate>> chosenEntry : chosen
+        .entrySet()) {
       final KnowledgeBase chosenBase = chosenEntry.getKey();
-      
+
       final Set<EntityCandidate> baseCandidates = this.candidates.get(chosenBase);
       Preconditions.checkArgument(baseCandidates != null);
       Preconditions.checkArgument(baseCandidates.containsAll(chosenEntry.getValue()));
-      
+
       chosenBuilder.put(chosenEntry.getKey(), ImmutableSet.copyOf(chosenEntry.getValue()));
     }
     this.chosen = chosenBuilder.build();
@@ -79,20 +84,23 @@ public final class CellAnnotation {
    * 
    * @param other annotation based on different set of knowledge bases
    * @return merged annotation
-   * @throws IllegalArgumentException If both this and the other annotation have some candidates from the same knowledge base
+   * @throws IllegalArgumentException If both this and the other annotation have some candidates
+   *         from the same knowledge base
    */
   public CellAnnotation merge(CellAnnotation other) throws IllegalArgumentException {
-    final ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder = ImmutableMap.builder();
+    final ImmutableMap.Builder<KnowledgeBase, NavigableSet<EntityCandidate>> candidatesBuilder =
+        ImmutableMap.builder();
     candidatesBuilder.putAll(this.candidates);
     candidatesBuilder.putAll(other.candidates);
-    
-    final ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder = ImmutableMap.builder();
+
+    final ImmutableMap.Builder<KnowledgeBase, Set<EntityCandidate>> chosenBuilder =
+        ImmutableMap.builder();
     chosenBuilder.putAll(this.chosen);
     chosenBuilder.putAll(other.chosen);
-    
+
     return new CellAnnotation(candidatesBuilder.build(), chosenBuilder.build());
   }
-  
+
   /**
    * Computes hash code based on the candidates and the chosen.
    * 
@@ -107,7 +115,9 @@ public final class CellAnnotation {
     return result;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override

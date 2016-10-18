@@ -97,8 +97,6 @@ public final class FutureBasedExecutionService implements ExecutionService {
     final Configuration configuration = task.getConfiguration();
     final File file = configuration.getInput();
 
-    final KnowledgeBase primaryBase = configuration.getPrimaryBase();
-
     final Callable<Result> execution = () -> {
       final String data = fileService.getDataById(file.getId());
 
@@ -116,7 +114,7 @@ public final class FutureBasedExecutionService implements ExecutionService {
         results.put(new KnowledgeBase(interpreterEntry.getKey()), annotationResult);
       }
       final Result result = annotationResultAdapter
-          .toResult(results, primaryBase);
+          .toResult(results);
 
       return result;
     };
@@ -125,11 +123,16 @@ public final class FutureBasedExecutionService implements ExecutionService {
     tasksToResults.put(task, future);
   }
 
+  /* (non-Javadoc)
+   * @see cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService#getResultForTaskId(java.lang.String)
+   */
   @Override
   public Result getResultForTaskId(String id)
-      throws InterruptedException, ExecutionException, CancellationException, InterruptedException {
+      throws InterruptedException, ExecutionException, CancellationException {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
+    
+    Preconditions.checkArgument(resultFuture != null);
 
     return resultFuture.get();
   }
@@ -138,8 +141,10 @@ public final class FutureBasedExecutionService implements ExecutionService {
   public void cancelForTaskId(String id) {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
+    
+    Preconditions.checkArgument(resultFuture != null);
 
-    resultFuture.cancel(true);
+    Preconditions.checkState(resultFuture.cancel(true));
   }
 
   @Override
@@ -147,6 +152,8 @@ public final class FutureBasedExecutionService implements ExecutionService {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
 
+    Preconditions.checkArgument(resultFuture != null);
+    
     return resultFuture.isDone();
   }
 
@@ -155,6 +162,8 @@ public final class FutureBasedExecutionService implements ExecutionService {
     final Task task = taskService.getById(id);
     final Future<Result> resultFuture = tasksToResults.get(task);
 
+    Preconditions.checkArgument(resultFuture != null);
+    
     return resultFuture.isCancelled();
   }
 
@@ -164,5 +173,62 @@ public final class FutureBasedExecutionService implements ExecutionService {
     final Future<Result> resultFuture = tasksToResults.get(task);
 
     return resultFuture != null;
+  }
+
+  @Override
+  public boolean isSuccessForTasksId(String id) {
+    if (!isDoneForTaskId(id)) {
+      return false;
+    }
+    
+    if (isCanceledForTaskId(id)) {
+      return false;
+    }
+    
+    try {
+      final Result result = getResultForTaskId(id);
+      
+      return result.getWarnings().isEmpty();
+    } catch (final InterruptedException | ExecutionException e) {
+      return false;
+    }
+  }
+
+  @Override
+  public boolean isWarnedForTasksId(String id) {
+    if (!isDoneForTaskId(id)) {
+      return false;
+    }
+    
+    if (isCanceledForTaskId(id)) {
+      return false;
+    }
+    
+    try {
+      final Result result = getResultForTaskId(id);
+      
+      return !result.getWarnings().isEmpty();
+    } catch (final InterruptedException | ExecutionException e) {
+      return false;
+    }
+  }
+
+  @Override
+  public boolean hasFailedForTasksId(String id) {
+    if (!isDoneForTaskId(id)) {
+      return false;
+    }
+    
+    if (isCanceledForTaskId(id)) {
+      return false;
+    }
+    
+    try {
+      getResultForTaskId(id);
+      
+      return false;
+    } catch (final InterruptedException | ExecutionException e) {
+      return true;
+    }
   }
 }

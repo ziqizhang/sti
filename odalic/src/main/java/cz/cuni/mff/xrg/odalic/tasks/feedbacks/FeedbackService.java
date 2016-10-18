@@ -22,7 +22,8 @@ public interface FeedbackService {
    * 
    * @param id task ID
    * @return input used as the basis of feedback
+   * @throws IllegalArgumentException when no input for the task exists
    * @throws IOException when I/O exception occurs when reading underlying data
    */
-  Input getInputForTaskId(String id) throws IOException;
+  Input getInputForTaskId(String id) throws IllegalArgumentException, IOException;
 }

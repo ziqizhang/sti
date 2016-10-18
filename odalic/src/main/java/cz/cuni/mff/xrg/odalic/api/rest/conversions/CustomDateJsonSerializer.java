@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  * @author Václav Brodec
  *
  */
-public final class CustomJsonDateSerializer extends JsonSerializer<Date> {
+public final class CustomDateJsonSerializer extends JsonSerializer<Date> {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
 
@@ -23,7 +23,6 @@ public final class CustomJsonDateSerializer extends JsonSerializer<Date> {
     public void serialize(Date value, JsonGenerator jgen,
             SerializerProvider provider) throws IOException,
             JsonProcessingException {
-        
         final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         final String dateString = dateFormat.format(value);
         jgen.writeString(dateString);       

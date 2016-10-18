@@ -1,7 +1,9 @@
 package cz.cuni.mff.xrg.odalic.api.rest.resources;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
 
+import cz.cuni.mff.xrg.odalic.api.rest.responses.Message;
+import cz.cuni.mff.xrg.odalic.api.rest.responses.Reply;
 import cz.cuni.mff.xrg.odalic.api.rest.values.ConfigurationValue;
 import cz.cuni.mff.xrg.odalic.files.File;
 import cz.cuni.mff.xrg.odalic.files.FileService;
@@ -26,12 +30,12 @@ public final class ConfigurationResource {
 
   private final ConfigurationService configurationService;
   private final FileService fileService;
-  
+
   @Autowired
   public ConfigurationResource(ConfigurationService configurationService, FileService fileService) {
     Preconditions.checkNotNull(configurationService);
     Preconditions.checkNotNull(fileService);
-    
+
     this.configurationService = configurationService;
     this.fileService = fileService;
   }
@@ -41,24 +45,51 @@ public final class ConfigurationResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response putConfigurationForTaskId(@PathParam("id") String id,
       ConfigurationValue configurationValue) {
-    final File input = fileService.getById(configurationValue.getInput());
+    if (configurationValue == null) {
+      throw new BadRequestException("Configuration must be provided!");
+    }
     
-    final Configuration configuration;
-    if (configurationValue.getFeedback() == null) {
-        configuration = new Configuration(input, configurationValue.getPrimaryBase());
-    } else {
-      configuration = new Configuration(input, configurationValue.getPrimaryBase(), configurationValue.getFeedback());
+    if (configurationValue.getInput() == null) {
+      throw new BadRequestException("Input must be specified!");
+    }
+    
+    if (configurationValue.getPrimaryBase() == null) {
+      throw new BadRequestException("The primary base must be specified!");
+    }
+    
+    final File input;
+    try {
+      input = fileService.getById(configurationValue.getInput());
+    } catch (final IllegalArgumentException e) {
+      throw new BadRequestException("The configured input file is not registered.");
     }
 
-    configurationService.setForTaskId(id, configuration);
-    return Response.status(Response.Status.OK).entity("Configuration set.").build();
+    final Configuration configuration;
+    if (configurationValue.getFeedback() == null) {
+      configuration = new Configuration(input, configurationValue.getPrimaryBase());
+    } else {
+      configuration = new Configuration(input, configurationValue.getPrimaryBase(),
+          configurationValue.getFeedback());
+    }
+
+    try {
+      configurationService.setForTaskId(id, configuration);
+    } catch (final IllegalArgumentException e) {
+      throw new BadRequestException("The configured task does not exist.");
+    }
+    return Message.of("Configuration set.").toResponse(Response.Status.OK);
   }
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getConfigurationForTaskId(@PathParam("id") String taskId) {
-    Configuration configurationForTaskId = configurationService.getForTaskId(taskId);
+    final Configuration configurationForTaskId;
+    try {
+      configurationForTaskId = configurationService.getForTaskId(taskId);
+    } catch (final IllegalArgumentException e) {
+      throw new NotFoundException("Configuration for the task does not exist.");
+    }
 
-    return Response.status(Response.Status.OK).entity(configurationForTaskId).build();
+    return Reply.data(Response.Status.OK, configurationForTaskId).toResponse();
   }
 }

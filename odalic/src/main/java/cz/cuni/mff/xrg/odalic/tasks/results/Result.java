@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -14,13 +13,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import cz.cuni.mff.xrg.odalic.api.rest.adapters.ResultAdapter;
-import cz.cuni.mff.xrg.odalic.positions.CellRelationPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
 import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.CellAnnotation;
-import cz.cuni.mff.xrg.odalic.tasks.annotations.CellRelationAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.ColumnRelationAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.HeaderAnnotation;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 
 /**
  * <p>
@@ -45,83 +43,42 @@ public class Result implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
 
-  private final ColumnPosition subjectColumnPosition;
+  private final Map<KnowledgeBase, ColumnPosition> subjectColumnPositions;
 
   private final List<HeaderAnnotation> headerAnnotations;
 
   private final CellAnnotation[][] cellAnnotations;
 
   private final Map<ColumnRelationPosition, ColumnRelationAnnotation> columnRelationAnnotations;
-
-  private final Map<CellRelationPosition, CellRelationAnnotation> cellRelationAnnotations;
-
-  /**
-   * Creates new annotation result representation.
-   * 
-   * @param subjectColumnPosition suggested position of the subject column
-   * @param headerAnnotations suggested header annotations
-   * @param cellAnnotations suggested cell annotations
-   * @param columnRelationAnnotations suggested annotations for the relations between two columns
-   * @param cellRelationAnnotations suggested annotation for relations existing between two cells at
-   *        the same row
-   */
-  public Result(List<HeaderAnnotation> headerAnnotations,
-      CellAnnotation[][] cellAnnotations,
-      Map<ColumnRelationPosition, ColumnRelationAnnotation> columnRelationAnnotations,
-      Map<CellRelationPosition, CellRelationAnnotation> cellRelationAnnotations) {
-    checkMandatory(headerAnnotations, cellAnnotations, columnRelationAnnotations,
-        cellRelationAnnotations);
-    
-    this.subjectColumnPosition = null;
-    this.headerAnnotations = ImmutableList.copyOf(headerAnnotations);
-    this.cellAnnotations = cz.cuni.mff.xrg.odalic.util.Arrays.deepCopy(CellAnnotation.class, cellAnnotations);
-    this.columnRelationAnnotations = ImmutableMap.copyOf(columnRelationAnnotations);
-    this.cellRelationAnnotations = ImmutableMap.copyOf(cellRelationAnnotations);
-  }
-
-  private static void checkMandatory(List<HeaderAnnotation> headerAnnotations,
-      CellAnnotation[][] cellAnnotations,
-      Map<ColumnRelationPosition, ColumnRelationAnnotation> columnRelationAnnotations,
-      Map<CellRelationPosition, CellRelationAnnotation> cellRelationAnnotations) {
-
-    Preconditions.checkArgument(!cz.cuni.mff.xrg.odalic.util.Arrays.containsNull(cellAnnotations));
-    Preconditions.checkArgument(cz.cuni.mff.xrg.odalic.util.Arrays.isMatrix(cellAnnotations));
-  }
   
-  /**
-   * @param subjectColumnPosition
-   * @param headerAnnotations
-   * @param cellAnnotations
-   * @param columnRelationAnnotations
-   * @param cellRelationAnnotations
-   */
-  public Result(ColumnPosition subjectColumnPosition,
-      List<HeaderAnnotation> headerAnnotations,
-      CellAnnotation[][] cellAnnotations,
-      Map<ColumnRelationPosition, ColumnRelationAnnotation> columnRelationAnnotations,
-      Map<CellRelationPosition, CellRelationAnnotation> cellRelationAnnotations) {
-    Preconditions.checkNotNull(subjectColumnPosition);
+  private final List<String> warnings;
+
+  public Result(Map<? extends KnowledgeBase, ? extends ColumnPosition> subjectColumnPositions,
+      List<? extends HeaderAnnotation> headerAnnotations, CellAnnotation[][] cellAnnotations,
+      Map<? extends ColumnRelationPosition, ? extends ColumnRelationAnnotation> columnRelationAnnotations,
+      List<? extends String> warnings) {
+    Preconditions.checkNotNull(subjectColumnPositions);
     Preconditions.checkNotNull(headerAnnotations);
     Preconditions.checkNotNull(cellAnnotations);
     Preconditions.checkNotNull(columnRelationAnnotations);
-    Preconditions.checkNotNull(cellRelationAnnotations);
+    Preconditions.checkNotNull(warnings);
     Preconditions.checkArgument(!cz.cuni.mff.xrg.odalic.util.Arrays.containsNull(cellAnnotations));
     Preconditions.checkArgument(cz.cuni.mff.xrg.odalic.util.Arrays.isMatrix(cellAnnotations));
 
-    this.subjectColumnPosition = subjectColumnPosition;
+    this.subjectColumnPositions = ImmutableMap.copyOf(subjectColumnPositions);
     this.headerAnnotations = ImmutableList.copyOf(headerAnnotations);
     this.cellAnnotations =
         cz.cuni.mff.xrg.odalic.util.Arrays.deepCopy(CellAnnotation.class, cellAnnotations);
     this.columnRelationAnnotations = ImmutableMap.copyOf(columnRelationAnnotations);
-    this.cellRelationAnnotations = ImmutableMap.copyOf(cellRelationAnnotations);
+    this.warnings = ImmutableList.copyOf(warnings);
   }
 
   /**
-   * @return the subject column position
+   * @return the subject column positions
    */
   @Nullable
-  public ColumnPosition getSubjectColumnPosition() {
-    return subjectColumnPosition;
+  public Map<KnowledgeBase, ColumnPosition> getSubjectColumnPositions() {
+    return subjectColumnPositions;
   }
 
   /**
@@ -146,12 +103,12 @@ public class Result implements Serializable {
   }
 
   /**
-   * @return the cell relation annotations
+   * @return the warnings in order of appearance
    */
-  public Map<CellRelationPosition, CellRelationAnnotation> getCellRelationAnnotations() {
-    return cellRelationAnnotations;
+  public List<String> getWarnings() {
+    return this.warnings;
   }
-
+  
   /**
    * Computes hash code based on all its parts.
    * 
@@ -163,12 +120,10 @@ public class Result implements Serializable {
     int result = 1;
     result = prime * result + Arrays.deepHashCode(cellAnnotations);
     result = prime * result
-        + ((cellRelationAnnotations == null) ? 0 : cellRelationAnnotations.hashCode());
-    result = prime * result
         + ((columnRelationAnnotations == null) ? 0 : columnRelationAnnotations.hashCode());
     result = prime * result + ((headerAnnotations == null) ? 0 : headerAnnotations.hashCode());
     result =
-        prime * result + ((subjectColumnPosition == null) ? 0 : subjectColumnPosition.hashCode());
+        prime * result + ((subjectColumnPositions == null) ? 0 : subjectColumnPositions.hashCode());
     return result;
   }
 
@@ -192,13 +147,6 @@ public class Result implements Serializable {
     if (!Arrays.deepEquals(cellAnnotations, other.cellAnnotations)) {
       return false;
     }
-    if (cellRelationAnnotations == null) {
-      if (other.cellRelationAnnotations != null) {
-        return false;
-      }
-    } else if (!cellRelationAnnotations.equals(other.cellRelationAnnotations)) {
-      return false;
-    }
     if (columnRelationAnnotations == null) {
       if (other.columnRelationAnnotations != null) {
         return false;
@@ -213,11 +161,18 @@ public class Result implements Serializable {
     } else if (!headerAnnotations.equals(other.headerAnnotations)) {
       return false;
     }
-    if (subjectColumnPosition == null) {
-      if (other.subjectColumnPosition != null) {
+    if (subjectColumnPositions == null) {
+      if (other.subjectColumnPositions != null) {
         return false;
       }
-    } else if (!subjectColumnPosition.equals(other.subjectColumnPosition)) {
+    } else if (!subjectColumnPositions.equals(other.subjectColumnPositions)) {
+      return false;
+    }
+    if (warnings == null) {
+      if (other.warnings != null) {
+        return false;
+      }
+    } else if (!warnings.equals(other.warnings)) {
       return false;
     }
     return true;
@@ -230,9 +185,8 @@ public class Result implements Serializable {
    */
   @Override
   public String toString() {
-    return "Result [subjectColumnPosition=" + subjectColumnPosition + ", headerAnnotations="
+    return "Result [subjectColumnPositions=" + subjectColumnPositions + ", headerAnnotations="
         + headerAnnotations + ", cellAnnotations=" + Arrays.deepToString(cellAnnotations)
-        + ", columnRelationAnnotations=" + columnRelationAnnotations + ", cellRelationAnnotations="
-        + cellRelationAnnotations + "]";
+        + ", columnRelationAnnotations=" + columnRelationAnnotations + ", warnings=" + warnings + "]";
   }
 }

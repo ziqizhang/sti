@@ -55,7 +55,7 @@ public final class MemoryOnlyFeedbackService implements FeedbackService {
    * @see cz.cuni.mff.xrg.odalic.tasks.feedbacks.FeedbackService#getInputForTaskId(java.lang.String)
    */
   @Override
-  public Input getInputForTaskId(String taskId) throws IOException {
+  public Input getInputForTaskId(String taskId) throws IllegalArgumentException, IOException {
     final Configuration configuration = configurationService.getForTaskId(taskId);
     final File file = configuration.getInput();
     final String data = fileService.getDataById(file.getId());

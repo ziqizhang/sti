@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.base.Preconditions;
 
-import cz.cuni.mff.xrg.odalic.api.rest.adapters.FileAdapter;
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.FileValueOutputAdapter;
 
 /**
  * File description.
@@ -18,7 +18,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.adapters.FileAdapter;
  *
  */
 @Immutable
-@XmlJavaTypeAdapter(FileAdapter.class)
+@XmlJavaTypeAdapter(FileValueOutputAdapter.class)
 public class File implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
@@ -30,6 +30,8 @@ public class File implements Serializable {
   private final String owner;
   
   private final URL location;
+  
+  private final boolean cached;
 
   /**
    * Create new file description.
@@ -38,8 +40,9 @@ public class File implements Serializable {
    * @param uploaded time of upload
    * @param owner file owner description
    * @param location file location
+   * @param cached boolean
    */
-  public File(String id, Date uploaded, String owner, URL location) {
+  public File(String id, Date uploaded, String owner, URL location, boolean cached) {
     Preconditions.checkNotNull(id);
     Preconditions.checkNotNull(uploaded);
     Preconditions.checkNotNull(owner);
@@ -49,6 +52,7 @@ public class File implements Serializable {
     this.uploaded = uploaded;
     this.owner = owner;
     this.location = location;
+    this.cached = cached;
   }
   
   /**
@@ -57,9 +61,10 @@ public class File implements Serializable {
    * @param id file ID
    * @param owner file owner description
    * @param location file location
+   * @param cached cached
    */
-  public File(String id, String owner, URL location) {
-    this(id, new Date(), owner, location);
+  public File(String id, String owner, URL location, boolean cached) {
+    this(id, new Date(), owner, location, cached);
   }
 
   /**
@@ -89,6 +94,13 @@ public class File implements Serializable {
   public URL getLocation() {
     return location;
   }
+  
+  /**
+   * @return cached
+   */
+  public boolean isCached() {
+    return cached;
+  }
 
   /**
    * Computes the hash code based on all components.
@@ -100,9 +112,6 @@ public class File implements Serializable {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((id == null) ? 0 : id.hashCode());
-    result = prime * result + ((location == null) ? 0 : location.hashCode());
-    result = prime * result + ((owner == null) ? 0 : owner.hashCode());
-    result = prime * result + ((uploaded == null) ? 0 : uploaded.hashCode());
     return result;
   }
 
@@ -123,32 +132,7 @@ public class File implements Serializable {
       return false;
     }
     File other = (File) obj;
-    if (id == null) {
-      if (other.id != null) {
-        return false;
-      }
-    } else if (!id.equals(other.id)) {
-      return false;
-    }
-    if (location == null) {
-      if (other.location != null) {
-        return false;
-      }
-    } else if (!location.equals(other.location)) {
-      return false;
-    }
-    if (owner == null) {
-      if (other.owner != null) {
-        return false;
-      }
-    } else if (!owner.equals(other.owner)) {
-      return false;
-    }
-    if (uploaded == null) {
-      if (other.uploaded != null) {
-        return false;
-      }
-    } else if (!uploaded.equals(other.uploaded)) {
+    if (!id.equals(other.id)) {
       return false;
     }
     return true;
@@ -160,6 +144,6 @@ public class File implements Serializable {
   @Override
   public String toString() {
     return "File [id=" + id + ", uploaded=" + uploaded + ", owner=" + owner + ", location="
-        + location + "]";
+        + location + ", cached=" + cached + "]";
   }
 }

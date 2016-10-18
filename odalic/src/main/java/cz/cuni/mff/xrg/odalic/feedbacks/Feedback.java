@@ -1,6 +1,7 @@
 package cz.cuni.mff.xrg.odalic.feedbacks;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -12,6 +13,8 @@ import com.google.common.collect.ImmutableSet;
 
 import cz.cuni.mff.xrg.odalic.api.rest.adapters.FeedbackAdapter;
 import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
+import jersey.repackaged.com.google.common.collect.ImmutableMap;
 
 /**
  * User feedback for the result of annotating algorithm. Expresses also input constraints for the
@@ -26,7 +29,7 @@ public final class Feedback implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
 
-  private final ColumnPosition subjectColumnPosition;
+  private final Map<KnowledgeBase, ColumnPosition> subjectColumnPositions;
 
   private final Set<ColumnIgnore> columnIgnores;
 
@@ -38,8 +41,6 @@ public final class Feedback implements Serializable {
 
   private final Set<Disambiguation> disambiguations;
 
-  private final Set<CellRelation> cellRelations;
-
   private final Set<ColumnRelation> columnRelations;
 
 
@@ -47,11 +48,10 @@ public final class Feedback implements Serializable {
    * Creates empty feedback.
    */
   public Feedback() {
-    this.subjectColumnPosition = null;
+    this.subjectColumnPositions = ImmutableMap.of();
     this.columnIgnores = ImmutableSet.of();
     this.columnAmbiguities = ImmutableSet.of();
     this.classifications = ImmutableSet.of();
-    this.cellRelations = ImmutableSet.of();
     this.columnRelations = ImmutableSet.of();
     this.disambiguations = ImmutableSet.of();
     this.ambiguities = ImmutableSet.of();
@@ -60,33 +60,29 @@ public final class Feedback implements Serializable {
   /**
    * Creates feedback.
    * 
-   * @param subjectColumnPosition position of the subject column (optional)
+   * @param subjectColumnPositions positions of the subject columns
    * @param columnIgnores ignored columns
    * @param columnAmbiguities columns whose cells will not be disambiguated
    * @param classifications classification hints for columns
-   * @param cellRelations hints with relations between cells on the same rows
    * @param columnRelations hints with relation between columns
    * @param disambiguations custom disambiguations
    * @param ambiguities hints for cells to be left ambiguous
    */
-  public Feedback(@Nullable ColumnPosition subjectColumnPosition,
+  public Feedback(Map<? extends KnowledgeBase, ? extends ColumnPosition> subjectColumnPositions,
       Set<? extends ColumnIgnore> columnIgnores, Set<? extends ColumnAmbiguity> columnAmbiguities,
-      Set<? extends Classification> classifications, Set<? extends CellRelation> cellRelations,
-      Set<? extends ColumnRelation> columnRelations, Set<? extends Disambiguation> disambiguations,
-      Set<? extends Ambiguity> ambiguities) {
+      Set<? extends Classification> classifications, Set<? extends ColumnRelation> columnRelations,
+      Set<? extends Disambiguation> disambiguations, Set<? extends Ambiguity> ambiguities) {
     Preconditions.checkNotNull(columnIgnores);
     Preconditions.checkNotNull(columnAmbiguities);
     Preconditions.checkNotNull(classifications);
-    Preconditions.checkNotNull(cellRelations);
     Preconditions.checkNotNull(columnRelations);
     Preconditions.checkNotNull(disambiguations);
     Preconditions.checkNotNull(ambiguities);
 
-    this.subjectColumnPosition = subjectColumnPosition;
+    this.subjectColumnPositions = ImmutableMap.copyOf(subjectColumnPositions);
     this.columnIgnores = ImmutableSet.copyOf(columnIgnores);
     this.columnAmbiguities = ImmutableSet.copyOf(columnAmbiguities);
     this.classifications = ImmutableSet.copyOf(classifications);
-    this.cellRelations = ImmutableSet.copyOf(cellRelations);
     this.columnRelations = ImmutableSet.copyOf(columnRelations);
     this.disambiguations = ImmutableSet.copyOf(disambiguations);
     this.ambiguities = ImmutableSet.copyOf(ambiguities);
@@ -96,8 +92,8 @@ public final class Feedback implements Serializable {
    * @return the subject column position
    */
   @Nullable
-  public ColumnPosition getSubjectColumnPosition() {
-    return subjectColumnPosition;
+  public Map<KnowledgeBase, ColumnPosition> getSubjectColumnPositions() {
+    return subjectColumnPositions;
   }
 
   /**
@@ -119,13 +115,6 @@ public final class Feedback implements Serializable {
    */
   public Set<Classification> getClassifications() {
     return classifications;
-  }
-
-  /**
-   * @return the cell relations
-   */
-  public Set<CellRelation> getCellRelations() {
-    return cellRelations;
   }
 
   /**
@@ -159,14 +148,13 @@ public final class Feedback implements Serializable {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((ambiguities == null) ? 0 : ambiguities.hashCode());
-    result = prime * result + ((cellRelations == null) ? 0 : cellRelations.hashCode());
     result = prime * result + ((classifications == null) ? 0 : classifications.hashCode());
     result = prime * result + ((columnAmbiguities == null) ? 0 : columnAmbiguities.hashCode());
     result = prime * result + ((columnIgnores == null) ? 0 : columnIgnores.hashCode());
     result = prime * result + ((columnRelations == null) ? 0 : columnRelations.hashCode());
     result = prime * result + ((disambiguations == null) ? 0 : disambiguations.hashCode());
     result =
-        prime * result + ((subjectColumnPosition == null) ? 0 : subjectColumnPosition.hashCode());
+        prime * result + ((subjectColumnPositions == null) ? 0 : subjectColumnPositions.hashCode());
     return result;
   }
 
@@ -192,13 +180,6 @@ public final class Feedback implements Serializable {
         return false;
       }
     } else if (!ambiguities.equals(other.ambiguities)) {
-      return false;
-    }
-    if (cellRelations == null) {
-      if (other.cellRelations != null) {
-        return false;
-      }
-    } else if (!cellRelations.equals(other.cellRelations)) {
       return false;
     }
     if (classifications == null) {
@@ -236,11 +217,11 @@ public final class Feedback implements Serializable {
     } else if (!disambiguations.equals(other.disambiguations)) {
       return false;
     }
-    if (subjectColumnPosition == null) {
-      if (other.subjectColumnPosition != null) {
+    if (subjectColumnPositions == null) {
+      if (other.subjectColumnPositions != null) {
         return false;
       }
-    } else if (!subjectColumnPosition.equals(other.subjectColumnPosition)) {
+    } else if (!subjectColumnPositions.equals(other.subjectColumnPositions)) {
       return false;
     }
     return true;
@@ -253,10 +234,9 @@ public final class Feedback implements Serializable {
    */
   @Override
   public String toString() {
-    return "Feedback [subjectColumnPosition=" + subjectColumnPosition + ", columnIgnores="
+    return "Feedback [subjectColumnPositions=" + subjectColumnPositions + ", columnIgnores="
         + columnIgnores + ", columnAmbiguities=" + columnAmbiguities + ", classifications="
-        + classifications + ", cellRelations=" + cellRelations + ", columnRelations="
-        + columnRelations + ", disambiguations=" + disambiguations + ", ambiguities=" + ambiguities
-        + "]";
+        + classifications + ", columnRelations=" + columnRelations + ", disambiguations="
+        + disambiguations + ", ambiguities=" + ambiguities + "]";
   }
 }

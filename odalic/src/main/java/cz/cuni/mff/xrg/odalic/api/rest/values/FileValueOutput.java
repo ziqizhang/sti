@@ -13,18 +13,18 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import com.google.common.base.Preconditions;
 
-import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateSerializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomDateJsonSerializer;
 import cz.cuni.mff.xrg.odalic.files.File;
-import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomJsonDateDeserializer;
+import cz.cuni.mff.xrg.odalic.api.rest.conversions.CustomDateJsonDeserializer;
 
 /**
- * Domain class {@link File} adapted for REST API.
+ * Domain class {@link File} adapted for REST API output.
  * 
  * @author Václav Brodec
  *
  */
 @XmlRootElement(name = "file")
-public final class FileValue implements Serializable {
+public final class FileValueOutput implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
 
@@ -35,14 +35,17 @@ public final class FileValue implements Serializable {
   private String owner;
   
   private URL location;
-
-  public FileValue() {}
   
-  public FileValue(File adaptee) {
+  private boolean cached;
+
+  public FileValueOutput() {}
+  
+  public FileValueOutput(File adaptee) {
     id = adaptee.getId();
     uploaded = adaptee.getUploaded();
     owner = adaptee.getOwner();
     location = adaptee.getLocation();
+    cached = adaptee.isCached();
   }
 
   /**
@@ -66,8 +69,8 @@ public final class FileValue implements Serializable {
   /**
    * @return the uploaded
    */
-  @JsonSerialize(using = CustomJsonDateSerializer.class)
-  @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+  @JsonSerialize(using = CustomDateJsonSerializer.class)
+  @JsonDeserialize(using = CustomDateJsonDeserializer.class)
   @XmlElement
   @Nullable
   public Date getUploaded() {
@@ -118,13 +121,28 @@ public final class FileValue implements Serializable {
     
     this.location = location;
   }
+  
+  /**
+   * @return cached
+   */
+  @XmlElement
+  public boolean isCached() {
+    return cached;
+  }
+
+  /**
+   * @param cached cached
+   */
+  public void setCached(boolean cached) {    
+    this.cached = cached;
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    return "FileValue [id=" + id + ", uploaded=" + uploaded + ", owner=" + owner + ", location="
-        + location + "]";
+    return "FileValueOutput [id=" + id + ", uploaded=" + uploaded + ", owner=" + owner + ", location="
+        + location + ", cached=" + cached + "]";
   }
 }

@@ -7,33 +7,33 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.common.base.Preconditions;
 
-import cz.cuni.mff.xrg.odalic.tasks.annotations.Likelihood;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.Score;
 
 /**
- * Domain class {@link Likelihood} adapted for REST API.
+ * Domain class {@link Score} adapted for REST API.
  * 
  * @author Václav Brodec
  *
  */
-@XmlRootElement(name = "likelihood")
-public final class LikelihoodValue implements Serializable {
+@XmlRootElement(name = "score")
+public final class ScoreValue implements Serializable {
   
   private static final long serialVersionUID = -901650058091668104L;
   
+  @XmlElement
   private double value;
 
-  public LikelihoodValue() {
+  public ScoreValue() {
     value = Double.MIN_VALUE;
   }
   
-  public LikelihoodValue(Likelihood adaptee) {
+  public ScoreValue(Score adaptee) {
     value = adaptee.getValue();
   }
 
   /**
-   * @return the value (when not set, may be out of range)
+   * @return the value (negative when not set)
    */
-  @XmlElement
   public double getValue() {
     return value;
   }
@@ -52,6 +52,6 @@ public final class LikelihoodValue implements Serializable {
    */
   @Override
   public String toString() {
-    return "LikelihoodValue [value=" + value + "]";
+    return "ScoreValue [value=" + value + "]";
   }
 }

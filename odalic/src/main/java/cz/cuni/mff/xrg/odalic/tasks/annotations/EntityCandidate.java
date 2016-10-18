@@ -10,7 +10,7 @@ import com.google.common.base.Preconditions;
 import cz.cuni.mff.xrg.odalic.api.rest.adapters.EntityCandidateAdapter;
 
 /**
- * Encapsulates annotating entity and the likelihood that is assigned to it.
+ * Encapsulates annotating entity and the score that is assigned to it.
  * 
  * @author Václav Brodec
  *
@@ -23,17 +23,17 @@ public final class EntityCandidate implements Comparable<EntityCandidate>, Seria
 
   private final Entity entity;
 
-  private final Likelihood likelihood;
+  private final Score score;
 
   /**
    * @param entity
-   * @param likelihood
+   * @param score
    */
-  public EntityCandidate(Entity entity, Likelihood likelihood) {
+  public EntityCandidate(Entity entity, Score score) {
     Preconditions.checkNotNull(entity);
 
     this.entity = entity;
-    this.likelihood = likelihood;
+    this.score = score;
   }
 
   /**
@@ -44,14 +44,14 @@ public final class EntityCandidate implements Comparable<EntityCandidate>, Seria
   }
 
   /**
-   * @return the likelihood
+   * @return the score
    */
-  public Likelihood getLikelihood() {
-    return likelihood;
+  public Score getScore() {
+    return score;
   }
 
   /**
-   * Computes hash code based on the entity and the likelihood.
+   * Computes hash code based on the entity and the score.
    * 
    * @see java.lang.Object#hashCode()
    */
@@ -60,12 +60,12 @@ public final class EntityCandidate implements Comparable<EntityCandidate>, Seria
     final int prime = 31;
     int result = 1;
     result = prime * result + ((entity == null) ? 0 : entity.hashCode());
-    result = prime * result + ((likelihood == null) ? 0 : likelihood.hashCode());
+    result = prime * result + ((score == null) ? 0 : score.hashCode());
     return result;
   }
 
   /**
-   * Compares for equality (only other candidates entity with the same likelihood passes).
+   * Compares for equality (only other candidates entity with the same score passes).
    * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
@@ -88,30 +88,30 @@ public final class EntityCandidate implements Comparable<EntityCandidate>, Seria
     } else if (!entity.equals(other.entity)) {
       return false;
     }
-    if (likelihood == null) {
-      if (other.likelihood != null) {
+    if (score == null) {
+      if (other.score != null) {
         return false;
       }
-    } else if (!likelihood.equals(other.likelihood)) {
+    } else if (!score.equals(other.score)) {
       return false;
     }
     return true;
   }
   
   /**
-   * Entity candidates are naturally ordered by their likelihood in ascending order. In case of the
-   * equal likelihood the natural ordering of entities is taken into account.
+   * Entity candidates are naturally ordered by their score in ascending order. In case of the
+   * equal score the natural ordering of entities is taken into account.
    * 
    * @see java.lang.Comparable#compareTo(java.lang.Object)
    */
   @Override
   public int compareTo(EntityCandidate o) {
-    final int likelihoodComparison = likelihood.compareTo(o.likelihood);
+    final int scoreComparison = score.compareTo(o.score);
     
-    if (likelihoodComparison == 0) {
+    if (scoreComparison == 0) {
       return entity.compareTo(o.entity);
     } else {
-      return likelihoodComparison;
+      return scoreComparison;
     }
   }
 
@@ -122,6 +122,6 @@ public final class EntityCandidate implements Comparable<EntityCandidate>, Seria
    */
   @Override
   public String toString() {
-    return "EntityCandidate [entity=" + entity + ", likelihood=" + likelihood + "]";
+    return "EntityCandidate [entity=" + entity + ", score=" + score + "]";
   }
 }

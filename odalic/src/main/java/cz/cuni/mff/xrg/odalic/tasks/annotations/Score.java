@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.base.Preconditions;
 
-import cz.cuni.mff.xrg.odalic.api.rest.adapters.LikelihoodAdapter;
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.ScoreAdapter;
 
 /**
  * Score value for annotation.
@@ -16,14 +16,14 @@ import cz.cuni.mff.xrg.odalic.api.rest.adapters.LikelihoodAdapter;
  *
  */
 @Immutable
-@XmlJavaTypeAdapter(LikelihoodAdapter.class)
-public final class Likelihood implements Comparable<Likelihood>, Serializable {
+@XmlJavaTypeAdapter(ScoreAdapter.class)
+public final class Score implements Comparable<Score>, Serializable {
 
   private static final long serialVersionUID = -901650058091668104L;
 
   private final double value;
 
-  public Likelihood(double value) {
+  public Score(double value) {
     Preconditions.checkArgument(value >= 0);
 
     this.value = value;
@@ -52,7 +52,7 @@ public final class Likelihood implements Comparable<Likelihood>, Serializable {
   }
 
   /**
-   * Compares for equality (only other Likelihood with the same values passes).
+   * Compares for equality (only other Score with the same values passes).
    * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
@@ -67,7 +67,7 @@ public final class Likelihood implements Comparable<Likelihood>, Serializable {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    Likelihood other = (Likelihood) obj;
+    Score other = (Score) obj;
     if (Double.doubleToLongBits(value) != Double.doubleToLongBits(other.value)) {
       return false;
     }
@@ -78,7 +78,7 @@ public final class Likelihood implements Comparable<Likelihood>, Serializable {
    * @see java.lang.Comparable#compareTo(java.lang.Object)
    */
   @Override
-  public int compareTo(Likelihood o) {
+  public int compareTo(Score o) {
     return Double.compare(value, o.value);
   }
   
@@ -89,7 +89,7 @@ public final class Likelihood implements Comparable<Likelihood>, Serializable {
    */
   @Override
   public String toString() {
-    return "Likelihood [value=" + value + "]";
+    return "Score [value=" + value + "]";
   }
 
 }

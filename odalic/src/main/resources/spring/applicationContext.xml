@@ -60,6 +60,7 @@
 	<bean id="annotatedTableService" class="cz.cuni.mff.xrg.odalic.outputs.annotatedtable.ResultAdaptingAnnotatedTableService" />
 	<bean id="csvExportService" class="cz.cuni.mff.xrg.odalic.outputs.csvexport.ResultAdaptingCsvExportService" />
 	<bean id="rdfExportService" class="cz.cuni.mff.xrg.odalic.outputs.rdfexport.RioBackedRdfExportService" />
+	<bean id="entitiesService" class="cz.cuni.mff.xrg.odalic.entities.DefaultEntitiesService" />
 
 	<!-- Resources -->
 	<bean id="configurationResource"
@@ -76,4 +77,5 @@
 	<bean id="annotatedTableResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.AnnotatedTableResource" />
 	<bean id="csvExportResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.CsvExportResource" />
 	<bean id="rdfExportResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.RdfExportResource" />
+	<bean id="entitiesResource" class="cz.cuni.mff.xrg.odalic.api.rest.resources.EntitiesResource" />
 </beans>
