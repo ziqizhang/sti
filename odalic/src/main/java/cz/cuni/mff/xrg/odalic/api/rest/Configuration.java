@@ -8,6 +8,7 @@ import javax.xml.bind.JAXBException;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 
 import cz.cuni.mff.xrg.odalic.api.rest.filters.CorsResponseFilter;
@@ -57,5 +58,8 @@ public final class Configuration extends ResourceConfig {
     // Features registration
     register(JacksonFeature.class);
     register(MultiPartFeature.class);
+
+    // Prevent the container to interfere with the error entities. 
+    property(ServerProperties.RESPONSE_SET_STATUS_OVER_SEND_ERROR, "true");
   }
 }

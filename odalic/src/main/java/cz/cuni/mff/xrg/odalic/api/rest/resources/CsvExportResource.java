@@ -43,8 +43,7 @@ public final class CsvExportResource {
 
   @GET
   @Produces(TEXT_CSV_MEDIA_TYPE)
-  public Response getCsvExport(@PathParam("id") String taskId)
-      throws CancellationException, InterruptedException, ExecutionException, IOException {
+  public Response getCsvExport(@PathParam("id") String taskId) throws InterruptedException, IOException {
     final String csvContent;
     try {
       csvContent = csvExportService.getExtendedCsvForTaskId(taskId);
