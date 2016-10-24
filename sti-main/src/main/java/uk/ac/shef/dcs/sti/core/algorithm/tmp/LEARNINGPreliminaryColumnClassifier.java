@@ -8,6 +8,10 @@ import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.StoppingCriteria;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.StoppingCriteriaInstantiator;
+import uk.ac.shef.dcs.sti.core.extension.annotations.EntityCandidate;
+import uk.ac.shef.dcs.sti.core.extension.constraints.Classification;
+import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
+import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.*;
 
@@ -53,7 +57,7 @@ public class LEARNINGPreliminaryColumnClassifier {
      * indexes of cells based on the sampler
      * @throws KBSearchException
      */
-    public Pair<Integer, List<List<Integer>>> runPreliminaryColumnClassifier(Table table, TAnnotation tableAnnotation, int column,Integer... skipRows) throws KBSearchException, ClassNotFoundException, STIException {
+    public Pair<Integer, List<List<Integer>>> runPreliminaryColumnClassifier(Table table, TAnnotation tableAnnotation, int column, Constraints constraints, Integer... skipRows) throws KBSearchException, ClassNotFoundException, STIException {
         StoppingCriteria stopper = StoppingCriteriaInstantiator.instantiate(stopperClassname, stopperParams);
 
         //1. gather list of strings from this column to be interpreted, rank them (for sampling)
@@ -63,6 +67,19 @@ public class LEARNINGPreliminaryColumnClassifier {
         List<TColumnHeaderAnnotation> headerClazzScores = new ArrayList<>();
 
         int countProcessed = 0, totalRows = 0;
+
+        // 3. (added): if the classification is suggested by the user, then set it and return
+        for (Classification classification : constraints.getClassifications()) {
+          if (classification.getPosition().getIndex() == column && !classification.getAnnotation().getChosen().isEmpty()) {
+            for (EntityCandidate suggestion : classification.getAnnotation().getChosen()) {
+              headerClazzScores.add(new TColumnHeaderAnnotation(table.getColumnHeader(column).getHeaderText(),
+                  new Clazz(suggestion.getEntity().getResource(), suggestion.getEntity().getLabel()), suggestion.getScore().getValue()));
+            }
+            tableAnnotation.setHeaderAnnotation(column, headerClazzScores.toArray(new TColumnHeaderAnnotation[headerClazzScores.size()]));
+            return new Pair<>(countProcessed, ranking);
+          }
+        }
+
         boolean stopped = false;
         Map<Object, Double> state = new HashMap<>();
 

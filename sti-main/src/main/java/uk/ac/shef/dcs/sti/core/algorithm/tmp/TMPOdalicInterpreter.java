@@ -68,7 +68,7 @@ public class TMPOdalicInterpreter extends SemanticTableInterpreter {
                 if (isCompulsoryColumn(col)) {
                     LOG.info("\t>> Column=(compulsory)" + col);
                     annotatedColumns.add(col);
-                    learning.learn(table, tableAnnotations, col);
+                    learning.learn(table, tableAnnotations, col, constraints);
                 } else {
                     if (getIgnoreColumns().contains(col)) continue;
                     if (!table.getColumnHeader(col).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
@@ -79,7 +79,7 @@ public class TMPOdalicInterpreter extends SemanticTableInterpreter {
 
                     //if (tab_annotations.getRelationAnnotationsBetween(main_subject_column, col) == null) {
                     LOG.info("\t>> Column=" + col);
-                    learning.learn(table, tableAnnotations, col);
+                    learning.learn(table, tableAnnotations, col, constraints);
                 }
             }
 
