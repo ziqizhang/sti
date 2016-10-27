@@ -2,8 +2,9 @@ package cz.cuni.mff.xrg.odalic.api.rest.resources;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Set;
+import java.util.NavigableSet;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
@@ -24,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
-
 import cz.cuni.mff.xrg.odalic.api.rest.responses.Message;
 import cz.cuni.mff.xrg.odalic.api.rest.responses.Reply;
 import cz.cuni.mff.xrg.odalic.api.rest.values.ConfigurationValue;
@@ -65,8 +65,9 @@ public final class TaskResource {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getTasks(@QueryParam("states") Boolean states, @QueryParam("orderedBy") String orderedBy) {
-    final Set<Task> tasks;
+  public Response getTasks(@QueryParam("states") Boolean states,
+      @QueryParam("orderedBy") String orderedBy) {
+    final NavigableSet<Task> tasks;
     if (orderedBy == null) {
       tasks = taskService.getTasksSortedByIdInAscendingOrder();
     } else {
@@ -80,15 +81,16 @@ public final class TaskResource {
           throw new BadRequestException("Invalid sorting key!");
       }
     }
-    
+
     if (states == null || (!states)) {
       return Reply.data(Response.Status.OK, tasks).toResponse();
     } else {
-      final Set<StatefulTaskValue> statefulStasks = tasks.stream()
-          .map(e -> new StatefulTaskValue(e, States.queryStateValue(executionService, e.getId())))
-          .collect(Collectors.toSet());
+      final Stream<StatefulTaskValue> statefulTasksStream = tasks.stream()
+          .map(e -> new StatefulTaskValue(e, States.queryStateValue(executionService, e.getId())));
 
-      return Reply.data(Response.Status.OK, statefulStasks).toResponse();
+      return Reply.data(Response.Status.OK, statefulTasksStream.collect(Collectors.toList()))
+          .toResponse(); // List is fine, as it serializes in the same way, and no monkeying with
+                         // comparators is needed.
     }
   }
 
