@@ -65,9 +65,22 @@ public final class TaskResource {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getTasks(@QueryParam("states") Boolean states) {
-    final Set<Task> tasks = taskService.getTasks();
-
+  public Response getTasks(@QueryParam("states") Boolean states, @QueryParam("orderedBy") String orderedBy) {
+    final Set<Task> tasks;
+    if (orderedBy == null) {
+      tasks = taskService.getTasksSortedByIdInAscendingOrder();
+    } else {
+      switch (orderedBy) {
+        case "id":
+          tasks = taskService.getTasksSortedByIdInAscendingOrder();
+          break;
+        case "created":
+          tasks = taskService.getTasksSortedByCreatedInDescendingOrder();
+        default:
+          throw new BadRequestException("Invalid sorting key!");
+      }
+    }
+    
     if (states == null || (!states)) {
       return Reply.data(Response.Status.OK, tasks).toResponse();
     } else {
