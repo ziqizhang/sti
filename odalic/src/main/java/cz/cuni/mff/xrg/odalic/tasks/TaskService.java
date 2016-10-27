@@ -1,5 +1,6 @@
 package cz.cuni.mff.xrg.odalic.tasks;
 
+import java.util.NavigableSet;
 import java.util.Set;
 
 /**
@@ -11,6 +12,10 @@ import java.util.Set;
 public interface TaskService {
 
   Set<Task> getTasks();
+  
+  NavigableSet<Task> getTasksSortedByIdInAscendingOrder();
+  
+  NavigableSet<Task> getTasksSortedByCreatedInDescendingOrder();
 
   Task getById(String id);
 
