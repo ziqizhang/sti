@@ -60,7 +60,7 @@ public class CoreExecutionBatch {
     inputFile = new File(testInputFilePath);
 
     // TableMinerPlus initialization
-    final SemanticTableInterpreterFactory factory = new TableMinerPlusFactory(propertyFilePath);
+    final SemanticTableInterpreterFactory factory = new TableMinerPlusFactory(new DefaultKnowledgeBaseSearchFactory(propertyFilePath), propertyFilePath);
     final Map<String, SemanticTableInterpreter> semanticTableInterpreters = factory.getInterpreters();
     Preconditions.checkNotNull(semanticTableInterpreters);
 

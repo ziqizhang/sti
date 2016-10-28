@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import org.apache.commons.lang3.StringUtils;
 import org.simmetrics.metrics.StringMetrics;
 import org.slf4j.Logger;
@@ -48,8 +51,6 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
   private static final String PROPERTY_HOME = "sti.home";
   private static final String PROPERTY_WEBSEARCH_PROP_FILE = "sti.websearch.properties";
   private static final String PROPERTY_NLP_RESOURCES = "sti.nlp";
-  private static final String PROPERTY_KBSEARCH_PROP_FILE = "sti.kbsearch.propertyfile";
-  private static final String PROPERTY_CACHE_FOLDER = "sti.cache.main.dir";
 
   private static final String PROPERTY_WEBSEARCH_CACHE_CORENAME = "websearch";
 
@@ -69,17 +70,23 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
 
   private final String propertyFilePath;
 
+  private final KnowledgeBaseSearchFactory knowledgeBaseSearchFactory;
+
   private Map<String, SemanticTableInterpreter> interpreters;
   private Properties properties;
+  private final Lock initLock = new ReentrantLock();
+  private boolean isInitialized = false;
 
-  public TableMinerPlusFactory(String propertyFilePath) {
+  public TableMinerPlusFactory(KnowledgeBaseSearchFactory knowledgeBaseSearchFactory, String propertyFilePath) {
+    Preconditions.checkNotNull(knowledgeBaseSearchFactory);
     Preconditions.checkNotNull(propertyFilePath);
 
+    this.knowledgeBaseSearchFactory = knowledgeBaseSearchFactory;
     this.propertyFilePath = propertyFilePath;
   }
 
-  public TableMinerPlusFactory() {
-    this(System.getProperty("cz.cuni.mff.xrg.odalic.sti"));
+  public TableMinerPlusFactory(KnowledgeBaseSearchFactory knowledgeBaseSearchFactory) {
+    this(knowledgeBaseSearchFactory, System.getProperty("cz.cuni.mff.xrg.odalic.sti"));
   }
 
   /*
@@ -101,36 +108,45 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
 
   // Initialize kbsearcher, websearcher
   private void initComponents() throws STIException, IOException {
-    properties = new Properties();
-    properties.load(new FileInputStream(propertyFilePath));
+    initLock.lock();
+    try {
+      if (isInitialized) {
+        return;
+      }
 
-    // object to fetch things from KB
-    Collection<KBSearch> kbSearchInstances = initKBSearch();
+      properties = new Properties();
+      properties.load(new FileInputStream(propertyFilePath));
 
-    interpreters = new HashMap<>();
-    for (KBSearch kbSearch : kbSearchInstances) {
-      initKBCache(kbSearch);
+      // object to fetch things from KB
+      Map<String, KBSearch> kbSearchInstances = knowledgeBaseSearchFactory.getKBSearches();
 
-      SubjectColumnDetector subcolDetector = initSubColDetector(kbSearch);
+      interpreters = new HashMap<>();
+      for (KBSearch kbSearch : kbSearchInstances.values()) {
+        SubjectColumnDetector subcolDetector = initSubColDetector(kbSearch);
 
-      TCellDisambiguator disambiguator = initDisambiguator(kbSearch);
-      TColumnClassifier classifier = initClassifier();
-      TContentCellRanker selector = new OSPD_nonEmpty();
+        TCellDisambiguator disambiguator = initDisambiguator(kbSearch);
+        TColumnClassifier classifier = initClassifier();
+        TContentCellRanker selector = new OSPD_nonEmpty();
 
-      LEARNING learning = initLearning(kbSearch, selector, disambiguator, classifier);
+        LEARNING learning = initLearning(kbSearch, selector, disambiguator, classifier);
 
-      UPDATE update = initUpdate(kbSearch, selector, disambiguator, classifier);
+        UPDATE update = initUpdate(kbSearch, selector, disambiguator, classifier);
 
-      TColumnColumnRelationEnumerator relationEnumerator = initRelationEnumerator();
+        TColumnColumnRelationEnumerator relationEnumerator = initRelationEnumerator();
 
-      // object to consolidate previous output, further computeElementScores columns
-      // and disambiguate entities
-      LiteralColumnTagger literalColumnTagger = new LiteralColumnTaggerImpl();
+        // object to consolidate previous output, further computeElementScores columns
+        // and disambiguate entities
+        LiteralColumnTagger literalColumnTagger = new LiteralColumnTaggerImpl();
 
-      SemanticTableInterpreter interpreter = new TMPOdalicInterpreter(subcolDetector, learning, update,
-          relationEnumerator, literalColumnTagger);
+        SemanticTableInterpreter interpreter = new TMPOdalicInterpreter(subcolDetector, learning, update,
+                relationEnumerator, literalColumnTagger);
 
-      interpreters.put(kbSearch.getName(), interpreter);
+        interpreters.put(kbSearch.getName(), interpreter);
+
+        isInitialized = true;
+      }
+    } finally {
+      initLock.unlock();
     }
   }
 
@@ -138,7 +154,7 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
     String prop = getAbsolutePath(PROPERTY_NLP_RESOURCES);
     if (prop == null || !new File(prop).exists()) {
       String error = "Cannot proceed: nlp resources folder is not set or does not exist. "
-          + PROPERTY_KBSEARCH_PROP_FILE + "=" + prop;
+          + PROPERTY_NLP_RESOURCES + "=" + prop;
       logger.error(error);
       throw new STIException(error);
     }
@@ -151,32 +167,6 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
 
   private String getAbsolutePath(String propertyName) {
     return combinePaths(properties.getProperty(PROPERTY_HOME), properties.getProperty(propertyName));
-  }
-
-  private Collection<KBSearch> initKBSearch() throws STIException {
-    logger.info("Initializing KBSearch ...");
-    try {
-      KBSearchFactory fbf = new KBSearchFactory();
-      return fbf.createInstances(
-          properties.getProperty(PROPERTY_KBSEARCH_PROP_FILE),
-          properties.getProperty(PROPERTY_CACHE_FOLDER),
-          properties.getProperty(PROPERTY_HOME));
-    } catch (Exception e) {
-      logger.error("Exception", e.getLocalizedMessage(), e.getStackTrace());
-      throw new STIException(
-          "Failed initializing KBSearch: " + getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE), e);
-    }
-  }
-
-  private void initKBCache(KBSearch kbSearch) throws STIException {
-    logger.info("Initializing KB cache ...");
-    try {
-      kbSearch.initializeCaches();
-    }
-    catch (KBSearchException e) {
-      logger.error("Exception", e.getLocalizedMessage(), e.getStackTrace());
-      throw new STIException("Failed initializing KBSearch cache.", e);
-    }
   }
 
   private SubjectColumnDetector initSubColDetector(KBSearch kbSearch) throws STIException {

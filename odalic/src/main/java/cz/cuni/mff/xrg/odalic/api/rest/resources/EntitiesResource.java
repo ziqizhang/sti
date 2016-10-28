@@ -2,17 +2,12 @@ package cz.cuni.mff.xrg.odalic.api.rest.resources;
 
 import java.util.NavigableSet;
 
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +17,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.responses.Reply;
 import cz.cuni.mff.xrg.odalic.entities.EntitiesService;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
 
 /**
  * Entities resource definition.
@@ -30,20 +26,21 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
  *
  */
 @Component
-@Path("/entities/{base}/")
+@Path("/entities")
 public final class EntitiesResource {
 
+  private static final Logger logger = LoggerFactory.getLogger(EntitiesResource.class);
   private final EntitiesService entitiesService;
 
   @Autowired
   public EntitiesResource(EntitiesService entitiesService) {
     Preconditions.checkNotNull(entitiesService);
-
     this.entitiesService = entitiesService;
   }
 
   @GET
   @Produces({MediaType.APPLICATION_JSON})
+  @Path("{base}/search")
   public Response search(@PathParam("base") String base, @QueryParam("query") String query,
       @DefaultValue("20") @QueryParam("limit") Integer limit) {
     if (query == null) {
@@ -54,9 +51,15 @@ public final class EntitiesResource {
     try {
       result = entitiesService.search(new KnowledgeBase(base), query, limit);
     } catch (final IllegalArgumentException e) {
-      throw new NotFoundException("No such knowledge base exists!");
-    }
-    
+      throw new NotFoundException(e.getLocalizedMessage());
+    } catch (final KBSearchException e){
+      logger.error("KB search error", e);
+      throw new InternalServerErrorException(e.getLocalizedMessage());
+    } catch (final Exception e){
+    logger.error("Unexpected error", e);
+    throw new InternalServerErrorException(e.getLocalizedMessage());
+  }
+
     return Reply.data(Response.Status.OK, result)
         .toResponse();
   }

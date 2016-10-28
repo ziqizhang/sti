@@ -1,13 +1,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans	
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd
-
-		http://www.springframework.org/schema/tx 
-		http://www.springframework.org/schema/tx/spring-tx.xsd
-
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -42,9 +37,13 @@
 	<bean id="rdfExporter"
 		class="cz.cuni.mff.xrg.odalic.outputs.rdfexport.DefaultRDFExporter"
 		scope="prototype" />
-		
+
+	<bean id="knowledgeBaseSearchFactory"
+		  class="cz.cuni.mff.xrg.odalic.tasks.executions.DefaultKnowledgeBaseSearchFactory" />
 	<bean id="semanticTableInterpreterFactory"
-		class="cz.cuni.mff.xrg.odalic.tasks.executions.TableMinerPlusFactory" />
+		  class="cz.cuni.mff.xrg.odalic.tasks.executions.TableMinerPlusFactory" >
+		<constructor-arg ref="knowledgeBaseSearchFactory"/>
+	</bean>
 	<bean id="feedbackToConstraintsAdapter"
 		class="cz.cuni.mff.xrg.odalic.feedbacks.DefaultFeedbackToConstraintsAdapter" />
 
@@ -60,7 +59,9 @@
 	<bean id="annotatedTableService" class="cz.cuni.mff.xrg.odalic.outputs.annotatedtable.ResultAdaptingAnnotatedTableService" />
 	<bean id="csvExportService" class="cz.cuni.mff.xrg.odalic.outputs.csvexport.ResultAdaptingCsvExportService" />
 	<bean id="rdfExportService" class="cz.cuni.mff.xrg.odalic.outputs.rdfexport.RioBackedRdfExportService" />
-	<bean id="entitiesService" class="cz.cuni.mff.xrg.odalic.entities.DefaultEntitiesService" />
+	<bean id="entitiesService" class="cz.cuni.mff.xrg.odalic.entities.DefaultEntitiesService" >
+		<constructor-arg ref="knowledgeBaseSearchFactory"/>
+	</bean>
 
 	<!-- Resources -->
 	<bean id="configurationResource"
