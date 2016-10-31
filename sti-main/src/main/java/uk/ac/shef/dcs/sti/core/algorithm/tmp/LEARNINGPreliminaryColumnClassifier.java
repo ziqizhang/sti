@@ -11,6 +11,7 @@ import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.StoppingCriteriaInstantiat
 import uk.ac.shef.dcs.sti.core.extension.annotations.EntityCandidate;
 import uk.ac.shef.dcs.sti.core.extension.constraints.Classification;
 import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
+import uk.ac.shef.dcs.sti.core.extension.constraints.Disambiguation;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.*;
@@ -108,7 +109,24 @@ public class LEARNINGPreliminaryColumnClassifier {
             if (skip) {
                 entityScoresForBlock = toScoreMap(tableAnnotation, blockOfRows, column);
             } else {
-                List<Entity> candidates = kbSearch.findEntityCandidates(sample.getText());
+                List<Entity> candidates = new ArrayList<>();
+
+                // (added): if the disambiguation is suggested by the user, then set it
+                for (Disambiguation disambiguation : constraints.getDisambiguations()) {
+                  if (disambiguation.getPosition().getColumnIndex() == column &&
+                      disambiguation.getPosition().getRowIndex() == blockOfRows.get(0) &&
+                      !disambiguation.getAnnotation().getChosen().isEmpty()) {
+                    for (EntityCandidate suggestion : disambiguation.getAnnotation().getChosen()) {
+                      candidates.add(new Entity(suggestion.getEntity().getResource(), suggestion.getEntity().getLabel()));
+                    }
+                    break;
+                  }
+                }
+
+                if (candidates.isEmpty()) {
+                  candidates = kbSearch.findEntityCandidates(sample.getText());
+                }
+
                 //do cold start disambiguation
                 entityScoresForBlock =
                         cellDisambiguator.coldstartDisambiguate(

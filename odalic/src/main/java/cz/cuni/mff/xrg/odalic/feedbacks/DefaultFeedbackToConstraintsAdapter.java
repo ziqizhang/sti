@@ -167,8 +167,8 @@ public class DefaultFeedbackToConstraintsAdapter implements FeedbackToConstraint
   }
 
   private static uk.ac.shef.dcs.sti.core.extension.annotations.Entity convert(final Entity entity) {
-    return new uk.ac.shef.dcs.sti.core.extension.annotations.Entity(entity.getLabel(),
-        entity.getResource());
+    return new uk.ac.shef.dcs.sti.core.extension.annotations.Entity(entity.getResource(),
+        entity.getLabel());
   }
 
   private static uk.ac.shef.dcs.sti.core.extension.annotations.Score convert(final Score score) {

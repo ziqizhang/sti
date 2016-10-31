@@ -6,6 +6,9 @@ import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
 import uk.ac.shef.dcs.sti.STIException;
+import uk.ac.shef.dcs.sti.core.extension.annotations.EntityCandidate;
+import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
+import uk.ac.shef.dcs.sti.core.extension.constraints.Disambiguation;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.*;
@@ -34,6 +37,7 @@ public class LEARNINGPreliminaryDisamb {
             Table table,
             TAnnotation tableAnnotation,
             int column,
+            Constraints constraints,
             Integer... skipRows) throws KBSearchException, STIException {
 
         LOG.info("\t>> (LEARNING) Preliminary Disambiguation begins");
@@ -74,7 +78,8 @@ public class LEARNINGPreliminaryDisamb {
                     constrainedDisambiguate(sample,
                             table,
                             winningColumnClazzIds,
-                            rows, column,ranking.size()
+                            rows, column, ranking.size(),
+                            constraints
                     );
 
             if (entity_and_scoreMap.size() > 0) {
@@ -132,10 +137,28 @@ public class LEARNINGPreliminaryDisamb {
                                                                             Set<String> winningColumnClazz,
                                                                             List<Integer> rowBlock,
                                                                             int column,
-                                                                            int totalRowBlocks) throws KBSearchException {
+                                                                            int totalRowBlocks,
+                                                                            Constraints constraints) throws KBSearchException {
         List<Pair<Entity, Map<String, Double>>> entity_and_scoreMap;
 
-        List<Entity> candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText(), winningColumnClazz.toArray(new String[0]));
+        List<Entity> candidates = new ArrayList<>();
+
+        // (added): if the disambiguation is suggested by the user, then set it
+        for (Disambiguation disambiguation : constraints.getDisambiguations()) {
+          if (disambiguation.getPosition().getColumnIndex() == column &&
+              disambiguation.getPosition().getRowIndex() == rowBlock.get(0) &&
+              !disambiguation.getAnnotation().getChosen().isEmpty()) {
+            for (EntityCandidate suggestion : disambiguation.getAnnotation().getChosen()) {
+              candidates.add(new Entity(suggestion.getEntity().getResource(), suggestion.getEntity().getLabel()));
+            }
+            break;
+          }
+        }
+
+        if (candidates.isEmpty()) {
+          candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText(), winningColumnClazz.toArray(new String[0]));
+        }
+
         if (candidates != null && candidates.size() != 0) {
         } else
             candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText());

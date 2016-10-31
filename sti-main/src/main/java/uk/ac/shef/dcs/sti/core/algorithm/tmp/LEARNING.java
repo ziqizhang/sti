@@ -36,7 +36,8 @@ public class LEARNING {
                 stopPosition.getValue(),
                 table,
                 tableAnnotation,
-                column);
+                column,
+                constraints);
     }
 
 }

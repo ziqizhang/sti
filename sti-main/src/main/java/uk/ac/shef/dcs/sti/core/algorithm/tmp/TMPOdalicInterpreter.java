@@ -85,7 +85,7 @@ public class TMPOdalicInterpreter extends SemanticTableInterpreter {
 
             if (update != null) {
                 LOG.info(">\t PHASE: UPDATE phase ...");
-                update.update(annotatedColumns, table, tableAnnotations);
+                update.update(annotatedColumns, table, tableAnnotations, constraints);
             }
             if (relationLearning) {
                 LOG.info("\t> PHASE: RELATION ENUMERATION ...");
