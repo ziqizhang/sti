@@ -8,6 +8,7 @@ import org.apache.jena.ext.com.google.common.collect.ImmutableMap;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.sparql.engine.optimizer.Pattern;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.simmetrics.StringMetric;
 import org.simmetrics.metrics.Levenshtein;
@@ -95,7 +96,7 @@ public abstract class SPARQLSearch extends KBSearch {
     super(kbDefinition, fuzzyKeywords, cachesBasePath);
   }
 
-  protected String createRegexQuery(String content, String... types) {
+  protected String createRegexQuery(String content, Integer limit, String... types) {
     StringBuilder typesUnion = new StringBuilder();
     if (types.length > 0) {
       String typesFilter = createFilter(Arrays.asList(types), REGEX_TYPES);
@@ -103,19 +104,24 @@ public abstract class SPARQLSearch extends KBSearch {
       typesUnion.append(" .\n");
     }
 
+    String query;
     if (kbDefinition.getUseBifContains()) {
       String where = createFilter(kbDefinition.getPredicateLabel(), REGEX_WHERE_CONTAINS, escapeSPARQLLiteral(content));
 
-      String query = String.format(REGEX_QUERY_CONTAINS, where, typesUnion);
-      return query;
+      query = String.format(REGEX_QUERY_CONTAINS, where, typesUnion);
     }
     else {
       String where = createFilter(kbDefinition.getPredicateLabel(), REGEX_WHERE);
       String filter = escapeSPARQLLiteral(String.format(REGEX_FILTER, java.util.regex.Pattern.quote(content)));
 
-      String query = String.format(REGEX_QUERY, where, typesUnion, filter);
-      return query;
+      query = String.format(REGEX_QUERY, where, typesUnion, filter);
     }
+
+    if (limit != null){
+      query += " LIMIT " + limit.toString();
+    }
+
+    return query;
   }
 
   protected String createExactMatchQueries(String content) {
@@ -199,6 +205,31 @@ public abstract class SPARQLSearch extends KBSearch {
       Double s2 = scores.get(o2);
       return s2.compareTo(s1);
     });
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public List<Entity> findEntityByFulltext(String pattern, int limit) throws KBSearchException {
+    String queryCache = createSolrCacheQuery_fulltextSearch(pattern, limit);
+
+    try {
+      List<Entity> result = (List<Entity>) cacheEntity.retrieve(queryCache);
+
+      if (result != null) {
+        return  result;
+      }
+
+      String query = createRegexQuery(pattern, limit);
+      List<Pair<String, String>> queryResult = queryByLabel(query, pattern);
+
+      result = queryResult.stream().map(pair -> new Entity(pair.getKey(), pair.getValue())).collect(Collectors.toList());
+      cacheEntity.cache(queryCache, result, AUTO_COMMIT);
+
+      return result;
+    }
+    catch (Exception e){
+      throw new KBSearchException(e);
+    }
   }
 
   @Override
@@ -288,7 +319,7 @@ public abstract class SPARQLSearch extends KBSearch {
         //2. if result is empty, try regex
         if (!hasExactMatch && fuzzyKeywords) {
           log.debug("(query by regex. This can take a long time)");
-          sparqlQuery = createRegexQuery(content, types);
+          sparqlQuery = createRegexQuery(content, null, types);
           queryResult = queryByLabel(sparqlQuery, content);
         }
         //3. rank result by the degree of matches

@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.kbsearch.freebase;
 
 import com.google.api.client.http.HttpResponseException;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
@@ -30,6 +31,11 @@ public class FreebaseSearch extends KBSearch {
     super(null, fuzzyKeywords, cachesPath);
     searcher = new FreebaseQueryProxy(properties);
     resultFilter = new FreebaseSearchResultFilter(properties.getProperty(KB_SEARCH_RESULT_STOPLIST));
+  }
+
+  @Override
+  public List<Entity> findEntityByFulltext(String pattern, int limit) throws KBSearchException {
+    throw new KBSearchException("Fulltext search in freebase is not supported.");
   }
 
   @Override

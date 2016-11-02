@@ -2,6 +2,7 @@ package cz.cuni.mff.xrg.odalic.tasks.executions;
 
 import java.util.Map;
 
+import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
 
 

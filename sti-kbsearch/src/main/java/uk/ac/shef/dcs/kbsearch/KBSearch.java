@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.jena.atlas.io.IO;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggerFactory;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 
@@ -77,9 +78,9 @@ public abstract class KBSearch {
 
   public void initializeCaches() throws KBSearchException {
     cacheEntity = new SolrCache(getSolrServer(ENTITY_CACHE));
-    cacheProperty = new SolrCache(getSolrServer(ENTITY_CACHE));
-    cacheConcept = new SolrCache(getSolrServer(ENTITY_CACHE));
-    cacheSimilarity = new SolrCache(getSolrServer(ENTITY_CACHE));
+    cacheProperty = new SolrCache(getSolrServer(PROPERTY_CACHE));
+    cacheConcept = new SolrCache(getSolrServer(CONCEPT_CACHE));
+    cacheSimilarity = new SolrCache(getSolrServer(SIMILARITY_CACHE));
   }
 
   public String getName() {
@@ -102,6 +103,15 @@ public abstract class KBSearch {
 
     return cacheServer;
   }
+
+  /**
+   * Given a string, fetch candidate entities (resources) from the KB based on a fulltext search.
+   * @param pattern
+   * @param limit
+   * @return
+   * @throws IOException
+   */
+  public abstract List<Entity> findEntityByFulltext(String pattern, int limit) throws KBSearchException;
 
   /**
    * Given a string, fetch candidate entities (resources) from the KB
@@ -223,6 +233,10 @@ public abstract class KBSearch {
      then cache the results in solr. Again you should call these methods to create a query string, which should be
      passed as the id of the record to be added to solr
      */
+  protected String createSolrCacheQuery_fulltextSearch(String pattern, int limit) {
+    return "FULLTEXT_" + limit + "_" + pattern;
+  }
+
   protected String createSolrCacheQuery_findResources(String content) {
     return content;
   }

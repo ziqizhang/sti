@@ -1,5 +1,7 @@
 package cz.cuni.mff.xrg.odalic.entities;
 
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
+
 import java.util.NavigableSet;
 
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
@@ -20,5 +22,5 @@ public interface EntitiesService {
    * @param limit maximum results count
    * @return found entities
    */
-  NavigableSet<Entity> search(KnowledgeBase base, String query, int limit);
+  NavigableSet<Entity> search(KnowledgeBase base, String query, int limit) throws KBSearchException;
 }
