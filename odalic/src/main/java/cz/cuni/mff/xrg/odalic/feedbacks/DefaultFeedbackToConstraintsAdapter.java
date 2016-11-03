@@ -3,6 +3,7 @@
  */
 package cz.cuni.mff.xrg.odalic.feedbacks;
 
+import java.util.NavigableSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -79,17 +80,17 @@ public class DefaultFeedbackToConstraintsAdapter implements FeedbackToConstraint
 
   private static Set<uk.ac.shef.dcs.sti.core.extension.constraints.Classification> convertClassifications(
       Set<? extends Classification> set, KnowledgeBase base) {
-    return set.stream().map(e -> convert(e, base)).collect(Collectors.toSet());
+    return set.stream().map(e -> convert(e, base)).filter(e -> e != null).collect(Collectors.toSet());
   }
 
   private static Set<uk.ac.shef.dcs.sti.core.extension.constraints.Disambiguation> convertDisambiguations(
       Set<? extends Disambiguation> set, KnowledgeBase base) {
-    return set.stream().map(e -> convert(e, base)).collect(Collectors.toSet());
+    return set.stream().map(e -> convert(e, base)).filter(e -> e != null).collect(Collectors.toSet());
   }
 
   private static Set<uk.ac.shef.dcs.sti.core.extension.constraints.ColumnRelation> convertRelations(
       Set<? extends ColumnRelation> set, KnowledgeBase base) {
-    return set.stream().map(e -> convert(e, base)).collect(Collectors.toSet());
+    return set.stream().map(e -> convert(e, base)).filter(e -> e != null).collect(Collectors.toSet());
   }
 
   private static uk.ac.shef.dcs.sti.core.extension.constraints.Ambiguity convert(Ambiguity e) {
@@ -109,26 +110,61 @@ public class DefaultFeedbackToConstraintsAdapter implements FeedbackToConstraint
 
   private static uk.ac.shef.dcs.sti.core.extension.annotations.HeaderAnnotation convert(
       HeaderAnnotation e, KnowledgeBase base) {
+    final NavigableSet<EntityCandidate> candidates = e.getCandidates().get(base);
+    if (candidates == null) {
+      return null;
+    }
+    
+    final Set<EntityCandidate> chosen = e.getChosen().get(base);
+    if (chosen == null) {
+      return null;
+    }
+    
     return new uk.ac.shef.dcs.sti.core.extension.annotations.HeaderAnnotation(
-        convertCandidates(e.getCandidates().get(base)), convertCandidates(e.getChosen().get(base)));
+        convertCandidates(candidates), convertCandidates(chosen));
   }
 
   private static uk.ac.shef.dcs.sti.core.extension.annotations.CellAnnotation convert(
       CellAnnotation e, KnowledgeBase base) {
+    final NavigableSet<EntityCandidate> candidates = e.getCandidates().get(base);
+    if (candidates == null) {
+      return null;
+    }
+    
+    final Set<EntityCandidate> chosen = e.getChosen().get(base);
+    if (chosen == null) {
+      return null;
+    }
+    
     return new uk.ac.shef.dcs.sti.core.extension.annotations.CellAnnotation(
-        convertCandidates(e.getCandidates().get(base)), convertCandidates(e.getChosen().get(base)));
+        convertCandidates(candidates), convertCandidates(chosen));
   }
 
   private static uk.ac.shef.dcs.sti.core.extension.annotations.ColumnRelationAnnotation convert(
       ColumnRelationAnnotation e, KnowledgeBase base) {
+    final NavigableSet<EntityCandidate> candidates = e.getCandidates().get(base);
+    if (candidates == null) {
+      return null;
+    }
+    
+    final Set<EntityCandidate> chosen = e.getChosen().get(base);
+    if (chosen == null) {
+      return null;
+    }
+    
     return new uk.ac.shef.dcs.sti.core.extension.annotations.ColumnRelationAnnotation(
-        convertCandidates(e.getCandidates().get(base)), convertCandidates(e.getChosen().get(base)));
+        convertCandidates(candidates), convertCandidates(chosen));
   }
 
   private static uk.ac.shef.dcs.sti.core.extension.constraints.Classification convert(
       Classification e, KnowledgeBase base) {
+    final uk.ac.shef.dcs.sti.core.extension.annotations.HeaderAnnotation convertedAnnotation = convert(e.getAnnotation(), base);
+    if (convertedAnnotation == null) {
+      return null;
+    }
+    
     return new uk.ac.shef.dcs.sti.core.extension.constraints.Classification(
-        convert(e.getPosition()), convert(e.getAnnotation(), base));
+        convert(e.getPosition()), convertedAnnotation);
   }
 
   private static uk.ac.shef.dcs.sti.core.extension.constraints.Disambiguation convert(
