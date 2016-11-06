@@ -26,7 +26,7 @@ import uk.ac.shef.dcs.kbsearch.KBSearchException;
  *
  */
 @Component
-@Path("/entities")
+@Path("{base}/entities")
 public final class EntitiesResource {
 
   private static final Logger logger = LoggerFactory.getLogger(EntitiesResource.class);
@@ -40,7 +40,7 @@ public final class EntitiesResource {
 
   @GET
   @Produces({MediaType.APPLICATION_JSON})
-  @Path("{base}/search")
+  @Path("search")
   public Response search(@PathParam("base") String base, @QueryParam("query") String query,
       @DefaultValue("20") @QueryParam("limit") Integer limit) {
     if (query == null) {
