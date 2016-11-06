@@ -40,7 +40,6 @@ public final class EntitiesResource {
 
   @GET
   @Produces({MediaType.APPLICATION_JSON})
-  @Path("search")
   public Response search(@PathParam("base") String base, @QueryParam("query") String query,
       @DefaultValue("20") @QueryParam("limit") Integer limit) {
     if (query == null) {
