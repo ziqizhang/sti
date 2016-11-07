@@ -14,7 +14,9 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Preconditions;
 
 import cz.cuni.mff.xrg.odalic.api.rest.responses.Reply;
+import cz.cuni.mff.xrg.odalic.entities.ClassProposal;
 import cz.cuni.mff.xrg.odalic.entities.EntitiesService;
+import cz.cuni.mff.xrg.odalic.entities.ResourceProposal;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
@@ -60,6 +62,26 @@ public final class EntitiesResource {
   }
 
     return Reply.data(Response.Status.OK, result)
+        .toResponse();
+  }
+  
+  @POST
+  @Path("classes")
+  @Produces({MediaType.APPLICATION_JSON})
+  public Response propose(@PathParam("base") String base, ClassProposal proposal) {
+    final Entity createdClass = this.entitiesService.propose(proposal);
+
+    return Reply.data(Response.Status.OK, createdClass)
+        .toResponse();
+  }
+  
+  @POST
+  @Path("resources")
+  @Produces({MediaType.APPLICATION_JSON})
+  public Response propose(@PathParam("base") String base, ResourceProposal proposal) {
+    final Entity createdEntity = this.entitiesService.propose(proposal);
+
+    return Reply.data(Response.Status.OK, createdEntity)
         .toResponse();
   }
 }
