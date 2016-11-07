@@ -23,4 +23,22 @@ public interface EntitiesService {
    * @return found entities
    */
   NavigableSet<Entity> search(KnowledgeBase base, String query, int limit) throws KBSearchException;
+
+  /**
+   * Propose a new class to the primary base.
+   * 
+   * @param proposal class proposal
+   * @return created class
+   * @throws IllegalArgumentException when the class is already defined or some part of the proposal is invalid
+   */
+  Entity propose(ClassProposal proposal);
+
+  /**
+   * Propose a new entity to the primary base.
+   * 
+   * @param proposal entity proposal
+   * @return created entity
+   * @throws IllegalArgumentException when the entity is already defined or some part of the proposal is invalid
+   */
+  Entity propose(ResourceProposal proposal);
 }
