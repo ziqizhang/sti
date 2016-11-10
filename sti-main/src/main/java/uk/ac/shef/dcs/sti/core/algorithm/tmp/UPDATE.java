@@ -6,6 +6,9 @@ import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
+import uk.ac.shef.dcs.sti.core.extension.annotations.EntityCandidate;
+import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
+import uk.ac.shef.dcs.sti.core.extension.constraints.Disambiguation;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
@@ -58,6 +61,25 @@ public class UPDATE {
             Table table,
             TAnnotation currentAnnotation
     ) throws KBSearchException, STIException {
+      update(interpretedColumnIndexes, table, currentAnnotation, new Constraints());
+    }
+
+    /**
+     * start the UPDATE process
+     *
+     * @param interpretedColumnIndexes
+     * @param table
+     * @param currentAnnotation
+     * @param constraints
+     * @throws KBSearchException
+     * @throws STIException
+     */
+    public void update(
+            List<Integer> interpretedColumnIndexes,
+            Table table,
+            TAnnotation currentAnnotation,
+            Constraints constraints
+    ) throws KBSearchException, STIException {
 
         int currentIteration = 0;
         TAnnotation prevAnnotation;
@@ -82,7 +104,8 @@ public class UPDATE {
 
             //scores will be reset, then recalculated. dc scores lost
             reviseColumnAndCellAnnotations(allEntityIds,
-                    table, currentAnnotation, interpretedColumnIndexes);
+                    table, currentAnnotation, interpretedColumnIndexes,
+                    constraints);
             LOG.info("\t>> update iteration " + currentAnnotation + "complete");
             stable = checkStablization(prevAnnotation, currentAnnotation,
                     table.getNumRows(), interpretedColumnIndexes);
@@ -154,7 +177,8 @@ public class UPDATE {
             Set<String> allEntityIds,
             Table table,
             TAnnotation currentAnnotation,
-            List<Integer> interpretedColumns) throws KBSearchException, STIException {
+            List<Integer> interpretedColumns,
+            Constraints constraints) throws KBSearchException, STIException {
         //now revise annotations on each of the interpreted columns
         for (int c : interpretedColumns) {
             LOG.info("\t\t>> for column " + c);
@@ -184,7 +208,8 @@ public class UPDATE {
                                 sample,
                                 table,
                                 columnTypes,
-                                rows, c, ranking.size());
+                                rows, c, ranking.size(),
+                                constraints);
 
                 if (entity_and_scoreMap.size() > 0) {
                     disambiguator.addCellAnnotation(table, currentAnnotation, rows, c,
@@ -218,10 +243,27 @@ public class UPDATE {
                                                                  Set<String> constrainedClazz,
                                                                  List<Integer> rowBlock,
                                                                  int table_cell_col,
-                                                                 int totalRowBlocks) throws KBSearchException {
+                                                                 int totalRowBlocks,
+                                                                 Constraints constraints) throws KBSearchException {
         List<Pair<Entity, Map<String, Double>>> entity_and_scoreMap;
-        List<Entity> candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText(),
-                constrainedClazz.toArray(new String[0]));
+
+        List<Entity> candidates = new ArrayList<>();
+
+        // (added): if the disambiguation is suggested by the user, then set it
+        for (Disambiguation disambiguation : constraints.getDisambiguations()) {
+          if (disambiguation.getPosition().getColumnIndex() == table_cell_col &&
+              disambiguation.getPosition().getRowIndex() == rowBlock.get(0) &&
+              !disambiguation.getAnnotation().getChosen().isEmpty()) {
+            for (EntityCandidate suggestion : disambiguation.getAnnotation().getChosen()) {
+              candidates.add(new Entity(suggestion.getEntity().getResource(), suggestion.getEntity().getLabel()));
+            }
+            break;
+          }
+        }
+
+        if (candidates.isEmpty()) {
+          candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText(), constrainedClazz.toArray(new String[0]));
+        }
 
         int ignore = 0;
         for (uk.ac.shef.dcs.kbsearch.model.Resource ec : candidates) {
