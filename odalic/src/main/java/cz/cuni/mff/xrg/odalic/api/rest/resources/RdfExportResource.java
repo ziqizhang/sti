@@ -73,4 +73,26 @@ public final class RdfExportResource {
 
     return Response.ok(rdfContent).build();
   }
+
+  /**
+   * Alternative method for client that are unable to provide Accept headers.
+   */
+  @GET
+  @Path("turtle")
+  @Produces(TURTLE_MIME_TYPE)
+  public Response getTurtleAlternativeExport(@PathParam("id") String taskId)
+      throws CancellationException, InterruptedException, ExecutionException, IOException {
+    return getTurtleExport(taskId);
+  }
+
+  /**
+   * Alternative method for client that are unable to provide Accept headers.
+   */
+  @GET
+  @Path("json-ld")
+  @Produces(JSON_LD_MIME_TYPE)
+  public Response getJsonLdAlternativeExport(@PathParam("id") String taskId)
+      throws CancellationException, InterruptedException, ExecutionException, IOException {
+    return getJsonLdExport(taskId);
+  }
 }
