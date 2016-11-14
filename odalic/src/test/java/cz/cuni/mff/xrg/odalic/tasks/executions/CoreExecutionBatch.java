@@ -1,6 +1,8 @@
 package cz.cuni.mff.xrg.odalic.tasks.executions;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSet;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,16 +17,30 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
+import cz.cuni.mff.xrg.odalic.feedbacks.Classification;
+import cz.cuni.mff.xrg.odalic.feedbacks.ColumnIgnore;
+import cz.cuni.mff.xrg.odalic.feedbacks.ColumnRelation;
 import cz.cuni.mff.xrg.odalic.feedbacks.DefaultFeedbackToConstraintsAdapter;
+import cz.cuni.mff.xrg.odalic.feedbacks.Disambiguation;
 import cz.cuni.mff.xrg.odalic.feedbacks.Feedback;
 import cz.cuni.mff.xrg.odalic.input.CsvConfiguration;
 import cz.cuni.mff.xrg.odalic.input.DefaultCsvInputParser;
 import cz.cuni.mff.xrg.odalic.input.DefaultInputToTableAdapter;
 import cz.cuni.mff.xrg.odalic.input.Input;
 import cz.cuni.mff.xrg.odalic.input.ListsBackedInputBuilder;
+import cz.cuni.mff.xrg.odalic.positions.CellPosition;
+import cz.cuni.mff.xrg.odalic.positions.ColumnPosition;
+import cz.cuni.mff.xrg.odalic.positions.ColumnRelationPosition;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.CellAnnotation;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.ColumnRelationAnnotation;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.EntityCandidate;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.HeaderAnnotation;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
+import cz.cuni.mff.xrg.odalic.tasks.annotations.Score;
 import cz.cuni.mff.xrg.odalic.tasks.configurations.Configuration;
 import cz.cuni.mff.xrg.odalic.tasks.results.DefaultAnnotationToResultAdapter;
 import cz.cuni.mff.xrg.odalic.tasks.results.Result;
@@ -76,7 +92,7 @@ public class CoreExecutionBatch {
     }
 
     // Feedback settings
-    Feedback feedback = new Feedback();
+    Feedback feedback = createFeedback(true);
 
     // Configuration settings
     try {
@@ -125,5 +141,55 @@ public class CoreExecutionBatch {
 
   public static Configuration getConfiguration() {
     return config;
+  }
+
+  private static Feedback createFeedback(boolean emptyFeedback) {
+    Feedback feedback = new Feedback();
+
+    if (!emptyFeedback) {
+      // subject columns example
+      HashMap<KnowledgeBase, ColumnPosition> subjectColumns = new HashMap<>();
+      subjectColumns.put(new KnowledgeBase("DBpedia Clone"), new ColumnPosition(0));
+
+      // classifications example
+      HashSet<EntityCandidate> candidatesClassification = new HashSet<>();
+      candidatesClassification.add(new EntityCandidate(new Entity("http://schema.org/Bookxyz", "Booooook"), new Score(1.0)));
+      candidatesClassification.add(new EntityCandidate(new Entity("http://schema.org/Book", "Book"), new Score(1.0)));
+      HashMap<KnowledgeBase, HashSet<EntityCandidate>> headerAnnotation = new HashMap<>();
+      headerAnnotation.put(new KnowledgeBase("DBpedia Clone"), candidatesClassification);
+      HashSet<Classification> classifications = new HashSet<>();
+      classifications.add(new Classification(new ColumnPosition(0), new HeaderAnnotation(headerAnnotation, headerAnnotation)));
+
+      // disambiguations example
+      HashSet<EntityCandidate> candidatesDisambiguation = new HashSet<>();
+      candidatesDisambiguation.add(new EntityCandidate(
+          new Entity("http://dbpedia.org/resource/Gardens_of_the_Moonxyz", "Gars of Moooooon"), new Score(1.0)));
+      candidatesDisambiguation.add(new EntityCandidate(
+          new Entity("http://dbpedia.org/resource/Gardens_of_the_Moon", "Gardens of the Moon"), new Score(1.0)));
+      HashMap<KnowledgeBase, HashSet<EntityCandidate>> cellAnnotation = new HashMap<>();
+      cellAnnotation.put(new KnowledgeBase("DBpedia Clone"), candidatesDisambiguation);
+      HashSet<Disambiguation> disambiguations = new HashSet<>();
+      disambiguations.add(new Disambiguation(new CellPosition(0, 0), new CellAnnotation(cellAnnotation, cellAnnotation)));
+
+      // relations example
+      HashSet<EntityCandidate> candidatesRelation = new HashSet<>();
+      candidatesRelation.add(new EntityCandidate(new Entity("http://dbpedia.org/property/authorxyz", ""), new Score(1.0)));
+      candidatesRelation.add(new EntityCandidate(new Entity("http://dbpedia.org/property/author", ""), new Score(1.0)));
+      HashMap<KnowledgeBase, HashSet<EntityCandidate>> columnRelationAnnotation = new HashMap<>();
+      columnRelationAnnotation.put(new KnowledgeBase("DBpedia Clone"), candidatesRelation);
+      HashSet<ColumnRelation> relations = new HashSet<>();
+      relations.add(new ColumnRelation(new ColumnRelationPosition(0, 1),
+          new ColumnRelationAnnotation(columnRelationAnnotation, columnRelationAnnotation)));
+
+      // ignore columns example
+      HashSet<ColumnIgnore> columnIgnores = new HashSet<>();
+      columnIgnores.add(new ColumnIgnore(new ColumnPosition(3)));
+
+      // construction example
+      feedback = new Feedback(subjectColumns, columnIgnores, ImmutableSet.of(),
+          classifications, relations, disambiguations, ImmutableSet.of());
+    }
+
+    return feedback;
   }
 }

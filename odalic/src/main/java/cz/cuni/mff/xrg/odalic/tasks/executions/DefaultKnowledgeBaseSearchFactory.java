@@ -3,10 +3,7 @@ package cz.cuni.mff.xrg.odalic.tasks.executions;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
-import uk.ac.shef.dcs.sti.STIException;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Collection;
@@ -15,6 +12,10 @@ import java.util.Properties;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
+import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbsearch.KBSearchException;
+import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
+import uk.ac.shef.dcs.sti.STIException;
 
 import static uk.ac.shef.dcs.util.StringUtils.combinePaths;
 

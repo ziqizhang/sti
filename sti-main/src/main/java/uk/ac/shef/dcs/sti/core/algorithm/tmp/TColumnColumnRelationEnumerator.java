@@ -6,6 +6,9 @@ import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.scorer.AttributeValueMatcher;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
+import uk.ac.shef.dcs.sti.core.extension.annotations.EntityCandidate;
+import uk.ac.shef.dcs.sti.core.extension.constraints.ColumnRelation;
+import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.*;
@@ -18,6 +21,8 @@ public class TColumnColumnRelationEnumerator {
     private AttributeValueMatcher attributeValueMatcher;
     private RelationScorer relationScorer;
 
+    private int suggestedRelationPositionsVisited;
+
     public TColumnColumnRelationEnumerator(
             AttributeValueMatcher attributeValueMatcher,
             RelationScorer scorer) {
@@ -29,11 +34,13 @@ public class TColumnColumnRelationEnumerator {
         return relationScorer;
     }
 
-    public int runRelationEnumeration(TAnnotation annotations, Table table, int subjectCol) throws STIException {
-        generateCellCellRelations(annotations, table, subjectCol);
+    public int runRelationEnumeration(TAnnotation annotations, Table table, int subjectCol,
+                                      Constraints constraints) throws STIException {
+        suggestedRelationPositionsVisited = 0;
+        generateCellCellRelations(annotations, table, subjectCol, constraints);
         //now we have created relation annotations per row, consolidate them to create column-column relation
-        enumerateColumnColumnRelation(annotations, table);
-        return annotations.getCellcellRelations().size();
+        enumerateColumnColumnRelation(annotations, table, constraints);
+        return annotations.getCellcellRelations().size() + suggestedRelationPositionsVisited;
     }
 
     /**
@@ -42,6 +49,16 @@ public class TColumnColumnRelationEnumerator {
      * when new relation created, supporting row info is also added
      */
     protected void generateCellCellRelations(TAnnotation annotations, Table table, int subjectCol) throws STIException {
+      generateCellCellRelations(annotations, table, subjectCol, new Constraints());
+    }
+
+    /**
+     * returns the number of columns that form relation with the subjectCol
+     * <p>
+     * when new relation created, supporting row info is also added
+     */
+    private void generateCellCellRelations(TAnnotation annotations, Table table, int subjectCol,
+                                           Constraints constraints) throws STIException {
         //select columns that are likely to form a relation with subject column
         Map<Integer, DataTypeClassifier.DataType> columnDataTypes
                 = new HashMap<>();
@@ -68,7 +85,7 @@ public class TColumnColumnRelationEnumerator {
             //collect cell values on the same row, from other columns
             Map<Integer, String> cellValuesToMatch = new HashMap<>();
             for (int col : columnDataTypes.keySet()) {
-                if (col != subjectCol) {
+                if (col != subjectCol && !isRelationSuggested(subjectCol, col, constraints.getColumnRelations())) {
                     String cellValue = table.getContentCell(row, col).getText();
                     cellValuesToMatch.put(col, cellValue);
                 }
@@ -98,7 +115,8 @@ public class TColumnColumnRelationEnumerator {
         }
     }
 
-    private void enumerateColumnColumnRelation(TAnnotation annotations, Table table) throws STIException {
+    private void enumerateColumnColumnRelation(TAnnotation annotations, Table table,
+                                               Constraints constraints) throws STIException {
         for (Map.Entry<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>> entry :
                 annotations.getCellcellRelations().entrySet()) {
             RelationColumns key = entry.getKey(); //relation's direction
@@ -134,6 +152,27 @@ public class TColumnColumnRelationEnumerator {
                 annotations.addColumnColumnRelation(hbr);
 
         }
+
+        // (added): set relations suggested by the user
+        for (ColumnRelation relation : constraints.getColumnRelations()) {
+          for (EntityCandidate suggestion : relation.getAnnotation().getChosen()) {
+            annotations.addColumnColumnRelation(new TColumnColumnRelationAnnotation(
+                new RelationColumns(relation.getPosition().getFirstIndex(), relation.getPosition().getSecondIndex()),
+                suggestion.getEntity().getResource(), suggestion.getEntity().getLabel(), suggestion.getScore().getValue()));
+          }
+        }
+    }
+
+    private boolean isRelationSuggested(int subjectCol, int objectCol, Set<ColumnRelation> columnRelations) {
+      for (ColumnRelation relation : columnRelations) {
+        if (relation.getPosition().getFirstIndex() == subjectCol &&
+            relation.getPosition().getSecondIndex() == objectCol &&
+            !relation.getAnnotation().getChosen().isEmpty()) {
+          suggestedRelationPositionsVisited++;
+          return true;
+        }
+      }
+      return false;
     }
 
 }

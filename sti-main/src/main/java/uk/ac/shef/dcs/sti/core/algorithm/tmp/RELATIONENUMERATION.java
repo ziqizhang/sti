@@ -6,6 +6,7 @@ import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.core.subjectcol.TColumnFeature;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
+import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.Collections;
@@ -20,12 +21,25 @@ public class RELATIONENUMERATION {
     private static final Logger LOG = Logger.getLogger(RELATIONENUMERATION.class.getName());
 
     public void enumerate(List<Pair<Integer, Pair<Double, Boolean>>> subjectColCandidadteScores,
+        Set<Integer> ignoreCols,
+        TColumnColumnRelationEnumerator relationEnumerator,
+        TAnnotation tableAnnotations,
+        Table table,
+        List<Integer> annotatedColumns,
+        UPDATE update
+        ) throws STIException {
+      enumerate(subjectColCandidadteScores, ignoreCols, relationEnumerator,
+          tableAnnotations, table, annotatedColumns, update, new Constraints());
+    }
+
+    public void enumerate(List<Pair<Integer, Pair<Double, Boolean>>> subjectColCandidadteScores,
                           Set<Integer> ignoreCols,
                           TColumnColumnRelationEnumerator relationEnumerator,
                           TAnnotation tableAnnotations,
                           Table table,
                           List<Integer> annotatedColumns,
-                          UPDATE update
+                          UPDATE update,
+                          Constraints constraints
                           ) throws STIException {
         double winningSolutionScore = 0;
         int subjectCol;
@@ -37,7 +51,7 @@ public class RELATIONENUMERATION {
 
             LOG.info(">>\t\t Let subject column=" + subjectCol);
             int relatedColumns =
-                    relationEnumerator.runRelationEnumeration(tableAnnotations, table, subjectCol);
+                    relationEnumerator.runRelationEnumeration(tableAnnotations, table, subjectCol, constraints);
 
             boolean interpretable = false;
             if (relatedColumns > 0)

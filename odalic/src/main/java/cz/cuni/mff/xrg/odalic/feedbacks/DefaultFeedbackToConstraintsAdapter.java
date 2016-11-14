@@ -169,14 +169,24 @@ public class DefaultFeedbackToConstraintsAdapter implements FeedbackToConstraint
 
   private static uk.ac.shef.dcs.sti.core.extension.constraints.Disambiguation convert(
       Disambiguation e, KnowledgeBase base) {
+    final uk.ac.shef.dcs.sti.core.extension.annotations.CellAnnotation convertedAnnotation = convert(e.getAnnotation(), base);
+    if (convertedAnnotation == null) {
+      return null;
+    }
+    
     return new uk.ac.shef.dcs.sti.core.extension.constraints.Disambiguation(
-        convert(e.getPosition()), convert(e.getAnnotation(), base));
+        convert(e.getPosition()), convertedAnnotation);
   }
 
   private static uk.ac.shef.dcs.sti.core.extension.constraints.ColumnRelation convert(
       ColumnRelation e, KnowledgeBase base) {
+    final uk.ac.shef.dcs.sti.core.extension.annotations.ColumnRelationAnnotation convertedAnnotation = convert(e.getAnnotation(), base);
+    if (convertedAnnotation == null) {
+      return null;
+    }
+    
     return new uk.ac.shef.dcs.sti.core.extension.constraints.ColumnRelation(
-        convert(e.getPosition()), convert(e.getAnnotation(), base));
+        convert(e.getPosition()), convertedAnnotation);
   }
 
   private static uk.ac.shef.dcs.sti.core.extension.positions.CellPosition convert(CellPosition e) {
