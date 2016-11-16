@@ -6,11 +6,13 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.ResourceProposalAdapter;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 
 /**
@@ -27,6 +29,7 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
  *
  */
 @Immutable
+@XmlJavaTypeAdapter(ResourceProposalAdapter.class)
 public final class ResourceProposal {
 
   private final String label;

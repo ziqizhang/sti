@@ -6,10 +6,12 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSortedSet;
 
+import cz.cuni.mff.xrg.odalic.api.rest.adapters.ClassProposalAdapter;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 
 /**
@@ -26,6 +28,7 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
  *
  */
 @Immutable
+@XmlJavaTypeAdapter(ClassProposalAdapter.class)
 public final class ClassProposal {
 
   private final String label;
