@@ -21,7 +21,6 @@ public final class FileValueInput implements Serializable {
 
   private static final long serialVersionUID = -6359038623760039155L;
 
-  @XmlElement
   private URL location;
 
   public FileValueInput() {}
