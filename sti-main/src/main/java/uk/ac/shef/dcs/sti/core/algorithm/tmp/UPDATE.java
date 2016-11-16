@@ -192,9 +192,28 @@ public class UPDATE {
             for (TColumnHeaderAnnotation ha : winningColumnClazzAnnotations)
                 columnTypes.add(ha.getAnnotation().getId());
 
+            Set<Integer> skipRows = new HashSet<>();
+            for (Disambiguation disambiguation : constraints.getDisambiguations()) {
+              if (disambiguation.getPosition().getColumnIndex() == c &&
+                  disambiguation.getAnnotation().getChosen().isEmpty()) {
+                skipRows.add(disambiguation.getPosition().getRowIndex());
+              }
+            }
+
             List<Integer> updated = new ArrayList<>();
             for (int bi = 0; bi < ranking.size(); bi++) {
                 List<Integer> rows = ranking.get(bi);
+
+                boolean skip = false;
+                for (int i : skipRows) {
+                    if (rows.contains(i)) {
+                        skip = true;
+                        break;
+                    }
+                }
+                if (skip)
+                    continue;
+
                 TCell sample = table.getContentCell(rows.get(0), c);
                 if (sample.getText().length() < 2) {
                     LOG.info("\t\t>>> short text cell skipped: " + rows + "," + c + " " + sample.getText());

@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
+import uk.ac.shef.dcs.sti.core.extension.constraints.Disambiguation;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.Table;
 
@@ -28,8 +29,18 @@ public class LEARNING {
     }
 
     public void learn(Table table, TAnnotation tableAnnotation, int column, Constraints constraints) throws KBSearchException, ClassNotFoundException, STIException {
+      Set<Integer> skipRows = new HashSet<>();
+      for (Disambiguation disambiguation : constraints.getDisambiguations()) {
+        if (disambiguation.getPosition().getColumnIndex() == column &&
+            disambiguation.getAnnotation().getChosen().isEmpty()) {
+          skipRows.add(disambiguation.getPosition().getRowIndex());
+        }
+      }
+      Integer[] skipRowsArray = skipRows.toArray(new Integer[skipRows.size()]);
+
         Pair<Integer, List<List<Integer>>> stopPosition =
-                columnTagger.runPreliminaryColumnClassifier(table, tableAnnotation, column, constraints);
+                columnTagger.runPreliminaryColumnClassifier(table, tableAnnotation, column,
+                    constraints, skipRowsArray);
 
         cellTagger.runPreliminaryDisamb(
                 stopPosition.getKey(),
@@ -37,7 +48,8 @@ public class LEARNING {
                 table,
                 tableAnnotation,
                 column,
-                constraints);
+                constraints,
+                skipRowsArray);
     }
 
 }
