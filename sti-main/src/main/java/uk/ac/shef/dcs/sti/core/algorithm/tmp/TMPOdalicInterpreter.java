@@ -7,6 +7,7 @@ import com.google.common.base.Preconditions;
 
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
+import uk.ac.shef.dcs.sti.core.extension.constraints.Classification;
 import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
@@ -45,7 +46,17 @@ public class TMPOdalicInterpreter extends SemanticTableInterpreter {
   public TAnnotation start(Table table, Constraints constraints) throws STIException {
     Preconditions.checkNotNull(constraints);
     
-    setIgnoreColumns(constraints.getColumnIgnores().stream().map(e -> e.getPosition().getIndex()).collect(Collectors.toSet()));
+    Set<Integer> ignoreCols = constraints.getColumnIgnores().stream()
+        .map(e -> e.getPosition().getIndex()).collect(Collectors.toSet());
+    
+    for (Classification classification : constraints.getClassifications()) {
+      // if the chosen classification is empty, we also want to ignore this column
+      if (classification.getAnnotation().getChosen().isEmpty()) {
+        ignoreCols.add(classification.getPosition().getIndex());
+      }
+    }
+    
+    setIgnoreColumns(ignoreCols);
     
     int[] ignoreColumnsArray = getIgnoreColumns().stream().mapToInt(e -> e.intValue()).sorted().toArray();
     literalColumnTagger.setIgnoreColumns(ignoreColumnsArray);
