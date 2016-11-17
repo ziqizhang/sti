@@ -1,8 +1,9 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import org.apache.log4j.Logger;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.model.Clazz;
+
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
+import uk.ac.shef.dcs.kbproxy.model.Clazz;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.*;
@@ -29,7 +30,7 @@ public class LiteralColumnTaggerImpl implements LiteralColumnTagger {
       this.ignoreColumns = ignoreCols;
     }
 
-    public void annotate(Table table, TAnnotation annotations, Integer... neColumns) throws KBSearchException {
+    public void annotate(Table table, TAnnotation annotations, Integer... neColumns) throws KBProxyException {
         //for each column that has a relation with the subject column, infer its type
         Map<RelationColumns, Map<Integer, List<TCellCellRelationAnotation>>>
                 relationAnnotations = annotations.getCellcellRelations();

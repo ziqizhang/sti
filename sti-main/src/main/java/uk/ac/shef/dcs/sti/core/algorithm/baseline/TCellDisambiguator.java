@@ -1,9 +1,9 @@
 package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
 import javafx.util.Pair;
-import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.kbproxy.KBProxy;
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
+import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TColumnHeaderAnnotation;
@@ -16,15 +16,15 @@ import java.util.*;
  */
 public abstract class TCellDisambiguator {
 
-    protected KBSearch kbSearch;
+    protected KBProxy kbSearch;
 
     public TCellDisambiguator(
-            KBSearch candidateFinder) {
+            KBProxy candidateFinder) {
         this.kbSearch = candidateFinder;
     }
 
     protected abstract Map<Integer, List<Pair<Entity, Map<String, Double>>>> disambiguate(
-            Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws KBSearchException;
+            Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws KBProxyException;
 
     protected void revise(TAnnotation tableAnnotation,
                        Table table,

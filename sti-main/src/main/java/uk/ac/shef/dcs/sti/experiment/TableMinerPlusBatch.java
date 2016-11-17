@@ -4,7 +4,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.simmetrics.metrics.StringMetrics;
-import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
+
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.*;
@@ -44,7 +44,7 @@ public class TableMinerPlusBatch extends STIBatch {
     protected void initComponents() throws STIException {
         //object to fetch things from KB
 
-        LOG.info("Initializing KBSearch...");
+        LOG.info("Initializing KBProxy...");
         initKB();
 
         //LOG.info("Initializing WebSearcher...");

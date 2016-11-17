@@ -6,8 +6,7 @@ import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 
 import org.simmetrics.metrics.StringMetrics;
-import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
+import uk.ac.shef.dcs.kbproxy.KBProxy;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
 
@@ -42,7 +41,7 @@ public class JointInferenceBatch extends STIBatch {
   private ClazzSpecificityCalculator getClazzSpecificityCalculator() throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
     return (ClazzSpecificityCalculator)
         Class.forName(properties.getProperty(PROPERTY_JI_CLAZZ_SPECIFICITY_CALCULATOR))
-            .getDeclaredConstructor(KBSearch.class)
+            .getDeclaredConstructor(KBProxy.class)
             .newInstance(kbSearch);
   }
 
@@ -50,7 +49,7 @@ public class JointInferenceBatch extends STIBatch {
   protected void initComponents() throws STIException {
     //object to fetch things from KB
 
-    LOG.info("Initializing KBSearch...");
+    LOG.info("Initializing KBProxy...");
     initKB();
 
     LOG.info("Initializing SUBJECT COLUMN DETECTION components ...");

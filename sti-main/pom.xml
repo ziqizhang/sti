@@ -47,7 +47,7 @@
         </dependency>
         <dependency>
             <groupId>uk.ac.shef.dcs</groupId>
-            <artifactId>sti-kbsearch</artifactId>
+            <artifactId>sti-kbproxy</artifactId>
             <version>1.0</version>
             <exclusions>
 				<exclusion>

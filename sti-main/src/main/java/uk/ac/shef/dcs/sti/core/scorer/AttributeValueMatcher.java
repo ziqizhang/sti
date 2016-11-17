@@ -1,9 +1,9 @@
 package uk.ac.shef.dcs.sti.core.scorer;
 
 import javafx.util.Pair;
-import org.simmetrics.Metric;
+
 import org.simmetrics.StringMetric;
-import uk.ac.shef.dcs.kbsearch.model.Attribute;
+import uk.ac.shef.dcs.kbproxy.model.Attribute;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.util.CollectionUtils;

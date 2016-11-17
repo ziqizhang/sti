@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.todo.gs;
 
 import org.apache.any23.util.FileUtils;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
+import uk.ac.shef.dcs.kbproxy.freebase.FreebaseQueryProxy;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriter;
@@ -13,7 +13,7 @@ import uk.ac.shef.dcs.sti.parser.table.hodetector.TableHODetectorByHTMLTag;
 import uk.ac.shef.dcs.sti.parser.table.normalizer.TableNormalizerSimple;
 import uk.ac.shef.dcs.sti.parser.table.creator.TableObjCreatorMusicBrainz;
 import uk.ac.shef.dcs.sti.parser.table.validator.TableValidatorGeneric;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseTopic;
+import uk.ac.shef.dcs.kbproxy.freebase.FreebaseTopic;
 
 import java.io.*;
 import java.util.ArrayList;

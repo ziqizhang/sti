@@ -38,6 +38,7 @@ public final class ResourceProposalValue implements Serializable {
 
   public ResourceProposalValue() {
     this.alternativeLabels = ImmutableSortedSet.of();
+    this.classes = ImmutableSortedSet.of();
   }
 
   /**

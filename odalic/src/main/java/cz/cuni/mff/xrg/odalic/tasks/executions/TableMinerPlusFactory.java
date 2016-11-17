@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.common.base.Preconditions;
 
-import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbproxy.KBProxy;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
@@ -67,23 +67,23 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
 
   private final String propertyFilePath;
 
-  private final KnowledgeBaseSearchFactory knowledgeBaseSearchFactory;
+  private final KnowledgeBaseProxyFactory knowledgeBaseProxyFactory;
 
   private Map<String, SemanticTableInterpreter> interpreters;
   private Properties properties;
   private final Lock initLock = new ReentrantLock();
   private boolean isInitialized = false;
 
-  public TableMinerPlusFactory(KnowledgeBaseSearchFactory knowledgeBaseSearchFactory, String propertyFilePath) {
-    Preconditions.checkNotNull(knowledgeBaseSearchFactory);
+  public TableMinerPlusFactory(KnowledgeBaseProxyFactory knowledgeBaseProxyFactory, String propertyFilePath) {
+    Preconditions.checkNotNull(knowledgeBaseProxyFactory);
     Preconditions.checkNotNull(propertyFilePath);
 
-    this.knowledgeBaseSearchFactory = knowledgeBaseSearchFactory;
+    this.knowledgeBaseProxyFactory = knowledgeBaseProxyFactory;
     this.propertyFilePath = propertyFilePath;
   }
 
-  public TableMinerPlusFactory(KnowledgeBaseSearchFactory knowledgeBaseSearchFactory) {
-    this(knowledgeBaseSearchFactory, System.getProperty("cz.cuni.mff.xrg.odalic.sti"));
+  public TableMinerPlusFactory(KnowledgeBaseProxyFactory knowledgeBaseProxyFactory) {
+    this(knowledgeBaseProxyFactory, System.getProperty("cz.cuni.mff.xrg.odalic.sti"));
   }
 
   /*
@@ -115,19 +115,19 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
       properties.load(new FileInputStream(propertyFilePath));
 
       // object to fetch things from KB
-      Map<String, KBSearch> kbSearchInstances = knowledgeBaseSearchFactory.getKBSearches();
+      Map<String, KBProxy> kbProxyInstances = knowledgeBaseProxyFactory.getKBProxies();
 
       interpreters = new HashMap<>();
-      for (KBSearch kbSearch : kbSearchInstances.values()) {
-        SubjectColumnDetector subcolDetector = initSubColDetector(kbSearch);
+      for (KBProxy kbProxy : kbProxyInstances.values()) {
+        SubjectColumnDetector subcolDetector = initSubColDetector(kbProxy);
 
-        TCellDisambiguator disambiguator = initDisambiguator(kbSearch);
+        TCellDisambiguator disambiguator = initDisambiguator(kbProxy);
         TColumnClassifier classifier = initClassifier();
         TContentCellRanker selector = new OSPD_nonEmpty();
 
-        LEARNING learning = initLearning(kbSearch, selector, disambiguator, classifier);
+        LEARNING learning = initLearning(kbProxy, selector, disambiguator, classifier);
 
-        UPDATE update = initUpdate(kbSearch, selector, disambiguator, classifier);
+        UPDATE update = initUpdate(kbProxy, selector, disambiguator, classifier);
 
         TColumnColumnRelationEnumerator relationEnumerator = initRelationEnumerator();
 
@@ -138,7 +138,7 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
         SemanticTableInterpreter interpreter = new TMPOdalicInterpreter(subcolDetector, learning, update,
                 relationEnumerator, literalColumnTagger);
 
-        interpreters.put(kbSearch.getName(), interpreter);
+        interpreters.put(kbProxy.getName(), interpreter);
 
         isInitialized = true;
       }
@@ -166,7 +166,7 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
     return combinePaths(properties.getProperty(PROPERTY_HOME), properties.getProperty(propertyName));
   }
 
-  private SubjectColumnDetector initSubColDetector(KBSearch kbSearch) throws STIException {
+  private SubjectColumnDetector initSubColDetector(KBProxy kbProxy) throws STIException {
     logger.info("Initializing SUBJECT COLUMN DETECTION components ...");
     try {
       return new SubjectColumnDetector(new TContentTContentRowRankerImpl(),
@@ -174,7 +174,7 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
           StringUtils.split(
               properties.getProperty(PROPERTY_TMP_IINF_WEBSEARCH_STOPPING_CLASS_CONSTR_PARAM), ','),
               // new String[]{"0.0", "1", "0.01"},
-          kbSearch.getSolrServer(PROPERTY_WEBSEARCH_CACHE_CORENAME), getNLPResourcesDir(),
+          kbProxy.getSolrServer(PROPERTY_WEBSEARCH_CACHE_CORENAME), getNLPResourcesDir(),
           Boolean.valueOf(properties.getProperty(PROPERTY_TMP_SUBJECT_COLUMN_DETECTION_USE_WEBSEARCH)),
           getStopwords(), getAbsolutePath(PROPERTY_WEBSEARCH_PROP_FILE));
     } catch (Exception e) {
@@ -184,9 +184,9 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
     }
   }
 
-  private TCellDisambiguator initDisambiguator(KBSearch kbSearch) throws STIException {
+  private TCellDisambiguator initDisambiguator(KBProxy kbProxy) throws STIException {
     try {
-      return new TCellDisambiguator(kbSearch,
+      return new TCellDisambiguator(kbProxy,
           new TMPEntityScorer(getStopwords(), STIConstantProperty.SCORER_ENTITY_CONTEXT_WEIGHT,
               // row, column, column header, table context all
               getNLPResourcesDir()));
@@ -208,17 +208,17 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
     }
   }
 
-  private LEARNING initLearning(KBSearch kbSearch, TContentCellRanker selector, TCellDisambiguator disambiguator,
-      TColumnClassifier classifier) throws STIException {
+  private LEARNING initLearning(KBProxy kbProxy, TContentCellRanker selector, TCellDisambiguator disambiguator,
+                                TColumnClassifier classifier) throws STIException {
     logger.info("Initializing LEARNING components ...");
     try {
       LEARNINGPreliminaryColumnClassifier preliminaryClassify = new LEARNINGPreliminaryColumnClassifier(selector,
           properties.getProperty(PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS),
           StringUtils.split(
               properties.getProperty(PROPERTY_TMP_IINF_LEARNING_STOPPING_CLASS_CONSTR_PARAM), ','),
-          kbSearch, disambiguator, classifier);
+              kbProxy, disambiguator, classifier);
       LEARNINGPreliminaryDisamb preliminaryDisamb =
-          new LEARNINGPreliminaryDisamb(kbSearch, disambiguator, classifier);
+          new LEARNINGPreliminaryDisamb(kbProxy, disambiguator, classifier);
 
       return new LEARNING(preliminaryClassify, preliminaryDisamb);
     } catch (Exception e) {
@@ -227,11 +227,11 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
     }
   }
 
-  private UPDATE initUpdate(KBSearch kbSearch, TContentCellRanker selector, TCellDisambiguator disambiguator,
-      TColumnClassifier classifier) throws STIException {
+  private UPDATE initUpdate(KBProxy kbProxy, TContentCellRanker selector, TCellDisambiguator disambiguator,
+                            TColumnClassifier classifier) throws STIException {
     logger.info("Initializing UPDATE components ...");
     try {
-      return new UPDATE(selector, kbSearch, disambiguator, classifier, getStopwords(), getNLPResourcesDir());
+      return new UPDATE(selector, kbProxy, disambiguator, classifier, getStopwords(), getNLPResourcesDir());
     } catch (Exception e) {
       logger.error("Exception", e.getLocalizedMessage(), e.getStackTrace());
       throw new STIException("Failed initializing UPDATE components.", e);
