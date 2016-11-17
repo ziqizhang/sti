@@ -2,7 +2,8 @@ package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
 import cern.colt.matrix.ObjectMatrix2D;
 import org.apache.log4j.Logger;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
+
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.model.*;
 
@@ -30,7 +31,7 @@ public class SemanticMessagePassing {
                          TColumnClassifier columnClassifier,
                          TColumnColumnRelationEnumerator relationLearner,
                          Collection<Integer> mustDoColumns,
-                         Collection<Integer> ignoreColumns) throws STIException, KBSearchException {
+                         Collection<Integer> ignoreColumns) throws STIException, KBProxyException {
         TAnnotation copy;
         for (int i = 1; i <= haltingMaxIterations; i++) {
             LOG.info("\t\t>> [ITERATION] " + i);

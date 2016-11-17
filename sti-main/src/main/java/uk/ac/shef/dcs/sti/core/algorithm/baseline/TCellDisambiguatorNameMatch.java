@@ -2,9 +2,10 @@ package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
-import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
+
+import uk.ac.shef.dcs.kbproxy.KBProxy;
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
+import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.*;
@@ -17,12 +18,12 @@ public class TCellDisambiguatorNameMatch extends TCellDisambiguator {
     private static final Logger LOG = Logger.getLogger(TCellDisambiguatorNameMatch.class.getName());
 
     public TCellDisambiguatorNameMatch(
-            KBSearch kbSearch) {
+            KBProxy kbSearch) {
         super(kbSearch);
     }
 
     protected Map<Integer, List<Pair<Entity, Map<String, Double>>>> disambiguate(
-            Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws KBSearchException {
+            Table table, TAnnotation table_annotation, int column, Integer... skipRows) throws KBProxyException {
         Map<Integer, List<Pair<Entity, Map<String, Double>>>> rowIndex_and_entities =
                 new HashMap<>();
 

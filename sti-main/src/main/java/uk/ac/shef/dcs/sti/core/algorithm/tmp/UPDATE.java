@@ -2,8 +2,8 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
-import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
+import uk.ac.shef.dcs.kbproxy.KBProxy;
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
 import uk.ac.shef.dcs.sti.core.extension.annotations.EntityCandidate;
@@ -12,7 +12,7 @@ import uk.ac.shef.dcs.sti.core.extension.constraints.Disambiguation;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.*;
 import uk.ac.shef.dcs.util.StringUtils;
 
@@ -27,14 +27,14 @@ public class UPDATE {
 
     private static final Logger LOG = Logger.getLogger(UPDATE.class.getName());
     private TCellDisambiguator disambiguator;
-    private KBSearch kbSearch;
+    private KBProxy kbSearch;
     private TColumnClassifier classifier;
     private String nlpResourcesDir;
     private TContentCellRanker selector;
     private List<String> stopWords;
 
     public UPDATE(TContentCellRanker selector,
-                  KBSearch kbSearch,
+                  KBProxy kbSearch,
                   TCellDisambiguator disambiguator,
                   TColumnClassifier classifier,
                   List<String> stopwords,
@@ -53,14 +53,14 @@ public class UPDATE {
      * @param interpretedColumnIndexes
      * @param table
      * @param currentAnnotation
-     * @throws KBSearchException
+     * @throws KBProxyException
      * @throws STIException
      */
     public void update(
             List<Integer> interpretedColumnIndexes,
             Table table,
             TAnnotation currentAnnotation
-    ) throws KBSearchException, STIException {
+    ) throws KBProxyException, STIException {
       update(interpretedColumnIndexes, table, currentAnnotation, new Constraints());
     }
 
@@ -71,7 +71,7 @@ public class UPDATE {
      * @param table
      * @param currentAnnotation
      * @param constraints
-     * @throws KBSearchException
+     * @throws KBProxyException
      * @throws STIException
      */
     public void update(
@@ -79,7 +79,7 @@ public class UPDATE {
             Table table,
             TAnnotation currentAnnotation,
             Constraints constraints
-    ) throws KBSearchException, STIException {
+    ) throws KBProxyException, STIException {
 
         int currentIteration = 0;
         TAnnotation prevAnnotation;
@@ -178,7 +178,7 @@ public class UPDATE {
             Table table,
             TAnnotation currentAnnotation,
             List<Integer> interpretedColumns,
-            Constraints constraints) throws KBSearchException, STIException {
+            Constraints constraints) throws KBProxyException, STIException {
         //now revise annotations on each of the interpreted columns
         for (int c : interpretedColumns) {
             LOG.info("\t\t>> for column " + c);
@@ -244,7 +244,7 @@ public class UPDATE {
                                                                  List<Integer> rowBlock,
                                                                  int table_cell_col,
                                                                  int totalRowBlocks,
-                                                                 Constraints constraints) throws KBSearchException {
+                                                                 Constraints constraints) throws KBProxyException {
         List<Pair<Entity, Map<String, Double>>> entity_and_scoreMap;
 
         List<Entity> candidates = new ArrayList<>();
@@ -266,7 +266,7 @@ public class UPDATE {
         }
 
         int ignore = 0;
-        for (uk.ac.shef.dcs.kbsearch.model.Resource ec : candidates) {
+        for (uk.ac.shef.dcs.kbproxy.model.Resource ec : candidates) {
             if (ignoreEntityIds.contains(ec.getId()))
                 ignore++;
         }

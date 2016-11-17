@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.todo.evaluation;
 
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseQueryProxy;
+import uk.ac.shef.dcs.kbproxy.freebase.FreebaseQueryProxy;
 import uk.ac.shef.dcs.sti.todo.TAnnotationKeyFileReader;
 
 import java.io.File;

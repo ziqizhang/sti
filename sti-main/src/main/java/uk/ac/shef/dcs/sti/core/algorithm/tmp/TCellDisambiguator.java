@@ -3,10 +3,11 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 import javafx.util.Pair;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
-import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.model.Attribute;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
+
+import uk.ac.shef.dcs.kbproxy.KBProxy;
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
+import uk.ac.shef.dcs.kbproxy.model.Attribute;
+import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
@@ -19,18 +20,18 @@ import java.util.*;
  */
 public class TCellDisambiguator {
 
-    private KBSearch kbSearch;
+    private KBProxy kbSearch;
     private EntityScorer disambScorer;
     private static final Logger LOG = Logger.getLogger(TCellDisambiguator.class.getName());
 
-    public TCellDisambiguator(KBSearch kbSearch, EntityScorer disambScorer) {
+    public TCellDisambiguator(KBProxy kbSearch, EntityScorer disambScorer) {
         this.kbSearch = kbSearch;
         this.disambScorer = disambScorer;
     }
     //this method runs cold start disambiguation
     public List<Pair<Entity, Map<String, Double>>> coldstartDisambiguate(List<Entity> candidates, Table table,
                                                                          List<Integer> entity_rows, int entity_column
-    ) throws KBSearchException {
+    ) throws KBProxyException {
         LOG.info("\t\t>> (cold start disamb), candidates=" + candidates.size());
         return disambiguate(candidates, table,entity_rows,entity_column);
 
@@ -58,7 +59,7 @@ public class TCellDisambiguator {
             int column,
             int totalRowBlocks,
             boolean isLEARNINGPhase
-    ) throws KBSearchException {
+    ) throws KBProxyException {
         TCell sample_tcc = table.getContentCell(rowBlock.get(0), column);
         if (isLEARNINGPhase)
             LOG.info("\t\t>> (constrained disambiguation in LEARNING) , position at (" + rowBlock + "/"+totalRowBlocks+"," + column + ") " + sample_tcc + " candidates=" + candidates.size());
@@ -70,7 +71,7 @@ public class TCellDisambiguator {
 
     public List<Pair<Entity, Map<String, Double>>> disambiguate(List<Entity> candidates, Table table,
                                                                          List<Integer> entity_rows, int entity_column
-    ) throws KBSearchException {
+    ) throws KBProxyException {
         //do disambiguation scoring
         //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         TCell sample_tcc = table.getContentCell(entity_rows.get(0), entity_column);

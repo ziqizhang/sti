@@ -2,17 +2,14 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
+
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
 import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
-import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.core.subjectcol.SubjectColumnDetector;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
-import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
 

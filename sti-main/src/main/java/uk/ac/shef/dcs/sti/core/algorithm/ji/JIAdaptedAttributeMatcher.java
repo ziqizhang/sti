@@ -1,11 +1,11 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
-import org.simmetrics.Metric;
 import org.simmetrics.StringMetric;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.model.Attribute;
-import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.model.Resource;
+
+import uk.ac.shef.dcs.kbproxy.KBProxy;
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
+import uk.ac.shef.dcs.kbproxy.model.Attribute;
+import uk.ac.shef.dcs.kbproxy.model.Resource;
 import uk.ac.shef.dcs.sti.core.scorer.AttributeValueMatcher;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
@@ -60,7 +60,7 @@ public class JIAdaptedAttributeMatcher extends AttributeValueMatcher {
 
                 final Map<Integer, Double> sbjAttrIndex_matchedScores = new HashMap<>();
                 //key - index of fact; value- list of candidate entity from the obj cell matched the fact, or null if no candidate entities
-                Map<Integer, List<uk.ac.shef.dcs.kbsearch.model.Resource>> sbjAttrIndex_matchedObjCellCandidates =
+                Map<Integer, List<uk.ac.shef.dcs.kbproxy.model.Resource>> sbjAttrIndex_matchedObjCellCandidates =
                         matchSubjectAttributes(objectColumnDatatype, objectCellEntities,
                                 sbjAttributes, sbjAttrValueDatatypes, sbjAttrIndex_matchedScores);
 
@@ -75,7 +75,7 @@ public class JIAdaptedAttributeMatcher extends AttributeValueMatcher {
                 for (Map.Entry<Integer, Double> e : sbjAttrIndex_matchedScores.entrySet()) {
                     int index = e.getKey();
                     Double score = e.getValue();
-                    List<uk.ac.shef.dcs.kbsearch.model.Resource> objects = sbjAttrIndex_matchedObjCellCandidates.get(index);
+                    List<uk.ac.shef.dcs.kbproxy.model.Resource> objects = sbjAttrIndex_matchedObjCellCandidates.get(index);
                     if (score.equals(highestScore) && objects != null && objects.size() > 0) {
                         List<Resource> objEntities = new ArrayList<>();
                         for (Resource r : objects)
@@ -94,7 +94,7 @@ public class JIAdaptedAttributeMatcher extends AttributeValueMatcher {
     protected List<MatchResult> matchColumnAnnotations(List<TColumnHeaderAnnotation> subjectColumnClazz,
                                                        List<TColumnHeaderAnnotation> objectColumnAnnotations,
                                                        DataTypeClassifier.DataType objectColumnDataType,
-                                                       KBSearch kbSearch) throws KBSearchException {
+                                                       KBProxy kbSearch) throws KBProxyException {
         List<MatchResult> output = new ArrayList<>();
         List<Resource> objectColumnClazz = new ArrayList<>();
         for (TColumnHeaderAnnotation c : objectColumnAnnotations)
@@ -152,9 +152,9 @@ public class JIAdaptedAttributeMatcher extends AttributeValueMatcher {
             }
             //use only the fact's obj (text) to compare against the header's text
             double maxScore = 0.0;
-            Map<Double, List<uk.ac.shef.dcs.kbsearch.model.Resource>> mchScore_objCandidates = new HashMap<>();
+            Map<Double, List<uk.ac.shef.dcs.kbproxy.model.Resource>> mchScore_objCandidates = new HashMap<>();
             for (int o = 0; o < objectCandidates.size(); o++) {
-                uk.ac.shef.dcs.kbsearch.model.Resource r = objectCandidates.get(o);
+                uk.ac.shef.dcs.kbproxy.model.Resource r = objectCandidates.get(o);
                 String objCandidateURL = r.getId();
                 String objCandidateLabel = r.getLabel();
 
@@ -165,7 +165,7 @@ public class JIAdaptedAttributeMatcher extends AttributeValueMatcher {
                         double score = objCandidateURL.equals(attr.getValueURI()) ? 1.0 : 0.0;
                         if (score > finalScore) finalScore = score;
                     }
-                    List<uk.ac.shef.dcs.kbsearch.model.Resource> candidates = mchScore_objCandidates.get(finalScore);
+                    List<uk.ac.shef.dcs.kbproxy.model.Resource> candidates = mchScore_objCandidates.get(finalScore);
                     if (candidates == null) candidates = new ArrayList<>();
                     candidates.add(r);
                     mchScore_objCandidates.put(finalScore, candidates);

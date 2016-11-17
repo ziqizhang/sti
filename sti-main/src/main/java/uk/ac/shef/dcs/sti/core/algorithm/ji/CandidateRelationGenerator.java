@@ -1,12 +1,13 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import org.apache.log4j.Logger;
-import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.model.Attribute;
-import uk.ac.shef.dcs.kbsearch.model.Clazz;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
-import uk.ac.shef.dcs.kbsearch.model.Resource;
+
+import uk.ac.shef.dcs.kbproxy.KBProxy;
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
+import uk.ac.shef.dcs.kbproxy.model.Attribute;
+import uk.ac.shef.dcs.kbproxy.model.Clazz;
+import uk.ac.shef.dcs.kbproxy.model.Entity;
+import uk.ac.shef.dcs.kbproxy.model.Resource;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.*;
 
@@ -20,12 +21,12 @@ import java.util.List;
 public class CandidateRelationGenerator {
     private boolean includeCellCellRelations = true;
     private JIAdaptedAttributeMatcher matcher;
-    private KBSearch kbSearch;
+    private KBProxy kbSearch;
 
     private static final Logger LOG = Logger.getLogger(CandidateRelationGenerator.class.getName());
 
     public CandidateRelationGenerator(JIAdaptedAttributeMatcher matcher,
-                                      KBSearch kbSearch,
+                                      KBProxy kbSearch,
                                       boolean includeCellCellRelations) {
         this.matcher = matcher;
         this.kbSearch = kbSearch;
@@ -34,7 +35,7 @@ public class CandidateRelationGenerator {
 
     public void generateInitialColumnColumnRelations(TAnnotationJI tableAnnotations,
                                                      Table table, boolean useSubjectColumn,
-                                                     Collection<Integer> ignoreColumns) throws IOException, KBSearchException {
+                                                     Collection<Integer> ignoreColumns) throws IOException, KBProxyException {
         //RelationDataStructure result = new RelationDataStructure();
 
         //mainColumnIndexes contains indexes of columns that are possible NEs
@@ -196,9 +197,9 @@ public class CandidateRelationGenerator {
     private void addRelationsFromColumnClazzAnnotations(Table table,
                                                         TAnnotationJI annotation,
                                                         Map<Integer, DataTypeClassifier.DataType> colTypes,
-                                                        KBSearch kbSearch,
+                                                        KBProxy kbSearch,
                                                         Collection<Integer> subjectColumnsToConsider,
-                                                        Collection<Integer> ignoreColumns) throws KBSearchException {
+                                                        Collection<Integer> ignoreColumns) throws KBProxyException {
         for (int subjectColumn : subjectColumnsToConsider) {  //choose a column to be subject column (must be NE column)
             if (!table.getColumnHeader(subjectColumn).getFeature().getMostFrequentDataType().getType().equals(DataTypeClassifier.DataType.NAMED_ENTITY))
                 continue;

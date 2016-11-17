@@ -2,9 +2,9 @@ package uk.ac.shef.dcs.sti.todo.evaluation;
 
 import info.aduna.io.FileUtil;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
-import uk.ac.shef.dcs.kbsearch.model.Attribute;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.kbproxy.freebase.FreebaseSearch;
+import uk.ac.shef.dcs.kbproxy.model.Attribute;
+import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.todo.TAnnotationKeyFileReader;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 

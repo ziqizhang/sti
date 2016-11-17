@@ -1,8 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
-import org.simmetrics.Metric;
 import org.simmetrics.StringMetric;
-import uk.ac.shef.dcs.kbsearch.model.Attribute;
+import uk.ac.shef.dcs.kbproxy.model.Attribute;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPEntityScorer;
 import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
@@ -10,7 +9,7 @@ import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.sti.util.CollectionUtils;

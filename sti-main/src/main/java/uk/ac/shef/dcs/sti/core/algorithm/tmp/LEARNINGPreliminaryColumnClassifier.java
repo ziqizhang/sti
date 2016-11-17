@@ -2,8 +2,9 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
-import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
+
+import uk.ac.shef.dcs.kbproxy.KBProxy;
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.StoppingCriteria;
@@ -12,8 +13,8 @@ import uk.ac.shef.dcs.sti.core.extension.annotations.EntityCandidate;
 import uk.ac.shef.dcs.sti.core.extension.constraints.Classification;
 import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
 import uk.ac.shef.dcs.sti.core.extension.constraints.Disambiguation;
-import uk.ac.shef.dcs.kbsearch.model.Clazz;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.kbproxy.model.Clazz;
+import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.*;
@@ -26,7 +27,7 @@ import java.util.List;
 
 public class LEARNINGPreliminaryColumnClassifier {
     private TContentCellRanker selector;
-    private KBSearch kbSearch;
+    private KBProxy kbSearch;
     private TCellDisambiguator cellDisambiguator;
     private TColumnClassifier columnClassifier;
 
@@ -37,7 +38,7 @@ public class LEARNINGPreliminaryColumnClassifier {
     public LEARNINGPreliminaryColumnClassifier(TContentCellRanker selector,
                                                String stoppingCriteriaClassname,
                                                String[] stoppingCriteriaParams,
-                                               KBSearch candidateFinder,
+                                               KBProxy candidateFinder,
                                                TCellDisambiguator cellDisambiguator,
                                                TColumnClassifier columnClassifier) {
         this.selector = selector;
@@ -56,9 +57,9 @@ public class LEARNINGPreliminaryColumnClassifier {
      * @param skipRows
      * @return pair: key is the index of the cell by which the classification stopped. value is the re-ordered
      * indexes of cells based on the sampler
-     * @throws KBSearchException
+     * @throws KBProxyException
      */
-    public Pair<Integer, List<List<Integer>>> runPreliminaryColumnClassifier(Table table, TAnnotation tableAnnotation, int column, Constraints constraints, Integer... skipRows) throws KBSearchException, ClassNotFoundException, STIException {
+    public Pair<Integer, List<List<Integer>>> runPreliminaryColumnClassifier(Table table, TAnnotation tableAnnotation, int column, Constraints constraints, Integer... skipRows) throws KBProxyException, ClassNotFoundException, STIException {
         StoppingCriteria stopper = StoppingCriteriaInstantiator.instantiate(stopperClassname, stopperParams);
 
         //1. gather list of strings from this column to be interpreted, rank them (for sampling)

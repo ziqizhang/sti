@@ -2,10 +2,10 @@ package uk.ac.shef.dcs.sti.todo.evaluation;
 
 import info.aduna.io.FileUtil;
 import org.xml.sax.SAXException;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
-import uk.ac.shef.dcs.kbsearch.model.Attribute;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
+import uk.ac.shef.dcs.kbproxy.freebase.FreebaseSearch;
+import uk.ac.shef.dcs.kbproxy.model.Attribute;
+import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.todo.TAnnotationKeyFileReader;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 
@@ -230,7 +230,7 @@ public class LimayeDataset_Entity_Discrepancy_Analysis_Generic {
             String gs_entity_annotation_folder,
             String out_folder,
             FreebaseSearch searcher,
-            Map<String, String> result_annotation_folders_to_consider) throws IOException, KBSearchException, ParserConfigurationException, SAXException {
+            Map<String, String> result_annotation_folders_to_consider) throws IOException, KBProxyException, ParserConfigurationException, SAXException {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();

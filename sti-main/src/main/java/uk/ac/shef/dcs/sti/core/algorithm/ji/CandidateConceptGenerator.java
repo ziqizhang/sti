@@ -2,11 +2,11 @@ package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
-import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.model.Attribute;
-import uk.ac.shef.dcs.kbsearch.model.Clazz;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.kbproxy.KBProxy;
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
+import uk.ac.shef.dcs.kbproxy.model.Attribute;
+import uk.ac.shef.dcs.kbproxy.model.Clazz;
+import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.similarity.EntityAndClazzSimilarityScorer;
 import uk.ac.shef.dcs.sti.core.algorithm.ji.similarity.SimilarityComputerManager;
@@ -25,11 +25,11 @@ public class CandidateConceptGenerator {
     private static final Logger LOG = Logger.getLogger(CandidateConceptGenerator.class.getName());
     private int threads = 10;
     private SimilarityComputerManager simComputer;
-    private KBSearch kbSearch;
+    private KBProxy kbSearch;
     private JIClazzScorer clazzScorer;
     private ClazzSpecificityCalculator clazzSpecificityCalculator;
 
-    public CandidateConceptGenerator(KBSearch kbSearch,
+    public CandidateConceptGenerator(KBProxy kbSearch,
                                      JIClazzScorer clazzScorer,
                                      EntityAndClazzSimilarityScorer entityAndConceptScorer,
                                      ClazzSpecificityCalculator clazzSpecificityCalculator,
@@ -42,7 +42,7 @@ public class CandidateConceptGenerator {
         simComputer = new SimilarityComputerManager(useCache,kbSearch,entityAndConceptScorer);
     }
 
-    public void generateInitialColumnAnnotations(TAnnotationJI tableAnnotation, Table table, int col) throws KBSearchException, STIException {
+    public void generateInitialColumnAnnotations(TAnnotationJI tableAnnotation, Table table, int col) throws KBProxyException, STIException {
         List<Clazz> distinctTypes = new ArrayList<>();
         Map<String, Set<String>> entityId_and_clazzURLs = new HashMap<>();
         List<Entity> distinctEntities = new ArrayList<>();

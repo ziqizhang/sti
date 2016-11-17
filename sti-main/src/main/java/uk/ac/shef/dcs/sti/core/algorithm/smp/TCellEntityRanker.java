@@ -2,12 +2,13 @@ package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
-import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.model.Attribute;
+
+import uk.ac.shef.dcs.kbproxy.KBProxy;
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
+import uk.ac.shef.dcs.kbproxy.model.Attribute;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.Table;
@@ -19,11 +20,11 @@ import java.util.*;
  */
 public class TCellEntityRanker {
 
-    private KBSearch kbSearch;
+    private KBProxy kbSearch;
     private EntityScorer entityScorer;
     private static final Logger LOG = Logger.getLogger(TCellEntityRanker.class.getName());
 
-    public TCellEntityRanker(KBSearch kbSearch, EntityScorer entityScorer) {
+    public TCellEntityRanker(KBProxy kbSearch, EntityScorer entityScorer) {
         this.kbSearch = kbSearch;
         this.entityScorer = entityScorer;
     }
@@ -31,7 +32,7 @@ public class TCellEntityRanker {
     public void rankCandidateNamedEntities(
             TAnnotation tableAnnotations, Table table,
             int row, int column
-    ) throws KBSearchException {
+    ) throws KBProxyException {
         List<Pair<Entity, Map<String, Double>>> scores = score(table, row, column);
         TCell tcc = table.getContentCell(row, column);
         TCellAnnotation[] annotations = new TCellAnnotation[scores.size()];
@@ -48,7 +49,7 @@ public class TCellEntityRanker {
 
     public List<Pair<Entity, Map<String, Double>>> score(Table table,
                                                          int row, int column
-    ) throws KBSearchException {
+    ) throws KBProxyException {
         //do disambiguation scoring
         //LOG.info("\t>> Disambiguation-LEARN, position at (" + entity_row + "," + entity_column + ") candidates=" + candidates.size());
         TCell cell = table.getContentCell(row, column);

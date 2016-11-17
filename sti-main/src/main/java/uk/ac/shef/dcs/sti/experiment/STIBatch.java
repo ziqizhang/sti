@@ -4,11 +4,10 @@ import com.google.api.client.http.HttpResponseException;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-import org.apache.solr.core.CoreContainer;
-import uk.ac.shef.dcs.kbsearch.KBSearchFactory;
+
+import uk.ac.shef.dcs.kbproxy.KBProxyFactory;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.kbsearch.KBSearch;
+import uk.ac.shef.dcs.kbproxy.KBProxy;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
 import uk.ac.shef.dcs.sti.io.TAnnotationWriterJSON;
 import uk.ac.shef.dcs.sti.util.TripleGenerator;
@@ -20,7 +19,6 @@ import uk.ac.shef.dcs.sti.parser.table.TableParser;
 
 import java.io.*;
 import java.net.SocketTimeoutException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -35,7 +33,7 @@ public abstract class STIBatch {
 
   private static Logger LOG = Logger.getLogger(STIBatch.class.getName());
 
-  protected KBSearch kbSearch;
+  protected KBProxy kbSearch;
 
   protected TableParser tableParser;
 
@@ -119,7 +117,7 @@ public abstract class STIBatch {
   protected String getKBSearchPropFile() throws STIException {
     String prop = properties.getProperty(PROPERTY_KBSEARCH_PROP_FILE);
     if (prop == null || !new File(prop).exists()) {
-      String error = "Cannot proceed: the property file for your kbsearch module is not set or does not exist. " +
+      String error = "Cannot proceed: the property file for your kbproxy module is not set or does not exist. " +
           PROPERTY_KBSEARCH_PROP_FILE + "=" + prop;
       LOG.error(error);
       throw new STIException(error);
@@ -250,7 +248,7 @@ public abstract class STIBatch {
   }
 
   void initKB() throws STIException {
-    KBSearchFactory factory = new KBSearchFactory();
+    KBProxyFactory factory = new KBProxyFactory();
     try {
       kbSearch = factory.createInstances(
           properties.getProperty(PROPERTY_KBSEARCH_PROP_FILE),
@@ -260,7 +258,7 @@ public abstract class STIBatch {
     } catch (Exception e) {
       e.printStackTrace();
       LOG.error(ExceptionUtils.getFullStackTrace(e));
-      throw new STIException("Failed initialising KBSearch:" +
+      throw new STIException("Failed initialising KBProxy:" +
           getAbsolutePath(PROPERTY_KBSEARCH_PROP_FILE)
           , e);
     }

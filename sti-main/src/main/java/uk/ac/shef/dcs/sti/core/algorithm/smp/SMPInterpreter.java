@@ -1,9 +1,9 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
-import cern.colt.matrix.ObjectMatrix2D;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
+
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
 import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
@@ -121,7 +121,7 @@ public class SMPInterpreter extends SemanticTableInterpreter {
     protected static void columnClassification(TColumnClassifier columnClassifier,
                                                TAnnotation tabAnnotations, Table table,
                                                Collection<Integer> mustDoColumns,
-                                               Collection<Integer> ignoreColumns) throws KBSearchException {
+                                               Collection<Integer> ignoreColumns) throws KBProxyException {
         // ObjectMatrix1D ccFactors = new SparseObjectMatrix1D(table.getNumCols());
         for (int col = 0; col < table.getNumCols(); col++) {
             if (mustDoColumns.contains(col)) {

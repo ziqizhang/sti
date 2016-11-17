@@ -2,10 +2,11 @@ package uk.ac.shef.dcs.sti.core.algorithm.ji.similarity;
 
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
-import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.model.Clazz;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
+
+import uk.ac.shef.dcs.kbproxy.KBProxy;
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
+import uk.ac.shef.dcs.kbproxy.model.Clazz;
+import uk.ac.shef.dcs.kbproxy.model.Entity;
 
 import java.util.*;
 
@@ -16,10 +17,10 @@ public class SimilarityComputerManager {
 
 
     private static final Logger LOG = Logger.getLogger(SimilarityComputerManager.class.getName());
-    private KBSearch kbSearch;
+    private KBProxy kbSearch;
     private boolean useCache;
     private EntityAndClazzSimilarityScorer scorer;
-    public SimilarityComputerManager(boolean useCache, KBSearch kbSearch,
+    public SimilarityComputerManager(boolean useCache, KBProxy kbSearch,
                                      EntityAndClazzSimilarityScorer scorer){
 
         this.useCache=useCache;
@@ -28,7 +29,7 @@ public class SimilarityComputerManager {
     }
     public Map<String, Double> computeSemanticSimilarity(int threads, Collection<Entity> entities,
                                                           Collection<Clazz> concepts,
-                                                          boolean biDirectional) throws KBSearchException {
+                                                          boolean biDirectional) throws KBProxyException {
         Map<String, Double> result = new HashMap<>();
         List<Pair<Entity, Clazz>> pairs = new ArrayList<>();
         for (Entity e : entities) {

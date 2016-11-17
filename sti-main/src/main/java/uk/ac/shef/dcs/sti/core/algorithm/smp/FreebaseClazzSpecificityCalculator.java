@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
-import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
+import uk.ac.shef.dcs.kbproxy.KBProxy;
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 
 /**
@@ -9,10 +9,10 @@ import uk.ac.shef.dcs.sti.STIConstantProperty;
  */
 public class FreebaseClazzSpecificityCalculator implements ClazzSpecificityCalculator {
 
-    private KBSearch kbSearch;
+    private KBProxy kbSearch;
 
-    public FreebaseClazzSpecificityCalculator(KBSearch kbSearch) {
-        this.kbSearch = kbSearch;
+    public FreebaseClazzSpecificityCalculator(KBProxy kbProxy) {
+        this.kbSearch = kbProxy;
     }
 
     @Override
@@ -20,7 +20,7 @@ public class FreebaseClazzSpecificityCalculator implements ClazzSpecificityCalcu
         double conceptGranularity = 0;
         try {
             conceptGranularity = kbSearch.findGranularityOfClazz(clazzURI);
-        } catch (KBSearchException e) {
+        } catch (KBProxyException e) {
             return 0.0;
         }
         if (conceptGranularity < 0)

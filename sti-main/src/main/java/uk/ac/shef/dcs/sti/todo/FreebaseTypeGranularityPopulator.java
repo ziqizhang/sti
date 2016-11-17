@@ -1,15 +1,12 @@
 package uk.ac.shef.dcs.sti.todo;
 
-import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.freebase.FreebaseSearch;
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
+import uk.ac.shef.dcs.kbproxy.freebase.FreebaseSearch;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -19,7 +16,7 @@ public class FreebaseTypeGranularityPopulator {
     protected static final String PROPERTY_HOME = "sti.home";
     protected static final String PROPERTY_CACHE_FOLDER = "sti.cache.main.dir";
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException, KBSearchException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, KBProxyException {
         //fetch freebase pages, parse them and get granularity scores
         List<String> all_types = new ArrayList<>(new HashSet<>(FileUtils.readList(args[1] + "/types_merge_all.txt", false)));
         Collections.sort(all_types);

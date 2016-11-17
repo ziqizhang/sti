@@ -2,10 +2,11 @@ package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
-import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.model.Attribute;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
+
+import uk.ac.shef.dcs.kbproxy.KBProxy;
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
+import uk.ac.shef.dcs.kbproxy.model.Attribute;
+import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
@@ -18,11 +19,11 @@ import java.util.*;
  * Created by zqz on 01/05/2015.
  */
 public class CandidateEntityGenerator {
-    private KBSearch kbSearch;
+    private KBProxy kbSearch;
     private JIAdaptedEntityScorer disambScorer;
     private static final Logger LOG = Logger.getLogger(CandidateEntityGenerator.class.getName());
 
-    public CandidateEntityGenerator(KBSearch kbSearch, JIAdaptedEntityScorer disambScorer) {
+    public CandidateEntityGenerator(KBProxy kbSearch, JIAdaptedEntityScorer disambScorer) {
         this.kbSearch = kbSearch;
         this.disambScorer = disambScorer;
     }
@@ -30,7 +31,7 @@ public class CandidateEntityGenerator {
     public void generateInitialCellAnnotations(
             TAnnotation tableAnnotations, Table table,
             int row, int column
-    ) throws KBSearchException {
+    ) throws KBProxyException {
         List<Pair<Entity, Map<String, Double>>> scores = scoreEntities(table, row, column);
         List<Pair<Entity, Double>> sorted = new ArrayList<>();
         for (Pair<Entity, Map<String, Double>> e : scores) {
@@ -58,7 +59,7 @@ public class CandidateEntityGenerator {
 
     private List<Pair<Entity, Map<String, Double>>> scoreEntities(Table table,
                                                                   int row, int column
-    ) throws KBSearchException {
+    ) throws KBProxyException {
         TCell cell = table.getContentCell(row, column);
         LOG.info("\t\t>> (generating candidate entities, position at (" + row + "," + column + ") " +
                 cell+")");

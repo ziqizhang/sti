@@ -2,9 +2,10 @@ package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
-import uk.ac.shef.dcs.kbsearch.KBSearch;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
+
+import uk.ac.shef.dcs.kbproxy.KBProxy;
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
+import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.extension.annotations.EntityCandidate;
 import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
@@ -20,10 +21,10 @@ public class LEARNINGPreliminaryDisamb {
 
     private static final Logger LOG = Logger.getLogger(LEARNINGPreliminaryDisamb.class.getName());
     private TCellDisambiguator disambiguator;
-    private KBSearch kbSearch;
+    private KBProxy kbSearch;
     private TColumnClassifier classifier;
 
-    public LEARNINGPreliminaryDisamb(KBSearch kbSearch,
+    public LEARNINGPreliminaryDisamb(KBProxy kbSearch,
                                      TCellDisambiguator disambiguator,
                                      TColumnClassifier classifier) {
         this.kbSearch = kbSearch;
@@ -38,7 +39,7 @@ public class LEARNINGPreliminaryDisamb {
             TAnnotation tableAnnotation,
             int column,
             Constraints constraints,
-            Integer... skipRows) throws KBSearchException, STIException {
+            Integer... skipRows) throws KBProxyException, STIException {
 
         LOG.info("\t>> (LEARNING) Preliminary Disambiguation begins");
         List<TColumnHeaderAnnotation> winningColumnClazz = tableAnnotation.getWinningHeaderAnnotations(column);
@@ -138,7 +139,7 @@ public class LEARNINGPreliminaryDisamb {
                                                                             List<Integer> rowBlock,
                                                                             int column,
                                                                             int totalRowBlocks,
-                                                                            Constraints constraints) throws KBSearchException {
+                                                                            Constraints constraints) throws KBProxyException {
         List<Pair<Entity, Map<String, Double>>> entity_and_scoreMap;
 
         List<Entity> candidates = new ArrayList<>();

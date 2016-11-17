@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.core.model;
 
-import uk.ac.shef.dcs.kbsearch.model.Attribute;
+import uk.ac.shef.dcs.kbproxy.model.Attribute;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,17 +1,12 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
-import org.simmetrics.Metric;
 import org.simmetrics.StringMetric;
-import org.simmetrics.builders.StringMetricBuilder;
-import org.simmetrics.metrics.CosineSimilarity;
-import org.simmetrics.metrics.Jaccard;
-import org.simmetrics.metrics.Levenshtein;
 import org.simmetrics.metrics.StringMetrics;
-import org.simmetrics.tokenizers.Tokenizers;
+
 import uk.ac.shef.dcs.sti.core.scorer.EntityScorer;
 import uk.ac.shef.dcs.sti.core.model.TCell;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
-import uk.ac.shef.dcs.kbsearch.model.Entity;
+import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.util.StringUtils;
 

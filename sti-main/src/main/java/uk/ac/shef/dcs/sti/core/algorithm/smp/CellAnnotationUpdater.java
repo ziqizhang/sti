@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
 import cern.colt.matrix.ObjectMatrix2D;
-import uk.ac.shef.dcs.kbsearch.model.Attribute;
+import uk.ac.shef.dcs.kbproxy.model.Attribute;
 import uk.ac.shef.dcs.sti.core.model.RelationColumns;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
