@@ -19,7 +19,8 @@ import cz.cuni.mff.xrg.odalic.entities.EntitiesService;
 import cz.cuni.mff.xrg.odalic.entities.ResourceProposal;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
-import uk.ac.shef.dcs.kbsearch.KBSearchException;
+
+import uk.ac.shef.dcs.kbproxy.KBProxyException;
 
 /**
  * Entities resource definition.
@@ -53,7 +54,7 @@ public final class EntitiesResource {
       result = entitiesService.search(new KnowledgeBase(base), query, limit);
     } catch (final IllegalArgumentException e) {
       throw new NotFoundException(e.getLocalizedMessage());
-    } catch (final KBSearchException e){
+    } catch (final KBProxyException e){
       logger.error("KB search error", e);
       throw new InternalServerErrorException(e.getLocalizedMessage());
     } catch (final Exception e){
@@ -69,7 +70,14 @@ public final class EntitiesResource {
   @Path("classes")
   @Produces({MediaType.APPLICATION_JSON})
   public Response propose(@PathParam("base") String base, ClassProposal proposal) {
-    final Entity createdClass = this.entitiesService.propose(proposal);
+    final Entity createdClass;
+    try {
+      createdClass = this.entitiesService.propose(new KnowledgeBase(base), proposal);
+    }
+    catch (KBProxyException e) {
+      logger.error("KB proxy error", e);
+      throw new InternalServerErrorException(e.getLocalizedMessage());
+    }
 
     return Reply.data(Response.Status.OK, createdClass)
         .toResponse();
@@ -79,7 +87,14 @@ public final class EntitiesResource {
   @Path("resources")
   @Produces({MediaType.APPLICATION_JSON})
   public Response propose(@PathParam("base") String base, ResourceProposal proposal) {
-    final Entity createdEntity = this.entitiesService.propose(proposal);
+    final Entity createdEntity;
+    try {
+      createdEntity = this.entitiesService.propose(new KnowledgeBase(base), proposal);
+    }
+    catch (KBProxyException e) {
+      logger.error("KB proxy error", e);
+      throw new InternalServerErrorException(e.getLocalizedMessage());
+    }
 
     return Reply.data(Response.Status.OK, createdEntity)
         .toResponse();

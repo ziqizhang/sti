@@ -12,7 +12,7 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.Score;
 import cz.cuni.mff.xrg.odalic.util.Arrays;
 import cz.cuni.mff.xrg.odalic.util.Lists;
 import cz.cuni.mff.xrg.odalic.util.Maps;
-import uk.ac.shef.dcs.kbsearch.model.Clazz;
+import uk.ac.shef.dcs.kbproxy.model.Clazz;
 import uk.ac.shef.dcs.sti.core.model.RelationColumns;
 import uk.ac.shef.dcs.sti.core.model.TAnnotation;
 import uk.ac.shef.dcs.sti.core.model.TCellAnnotation;
@@ -223,7 +223,7 @@ public class DefaultAnnotationToResultAdapter implements AnnotationToResultAdapt
 
           EntityCandidate bestCandidate = null;
           for (TCellAnnotation annotation : annotations) {
-            uk.ac.shef.dcs.kbsearch.model.Entity clazz = annotation.getAnnotation();
+            uk.ac.shef.dcs.kbproxy.model.Entity clazz = annotation.getAnnotation();
 
             Entity entity = new Entity(clazz.getId(), clazz.getLabel());
             Score likelihood = new Score(annotation.getFinalScore());

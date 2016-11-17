@@ -38,11 +38,11 @@
 		class="cz.cuni.mff.xrg.odalic.outputs.rdfexport.DefaultRDFExporter"
 		scope="prototype" />
 
-	<bean id="knowledgeBaseSearchFactory"
-		  class="cz.cuni.mff.xrg.odalic.tasks.executions.DefaultKnowledgeBaseSearchFactory" />
+	<bean id="knowledgeBaseProxyFactory"
+		  class="cz.cuni.mff.xrg.odalic.tasks.executions.DefaultKnowledgeBaseProxyFactory" />
 	<bean id="semanticTableInterpreterFactory"
 		  class="cz.cuni.mff.xrg.odalic.tasks.executions.TableMinerPlusFactory" >
-		<constructor-arg ref="knowledgeBaseSearchFactory"/>
+		<constructor-arg ref="knowledgeBaseProxyFactory"/>
 	</bean>
 	<bean id="feedbackToConstraintsAdapter"
 		class="cz.cuni.mff.xrg.odalic.feedbacks.DefaultFeedbackToConstraintsAdapter" />
@@ -60,7 +60,7 @@
 	<bean id="csvExportService" class="cz.cuni.mff.xrg.odalic.outputs.csvexport.ResultAdaptingCsvExportService" />
 	<bean id="rdfExportService" class="cz.cuni.mff.xrg.odalic.outputs.rdfexport.RioBackedRdfExportService" />
 	<bean id="entitiesService" class="cz.cuni.mff.xrg.odalic.entities.DefaultEntitiesService" >
-		<constructor-arg ref="knowledgeBaseSearchFactory"/>
+		<constructor-arg ref="knowledgeBaseProxyFactory"/>
 	</bean>
 
 	<!-- Resources -->
