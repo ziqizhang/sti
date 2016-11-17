@@ -11,7 +11,7 @@
 	<modules>
         <module>sti-common-util</module>
         <module>sti-any23</module>
-        <module>sti-kbsearch</module>
+        <module>sti-kbproxy</module>
         <module>sti-websearch</module>
         <module>sti-main</module>
         <module>odalic</module>
