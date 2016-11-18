@@ -92,13 +92,9 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
    * @see cz.cuni.mff.xrg.odalic.tasks.executions.SemanticTableInterpreterFactory#getInterpreters()
    */
   @Override
-  public Map<String, SemanticTableInterpreter> getInterpreters() {
+  public Map<String, SemanticTableInterpreter> getInterpreters() throws STIException, IOException {
     if (interpreters == null) {
-      try {
         initComponents();
-      } catch (STIException | IOException e) {
-        e.printStackTrace();
-      }
     }
     return interpreters;
   }

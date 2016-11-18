@@ -48,7 +48,7 @@ import cz.cuni.mff.xrg.odalic.tasks.results.Result;
 public class CoreExecutionBatch {
 
   private static final Logger log = LoggerFactory.getLogger(CoreExecutionBatch.class);
-  
+
   private static File inputFile;
   private static Input input;
   private static Configuration config;
@@ -61,8 +61,10 @@ public class CoreExecutionBatch {
    * 
    * @author Josef Janoušek
    * @author Jan Váňa
+   * @throws IOException when the initialization process fails to load its configuration
+   * @throws STIException when the interpreters fail to initialize
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws STIException, IOException {
 
     final String propertyFilePath = args[0];
     final String testInputFilePath = args[1];
@@ -71,19 +73,22 @@ public class CoreExecutionBatch {
     testCoreExecution(propertyFilePath, testInputFilePath);
   }
 
-  public static Result testCoreExecution(String propertyFilePath, String testInputFilePath) {
+  public static Result testCoreExecution(String propertyFilePath, String testInputFilePath)
+      throws STIException, IOException {
 
     inputFile = new File(testInputFilePath);
 
     // TableMinerPlus initialization
-    final SemanticTableInterpreterFactory factory = new TableMinerPlusFactory(new DefaultKnowledgeBaseProxyFactory(propertyFilePath), propertyFilePath);
-    final Map<String, SemanticTableInterpreter> semanticTableInterpreters = factory.getInterpreters();
+    final SemanticTableInterpreterFactory factory = new TableMinerPlusFactory(
+        new DefaultKnowledgeBaseProxyFactory(propertyFilePath), propertyFilePath);
+    final Map<String, SemanticTableInterpreter> semanticTableInterpreters =
+        factory.getInterpreters();
     Preconditions.checkNotNull(semanticTableInterpreters);
 
     // Code for extraction from CSV
     try (final FileInputStream inputFileStream = new FileInputStream(inputFile)) {
-      input = new DefaultCsvInputParser(new ListsBackedInputBuilder())
-              .parse(inputFileStream, inputFile.getName(), new CsvConfiguration());
+      input = new DefaultCsvInputParser(new ListsBackedInputBuilder()).parse(inputFileStream,
+          inputFile.getName(), new CsvConfiguration());
       log.info("Input CSV file loaded.");
     } catch (IOException e) {
       log.error("Error - loading input CSV file:");
@@ -110,7 +115,8 @@ public class CoreExecutionBatch {
     // TableMinerPlus algorithm run
     Map<KnowledgeBase, TAnnotation> results = new HashMap<>();
     try {
-      for (Map.Entry<String, SemanticTableInterpreter> interpreterEntry : semanticTableInterpreters.entrySet()) {
+      for (Map.Entry<String, SemanticTableInterpreter> interpreterEntry : semanticTableInterpreters
+          .entrySet()) {
         Constraints constraints = new DefaultFeedbackToConstraintsAdapter()
             .toConstraints(config.getFeedback(), new KnowledgeBase(interpreterEntry.getKey()));
 
@@ -153,28 +159,36 @@ public class CoreExecutionBatch {
 
       // classifications example
       HashSet<EntityCandidate> candidatesClassification = new HashSet<>();
-      candidatesClassification.add(new EntityCandidate(new Entity("http://schema.org/Bookxyz", "Booooook"), new Score(1.0)));
-      candidatesClassification.add(new EntityCandidate(new Entity("http://schema.org/Book", "Book"), new Score(1.0)));
+      candidatesClassification.add(
+          new EntityCandidate(new Entity("http://schema.org/Bookxyz", "Booooook"), new Score(1.0)));
+      candidatesClassification
+          .add(new EntityCandidate(new Entity("http://schema.org/Book", "Book"), new Score(1.0)));
       HashMap<KnowledgeBase, HashSet<EntityCandidate>> headerAnnotation = new HashMap<>();
       headerAnnotation.put(new KnowledgeBase("DBpedia Clone"), candidatesClassification);
       HashSet<Classification> classifications = new HashSet<>();
-      classifications.add(new Classification(new ColumnPosition(0), new HeaderAnnotation(headerAnnotation, headerAnnotation)));
+      classifications.add(new Classification(new ColumnPosition(0),
+          new HeaderAnnotation(headerAnnotation, headerAnnotation)));
 
       // disambiguations example
       HashSet<EntityCandidate> candidatesDisambiguation = new HashSet<>();
       candidatesDisambiguation.add(new EntityCandidate(
-          new Entity("http://dbpedia.org/resource/Gardens_of_the_Moonxyz", "Gars of Moooooon"), new Score(1.0)));
+          new Entity("http://dbpedia.org/resource/Gardens_of_the_Moonxyz", "Gars of Moooooon"),
+          new Score(1.0)));
       candidatesDisambiguation.add(new EntityCandidate(
-          new Entity("http://dbpedia.org/resource/Gardens_of_the_Moon", "Gardens of the Moon"), new Score(1.0)));
+          new Entity("http://dbpedia.org/resource/Gardens_of_the_Moon", "Gardens of the Moon"),
+          new Score(1.0)));
       HashMap<KnowledgeBase, HashSet<EntityCandidate>> cellAnnotation = new HashMap<>();
       cellAnnotation.put(new KnowledgeBase("DBpedia Clone"), candidatesDisambiguation);
       HashSet<Disambiguation> disambiguations = new HashSet<>();
-      disambiguations.add(new Disambiguation(new CellPosition(0, 0), new CellAnnotation(cellAnnotation, cellAnnotation)));
+      disambiguations.add(new Disambiguation(new CellPosition(0, 0),
+          new CellAnnotation(cellAnnotation, cellAnnotation)));
 
       // relations example
       HashSet<EntityCandidate> candidatesRelation = new HashSet<>();
-      candidatesRelation.add(new EntityCandidate(new Entity("http://dbpedia.org/property/authorxyz", ""), new Score(1.0)));
-      candidatesRelation.add(new EntityCandidate(new Entity("http://dbpedia.org/property/author", ""), new Score(1.0)));
+      candidatesRelation.add(new EntityCandidate(
+          new Entity("http://dbpedia.org/property/authorxyz", ""), new Score(1.0)));
+      candidatesRelation.add(new EntityCandidate(
+          new Entity("http://dbpedia.org/property/author", ""), new Score(1.0)));
       HashMap<KnowledgeBase, HashSet<EntityCandidate>> columnRelationAnnotation = new HashMap<>();
       columnRelationAnnotation.put(new KnowledgeBase("DBpedia Clone"), candidatesRelation);
       HashSet<ColumnRelation> relations = new HashSet<>();
@@ -186,8 +200,8 @@ public class CoreExecutionBatch {
       columnIgnores.add(new ColumnIgnore(new ColumnPosition(3)));
 
       // construction example
-      feedback = new Feedback(subjectColumns, columnIgnores, ImmutableSet.of(),
-          classifications, relations, disambiguations, ImmutableSet.of());
+      feedback = new Feedback(subjectColumns, columnIgnores, ImmutableSet.of(), classifications,
+          relations, disambiguations, ImmutableSet.of());
     }
 
     return feedback;
