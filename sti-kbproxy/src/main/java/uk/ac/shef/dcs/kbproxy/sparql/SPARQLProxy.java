@@ -269,7 +269,7 @@ public abstract class SPARQLProxy extends KBProxy {
       throw new KBProxyException("Label of the new class must not be empty.");
     }
 
-    String url = checkOrGenerateUrl(uri);
+    String url = checkOrGenerateUrl(kbDefinition.getInsertClassPrefix(), uri);
 
     if (isNullOrEmpty(superClass)){
       superClass = kbDefinition.getInsertRootClass();
@@ -294,7 +294,7 @@ public abstract class SPARQLProxy extends KBProxy {
       throw new KBProxyException("Label of the new concept must not be empty.");
     }
 
-    String url = checkOrGenerateUrl(uri);
+    String url = checkOrGenerateUrl(kbDefinition.getInsertConceptPrefix(), uri);
 
     StringBuilder tripleDefinition = createTripleDefinitionBase(url, label);
     appendCollection(tripleDefinition, kbDefinition.getInsertAlternativeLabel(), alternativeLabels, true);
@@ -363,16 +363,16 @@ public abstract class SPARQLProxy extends KBProxy {
     queryExecution.execute();
   }
 
-  private String checkOrGenerateUrl(URI uri) throws KBProxyException {
+  private String checkOrGenerateUrl(URI baseURI, URI uri) throws KBProxyException {
     if (uri == null) {
-      return combineURI(kbDefinition.getInsertPrefix(), UUID.randomUUID().toString());
+      return combineURI(baseURI, UUID.randomUUID().toString());
     } else {
       String uriString;
       if (uri.isAbsolute()) {
         uriString = uri.toString();
       }
       else {
-        uriString = combineURI(kbDefinition.getInsertPrefix(), uri.toString());
+        uriString = combineURI(baseURI, uri.toString());
       }
 
       String sparqlQuery = String.format(INSERT_CHECK, uriString);

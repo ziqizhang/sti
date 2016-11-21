@@ -40,7 +40,8 @@ public class KBDefinition {
   private static final String PREDICATE_TYPE_PROPERTY_NAME = "kb.predicate.type";
 
   private static final String INSERT_SUPPORTED = "kb.insert.supported";
-  private static final String INSERT_PREFIX = "kb.insert.prefix";
+  private static final String INSERT_PREFIX_CLASS = "kb.insert.prefix.class";
+  private static final String INSERT_PREFIX_CONCEPT = "kb.insert.prefix.concept";
   private static final String INSERT_ROOT_CLASS = "kb.insert.root.class";
   private static final String INSERT_LABEL = "kb.insert.label";
   private static final String INSERT_ALTERNATIVE_LABEL = "kb.insert.alternative.label";
@@ -67,7 +68,8 @@ public class KBDefinition {
   private String cacheTemplatePath;
 
   private boolean insertSupported;
-  private URI insertPrefix;
+  private URI insertClassPrefix;
+  private URI insertConceptPrefix;
   private String insertRootClass;
   private String insertLabel;
   private String insertAlternativeLabel;
@@ -168,12 +170,20 @@ public class KBDefinition {
     this.insertSupported = insertSupported;
   }
 
-  public URI getInsertPrefix() {
-    return insertPrefix;
+  public URI getInsertClassPrefix() {
+    return insertClassPrefix;
   }
 
-  private void setInsertPrefix(URI insertPrefix) {
-    this.insertPrefix = insertPrefix;
+  private void setInsertClassPrefix(URI insertClassPrefix) {
+    this.insertClassPrefix = insertClassPrefix;
+  }
+
+  public URI getInsertConceptPrefix() {
+    return insertConceptPrefix;
+  }
+
+  private void setInsertConceptPrefix(URI insertConceptPrefix) {
+    this.insertConceptPrefix = insertConceptPrefix;
   }
 
   public String getInsertRootClass() {
@@ -301,7 +311,8 @@ public class KBDefinition {
     }
 
     if (isInsertSupported()) {
-      setInsertPrefix(new URI(kbProperties.getProperty(INSERT_PREFIX)));
+      setInsertClassPrefix(new URI(kbProperties.getProperty(INSERT_PREFIX_CLASS)));
+      setInsertConceptPrefix(new URI(kbProperties.getProperty(INSERT_PREFIX_CONCEPT)));
       setInsertLabel(kbProperties.getProperty(INSERT_LABEL));
       setInsertAlternativeLabel(kbProperties.getProperty(INSERT_ALTERNATIVE_LABEL));
       setInsertRootClass(kbProperties.getProperty(INSERT_ROOT_CLASS));
