@@ -1,6 +1,9 @@
 package uk.ac.shef.dcs.sti.core.extension.constraints;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -8,6 +11,7 @@ import javax.annotation.concurrent.Immutable;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 
+import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.core.extension.positions.ColumnPosition;
 
 /**
@@ -234,5 +238,49 @@ public final class Constraints implements Serializable {
         + classifications + ", columnRelations="
         + columnRelations + ", disambiguations=" + disambiguations + ", ambiguities=" + ambiguities
         + "]";
+  }
+
+  /**
+   * 
+   * @param columnIndex
+   * @param rowIndex
+   * 
+   * @return entities chosen for disambiguation of given cell
+   */
+  public List<Entity> getDisambChosenForCell(int columnIndex, int rowIndex) {
+    List<Entity> entities = new ArrayList<>();
+    getDisambiguations().stream().filter(e -> e.getPosition().getColumnIndex() == columnIndex &&
+        e.getPosition().getRowIndex() == rowIndex && !e.getAnnotation().getChosen().isEmpty())
+      .forEach(e -> e.getAnnotation().getChosen()
+          .forEach(ec -> entities.add(new Entity(ec.getEntity().getResource(), ec.getEntity().getLabel()))));
+    return entities;
+  }
+
+  /**
+   * 
+   * @param columnIndex column for skipping rows
+   * @param rowsCount count of all rows in the column
+   * 
+   * @return indices of rows which will not be disambiguated for given column
+   */
+  public Set<Integer> getSkipRowsForColumn(int columnIndex, int rowsCount) {
+    Set<Integer> skipRows = new HashSet<>();
+    if (getColumnAmbiguities().stream().anyMatch(e -> e.getPosition().getIndex() == columnIndex)) {
+      // when ColumnAmbiguities contain given columnIndex, all rows will be skipped
+      for (int i = 0; i < rowsCount; i++) {
+        skipRows.add(i);
+      }
+    }
+    else {
+      // when Ambiguities contain cells with given columnIndex, those rows will be skipped
+      getAmbiguities().stream()
+        .filter(e -> e.getPosition().getColumnIndex() == columnIndex)
+        .forEach(e -> skipRows.add(e.getPosition().getRowIndex()));
+      // when Disambiguations contain cells with given columnIndex and empty chosen annotation, those rows will be skipped
+      getDisambiguations().stream()
+        .filter(e -> e.getPosition().getColumnIndex() == columnIndex && e.getAnnotation().getChosen().isEmpty())
+        .forEach(e -> skipRows.add(e.getPosition().getRowIndex()));
+    }
+    return skipRows;
   }
 }

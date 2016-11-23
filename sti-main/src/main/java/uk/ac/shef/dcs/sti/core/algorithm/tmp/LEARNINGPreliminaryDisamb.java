@@ -7,9 +7,7 @@ import uk.ac.shef.dcs.kbproxy.KBProxy;
 import uk.ac.shef.dcs.kbproxy.KBProxyException;
 import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.STIException;
-import uk.ac.shef.dcs.sti.core.extension.annotations.EntityCandidate;
 import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
-import uk.ac.shef.dcs.sti.core.extension.constraints.Disambiguation;
 import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.*;
@@ -142,19 +140,7 @@ public class LEARNINGPreliminaryDisamb {
                                                                             Constraints constraints) throws KBProxyException {
         List<Pair<Entity, Map<String, Double>>> entity_and_scoreMap;
 
-        List<Entity> candidates = new ArrayList<>();
-
-        // (added): if the disambiguation is suggested by the user, then set it
-        for (Disambiguation disambiguation : constraints.getDisambiguations()) {
-          if (disambiguation.getPosition().getColumnIndex() == column &&
-              disambiguation.getPosition().getRowIndex() == rowBlock.get(0) &&
-              !disambiguation.getAnnotation().getChosen().isEmpty()) {
-            for (EntityCandidate suggestion : disambiguation.getAnnotation().getChosen()) {
-              candidates.add(new Entity(suggestion.getEntity().getResource(), suggestion.getEntity().getLabel()));
-            }
-            break;
-          }
-        }
+        List<Entity> candidates = constraints.getDisambChosenForCell(column, rowBlock.get(0));
 
         if (candidates.isEmpty()) {
           candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText(), winningColumnClazz.toArray(new String[0]));
