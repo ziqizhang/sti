@@ -11,7 +11,9 @@ import cz.cuni.mff.xrg.odalic.tasks.executions.KnowledgeBaseProxyFactory;
 import uk.ac.shef.dcs.kbproxy.KBProxy;
 import uk.ac.shef.dcs.kbproxy.KBProxyException;
 
+import java.net.URI;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.NavigableSet;
 import java.util.TreeSet;
@@ -39,7 +41,7 @@ public final class DefaultEntitiesService implements EntitiesService {
    * .KnowledgeBase, java.lang.String, int)
    */
   @Override
-  public NavigableSet<Entity> search(KnowledgeBase base, String query, int limit)
+  public NavigableSet<Entity> searchResources(KnowledgeBase base, String query, int limit)
       throws IllegalArgumentException, KBProxyException {
     KBProxy kbProxy = getKBProxy(base);
 
@@ -53,25 +55,57 @@ public final class DefaultEntitiesService implements EntitiesService {
   /*
    * (non-Javadoc)
    * 
+   * @see
+   * cz.cuni.mff.xrg.odalic.entities.EntitiesService#search(cz.cuni.mff.xrg.odalic.tasks.annotations
+   * .KnowledgeBase, java.lang.String, int)
+   */
+  @Override
+  public NavigableSet<Entity> searchClasses(KnowledgeBase base, String query, int limit)
+      throws IllegalArgumentException, KBProxyException {
+    @SuppressWarnings("unused")
+    KBProxy kbProxy = getKBProxy(base);
+
+    // TODO: Find only classes, not all resources. Leave the searchResources behave as it is now,
+    // because every class is also a resource. Only restrict this method to return only classes.
+    List<uk.ac.shef.dcs.kbproxy.model.Entity> searchResult = Collections.emptyList();
+
+    return searchResult.stream().map(entity -> new Entity(entity.getId(), entity.getLabel()))
+        .collect(Collectors.toCollection(TreeSet::new));
+  }
+
+
+  @Override
+  public NavigableSet<Entity> searchProperties(KnowledgeBase base, String query, int limit,
+      URI domain, URI range) throws IllegalArgumentException, KBProxyException {
+    @SuppressWarnings("unused")
+    KBProxy kbProxy = getKBProxy(base);
+
+    // TODO: Find only properties, restricted by the domain (the domains of found properties must be
+    // sub-type of the provided domain, the same for ranges). Null means no restriction.
+    List<uk.ac.shef.dcs.kbproxy.model.Entity> searchResult = Collections.emptyList();
+
+    return searchResult.stream().map(entity -> new Entity(entity.getId(), entity.getLabel()))
+        .collect(Collectors.toCollection(TreeSet::new));
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
    * @see cz.cuni.mff.xrg.odalic.entities.EntitiesService#propose(cz.cuni.mff.xrg.odalic.entities.
    * ClassProposal)
    */
   @Override
-  public Entity propose(KnowledgeBase base, ClassProposal proposal)
-    throws KBProxyException {
+  public Entity propose(KnowledgeBase base, ClassProposal proposal) throws KBProxyException {
     KBProxy kbProxy = getKBProxy(base);
 
     String superClassUri = null;
     Entity superClass = proposal.getSuperClass();
-    if (superClass != null){
-      superClassUri= superClass.getResource();
+    if (superClass != null) {
+      superClassUri = superClass.getResource();
     }
 
-    uk.ac.shef.dcs.kbproxy.model.Entity entity = kbProxy.insertClass(
-            proposal.getSuffix(),
-            proposal.getLabel(),
-            proposal.getAlternativeLabels(),
-            superClassUri);
+    uk.ac.shef.dcs.kbproxy.model.Entity entity = kbProxy.insertClass(proposal.getSuffix(),
+        proposal.getLabel(), proposal.getAlternativeLabels(), superClassUri);
 
     return new Entity(entity.getId(), entity.getLabel());
   }
@@ -83,19 +117,16 @@ public final class DefaultEntitiesService implements EntitiesService {
    * ResourceProposal)
    */
   @Override
-  public Entity propose(KnowledgeBase base, ResourceProposal proposal)
-          throws KBProxyException {
+  public Entity propose(KnowledgeBase base, ResourceProposal proposal) throws KBProxyException {
     KBProxy kbProxy = getKBProxy(base);
 
     Collection<String> classes = null;
     if (proposal.getClasses() != null) {
-      classes = proposal.getClasses().stream().map(Entity::getResource).collect(Collectors.toList());
+      classes =
+          proposal.getClasses().stream().map(Entity::getResource).collect(Collectors.toList());
     }
-    uk.ac.shef.dcs.kbproxy.model.Entity entity = kbProxy.insertConcept(
-            proposal.getSuffix(),
-            proposal.getLabel(),
-            proposal.getAlternativeLabels(),
-            classes);
+    uk.ac.shef.dcs.kbproxy.model.Entity entity = kbProxy.insertConcept(proposal.getSuffix(),
+        proposal.getLabel(), proposal.getAlternativeLabels(), classes);
 
     return new Entity(entity.getId(), entity.getLabel());
   }
@@ -105,7 +136,7 @@ public final class DefaultEntitiesService implements EntitiesService {
 
     if (kbProxy == null) {
       throw new IllegalArgumentException(
-              "Knowledge base named \"" + base.getName() + "\" was not found.");
+          "Knowledge base named \"" + base.getName() + "\" was not found.");
     }
 
     return kbProxy;

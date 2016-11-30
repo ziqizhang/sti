@@ -2,6 +2,7 @@ package cz.cuni.mff.xrg.odalic.entities;
 
 import uk.ac.shef.dcs.kbproxy.KBProxyException;
 
+import java.net.URI;
 import java.util.NavigableSet;
 
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
@@ -15,15 +16,39 @@ import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
  */
 public interface EntitiesService {
   /**
-   * Searches for entities conforming to the query.
+   * Searches for resources conforming to the query.
    * 
    * @param base used knowledge base
    * @param query search query
    * @param limit maximum results count
-   * @return found entities
+   * @return found resources
    */
-  NavigableSet<Entity> search(KnowledgeBase base, String query, int limit) throws KBProxyException;
+  NavigableSet<Entity> searchResources(KnowledgeBase base, String query, int limit) throws KBProxyException;
 
+  /**
+   * Searches for classes conforming to the query.
+   * 
+   * @param base used knowledge base
+   * @param query search query
+   * @param limit maximum results count
+   * @return found classes
+   */
+  NavigableSet<Entity> searchClasses(KnowledgeBase knowledgeBase, String query, int limit) throws KBProxyException;
+  
+
+  /**
+   * Searches for properties conforming to the query.
+   * 
+   * @param base used knowledge base
+   * @param query search query
+   * @param limit maximum results count
+   * @param domain domain restriction of the properties
+   * @param range range restriction of the properties
+   * @return found properties
+   */
+   NavigableSet<Entity> searchProperties(KnowledgeBase base, String query, int limit, URI domain, URI range)
+      throws IllegalArgumentException, KBProxyException;
+  
   /**
    * Propose a new class to the primary base.
    *
