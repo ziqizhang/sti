@@ -1,5 +1,6 @@
 package cz.cuni.mff.xrg.odalic.api.rest.adapters;
 
+import javax.ws.rs.BadRequestException;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.apache.jena.ext.com.google.common.collect.ImmutableMap;
@@ -23,14 +24,18 @@ public final class FeedbackAdapter extends XmlAdapter<FeedbackValue, Feedback> {
       return new Feedback();
     }
 
-    return new Feedback(
-        value.getSubjectColumnPositions() == null ? ImmutableMap.of()
-            : value.getSubjectColumnPositions(),
-        value.getColumnIgnores() == null ? ImmutableSet.of() : value.getColumnIgnores(),
-        value.getColumnAmbiguities() == null ? ImmutableSet.of() : value.getColumnAmbiguities(),
-        value.getClassifications() == null ? ImmutableSet.of() : value.getClassifications(),
-        value.getColumnRelations() == null ? ImmutableSet.of() : value.getColumnRelations(),
-        value.getDisambiguations() == null ? ImmutableSet.of() : value.getDisambiguations(),
-        value.getAmbiguities() == null ? ImmutableSet.of() : value.getAmbiguities());
+    try {
+      return new Feedback(
+          value.getSubjectColumnPositions() == null ? ImmutableMap.of()
+              : value.getSubjectColumnPositions(),
+          value.getColumnIgnores() == null ? ImmutableSet.of() : value.getColumnIgnores(),
+          value.getColumnAmbiguities() == null ? ImmutableSet.of() : value.getColumnAmbiguities(),
+          value.getClassifications() == null ? ImmutableSet.of() : value.getClassifications(),
+          value.getColumnRelations() == null ? ImmutableSet.of() : value.getColumnRelations(),
+          value.getDisambiguations() == null ? ImmutableSet.of() : value.getDisambiguations(),
+          value.getAmbiguities() == null ? ImmutableSet.of() : value.getAmbiguities());
+    } catch (final IllegalArgumentException e) {
+      throw new BadRequestException("The feedback has conflicts.", e);
+    }
   }
 }

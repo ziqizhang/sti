@@ -86,6 +86,8 @@ public final class Feedback implements Serializable {
     this.columnRelations = ImmutableSet.copyOf(columnRelations);
     this.disambiguations = ImmutableSet.copyOf(disambiguations);
     this.ambiguities = ImmutableSet.copyOf(ambiguities);
+
+    this.checkConflicts();
   }
 
   /**
@@ -238,5 +240,34 @@ public final class Feedback implements Serializable {
         + columnIgnores + ", columnAmbiguities=" + columnAmbiguities + ", classifications="
         + classifications + ", columnRelations=" + columnRelations + ", disambiguations="
         + disambiguations + ", ambiguities=" + ambiguities + "]";
+  }
+
+  private void checkConflicts() {
+    // check the conflict when ignore columns contain the subject column
+    if (subjectColumnPositions == null) {
+      return;
+    }
+
+    for (KnowledgeBase base : subjectColumnPositions.keySet()) {
+      ColumnPosition subjCol = subjectColumnPositions.get(base);
+      if (subjCol == null) {
+        return;
+      }
+
+      if (columnIgnores.stream().anyMatch(e -> e.getPosition().getIndex() == subjCol.getIndex())) {
+        throw new IllegalArgumentException("The column (position: " + subjCol.getIndex() +
+            ") which is ignored does not have to be a subject column.");
+      }
+
+      for (Classification classification : classifications) {
+        if (classification.getPosition().getIndex() == subjCol.getIndex() &&
+            classification.getAnnotation().getChosen().get(base) != null &&
+            classification.getAnnotation().getChosen().get(base).isEmpty()) {
+          throw new IllegalArgumentException("The column (position: " + subjCol.getIndex() +
+              ") which has empty chosen classification set (for " + base.getName() +
+              " KB) does not have to be a subject column (for that KB).");
+        }
+      }
+    }
   }
 }
