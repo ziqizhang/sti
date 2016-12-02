@@ -6,9 +6,7 @@ import uk.ac.shef.dcs.kbproxy.KBProxy;
 import uk.ac.shef.dcs.kbproxy.KBProxyException;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer.TMPClazzScorer;
-import uk.ac.shef.dcs.sti.core.extension.annotations.EntityCandidate;
 import uk.ac.shef.dcs.sti.core.extension.constraints.Constraints;
-import uk.ac.shef.dcs.sti.core.extension.constraints.Disambiguation;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentCellRanker;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
@@ -192,13 +190,7 @@ public class UPDATE {
             for (TColumnHeaderAnnotation ha : winningColumnClazzAnnotations)
                 columnTypes.add(ha.getAnnotation().getId());
 
-            Set<Integer> skipRows = new HashSet<>();
-            for (Disambiguation disambiguation : constraints.getDisambiguations()) {
-              if (disambiguation.getPosition().getColumnIndex() == c &&
-                  disambiguation.getAnnotation().getChosen().isEmpty()) {
-                skipRows.add(disambiguation.getPosition().getRowIndex());
-              }
-            }
+            Set<Integer> skipRows = constraints.getSkipRowsForColumn(c, table.getNumRows());
 
             List<Integer> updated = new ArrayList<>();
             for (int bi = 0; bi < ranking.size(); bi++) {
@@ -266,19 +258,7 @@ public class UPDATE {
                                                                  Constraints constraints) throws KBProxyException {
         List<Pair<Entity, Map<String, Double>>> entity_and_scoreMap;
 
-        List<Entity> candidates = new ArrayList<>();
-
-        // (added): if the disambiguation is suggested by the user, then set it
-        for (Disambiguation disambiguation : constraints.getDisambiguations()) {
-          if (disambiguation.getPosition().getColumnIndex() == table_cell_col &&
-              disambiguation.getPosition().getRowIndex() == rowBlock.get(0) &&
-              !disambiguation.getAnnotation().getChosen().isEmpty()) {
-            for (EntityCandidate suggestion : disambiguation.getAnnotation().getChosen()) {
-              candidates.add(new Entity(suggestion.getEntity().getResource(), suggestion.getEntity().getLabel()));
-            }
-            break;
-          }
-        }
+        List<Entity> candidates = constraints.getDisambChosenForCell(table_cell_col, rowBlock.get(0));
 
         if (candidates.isEmpty()) {
           candidates = kbSearch.findEntityCandidatesOfTypes(tcc.getText(), constrainedClazz.toArray(new String[0]));
