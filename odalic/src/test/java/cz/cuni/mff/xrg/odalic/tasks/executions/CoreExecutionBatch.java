@@ -1,7 +1,6 @@
 package cz.cuni.mff.xrg.odalic.tasks.executions;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import cz.cuni.mff.xrg.odalic.feedbacks.Ambiguity;
 import cz.cuni.mff.xrg.odalic.feedbacks.Classification;
+import cz.cuni.mff.xrg.odalic.feedbacks.ColumnAmbiguity;
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnIgnore;
 import cz.cuni.mff.xrg.odalic.feedbacks.ColumnRelation;
 import cz.cuni.mff.xrg.odalic.feedbacks.DefaultFeedbackToConstraintsAdapter;
@@ -161,8 +162,8 @@ public class CoreExecutionBatch {
       HashSet<EntityCandidate> candidatesClassification = new HashSet<>();
       candidatesClassification.add(
           new EntityCandidate(new Entity("http://schema.org/Bookxyz", "Booooook"), new Score(1.0)));
-      candidatesClassification
-          .add(new EntityCandidate(new Entity("http://schema.org/Book", "Book"), new Score(1.0)));
+      candidatesClassification.add(
+          new EntityCandidate(new Entity("http://schema.org/Book", "Book"), new Score(1.0)));
       HashMap<KnowledgeBase, HashSet<EntityCandidate>> headerAnnotation = new HashMap<>();
       headerAnnotation.put(new KnowledgeBase("DBpedia Clone"), candidatesClassification);
       HashSet<Classification> classifications = new HashSet<>();
@@ -199,9 +200,17 @@ public class CoreExecutionBatch {
       HashSet<ColumnIgnore> columnIgnores = new HashSet<>();
       columnIgnores.add(new ColumnIgnore(new ColumnPosition(3)));
 
+      // column ambiguities example
+      HashSet<ColumnAmbiguity> columnAmbiguities = new HashSet<>();
+      columnAmbiguities.add(new ColumnAmbiguity(new ColumnPosition(4)));
+
+      // ambiguities example
+      HashSet<Ambiguity> ambiguities = new HashSet<>();
+      ambiguities.add(new Ambiguity(new CellPosition(5, 5)));
+
       // construction example
-      feedback = new Feedback(subjectColumns, columnIgnores, ImmutableSet.of(), classifications,
-          relations, disambiguations, ImmutableSet.of());
+      feedback = new Feedback(subjectColumns, columnIgnores, columnAmbiguities, classifications,
+          relations, disambiguations, ambiguities);
     }
 
     return feedback;

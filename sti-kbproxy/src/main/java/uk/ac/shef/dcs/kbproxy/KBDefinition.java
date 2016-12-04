@@ -42,7 +42,8 @@ public class KBDefinition {
   private static final String STRUCTURE_CLASS = "kb.structure.class";
 
   private static final String INSERT_SUPPORTED = "kb.insert.supported";
-  private static final String INSERT_PREFIX = "kb.insert.prefix";
+  private static final String INSERT_PREFIX_SCHEMA_ELEMENT = "kb.insert.prefix.schema.element";
+  private static final String INSERT_PREFIX_DATA_ELEMENT = "kb.insert.prefix.data.element";
   private static final String INSERT_ROOT_CLASS = "kb.insert.root.class";
   private static final String INSERT_LABEL = "kb.insert.label";
   private static final String INSERT_ALTERNATIVE_LABEL = "kb.insert.alternative.label";
@@ -69,7 +70,8 @@ public class KBDefinition {
   private String cacheTemplatePath;
 
   private boolean insertSupported;
-  private URI insertPrefix;
+  private URI insertSchemaElementPrefix;
+  private URI insertDataElementPrefix;
   private String insertRootClass;
   private String insertLabel;
   private String insertAlternativeLabel;
@@ -174,12 +176,20 @@ public class KBDefinition {
     this.insertSupported = insertSupported;
   }
 
-  public URI getInsertPrefix() {
-    return insertPrefix;
+  public URI getInsertSchemaElementPrefix() {
+    return insertSchemaElementPrefix;
   }
 
-  private void setInsertPrefix(URI insertPrefix) {
-    this.insertPrefix = insertPrefix;
+  private void setInsertSchemaElementPrefix(URI insertSchemaElementPrefix) {
+    this.insertSchemaElementPrefix = insertSchemaElementPrefix;
+  }
+
+  public URI getInsertDataElementPrefix() {
+    return insertDataElementPrefix;
+  }
+
+  private void setInsertDataElementPrefix(URI insertDataElementPrefix) {
+    this.insertDataElementPrefix = insertDataElementPrefix;
   }
 
   public String getInsertRootClass() {
@@ -308,7 +318,8 @@ public class KBDefinition {
     }
 
     if (isInsertSupported()) {
-      setInsertPrefix(new URI(kbProperties.getProperty(INSERT_PREFIX)));
+      setInsertSchemaElementPrefix(new URI(kbProperties.getProperty(INSERT_PREFIX_SCHEMA_ELEMENT)));
+      setInsertDataElementPrefix(new URI(kbProperties.getProperty(INSERT_PREFIX_DATA_ELEMENT)));
       setInsertLabel(kbProperties.getProperty(INSERT_LABEL));
       setInsertAlternativeLabel(kbProperties.getProperty(INSERT_ALTERNATIVE_LABEL));
       setInsertRootClass(kbProperties.getProperty(INSERT_ROOT_CLASS));
