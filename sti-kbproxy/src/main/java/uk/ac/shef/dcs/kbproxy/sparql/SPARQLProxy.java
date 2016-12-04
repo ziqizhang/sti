@@ -1,5 +1,6 @@
 package uk.ac.shef.dcs.kbproxy.sparql;
 
+import javafx.scene.control.MultipleSelectionModelBuilder;
 import javafx.util.Pair;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -49,10 +50,10 @@ import java.util.stream.Stream;
  */
 public abstract class SPARQLProxy extends KBProxy {
 
-  static final String REGEX_QUERY = "SELECT DISTINCT ?s ?o WHERE {%1$s .\n%2$sFILTER ( regex (str(?o), \"%3$s\", \"i\") )}";
-  static final String REGEX_QUERY_CONTAINS = "SELECT DISTINCT ?s ?o WHERE {%1$s .\n%2$s}";
-  static final String EXACT_MATCH_QUERY = "SELECT DISTINCT ?s WHERE {%1$s .}";
-  static final String EXACT_MATCH_WITH_OPTIONAL_TYPES_QUERY = "SELECT DISTINCT ?s ?o WHERE {%1$s .\nOPTIONAL {?s a ?o}}";
+  static final String REGEX_QUERY = "SELECT DISTINCT ?s ?o WHERE {%1$s . \n%2$s\n%3$sFILTER ( regex (str(?o), \"%4$s\", \"i\") )}";
+  static final String REGEX_QUERY_CONTAINS = "SELECT DISTINCT ?s ?o WHERE {%1$s . \n%2$s\n%3$s}";
+  static final String EXACT_MATCH_QUERY = "SELECT DISTINCT ?s WHERE {%1$s .\n%2$s}";
+  static final String EXACT_MATCH_WITH_OPTIONAL_TYPES_QUERY = "SELECT DISTINCT ?s ?o WHERE {%1$s .\n%2$s\nOPTIONAL {?s a ?o}}";
   static final String LABEL_QUERY = "SELECT DISTINCT ?o WHERE {%1$s .}";
 
   static final String REGEX_WHERE = "?s <%1$s> ?o";
@@ -63,7 +64,7 @@ public abstract class SPARQLProxy extends KBProxy {
   static final String LABEL_WHERE = "<%2$s> <%1$s> ?o";
 
   static final String INSERT_BASE = "INSERT DATA {GRAPH <%1$s> {%2$s .}}";
-  static final String INSERT_CHECK = "SELECT ?c WHERE { <%1$s> ?p ?c.} LIMIT 1";
+  static final String INSERT_CHECK = "ASK { <%1$s> ?predicate ?value.}";
 
   /**
    * Escape patterns from http://www.w3.org/TR/rdf-sparql-query/#grammarEscapes
@@ -149,6 +150,17 @@ public abstract class SPARQLProxy extends KBProxy {
     String query = String.format(LABEL_QUERY, filter);
 
     return query;
+  }
+
+  String createClassFilter() {
+    StringBuilder typesUnion = new StringBuilder();
+    if (kbDefinition.getStructureClass().size() > 0) {
+//      String typesFilter = createFilter(Arrays.asList(types), REGEX_TYPES);
+//      typesUnion.append(typesFilter);
+//      typesUnion.append(" .\n");
+    }
+
+    return typesUnion.toString();
   }
 
   String createFilter(Collection<String> values, String pattern, String... args) {
@@ -381,8 +393,8 @@ public abstract class SPARQLProxy extends KBProxy {
       org.apache.jena.query.Query query = QueryFactory.create(sparqlQuery);
       QueryExecution queryExecution = QueryExecutionFactory.sparqlService(kbDefinition.getSparqlEndpoint(), query);
 
-      ResultSet resultSet = queryExecution.execSelect();
-      if (resultSet.hasNext()) {
+      boolean exists = queryExecution.execAsk();
+      if (exists) {
         throw new KBProxyException("The knowledge base " + kbDefinition.getName() + " already contains a resource with url: " + uriString);
       }
 

@@ -39,6 +39,8 @@ public class KBDefinition {
   private static final String PREDICATE_DESCRIPTION_PROPERTY_NAME = "kb.predicate.description";
   private static final String PREDICATE_TYPE_PROPERTY_NAME = "kb.predicate.type";
 
+  private static final String STRUCTURE_CLASS = "kb.structure.class";
+
   private static final String INSERT_SUPPORTED = "kb.insert.supported";
   private static final String INSERT_PREFIX = "kb.insert.prefix";
   private static final String INSERT_ROOT_CLASS = "kb.insert.root.class";
@@ -53,7 +55,7 @@ public class KBDefinition {
 
   //region Fields
 
-  private final Map<String, Set<String>> predicates = new HashMap<>();
+  private final Map<String, Set<String>> structure = new HashMap<>();
   protected final Logger log = Logger.getLogger(getClass());
 
   private String name;
@@ -145,19 +147,23 @@ public class KBDefinition {
   }
 
   public Set<String> getPredicateName() {
-    return predicates.get(PREDICATE_NAME_PROPERTY_NAME);
+    return structure.get(PREDICATE_NAME_PROPERTY_NAME);
   }
 
   public Set<String> getPredicateLabel() {
-    return predicates.get(PREDICATE_LABEL_PROPERTY_NAME);
+    return structure.get(PREDICATE_LABEL_PROPERTY_NAME);
   }
 
   public Set<String> getPredicateDescription() {
-    return predicates.get(PREDICATE_DESCRIPTION_PROPERTY_NAME);
+    return structure.get(PREDICATE_DESCRIPTION_PROPERTY_NAME);
   }
 
   public Set<String> getPredicateType() {
-    return predicates.get(PREDICATE_TYPE_PROPERTY_NAME);
+    return structure.get(PREDICATE_TYPE_PROPERTY_NAME);
+  }
+
+  public Set<String> getStructureClass() {
+    return structure.get(STRUCTURE_CLASS);
   }
 
   public boolean isInsertSupported() {
@@ -237,10 +243,11 @@ public class KBDefinition {
   //region constructor
 
   public KBDefinition() {
-    predicates.put(PREDICATE_NAME_PROPERTY_NAME, new HashSet<>());
-    predicates.put(PREDICATE_LABEL_PROPERTY_NAME, new HashSet<>());
-    predicates.put(PREDICATE_DESCRIPTION_PROPERTY_NAME, new HashSet<>());
-    predicates.put(PREDICATE_TYPE_PROPERTY_NAME, new HashSet<>());
+    structure.put(PREDICATE_NAME_PROPERTY_NAME, new HashSet<>());
+    structure.put(PREDICATE_LABEL_PROPERTY_NAME, new HashSet<>());
+    structure.put(PREDICATE_DESCRIPTION_PROPERTY_NAME, new HashSet<>());
+    structure.put(PREDICATE_TYPE_PROPERTY_NAME, new HashSet<>());
+    structure.put(STRUCTURE_CLASS, new HashSet<>());
   }
 
   //endregion
@@ -274,7 +281,7 @@ public class KBDefinition {
       setUseBifContains(Boolean.parseBoolean(kbProperties.getProperty(USE_BIF_CONTAINS)));
     }
 
-    // Loading predicates
+    // Loading structure
     // Individual paths to definition files are separated by ";"
     String predicates = kbProperties.getProperty(PREDICATES_PROPERTY_NAME);
     String[] predicatesArray = predicates.split(PATH_SEPARATOR);
@@ -315,7 +322,7 @@ public class KBDefinition {
   private void loadPredicates(Properties properties) {
     for (Map.Entry<Object, Object> entry : properties.entrySet()) {
       String key = (String) entry.getKey();
-      Set<String> predicateValues = predicates.getOrDefault(key, null);
+      Set<String> predicateValues = structure.getOrDefault(key, null);
 
       if (predicateValues == null) {
         log.error("Unknown predicate key: " + key);
