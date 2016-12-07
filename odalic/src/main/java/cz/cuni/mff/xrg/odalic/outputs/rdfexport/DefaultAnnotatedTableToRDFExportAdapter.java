@@ -120,6 +120,11 @@ public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableTo
           continue;
         }
         int subjectPosition = positionsForColumnNames.get(columnSubjectName);
+        if (row.get(subjectPosition) == null) {
+          // value in column with that name does not exist (in current row), so we can not produce the triple
+          log.warn("Value in column named '{}' does not exist, no triple is produced", columnSubjectName);
+          continue;
+        }
         subject = factory.createIRI(row.get(subjectPosition));
         
         // create the object(s)
@@ -133,6 +138,11 @@ public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableTo
             continue;
           }
           int objectPosition = positionsForColumnNames.get(columnName);
+          if (row.get(objectPosition) == null) {
+            // value in column with that name does not exist (in current row), so we can not produce the triple
+            log.warn("Value in column named '{}' does not exist, no triple is produced", columnName);
+            continue;
+          }
           objects.add(factory.createLiteral(row.get(objectPosition)));
         }
         else if (tp instanceof ObjectListPropertyTriplePattern) {
@@ -146,6 +156,11 @@ public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableTo
               continue;
             }
             int objectPosition = positionsForColumnNames.get(columnName);
+            if (row.get(objectPosition) == null) {
+              // value in column with that name does not exist (in current row), so we can not produce the triple
+              log.warn("Value in column named '{}' does not exist, no triple is produced", columnName);
+              continue;
+            }
             for (String item : row.get(objectPosition).split(oltp.getSeparator())) {
               objects.add(factory.createIRI(item));
             }
@@ -168,6 +183,11 @@ public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableTo
               continue;
             }
             int objectPosition = positionsForColumnNames.get(columnName);
+            if (row.get(objectPosition) == null) {
+              // value in column with that name does not exist (in current row), so we can not produce the triple
+              log.warn("Value in column named '{}' does not exist, no triple is produced", columnName);
+              continue;
+            }
             objects.add(factory.createIRI(row.get(objectPosition)));
           }
           else {
