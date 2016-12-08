@@ -57,7 +57,6 @@ public final class ListsBackedInput implements Input, Serializable {
     
     final List<List<String>> mutableRows = new ArrayList<>(rows.size());
     for (final List<? extends String> row : rows) {
-      System.out.println("row (size: " + row.size() + "): " + row);
       mutableRows.add(Collections.unmodifiableList(new ArrayList<>(row)));
     }
     this.rows = Collections.unmodifiableList(mutableRows);

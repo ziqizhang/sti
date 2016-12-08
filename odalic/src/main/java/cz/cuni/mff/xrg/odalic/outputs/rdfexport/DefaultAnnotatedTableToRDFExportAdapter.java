@@ -120,7 +120,7 @@ public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableTo
           continue;
         }
         int subjectPosition = positionsForColumnNames.get(columnSubjectName);
-        if (row.get(subjectPosition) == null) {
+        if (StringUtils.isEmpty(row.get(subjectPosition))) {
           // value in column with that name does not exist (in current row), so we can not produce the triple
           log.warn("Value in column named '{}' does not exist, no triple is produced", columnSubjectName);
           continue;
@@ -138,7 +138,7 @@ public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableTo
             continue;
           }
           int objectPosition = positionsForColumnNames.get(columnName);
-          if (row.get(objectPosition) == null) {
+          if (StringUtils.isEmpty(row.get(objectPosition))) {
             // value in column with that name does not exist (in current row), so we can not produce the triple
             log.warn("Value in column named '{}' does not exist, no triple is produced", columnName);
             continue;
@@ -156,7 +156,7 @@ public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableTo
               continue;
             }
             int objectPosition = positionsForColumnNames.get(columnName);
-            if (row.get(objectPosition) == null) {
+            if (StringUtils.isEmpty(row.get(objectPosition))) {
               // value in column with that name does not exist (in current row), so we can not produce the triple
               log.warn("Value in column named '{}' does not exist, no triple is produced", columnName);
               continue;
@@ -183,7 +183,7 @@ public class DefaultAnnotatedTableToRDFExportAdapter implements AnnotatedTableTo
               continue;
             }
             int objectPosition = positionsForColumnNames.get(columnName);
-            if (row.get(objectPosition) == null) {
+            if (StringUtils.isEmpty(row.get(objectPosition))) {
               // value in column with that name does not exist (in current row), so we can not produce the triple
               log.warn("Value in column named '{}' does not exist, no triple is produced", columnName);
               continue;
