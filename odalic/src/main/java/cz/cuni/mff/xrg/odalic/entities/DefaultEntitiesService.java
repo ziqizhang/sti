@@ -114,7 +114,7 @@ public final class DefaultEntitiesService implements EntitiesService {
   public Entity propose(KnowledgeBase base, PropertyProposal proposal) throws KBProxyException {
     //TODO: Implement.
     
-    return null;
+    return new Entity("http://odalic.eu/dummy", "Dummy label");
   }
 
   /*
