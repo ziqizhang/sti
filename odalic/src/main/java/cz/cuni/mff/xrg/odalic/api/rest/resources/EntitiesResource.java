@@ -17,6 +17,7 @@ import com.google.common.base.Preconditions;
 import cz.cuni.mff.xrg.odalic.api.rest.responses.Reply;
 import cz.cuni.mff.xrg.odalic.entities.ClassProposal;
 import cz.cuni.mff.xrg.odalic.entities.EntitiesService;
+import cz.cuni.mff.xrg.odalic.entities.PropertyProposal;
 import cz.cuni.mff.xrg.odalic.entities.ResourceProposal;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
@@ -152,5 +153,20 @@ public final class EntitiesResource {
     }
 
     return Reply.data(Response.Status.OK, createdEntity).toResponse();
+  }
+  
+  @POST
+  @Path("properties")
+  @Produces({MediaType.APPLICATION_JSON})
+  public Response propose(@PathParam("base") String base, PropertyProposal proposal) {
+    final Entity createdProperty;
+    try {
+      createdProperty = this.entitiesService.propose(new KnowledgeBase(base), proposal);
+    } catch (KBProxyException e) {
+      logger.error("KB proxy error", e);
+      throw new InternalServerErrorException(e.getLocalizedMessage());
+    }
+
+    return Reply.data(Response.Status.OK, createdProperty).toResponse();
   }
 }

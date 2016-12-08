@@ -109,6 +109,13 @@ public final class DefaultEntitiesService implements EntitiesService {
 
     return new Entity(entity.getId(), entity.getLabel());
   }
+  
+  @Override
+  public Entity propose(KnowledgeBase base, PropertyProposal proposal) throws KBProxyException {
+    //TODO: Implement.
+    
+    return new Entity("http://odalic.eu/dummy", "Dummy label");
+  }
 
   /*
    * (non-Javadoc)
