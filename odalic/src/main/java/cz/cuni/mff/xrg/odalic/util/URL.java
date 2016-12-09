@@ -45,7 +45,7 @@ public final class URL {
   }
   
   /**
-   * Extracts the {@link #STAMP_QUERY_PARAMTER_NAME} string from the URI information.
+   * Extracts a stamp string from the URI information.
    * 
    * @param uriInfo request URI information 
    * @param queryParameterName stamp query parameter name
