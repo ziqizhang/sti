@@ -47,6 +47,9 @@ public final class FileResource {
   public static final String TEXT_CSV_MEDIA_TYPE = "text/csv";
 
   private final FileService fileService;
+  
+  @Context
+  private UriInfo uriInfo;
 
   @Autowired
   public FileResource(FileService fileService) {
@@ -60,7 +63,7 @@ public final class FileResource {
   public Response getFiles() {
     final List<File> files = fileService.getFiles();
 
-    return Reply.data(Response.Status.OK, files).toResponse();
+    return Reply.data(Response.Status.OK, files, uriInfo).toResponse();
   }
 
   @GET
@@ -74,14 +77,14 @@ public final class FileResource {
       throw new NotFoundException("The file does not exist!");
     }
 
-    return Reply.data(Response.Status.OK, file).toResponse();
+    return Reply.data(Response.Status.OK, file, uriInfo).toResponse();
   }
 
   @PUT
   @Path("{id}")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response putFileById(@Context UriInfo uriInfo, @PathParam("id") String id,
+  public Response putFileById(@PathParam("id") String id,
       @FormDataParam("input") InputStream fileInputStream) throws IOException {
     if (fileInputStream == null) {
       throw new BadRequestException("No input provided!");
@@ -94,11 +97,11 @@ public final class FileResource {
       fileService.create(file, fileInputStream);
 
       return Message.of("A new file has been created AT THE STANDARD LOCATION.")
-          .toResponse(Response.Status.CREATED, location);
+          .toResponse(Response.Status.CREATED, location, uriInfo);
     } else {
       fileService.replace(file);
       return Message.of("The file you specified has been fully updated AT THE STANDARD LOCATION.")
-          .toResponse(Response.Status.OK, location);
+          .toResponse(Response.Status.OK, location, uriInfo);
     }
   }
 
@@ -123,12 +126,12 @@ public final class FileResource {
 
       return Message.of("A new remote file has been registered.").toResponse(
           Response.Status.CREATED,
-          cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id));
+          cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id), uriInfo);
     } else {
       fileService.replace(file);
 
       return Message.of("The file description has been updated.").toResponse(Response.Status.OK,
-          cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id));
+          cz.cuni.mff.xrg.odalic.util.URL.getSubResourceAbsolutePath(uriInfo, id), uriInfo);
     }
   }
 
@@ -163,7 +166,7 @@ public final class FileResource {
     fileService.create(file, fileInputStream);
     return Message
         .of("A new file has been registered AT THE LOCATION DERIVED from the name of the one uploaded.")
-        .toResponse(Response.Status.CREATED, file.getLocation());
+        .toResponse(Response.Status.CREATED, file.getLocation(), uriInfo);
   }
 
   @DELETE
@@ -176,7 +179,7 @@ public final class FileResource {
       throw new NotFoundException("The file does not exist!");
     }
 
-    return Message.of("File definition deleted.").toResponse(Response.Status.OK);
+    return Message.of("File definition deleted.").toResponse(Response.Status.OK, uriInfo);
   }
 
   @GET

@@ -8,8 +8,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,6 +33,9 @@ public final class ConfigurationResource {
   private final ConfigurationService configurationService;
   private final FileService fileService;
 
+  @Context
+  private UriInfo uriInfo;
+
   @Autowired
   public ConfigurationResource(ConfigurationService configurationService, FileService fileService) {
     Preconditions.checkNotNull(configurationService);
@@ -48,15 +53,15 @@ public final class ConfigurationResource {
     if (configurationValue == null) {
       throw new BadRequestException("Configuration must be provided!");
     }
-    
+
     if (configurationValue.getInput() == null) {
       throw new BadRequestException("Input must be specified!");
     }
-    
+
     if (configurationValue.getPrimaryBase() == null) {
       throw new BadRequestException("The primary base must be specified!");
     }
-    
+
     final File input;
     try {
       input = fileService.getById(configurationValue.getInput());
@@ -77,7 +82,7 @@ public final class ConfigurationResource {
     } catch (final IllegalArgumentException e) {
       throw new BadRequestException("The configured task does not exist.");
     }
-    return Message.of("Configuration set.").toResponse(Response.Status.OK);
+    return Message.of("Configuration set.").toResponse(Response.Status.OK, uriInfo);
   }
 
   @GET
@@ -90,6 +95,7 @@ public final class ConfigurationResource {
       throw new NotFoundException("Configuration for the task does not exist.");
     }
 
-    return Reply.data(Response.Status.OK, configurationForTaskId).toResponse();
+    return Reply.data(Response.Status.OK, configurationForTaskId, uriInfo)
+        .toResponse();
   }
 }

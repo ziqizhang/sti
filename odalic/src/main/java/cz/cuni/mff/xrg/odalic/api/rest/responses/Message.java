@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.StatusType;
+import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -85,13 +86,14 @@ public final class Message {
    * {@link StatusType}.
    * 
    * @param statusType status type
+   * @param uriInfo request URI information
    * @return a {@link ReplyBuilder}
    */
   @XmlTransient
-  public ResponseBuilder toResponseBuilder(StatusType statusType) {
+  public ResponseBuilder toResponseBuilder(StatusType statusType, UriInfo uriInfo) {
     Preconditions.checkNotNull(statusType);
 
-    return Reply.message(statusType, this).toResponseBuilder();
+    return Reply.message(statusType, this, uriInfo).toResponseBuilder();
   }
 
   /**
@@ -99,13 +101,14 @@ public final class Message {
    * {@link StatusType}.
    * 
    * @param statusType status type
+   * @param UriInfo request URI information
    * @return a {@link Reply}
    */
   @XmlTransient
-  public Response toResponse(StatusType statusType) {
+  public Response toResponse(StatusType statusType, UriInfo uriInfo) {
     Preconditions.checkNotNull(statusType);
 
-    return Reply.message(statusType, this).toResponse();
+    return Reply.message(statusType, this, uriInfo).toResponse();
   }
 
   /**
@@ -114,13 +117,14 @@ public final class Message {
    * 
    * @param statusType status type
    * @param location location header content
+   * @param UriInfo request URI information
    * @return a {@link Reply}
    */
   @XmlTransient
-  public Response toResponse(StatusType statusType, URL location) {
+  public Response toResponse(StatusType statusType, URL location, UriInfo uriInfo) {
     Preconditions.checkNotNull(statusType);
     Preconditions.checkNotNull(location);
 
-    return toResponseBuilder(statusType).header(LOCATION_HEADER_NAME, location).build();
+    return toResponseBuilder(statusType, uriInfo).header(LOCATION_HEADER_NAME, location).build();
   }
 }

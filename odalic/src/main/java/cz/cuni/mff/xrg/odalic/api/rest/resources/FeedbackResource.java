@@ -10,8 +10,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,6 +31,9 @@ import cz.cuni.mff.xrg.odalic.tasks.feedbacks.FeedbackService;
 public final class FeedbackResource {
 
   private final FeedbackService feedbackService;
+  
+  @Context
+  private UriInfo uriInfo;
   
   @Autowired
   public FeedbackResource(FeedbackService feedbackService) {
@@ -51,7 +56,7 @@ public final class FeedbackResource {
       throw new BadRequestException("The task that the feedback is made to does not exist!");
     }
     
-    return Message.of("Feedback set.").toResponse(Response.Status.OK);
+    return Message.of("Feedback set.").toResponse(Response.Status.OK, uriInfo);
   }
   
   @GET
@@ -64,7 +69,7 @@ public final class FeedbackResource {
       throw new NotFoundException("The task does not exist!");
     }
     
-    return Reply.data(Response.Status.OK, feedbackForTaskId).toResponse();
+    return Reply.data(Response.Status.OK, feedbackForTaskId, uriInfo).toResponse();
   }
   
   @GET
@@ -78,6 +83,6 @@ public final class FeedbackResource {
       throw new NotFoundException("The task does not exist!");
     }
     
-    return Reply.data(Response.Status.OK, inputForTaskId).toResponse();
+    return Reply.data(Response.Status.OK, inputForTaskId, uriInfo).toResponse();
   }
 }
