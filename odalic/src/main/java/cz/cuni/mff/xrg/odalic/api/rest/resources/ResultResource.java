@@ -8,8 +8,10 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,6 +34,9 @@ public final class ResultResource {
 
   private final ExecutionService executionService;
   
+  @Context
+  private UriInfo uriInfo;
+  
   @Autowired
   public ResultResource(ExecutionService executionService) {
     Preconditions.checkNotNull(executionService);
@@ -51,6 +56,6 @@ public final class ResultResource {
       throw new NotFoundException("The task has not been scheduled or does not exist!");
     }
     
-    return Reply.data(Response.Status.OK, resultForTaskId).toResponse();
+    return Reply.data(Response.Status.OK, resultForTaskId, uriInfo).toResponse();
   }
 }

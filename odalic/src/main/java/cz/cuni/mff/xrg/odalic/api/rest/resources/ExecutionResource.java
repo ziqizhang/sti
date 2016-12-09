@@ -9,8 +9,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +28,9 @@ import cz.cuni.mff.xrg.odalic.tasks.executions.ExecutionService;
 public final class ExecutionResource {
 
   private ExecutionService executionService;
+  
+  @Context
+  private UriInfo uriInfo;
   
   @Autowired
   public ExecutionResource(ExecutionService executionService) {
@@ -50,7 +55,7 @@ public final class ExecutionResource {
       throw new BadRequestException("The task does not exist!");
     }
     
-    return Message.of("Execution submitted.").toResponse(Response.Status.OK);
+    return Message.of("Execution submitted.").toResponse(Response.Status.OK, uriInfo);
   }
   
   @DELETE
@@ -64,6 +69,6 @@ public final class ExecutionResource {
       throw new NotFoundException("The task has not been scheduled or does not exist!");
     }
     
-    return Message.of("Execution canceled.").toResponse(Response.Status.OK);
+    return Message.of("Execution canceled.").toResponse(Response.Status.OK, uriInfo);
   }
 }
