@@ -62,7 +62,12 @@ public final class DefaultCsvInputParser implements CsvInputParser {
     return inputBuilder.build();
   }
 
-  private void handleInputRow(CSVRecord row, int rowIndex) {
+  private void handleInputRow(CSVRecord row, int rowIndex) throws IOException {
+    if (!row.isConsistent()) {
+      throw new IOException("CSV file is not consistent: data row with index " +
+          rowIndex + " has different size than header row.");
+    }
+
     int column = 0;
     for (String value : row) {
       inputBuilder.insertCell(value, rowIndex, column);
