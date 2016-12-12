@@ -10,7 +10,11 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.StatusType;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Catch-all throwable mapper.
@@ -20,8 +24,13 @@ import javax.ws.rs.ext.ExceptionMapper;
  */
 public final class ThrowableMapper implements ExceptionMapper<Throwable> {
 
+  private static final Logger logger = LoggerFactory.getLogger(ThrowableMapper.class);
+  
   @Context
   private HttpHeaders headers;
+  
+  @Context
+  private UriInfo uriInfo;
 
   /*
    * (non-Javadoc)
@@ -33,6 +42,8 @@ public final class ThrowableMapper implements ExceptionMapper<Throwable> {
     final StatusType statusType = getHttpStatus(throwable);
 
     final String text = throwable.getMessage();
+    
+    logger.warn("Mapping of throwable " + text, throwable);
 
     final StringWriter trace = new StringWriter();
     throwable.printStackTrace(new PrintWriter(trace));
@@ -43,7 +54,7 @@ public final class ThrowableMapper implements ExceptionMapper<Throwable> {
     // Send the default message only if acceptable by the client.
     if (acceptable.contains(MediaType.WILDCARD_TYPE)
         || acceptable.contains(MediaType.APPLICATION_JSON)) {
-      return Message.of(text, debugContent).toResponse(statusType);
+      return Message.of(text, debugContent).toResponse(statusType, uriInfo);
     } else {
       return Response.status(statusType).type(acceptable.get(0)).build();
     }

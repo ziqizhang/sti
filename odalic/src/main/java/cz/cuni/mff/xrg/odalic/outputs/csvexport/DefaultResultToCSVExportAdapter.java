@@ -33,8 +33,10 @@ public class DefaultResultToCSVExportAdapter implements ResultToCSVExportAdapter
     ListsBackedInputBuilder builder = new ListsBackedInputBuilder(input);
     List<String> headers = input.headers();
     int newPosition = input.columnsCount();
+    List<List<String>> primaries = new ArrayList<List<String>>();
     List<List<String>> alternatives = new ArrayList<List<String>>();
     for (int j = 0; j < input.rowsCount(); j++) {
+      primaries.add(new ArrayList<String>());
       alternatives.add(new ArrayList<String>());
     }
     
@@ -47,6 +49,10 @@ public class DefaultResultToCSVExportAdapter implements ResultToCSVExportAdapter
           if (entry.getValue() != null && !entry.getValue().isEmpty()) {
             if (entry.getKey().getName().equals(configuration.getPrimaryBase().getName())) {
               addPrimary = true;
+              
+              for (EntityCandidate chosen : entry.getValue()) {
+                primaries.get(j).add(chosen.getEntity().getResource());
+              }
             } else {
               addAlternatives = true;
               
@@ -58,23 +64,19 @@ public class DefaultResultToCSVExportAdapter implements ResultToCSVExportAdapter
         }
       }
       
-      if (addPrimary) {
+      if (addPrimary || addAlternatives) {
         builder.insertHeader(urlFormat(headers.get(i)), newPosition);
         
         for (int j = 0; j < input.rowsCount(); j++) {
-          for (EntityCandidate chosen : result.getCellAnnotations()[j][i].getChosen().get(configuration.getPrimaryBase())) {
-            builder.insertCell(chosen.getEntity().getResource(), j, newPosition);
+          if (!primaries.get(j).isEmpty()) {
+            builder.insertCell(primaries.get(j).remove(0), j, newPosition);
+            primaries.get(j).clear();
           }
-        }
-        
-        newPosition++;
-      }
-      else if (addAlternatives) {
-        builder.insertHeader(urlFormat(headers.get(i)), newPosition);
-        
-        for (int j = 0; j < input.rowsCount(); j++) {
-          if (!alternatives.get(j).isEmpty()) {
+          else if (!alternatives.get(j).isEmpty()) {
             builder.insertCell(alternatives.get(j).remove(0), j, newPosition);
+          }
+          else {
+            builder.insertCell(null, j, newPosition);
           }
         }
         
@@ -85,8 +87,13 @@ public class DefaultResultToCSVExportAdapter implements ResultToCSVExportAdapter
         builder.insertHeader(alternativeUrlsFormat(headers.get(i)), newPosition);
         
         for (int j = 0; j < input.rowsCount(); j++) {
-          builder.insertCell(StringUtils.join(alternatives.get(j), SEPARATOR), j, newPosition);
-          alternatives.get(j).clear();
+          if (!alternatives.get(j).isEmpty()) {
+            builder.insertCell(StringUtils.join(alternatives.get(j), SEPARATOR), j, newPosition);
+            alternatives.get(j).clear();
+          }
+          else {
+            builder.insertCell(null, j, newPosition);
+          }
         }
         
         newPosition++;

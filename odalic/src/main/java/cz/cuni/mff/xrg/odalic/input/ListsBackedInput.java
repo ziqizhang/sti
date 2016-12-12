@@ -1,6 +1,8 @@
 package cz.cuni.mff.xrg.odalic.input;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.concurrent.Immutable;
@@ -38,7 +40,13 @@ public final class ListsBackedInput implements Input, Serializable {
   @XmlElement
   private final String fileIdentifier;
 
-  public ListsBackedInput(String fileIdentifier, List<String> headers, List<List<String>> rows) {
+  /**
+   * 
+   * @param fileIdentifier
+   * @param headers
+   * @param rows Note: Inner lists (concrete rows) can contain null values.
+   */
+  public ListsBackedInput(String fileIdentifier, List<? extends String> headers, List<? extends List<? extends String>> rows) {
     Preconditions.checkNotNull(fileIdentifier);
     Preconditions.checkNotNull(headers);
     Preconditions.checkNotNull(rows);
@@ -47,11 +55,11 @@ public final class ListsBackedInput implements Input, Serializable {
     
     this.headers = ImmutableList.copyOf(headers);
     
-    final ImmutableList.Builder<List<String>> rowsBuilder = ImmutableList.builder();
-    for (final List<String> row : rows) {
-      rowsBuilder.add(ImmutableList.copyOf(row));
+    final List<List<String>> mutableRows = new ArrayList<>(rows.size());
+    for (final List<? extends String> row : rows) {
+      mutableRows.add(Collections.unmodifiableList(new ArrayList<>(row)));
     }
-    this.rows = rowsBuilder.build();
+    this.rows = Collections.unmodifiableList(mutableRows);
   }
 
   @Override
@@ -84,6 +92,9 @@ public final class ListsBackedInput implements Input, Serializable {
     return headers;
   }
 
+  /**
+   * Note: Inner lists (concrete rows) can contain null values.
+   */
   @Override
   public List<List<String>> rows() {
     return rows;

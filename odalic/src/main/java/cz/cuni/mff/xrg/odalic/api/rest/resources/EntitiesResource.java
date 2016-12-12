@@ -4,8 +4,10 @@ import java.net.URI;
 import java.util.NavigableSet;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +19,10 @@ import com.google.common.base.Preconditions;
 import cz.cuni.mff.xrg.odalic.api.rest.responses.Reply;
 import cz.cuni.mff.xrg.odalic.entities.ClassProposal;
 import cz.cuni.mff.xrg.odalic.entities.EntitiesService;
+import cz.cuni.mff.xrg.odalic.entities.PropertyProposal;
 import cz.cuni.mff.xrg.odalic.entities.ResourceProposal;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.Entity;
 import cz.cuni.mff.xrg.odalic.tasks.annotations.KnowledgeBase;
-
 import uk.ac.shef.dcs.kbproxy.KBProxyException;
 
 /**
@@ -35,6 +37,9 @@ public final class EntitiesResource {
 
   private static final Logger logger = LoggerFactory.getLogger(EntitiesResource.class);
   private final EntitiesService entitiesService;
+  
+  @Context
+  private UriInfo uriInfo;
 
   @Autowired
   public EntitiesResource(EntitiesService entitiesService) {
@@ -71,7 +76,7 @@ public final class EntitiesResource {
       throw new InternalServerErrorException(e.getLocalizedMessage());
     }
 
-    return Reply.data(Response.Status.OK, result).toResponse();
+    return Reply.data(Response.Status.OK, result, uriInfo).toResponse();
   }
   
   @GET
@@ -96,7 +101,7 @@ public final class EntitiesResource {
       throw new InternalServerErrorException(e.getLocalizedMessage());
     }
 
-    return Reply.data(Response.Status.OK, result).toResponse();
+    return Reply.data(Response.Status.OK, result, uriInfo).toResponse();
   }
   
   @GET
@@ -121,7 +126,7 @@ public final class EntitiesResource {
       throw new InternalServerErrorException(e.getLocalizedMessage());
     }
 
-    return Reply.data(Response.Status.OK, result).toResponse();
+    return Reply.data(Response.Status.OK, result, uriInfo).toResponse();
   }
 
   @POST
@@ -136,7 +141,7 @@ public final class EntitiesResource {
       throw new InternalServerErrorException(e.getLocalizedMessage());
     }
 
-    return Reply.data(Response.Status.OK, createdClass).toResponse();
+    return Reply.data(Response.Status.OK, createdClass, uriInfo).toResponse();
   }
 
   @POST
@@ -151,6 +156,21 @@ public final class EntitiesResource {
       throw new InternalServerErrorException(e.getLocalizedMessage());
     }
 
-    return Reply.data(Response.Status.OK, createdEntity).toResponse();
+    return Reply.data(Response.Status.OK, createdEntity, uriInfo).toResponse();
+  }
+  
+  @POST
+  @Path("properties")
+  @Produces({MediaType.APPLICATION_JSON})
+  public Response propose(@PathParam("base") String base, PropertyProposal proposal) {
+    final Entity createdProperty;
+    try {
+      createdProperty = this.entitiesService.propose(new KnowledgeBase(base), proposal);
+    } catch (KBProxyException e) {
+      logger.error("KB proxy error", e);
+      throw new InternalServerErrorException(e.getLocalizedMessage());
+    }
+
+    return Reply.data(Response.Status.OK, createdProperty, uriInfo).toResponse();
   }
 }

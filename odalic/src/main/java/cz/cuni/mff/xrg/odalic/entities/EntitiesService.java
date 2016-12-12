@@ -63,9 +63,19 @@ public interface EntitiesService {
    * Propose a new entity to the primary base.
    *
    * @param base used knowledge base
-   * @param proposal entity proposal
+   * @param proposal resource proposal
    * @return created entity
    * @throws IllegalArgumentException when the entity is already defined or some part of the proposal is invalid
    */
   Entity propose(KnowledgeBase base, ResourceProposal proposal) throws KBProxyException;
+
+  /**
+   * Propose a new property to the primary base.
+   *
+   * @param base used knowledge base
+   * @param proposal property proposal
+   * @return created entity
+   * @throws IllegalArgumentException when the entity is already defined or some part of the proposal is invalid
+   */
+  Entity propose(KnowledgeBase base, PropertyProposal proposal) throws KBProxyException;
 }

@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+import javax.annotation.Nullable;
 import javax.ws.rs.core.UriInfo;
 
 /**
@@ -41,5 +42,17 @@ public final class URL {
     } catch (UnsupportedEncodingException e) {
       throw new AssertionError(e);
     }
+  }
+  
+  /**
+   * Extracts a stamp string from the URI information.
+   * 
+   * @param uriInfo request URI information 
+   * @param queryParameterName stamp query parameter name
+   * @return the stamp string, {@code null} when not provided
+   */
+  @Nullable
+  public static String getStamp(UriInfo uriInfo, String queryParameterName) {
+    return uriInfo.getQueryParameters().getFirst(queryParameterName);
   }
 }

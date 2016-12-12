@@ -51,6 +51,9 @@ public final class TaskResource {
   private final FileService fileService;
   private final ExecutionService executionService;
 
+  @Context
+  private UriInfo uriInfo;
+  
   @Autowired
   public TaskResource(TaskService taskService, FileService fileService,
       ExecutionService executionService) {
@@ -83,12 +86,12 @@ public final class TaskResource {
     }
 
     if (states == null || (!states)) {
-      return Reply.data(Response.Status.OK, tasks).toResponse();
+      return Reply.data(Response.Status.OK, tasks, uriInfo).toResponse();
     } else {
       final Stream<StatefulTaskValue> statefulTasksStream = tasks.stream()
           .map(e -> new StatefulTaskValue(e, States.queryStateValue(executionService, e.getId())));
 
-      return Reply.data(Response.Status.OK, statefulTasksStream.collect(Collectors.toList()))
+      return Reply.data(Response.Status.OK, statefulTasksStream.collect(Collectors.toList()), uriInfo)
           .toResponse(); // List is fine, as it serializes in the same way, and no monkeying with
                          // comparators is needed.
     }
@@ -105,7 +108,7 @@ public final class TaskResource {
       throw new NotFoundException("The task does not exist!");
     }
 
-    return Reply.data(Response.Status.OK, task).toResponse();
+    return Reply.data(Response.Status.OK, task, uriInfo).toResponse();
   }
 
   @PUT
@@ -147,12 +150,12 @@ public final class TaskResource {
     if (taskById == null) {
       taskService.create(task);
       return Message.of("A new task has been created AT THE LOCATION you specified")
-          .toResponse(Response.Status.CREATED, location);
+          .toResponse(Response.Status.CREATED, location, uriInfo);
     } else {
       taskService.replace(task);
       return Message
           .of("The task you specified has been fully updated AT THE LOCATION you specified.")
-          .toResponse(Response.Status.OK, location);
+          .toResponse(Response.Status.OK, location, uriInfo);
     }
   }
 
@@ -166,6 +169,6 @@ public final class TaskResource {
       throw new NotFoundException("The task does not exist!");
     }
 
-    return Message.of("Task deleted.").toResponse(Response.Status.OK);
+    return Message.of("Task deleted.").toResponse(Response.Status.OK, uriInfo);
   }
 }

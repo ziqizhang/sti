@@ -5,8 +5,10 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,6 +32,9 @@ public final class StateResource {
 
   private final ExecutionService executionService;
 
+  @Context
+  private UriInfo uriInfo;
+  
   @Autowired
   public StateResource(ExecutionService executionService) {
     Preconditions.checkNotNull(executionService);
@@ -47,7 +52,7 @@ public final class StateResource {
       throw new NotFoundException("The task does not exist!");
     }
     
-    return Reply.data(Response.Status.OK, state)
+    return Reply.data(Response.Status.OK, state, uriInfo)
         .toResponse();
   }
 }
