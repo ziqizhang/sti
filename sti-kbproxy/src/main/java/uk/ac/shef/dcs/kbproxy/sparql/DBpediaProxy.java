@@ -51,7 +51,7 @@ public class DBpediaProxy extends SPARQLProxy {
       ResultSet rs = qexec.execSelect();
       while (rs.hasNext()) {
         QuerySolution qs = rs.next();
-        RDFNode domain = qs.get(SPARQL_OBJECT);
+        RDFNode domain = qs.get(SPARQL_VARIABLE_OBJECT);
         String d = null;
         if (domain != null)
           d = domain.toString();
