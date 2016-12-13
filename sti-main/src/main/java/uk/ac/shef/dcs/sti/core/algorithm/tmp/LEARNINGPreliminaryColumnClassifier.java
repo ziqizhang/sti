@@ -1,7 +1,8 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import javafx.util.Pair;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.shef.dcs.kbproxy.KBProxy;
 import uk.ac.shef.dcs.kbproxy.KBProxyException;
@@ -32,7 +33,7 @@ public class LEARNINGPreliminaryColumnClassifier {
 
     private String stopperClassname;
     private String[] stopperParams;
-    private static final Logger LOG = Logger.getLogger(LEARNINGPreliminaryColumnClassifier.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(LEARNINGPreliminaryColumnClassifier.class.getName());
 
     public LEARNINGPreliminaryColumnClassifier(TContentCellRanker selector,
                                                String stoppingCriteriaClassname,

@@ -1,7 +1,8 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
 import javafx.util.Pair;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.shef.dcs.kbproxy.KBProxyException;
 import uk.ac.shef.dcs.sti.STIException;
@@ -21,7 +22,7 @@ public class SMPInterpreter extends SemanticTableInterpreter {
 
     //main column finder is needed to generate data features of each column (e.g., data type in a column),
     //even though we do not use it to find the main column in SMP
-    private static final Logger LOG = Logger.getLogger(SMPInterpreter.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(SMPInterpreter.class.getName());
     private SubjectColumnDetector subjectColumnDetector;
     private TCellEntityRanker neRanker;
     private TColumnClassifier columnClassifier;

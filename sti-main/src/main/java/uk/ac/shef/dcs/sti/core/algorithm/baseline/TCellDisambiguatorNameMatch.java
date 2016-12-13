@@ -1,7 +1,8 @@
 package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
 import javafx.util.Pair;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.shef.dcs.kbproxy.KBProxy;
 import uk.ac.shef.dcs.kbproxy.KBProxyException;
@@ -15,7 +16,7 @@ import java.util.List;
  * the default cell disambiguator adopts the name match strategy B_nm
  */
 public class TCellDisambiguatorNameMatch extends TCellDisambiguator {
-    private static final Logger LOG = Logger.getLogger(TCellDisambiguatorNameMatch.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(TCellDisambiguatorNameMatch.class.getName());
 
     public TCellDisambiguatorNameMatch(
             KBProxy kbSearch) {

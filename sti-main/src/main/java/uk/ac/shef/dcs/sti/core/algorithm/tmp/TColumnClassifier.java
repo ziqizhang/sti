@@ -1,7 +1,9 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import javafx.util.Pair;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.shef.dcs.kbproxy.model.Clazz;
 import uk.ac.shef.dcs.kbproxy.model.Entity;
 import uk.ac.shef.dcs.sti.STIException;
@@ -18,7 +20,7 @@ import java.util.List;
 public class TColumnClassifier {
 
     private ClazzScorer clazzScorer;
-    private static final Logger LOG = Logger.getLogger(TColumnClassifier.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(TColumnClassifier.class.getName());
 
     public TColumnClassifier(ClazzScorer scorer){
         this.clazzScorer=scorer;

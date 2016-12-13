@@ -1,7 +1,8 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji.similarity;
 
 import javafx.util.Pair;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.shef.dcs.kbproxy.KBProxy;
 import uk.ac.shef.dcs.kbproxy.KBProxyException;
@@ -16,7 +17,7 @@ import java.util.*;
 public class SimilarityComputerManager {
 
 
-    private static final Logger LOG = Logger.getLogger(SimilarityComputerManager.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(SimilarityComputerManager.class.getName());
     private KBProxy kbSearch;
     private boolean useCache;
     private EntityAndClazzSimilarityScorer scorer;

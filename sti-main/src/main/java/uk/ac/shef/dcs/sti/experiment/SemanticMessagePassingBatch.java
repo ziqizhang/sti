@@ -2,8 +2,9 @@ package uk.ac.shef.dcs.sti.experiment;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.simmetrics.metrics.StringMetrics;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.shef.dcs.kbproxy.KBProxy;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
@@ -27,7 +28,7 @@ import java.util.*;
  */
 public class SemanticMessagePassingBatch extends STIBatch {
 
-  private static final Logger LOG = Logger.getLogger(SemanticMessagePassingBatch.class.getName());
+  private static final Logger LOG = LoggerFactory.getLogger(SemanticMessagePassingBatch.class.getName());
 
   private static final String PROPERTY_SMP_USE_SUBJECT_COLUMN = "sti.smp.usesubjectcolumn";
   private static final String PROPERTY_SMP_ENTITY_RANKER = "sti.smp.entityranker";
@@ -183,6 +184,6 @@ public class SemanticMessagePassingBatch extends STIBatch {
       smp.kbSearch.closeConnection();
     } catch (Exception ex) {
     }
-    LOG.info(new Date());
+    LOG.info(new Date().toString());
   }
 }

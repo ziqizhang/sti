@@ -2,8 +2,10 @@ package uk.ac.shef.dcs.sti.core.subjectcol;
 
 import cern.colt.matrix.DoubleMatrix2D;
 import javafx.util.Pair;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentRowRanker;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.StoppingCriteriaInstantiator;
@@ -22,7 +24,7 @@ import java.util.*;
  */
 public class SubjectColumnDetector {
 
-    private static Logger LOG = Logger.getLogger(SubjectColumnDetector.class.getName());
+    private static Logger LOG = LoggerFactory.getLogger(SubjectColumnDetector.class.getName());
     private TColumnFeatureGenerator featureGenerator;
     private TContentRowRanker tRowRanker;
     private String stoppingCriteriaClassname;

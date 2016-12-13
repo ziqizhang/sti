@@ -2,10 +2,12 @@ package uk.ac.shef.dcs.sti.experiment;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 
 import org.simmetrics.metrics.StringMetrics;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.shef.dcs.kbproxy.KBProxy;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
@@ -26,7 +28,7 @@ import java.util.*;
  *
  */
 public class JointInferenceBatch extends STIBatch {
-  private static final Logger LOG = Logger.getLogger(JointInferenceBatch.class.getName());
+  private static final Logger LOG = LoggerFactory.getLogger(JointInferenceBatch.class.getName());
   private static final String PROPERTY_JI_USE_SUBJECT_COLUMN = "sti.ji.usesubjectcolumn";
   private static final String PROPERTY_JI_MAX_ITERATIONS = "sti.ji.maxiterations";
   private static final String PROPERTY_JI_DEBUG_MODE = "sti.ji.debugmode";
@@ -164,6 +166,6 @@ public class JointInferenceBatch extends STIBatch {
       ji.kbSearch.closeConnection();
     } catch (Exception ex) {
     }
-    LOG.info(new Date());
+    LOG.info(new Date().toString());
   }
 }

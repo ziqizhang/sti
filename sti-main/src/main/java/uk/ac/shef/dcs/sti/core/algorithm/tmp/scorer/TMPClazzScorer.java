@@ -1,7 +1,9 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer;
 
 import javafx.util.Pair;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.STIException;
@@ -34,7 +36,7 @@ public class TMPClazzScorer implements ClazzScorer {
     public static final String SCORE_CTX_OUT ="ctx_out_context";
     public static final String SCORE_DOMAIN_CONSENSUS = "domain_consensus";
 
-    private static final Logger LOG = Logger.getLogger(TMPClazzScorer.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(TMPClazzScorer.class.getName());
 
     protected Lemmatizer lemmatizer;
     protected List<String> stopWords;

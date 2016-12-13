@@ -1,7 +1,9 @@
 package uk.ac.shef.dcs.sti.core.subjectcol;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.shef.dcs.sti.nlp.TermFreqCounter;
 import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.websearch.WebSearch;
@@ -22,7 +24,7 @@ public class WSScorer {
     protected TermFreqCounter counter = new TermFreqCounter();
     protected List<String> stopWords;
 
-    protected static final Logger LOG = Logger.getLogger(WSScorer.class.getName());
+    protected static final Logger LOG = LoggerFactory.getLogger(WSScorer.class.getName());
 
 
     public WSScorer(SolrCache cache, WebSearch searcher,

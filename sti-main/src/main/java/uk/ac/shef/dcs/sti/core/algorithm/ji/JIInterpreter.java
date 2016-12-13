@@ -8,7 +8,8 @@ import cc.mallet.grmm.types.FactorGraph;
 import cc.mallet.grmm.types.Variable;
 import javafx.util.Pair;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.shef.dcs.kbproxy.KBProxyException;
 import uk.ac.shef.dcs.sti.STIException;
@@ -28,7 +29,7 @@ import java.util.List;
  */
 public class JIInterpreter extends SemanticTableInterpreter {
 
-    private static final Logger LOG = Logger.getLogger(JIInterpreter.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(JIInterpreter.class.getName());
     //main column finder is needed to generate data features of each column (e.g., data type in a column),
     //even though we do not use it to find the main column in SMP
     protected SubjectColumnDetector subjectColumnDetector;

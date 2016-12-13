@@ -1,7 +1,8 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import javafx.util.Pair;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.shef.dcs.kbproxy.KBProxy;
 import uk.ac.shef.dcs.kbproxy.KBProxyException;
@@ -21,7 +22,7 @@ import java.util.*;
 public class CandidateEntityGenerator {
     private KBProxy kbSearch;
     private JIAdaptedEntityScorer disambScorer;
-    private static final Logger LOG = Logger.getLogger(CandidateEntityGenerator.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(CandidateEntityGenerator.class.getName());
 
     public CandidateEntityGenerator(KBProxy kbSearch, JIAdaptedEntityScorer disambScorer) {
         this.kbSearch = kbSearch;
