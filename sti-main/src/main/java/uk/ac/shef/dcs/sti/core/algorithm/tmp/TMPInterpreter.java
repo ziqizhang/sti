@@ -1,7 +1,8 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import javafx.util.Pair;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.algorithm.SemanticTableInterpreter;
@@ -24,7 +25,7 @@ public class TMPInterpreter extends SemanticTableInterpreter {
     private TColumnColumnRelationEnumerator relationEnumerator;
     private UPDATE update;
 
-    private static final Logger LOG = Logger.getLogger(TMPInterpreter.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(TMPInterpreter.class.getName());
 
     public TMPInterpreter(SubjectColumnDetector subjectColumnDetector,
                           LEARNING learning,

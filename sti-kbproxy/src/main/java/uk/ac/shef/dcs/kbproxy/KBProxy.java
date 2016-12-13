@@ -3,7 +3,8 @@ package uk.ac.shef.dcs.kbproxy;
 import com.sun.jndi.toolkit.url.Uri;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 
@@ -48,7 +49,7 @@ public abstract class KBProxy {
 
   protected KBSearchResultFilter resultFilter;
 
-  protected final Logger log = Logger.getLogger(getClass());
+  protected final Logger log = LoggerFactory.getLogger(getClass());
 
   protected KBDefinition kbDefinition;
 

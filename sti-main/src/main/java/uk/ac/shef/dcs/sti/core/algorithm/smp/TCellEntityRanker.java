@@ -1,7 +1,8 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
 import javafx.util.Pair;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.shef.dcs.kbproxy.KBProxy;
 import uk.ac.shef.dcs.kbproxy.KBProxyException;
@@ -22,7 +23,7 @@ public class TCellEntityRanker {
 
     private KBProxy kbSearch;
     private EntityScorer entityScorer;
-    private static final Logger LOG = Logger.getLogger(TCellEntityRanker.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(TCellEntityRanker.class.getName());
 
     public TCellEntityRanker(KBProxy kbSearch, EntityScorer entityScorer) {
         this.kbSearch = kbSearch;

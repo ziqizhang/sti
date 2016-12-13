@@ -2,8 +2,9 @@ package uk.ac.shef.dcs.sti.experiment;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.simmetrics.metrics.StringMetrics;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
@@ -33,7 +34,7 @@ public class TableMinerPlusBatch extends STIBatch {
             = "sti.tmp.iinf.learning.stopping.class.constructor.params";
 
 
-    private static final Logger LOG = Logger.getLogger(TableMinerPlusBatch.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(TableMinerPlusBatch.class.getName());
 
 
     public TableMinerPlusBatch(String propertyFile) throws IOException, STIException {
@@ -232,7 +233,7 @@ public class TableMinerPlusBatch extends STIBatch {
         }
         catch (Exception e){
         }
-        LOG.info(new Date());
+        LOG.info(new Date().toString());
     }
 
 

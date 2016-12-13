@@ -33,7 +33,7 @@ public class DBpediaProxy extends SPARQLProxy {
    */
   public DBpediaProxy(KBDefinition kbDefinition,
                       Boolean fuzzyKeywords,
-                      String cachesBasePath) throws IOException {
+                      String cachesBasePath) throws IOException, KBProxyException {
     super(kbDefinition, fuzzyKeywords, cachesBasePath);
     String ontologyURL = kbDefinition.getOntologyUri();
     if (ontologyURL != null) {
@@ -43,16 +43,15 @@ public class DBpediaProxy extends SPARQLProxy {
   }
 
   @Override
-  protected List<String> queryForLabel(String sparqlQuery, String resourceURI) throws KBProxyException {
+  protected List<String> queryForLabel(Query sparqlQuery, String resourceURI) throws KBProxyException {
     try {
-      org.apache.jena.query.Query query = QueryFactory.create(sparqlQuery);
-      QueryExecution qexec = QueryExecutionFactory.sparqlService(kbDefinition.getSparqlEndpoint(), query);
+      QueryExecution qexec = QueryExecutionFactory.sparqlService(kbDefinition.getSparqlEndpoint(), sparqlQuery);
 
       List<String> out = new ArrayList<>();
       ResultSet rs = qexec.execSelect();
       while (rs.hasNext()) {
         QuerySolution qs = rs.next();
-        RDFNode domain = qs.get("?o");
+        RDFNode domain = qs.get(SPARQL_VARIABLE_OBJECT);
         String d = null;
         if (domain != null)
           d = domain.toString();

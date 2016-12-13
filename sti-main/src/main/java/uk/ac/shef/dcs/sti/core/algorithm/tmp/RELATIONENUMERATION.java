@@ -1,7 +1,9 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
 import javafx.util.Pair;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.scorer.RelationScorer;
 import uk.ac.shef.dcs.sti.core.subjectcol.TColumnFeature;
@@ -18,7 +20,7 @@ import java.util.Set;
  * Created by - on 02/04/2016.
  */
 public class RELATIONENUMERATION {
-    private static final Logger LOG = Logger.getLogger(RELATIONENUMERATION.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(RELATIONENUMERATION.class.getName());
 
     public void enumerate(List<Pair<Integer, Pair<Double, Boolean>>> subjectColCandidadteScores,
         Set<Integer> ignoreCols,

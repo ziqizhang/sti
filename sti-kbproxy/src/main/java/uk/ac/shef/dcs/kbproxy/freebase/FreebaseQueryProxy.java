@@ -13,7 +13,8 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -33,7 +34,7 @@ import uk.ac.shef.dcs.util.StringUtils;
 public class FreebaseQueryProxy {
 
 
-    public static Logger LOG = Logger.getLogger(FreebaseQueryProxy.class.getName());
+    public static Logger LOG = LoggerFactory.getLogger(FreebaseQueryProxy.class.getName());
     //private String BASE_QUERY_URL="https://www.googleapis.com/freebase/v1/mqlread";
     private JSONParser jsonParser;
     private FreebaseQueryInterrupter interrupter;

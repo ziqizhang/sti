@@ -2,9 +2,10 @@ package uk.ac.shef.dcs.sti.experiment;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.simmetrics.StringMetric;
 import org.simmetrics.metrics.StringMetrics;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIException;
@@ -33,7 +34,7 @@ public class BaselineBatch extends STIBatch {
     private static final String BASELINE_METHOD="sti.baseline.method"; //nm=name match; sim=similarity
     private static final String BASELINE_SIMILARITY_STRING_METRIC="sti.baseline.similarity.stringmetrics.method";
 
-    private static final Logger LOG = Logger.getLogger(BaselineBatch.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(BaselineBatch.class.getName());
     private StringMetric stringMetric;
     public BaselineBatch(String propertyFile) throws IOException, STIException {
         super(propertyFile);
@@ -207,6 +208,6 @@ public class BaselineBatch extends STIBatch {
         }
         catch (Exception e){
         }
-        LOG.info(new Date());
+        LOG.info(new Date().toString());
     }
 }

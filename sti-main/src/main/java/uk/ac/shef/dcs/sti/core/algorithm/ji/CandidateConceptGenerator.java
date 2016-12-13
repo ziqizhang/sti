@@ -1,7 +1,9 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
 import javafx.util.Pair;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.shef.dcs.kbproxy.KBProxy;
 import uk.ac.shef.dcs.kbproxy.KBProxyException;
 import uk.ac.shef.dcs.kbproxy.model.Attribute;
@@ -22,7 +24,7 @@ import java.util.*;
  */
 public class CandidateConceptGenerator {
 
-    private static final Logger LOG = Logger.getLogger(CandidateConceptGenerator.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(CandidateConceptGenerator.class.getName());
     private int threads = 10;
     private SimilarityComputerManager simComputer;
     private KBProxy kbSearch;

@@ -3,7 +3,8 @@ package uk.ac.shef.dcs.sti.experiment;
 import com.google.api.client.http.HttpResponseException;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.shef.dcs.kbproxy.KBProxyFactory;
 import uk.ac.shef.dcs.sti.STIException;
@@ -31,7 +32,7 @@ import static uk.ac.shef.dcs.util.StringUtils.combinePaths;
 public abstract class STIBatch {
 
 
-  private static Logger LOG = Logger.getLogger(STIBatch.class.getName());
+  private static Logger LOG = LoggerFactory.getLogger(STIBatch.class.getName());
 
   protected KBProxy kbSearch;
 

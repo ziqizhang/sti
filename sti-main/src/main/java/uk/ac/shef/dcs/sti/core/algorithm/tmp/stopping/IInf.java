@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -17,7 +18,7 @@ public class IInf extends StoppingCriteria {
     private int current_iteration;
     private double convergence_threshold = 0.01;
 
-    private static final Logger LOG = Logger.getLogger(IInf.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(IInf.class.getName());
 
     //minimum #
     public IInf(double minimum_state_score_sum, int minimum_iterations, double convergence_threshold) {
