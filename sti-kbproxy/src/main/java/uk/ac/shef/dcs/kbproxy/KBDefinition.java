@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.kbproxy;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -57,7 +58,7 @@ public class KBDefinition {
   //region Fields
 
   private final Map<String, Set<String>> structure = new HashMap<>();
-  protected final Logger log = Logger.getLogger(getClass());
+  protected final Logger log = LoggerFactory.getLogger(getClass());
 
   private String name;
   private String sparqlEndpoint;
