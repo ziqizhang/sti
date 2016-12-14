@@ -59,6 +59,7 @@
 	<bean id="rdfExportService"
 		class="cz.cuni.mff.xrg.odalic.outputs.rdfexport.RioBackedRdfExportService" />
 	<bean id="entitiesService" class="cz.cuni.mff.xrg.odalic.entities.DefaultEntitiesService" />
+	<bean id="basesService" class="cz.cuni.mff.xrg.odalic.bases.DefaultBasesService" />
 
 	<!-- Resources -->
 	<bean id="configurationResource"
