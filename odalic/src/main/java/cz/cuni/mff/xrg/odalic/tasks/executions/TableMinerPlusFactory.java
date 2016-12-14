@@ -14,6 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.simmetrics.metrics.StringMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.google.common.base.Preconditions;
 
 import uk.ac.shef.dcs.kbproxy.KBProxy;
@@ -82,6 +84,7 @@ public final class TableMinerPlusFactory implements SemanticTableInterpreterFact
     this.propertyFilePath = propertyFilePath;
   }
 
+  @Autowired
   public TableMinerPlusFactory(KnowledgeBaseProxyFactory knowledgeBaseProxyFactory) {
     this(knowledgeBaseProxyFactory, System.getProperty("cz.cuni.mff.xrg.odalic.sti"));
   }

@@ -15,7 +15,7 @@ import cz.cuni.mff.xrg.odalic.api.rest.adapters.KnowledgeBaseAdapter;
  */
 @Immutable
 @XmlJavaTypeAdapter(KnowledgeBaseAdapter.class)
-public final class KnowledgeBase {
+public final class KnowledgeBase implements Comparable<KnowledgeBase> {
 
   private final String name;
 
@@ -72,6 +72,19 @@ public final class KnowledgeBase {
     return true;
   }
 
+
+  /**
+   * Compares the names.
+   * 
+   * @param other other base
+   * 
+   * @see java.lang.Comparable#compareTo(java.lang.Object)
+   */
+  @Override
+  public int compareTo(KnowledgeBase other) {
+    return name.compareTo(other.name);
+  }
+  
   /*
    * (non-Javadoc)
    * 
