@@ -38,6 +38,7 @@ public final class Configuration extends ResourceConfig {
     register(CsvExportResource.class);
     register(RdfExportResource.class);
     register(EntitiesResource.class);
+    register(BasesResource.class);
 
     // Filters registration
     register(RequestContextFilter.class);
