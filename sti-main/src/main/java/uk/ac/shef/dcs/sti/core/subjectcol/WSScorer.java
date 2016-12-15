@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.shef.dcs.sti.nlp.TermFreqCounter;
 import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.websearch.WebSearch;
-import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 import uk.ac.shef.dcs.websearch.WebSearchResultDoc;
 
 import java.io.IOException;
@@ -47,7 +46,7 @@ public class WSScorer {
      * @throws APIKeysDepletedException
      * @throws IOException
      */
-    public Map<String, Double> score(String... values) throws APIKeysDepletedException, IOException {
+    public Map<String, Double> score(String... values) throws IOException {
         String queryId = createSolrCacheQuery(values);
         //1. check cache
         List<WebSearchResultDoc> result = null;

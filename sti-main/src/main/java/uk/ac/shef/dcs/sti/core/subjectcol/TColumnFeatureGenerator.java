@@ -14,7 +14,6 @@ import uk.ac.shef.dcs.util.SolrCache;
 import uk.ac.shef.dcs.util.StringUtils;
 import uk.ac.shef.dcs.websearch.WebSearchException;
 import uk.ac.shef.dcs.websearch.WebSearchFactory;
-import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -248,7 +247,7 @@ public class TColumnFeatureGenerator {
     }
 
     //how does each cell on each row computeElementScores against a websearch result?
-    protected DoubleMatrix2D setWSScores(List<TColumnFeature> features, Table table) throws APIKeysDepletedException, IOException {
+    protected DoubleMatrix2D setWSScores(List<TColumnFeature> features, Table table) throws IOException {
         DoubleMatrix2D scores = new SparseDoubleMatrix2D(table.getNumRows(), table.getNumCols());
         List<Integer> searchableCols = new ArrayList<Integer>();//which columns contain values that are searchable? (numbers ignored, for example)
         for (int i = 0; i < features.size(); i++) {
@@ -292,7 +291,7 @@ public class TColumnFeatureGenerator {
     protected DoubleMatrix2D setWSScores(List<TColumnFeature> features, Table table,
                                       TContentRowRanker sampleSelector,
                                       StoppingCriteria stopper,
-                                      int minimumRows) throws APIKeysDepletedException, IOException {
+                                      int minimumRows) throws IOException {
 
         if (minimumRows > table.getNumRows())
             return setWSScores(features, table);

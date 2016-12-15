@@ -1,27 +1,33 @@
 package uk.ac.shef.dcs.websearch;
 
-import javax.rmi.PortableRemoteObject;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.Properties;
 
 /**
- * Created by - on 17/03/2016.
+ * Web search interface. In addition to implementing the abstract methods, potential implementors
+ * are obliged to provide a single-parameter constructor accepting a {@link Properties} that contain
+ * all the declared keys.
+ * 
+ * @author Ziyi Zhang
  */
 public abstract class WebSearch {
 
-    protected static final String WEB_SEARCH_CLASS = "web.search.class";
+  /**
+   * Class name property key.
+   */
+  public static final String WEB_SEARCH_CLASS = "web.search.class";
 
-    protected Properties properties;
+  /**
+   * Enacts the search.
+   * 
+   * @param string search query
+   * @return input stream with the result
+   * @throws Exception when something goes awry during the search
+   */
+  public abstract InputStream search(String string) throws Exception;
 
-
-    public WebSearch(Properties properties) throws IOException {
-        this.properties=properties;
-    }
-
-    public abstract InputStream search(String s) throws Exception;
-
-    public abstract SearchResultParser getResultParser();
+  /**
+   * @return instance capable of parsing the result of {@link #search(String)} method
+   */
+  public abstract SearchResultParser getResultParser();
 }

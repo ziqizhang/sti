@@ -1,33 +1,46 @@
 package uk.ac.shef.dcs.websearch;
 
-import uk.ac.shef.dcs.websearch.bing.v2.BingSearch;
+import uk.ac.shef.dcs.websearch.bing.v5.BingSearch;
 
 import java.io.FileInputStream;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
-/**
- * Created by - on 17/03/2016.
- */
-public class WebSearchFactory {
-    public WebSearch createInstance(
-                                   String propertyFile) throws WebSearchException {
-        Properties properties = new Properties();
+import com.google.common.base.Preconditions;
 
-        try {
-            properties.load(new FileInputStream(propertyFile));
-            String className = properties.getProperty(WebSearch.WEB_SEARCH_CLASS);
-            if (className.equals(BingSearch.class.getName())) {
-                return (WebSearch) Class.forName(className).
-                        getDeclaredConstructor(Properties.class).newInstance(properties
-                );
-            }
-            else {
-                throw new WebSearchException("Class: "+className+" not supported");
-            }
-        }catch (Exception e){
-            throw new WebSearchException(e);
-        }
+/**
+ * Creates a {@link WebSearch instance} dynamically, using reflection.
+ * 
+ * @author Ziyi Zhang
+ */
+public final class WebSearchFactory {
+
+  /**
+   * Creates a new {@link WebSearch} instance.
+   * 
+   * @param propertyFileName property file name
+   * @return {@link WebSearch} instance
+   * @throws WebSearchException when the instance cannot be created
+   */
+  public WebSearch createInstance(final String propertyFileName) throws WebSearchException {
+    try {
+      Preconditions.checkNotNull(propertyFileName);
+
+      final Properties properties = new Properties();
+      properties.load(new FileInputStream(propertyFileName));
+
+      final String className = properties.getProperty(WebSearch.WEB_SEARCH_CLASS);
+      if (className == null) {
+        throw new IllegalArgumentException("Class name not defined!");
+      }
+
+      if (!className.equals(BingSearch.class.getName())) {
+        throw new WebSearchException("Class: " + className + " not supported!");
+      }
+
+      return (WebSearch) Class.forName(className).getDeclaredConstructor(Properties.class)
+          .newInstance(properties);
+    } catch (final Exception e) {
+      throw new WebSearchException(e);
     }
+  }
 }

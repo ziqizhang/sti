@@ -27,7 +27,7 @@ import uk.ac.shef.dcs.sti.util.CollectionUtils;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 import uk.ac.shef.dcs.websearch.WebSearch;
 import uk.ac.shef.dcs.websearch.WebSearchFactory;
-import uk.ac.shef.dcs.websearch.bing.v2.BingSearchResultParser;
+import uk.ac.shef.dcs.websearch.bing.v5.BingSearchResultParser;
 import uk.ac.shef.dcs.websearch.WebSearchResultDoc;
 
 import javax.xml.parsers.DocumentBuilder;

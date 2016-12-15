@@ -1,14 +1,19 @@
 package uk.ac.shef.dcs.websearch;
 
 /**
- * Created by - on 07/04/2016.
+ * An exception that happened during web search or its commencement.
+ * 
+ * @author Ziyi Zhang
  */
 public class WebSearchException extends Exception {
-    public WebSearchException(Exception e){
-        super(e);
-    }
 
-    public WebSearchException(String e){
-        super(e);
-    }
+  private static final long serialVersionUID = 3542024823438925198L;
+
+  public WebSearchException(Exception e) {
+    super(e);
+  }
+
+  public WebSearchException(String e) {
+    super(e);
+  }
 }

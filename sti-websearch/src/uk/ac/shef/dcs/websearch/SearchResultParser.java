@@ -5,8 +5,17 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * Created by - on 17/03/2016.
+ * Search result parser coupled with a certain {@link WebSearch} implementation.
+ * 
+ * @author Ziyi Zhang
  */
 public abstract class SearchResultParser {
-    public abstract  List<WebSearchResultDoc> parse(InputStream is) throws IOException;
+  /**
+   * Parses a search result.
+   * 
+   * @param resultStream input stream containing a {@link WebSearch} result
+   * @return list of results
+   * @throws IOException when I/O error happens during parsing
+   */
+  public abstract List<WebSearchResultDoc> parse(InputStream resultStream) throws IOException;
 }

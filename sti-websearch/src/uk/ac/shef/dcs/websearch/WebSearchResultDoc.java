@@ -2,55 +2,67 @@ package uk.ac.shef.dcs.websearch;
 
 import java.io.Serializable;
 
+import com.google.common.base.Preconditions;
+
 /**
+ * Encapsulates a result obtained from a web search engine.
+ * 
+ * @author Ziyi Zhang
+ * @author Václav Brodec
  */
-public class WebSearchResultDoc implements Serializable {
+public final class WebSearchResultDoc implements Serializable {
 
-    private static final long serialVersionUID = -1208625714080495013L;
+  private static final long serialVersionUID = 7919024447245010089L;
 
-    private String id;
-    private String title;
-    private String description;
-    private String url;
-    private double score;
+  private String id;
+  private String title;
+  private String description;
+  private String url;
 
-    public String getTitle() {
-        return title;
-    }
+  /**
+   * Creates a new web search result document.
+   * 
+   * @param id document ID (may not be unique across engines)
+   * @param title document title
+   * @param description document description
+   * @param url document URL
+   */
+  public WebSearchResultDoc(String id, String title, String description, String url) {
+    Preconditions.checkNotNull(id);
+    Preconditions.checkNotNull(title);
+    Preconditions.checkNotNull(description);
+    Preconditions.checkNotNull(url);
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    this.id = id;
+    this.title = title;
+    this.description = description;
+    this.url = url;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public double getScore() {
-        return score;
-    }
+  public String getUrl() {
+    return url;
+  }
 
-    public void setScore(double score) {
-        this.score = score;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "WebSearchResultDoc [id=" + id + ", title=" + title + ", description=" + description
+        + ", url=" + url + "]";
+  }
 }

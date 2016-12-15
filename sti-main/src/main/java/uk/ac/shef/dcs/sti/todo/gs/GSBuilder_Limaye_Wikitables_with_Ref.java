@@ -22,7 +22,7 @@ import uk.ac.shef.dcs.sti.parser.table.creator.TableObjCreatorWikipediaGS;
 import uk.ac.shef.dcs.sti.parser.table.TableParserWikipedia;
 import uk.ac.shef.dcs.sti.util.FileUtils;
 import uk.ac.shef.dcs.websearch.WebSearchFactory;
-import uk.ac.shef.dcs.websearch.bing.v2.BingSearchResultParser;
+import uk.ac.shef.dcs.websearch.bing.v5.BingSearchResultParser;
 
 
 import javax.xml.parsers.ParserConfigurationException;

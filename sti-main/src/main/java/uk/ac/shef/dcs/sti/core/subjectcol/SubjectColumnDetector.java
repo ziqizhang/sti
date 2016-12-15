@@ -12,7 +12,6 @@ import uk.ac.shef.dcs.sti.core.algorithm.tmp.stopping.StoppingCriteriaInstantiat
 import uk.ac.shef.dcs.sti.core.extension.positions.ColumnPosition;
 import uk.ac.shef.dcs.sti.core.model.Table;
 import uk.ac.shef.dcs.websearch.WebSearchException;
-import uk.ac.shef.dcs.websearch.bing.v2.APIKeysDepletedException;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -49,7 +48,7 @@ public class SubjectColumnDetector {
         this.useWS = useWS;
     }
 
-    public List<Pair<Integer, Pair<Double, Boolean>>> compute(Table table, int... skipColumns) throws APIKeysDepletedException, IOException, ClassNotFoundException {
+    public List<Pair<Integer, Pair<Double, Boolean>>> compute(Table table, int... skipColumns) throws IOException, ClassNotFoundException {
       return compute(table, null, skipColumns);
     }
 
@@ -65,7 +64,7 @@ public class SubjectColumnDetector {
      * part is a boolean indicating whether the column is acronym column. (only NE likely columns can be
      * considered main column)
      */
-    public List<Pair<Integer, Pair<Double, Boolean>>> compute(Table table, ColumnPosition suggestedSubject, int... skipColumns) throws APIKeysDepletedException, IOException, ClassNotFoundException {
+    public List<Pair<Integer, Pair<Double, Boolean>>> compute(Table table, ColumnPosition suggestedSubject, int... skipColumns) throws IOException, ClassNotFoundException {
         List<Pair<Integer, Pair<Double, Boolean>>> rs = new ArrayList<>();
 
         //1. initiate all columns' feature objects
@@ -212,7 +211,7 @@ public class SubjectColumnDetector {
         return rs;
     }
 
-    private void computeWSScores(Table table, List<TColumnFeature> featuresOfNEColumns) throws APIKeysDepletedException, IOException, ClassNotFoundException {
+    private void computeWSScores(Table table, List<TColumnFeature> featuresOfNEColumns) throws IOException, ClassNotFoundException {
         LOG.debug("Computing web search matching (total rows " + table.getNumRows());
 
         DoubleMatrix2D scores;
