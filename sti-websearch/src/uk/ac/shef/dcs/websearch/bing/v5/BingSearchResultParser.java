@@ -57,6 +57,10 @@ public final class BingSearchResultParser extends SearchResultParser {
     final WebAnswer webAnswer = searchResponse.webPages;
     for (final WebPage webPage : webAnswer.value) {
       result.add(
+          /*
+           * Version 2 ID was removed (the version 5 ID stands for something different, so I use url
+           * as the ID instead.
+           */
           new WebSearchResultDoc(webPage.url, webPage.name, webPage.snippet, webPage.url));
     }
 
