@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Search result parser coupled with a certain {@link WebSearch} implementation.
  * 
- * @author Ziyi Zhang
+ * @author Ziqi Zhang
  */
 public abstract class SearchResultParser {
   /**

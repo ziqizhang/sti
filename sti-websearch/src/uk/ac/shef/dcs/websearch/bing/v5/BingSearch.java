@@ -19,7 +19,7 @@ import java.util.Properties;
 /**
  * Bing search class.
  * 
- * @author Ziyi Zhang
+ * @author Ziqi Zhang
  * @author Václav Brodec
  */
 public final class BingSearch extends WebSearch {

@@ -7,7 +7,7 @@ import com.google.common.base.Preconditions;
 /**
  * Encapsulates a result obtained from a web search engine.
  * 
- * @author Ziyi Zhang
+ * @author Ziqi Zhang
  * @author Václav Brodec
  */
 public final class WebSearchResultDoc implements Serializable {

@@ -8,7 +8,7 @@ import java.util.Properties;
  * are obliged to provide a single-parameter constructor accepting a {@link Properties} that contain
  * all the declared keys.
  * 
- * @author Ziyi Zhang
+ * @author Ziqi Zhang
  */
 public abstract class WebSearch {
 

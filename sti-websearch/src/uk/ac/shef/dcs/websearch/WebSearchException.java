@@ -3,7 +3,7 @@ package uk.ac.shef.dcs.websearch;
 /**
  * An exception that happened during web search or its commencement.
  * 
- * @author Ziyi Zhang
+ * @author Ziqi Zhang
  */
 public class WebSearchException extends Exception {
 

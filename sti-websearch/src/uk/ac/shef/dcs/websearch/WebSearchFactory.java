@@ -10,7 +10,7 @@ import com.google.common.base.Preconditions;
 /**
  * Creates a {@link WebSearch instance} dynamically, using reflection.
  * 
- * @author Ziyi Zhang
+ * @author Ziqi Zhang
  */
 public final class WebSearchFactory {
 
