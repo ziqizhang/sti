@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/sti-jar-builder/sti.iml" filepath="$PROJECT_DIR$/sti-jar-builder/sti.iml" />
       <module fileurl="file://$PROJECT_DIR$/sti.iml" filepath="$PROJECT_DIR$/sti.iml" />
       <module fileurl="file://$PROJECT_DIR$/sti-any23/sti-any23.iml" filepath="$PROJECT_DIR$/sti-any23/sti-any23.iml" />
       <module fileurl="file://$PROJECT_DIR$/sti-common-util/sti-common-util.iml" filepath="$PROJECT_DIR$/sti-common-util/sti-common-util.iml" />
       <module fileurl="file://$PROJECT_DIR$/sti-jar-builder/sti-jar-builder.iml" filepath="$PROJECT_DIR$/sti-jar-builder/sti-jar-builder.iml" />
       <module fileurl="file://$PROJECT_DIR$/sti-kbsearch/sti-kbsearch.iml" filepath="$PROJECT_DIR$/sti-kbsearch/sti-kbsearch.iml" />
       <module fileurl="file://$PROJECT_DIR$/sti-main/sti-main.iml" filepath="$PROJECT_DIR$/sti-main/sti-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sti-package.iml" filepath="$PROJECT_DIR$/sti-package.iml" />
       <module fileurl="file://$PROJECT_DIR$/sti-websearch/sti-websearch.iml" filepath="$PROJECT_DIR$/sti-websearch/sti-websearch.iml" />
     </modules>
   </component>
