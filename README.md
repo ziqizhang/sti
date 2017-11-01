@@ -7,8 +7,9 @@ This project is based on the work described at [1]. The original code referred t
 In addition to TableMiner+, this project provides implementation of several other semantic table interpretation algorithms, including: Joint Inference based on Liamye2011, and Semantic Message Passing based on Mulwad2013. **However, due to many things out of our control (e.g., use of in-house software in original works, different versions of knowledge bases), please note that we cannot guarantee identical replication of the original systems or reproduction of experiment results.**
 
 
-### ACKNOWLEDGEMENT
+<!-- ### ACKNOWLEDGEMENT
 Part of this work was funded by the EPSRC project LODIE - Linked Open Data for Information Extraction, EP/ J019488/1.
+-->
 
 ### LICENCE
 Apache 2.0
