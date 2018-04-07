@@ -10,18 +10,18 @@ This repository contains implementation of the TableMiner+ system (see below), w
 
 This project is based on the TableMiner+ system described in [1]. In addition to TableMiner+, this project provides implementation of several other semantic table interpretation algorithms, including: Joint Inference based on Liamye2011, and Semantic Message Passing based on Mulwad2013. **However, due to many things out of our control (e.g., use of in-house software in original works, different versions of knowledge bases), please note that we cannot guarantee identical replication of the original systems or reproduction of experiment results.**
 
-
 Part of this work was funded by the EPSRC project LODIE - Linked Open Data for Information Extraction, EP/ J019488/1.
 
+### ANNOUNCEMENT
 
-### LICENCE
-Apache 2.0
+**Apr 2018: about Bing web search**: Bing web search is used by TableMiner+ to detect subject columns. However, the API has now been deprecated and replaced. There is no plan to migrate to the new service in the near future, due to lack of funding. However, if you are willing to contribute, we would be more than happy to merge your pull request. Otherwise, please disable it by setting `sti.subjectcolumndetection.ws=false` in `sti.properties` (as already default in the current distribution). 
 
-### Quick Start
+**Oct 2016: STI now has a UI demo** to visualise the table interpretation input, process, and output. See [here](https://github.com/ziqizhang/sti/tree/master/ui) on how to use the demo.
 
-**NOTE (Apr 2018) about Bing web search**: Bing web search is used by TableMiner+ to detect subject columns. However, the API has now been deprecated and replaced. There is no plan to migrate to the new service in the near future, due to lack of funding. However, if you are willing to contribute, we would be more than happy to merge your pull request. Otherwise, please disable it by setting `sti.subjectcolumndetection.ws=false` in `sti.properties` (as already default in the current distribution). 
+**Sep 2016: about Freebase**: TableMiner+ was developed using Freebase as the knowledge base. Freebase has been shutdown since 2015 and it is no longer possible to access it online. While it is still possible to access Freebase data by mapping its topic IDs to Wikidata entries, currently this has not been implemented. If you are willing contribute, please [get in touch](mailto:ziqi.zhang@sheffield.ac.uk). For now, please use DBpedia instead. See `kbsearch.properties` for details. 
 
-**NOTE (Sep 2016) about Freebase**: TableMiner+ was developed using Freebase as the knowledge base. Freebase has been shutdown since 2015 and it is no longer possible to access it online. While it is still possible to access Freebase data by mapping its topic IDs to Wikidata entries, currently this has not been implemented. If you are willing contribute, please [get in touch](mailto:ziqi.zhang@sheffield.ac.uk). For now, please use DBpedia instead. See `kbsearch.properties` for details. 
+
+### QUICK START
 
 To get started, please follow the instructions between and [get in touch](mailto:ziqi.zhang@sheffield.ac.uk) if you encounter any problems:
 
@@ -39,6 +39,8 @@ To get started, please follow the instructions between and [get in touch](mailto
 
 **Note:** `sti.properties` distributed with code is a default configuration for Limaye200 and LimayeAll datasets; for IMDB and MusicBrainz datasets, you can edit a template inside `/resources`. For both IMDB and MusicBrainz, you may want to provide the VM variable '-Djava.util.logging.config.file=' to configure the logging output of the any23-sti module (which can produce too many logs).
 
+### LICENCE
+Apache 2.0
 
-### Why is it so slow?
+### It is running too slow
 Semantic Table Interpretation requires fetching data from a knowledge base. This is currently configured to use a **remote** knowledge base by calling its APIs or web services, such as the DBPedia SPARQL endpoint. This is the part of the process that takes 99.99% of processing time in a typical STI application. If possible, please consider to host a local copy of the knowledge base before you start. For example, you can deploy a local DBpedia server, which then can result in orders of magnitude of performance improvement. 

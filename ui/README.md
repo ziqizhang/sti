@@ -1,11 +1,11 @@
-# STI GUI (Still under construction)
-This application provides a UI interface to interact with STI and visualize results. It is implemented based on Node.js. You can also see a video demonstration at http://staffwww.dcs.shef.ac.uk/people/S.Mazumdar/TableMinerUI/
+# STI UI demo
+This application provides a UI interface to interact with STI and visualise its results. It is implemented based on Node.js. 
 
 ### Installation
 - Download STI
-- Install Node.js on your computer (see https://nodejs.org/en/download/)
+- Install Node.js on your computer (see [link](https://nodejs.org/en/download/))
 - You need to ensure you have the following Node modules: `express` and `socket.io`. By default, these are included in the download (/node_modules)
-- Build STI. `cd` into the parent folder of this folder, run `mvn clean install`. If build is successful, you should see a `sti-[version]-jar-with-dependencies.jar` file in `target` folder
+- Build STI. `cd` into the parent folder of this folder, run `mvn clean install`. If build is successful, you should see a `sti-[version]-jar-with-dependencies.jar` file in the `/sti-jar-builder/target` folder
 - `cd ui` into the root folder. Edit `config.json` following descriptions below.
 - Start the serer by `node main.js`
 - Open a browser and point your address to `http://localhost:3000/`

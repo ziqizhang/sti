@@ -2,110 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76798a4a-f7d5-4e0e-9553-e7b7517cb02a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change beforePath="$PROJECT_DIR$/config/kbsearch.properties" afterPath="$PROJECT_DIR$/config/kbsearch.properties" />
-      <change beforePath="$PROJECT_DIR$/config/sti.properties" afterPath="$PROJECT_DIR$/config/sti.properties" />
-      <change beforePath="$PROJECT_DIR$/demo/README.md" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/class/data/index/segments_1" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/class/data/index/write.lock" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/write.lock" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/relation/data/index/segments_1" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/relation/data/index/write.lock" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/similarity/data/index/segments_1" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/similarity/data/index/write.lock" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4.fdt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4.fdx" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4.fnm" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4.nvd" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4.nvm" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4.si" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4_Lucene50_0.doc" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4_Lucene50_0.pos" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4_Lucene50_0.tim" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4_Lucene50_0.tip" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b.fdt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b.fdx" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b.fnm" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b.nvd" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b.nvm" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b.si" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b_Lucene50_0.doc" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b_Lucene50_0.pos" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b_Lucene50_0.tim" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b_Lucene50_0.tip" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c.fdt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c.fdx" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c.fnm" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c.nvd" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c.nvm" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c.si" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c_Lucene50_0.doc" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c_Lucene50_0.pos" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c_Lucene50_0.tim" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c_Lucene50_0.tip" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d.fdt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d.fdx" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d.fnm" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d.nvd" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d.nvm" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d.si" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d_Lucene50_0.doc" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d_Lucene50_0.pos" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d_Lucene50_0.tim" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d_Lucene50_0.tip" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/write.lock" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/tlog/tlog.0000000000000000009" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/tlog/tlog.0000000000000000010" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/tlog/tlog.0000000000000000011" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/tlog/tlog.0000000000000000012" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DBpediaSearch.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DBpediaSearch.java" />
-      <change beforePath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/SPARQLSearch.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/SPARQLSearch.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/pom.xml" afterPath="$PROJECT_DIR$/sti-main/pom.xml" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/TODO/TestSubjectColumnDetector.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/TODO/TestSubjectColumnDetector.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineInterpreter.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineInterpreter.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineSimilarityClazzScorer.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineSimilarityClazzScorer.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguator.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguator.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorNameMatch.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorNameMatch.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorSimilarity.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorSimilarity.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifier.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifier.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierNameMatch.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierNameMatch.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierSimilarity.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierSimilarity.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateConceptGenerator.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateConceptGenerator.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateEntityGenerator.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateEntityGenerator.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/JIClazzScorer.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/JIClazzScorer.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/JIInterpreter.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/JIInterpreter.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/EntityAndClazzSimilarityScorer.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/EntityAndClazzSimilarityScorer.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerManager.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerManager.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerThread.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerThread.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/SMPInterpreter.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/SMPInterpreter.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TCellEntityRanker.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TCellEntityRanker.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnClassifier.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnClassifier.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnColumnRelationEnumerator.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnColumnRelationEnumerator.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNING.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNING.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryColumnClassifier.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryColumnClassifier.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryDisamb.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryDisamb.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/RELATIONENUMERATION.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/RELATIONENUMERATION.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TCellDisambiguator.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TCellDisambiguator.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnClassifier.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnClassifier.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnColumnRelationEnumerator.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnColumnRelationEnumerator.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TMPInterpreter.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TMPInterpreter.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/UPDATE.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/UPDATE.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/scorer/TMPClazzScorer.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/scorer/TMPClazzScorer.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/scorer/AttributeValueMatcher.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/scorer/AttributeValueMatcher.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/scorer/ClazzScorer.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/scorer/ClazzScorer.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/CMScorer.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/CMScorer.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnDetector.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnDetector.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorer.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorer.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorerHeuristic.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorerHeuristic.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/io/TAnnotationWriterJSON.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/io/TAnnotationWriterJSON.java" />
-      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/util/CollectionUtils.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/util/CollectionUtils.java" />
+      <change beforePath="$PROJECT_DIR$/ui/README.md" afterPath="$PROJECT_DIR$/ui/README.md" />
+      <change beforePath="$PROJECT_DIR$/ui/config.json" afterPath="$PROJECT_DIR$/ui/config.json" />
+      <change beforePath="$PROJECT_DIR$/ui/main.js" afterPath="$PROJECT_DIR$/ui/main.js" />
     </list>
     <ignored path="$PROJECT_DIR$/sti-any23/target/" />
     <ignored path="$PROJECT_DIR$/sti-websearch/target/" />
@@ -122,7 +24,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="TableMinerPlusBatch.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/experiment/TableMinerPlusBatch.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -197,7 +99,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="67" />
     <option name="y" value="88" />
     <option name="width" value="1289" />
@@ -220,9 +122,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -248,10 +147,29 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="sti" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="sti-package" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sti" type="462c0819:PsiDirectoryNode" />
+              <item name="sti-main" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="sti" type="462c0819:PsiDirectoryNode" />
+              <item name="ui" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sti-package" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sti" type="462c0819:PsiDirectoryNode" />
+              <item name="sti-main" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="sti" type="462c0819:PsiDirectoryNode" />
+              <item name="util" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -386,35 +304,34 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="25" width="1299" height="743" extended-state="7" />
-    <editor active="true" />
+    <frame x="67" y="88" width="1299" height="743" extended-state="6" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27401575" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27401575" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28188977" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27405697" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32913387" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27405697" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32913387" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -436,11 +353,18 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/experiment/TableMinerPlusBatch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="jar:///usr/lib/jvm/java-1.8.0-openjdk-amd64/lib/tools.jar!/com/sun/tools/javac/util/Pair.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="29" column="13" lean-forward="false" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -448,7 +372,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
           <caret line="15" column="11" lean-forward="false" selection-start-line="15" selection-start-column="11" selection-end-line="15" selection-end-column="15" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -456,9 +379,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="114" column="53" lean-forward="false" selection-start-line="114" selection-start-column="53" selection-end-line="114" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -466,7 +386,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="28" column="13" lean-forward="false" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -474,9 +393,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="153" column="40" lean-forward="false" selection-start-line="153" selection-start-column="40" selection-end-line="153" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -484,9 +400,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3163">
           <caret line="216" column="56" lean-forward="false" selection-start-line="216" selection-start-column="56" selection-end-line="216" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -504,9 +417,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -534,9 +444,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="102" column="45" lean-forward="false" selection-start-line="102" selection-start-column="32" selection-end-line="102" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -554,9 +461,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="332">
           <caret line="104" column="65" lean-forward="false" selection-start-line="104" selection-start-column="65" selection-end-line="104" selection-end-column="65" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -574,9 +478,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="84" column="18" lean-forward="false" selection-start-line="84" selection-start-column="18" selection-end-line="84" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -584,9 +485,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -594,9 +492,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="335">
           <caret line="20" column="56" lean-forward="false" selection-start-line="20" selection-start-column="56" selection-end-line="20" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -604,9 +499,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -614,9 +506,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="16" column="49" lean-forward="false" selection-start-line="16" selection-start-column="49" selection-end-line="16" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -624,9 +513,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -634,9 +520,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="89" column="48" lean-forward="true" selection-start-line="89" selection-start-column="48" selection-end-line="89" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -644,9 +527,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="123">
           <caret line="83" column="24" lean-forward="false" selection-start-line="83" selection-start-column="24" selection-end-line="83" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -654,9 +534,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
           <caret line="42" column="41" lean-forward="false" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -664,9 +541,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="62" column="59" lean-forward="true" selection-start-line="62" selection-start-column="59" selection-end-line="62" selection-end-column="59" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -674,9 +548,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -684,9 +555,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="58" column="68" lean-forward="true" selection-start-line="58" selection-start-column="68" selection-end-line="58" selection-end-column="68" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -694,9 +562,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -704,9 +569,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
           <caret line="25" column="23" lean-forward="false" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -714,9 +576,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="168" column="36" lean-forward="false" selection-start-line="168" selection-start-column="36" selection-end-line="168" selection-end-column="36" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -742,9 +601,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="72" column="60" lean-forward="false" selection-start-line="72" selection-start-column="60" selection-end-line="72" selection-end-column="60" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -772,9 +628,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
           <caret line="38" column="40" lean-forward="false" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -782,9 +635,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="65" column="13" lean-forward="false" selection-start-line="65" selection-start-column="13" selection-end-line="65" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -792,9 +642,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="317">
           <caret line="81" column="36" lean-forward="false" selection-start-line="81" selection-start-column="36" selection-end-line="81" selection-end-column="36" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -802,9 +649,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="67" column="36" lean-forward="false" selection-start-line="67" selection-start-column="36" selection-end-line="67" selection-end-column="36" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -832,9 +676,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="44" column="0" lean-forward="true" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -842,7 +683,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
           <caret line="2" column="28" lean-forward="false" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -860,7 +700,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
           <caret line="23" column="13" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -868,9 +707,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>

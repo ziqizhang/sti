@@ -73,6 +73,7 @@ function writePreviewErrorPage(subfolder, errMsg){
 function javaPreview(userid, targetUrl, parserclass, fn){   
    var spawn = require('child_process').spawn;
    var subfolder=STI_TMP_FOLDER+'/'+userid;
+   mkDirByPathSync(subfolder);
    var java = spawn('java', ['-Dlog4j.configuration=file:'+STI_LOG4J, '-cp', STI_LIB, STI_TABLE_FILE_PREVIEW_CLASS, targetUrl, subfolder, parserclass]);
 
    var error='';   
@@ -121,9 +122,33 @@ function javaPreview(userid, targetUrl, parserclass, fn){
 }
 
 
+function mkDirByPathSync(targetDir, {isRelativeToScript = false} = {}) {
+  const sep = path.sep;
+  const initDir = path.isAbsolute(targetDir) ? sep : '';
+  const baseDir = isRelativeToScript ? __dirname : '.';
+
+  targetDir.split(sep).reduce((parentDir, childDir) => {
+    const curDir = path.resolve(baseDir, parentDir, childDir);
+    try {
+      fs.mkdirSync(curDir);
+      console.log(`Directory ${curDir} created!`);
+    } catch (err) {
+      if (err.code !== 'EEXIST') {
+        throw err;
+      }
+
+      console.log(`Directory ${curDir} already exists!`);
+    }
+
+    return curDir;
+  }, initDir);
+}
+
+
+
 function javaSTI(userid, email, targetUrl, parserclass, selectedTableIndex, socket, fn){   
    var spawn = require('child_process').spawn;
-   var java = spawn('java', ['-cp', STI_LIB, STI_MAIN_CLASS, userid, email, targetUrl, STI_OUTPUT_FOLDER, parserclass, selectedTableIndex, STI_PROPERTY, 'config.json', SERVER_ADDRESS]);
+   var java = spawn('java', ['-Dlog4j.configuration=file:'+STI_LOG4J,'-cp', STI_LIB, STI_MAIN_CLASS, userid, email, targetUrl, STI_OUTPUT_FOLDER, parserclass, selectedTableIndex, STI_PROPERTY, 'config.json', SERVER_ADDRESS]);
 
    var error='';   
 
