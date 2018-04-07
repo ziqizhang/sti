@@ -42,5 +42,5 @@ To get started, please follow the instructions between and [get in touch](mailto
 ### LICENCE
 Apache 2.0
 
-### It is running too slow
-Semantic Table Interpretation requires fetching data from a knowledge base. This is currently configured to use a **remote** knowledge base by calling its APIs or web services, such as the DBPedia SPARQL endpoint. This is the part of the process that takes 99.99% of processing time in a typical STI application. If possible, please consider to host a local copy of the knowledge base before you start. For example, you can deploy a local DBpedia server, which then can result in orders of magnitude of performance improvement. 
+### Running slow/HTTP X errors
+Semantic Table Interpretation requires fetching data from a knowledge base. This is currently configured to use a **remote** knowledge base by calling its APIs or web services, such as the DBPedia SPARQL endpoint. This is the part of the process that takes 99.99% of processing time in a typical STI application. Also, when such a remove server is unreliable, you can often encounter an HTTP error such as HTTP 500. Therefore if possible, please consider to host a local copy of the knowledge base before you start. For example, you can deploy a local DBpedia server, which then can result in orders of magnitude of performance improvement. 
