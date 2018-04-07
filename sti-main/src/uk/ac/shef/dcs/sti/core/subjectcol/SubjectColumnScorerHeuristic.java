@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.subjectcol;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -101,7 +102,7 @@ import java.util.Map;
             if (NORMAMLIZE_SCORE_BY_DISTANCE_TO_FIRST_COL) {
                 sum = sum / Math.sqrt(index + 1);
             }
-            Pair<Double, Boolean> score_object = new Pair<>(sum, f);
+            Pair<Double, Boolean> score_object = new ImmutablePair<>(sum, f);
             scores.put(cf.getColId(), score_object);
         }
 

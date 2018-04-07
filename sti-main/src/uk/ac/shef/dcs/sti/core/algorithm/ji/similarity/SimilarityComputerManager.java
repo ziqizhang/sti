@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji.similarity;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
@@ -33,7 +34,7 @@ public class SimilarityComputerManager {
         List<Pair<Entity, Clazz>> pairs = new ArrayList<>();
         for (Entity e : entities) {
             for (Clazz c : concepts) {
-                pairs.add(new Pair<>(e, c));
+                pairs.add(new ImmutablePair<>(e, c));
             }
         }
 

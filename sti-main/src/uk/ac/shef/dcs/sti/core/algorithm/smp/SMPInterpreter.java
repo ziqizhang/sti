@@ -1,7 +1,6 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
-import cern.colt.matrix.ObjectMatrix2D;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.sti.STIException;
@@ -12,6 +11,7 @@ import uk.ac.shef.dcs.sti.core.model.*;
 
 import java.util.*;
 import java.util.List;
+
 
 /**
  * Created by zqz on 20/04/2015.

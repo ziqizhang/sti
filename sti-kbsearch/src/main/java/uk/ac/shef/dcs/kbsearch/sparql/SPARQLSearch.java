@@ -1,7 +1,8 @@
 package uk.ac.shef.dcs.kbsearch.sparql;
 
 import com.google.common.collect.ImmutableMap;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
@@ -150,7 +151,7 @@ public abstract class SPARQLSearch extends KBSearch {
                 d = domain.toString();
             if (d == null)
                 d = string;
-            out.add(new Pair<>(r, d));
+            out.add(new ImmutablePair<>(r, d));
         }
         return out;
     }

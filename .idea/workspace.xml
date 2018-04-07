@@ -1,24 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="24819d1c-2e34-4f63-a248-bb1827391b52" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    <list default="true" id="76798a4a-f7d5-4e0e-9553-e7b7517cb02a" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change beforePath="$PROJECT_DIR$/config/kbsearch.properties" afterPath="$PROJECT_DIR$/config/kbsearch.properties" />
+      <change beforePath="$PROJECT_DIR$/config/sti.properties" afterPath="$PROJECT_DIR$/config/sti.properties" />
+      <change beforePath="$PROJECT_DIR$/demo/README.md" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/class/data/index/segments_1" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/class/data/index/write.lock" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/entity/data/index/write.lock" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/relation/data/index/segments_1" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/relation/data/index/write.lock" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/similarity/data/index/segments_1" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/similarity/data/index/write.lock" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4.fdt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4.fdx" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4.fnm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4.nvd" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4.nvm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4.si" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4_Lucene50_0.doc" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4_Lucene50_0.pos" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4_Lucene50_0.tim" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_4_Lucene50_0.tip" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b.fdt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b.fdx" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b.fnm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b.nvd" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b.nvm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b.si" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b_Lucene50_0.doc" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b_Lucene50_0.pos" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b_Lucene50_0.tim" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_b_Lucene50_0.tip" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c.fdt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c.fdx" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c.fnm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c.nvd" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c.nvm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c.si" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c_Lucene50_0.doc" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c_Lucene50_0.pos" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c_Lucene50_0.tim" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_c_Lucene50_0.tip" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d.fdt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d.fdx" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d.fnm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d.nvd" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d.nvm" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d.si" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d_Lucene50_0.doc" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d_Lucene50_0.pos" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d_Lucene50_0.tim" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/_d_Lucene50_0.tip" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/index/write.lock" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/tlog/tlog.0000000000000000009" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/tlog/tlog.0000000000000000010" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/tlog/tlog.0000000000000000011" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/resources/cache/empty/websearch/data/tlog/tlog.0000000000000000012" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DBpediaSearch.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DBpediaSearch.java" />
+      <change beforePath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/SPARQLSearch.java" afterPath="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/SPARQLSearch.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/pom.xml" afterPath="$PROJECT_DIR$/sti-main/pom.xml" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/TODO/TestSubjectColumnDetector.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/TODO/TestSubjectColumnDetector.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineInterpreter.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineInterpreter.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineSimilarityClazzScorer.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineSimilarityClazzScorer.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguator.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguator.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorNameMatch.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorNameMatch.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorSimilarity.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorSimilarity.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifier.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifier.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierNameMatch.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierNameMatch.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierSimilarity.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierSimilarity.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateConceptGenerator.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateConceptGenerator.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateEntityGenerator.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateEntityGenerator.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/JIClazzScorer.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/JIClazzScorer.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/JIInterpreter.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/JIInterpreter.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/EntityAndClazzSimilarityScorer.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/EntityAndClazzSimilarityScorer.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerManager.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerManager.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerThread.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerThread.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/SMPInterpreter.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/SMPInterpreter.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TCellEntityRanker.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TCellEntityRanker.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnClassifier.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnClassifier.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnColumnRelationEnumerator.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnColumnRelationEnumerator.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNING.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNING.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryColumnClassifier.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryColumnClassifier.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryDisamb.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryDisamb.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/RELATIONENUMERATION.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/RELATIONENUMERATION.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TCellDisambiguator.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TCellDisambiguator.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnClassifier.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnClassifier.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnColumnRelationEnumerator.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnColumnRelationEnumerator.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TMPInterpreter.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TMPInterpreter.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/UPDATE.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/UPDATE.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/scorer/TMPClazzScorer.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/scorer/TMPClazzScorer.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/scorer/AttributeValueMatcher.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/scorer/AttributeValueMatcher.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/scorer/ClazzScorer.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/scorer/ClazzScorer.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/CMScorer.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/CMScorer.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnDetector.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnDetector.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorer.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorer.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorerHeuristic.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorerHeuristic.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/io/TAnnotationWriterJSON.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/io/TAnnotationWriterJSON.java" />
+      <change beforePath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/util/CollectionUtils.java" afterPath="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/util/CollectionUtils.java" />
     </list>
-    <ignored path="sti.iws" />
-    <ignored path=".idea/workspace.xml" />
-    <ignored path="$PROJECT_DIR$/kbsearch/target/" />
-    <ignored path="$PROJECT_DIR$/any23-sti/target/" />
-    <ignored path="$PROJECT_DIR$/common-util/target/" />
-    <ignored path="$PROJECT_DIR$/main/target/" />
-    <ignored path="$PROJECT_DIR$/websearch/target/" />
+    <ignored path="$PROJECT_DIR$/sti-any23/target/" />
+    <ignored path="$PROJECT_DIR$/sti-websearch/target/" />
+    <ignored path="$PROJECT_DIR$/sti-jar-builder/target/" />
+    <ignored path="$PROJECT_DIR$/sti-kbsearch/target/" />
+    <ignored path="$PROJECT_DIR$/sti-common-util/target/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/sti-main/target/" />
-    <ignored path="$PROJECT_DIR$/sti-kbsearch/target/" />
-    <ignored path="$PROJECT_DIR$/sti-websearch/target/" />
-    <ignored path="$PROJECT_DIR$/sti-common-util/target/" />
-    <ignored path="$PROJECT_DIR$/sti-any23/target/" />
-    <ignored path="$PROJECT_DIR$/sti-jar-builder/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,90 +121,13 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CreatePatchCommitExecutor">
-    <option name="PATCH_PATH" value="" />
-  </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
-  <component name="FavoritesManager">
-    <favorites_list name="sti" />
-  </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TableMinerPlusBatch.java" pinned="false" current-in-tab="false">
+    <leaf>
+      <file leaf-file-name="TableMinerPlusBatch.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/experiment/TableMinerPlusBatch.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2625">
-              <caret line="198" column="0" selection-start-line="198" selection-start-column="0" selection-end-line="198" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JSONOutputCellAnnotation.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/io/JSONOutputCellAnnotation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TAnnotationWriterJSON.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/io/TAnnotationWriterJSON.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="50" column="29" selection-start-line="50" selection-start-column="29" selection-end-line="50" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sti-main/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" column="43" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="43" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RELATIONENUMERATION.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/RELATIONENUMERATION.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="18" column="32" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TColumnColumnRelationEnumerator.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnColumnRelationEnumerator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="11">
-              <caret line="43" column="19" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SMPInterpreter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/SMPInterpreter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
-              <caret line="138" column="32" selection-start-line="138" selection-start-column="32" selection-end-line="138" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TColumnColumnRelationEnumerator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnColumnRelationEnumerator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="41" column="38" selection-start-line="41" selection-start-column="38" selection-end-line="41" selection-end-column="38" />
+            <state relative-caret-position="136">
+              <caret line="46" column="64" lean-forward="false" selection-start-line="46" selection-start-column="64" selection-end-line="46" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -117,12 +135,12 @@
       </file>
     </leaf>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>dragon</find>
+      <find>commons</find>
+      <find>cache</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -135,63 +153,59 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/common-util/pom.xml" />
-        <option value="$PROJECT_DIR$/any23-sti/pom.xml" />
-        <option value="$PROJECT_DIR$/websearch/pom.xml" />
-        <option value="$PROJECT_DIR$/kbsearch/pom.xml" />
-        <option value="$PROJECT_DIR$/main/pom.xml" />
-        <option value="$PROJECT_DIR$/sti-common-util/src/main/java/uk/ac/shef/dcs/util/StringUtils.java" />
-        <option value="$PROJECT_DIR$/sti-main/src/main/java/uk/ac/shef/dcs/sti/ui/TableMinerPlusSingle.java" />
-        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/TableMinerPlusSingle.java" />
-        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/EmailHandler.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/sti-common-util/pom.xml" />
-        <option value="$PROJECT_DIR$/sti-kbsearch/pom.xml" />
-        <option value="$PROJECT_DIR$/sti-websearch/pom.xml" />
-        <option value="$PROJECT_DIR$/sti-jar-builder/pom.xml" />
-        <option value="$PROJECT_DIR$/sti-any23/pom.xml" />
-        <option value="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LRDFa11Parser.java" />
-        <option value="$PROJECT_DIR$/sti-any23/src/org/apache/any23/extractor/LExtractionResultImpl.java" />
-        <option value="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LNTripleWriter.java" />
-        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/parser/table/context/TableContextExtractorIMDB.java" />
-        <option value="$PROJECT_DIR$/sti-main/pom.xml" />
-        <option value="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LMicrodataExtractor.java" />
-        <option value="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LRDFa11Extractor.java" />
-        <option value="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LRDFa11ExtractorFactory.java" />
-        <option value="$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LMicrodataExtractorFactory.java" />
-        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/experiment/TableMinerPlusBatch.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnColumnRelationEnumerator.java" />
+        <option value="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/SPARQLSearch.java" />
+        <option value="$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DBpediaSearch.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnColumnRelationEnumerator.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/scorer/AttributeValueMatcher.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnClassifier.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/scorer/ClazzScorer.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/CMScorer.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorer.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnDetector.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorerHeuristic.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryDisamb.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TCellDisambiguator.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineSimilarityClazzScorer.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineInterpreter.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguator.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifier.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/RELATIONENUMERATION.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierNameMatch.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateConceptGenerator.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerManager.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerThread.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/EntityAndClazzSimilarityScorer.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/JIClazzScorer.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorSimilarity.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorNameMatch.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryColumnClassifier.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/TODO/TestSubjectColumnDetector.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/util/CollectionUtils.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/UPDATE.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TCellEntityRanker.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateEntityGenerator.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/SMPInterpreter.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/JIInterpreter.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnClassifier.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/scorer/TMPClazzScorer.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNING.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierSimilarity.java" />
         <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/io/TAnnotationWriterJSON.java" />
+        <option value="$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TMPInterpreter.java" />
+        <option value="$PROJECT_DIR$/sti-main/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="Bundled (Maven 3)" />
-      </MavenGeneralSettings>
-    </option>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="67" />
+    <option name="y" value="88" />
+    <option name="width" value="1289" />
+    <option name="height" value="555" />
   </component>
-  <component name="MavenProjectNavigator">
-    <treeState />
-  </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="24" />
-    <option name="width" value="1301" />
-    <option name="height" value="744" />
-  </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
-    <OptionsSetting value="true" id="Add" />
-    <OptionsSetting value="true" id="Remove" />
-    <OptionsSetting value="true" id="Checkout" />
-    <OptionsSetting value="true" id="Update" />
-    <OptionsSetting value="true" id="Status" />
-    <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
-    <ConfirmationsSetting value="0" id="Remove" />
-  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator currentView="Scope" currentSubView="Project Files" proportions="" version="1">
+    <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -205,281 +219,80 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="sti-main">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="sti-main">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="sti-main">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="sti-main">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="src">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="uk/ac/shef/dcs/sti">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="sti-main">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="sti-main">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="src">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="uk/ac/shef/dcs/sti">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="io">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="sti-main">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="sti-main">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="src">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="uk/ac/shef/dcs/sti">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="experiment">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="sti-main">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="sti-main">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="src">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="uk/ac/shef/dcs/sti">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="core">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="sti-main">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="sti-main">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="src">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="uk/ac/shef/dcs/sti">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="core">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="algorithm">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="sti-main">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="sti-main">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="src">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="uk/ac/shef/dcs/sti">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="core">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="algorithm">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="tmp">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="sti-package" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sti" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sti-package" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sti" type="462c0819:PsiDirectoryNode" />
+              <item name="sti-main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sti-package" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sti" type="462c0819:PsiDirectoryNode" />
+              <item name="sti-main" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sti-package" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sti" type="462c0819:PsiDirectoryNode" />
+              <item name="sti-main" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="sti" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
-      <pane id="ProjectPane">
-        <subPane />
-      </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="configurable.group.language" />
-    <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/pom.xml" />
-    <property name="recentsLimit" value="5" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.22815087" />
-    <property name="OverrideImplement.combined" value="true" />
-    <property name="OverrideImplement.overriding.sorted" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="LMi&#9;PSI&#9;JAVA://uk.ac.shef.oak.any23.extension.extractor.LMicrodataExtractorFactory" />
+    <property name="project.structure.side.proportion" value="0.0" />
   </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/sti-jar-builder" />
-    </key>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
   </component>
-  <component name="RunManager" selected="Application.TableMinerPlusBatch">
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
-      <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
-      <option name="PROGRAM_PARAMETERS" />
-      <method />
-    </configuration>
-    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
-      <module name="" />
-      <option name="DEPLOY" value="true" />
-      <option name="ARTIFACT_NAME" value="" />
-      <option name="PM_INSTALL_OPTIONS" value="" />
-      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="DEBUGGER_TYPE" value="Java" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <Java />
-      <Profilers>
-        <option name="GAPID_DISABLE_PCS" value="false" />
-      </Profilers>
-      <option name="DEEP_LINK" value="" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
-      <module name="" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="EXTRA_OPTIONS" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="DEBUGGER_TYPE" value="Java" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <Java />
-      <Profilers>
-        <option name="GAPID_DISABLE_PCS" value="false" />
-      </Profilers>
-      <method />
-    </configuration>
+  <component name="RunManager">
     <configuration default="true" type="Applet" factoryName="Applet">
-      <module />
+      <option name="HTML_USED" value="false" />
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <method />
+      <module />
+    </configuration>
+    <configuration name="TableMinerPlusBatch" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="uk.ac.shef.dcs.sti.experiment.TableMinerPlusBatch" />
+      <option name="VM_PARAMETERS" value="-Djava.util.logging.config.file=sti.log" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/../data/tableminerplus/data/dataset/Limaye200/raw $PROJECT_DIR$/output $PROJECT_DIR$/config/sti.properties" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sti-main" />
+      <envs />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
@@ -494,23 +307,6 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list />
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <method />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
@@ -523,7 +319,7 @@
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
@@ -531,74 +327,6 @@
       </option>
       <envs />
       <patterns />
-      <method />
-    </configuration>
-    <configuration default="true" type="JUnitTestDiscovery" factoryName="JUnit Test Discovery" changeList="All">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="true" type="JarApplication" factoryName="JAR Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="Java Scratch" factoryName="Java Scratch">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="SCRATCH_FILE_ID" value="0" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="sti" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="filePath" />
-      <option name="vmParameters" />
-      <option name="alternativeJrePath" />
-      <option name="programParameters" />
-      <option name="passParentEnvs" value="true" />
-      <option name="workingDirectory" />
-      <option name="isAlternativeJrePathEnabled" value="false" />
-      <envs />
-      <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
@@ -606,7 +334,6 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
-      <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
@@ -621,7 +348,7 @@
       <option name="TEST_OBJECT" value="CLASS" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <option name="OUTPUT_DIRECTORY" />
       <option name="ANNOTATION_TYPE" />
       <option name="ENV_VARIABLES" />
@@ -634,70 +361,13 @@
       <envs />
       <properties />
       <listeners />
-      <method />
     </configuration>
-    <configuration default="true" type="TestNGTestDiscovery" factoryName="TestNG Test Discovery" changeList="All">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="SUITE_NAME" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="GROUP_NAME" />
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="OUTPUT_DIRECTORY" />
-      <option name="ANNOTATION_TYPE" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <option name="USE_DEFAULT_REPORTERS" value="false" />
-      <option name="PROPERTIES_FILE" />
-      <envs />
-      <properties />
-      <listeners />
-      <method />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
     </configuration>
-    <configuration default="false" name="TableMinerPlusSingle" type="Application" factoryName="Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="uk.ac.shef.dcs.sti.ui.TableMinerPlusSingle" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="user1 ziqi.zhang@sheffield.ac.uk http://www.imdb.com/title/tt0087332/ ui/output uk.ac.shef.dcs.sti.parser.table.TableParserIMDB 0 config/sti.properties ui/config.json http://localhost:3000/" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="sti-main" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="false" name="TableMinerPlusBatch" type="Application" factoryName="Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="uk.ac.shef.dcs.sti.experiment.TableMinerPlusBatch" />
-      <option name="VM_PARAMETERS" value="-Dlog4j.configuration=file:$PROJECT_DIR$/config/log4j.properties" />
-      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/../data/sti_data/dataset/Limaye200/selected/ $PROJECT_DIR$/../data/sti_data/out/ $PROJECT_DIR$/config/sti.properties" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="sti" />
-      <envs />
-      <method />
-    </configuration>
-    <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="Application.TableMinerPlusSingle" />
-      <item index="1" class="java.lang.String" itemvalue="Application.TableMinerPlusBatch" />
-    </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -707,445 +377,523 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="24819d1c-2e34-4f63-a248-bb1827391b52" name="Default" comment="" />
-      <created>1469545899779</created>
+      <changelist id="76798a4a-f7d5-4e0e-9553-e7b7517cb02a" name="Default" comment="" />
+      <created>1523103909556</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1469545899779</updated>
+      <updated>1523103909556</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1301" height="744" extended-state="6" />
+    <frame x="67" y="25" width="1299" height="743" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1816733" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5404531" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39123505" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2038835" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27401575" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28188977" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27405697" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32913387" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39805827" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22653721" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
-  </component>
-  <component name="Vcs.Log.UiProperties">
-    <option name="RECENTLY_FILTERED_USER_GROUPS">
-      <collection />
-    </option>
-    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-      <collection />
-    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$MAVEN_REPOSITORY$/uk/ac/shef/dcs/sti-main/1.0alpha/sti-main-1.0alpha.jar!/uk/ac/shef/dcs/sti/ui/TableMinerPlusSingle.class</url>
-          <line>35</line>
-          <properties />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/TableMinerPlusSingle.java</url>
-          <line>49</line>
-          <properties />
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/TableMinerPlusSingle.java</url>
-          <line>57</line>
-          <properties />
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/SMPInterpreter.java</url>
-          <line>138</line>
-          <properties />
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnColumnRelationEnumerator.java</url>
-          <line>41</line>
-          <properties />
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnColumnRelationEnumerator.java</url>
-          <line>32</line>
-          <properties />
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnColumnRelationEnumerator.java</url>
-          <line>59</line>
-          <properties />
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="19" />
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
-  <component name="antWorkspaceConfiguration">
-    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
-    <option name="FILTER_TARGETS" value="false" />
+  <component name="debuggerHistoryManager">
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>subcolDetector</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/EmailHandler.java">
+    <entry file="jar:///usr/lib/jvm/java-1.8.0-openjdk-amd64/lib/tools.jar!/com/sun/tools/javac/util/Pair.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-websearch/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="8" column="26" selection-start-line="6" selection-start-column="4" selection-end-line="8" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-websearch/src/uk/ac/shef/dcs/websearch/bing/v2/BingSearchResultParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="20" column="56" selection-start-line="20" selection-start-column="56" selection-end-line="20" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-common-util/src/main/java/uk/ac/shef/dcs/util/StringUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="32" column="40" selection-start-line="32" selection-start-column="40" selection-end-line="32" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/model/Resource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="36" column="34" selection-start-line="36" selection-start-column="34" selection-end-line="36" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-any23/sti-any23.iml" />
-    <entry file="file://$PROJECT_DIR$/ui/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-websearch/src/uk/ac/shef/dcs/websearch/SearchResultParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/EmailHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="45" column="62" selection-start-line="45" selection-start-column="62" selection-end-line="45" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-main/sti-main.iml" />
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-common-util/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-websearch/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LAny23Util.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LTriple.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LSingleDocumentExtraction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="46" column="13" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LMicrodataParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-kbsearch/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-any23/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LRDFa11Parser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="31" column="25" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-jar-builder/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="51" column="31" selection-start-line="51" selection-start-column="31" selection-end-line="51" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-any23/src/org/apache/any23/extractor/LExtractionResultImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="27" column="74" selection-start-line="27" selection-start-column="74" selection-end-line="27" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LNTripleWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="26" column="32" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/any23/apache-any23-core/0.9.0/apache-any23-core-0.9.0.jar!/org/apache/any23/extractor/rdfa/RDFa11Extractor.class" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/any23/apache-any23-core/0.9.0/apache-any23-core-0.9.0.jar!/org/apache/any23/rdf/PopularPrefixes.class" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/any23/apache-any23-api/0.9.0/apache-any23-api-0.9.0.jar!/org/apache/any23/extractor/ExtractorDescription.class" />
-    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/parser/table/TableParserIMDB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LRDFa11Extractor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="16" column="55" selection-start-line="16" selection-start-column="55" selection-end-line="16" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LMicrodataExtractorFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="17" column="59" selection-start-line="17" selection-start-column="59" selection-end-line="17" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LAny23.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="51" column="15" selection-start-line="51" selection-start-column="15" selection-end-line="51" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LRDFa11ExtractorFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="16" column="56" selection-start-line="16" selection-start-column="56" selection-end-line="16" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LExtractorRegistry.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/any23/Any23Xtractor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/parser/table/context/TableContextExtractorIMDB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-any23/src/uk/ac/shef/oak/any23/extension/extractor/LMicrodataExtractor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-common-util/src/main/java/uk/ac/shef/dcs/util/SolrCache.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/KBSearch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/KBSearchFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/experiment/BaselineBatch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="975">
-          <caret line="94" column="51" selection-start-line="94" selection-start-column="51" selection-end-line="94" selection-end-column="51" />
+        <state relative-caret-position="108">
+          <caret line="29" column="13" lean-forward="false" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sti-common-util/src/main/java/uk/ac/shef/dcs/util/SerializationUtils.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.6/commons-lang3-3.6.jar!/org/apache/commons/lang3/tuple/Pair.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/experiment/STIBatch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="28" column="22" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/ui/TableMinerPlusSingle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="142" column="0" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.5/gson-2.5.jar!/com/google/gson/Gson.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="59" column="19" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/experiment/TableMinerPlusBatch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2625">
-          <caret line="198" column="0" selection-start-line="198" selection-start-column="0" selection-end-line="198" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/io/JSONOutputCellAnnotation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/io/TAnnotationWriterJSON.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="50" column="29" selection-start-line="50" selection-start-column="29" selection-end-line="50" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-main/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="43" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/SMPInterpreter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="138" column="32" selection-start-line="138" selection-start-column="32" selection-end-line="138" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/RELATIONENUMERATION.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="18" column="32" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="32" />
+        <state relative-caret-position="132">
+          <caret line="15" column="11" lean-forward="false" selection-start-line="15" selection-start-column="11" selection-end-line="15" selection-end-column="15" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnColumnRelationEnumerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="41" column="38" selection-start-line="41" selection-start-column="38" selection-end-line="41" selection-end-column="38" />
+        <state relative-caret-position="216">
+          <caret line="114" column="53" lean-forward="false" selection-start-line="114" selection-start-column="53" selection-end-line="114" selection-end-column="53" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/SMPAdaptedEntityScorer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="28" column="13" lean-forward="false" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/SPARQLSearch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="153" column="40" lean-forward="false" selection-start-line="153" selection-start-column="40" selection-end-line="153" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-kbsearch/src/main/java/uk/ac/shef/dcs/kbsearch/sparql/DBpediaSearch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3163">
+          <caret line="216" column="56" lean-forward="false" selection-start-line="216" selection-start-column="56" selection-end-line="216" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnColumnRelationEnumerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11">
-          <caret line="43" column="19" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
+        <state relative-caret-position="288">
+          <caret line="79" column="45" lean-forward="false" selection-start-line="79" selection-start-column="45" selection-end-line="79" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/scorer/ClazzScorer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TColumnClassifier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="54" column="19" lean-forward="true" selection-start-line="54" selection-start-column="19" selection-end-line="54" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/scorer/AttributeValueMatcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="29" column="29" lean-forward="false" selection-start-line="29" selection-start-column="29" selection-end-line="29" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/CMScorer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="102" column="45" lean-forward="false" selection-start-line="102" selection-start-column="32" selection-end-line="102" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnDetector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="404" column="54" lean-forward="false" selection-start-line="404" selection-start-column="54" selection-end-line="404" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorerHeuristic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="332">
+          <caret line="104" column="65" lean-forward="false" selection-start-line="104" selection-start-column="65" selection-end-line="104" selection-end-column="65" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryDisamb.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="80" column="38" lean-forward="true" selection-start-line="80" selection-start-column="38" selection-end-line="80" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineSimilarityClazzScorer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="84" column="18" lean-forward="false" selection-start-line="84" selection-start-column="18" selection-end-line="84" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/subjectcol/SubjectColumnScorer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="20" column="56" lean-forward="false" selection-start-line="20" selection-start-column="56" selection-end-line="20" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierNameMatch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="16" column="49" lean-forward="false" selection-start-line="16" selection-start-column="49" selection-end-line="16" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/RELATIONENUMERATION.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/BaselineInterpreter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="89" column="48" lean-forward="true" selection-start-line="89" selection-start-column="48" selection-end-line="89" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/EntityAndClazzSimilarityScorer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="83" column="24" lean-forward="false" selection-start-line="83" selection-start-column="24" selection-end-line="83" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="42" column="41" lean-forward="false" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/similarity/SimilarityComputerManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="62" column="59" lean-forward="true" selection-start-line="62" selection-start-column="59" selection-end-line="62" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateConceptGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/JIClazzScorer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="58" column="68" lean-forward="true" selection-start-line="58" selection-start-column="68" selection-end-line="58" selection-end-column="68" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorNameMatch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TCellDisambiguatorSimilarity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="25" column="23" lean-forward="false" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/TODO/TestSubjectColumnDetector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="168" column="36" lean-forward="false" selection-start-line="168" selection-start-column="36" selection-end-line="168" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/util/CollectionUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="58" column="0" lean-forward="true" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/UPDATE.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="200" column="23" lean-forward="false" selection-start-line="200" selection-start-column="23" selection-end-line="200" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TCellEntityRanker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="72" column="60" lean-forward="false" selection-start-line="72" selection-start-column="60" selection-end-line="72" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNINGPreliminaryColumnClassifier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="143" column="48" lean-forward="false" selection-start-line="143" selection-start-column="48" selection-end-line="143" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TCellDisambiguator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="95" column="19" lean-forward="false" selection-start-line="95" selection-start-column="19" selection-end-line="95" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/CandidateEntityGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="38" column="40" lean-forward="false" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/SMPInterpreter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="65" column="13" lean-forward="false" selection-start-line="65" selection-start-column="13" selection-end-line="65" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/ji/JIInterpreter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="81" column="36" lean-forward="false" selection-start-line="81" selection-start-column="36" selection-end-line="81" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/smp/TColumnClassifier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="67" column="36" lean-forward="false" selection-start-line="67" selection-start-column="36" selection-end-line="67" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/scorer/TMPClazzScorer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/LEARNING.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="33">
+          <caret line="25" column="9" lean-forward="false" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/baseline/TColumnClassifierSimilarity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="44" column="0" lean-forward="true" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/io/TAnnotationWriterJSON.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="28" lean-forward="false" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/core/algorithm/tmp/TMPInterpreter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="57" column="33" lean-forward="false" selection-start-line="57" selection-start-column="33" selection-end-line="57" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.6/commons-lang3-3.6.jar!/org/apache/commons/lang3/StringEscapeUtils.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="23" column="13" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/TODO/gs/GSBuilder_Limaye_Wikitables.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="89" column="31" lean-forward="false" selection-start-line="89" selection-start-column="24" selection-end-line="89" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/experiment/STIBatch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="149" column="47" lean-forward="true" selection-start-line="149" selection-start-column="47" selection-end-line="149" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sti-main/src/uk/ac/shef/dcs/sti/experiment/TableMinerPlusBatch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="46" column="64" lean-forward="false" selection-start-line="46" selection-start-column="64" selection-end-line="46" selection-end-column="64" />
           <folding />
         </state>
       </provider>
@@ -1202,24 +950,12 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>sti-websearch</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.22815087" />
-                <option value="0.6" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>1.8</last-edited>
+          <last-edited>sti</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
@@ -1227,7 +963,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Maven: asm:asm:3.1</last-edited>
+          <last-edited>Maven: cc.mallet:mallet:2.0.7-RC2</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

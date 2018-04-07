@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Entity;

@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import uk.ac.shef.dcs.sti.STIException;
 import uk.ac.shef.dcs.sti.core.scorer.AttributeValueMatcher;
 import uk.ac.shef.dcs.sti.util.DataTypeClassifier;
@@ -109,9 +110,9 @@ public class TColumnColumnRelationEnumerator extends uk.ac.shef.dcs.sti.core.alg
 
                 Pair<Integer, Double> votesAndScore = votes.get(relation); //let's record both votes and scores. so when there is a tie at votes, we resort to scores
                 if (votesAndScore == null) {
-                    votesAndScore = new Pair<>(0, 0.0);
+                    votesAndScore = new ImmutablePair<>(0, 0.0);
                 } else {
-                    votesAndScore = new Pair<>(votesAndScore.getKey() + 1,
+                    votesAndScore = new ImmutablePair<>(votesAndScore.getKey() + 1,
                             votesAndScore.getValue() + maxScore);
                 }
 

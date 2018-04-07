@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.TODO;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.xml.sax.SAXException;
 import uk.ac.shef.dcs.sti.STIException;

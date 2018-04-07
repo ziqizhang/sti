@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
@@ -66,14 +67,14 @@ public class TCellDisambiguatorNameMatch extends TCellDisambiguator {
             Entity ec = can.getAnnotation();
             Map<String, Double> scoreElements = can.getScoreElements();
             scoreElements.put(TCellAnnotation.SCORE_FINAL, can.getFinalScore());
-            candidates.add(new Pair<>(ec, scoreElements));
+            candidates.add(new ImmutablePair<>(ec, scoreElements));
         }
 
         return candidates;
     }
 
     protected List<Pair<Entity, Map<String, Double>>> disambiguate(List<Entity> candidates, Table table,
-                                                                 int entity_row, int entity_column
+                                                                   int entity_row, int entity_column
     ) {
         //name match: either find the one with identical name, or pick the highest rank (assuming input candidates is sorted)
         LOG.info("\t\t>> (disambiguation, position at [" + entity_row + "," + entity_column + "]: " + table.getContentCell(entity_row, entity_column) +
@@ -92,11 +93,11 @@ public class TCellDisambiguatorNameMatch extends TCellDisambiguator {
             Map<String, Double> scoreMap = new HashMap<>();
             scoreMap.put(TCellAnnotation.SCORE_FINAL,1.0);
             if (candidatesCopy.size() > 0) {
-                disambiguationScores.add(new Pair<>(
+                disambiguationScores.add(new ImmutablePair<>(
                         candidatesCopy.get(0), scoreMap
                 ));
             } else {
-                disambiguationScores.add(new Pair<>(
+                disambiguationScores.add(new ImmutablePair<>(
                         candidates.get(0), scoreMap
                 ));
             }

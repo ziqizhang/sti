@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji.similarity;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
@@ -32,9 +33,9 @@ public class EntityAndClazzSimilarityScorer {
     }
 
     public Pair<Double, Boolean> computeEntityConceptSimilarity(Entity entity,
-                                                               Clazz concept,
-                                                               KBSearch kbSearch,
-                                                               boolean useCache) throws KBSearchException {
+                                                                Clazz concept,
+                                                                KBSearch kbSearch,
+                                                                boolean useCache) throws KBSearchException {
         double score = -1;
         if (useCache)
             score = kbSearch.findEntityClazzSimilarity(entity.getId(), concept.getId());
@@ -80,9 +81,9 @@ public class EntityAndClazzSimilarityScorer {
                     entityBow, clazzBow
             );
             //kbSearch.cacheEntityConceptSimilarity(entity_id,concept_url,contextOverlapScore,true);
-            return new Pair<>(contextOverlapScore, fromCache);
+            return new ImmutablePair<>(contextOverlapScore, fromCache);
         } else {
-            return new Pair<>(score, fromCache);
+            return new ImmutablePair<>(score, fromCache);
         }
     }
 

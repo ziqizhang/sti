@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.simmetrics.StringMetric;
 import uk.ac.shef.dcs.sti.STIEnum;
 import uk.ac.shef.dcs.sti.STIException;

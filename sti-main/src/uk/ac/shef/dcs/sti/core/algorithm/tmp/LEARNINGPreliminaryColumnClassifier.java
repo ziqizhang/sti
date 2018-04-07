@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tmp;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
@@ -53,7 +54,7 @@ public class LEARNINGPreliminaryColumnClassifier {
      * indexes of cells based on the sampler
      * @throws KBSearchException
      */
-    public Pair<Integer, List<List<Integer>>> runPreliminaryColumnClassifier(Table table, TAnnotation tableAnnotation, int column,Integer... skipRows) throws KBSearchException, ClassNotFoundException, STIException {
+    public Pair<Integer, List<List<Integer>>> runPreliminaryColumnClassifier(Table table, TAnnotation tableAnnotation, int column, Integer... skipRows) throws KBSearchException, ClassNotFoundException, STIException {
         StoppingCriteria stopper = StoppingCriteriaInstantiator.instantiate(stopperClassname, stopperParams);
 
         //1. gather list of strings from this column to be interpreted, rank them (for sampling)
@@ -125,7 +126,7 @@ public class LEARNINGPreliminaryColumnClassifier {
             LOG.info("\t>> Preliminary Column Classification no convergence");
             generatePreliminaryColumnClazz(state, tableAnnotation, column); //supporting rows not added
         }
-        return new Pair<>(countProcessed, ranking);
+        return new ImmutablePair<>(countProcessed, ranking);
     }
 
 
@@ -140,7 +141,7 @@ public class LEARNINGPreliminaryColumnClassifier {
                 Entity ec = can.getAnnotation();
                 Map<String, Double> scoreElements = can.getScoreElements();
                 scoreElements.put(TCellAnnotation.SCORE_FINAL, can.getFinalScore());
-                candidates.add(new Pair<>(ec, scoreElements));
+                candidates.add(new ImmutablePair<>(ec, scoreElements));
             }
 
         }

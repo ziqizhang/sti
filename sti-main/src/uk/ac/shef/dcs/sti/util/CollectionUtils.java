@@ -1,6 +1,5 @@
 package uk.ac.shef.dcs.sti.util;
 
-import javafx.util.Pair;
 
 import java.util.*;
 

@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.baseline;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.model.Entity;
@@ -37,7 +38,7 @@ public class TCellDisambiguatorSimilarity extends TCellDisambiguatorNameMatch {
                         entity_column, entity_row, Collections.singletonList(entity_row),
                         table);
                 entityScorer.computeFinal(scoreElements, table.getContentCell(entity_row, entity_column).getText());
-                disambiguationScores.add(new Pair<>(ec, scoreElements));
+                disambiguationScores.add(new ImmutablePair<>(ec, scoreElements));
             }
         }
         return disambiguationScores;

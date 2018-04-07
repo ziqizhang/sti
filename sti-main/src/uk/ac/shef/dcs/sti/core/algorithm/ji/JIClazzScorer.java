@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
-import javafx.util.Pair;
-import org.simmetrics.Metric;
+
+import org.apache.commons.lang3.tuple.Pair;
 import org.simmetrics.StringMetric;
 import org.simmetrics.builders.StringMetricBuilder;
 import org.simmetrics.metrics.CosineSimilarity;

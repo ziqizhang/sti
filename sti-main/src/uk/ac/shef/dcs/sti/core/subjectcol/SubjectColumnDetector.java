@@ -1,7 +1,8 @@
 package uk.ac.shef.dcs.sti.core.subjectcol;
 
 import cern.colt.matrix.DoubleMatrix2D;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import uk.ac.shef.dcs.sti.core.algorithm.tmp.sampler.TContentRowRanker;
@@ -85,7 +86,7 @@ public class SubjectColumnDetector {
         List<TColumnFeature> featuresOfNEColumns = selectOnlyNEColumnFeatures(featuresOfAllColumns);
         if (featuresOfNEColumns.size() == 0) {
             LOG.warn("This table does not contain columns that are likely to contain named entities.");
-            Pair<Integer, Pair<Double, Boolean>> oo = new Pair<>(0, new Pair<>(1.0, false));
+            Pair<Integer, Pair<Double, Boolean>> oo = new ImmutablePair<>(0, new ImmutablePair<>(1.0, false));
             rs.add(oo);
             attachColumnFeature(table, featuresOfAllColumns);
             return rs;
@@ -99,7 +100,7 @@ public class SubjectColumnDetector {
         int onlyNECol = featureGenerator.setOnlyNEColumn(featuresOfNEColumns);
         //5 - yes:
         if (onlyNECol != -1) {
-            Pair<Integer, Pair<Double, Boolean>> oo = new Pair<>(onlyNECol, new Pair<>(1.0, false));
+            Pair<Integer, Pair<Double, Boolean>> oo = new ImmutablePair<>(onlyNECol, new ImmutablePair<>(1.0, false));
             rs.add(oo);
             for (TColumnFeature cf : featuresOfAllColumns)
                 table.getColumnHeader(cf.getColId()).setFeature(cf);
@@ -110,7 +111,7 @@ public class SubjectColumnDetector {
         int onlyNonEmptyNECol = featureGenerator.setOnlyNonEmptyNEColumn(featuresOfNEColumns);
         if (onlyNonEmptyNECol != -1) {
             Pair<Integer, Pair<Double, Boolean>> oo =
-                    new Pair<>(onlyNonEmptyNECol, new Pair<>(1.0, false));
+                    new ImmutablePair<>(onlyNonEmptyNECol, new ImmutablePair<>(1.0, false));
             rs.add(oo);
             attachColumnFeature(table, featuresOfAllColumns);
             return rs;
@@ -151,9 +152,9 @@ public class SubjectColumnDetector {
             }
         }
         if (featuresOfNEColumns.size() == 1) {
-            Pair<Integer, Pair<Double, Boolean>> oo = new Pair<>(
+            Pair<Integer, Pair<Double, Boolean>> oo = new ImmutablePair<>(
                     featuresOfNEColumns.get(0).getColId(),
-                    new Pair<>(1.0, false)
+                    new ImmutablePair<>(1.0, false)
             );
             rs.add(oo);
             attachColumnFeature(table,featuresOfAllColumns);
@@ -186,7 +187,7 @@ public class SubjectColumnDetector {
                 finalScores.get(o2).getKey().compareTo(finalScores.get(o1).getKey()));
 
         for (int ci : candidates) {
-            Pair<Integer, Pair<Double, Boolean>> oo = new Pair<>(ci,
+            Pair<Integer, Pair<Double, Boolean>> oo = new ImmutablePair<>(ci,
                     finalScores.get(ci));
             rs.add(oo);
         }
@@ -332,7 +333,7 @@ public class SubjectColumnDetector {
             double diversity = cf.getUniqueTokenCount() + cf.getUniqueCellCount();
             if (diversity >= maxDiversityScore && diversity != 0) {
                 maxDiversityScore = diversity;
-                votes.put(cf.getColId(), new Pair<>(1.0, false));
+                votes.put(cf.getColId(), new ImmutablePair<>(1.0, false));
             } else
                 break; //already sorted, so following this there shouldnt be higher diversity scores
         }
@@ -342,10 +343,10 @@ public class SubjectColumnDetector {
         for (TColumnFeature cf : allNEColumnCandidates) {
             if (cf.isFirstNEColumn()) {
                 Pair<Double, Boolean> entry = votes.get(cf.getColId());
-                entry = entry == null ? new Pair<>(0.0, false) : entry;
+                entry = entry == null ? new ImmutablePair<>(0.0, false) : entry;
                 Double vts = entry.getKey();
                 vts = vts + 1.0;
-                entry = new Pair<>(vts, entry.getValue());
+                entry = new ImmutablePair<>(vts, entry.getValue());
                 votes.put(cf.getColId(), entry);
                 break;
             }
@@ -362,10 +363,10 @@ public class SubjectColumnDetector {
             if (cf.getCMScore() >= maxContextMatchScore && cf.getCMScore() != 0) {
                 maxContextMatchScore = cf.getCMScore();
                 Pair<Double, Boolean> entry = votes.get(cf.getColId());
-                entry = entry == null ? new Pair<>(0.0, false) : entry;
+                entry = entry == null ? new ImmutablePair<>(0.0, false) : entry;
                 Double vts = entry.getKey();
                 vts = vts + 1.0;
-                entry = new Pair<>(vts, entry.getValue());
+                entry = new ImmutablePair<>(vts, entry.getValue());
                 votes.put(cf.getColId(), entry);
             } else
                 break;
@@ -374,10 +375,10 @@ public class SubjectColumnDetector {
         for (TColumnFeature cf : allNEColumnCandidates) {
             if (cf.isAcronymColumn()) {
                 Pair<Double, Boolean> entry = votes.get(cf.getColId());
-                entry = entry == null ? new Pair<>(0.0, false) : entry;
+                entry = entry == null ? new ImmutablePair<>(0.0, false) : entry;
                 Double vts = entry.getKey();
                 vts = vts - 1.0;
-                entry = new Pair<>(vts, true);
+                entry = new ImmutablePair<>(vts, true);
                 votes.put(cf.getColId(), entry);
             }
         }
@@ -389,10 +390,10 @@ public class SubjectColumnDetector {
             if (cf.getWSScore() >= maxSearchMatchScore && cf.getWSScore() != 0) {
                 maxSearchMatchScore = cf.getWSScore();
                 Pair<Double, Boolean> entry = votes.get(cf.getColId());
-                entry = entry == null ? new Pair<>(0.0, false) : entry;
+                entry = entry == null ? new ImmutablePair<>(0.0, false) : entry;
                 Double vts = entry.getKey();
                 vts = vts + 1.0;
-                entry = new Pair<>(vts, entry.getValue());
+                entry = new ImmutablePair<>(vts, entry.getValue());
                 votes.put(cf.getColId(), entry);
             } else
                 break;
@@ -401,7 +402,7 @@ public class SubjectColumnDetector {
         for (TColumnFeature cf : allNEColumnCandidates) {
             if (votes.containsKey(cf.getColId()))
                 continue;
-            votes.put(cf.getColId(), new Pair<>(0.0, false));
+            votes.put(cf.getColId(), new ImmutablePair<>(0.0, false));
         }
         return votes;
     }

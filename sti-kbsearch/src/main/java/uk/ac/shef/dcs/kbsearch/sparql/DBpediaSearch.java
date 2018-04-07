@@ -1,7 +1,8 @@
 package uk.ac.shef.dcs.kbsearch.sparql;
 
-import javafx.util.Pair;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.*;
@@ -213,7 +214,7 @@ public class DBpediaSearch extends SPARQLSearch {
                 List<Pair<String, String>> queryResult = new ArrayList<>();
                 if (resourceAndType.size() > 0) {
                     Pair<String, String> matchedResource = resourceAndType.get(0);
-                    queryResult.add(new Pair<>(matchedResource.getKey(), content));
+                    queryResult.add(new ImmutablePair<>(matchedResource.getKey(), content));
                 }
 
                 //2. if result is empty, try regex

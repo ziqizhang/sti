@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji.similarity;
 
-import javafx.util.Pair;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
@@ -24,7 +24,7 @@ public class SimilarityComputerThread extends Thread{
     private boolean useCache;
     private static final Logger LOG = Logger.getLogger(SimilarityComputerThread.class.getName());
 
-    public SimilarityComputerThread( boolean useCache,
+    public SimilarityComputerThread(boolean useCache,
                                     List<Pair<Entity, Clazz>> pairs, EntityAndClazzSimilarityScorer simScorer,
                                     KBSearch kbSearch){
         scores=new HashMap<>();

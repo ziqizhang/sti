@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.core.scorer;
 
-import javafx.util.Pair;
-import org.simmetrics.Metric;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.simmetrics.StringMetric;
 import uk.ac.shef.dcs.kbsearch.model.Attribute;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
@@ -66,7 +66,7 @@ public class AttributeValueMatcher {
                 for (Map.Entry<Integer, Double> entry : attrIndex_to_matchScores.entrySet()) {
                     if (entry.getValue() == maxScore) {
                         Attribute winningAttr = attributes.get(entry.getKey());
-                        Pair<Attribute, Double> score_obj = new Pair<>(winningAttr,
+                        Pair<Attribute, Double> score_obj = new ImmutablePair<>(winningAttr,
                                 maxScore);
                         list.add(score_obj);
                     }

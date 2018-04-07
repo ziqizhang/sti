@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.subjectcol;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import uk.ac.shef.dcs.sti.nlp.Lemmatizer;
 import uk.ac.shef.dcs.sti.nlp.NLPTools;
 import uk.ac.shef.dcs.sti.core.model.TContext;
@@ -93,13 +94,13 @@ class CMScorer {
 
                 Pair<Integer, Integer> countings = wordFreq.get(canonical);
                 if (countings == null) {
-                    countings = new Pair<>(0,0);
+                    countings = new ImmutablePair<>(0,0);
                 }
                 int k = countings.getKey() + 1;
                 int v = countings.getValue();
                 if (!tok.toLowerCase().equals(canonical))
                     v=v + 1;
-                countings = new Pair<>(k,v);
+                countings = new ImmutablePair<>(k,v);
 
                 wordFreq.put(canonical, countings);
             }

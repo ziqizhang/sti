@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
@@ -53,7 +54,7 @@ public class CandidateConceptGenerator {
             List<Pair<Entity, Map<String, Double>>> entities = new ArrayList<>();
             for (TCellAnnotation tCellAnnotation : cellAnnotations) {
                 Entity e = tCellAnnotation.getAnnotation();
-                entities.add(new Pair<>(e, tCellAnnotation.getScoreElements()));
+                entities.add(new ImmutablePair<>(e, tCellAnnotation.getScoreElements()));
                 if (!distinctEntities.contains(tCellAnnotation.getAnnotation()))
                     distinctEntities.add(tCellAnnotation.getAnnotation());
 

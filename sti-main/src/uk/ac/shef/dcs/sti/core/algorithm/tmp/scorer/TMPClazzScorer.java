@@ -1,6 +1,6 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tmp.scorer;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.sti.STIConstantProperty;
 import uk.ac.shef.dcs.sti.STIEnum;

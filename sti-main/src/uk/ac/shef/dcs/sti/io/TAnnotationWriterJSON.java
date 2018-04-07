@@ -1,7 +1,8 @@
 package uk.ac.shef.dcs.sti.io;
 
 import com.google.gson.Gson;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jena.reasoner.rulesys.builtins.Print;
 import uk.ac.shef.dcs.kbsearch.model.Clazz;
 import uk.ac.shef.dcs.sti.core.model.*;
@@ -39,7 +40,7 @@ public class TAnnotationWriterJSON extends TAnnotationWriter {
                         Set<String> classes = new HashSet<>();
                         for(Clazz clazz: ca.getAnnotation().getTypes())
                             classes.add(clazz.getId());
-                        Pair<String, Set<String>> entityClasses = new Pair<>(ca.getAnnotation().getId(),
+                        Pair<String, Set<String>> entityClasses = new ImmutablePair<>(ca.getAnnotation().getId(),
                                 classes);
                         cellCandidateEntityAndClass.add(entityClasses);
                     }

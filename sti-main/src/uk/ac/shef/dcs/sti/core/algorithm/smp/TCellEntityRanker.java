@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.smp;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
@@ -69,7 +70,7 @@ public class TCellEntityRanker {
                             column, row, Collections.singletonList(row),
                             table);
             entityScorer.computeFinal(scoreMap, cell.getText());
-            Pair<Entity, Map<String, Double>> entry = new Pair<>(c,scoreMap);
+            Pair<Entity, Map<String, Double>> entry = new ImmutablePair<>(c,scoreMap);
             disambiguationScores.add(entry);
         }
         return disambiguationScores;

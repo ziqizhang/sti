@@ -1,7 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.tmp;
-
-import javafx.util.Pair;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
@@ -87,7 +87,7 @@ public class TCellDisambiguator {
                             entity_rows.get(0),
                             entity_rows, table);
             disambScorer.computeFinal(scoreMap, sample_tcc.getText());
-            Pair<Entity, Map<String, Double>> entry = new Pair<>(c, scoreMap);
+            Pair<Entity, Map<String, Double>> entry = new ImmutablePair<>(c, scoreMap);
             disambiguationScores.add(entry);
         }
         return disambiguationScores;

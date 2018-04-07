@@ -1,61 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <resourceExtensions />
-    <wildcardResourcePatterns>
-      <entry name="!?*.java" />
-      <entry name="!?*.form" />
-      <entry name="!?*.class" />
-      <entry name="!?*.groovy" />
-      <entry name="!?*.scala" />
-      <entry name="!?*.flex" />
-      <entry name="!?*.kt" />
-      <entry name="!?*.clj" />
-      <entry name="!?*.aj" />
-    </wildcardResourcePatterns>
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="false">
-        <processorPath useClasspath="true" />
-      </profile>
-      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+      <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="any23-sti" />
-        <module name="common-util" />
-        <module name="kbsearch" />
-        <module name="main" />
         <module name="sti" />
         <module name="sti-any23" />
         <module name="sti-common-util" />
         <module name="sti-kbsearch" />
         <module name="sti-main" />
         <module name="sti-websearch" />
-        <module name="websearch" />
-      </profile>
-      <profile default="false" name="Annotation profile for sti-jar-builder" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="sti-jar-builder" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
-      <module name="any23-sti" target="1.5" />
-      <module name="common-util" target="1.5" />
-      <module name="kbsearch" target="1.5" />
-      <module name="main" target="1.5" />
+    <bytecodeTargetLevel>
       <module name="sti" target="1.8" />
       <module name="sti-any23" target="1.8" />
       <module name="sti-common-util" target="1.8" />
-      <module name="sti-jar-builder" target="1.8" />
       <module name="sti-kbsearch" target="1.8" />
       <module name="sti-main" target="1.8" />
       <module name="sti-package" target="1.5" />
       <module name="sti-websearch" target="1.8" />
-      <module name="websearch" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

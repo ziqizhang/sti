@@ -1,3 +1,4 @@
+output/*
 cache*.*
 ui/tmp
 ui/output

@@ -1,6 +1,7 @@
 package uk.ac.shef.dcs.sti.core.algorithm.ji;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 import uk.ac.shef.dcs.kbsearch.KBSearch;
 import uk.ac.shef.dcs.kbsearch.KBSearchException;
@@ -35,7 +36,7 @@ public class CandidateEntityGenerator {
         List<Pair<Entity, Double>> sorted = new ArrayList<>();
         for (Pair<Entity, Map<String, Double>> e : scores) {
             double score = e.getValue().get(JIAdaptedEntityScorer.SCORE_FINAL);
-            sorted.add(new Pair<>(e.getKey(), score));
+            sorted.add(new ImmutablePair<>(e.getKey(), score));
         }
         Collections.sort(sorted, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
 
@@ -84,7 +85,7 @@ public class CandidateEntityGenerator {
                             column, row, Collections.singletonList(row),
                             table);
             disambScorer.computeFinal(scoreMap, cell.getText());
-            Pair<Entity, Map<String, Double>> entry = new Pair<>(entity, scoreMap);
+            Pair<Entity, Map<String, Double>> entry = new ImmutablePair<>(entity, scoreMap);
             disambiguationScores.add(entry);
         }
         return disambiguationScores;
